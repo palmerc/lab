@@ -1,0 +1,172 @@
+body {
+    background-color: #000; /* Black */
+    color: #fff; /* White */
+    font: x-small Arial;
+}
+
+/* 	!Wrapper
+ *	The centered part of the page
+ * 	***************************************************/
+#wrap {
+	margin: 0 auto;
+	width: 800px;
+	text-align: left;
+	background: #191919;
+	font-size: 120%;
+/* Holly hack for IE \*/
+ * font-size: 80%;
+/* End Holly hack     */
+	border-left: 1px solid #191919;
+	border-right: 1px solid #191919;
+}
+
+body > #wrap {
+	/*  For smart browsers: make the wrap fluid in Netscape 6+, Firefox, Safari,
+		and Opera which can understand this.  Min-width is not recognized by
+		IE* so we leave it fixed width above.
+	 */
+	min-width: 750px;
+	width: 90%;
+}
+
+#content {
+    padding: 10px;
+    float: left;
+    clear: left;
+    min-height: 300px;
+}
+
+#content h2 {
+/* Holly hack for IE \*/
+ * height: 1%;
+/* End Holly hack     */
+}
+
+.linky {
+}
+
+.linky a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.linky a:hover {
+    text-decoration: none;
+    color: #059033;
+}
+
+#leftside {
+    float: left;
+}
+
+#rightside {
+    padding-right: 50%;
+    float: right;
+    
+}
+
+#navbar {
+    margin-left: 90px;
+}
+
+#navbar ul {
+    list-style: none;
+}
+
+#navbar li {
+    list-style: none;
+    float: left;
+    padding: 0 1.2em 0 0;
+}
+
+#navbar a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 200%;
+    font-weight: bold;
+}
+
+#navbar a:hover {
+    color: #059033; /* The official UNT green */
+}
+
+#footer {
+    float: left;
+    min-width: 50%;
+	text-align: left;
+	background: #000;
+	color: #fff; 
+	padding: 0.5em 1em;
+	border-top: 1px solid #555;
+	border-bottom: 1px solid #555;
+}
+
+#footer address {
+    float: left;
+	font-style: normal;
+}
+
+#footer p {
+    clear: left;
+    float: left;
+}
+
+#footer ul {
+    float: right;
+    list-style: none;
+}
+
+#footer li {
+    float: left;
+}
+
+#footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: #059033;
+    text-decoration: none;
+}
+
+.calday {
+font-size: 80%;
+}
+
+.calmenu {
+text-decoration: none;
+color: #fff;
+}
+
+table {border-style: none; margin: 0px; padding: 0px; border-width: 0px; text-indent: 0px; empty-cells: show}
+td.login {text-align: center; vertical-align: middle; font-size: 12px; color: #000000; 
+	background-color: #AAAAAA; border-style: groove; border-width: 2px; padding: 4px}
+td.caladmin {text-align: left; vertical-align: middle; font-size: 12px; color: #000000; padding: 4px;
+	background-color: #ECECEC; border-style: groove; border-width: 1px}
+td.calmenu {color: #000000; font-size: 12px; height: 40px; vertical-align: middle; 
+	background-color: #FFFFFF}
+td.calhead {width: 100%; border-style: solid; border-width: 1px; text-align: center; vertical-align: middle; 
+	column-span: 7; color: #000000; background-color: #ECECEC}
+td.caltitle {width: 100%; height: 60px; border-style: none; border-width: 0px; text-align: center; 
+	font-size: 36px; vertical-align: middle; column-span: 3; color: #000000; background-color: #ECECEC}
+td.calmonths {height: 24px; width: 200px; border-style: none; border-width: 0px; text-align: center; vertical-align: middle; 
+	font-size: 12px; color: #000000; background-color: #ECECEC}
+td.calweekday {width: 100px; height: 24px; border-style: solid; border-width: 1px; font-size: 11px; text-align: center;
+	vertical-align: middle; background-color: #ECECEC; color: #000000}
+td.calday {width: 100px; height: 85px; border-style: solid; border-width: 1px; font-size: 9px; cursor: pointer; 
+	background-color: #ECECEC; color: #000000}
+td.schedone {width: 40%; height: 50px; padding: 1px; font-size: 9px; background-color: #ECECEC; 
+	color: #000000}
+td.schedtwo {width: 40%; height: 50px; padding: 1px; font-size: 9px; background-color: #C0C0C0; 
+	color: #000000}
+td.schedtime {width: 10%; height: 50px; text-align: right; vertical-align: middle; font-size: 11px; color: #000000; 
+	background-color: #AAAAAA; border-style: groove; border-width: 2px; padding: 0px}
+td.schedtop {width: 100%; text-align: center; vertical-align: middle; color: #000000; 
+	background-color: #AAAAAA; padding: 0px; font-size: 14px; height: 40px; 
+	border-style: groove; border-width: 2px}
+
+td:hover {
+    color: #000;
+    background-color: #eed;
+}
