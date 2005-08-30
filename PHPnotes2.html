@@ -1,0 +1,1056 @@
+<html><head><title>PHP Notes 2</title>
+<style type="text/css">
+a { text-decoration:none; color:inherit; }
+hr { page-break-after:always; }
+p { font-size:15pt; font-weight:bold; text-align:left; }
+ul { font-size:15pt; font-weight:bold; text-align:left; }
+.primaryComments { font-size:25pt; font-weight:bold; text-align:center; }
+.secondaryComments { font-size:15pt; font-weight:bold; text-align:center; }
+.smallerComments { font-size:12pt; font-weight:normal; text-align:center; }
+.bigFixedText { font-size:45pt; font-weight:bold; text-align:center;
+                font-family:monospace; }
+.largeFixedText { font-size:28pt; font-weight:bold; font-family:monospace; }
+.mediumFixedText { font-size:18pt; font-weight:bold; font-family:monospace; }
+.pageHeading { font-size:25pt; font-weight:bold; text-align:center; }
+.minorPageHeading { font-size:20pt; font-weight:bold; text-align:center; }
+.listItems { font-size:15pt; font-weight:bold; text-align:left; }
+.mainHeading { font-size:45pt; font-weight:bold; text-align:center;
+               text-decoration:underline; }
+.code { font-size:14pt; text-align:left; font-weight:bold;
+        background-color:aliceblue; }
+.codeSmall { font-size:12pt;  text-align:left; font-weight:bold;
+             background-color:aliceblue; }
+.codeDisplay { font-size:14pt; background-color:pink; }
+.codeText { font-family: monospace; }
+</style>
+</head><body>
+
+<a name="PHP functions"></a>
+<p class="pageHeading">PHP functions</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+
+<p>PHP function definitions and calls are similar in many ways to C++'s syntax.<br>
+PHP has clarified the syntax in several ways.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>
+function <i>function_name</i> ( <i>formal_arguments</i> ) {
+
+  // function code
+
+}</pre></td>
+</tr></table></p>
+
+<a name="Rules Governing Formal Arguments"></a>
+<p class=minorPageHeading>Rules Governing Formal Arguments</p>
+
+<p>Argument names represent "local" variables inside the body scope of
+the function.</p>
+
+<p>Arguments by default are "passed by value"; that is, a copy of the
+actual argument is stored in the specified local variable name.
+This includes arrays (unlike C/C++ that pass arrays "by address").</p>
+
+<p>To pass an argument "by address" (reference), precede the formal argument
+with an ampersand (&).</p>
+
+<p>Default values can be assigned to trailing arguments by following the
+argument name with an equal sign (=) and the value.  Passed by address
+arguments cannot include default values.</p>
+
+<p><hr width="90%"></p>
+
+<a name="Returning Values and Invoking Functions"></a>
+<p class=minorPageHeading>Returning Values and Invoking Functions</p>
+
+<p>Similar to C/C++, the <code>return</code> statement can be used to
+return values from a PHP function.  Unlike C/C++, however, PHP functions
+can return arrays.  Functions also do not have to return anything
+(generally known as a "procedure").</p>
+
+<p>To invoke (call) a PHP function, you merely have to use the function's
+name in a statement, or as a statement by itself, and pass the required
+number of actual parameters.  Again as with C/C++, you can assign the
+returned value of a function to another variable, or ignore the returned
+value.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>function example1 ($arg1, $arg2) {
+  $sum = $arg1 + $arg2;
+  return $sum;
+} // example1
+
+function example2 ($numArray, <font color=red>&$sum</font>) {
+  $sum = 0;
+  foreach ($numArray as $value)
+    $sum += $value;
+} // example2
+
+function example3 ($numArray, $total=0) {
+  foreach ($numArray as $value)
+    $total += $value;
+  return $total;
+} // example3
+
+function example4 (<font color=red>&$array2x</font>, $row=3) {
+  $result = array();
+  foreach ($array2x[$row] as $value)
+    $result[] = $value;
+  return $result;
+} // example4
+
+
+$total = example1($num1,$num2);
+echo 'The total is' . example1(12,14) . "&lt;br&gt;\n";
+
+$values = array (1,2,7,6,3,2);
+example2 ($values,$sum);
+echo "The sum is $sum&lt;br&gt;\n";
+
+$total = example3(array(7,10,-3,14)) + example3($values,100);
+echo "The new total is $total&lt;br&gt;\n";
+
+$a2x = array (array(1,2,3,4,5), // row 0
+              array(6,5,4,2,3), // row 1
+              array(9,3,4,5,6), // row 2
+              array(7,6,2,9,8), // row 3
+              );
+$row2 = example4($a2x,2);
+print_r ($row2);
+
+
+<hr>
+
+The total is 26
+The sum is 21
+The new total is 149
+Array ( [0] => 9 [1] => 3 [2] => 4 [3] => 5 [4] => 6 )</pre></td>
+</tr></table></p>
+
+</td></tr></table>
+
+<p><hr></p><!-- ------------------------------------------------------------- -->
+
+<a name="An Interesting PHP Data-Manipulation Technique"></a>
+<p class="pageHeading">An Interesting PHP Data-Manipulation Technique</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+<p>PHP's ability to change a variable's type "on-the-fly" can provide some
+interesting solutions to some classic coding problems.</p>
+
+<p>For example, let's say you needed a general-purpose function that would
+process either a single value argument, or an array of arguments.  In the
+design of your function interface, type-specific languages would normally
+require the writing of two separate functions to handle the two distinct
+types of input data, or require the user to (somehow) (at least temporarily)
+convert the single value into an array.</p>
+
+<p>PHP could easily solve this problem with a single function.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>function printValues ($values) {
+  if (is_array($values)) 
+    foreach ($values as $value) echo "$value&lt;br&gt;\n";
+  else echo "$values&lt;br&gt;\n";
+} // printValues
+</td></tr></table></p>
+
+<p>Although the above example is rather simple, the physical handling of
+the two types of arguments (a single value vs the array) can be more
+complicated, requiring alot of duplicated code.  The duplicated effort can
+be easily eliminated by using a simple type-modification trick; that is,
+if the argument is not an array, make it one, before you do your work.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>function printValues ($values) {
+  if (!is_array($values)) <font color=red>$values = array($values)</font>;
+  foreach ($values as $value) echo "$value&lt;br&gt;\n";
+} // printValues
+</td></tr></table>
+
+</td></tr></table>
+
+<p><hr></p><!-- ------------------------------------------------------------- -->
+
+<a name="Referencing Global Data Inside a Function"></a>
+<p class="pageHeading">Referencing Global Data Inside a Function</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+
+<p>In C/C++, it is easy to access global data inside a function; you merely
+have to reference the global variable name.  In PHP, however, you must
+identify each global variable with a <code>global</code> reference.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$gNum1 = 'test';
+$gNum2 = 27;
+
+function example1 ($parm) {
+  <font color=red>global $gNum1, $gNum2;</font>
+
+  echo $local = "$gNum1 $parm";
+  $gNum2 = 'something else';
+
+} // example1</pre></td>
+</tr></table></p>
+
+<p>Therefore, the only ways to access global data from inside a function in
+PHP are:</p>
+
+<p><ul>
+  <li>Pass the global value as a parameter
+  <li>Reference the global data in a <code>global</code> statement inside
+      the function definition
+  <li>Reference the corresponding variable name index in the super global
+      <code>$GLOBALS</code> associative array
+</ul></p>
+
+</td></tr></table>
+
+<p><hr></p><!-- ------------------------------------------------------------- -->
+
+<a name="PHP include / require Directives"></a>
+<p class="pageHeading">PHP include / require Directives</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+
+<p>It is often inconvenient or impractical to include all of the code and
+function definitions used by a script in a single source file.</p>
+
+<p>PHP provides a very powerful mechanism to support storing various
+logical components of a script in one or more separate source files.</p>
+
+<p><table cellpadding=6 cellspacing=5 width=90%>
+
+<tr><td class=largeFixedText>include</td>
+    <td class=listItems>Includes and evaluates the specified file.  If the
+        specified file doesn't exist, a warning will be issued.</td></tr>
+<tr><td class=largeFixedText>include_once</td>
+    <td class=listItems>Includes and evaluates the specified file only once
+        (if the file had previously been included, it will not be included
+        again).</td></tr>
+<tr><td class=largeFixedText>require</td>
+    <td class=listItems>Includes and evaluates the specified file.  If the
+        specified file doesn't exist, a fatal error will be issued.</td></tr>
+<tr><td class=largeFixedText>require_once</td>
+
+    <td class=listItems>Includes and evaluates the specified file only once
+        (if the file had previously been included, it will not be included
+        again).</td></tr>
+</table></p>
+
+<p>Files for including are first looked in the PHP configuration value
+<code>include_path</code> relative
+to the current working directory, and then in include_path relative to the
+directory of current script.  You can determine the current
+<code>include_path</code> value by referencing the function
+<a href="http://students.csci.unt.edu/~donrclass/phpinfo.cgi" target="_blank"><code>phpinfo()</code></a>.
+</p>
+<!--  For example:</p>
+
+<p><table border=1 cellpadding=8><tr><td>
+<p>Assume your include_path is <code>.</code> (the current directory) and
+the current working directory is <code>/www/</code>.</p>
+
+<p>If there is an &nbsp; &nbsp; <code>include "b.php";</code> &nbsp; &nbsp;
+in the current source file, the file <code>b.php</code> is first looked
+for in <code>/www/</code> and then in <code>/www/include/</code>.</p>
+</td></tr></table></p>
+-->
+
+<p>Includes/Requireds are not limited to local files on the server.
+If a full URL is specified, both data files and the execution of other
+scripts can be specified that are stored on other servers.</p>
+
+<p>When a file is included, the code it contains inherits the variable scope
+of the line on which the include occurs. Any variables available at that line
+in the calling file will be available within the called file, from that point
+forward.</p>
+
+<p>The file that is included must match the standard file content syntax for
+PHP; that is, the file begins in HTML mode.  If you wish to include PHP code
+in the included file, it must be surrounded by the standard
+<code>&lt;?php ?&gt;</code> tags.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>include 'test.mod';
+include 'subdir/test.mod';
+include_once '/home/user/fred/test.mod';
+include 'http://example.site.com/test.cgi';
+
+$filename = 'test.mod';
+require_once $filename;</pre></td>
+</tr></table></p>
+
+</td></tr></table>
+
+<p><hr></p><!-- ------------------------------------------------------------- -->
+
+<a name="PHP and File Processing"></a>
+<p class="pageHeading">PHP and File Processing</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+
+<p>PHP includes a rich set of functions designed to process file-based data.
+It has the advantage over most other programming languages in that it can
+access web-based data stored on other servers using the same functions that
+are used to access locally-stored server data.</p>
+
+<p><hr width="90%"></p>
+
+<a name="Accessing a File as an Array"></a>
+<p class=minorPageHeading>Accessing a File as an Array - <code>file()</code></p>
+
+<p>The function &nbsp;<code>file(<i>filename</i>)</code>&nbsp; will return
+the indicated file as an array, storing one line in the file per element in
+the array.  This function is therefore best suited for text-based data files.
+It can also be used to read web-based data as well -- if the filename argument
+is a full URL, it will go to the internet and read the corresponding file.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$data = file('test.dat');
+
+$filename = 'somedata.txt';
+$moredata = file($filename);
+
+$internetFile = file('http://some.server.com/webpage.html');</pre></td>
+</tr></table></p>
+
+<p>In later versions of PHP4, the <code>file_get_contents()</code> function
+is available.  It differs from <code>file()</code> in that it reads the
+data into a binary-safe string.  It can therefore be used to read binary
+data, such as images.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$imagedata = file_get_contents ('image.jpg');</pre></td>
+</tr></table></p>
+
+<a name="Lower-level File Processing Functions"></a>
+<p class=minorPageHeading>Lower-level File Processing Functions</p>
+
+<p>PHP's lower-level file processing functions are modeled after their
+equivalent C functions.  Below is a summary of this group of functions
+designed to read/write data at many levels (individual bytes/characters,
+contiguous blocks of characters, individual lines), and direct/random
+access of data files:</p>
+
+<ul>
+  <li><p><code>fopen ( <i>filename, attr</i> )</code><br>
+
+    Opens specified <i>filename</i> using one of the following attribute
+    strings found <a target="_blank"
+       href="http://www.php.net/manual/en/function.fopen.php#AEN35073">here</a>.
+    It returns a resource handle to the file that must be used in the other
+    related file functions.</p></li>
+
+  <li><p><code>fgets ( <i>handle [, length]</i> )</code><br>
+    Reads the next line of text from the associated file, optionally limiting
+    the resultant string's length to <code>length</code>.</p></li>
+
+  <li><p><code>fgetss ( <i>handle [,length [,allowable_tags]]</i> )</code><br>
+    Identical to <code>fgets()</code>, except that <code>fgetss()</code>
+    attempts to strip any HTML and PHP tags from the text it reads.  You can
+    use the optional third parameter to specify tags which should not be
+    stripped.</p></li>
+
+  <li><p><code>fgetc ( <i>handle</i> )</code><br>
+    Returns a string containing a single character read from the file pointed
+    to by handle. Returns FALSE on EOF.</p></li>
+
+  <li><p><code>fread ( <i>handle, length</i> )</code><br>
+    Binary-safe file read.  <code>fread()</code> reads up to length bytes from
+    the file pointer referenced by handle. Reading stops when <code>length</code>
+
+    bytes have been read, or EOF is reached, whichever comes first.</p></li>
+
+  <li><p><code>fgetcsv ( <i>handle, length [,delimiter [,enclosure]]</i> )</code><br>
+    Gets line from file pointer and parses for CSV (Comma-Separated Value)
+    fields. Similar to <code>fgets()</code> except that <code>fgetcsv()</code>
+
+    parses the line it reads for fields in CSV format and returns an array
+    containing the fields read. The optional third delimiter parameter defaults
+    as a comma, and the optional enclosure defaults as a double quotation mark.
+    Both delimiter and enclosure are limited to one character. If either is more
+    than one character, only the first character is used.</p></li>
+
+  <li><p><code>fscanf ( <i>handle, format [, &args...]</i> )</code><br>
+    Similar to <code>sscanf()</code>.</p></li>
+
+  <li><p><code>feof ( <i>handle</i> )</code><br>
+    Tests for end-of-file on a file pointer.</p></li>
+
+  <li><p><code>fwrite ( <i>handle, string [, length]</i> )</code><br>
+    Binary safe file write.  <code>fwrite()</code> writes the contents of
+    string to the file stream pointed to by handle. If the length argument is
+    given, writing will stop after length bytes have been written or the end
+    of string is reached, whichever comes first.</p></li>
+
+  <li><p><code>fputs ( <i>handle, string [, length]</i> )</code><br>
+    Alias of <code>fwrite()</code>.</p></li>
+
+  <li><p><code>fseek ( <i>handle, offset [, whence]</i> )</code><br>
+
+    Seek to a specified byte location in a file.  Sets the file position
+    indicator for the file referenced by handle.  The new position, measured
+    in bytes from the beginning of the file, is obtained by adding offset to
+    the position specified by <i><code>whence</code></i>.</p>
+
+    <p>Possible <i><code>whence</code></i> values are <code>SEEK_SET</code>
+    (from the beginning of the file, <code>SEEK_CUR</code> (from current
+    location of file pointer + <code><i>offset</i></code>), and
+    <code>SEEK_END</code> (from end of file; <code><i>offset</i></code> is
+    normally a negative value to access a location near the end of a file).</p></li>
+
+  <li><p><code>ftell ( <i>handle</i> )</code><br>
+    Returns the position of the file pointer referenced by
+    <i><code>handle</code></i>.</p></li>
+
+  <li><p><code>ftruncate ( <i>handle, size</i> )</code><br>
+
+    Truncates the file to the specified <code><i>size</i></code>.</p></li>
+
+  <li><p><code>rewind ( <i>handle</i> )</code><br>
+    Reposition a file's pointer to the beginning of the file.</p></li>
+
+  <li><p><code>fclose ( <i>handle</i> )</code><br>
+
+    Closes the specified file <code><i>handle</i></code>.</p></li>
+
+</ul></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$handle = fopen('test.dat','r');
+while ($line = fgets($handle))
+  echo $line;
+fclose ($handle);
+
+$handle = fopen('test.dat','r');
+// Limit the lines read to only 80 characters
+while ($line = fgets($handle,80))
+  echo $line;
+fclose ($handle);
+
+$handle = fopen('test.dat','r');
+while ($c = fgetc($handle))
+  echo $c;
+fclose ($handle);
+
+$handle = fopen('test.dat','r');
+while (!feof($handle)) {
+  $c = fgetc($handle);
+  echo $c;
+  }
+fclose ($handle);</pre></td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+CSV-based Datafile (Example 1):<pre>donr,Don,,Retzlaff,"this, that"
+elr001,Elisa,L,Retzlaff,something else
+mac203,Mac,,Macro,more and moredata
+
+<hr>
+
+// Read the CSV-based Data
+$infile = fopen('people.dat','r');
+while (!feof($infile)) {
+  $fields = fgetcsv($infile,100);
+  print_r ($fields);
+  }
+fclose ($infile);
+
+<hr>
+
+Array
+(
+    [0] => donr
+    [1] => Don
+    [2] =>
+    [3] => Retzlaff
+    [4] => this, that
+)
+Array
+(
+    [0] => elr001
+    [1] => Elisa
+    [2] => L
+    [3] => Retzlaff
+    [4] => something else
+)
+Array
+(
+    [0] => mac203
+    [1] => Mac
+    [2] =>
+    [3] => Macro
+    [4] => more and moredata
+)</pre></td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+CSV-based Datafile (Example 2):<pre>donr|Don||Retzlaff|'this, that'
+elr001|Elisa|L|Retzlaff|something else
+mac203|Mac||Macro|more and moredata
+
+<hr>
+
+// Read the CSV-based Data
+$infile = fopen('people2.dat','r');
+while (!feof($infile)) {
+  $fields = fgetcsv($infile,100,'|',"'");
+  print_r ($fields);
+  }
+fclose ($infile);</pre></td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>// Read a file from the web and store it locally
+
+$infile = fopen('http://server.com/dataimage.jpg','<font color=red>rb</font>');
+$outfile = fopen('localimage.jpg','<font color=red>wb</font>');
+
+while (!feof($infile)) {
+  $image = fread($infile,1000);
+  fwrite ($outfile,$image);
+  }
+fclose ($infile);
+fclose ($outfile);</pre></td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>// Read and display last 10 characters in file
+$directfile = fopen('testfile.dat','r');
+fseek ($directfile,-10,SEEK_END);
+$line = fread ($directfile,10);
+echo "&lt;p>Last 10 chrs in file: '$line'\n";
+fclose ($directfile);
+
+echo "&lt;p>Read a file backwards: ";
+$directfile = fopen('testfile.dat','r');
+fseek ($directfile,-1,SEEK_END);
+while (true) {
+  echo fgetc($directfile);
+  if (ftell($directfile) == 1) break;
+  fseek ($directfile,-2,SEEK_CUR);
+  }
+fclose ($directfile);
+
+</td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+
+<pre>// Trunacate a file after the 10th line
+$infile = fopen('testfile.dat','<font color=red>r+</font>');
+for ($i=1; $i &lt;= 10; $i++)
+  fgets($infile);
+$len = ftell($infile);
+<font color=red>rewind($infile);</font>
+ftruncate($infile,$len);
+fclose($infile);</pre></tr></table></p>
+
+<a name="Other PHP File-Related Functions"></a>
+<p class=minorPageHeading>Other PHP File-Related Functions</p>
+
+<p>A variety of additinal file functions are available to check various
+status options on files, check the type of a file, and other file-related
+activities.  Below is a quick summary of many of these functions:</p>
+
+<ul>
+
+  <li><p><code>is_dir ( <i>filename</i> )</code><br>
+     Tells whether the filename is a directory.</p></li>
+
+  <li><p><code>is_executable ( <i>filename</i> )</code><br>
+     Tells whether a filename is an executable file.</p></li>
+
+  <li><p><code>is_readable ( <i>filename</i> )</code><br>
+     Tells whether a filename is readable.</p></li>
+
+  <li><p><code>is_writeable ( <i>filename</i> )</code><br>
+
+     Tells whether a filename is writeable.</p></li>
+
+  <li><p><code>file_exists ( <i>filename</i> )</code><br>
+    Tells whether a filename exists.</p><hr><br></li>
+
+  <li><p><code>fileatime ( <i>filename</i> )</code><br>
+
+     Gets last access time of filename (UNIX timestamp).</p></li>
+
+  <li><p><code>filectime ( <i>filename</i> )</code><br>
+     Gets last changed time of filename (UNIX timestamp).  In most UNIX systems,
+     a file is considered changed when its inode data is changed; that is,
+     when the permissions, owner, group, or other metadata from the inode
+     is updated.</p></li>
+
+  <li><p><code>filemtime ( <i>filename</i> )</code><br>
+
+     Gets last modified time (content changed) of filename (UNIX
+     timestamp).</p></li>
+
+  <li><p><code>filegroup ( <i>filename</i> )</code><br>
+     Tells the value of the group ID of the filename.</p></li>
+
+  <li><p><code>fileinode ( <i>filename</i> )</code><br>
+
+     Tells the value of the filename's inode.</p></li>
+
+  <li><p><code>fileowner ( <i>filename</i> )</code><br>
+  <li><p><code>fileperms ( <i>filename</i> )</code><br>
+  <li><p><code>filesize ( <i>filename</i> )</code><br>
+
+  <li><p><code>filetype ( <i>filename</i> )</code><br>
+
+</ul>
+
+<a name="Error Checking - the @ operator"></a>
+<p class=minorPageHeading>Error Checking - the <code>@</code> operator</p>
+
+<p>When processing data files, a very real possibility is that there might be
+an error while attempting to access the file, the most common error being that
+the file doesn't exist.</p>
+
+<p>Normally the <code>file()</code> function (and the other file-related
+functions we discussed) will produce an warning message when a file does
+not exist, and will continue processing your script.  In most cases, this is
+not appropriate, as your script is probably relying on that data file being
+there.</p>
+
+<p>The PHP <code>@</code> operator is designed to trap this type of error
+and prevent the warning message from appearing.  The <code>@</code> operator
+is placed immediately before the function that might cause the warning.  It
+is therefore your responsibility to test for the error to see if it actually
+occured or not.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+
+<pre>$data = <font color=red>@</font>file('test.dat');
+if (!$data) exit ("Could not open file test.dat.");
+
+if (!($data = @file('test.dat')))
+  exit ("Could not open file test.dat.");
+
+$str = @file_get_contents('test.dat');
+if (!$str) exit ("Could not open file test.dat.");
+
+$handle = @fopen('test.dat','r');
+if (!$handle) exit ("Could not open file test.dat.");
+
+$chars = @readfile('test.dat');
+if (!$chars) exit ("Could not open file test.dat.");</tr></table></p>
+
+</td></tr></table>
+
+<p><hr width="90%"></p>
+
+<a name="PHP Classes"></a>
+<p class="pageHeading">PHP Classes</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+
+<p>A class is a collection of variables and functions (methods) that are
+directly associated with each other.</p>
+
+<p>The manner in which PHP defines and uses a class is different between
+PHP Version 4 and Version 5.  We will concentrate on Version 4's
+implementation since that is what our student server is running.</p>
+
+<p>A class is defined using the following syntax:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre><font color=red>class</font> <i>classname</i> {
+
+  var <i>$associated_class_variables;
+
+  <i>class_function_definitions</i>
+}</pre></td>
+
+</tr></table></p>
+
+<p>Within the associated class functions, class variables and class function
+references must be preceded by a <code>$this-></code> pointer dereference
+in order to distinguish between locally-defined data inside the function
+and other externally-defined functions.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>class Cart {
+  var $items;  // Items in our shopping cart
+
+  // Add $num articles to the cart
+  function add_item ($article, $num) {
+    <font color=red>$this-></font>items[$article] += $num;
+    } add_item
+
+  // Take $num articles of out of the cart
+  function remove_item ($article, $num) {
+    if (<font color=red>$this-></font>items[$article] > $num) {
+      <font color=red>$this-></font>items[$article] -= $num;
+      return true;
+      }
+    else return false;
+    } // remove_item
+
+  // Add multiple articles using array
+  function add_items ($articles) {
+    foreach ($articles as $article=>$num)
+      <font color=red>$this-></font>add_item ($article,$num);
+    } // add_items
+
+} // end class Cart</pre></td>
+
+</tr></table></p>
+
+<p><hr width="90%"></p>
+<a name="PHP Version 4 Class Cautions"></a>
+<p class=minorPageHeading>PHP Version 4 Class Cautions</p>
+
+<p>You can NOT break up a class definition into multiple files, or multiple
+PHP blocks. The following will not work:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>&lt;?php
+class test {
+?&gt;
+&lt;?php
+  function test() {
+    print 'OK';
+  }
+}
+?&gt;</pre></td>
+</tr></table></p>
+
+<p>Only constant initializers for var variables are allowed. To initialize
+variables with non-constant values, you need an initialization function
+(a <i>constructor</i>) which is called automatically when an object is
+being constructed from the class.  The constructor function has the same
+name as the class itself.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>class Cart {
+
+  // None of these will work in PHP 4
+  var $todays_date = date('Y-m-d');
+  var $name = $firstname;
+  var $owner = 'Fred ' . 'Jones';
+
+  // Constant values will work, including arrays
+  //    containing constants
+  var $init_value = 5;
+  var $items = array('VCR', 'TV');
+}
+
+// Correct way for PHP Version 4
+class Cart {
+  var $todays_date, $name, $owner,
+      $init_value=5;
+  var $items = array('VCR', 'TV');
+
+  function <font color=red>Cart</font>() { // constructor
+    global $firstname;
+    $this->todays_date = date('Y-m-d');
+    $this->name = $firstname; // $GLOBALS['firstname'];
+    // etc. . .
+  } // Cart constructor
+} // class Cart</pre></td>
+</tr></table></p>
+
+<p><hr width="90%"></p>
+<a name="Using PHP Classes"></a>
+<p class=minorPageHeading>Using PHP Classes</p>
+
+<p>Classes are types.  They are blueprints for actual variables. You have to
+create a variable of the desired type with the <i><code>new</code></i>
+operator.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$cart = <font color=red>new</font> Cart;
+$cart->add_item('10', 1);
+
+$another_cart = new Cart;
+$another_cart->add_item('0815', 3);</pre></td>
+</tr></table></p>
+
+<p><hr width="90%"></p>
+<a name="Extending PHP 4 Classes"></a>
+<p class=minorPageHeading>Extending PHP 4 Classes</p>
+
+<p>You often need classes with similar variables and functions to another
+existing class. In general, it is good practice to define a generic class
+that can be used in all your projects and adapt this class for the needs
+of each of your specific projects. Classes can therefore be extensions of
+other classes.</p>
+
+<p>The extended or derived class has all variables and functions of the
+base class (called <i>inheritance</i>) and what you add in the extended
+definition.</p>
+
+<p>It is not possible to subtract from a class; that is, to undefine any
+existing functions or variables.</p>
+
+<p>An extended class is always dependent on a single base class; that is,
+multiple inheritance is not supported.</p>
+
+<p>Classes are extended using the keyword <i>extends</i>.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>class Named_Cart <font color=red>extends</font> Cart {
+  var $owner;
+
+  function set_owner ($nameIn) {
+    $this->owner = $nameIn;
+  }
+}</pre></td>
+</tr></table></p>
+
+<p>This defines a class <code>Named_Cart</code> that has all variables and
+functions of <code>Cart</code> plus an additional variable <code>$owner</code>
+
+and an additional function <code>set_owner()</code>. You create a named
+cart the usual way and can now set and get the cart's owner. You can still use
+normal cart functions on named carts:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$ncart = new Named_Cart;    // Create a named cart
+$ncart->set_owner('kris');  // Name that cart
+echo $ncart->owner;         // print the cart owners name
+$ncart->add_item('10', 1);  // (inherited functionality from cart)</pre></td>
+</tr></table></p>
+
+<p>It is possible to override a method innherited from a parent class by
+simply redefining the method:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>class A {
+  var $foo;
+
+  function A() { $this->foo = 'test'; }
+  function bar() { echo $this->foo . ' : Running in A'; }
+}
+
+class B extends A {
+  <font color=red>function bar() { echo $this->foo . ' : Running in B'; }</font>
+
+}
+
+$myClass = new B;
+$myClass->bar(); // will output "test: Running in B'</pre></td>
+</tr></table></p>
+
+<p><hr width="90%"></p>
+<a name="Scope Resolution Operator (::)"></a>
+<p class=minorPageHeading>Scope Resolution Operator (::)</p>
+
+<p>Sometimes it is useful to refer to functions and variables in base classes
+or to refer to functions in classes that have not yet any instances.
+The :: operator is being used for this.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>class A {
+  function example() {
+    echo "I am the original function A::example()";
+  }
+}
+
+class B extends A {
+  function example() {
+    echo "I am the redefined function B::example()";
+    <font color=red>A::example();</font>
+  }
+}
+
+// there is no object of class A.
+// this will print:
+//  I am the original function A::example()
+
+<font color=red>A::example();</font>
+
+// create an object of class B.
+$b = new B;
+
+// this will print:
+//  I am the redefined function B::example()
+//  I am the original function A::example()
+<font color=red>$b->example();</font></pre></td>
+</tr></table></p>
+
+<p>There are class functions, but there are no class variables. In fact, there
+is no object at all at the time of the call.  Thus, a class function may not
+use any object variables (but it can use local and global variables), and it
+may no use <code>$this</code> at all.</p>
+
+<p><hr width="90%"></p>
+<a name="parent Special Name"></a>
+<p class=minorPageHeading><code>parent</code> Special Name</p>
+
+<p>You may find yourself writing code that refers to variables and functions
+in base classes.  This is particularly true if your derived class is a
+refinement or specialization of code in your base class.</p>
+
+<p>Instead of using the literal name of the base class in your code, you
+should be using the special name <code>parent</code>, which refers to the
+name of your base class as given in the extends declaration of your class.
+By doing this, you avoid using the name of your base class in more than
+one place.  Should the inheritance tree change during implementation, the
+change is easily made by simply changing the extends declaration of your
+class.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>class A {
+  function example() {
+    echo "I am A::example() and provide basic functionality";
+  }
+}
+
+class B extends A {
+  function example() {
+    echo "I am B::example() and provide additional functionality";
+    <font color=red>parent::example();</font>
+  }
+}
+
+$b = new B;
+
+// This will call B::example(), which will in turn
+//    call A::example().
+$b->example();</pre></td>
+</tr></table></p>
+
+<p><hr width="90%"></p>
+<a name="Class Method (Function) Overloading in PHP"></a>
+<p class=minorPageHeading>Class Method (Function) Overloading in PHP</p>
+
+<p>Unlike C++, PHP 4 does not allow you to overload a method in a class:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>class Test {
+  var $data;
+  
+  function process() { ... }
+  <font color=red>function process($test) { ... } // ERROR!</font>
+}</pre></td>
+</tr></table></p>
+
+<p>You can, however, use PHP's ability to pass a varying number of
+function parameters, coupled with its detailed variable typing functions,
+to simulate the same effect as function overloading.</p>
+
+<p>The following functions can be useful in this respect:</p>
+
+<p><table cellpadding=6>
+<tr><td width=260 class=mediumFixedText>func_num_args() </td>
+    <td class=listItems>returns the number of arguments passed to this
+       function during the current call</td></tr>
+<tr><td class=mediumFixedText>func_get_arg(<i>int</i>) </td>
+    <td class=listItems>returns the value of the specified argument
+       position from the argument list passed to this function during
+       the current call</td></tr>
+
+<tr><td class=mediumFixedText>func_get_args() </td>
+    <td class=listItems>returns an array of the arguments passed to this
+       function during the current call</td></tr>
+</table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>function test () {
+  $args = func_get_args();
+  foreach ($args as $arg) {
+    if (is_integer($arg)) { ... }
+    elseif (is_string($arg)) { ... }
+    elseif (is_real($arg)) { ... }
+    elseif (is_bool($arg)) { ... }
+    else { ... }
+    }
+} // test
+
+test (12,56.2,'data',true);
+test (100.123,false);</pre></td>
+</tr></table></p>
+
+<p>Another common approach to handle a varying number of arguments to a
+function is to pass all the arguments as elements in a single array, so
+rather than passing an unknown number of arguments, a single array argument
+is passed instead.  A function like this can also be easily manipulated
+to work with a scalar parameter equally as well.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>function test ($args) {
+  if (!is_array($args)) $args = array($args);
+  foreach ($args as $arg) {
+    if (is_integer($arg)) { ... }
+    elseif (is_string($arg)) { ... }
+    elseif (is_real($arg)) { ... }
+    elseif (is_bool($arg)) { ... }
+    else { ... }
+    }
+} // test
+
+test (array(12,56.2,'data',true));
+test (array(100.123,false));
+test ('scalar');</pre></td>
+
+</tr></table></p>
+
+</td></tr></table>
+
+<table width="85%" class="secondaryComments" align=center><tr><td align=center>
+<a href="PHPnotes3.html">Link to Part Three of PHP Notes</a>
+</td></tr></table>
+
+<p><hr></p><!-- ------------------------------------------------------------- -->
+<!--
+
+Topics:
+
+  working with lists  list (x,y,z) = array(...)
+  regular expressions
+  SQL access
+  heredoc
+  examples and rules of displaying using echo and heredoc
+  
+  sessions
+  Features that PHP (as an interpreted language) can do that a compiled
+         language can't
+    change variable types on the fly
+    create a variable name during execution and then reference it
+       $x = 'test';   $$x = 12;  echo $test;
+    pass by name
+    create code on the fly and execute it
+
+
+<p><hr width="90%"></p>
+
+<a name=""></a>
+<p class="pageHeading">template</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+</td></tr></table>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre></pre></td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="codeDisplay">
+<pre></pre></td>
+</tr></table></p>
+
+<a name=""></a>
+<p class=largeFixedText></p>
+
+<a name=""></a>
+<p class=mediumFixedText></p>
+
+<p><hr width="80%"></p>
+
+<a name=""></a>
+<p class=minorPageHeading></p>
+
+
+
+// table of names/commands and descriptions
+<p><table cellpadding=6>
+<tr><td class=largeFixedText> </td>
+    <td class=listItems> </td></tr>
+</table></p>
+
+-->
