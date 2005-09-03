@@ -1,0 +1,108 @@
+<html>
+  <head>
+     <title>
+       Java SSH/Telnet Application 
+     </title>
+  <script language="JavaScript">
+    function applet_launch() {
+      var d = window.document;
+      d.write('<title>Java SSH/Telnet Application</title>');
+      d.write('<body bgcolor="white">');
+      d.write('<center>');
+      d.write('<br><br><br><br><br><br><br>');
+      d.write('<table border=0 bgcolor="#ff0000" cellpadding=2 cellspacing=0>');
+      d.write('<tr><td>');
+      d.write('<table border=0 bgcolor="#ffffff" cellpadding=2 cellspacing=0>');
+      d.write('<tr>');
+      d.write('<td align="center" colspan=2 bgcolor="#ff0000">');
+      d.write('<font name="verdana,arial,helvetica,sans-serif" color="white" size=3>')
+      d.write('<b>Java SSH/Telnet Client Application</b>');
+      d.write('</font>');
+      d.write('</td>');
+      d.write('</tr>');
+      d.write('<tr>');
+      d.write('<td align="right" valign="center" bgcolor="#ffffff" width=90>');
+      d.write('<img src="ramblo.jpg" alt="ssh" width=72 height=54 border=0>');
+      d.write('</td>');
+      d.write('<td align="center" valign="center" bgcolor="#ffffff" width=320>');
+      d.write('<br>');
+      d.write('<font name="verdana,arial,helvetica,sans-serif" size=2>');
+      d.write('The Java Applet is running<br>');
+      d.write('Closing this window will terminate the applet.<br><br>');
+      d.write('<a href="http://www.java.com"><img src="get_java_red_button.gif" alt="Get Java"></a><br>');
+
+      d.write('<p>The client is <a href="http://www.appgate.com/mindterm">MindTerm</a> 2.3,1, supporting <br>SSH v1 and v2.');
+      d.write('<br><br>');
+      d.write('</font>');
+      d.write('</td></tr>');
+      d.write('<tr>');
+      d.write('<td>');
+      d.write('<font name="verdana,arial,helvetica,sans-serif" size=2>');
+      d.write('<a HREF="http://www.lowlyworm.com">Return to Lowlyworm web page</a>');
+      d.write('</font>');
+      d.write('</td>');
+      d.write('</tr>');
+      d.write('</table>');
+      d.write('</td></tr>');
+      d.write('<applet name="javassh" archive="http://ssh.lowlyworm.com/mindterm.jar" code="com.mindbright.application.MindTerm.class" height="0" width="0">');
+      d.write('<param name="sepframe" value="true">');
+      d.write('<param name="debug" value="true">');
+      d.write('<param name="visual-bell" value="true">');
+      d.write('<param name="server" value="">');
+      d.write('<param name="geometry" value="80x40">');
+      d.write('</applet>');
+      d.write('</body>');
+      d.write('</html>');
+      d.close();
+    };
+  </script>
+  </head>
+<body bgcolor="white">
+<center>
+<br><br><br><br><br><br><br>
+<table border=0 bgcolor="#ff0000" cellpadding=2 cellspacing=0>
+<tr><td>
+<table border=0 bgcolor="#ffffff" cellpadding=2 cellspacing=0>
+<tr>
+  <td align="center" colspan=2 bgcolor="#ff0000">
+  <font name="verdana,arial,helvetica,sans-serif" color="white" size=3>
+     <b>Java SSH/Telnet Client Application</b>
+  </font>
+  </td>
+</tr>
+<tr>
+
+  <td align="right" valign="center" bgcolor="#ffffff" width=90>
+     <img src="ramblo.jpg" alt="ssh" width=72 height=54 border=0>
+  </td>
+  <td align="center" valign="center" bgcolor="#ffffff" width=320>
+  <br>
+  <font name="verdana,arial,helvetica,sans-serif" size=2>
+  Select either the Java Web Start version<br>
+  or the Java Applet version.<br><br>
+  <form>
+  <input type="button" value="Java Applet" onclick="applet_launch();">
+  </form>
+  <form>
+  <input type="button" value="Java Web Start" onClick="parent.location='http://ssh.lowlyworm.com/mindterm_ws.jnlp'">
+  </form><br><br>
+
+     <a href="http://www.java.com"><img src="get_java_red_button.gif" alt="Get Java"></a><br>
+
+  <p>The client is <a href="http://www.appgate.com/mindterm">MindTerm</a> 2.3,1, supporting <br>SSH v1 and v2.
+  <br><br>
+  </font>
+  </td>
+</tr>
+<tr>
+  <td>
+    <font name="verdana,arial,helvetica,sans-serif" size=2>
+      <a HREF="http://www.lowlyworm.com">Return to Lowlyworm web page</a>
+    </font>
+  </td>
+</tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>
