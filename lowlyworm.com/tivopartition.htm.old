@@ -1,0 +1,27 @@
+<HTML>
+
+<H1>
+How to get your TiVo Partition to mount.
+</H1>
+
+TiVo uses a Macintosh type filesystem. However in the TiVo they changed the partition magic number. It makes sense that they changed the magic number so that it prevents ego-centric operating systems from messing with the drive, uniquely identifies it as a TiVo drive and probably prevented the drive from being hacked by 30 more seconds. So to start with go to the kernel source tree. I have tested this against 2.4.20.<br>
+<br>
+Assuming you use /usr/src/linux as the root of your kernel source:<br>
+<br>
+Copy the <a href='tivopartition.patch'>tivopartition.patch</a> to a place like /usr/src<br>
+$ cd /usr/src/linux/fs/partitions<br>
+Apply the patch:<br>
+$ patch -p0 < /usr/src/tivopartition.patch<br>
+<br>
+This patch makes a few small additions to the mac.c and mac.h files. You will now need to recompile the kernel with the Macintosh Partition type selected.<br>
+<br>
+Once you reboot, your TiVo drive will be recognized by Linux and you can mount it like any other drive.<br>
+<br>
+NOTE: TiVo Series 2 drives should require no kernel parameters.<br>
+TiVo Series 1 drives are byteswapped so you will need to add to lilo.conf a line that turns off DMA and turns on byteswapping. You can tell it is coming up without byteswapping if you see '(0x9214) unknown parition table' during boot.<br>
+<br>
+Example: append="ide=nodma hdx=dataswap"<br>
+Alternative: You could turn on just byteswapping at boot and leave DMA on. Then when you finish booting up login as root and use hdparm to turn off DMA on just the TiVo drive. 'hdparm -d0 -z /dev/hdx' Apparently DMA and Byteswapping cannot coexist. If you think about it they are mutually exclusive.<br>
+<br>
+<a href='/'>Back to lowlyworm.com</a>
+</HTML>

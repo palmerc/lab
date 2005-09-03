@@ -1,0 +1,87 @@
+*** mac.c.orig	Sun Nov  3 02:21:47 2002
+--- mac.c	Sun Nov  3 02:29:55 2002
+***************
+*** 33,58 ****
+  	unsigned secsize;
+  	struct mac_partition *part;
+  	struct mac_driver_desc *md;
+  
+  	/* Get 0th block and look at the first partition map entry. */
+  	md = (struct mac_driver_desc *) read_dev_sector(bdev, 0, &sect);
+  	if (!md)
+  		return -1;
+! 	if (be16_to_cpu(md->signature) != MAC_DRIVER_MAGIC) {
+! 		put_dev_sector(sect);
+! 		return 0;
+  	}
+! 	secsize = be16_to_cpu(md->block_size);
+  	put_dev_sector(sect);
+  	data = read_dev_sector(bdev, secsize/512, &sect);
+  	if (!data)
+  		return -1;
+  	part = (struct mac_partition *) (data + secsize%512);
+! 	if (be16_to_cpu(part->signature) != MAC_PARTITION_MAGIC) {
+  		put_dev_sector(sect);
+  		return 0;		/* not a MacOS disk */
+  	}
+! 	printk(" [mac]");
+  	blocks_in_map = be32_to_cpu(part->map_count);
+  	for (blk = 1; blk <= blocks_in_map; ++blk) {
+  		int pos = blk * secsize;
+--- 33,76 ----
+  	unsigned secsize;
+  	struct mac_partition *part;
+  	struct mac_driver_desc *md;
++ 	int tivo = 0;
+  
+  	/* Get 0th block and look at the first partition map entry. */
+  	md = (struct mac_driver_desc *) read_dev_sector(bdev, 0, &sect);
+  	if (!md)
+  		return -1;
+! 
+! 	switch(be16_to_cpu(md->signature)) {
+! 		case MAC_DRIVER_MAGIC:
+! 			secsize = be16_to_cpu(md->block_size);
+! 			break;
+! 
+! 		case TIVO_DRIVER_MAGIC:
+! 			/* The TiVo map does not have a valid Mac block 0
+! 			 * fill in the block size.
+! 			 */
+! 			secsize=512;
+! 			tivo = 1;
+! 			printk(" (TIVO_DRIVER_MAGIC)");
+! 			break;
+! 
+! 		default:
+! 			printk(" (0x%x)", be16_to_cpu(md->signature));
+! 			put_dev_sector(sect);
+! 			return 0;
+  	}
+! 
+  	put_dev_sector(sect);
+  	data = read_dev_sector(bdev, secsize/512, &sect);
+  	if (!data)
+  		return -1;
+  	part = (struct mac_partition *) (data + secsize%512);
+! 	if (!tivo && be16_to_cpu(part->signature) != MAC_PARTITION_MAGIC) {
+  		put_dev_sector(sect);
++ 		printk(" (not a MacOS disk)");
+  		return 0;		/* not a MacOS disk */
+  	}
+! 	printk(tivo ? " [tivo]" : " [mac]");
+  	blocks_in_map = be32_to_cpu(part->map_count);
+  	for (blk = 1; blk <= blocks_in_map; ++blk) {
+  		int pos = blk * secsize;
+*** mac.h.orig	Sun Nov  3 02:21:49 2002
+--- mac.h	Sun Nov  3 02:21:44 2002
+***************
+*** 40,45 ****
+--- 40,46 ----
+  #define MAC_STATUS_BOOTABLE	8	/* partition is bootable */
+  
+  #define MAC_DRIVER_MAGIC	0x4552
++ #define TIVO_DRIVER_MAGIC	0x1492
+  
+  /* Driver descriptor structure, in block 0 */
+  struct mac_driver_desc {
