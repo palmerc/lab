@@ -5,7 +5,7 @@ ob_start("do_footer");
 ob_start("do_content");
 
 function do_header() {
-  global $title, $section;
+  global $title, $section, $alternate_css;
     echo '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -17,8 +17,14 @@ echo "
     <title>{$title}</title>
 ";
 
+
+
+echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"c/main.css\" />\n";
+if ($alternate_css and file_exists($alternate_css)) {
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$alternate_css}\" />\n";
+}
+
 echo '
-    <link rel="stylesheet" type="text/css" href="c/main.css" />
     <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
     <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
 </head>
