@@ -18,6 +18,38 @@ h1 {
 h2 {
 	font: medium Georgia;
 	font-size: 150%;
+	margin: 0;
+	padding: .5em 0;
+}
+
+h3 {
+	font: medium Georgia;
+	font-size: 110%;
+	margin: 0 0 0 2em;
+}
+
+ul {
+	margin-left: 2em;
+	list-style: none;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #555;
+	text-decoration: none;
+}
+
+li a {
+	color: #000;
+	text-decoration: none;
+}
+
+li a:hover {
+	color: #555;
 }
 
 table {
@@ -39,6 +71,48 @@ td {
 	text-align: right;
 }
 
+.leftside {
+	margin: 0;
+	padding: 0;
+	float: left;
+	width: 80%;
+}
+
+.rightside {
+	float: right;
+	width: 20%;
+}
+
+#progtable {
+	margin: 2em;
+	float: left;
+}
+
+#progtable td:hover {
+	background-color: #ff9;
+}
+
 #about {
 	margin: 0 0 0 50px;
+}
+
+#footer {
+	float: left;
+	width: 90%;
+	font: medium Georgia;
+	margin: 1em;
+	padding: 1em;
+	border: solid 1px;
+	border-color: #555;
+	color: #000;
+	background-color: #eed;
+}
+
+#srcode {
+	float: left;
+	width: 90%;
+	margin: 1em;
+	padding: .5em;
+	background-color: #ccf;
+	border: 1px dashed #000;
 }
