@@ -1,0 +1,842 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Windows (vers 12 April 2005), see www.w3.org" />
+    <title>CSCE 2410 - PHP Programming - Part One</title>
+    <!-- metadata -->
+    <meta name="generator" content="S5" />
+    <meta name="version" content="S5 1.1" />
+    <meta name="presdate" content="20050728" />
+    <meta name="author" content="Eric A. Meyer" />
+    <meta name="company" content="Complex Spiral Consulting" />
+    <!-- configuration parameters -->
+    <meta name="defaultView" content="slideshow" />
+    <meta name="controlVis" content="hidden" />
+    <!-- style sheet links -->
+    <link rel="stylesheet" href="ui/default/slides.css" type="text/css" media="projection" id="slideProj" />
+    <link rel="stylesheet" href="ui/default/outline.css" type="text/css" media="screen" id="outlineStyle" />
+    <link rel="stylesheet" href="ui/default/print.css" type="text/css" media="print" id="slidePrint" />
+    <link rel="stylesheet" href="ui/default/opera.css" type="text/css" media="projection" id="operaFix" />
+    <!-- S5 JS -->
+    <script src="ui/default/slides.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="layout">
+    <div id="controls"><!-- DO NOT EDIT --></div>
+    <div id="currentSlide"><!-- DO NOT EDIT --></div>
+    <div id="header"></div>
+    <div id="footer">
+    <h1>August 30, 2005</h1>
+    <h2>CSCE 2410 - PHP Programming - Part One</h2>
+    </div>
+    
+    </div>
+    
+    
+    <div class="presentation">
+
+<div class="slide">
+  <p>Brief History of PHP Language</p>
+
+  <p>PHP (recursive acronym for "PHP: Hypertext Preprocessor") is a
+  widely-used Open Source general-purpose scripting language that
+  is especially suited for Web development and can be embedded into
+  HTML</p>
+
+  <p>PHP was developed to specifically address needs of the web to
+  provide dynamic content on websites</p>
+
+  <p>Unlike other development languages commonly used for dynamic
+  content (Perl, C++), PHP was designed specifically with the web
+  in mind (it had no other master, per se)</p>
+
+  <p>Because of this specific design, common web-based activities,
+  such as the processing of forms data and the correct rendering of
+  HTML content (both inside and outside of forms), are much easier
+  than with adapted languages</p>
+
+  <p>Because of PHP's close relationship to HTML, PHP can be
+  embedded inside an HTML-based document, unlike other languages
+  that do not inherently understand HTML and therefore must treat
+  HTML as text that has to be displayed inside the confines of the
+  languages print statements. PHP can literally switch between PHP
+  and HTML inside a single document, making it so large areas of
+  pure HTML can be managed normally</p>
+
+  <p>PHP has been extended as a language to include a huge library
+  of commonly-available procedures and classes (including database
+  manipulation, mail management, secure connections, and graphics
+  manipulation to mention just a few) that has made it extremely
+  powerful in a variety of environments and disciplines</p>
+
+  <p>Although PHP was designed to be a web-based language to
+  display content via a browser through a server, the power and the
+  usefulness of the language has expanded its uses beyond just the
+  web, and it now can be found in both local command-line interface
+  (CLI) environments as well as local graphical interface (GUI)
+  environments</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>HTML Background</p>
+
+  <p>HTML (Hypertext Markup Language) was developed to address the
+  need to easily display content via a web-browser</p>
+
+  <p>It is a "markup" language (unlike a typical programming
+  language), in that its commands (tags) are designed to assist in
+  the formatting and layout of textual data</p>
+
+  <p>It by definition is a "static" language, in that the content
+  displayed using the standard HTML language will always look the
+  same -- it will not change over time or by who accessed it</p>
+
+  <p>Due to this major limiting factor of the language in this
+  modern world of dynamic, data-driven websites, a variety of
+  extensions to HTML and related programming languages have been
+  developed:</p>
+
+  <ul>
+    <li>Javascript</li>
+
+    <li>Microsoft's ASP (Active Server Pages)</li>
+
+    <li>Java Applets and Applications</li>
+
+    <li>PHP</li>
+
+    <li>others...</li>
+  </ul>
+
+<p><a>Examples of HTML tags and pages</a></p>
+<div class="handout">
+</div>
+</div>
+
+
+
+<div class="slide">
+  <p>Common PHP Resources</p>
+
+  <p><a>www.php.net</a></p>
+
+  <p>Tutorials:</p>
+
+  <p><a>php.net Simple Tutorial</a> <a>DevShed</a></p>
+
+  <p>Libraries:</p>
+
+  <p><a>totalscripts.com</a> <a>hotscripts.com</a>
+  <a>phpclasses.org</a></p>
+
+  <p>Book Resources:</p>
+
+  <p>PHP and MySQL Web DevelopmentWelling and Thomson, Sams.</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Basic PHP Concepts</p>
+
+  <p>PHP borrowed its primary syntax from C++ and C</p>
+
+  <p>Many of the programming techniques you've previously learned
+  will work in PHP (assignments, comparisons, loops, procedures)
+  with little to no syntax difference</p>
+
+  <p>There are, however, major changes in how data is manipulated
+  in relationship to C/C++</p>
+
+  <p>C/C++ are type-specific languages, requiring the user to
+  define a specific, singular type for each variable that they
+  use</p>
+
+  <p>PHP commonly assigns its variables "by value", meaning a
+  variable takes on the value of the source variable (expression)
+  and is assigned to the destination variable. A variable can
+  therefore change its type "on&nbsp;the&nbsp;fly". Therefore
+  variables are not declared (as they are in most type-specific
+  languages like C++)</p>
+
+  <p>PHP is an interpreted language, in that the PHP interpreter
+  program reads the PHP source code, translates the code and
+  executes it at the same time. With C++ on the other hand, the C++
+  compiler translates your C++ code into a binary executable,
+  eliminating the translation of the source each time the code
+  executes</p>
+
+  <p>Initially this interpreted nature of PHP sounds like a
+  disadvantage; on the contrary, the interpreted nature of PHP
+  provides some very intereting and useful programming techniques
+  that are not possible in compiled languages</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Using PHP in a Webpage</p>
+
+  <p>PHP source code is embedded in an HTML-based document, and is
+  identified by special delimiting tags,</p>
+
+  <p>&lt;?php &nbsp; content &nbsp; ?&gt;</p>
+
+  <p>similar to Javascript and Java applets.</p>
+
+  <p>&lt;H2&gt;My Webpage&lt;/H2&gt; This is my webpage. &lt;?php
+  echo "This is written in PHP.\n"; ?&gt;</p>
+
+  <p>How this will appear in a browser:</p>
+
+  <p>My WebpageThis is my webpage. This is written in PHP.</p>
+
+  <p>You can switch between HTML and PHP as many times as you like
+  within a document:</p>
+
+  <p>HTML content &lt;?php PHP content ?&gt; HTML content &lt;?php
+  PHP content ?&gt; HTML content</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Webpage Setup Using PHP</p>
+
+  <p>Two Approaches:</p>
+
+  <ul>
+    <li>Using .php filename extension on source file.</li>
+
+    <li>Including PHP script call inside source file along with
+    naming the source file with .cgi extension and making source
+    fileexecutable (UNIX environment).</li>
+  </ul>
+
+  <p>Approach One:Name your source file with a .php extension:</p>
+
+  <p>sample.phpindex.php</p>
+
+  <p>(This requires proper setup on server so it understandswhat to
+  do with files with this extension.)</p>
+
+  <p>Approach Two:Including call to PHP script inside source
+  file:</p>
+
+  <p>Source file: sample.cgi</p>
+
+  <p>#!/usr/local/bin/php &lt;H2&gt;My Webpage&lt;/H2&gt; This is
+  my webpage. &lt;?php echo "This is written in PHP.\n"; ?&gt;</p>
+
+  <p>and making source file executable:% chmod +x sample.cgi</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>The major difference between the two approaches is how the
+  files are accessed by the webserver:</p>
+
+  <p>When using the .php extension, the script runs as the standard
+  webserver user (commonly the user-idnobody or www-data).
+  Therefore if the script attempts to access/create files, the
+  programmer needs to make certain that the file permissions are
+  set correctly.</p>
+
+  <p>When using the .cgi extension, the script runs as the owner of
+  the script (you), so any files created/changed by the script will
+  automatically be accessible by you.</p>
+
+  <p>Approach Two is the approach used in your department UNIX
+  account on the students.csci.unt.edu server.</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Variables and Types in PHP</p>
+
+  <p>Although variables are not declared to be type-specific in
+  PHP, PHP still has a common set of data types:</p>boolean integer
+  float string array object resource NULL
+
+  <p>Determining the current type of a variable:A series of
+  type-testing functions exist to determine the current type of
+  variables:</p>
+
+  <p>gettype(varname) returns type name, such as 'string'</p>
+
+  <p>is_int() is_integer() is_long() is_null() is_numeric()
+  is_object() is_real() is_string() is_scalar() is_bool()</p>
+
+  <p>empty() isset()</p>
+
+  <p><a>PHP type comparison tables</a></p>
+
+  <p>Special debugging / variable-display functions:</p>
+
+  <p>print_r() var_dump() var_export()</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Variables in PHP are represented by a dollar sign followed by
+  the name of the variable. The variable name is
+  case-sensitive.</p>
+
+  <p>A valid variable name starts with a letter or underscore,
+  followed by any number of letters, numbers, or underscores. As a
+  regular expression, it would be expressed
+  as:'[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'</p>
+
+  <p>To assign values or expressions to variables, the standard
+  assignment equal-sign operator ( = ) is used</p>
+
+  <p>$var = "Bob"; $Var = "Joe"; // different variable
+  $Long_variable_numeric_name = 47; $4site = 'not yet'; // invalid;
+  starts with a number $_4site = 'not yet'; // valid; starts with
+  an underscore $t&Atilde;&curren;yte = 'mansikka'; // valid;
+  '&Atilde;&curren;' is (Extended) ASCII 228</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Special Relationship Between Strings and Variables</p>
+
+  <p>String constants can be defined in one of three common
+  ways:</p>
+
+  <p>Inside Single Quotes: 'One type of string'</p>
+
+  <p>Inside Double Quotes: "Another type of string"</p>
+
+  <p>Using special "heredoc" syntax (discussed later)</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Data inside Single-quoted strings are taken literally; ie.,
+  everything is treated exactly as it is typed</p>
+
+  <p>Data inside Double-quoted strings are treated in a special way
+  in relationship to variable references and other standard
+  formatting characters:</p>
+
+  <p>If a variable is referenced inside a double-quoted string, its
+  value is automatically substituted.</p>
+
+  <p>"Escaped" characters are interpreted: <a>Table of "Escaped"
+  characters</a></p>
+
+  <p>$var1 = 'This is a test'; $var2 = 27; $var3 = "$var1 $var2\n";
+  // "This is a test 27 " $var4 = '$var1 $var2\n'; // '$var1
+  $var2\n'</p>
+
+  <p>If variable names can be clearly delineated in the
+  double-quoted string sytax (it is not obvious where the variable
+  name ends and literal text following the variable name begins), a
+  variable name can be surrounded with curly-braces { }, or
+  separated from the rest of the text using concatenation (the
+  period . operator):</p>
+
+  <p>$var1 = 'ABC'; $var2 = "Value is $var1xyz"; // "Value is "
+  $var3 = "Value is {$var1}xyz"; // "Value is ABCxyz" $var4 =
+  'Value is ' . $var1 . 'xyz'; // "Value is ABCxyz"</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>All string constants (single- or double-quoted) can be
+  automatically continued onto multiple lines:</p>
+
+  <p>$var1 = 'This is a long variable that is continued onto
+  multiple lines.'; $var2 = "This is a long variable with another
+  variables defined inside it: $var1\n";</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Displaying Values</p>
+
+  <p>Values can be displayed (output) using three methods:echo,
+  &nbsp;print(), and printf()</p>
+
+  <p>echo string arg1 [, string argn...];</p>
+
+  <p>echo outputs all values following it. It is not actually a
+  function (it is a language construct) so you are not required to
+  use parentheses with it.</p>
+
+  <p>echo "This is a test\n"; $var1 = 'Test string'; $var2 = 75;
+  echo "The value of var1 is $var1\n"; echo "The value of var2 is
+  $var2\n"; echo "Multiple variables displayed: $var1 $var2\n";
+  echo "This is a value that is written on multiple lines,
+  including variable $var2 references. "; echo 'This',$var2,'that';
+  // "This75that"</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>print() is in some ways similar to echo, although it can be
+  used as a function and could be included in more complicated
+  expressions</p>
+
+  <p>echo "This is a test\n"; $var1 = 'Test string'; $var2 = 75;
+  print "The value of var1 is $var1\n"; print ("The value of var2
+  is $var2\n"); $ret = print "Hello World"; // $ret will equal
+  1</p>
+
+  <p><a>Discussion of differences between echoand print</a></p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>printf() is one member of a family of string formatting
+  functions. It is based on the syntax of the <a>sprintf()</a>
+  function.</p>
+
+  <p>$var1 = 123.456; $var2 = 255; $var3 = 'text'; printf
+  ("&lt;pre&gt;%d %05d %5.2f %'*-10s %o %b %x&lt;/pre&gt;",
+  $var1,$var2,$var1,$var3,$var2,$var2,$var2);</p>%d %05d %5.2f
+  %'*-10s %o %b %x", $var1,$var2,$var1,$var3,$var2,$var2,$var2);
+  ?&gt; --&gt;123 00255 123.46 text****** 377 11111111 ff
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>PHP Arrays</p>
+
+  <p>An array in PHP is actually an ordered map.</p>
+
+  <p>A map is a type that maps values to keys. You can use it as a
+  real array, or a list (vector), hashtable, dictionary,
+  collection, stack, queue and probably more. Because you can have
+  another PHP array as a value, you can also quite easily simulate
+  trees.</p>
+
+  <p>An array's index (key) can simply be an integer value, which
+  is equivalent to C++ arrays.</p>
+
+  <p>To reference an element in an array, you also use the same
+  notation as in C++.</p>
+
+  <p>Elements are added dynamically -- when an index is specified,
+  if it doesn't already exist, it will be added.</p>
+
+  <p>PHP Arrays also differ from C++ arrays in that each value can
+  be a different type.</p>
+
+  <p>$num[4] = 256; $num[10] = 'some text'; $num[20] = $count + 20;
+  echo $num[10]; echo $num[5]; // may produce error $num[] = -25;
+  // same as $num[21]</p>
+
+  <p>A shorthand notation can be used to assign values to an array
+  in a single statement using the array() function:</p>
+
+  <p>$elements = array (1,6,'text',-4,0.123,50+$count); // 0 1 2 3
+  4 5 // note these are values, not indices</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Associative Arrays</p>
+
+  <p>PHP Arrays can use either integer or string indices. They can
+  be mixed inside the same array. PHP does not maintain different
+  typed arrays for integer or string indices; there is only one
+  array type.</p>
+
+  <p>$num = 10; $elements['test'] = 23; $elements[5] = 'stuff';
+  $elements[$num] = 'more stuff';</p>
+
+  <p>When using the array() function (and several other places in
+  the language), the key/value element pair can be written using
+  the special key =&gt; value notation.</p>
+
+  <p>$elements = array ( 4 =&gt; 'text', 'str' =&gt; 23);</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Accessing All Elements in an Associative Array</p>
+
+  <p>Since an Associative Array can have a mixture of index types,
+  a normal for-loop will not work to access each position in an
+  Associative Array. A special construct foreach exists to simplify
+  this operation:</p>
+
+  <p>foreach (array_expression as $value) statementforeach
+  (array_expression as $key =&gt; $value) statement</p>
+
+  <p>$A1 = array ('x','test',3,-16,'stuff',array(1,2,3)); $A2 =
+  array (10=&gt;20, 'test'=&gt;'data', 'counter'=&gt;12); foreach
+  ($A1 as $value) echo "$value "; echo "&lt;br&gt;&lt;br&gt;\n";
+  foreach ($A2 as $key =&gt; $value) echo "$key =&gt;
+  $value&lt;br&gt;\n";</p>
+
+  <p>x test 3 -16 stuff Array 10 =&gt; 20 test =&gt; data counter
+  =&gt; 12</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Determining the size of an Array</p>
+
+  <p>sizeof(arrayname) &nbsp; or &nbsp; count(arrayname)</p>
+
+  <p>$A1 = array ('x','test',3,-16,'stuff',array(1,2,3)); $A2 =
+  array (10=&gt;20, 'test'=&gt;'data', 'counter'=&gt;12); echo
+  sizeof($A1) . ' ' . sizeof($A2); // 6 3 echo count($A1) . ' ' .
+  count($A2); // 6 3</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Common Associative Arrays</p>
+
+  <p>$_POST fields from form tags$_GET fields from URL
+  arguments$_SERVER common system-oriented information$_COOKIES
+  fields from browser cookies$_SESSION fields for user
+  authentication$GLOBALS all global variables</p>
+
+  <p><a>Common HTML Forms Tags</a></p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Working with Forms Data in PHP</p>
+
+  <p>Form fields and their values are stored in the PHP
+  $_POST[]global associative array.</p>
+
+  <p>Depending upon the current configuration of PHP on your
+  server, all form fields may also be stored as individual global
+  variables.</p>
+
+  <p>Because of this convention, you should maintain a variable
+  namestandard for the naming of your form fields.</p>
+
+  <p>&lt;input type=text name="NameField" value="Tom Jones"&gt;
+  &lt;textarea name="InformationAndComments" rows=5 cols=60&gt;
+  This is some data &lt;/textarea&gt;echo $_POST['NameField'] .
+  "&lt;br&gt;\n"; echo $_POST['InformationAndComments'] .
+  "&lt;br&gt;\n";</p>
+
+  <p>You should use caution when defining form field names that do
+  not adhere to the standard PHP variable naming conventions. When
+  you define fields in this fashion in your HTML, PHP will
+  "attempt" to convert the field names into a compatible PHP
+  variable name.</p>
+
+  <p>&lt;input type=text name="Name Field" value="Tom Jones"&gt;
+  &lt;textarea name="Information &amp;%^$@#/ Comments" rows=5
+  cols=60&gt; This is some data &lt;/textarea&gt;print_r
+  ($_POST);</p>
+
+  <p>Array ( [Name_Field] =&gt; Tom Jones
+  [Information_+%^$@#/_Comments] =&gt; This is some data )NOTE the
+  conversion of spaces into underscores</p>
+
+  <p>Although using the global array
+  references$_POST['Information_+%^$@#/_Comments']
+  and$GLOBALS['Information_+%^$@#/_Comments']will work, an attempt
+  to reference $Information_+%^$@#/_Commentswill result in a syntax
+  error.</p>
+
+  <p>If you plan on using this type of complicated naming
+  convention for form fields, you should not plan on referencing
+  the fields as global variables. Most current configurations of
+  PHP have this option turned off by default.</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Techniques for detecting Forms Submission</p>
+
+  <p>It is common that a programmer will design a forms-based
+  webpage so that it consists of a pure HTML-based webpage, and a
+  separate PHP-based script that processes the forms data.</p>
+
+  <p>When the forms-based page itself contains PHP-generated
+  information, such as remembering field values from a previously
+  submitted form, maintaining separate scripts becomes tedious.</p>
+
+  <p>It is very simple, however, to determine if a page is
+  referenced via a URL reference or is called by a script. A
+  variety of techniques can be used to do this.</p>
+
+  <p>$_SERVER['REQUEST_METHOD']</p>
+
+  <p>This variable returns either 'GET' or 'POST', indicating the
+  method the page was referenced. To determine if a script is
+  called by pressing a form submission button, this simple test
+  could be used:</p>
+
+  <p>if ($_SERVER['REQUEST_METHOD'] == 'POST')</p>
+
+  <p>Another method would be to merely determine the size of the
+  global$_POST array. If it has one or more indices, there was at
+  least one form field passed, indicating the script had to be
+  called from the posting of a form.</p>
+
+  <p>if (count($_POST) &gt; 0)</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>This therefore creates a very simple model to combine the
+  display of a form, and the processing of the submitted form, all
+  within the same script file:</p>
+
+  <p>&lt;?php if (count($_POST) == 0) { // display the initial
+  display of the form here } else { // process the submitted forms
+  data here } ?&gt;</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Schemes for Submission Button Naming and Access</p>
+
+  <p>Forms can have any number of submission buttons, and therefore
+  can cause different actions depending upon which button is
+  actually pressed. There are two common techniques that can be
+  used to easily identify which action you wish to perform based on
+  the actual button pressed.</p>
+
+  <p>Same Name, Different Values</p>
+
+  <p>The first technique is to name each selection button the same
+  name, and then specify a different value. In the PHP code, you
+  could test the value of the corresponding $_POST element, which
+  will indicate which button was actually pressed.</p>
+
+  <p>&nbsp; &nbsp;</p>
+
+  <p>switch ($_POST['DoIt']) { case 'Button 1' : // button 1 code
+  break; case 'Button 2' : // button 2 code break; case 'Please,
+  press me, won't you?' : // "Please, press me, won't you" code
+  break; } // end switch</p>
+
+  <p>The minor disadvantage of this approach is that since the
+  submit-type field always uses the value as the text displayed in
+  the button, this may require long comparisons since the text much
+  match exactly.</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Different Names</p>
+
+  <p>The second approach is to choose a different, unique name for
+  each selection button field. In your PHP code that processes the
+  form, you would merely test for the presence of each of the
+  submit fields; if one is present, it was the one that was
+  pressed. Similar to checkboxes and radio buttons, submit buttons
+  that aren't actually pressed send no data to the script, and
+  therefore do not appear in the resultant$_POST array.</p>
+
+  <p>if (isset($_POST['Button1'])) { // button 1 code } elseif
+  (isset($_POST['Button2'])) { // button 2 code } elseif
+  (isset($_POST['Button3'])) { // button 3 code }</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Dealing with Multiple Selections</p>
+
+  <p>Multiple selection form fields pose an interesting problem
+  based on how PHP processing form fields in general.</p>
+
+  <p>Option 1 Option 2 Option 3 Option 4 Option 5 Option 1 Option 2
+  Option 3 Option 4 Option 5</p>
+
+  <p>Since PHP stores all form fields and their values as indices
+  in the$_POST array, it can't deal with multiple fields being sent
+  with exactly the same name.</p>
+
+  <p>PHP therefore uses a special array notation to represent
+  mutiple selections:</p>
+
+  <p>&lt;form method=post action="showFields.cgi"&gt; &lt;select
+  name="Options[]" size=5 multiple&gt; Option 1 Option 2 Option 3
+  Option 4 Option 5 Option 1 Option 2 Option 3 Option 4 Option
+  5</p>$_POST = Array ( [Options] =&gt; Array ( [0] =&gt; Option 2
+  [1] =&gt; Option 3 ) [GO] =&gt; GO )
+
+  <p>This approach can also be used for other form fields as well.
+  In addition, index values can be used rather than automatically
+  generating a new, numerically indexed element.</p>$_POST = Array
+  ( [f1] =&gt; Array ( [Fred] =&gt; fred [John] =&gt; john [Alias
+  for John] =&gt; sam ) [GO] =&gt; DO IT )
+
+  <p>Multiple-dimensional arrays are also possible using this
+  notation:</p>$_POST = Array ( [f1] =&gt; Array ( [0] =&gt; Array
+  ( [1] =&gt; set ) [1] =&gt; Array ( [2] =&gt; set ) ) [GO] =&gt;
+  DO IT )
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>PHP Simplification of Certain Form Fields</p>
+
+  <p>2 3 4 5 6 7 8 9 10 11 12&lt;SELECT NAME="Table2"&gt; &lt;?php
+  for ($i=2; $i</p>2 3 4 5 6 7 8 9 10 11 12 &lt;?php $checked = 5;
+  for ($i=2; $i
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>URL Parameters - GET method</p>
+
+  <p>Additional data can be passed to a script via parameters
+  indicated on the URL line:</p>
+
+  <p>http://server/scriptname.cgi?parameters</p>
+
+  <p>These parameters normally come in two possible formats:</p>
+
+  <ul>
+    <li>keyword=value pairs with multiple values separated with
+    ampersands&nbsp;(&amp;); to include spaces, substitute
+    plus&nbsp;signs&nbsp;(+)</li>
+
+    <li>simple character sequences with multiple values separated
+    with plus&nbsp;signs&nbsp;(+)</li>
+  </ul>
+
+  <p>
+  scriptname.cgi?this=that&amp;name=value+with+spacesscriptname.cgi?value1+value2+value3</p>
+
+  <p>Depending upon which of these formats is used for the
+  parameter data, different PHP super-global variables can be
+  used:</p>
+
+  <p>$_GET</p>
+
+  <p>used with name=value pairs</p>
+
+  <p>$_GET will be an associative array with the names being the
+  indices</p>$_SERVER
+
+  <p>used with simple character sequences</p>
+
+  <p>$_SERVER['argc'] contains the number of character
+  sequences;</p>
+
+  <p>$_SERVER['argv'] contains an array of the actual character
+  sequence values</p>
+
+  <p>scriptname.cgi?this=that&amp;name=value+with+spaces $_GET =
+  Array ( [this] =&gt; that [name] =&gt; value with spaces
+  )scriptname.cgi?value1+value2+value3 $_SERVER['argc'] = 3
+  $_SERVER['argv'] = Array ( [0] =&gt; value1 [1] =&gt; value2 [2]
+  =&gt; value3 )</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Combining POST data with URL arguments</p>
+
+  <p>Even with posting forms data, it is also possible to include
+  URL arguments on the ACTION= field on the form. This data will be
+  passed to the executing script just as with the GETmethod.</p>
+
+  <p>&lt;form method=POST action="script.cgi?value1+value2"&gt;
+  &lt;input name=Field1 value="Field1 data"&gt; &lt;input
+  type=submit name=Button value="Press Me"&gt; &lt;/form&gt;$_POST
+  = Array { [Field1] = Field1 data [Button] = Press Me }
+  $_SERVER['argc'] = 2 $_SERVER['argv'] = Array ( [0] =&gt; value1
+  [1] =&gt; value2 )</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>Submitting Form Data with GET method</p>
+
+  <p>Although less-commonly used, the submit method for form data
+  can also beGET rather than the normal POST.</p>
+
+  <p>&lt;form method=GET action="script.cgi"&gt; &lt;input
+  name=Field1 value="Field1 data"&gt; &lt;input type=submit
+  name=Button value="Press Me"&gt; &lt;/form&gt;When script is
+  called, the URL will appear
+  as:script.cgi?Field1=Field1+data&amp;Button=Press+Me $_GET =
+  Array ( [Field1] =&gt; Field1 data [Button] =&gt; Press Me )
+  $_POST = Array { }</p>
+
+  <p>In earlier versions of servers, URL arguments were limited to
+  ~100 characters, basically eliminating the practical use of the
+  GETposting method, especially when TEXTAREA fields were involved.
+  Today this limitation has virtually been eliminated, and it no
+  longer is considered a limitation of the GET posting method.</p>
+
+  <p>However, since the resultant $_GET array when using theGET
+  posting method has the same appearance as the$_POST array when
+  using the POST posting method, the GET posting method is
+  considered (by DonR) to be unnecessary.</p>
+<div class="handout">
+</div>
+</div>
+
+<div class="slide">
+  <p>URL encoding of Special Characters</p>
+
+  <p>Since the decoding of the URL must include special separating
+  characters (for example, + for space, &amp; for separating GET
+  fields), what happens when you would like to use those characters
+  (or other non-alphabetic characters) as data within the URL
+  argument?</p>
+
+  <p>You have to use a special hexadecimal-based encoding notation
+  to represent these special characters. Their general format
+  is:</p>
+
+  <p>%hexvalue</p>
+
+  <p>Some examples are:</p>
+
+  <p>%2B - plus sign%26 - ampersand%3D - equal sign</p>
+
+  <p>script.cgi?parm=This+has+a+plussign+%2B$_GET = Array { [parm]
+  = This has a plussign +}</p>
+
+  <p>When a URL argument is produced inside a PHP script, the PHP
+  functionurlencode() should be used to properly encode any
+  non-alphabetic characters found in the argument:</p>
+
+  <p>&lt;?php $data = '# @ $ +'; echo '&lt;a
+  href="script.cgi?parm=' . urlencode($data) . '"&gt;'; ?&gt;&lt;a
+  href="script.cgi?parm=%23+@+%24+%2B"&gt;</p><a>Link to Part Two
+  of PHP Notes</a>
+
+</div> <!-- End presentation -->
+</body>
+</html>

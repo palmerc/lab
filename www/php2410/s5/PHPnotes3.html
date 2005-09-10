@@ -1,0 +1,1040 @@
+<html><head><title>PHP Notes 3</title>
+<style type="text/css">
+a { text-decoration:none; color:inherit; }
+hr { page-break-after:always; }
+p { font-size:15pt; font-weight:bold; text-align:left; }
+ol { font-size:15pt; font-weight:bold; text-align:left; }
+ul { font-size:15pt; font-weight:bold; text-align:left; }
+.primaryComments { font-size:25pt; font-weight:bold; text-align:center; }
+.secondaryComments { font-size:15pt; font-weight:bold; text-align:center; }
+.smallerComments { font-size:12pt; font-weight:normal; text-align:center; }
+.bigFixedText { font-size:45pt; font-weight:bold; text-align:center;
+                font-family:monospace; }
+.largeFixedText { font-size:28pt; font-weight:bold; font-family:monospace; }
+.mediumFixedText { font-size:18pt; font-weight:bold; font-family:monospace; }
+.pageHeading { font-size:25pt; font-weight:bold; text-align:center; }
+.minorPageHeading { font-size:20pt; font-weight:bold; text-align:center; }
+.listItems { font-size:15pt; font-weight:bold; text-align:left; }
+.mainHeading { font-size:45pt; font-weight:bold; text-align:center;
+               text-decoration:underline; }
+.code { font-size:14pt; text-align:left; font-weight:bold;
+        background-color:aliceblue; }
+.codeSmall { font-size:12pt;  text-align:left; font-weight:bold;
+             background-color:aliceblue; }
+.codeDisplay { font-size:14pt; background-color:pink; }
+.codeText { font-family: monospace; }
+</style>
+</head><body>
+
+<a name="Upload Files in PHP"></a>
+<p class="pageHeading">Upload Files in PHP</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+<p>The various HTML form fields that we've studied so far have dealt only
+with text-based data.  HTML supports another variation of the INPUT tag to
+support uploading file-based data to the server.  This includes both text
+files and binary files.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>&lt;input <font color=red>type="file"</font> size="30" name="<i>fieldname</i>"&gt;
+
+<input type=file size=30></pre></td>
+</tr></table></p>
+
+<p>A simple example of a complete form that will upload a file is shown
+below:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>&lt;form <font color=red>enctype="multipart/form-data"</font>
+       action="<i>scriptname.cgi</i>" method="POST">
+
+    &lt;!-- MAX_FILE_SIZE must precede the file input field -->
+    &lt;input type="hidden" name="MAX_FILE_SIZE" value="30000">
+
+    &lt;!-- Name of input element determines name in $_FILES array -->
+    Send this file: &lt;input name="userfile" size="30" type="file">
+    &lt;input type="submit" value="Send File">
+
+&lt;/form>
+</pre><hr><br>
+
+<form method=post enctype="multipart/form-data" target="_blank"
+   action="http://www.cs.unt.edu/~donr/courses/2320/04fall/fileExample.cgi">
+Send this file: <input name="userfile" size="30" type="file">
+<input type="submit" value="Send File">
+</form>
+</td></tr></table></p>
+
+<p>The <code>enctype="multipart/form-data"</code> is required in order for
+the browser to properly send binary-based files, such as graphics.</p>
+
+<p>The <code>MAX_FILE_SIZE</code> hidden field (measured in bytes) must
+precede the file input field, and its value is the maximum filesize
+accepted. This is an advisory to the browser, PHP also checks it. Fooling
+this setting on the browser side is quite easy, so never rely on files
+with a greater size being blocked by this feature.</p>
+
+<p>The PHP settings for maximum-size, however, cannot be fooled. This
+form element should always be used as it saves users the trouble of
+waiting for a big file being transferred only to find that it was too
+big and the transfer failed.</p>
+
+<p>Any number of <code>type=file</code> form fields can be included in a
+single form.  There is no mechanism, however, to simplify the process of
+uploading multiple files via the local filelist dialog.</p>
+
+<p><hr width="80%"></p>
+<a name="Accessing Uploaded File in PHP: $_FILES array"></a>
+<p class=minorPageHeading>Accessing Uploaded Files in PHP:<br>
+<code>$_FILES</code> array</p>
+
+<p>Starting with PHP version 4.1, a superglobal array <code>$_FILES</code>
+is provided that stores information about files that are uploaded via the
+<code>type=file</code> field.</p>
+
+<p><center>
+<table width="80%" class="secondaryComments"><tr><td align=left>
+<dl>
+  <dt><code>$_FILES['<i>fieldname</i>']['name']</code></dt>
+
+    <dd>The original name of the file on the client machine.</dd><p>
+  <dt><code>$_FILES['<i>fieldname</i>']['type']</code></dt>
+    <dd>The mime type of the file, if the browser provided this
+        information. An example would be "image/gif".</dd><p>
+  <dt><code>$_FILES['<i>fieldname</i>']['size']</code></dt>
+    <dd>The size, in bytes, of the uploaded file.</dd><p>
+
+  <dt><code>$_FILES['<i>fieldname</i>']['tmp_name']</code></dt>
+    <dd>The temporary filename of the file in which the uploaded
+        file was stored on the server.</dd><p>
+  <dt><code>$_FILES['<i>fieldname</i>']['error']</code>
+    <dd>The <a target="_blank"
+      href="http://us2.php.net/manual/en/features.file-upload.errors.php">error
+        code</a> associated with this file upload. This element was
+        added in PHP 4.2.0</dd>
+
+</dl></td></tr></table></center></p>
+
+<p><hr width="80%"></p>
+<a name="Dealing with File Uploads"></a>
+<p class=minorPageHeading>Dealing with File Uploads</p>
+
+<p>The function <code>is_uploaded_file(<i>string filename</i>)</code> can be
+used to determine if the file named was uploaded via HTTP POST.  The function
+returns TRUE if it was; false otherwise.<p>
+
+<p>This is useful to help ensure that a malicious user hasn't tried to
+trick the script into working on files upon which it should not be working
+-- for instance, <code>/etc/passwd</code>.</p>
+
+<p>This sort of check is especially important if there is any chance that
+anything done with uploaded files could reveal their contents to the user,
+or even to other users on the same system.</p>
+
+<p>After it is determined that the value was actually uploaded, you can use
+the function:
+
+<p><code>move_uploaded_file (<i>string filename, string destination</i>)</code></p>
+
+<p>This function checks to ensure that the file designated by filename is a
+valid upload file (meaning that it was uploaded via PHP's HTTP POST upload
+mechanism). If the file is valid, it will be moved to the filename given by
+destination.</p>
+
+<p>If filename is not a valid upload file, then no action will occur, and
+it will return FALSE.</p>
+
+<p>If filename is a valid upload file, but cannot be moved for some reason,
+no action will occur, and move_uploaded_file() will return FALSE.
+Additionally, a warning will be issued.</p>
+
+<p>This sort of check is especially important if there is any chance that
+anything done with uploaded files could reveal their contents to the user,
+or even to other users on the same system.</p>
+
+<p>Files will be stored in the server's default temporary directory by
+default, unless another location has been given with the
+<code>upload_tmp_dir</code> directive in <code>php.ini</code>. The server's
+default directory can be changed by setting the environment variable
+<code>TMPDIR</code> in the environment in which PHP runs. Setting it using
+<code>putenv()</code> from within a PHP script will not work.
+This environment variable can also be used to make sure that other
+operations are working on uploaded files, as well.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>// Move the uploaded file from the temporary directory
+//   to the user's location
+
+$uploaddir = '/var/www/uploads/';
+$uploadfile = $uploaddir . $_FILES['userfile']['name'];
+
+if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile))
+   echo "File is valid, and was successfully uploaded.\n";
+else echo "Move of uploaded file failed.\n";</pre></td>
+</tr></table></p>
+
+<p>The PHP script that receives the uploaded file should implement whatever
+logic is necessary for determining what should be done with the uploaded file.
+You can, for example, use the <code>$_FILES['<i>fieldname</i>']['size']</code>
+variable to throw away any files that are either too small or too big.</p>
+
+<p>You could use the <code>$_FILES['<i>fieldname</i>']['type']</code> variable
+to throw away any files that didn't match a certain type criteria. As of PHP
+4.2.0, you could use <code>$_FILES['<i>fieldname</i>']['error'],</code> and
+plan your logic according to the error codes.</p>
+
+<p>Whatever the logic, you should either delete the file from the temporary
+directory or move it elsewhere.</p>
+
+<p>If no file is selected for upload in your form, PHP will return
+<code>$_FILES['<i>fieldname</i>']['size']</code> as 0, and
+<code>$_FILES['<i>fieldname</i>']['tmp_name']</code> as none.</p>
+
+<p>The file will be deleted from the temporary directory at the end of the
+request if it has not been moved away or renamed.</p>
+
+<p><hr width="80%"></p>
+<a name="A File Upload Extension"></a>
+<p class=minorPageHeading>A File Upload Extension</p>
+
+<p>One concern people have for using file uploads in this manner is the lack
+of interaction while the upload is occurring.  If you're uploading a relatively
+large file, the lack of interaction can be confusing to the user.</p>
+
+<p>A free package is available, however, that provides a progress bar while
+a file is uploaded.  This code can be found here:</p>
+
+<a href="http://www.raditha.com/megaupload/"
+      target="_blank">http://www.raditha.com/megaupload/</a>
+
+</td></tr></table>
+
+<p><hr width="90%"></p>
+
+<a name="Accessing Server Directory Information"></a>
+<p class="pageHeading">Accessing Server Directory Information</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+<p>A set of functions are provided to simplify the process of reading the
+names of the files in a directory on the server.  With the knowledge of
+the filenames, other support functions can be used to gain other information
+about the files, such as size, modification date, etc.</p>
+
+<p>These directory-related functions work with a similar paradigm to
+accessing a sequential file: opening the directory, reading the names of
+each file in turn, and then closing the directory.</p>
+
+<p><center>
+<table width="80%" class="secondaryComments"><tr><td align=left>
+
+<dl>
+  <dt><code><i>resource</i> = opendir(<i>directory</i>)</code></dt>
+    <dl>Open the specified directory for reading.  The <i>resource</i> value
+    is used by other related-functions to refer to this directory.</dl><p>
+  <dt><code>readdir(<i>resource</i>)</code></dt>
+
+    <dl>Returns the filename of the next file from the directory. The filenames
+    are returned in the order in which they are stored by the filesystem.</dl><p>
+  <dt><code>closedir(<i>resource</i>)</code></dt>
+    <dl>Close the specified directory resource.</dl><p>
+  <dt><code>rewinddir(<i>resource</i>)</code></dt>
+    <dl>Rewind the specified directory resource so the filenames can be
+    accessed again.</dl><p>
+
+</dl></td></tr></table></p>
+
+<p>As an alternative method to accessing the filenames in a directory, the
+<b><code>dir</code></b> object was also developed. It has the following simple
+definition:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>
+class dir {
+  string path
+  resource handle
+  dir ( string directory )
+  string read ( void )
+  void rewind ( void )
+  void close ( void )
+  }</pre></td>
+</tr></table></p>
+
+<p>To use the object, simply assign the resultant value returned from 
+calling the <code>dir()</code> constructor.  This returns an instantiation
+of the internal class <code>Directory</code>, which has already been defined
+for you.</p>
+
+<p><hr width="80%"></p>
+
+<a name="Other Directory-related PHP functions"></a>
+<p class=minorPageHeading>Other Directory-related PHP functions</p>
+
+<p>An addtional set of functions can be used to determine various information
+about the files determined with the opendir()/dir functions:</p>
+
+<p><center>
+<table width="80%" class="secondaryComments"><tr><td align=left>
+<dl>
+  <dt><code>filesize(<i>filename</i>)</code></dt>
+
+    <dd>Returns the size of the specified filename (in bytes).</dd><p>
+  <dt><code>stat(<i>filename</i>)</code></dt>
+    <dd>Returns an array with the following fields of information:<br><br>
+      <table border=1><tr><td>
+      <TABLE cellpadding=4 class=listItems><TR><TH>Numeric</TH>
+          <TH>Associative</TH><TH>Description</TH></TR>
+
+      <TR><TD>0</TD><TD>dev</TD><TD>device number</TD></TR>
+      <TR><TD>1</TD><TD>ino</TD><TD>inode number</TD></TR>
+      <TR><TD>2</TD><TD>mode</TD><TD>inode protection mode</TD></TR>
+      <TR><TD>3</TD><TD>nlink</TD><TD>number of links</TD></TR>
+
+      <TR><TD>4</TD><TD>uid</TD><TD>userid of owner</TD></TR>
+      <TR><TD>5</TD><TD>gid</TD><TD>groupid of owner</TD></TR>
+      <TR><TD>6</TD><TD>rdev</TD><TD>device type, if inode device</TD></TR>
+      <TR><TD>7</TD><TD>size</TD><TD>size in bytes</TD></TR>
+
+      <TR><TD>8</TD><TD>atime</TD><TD>time of last access (Unix timestamp)</TD></TR>
+      <TR><TD>9</TD><TD>mtime</TD><TD>time of last modification (Unix timestamp)</TD></TR>
+      <TR><TD>10</TD><TD>ctime</TD><TD>time of last inode change (Unix timestamp)</TD></TR>
+      <TR><TD>11</TD><TD>blksize</TD><TD>blocksize of filesystem IO</TD></TR>
+
+      <TR><TD>12</TD><TD>blocks</TD><TD>number of blocks allocated</TD></TR>
+      </TABLE></td></tr></table></dd><p>
+  <dt><code>chmod(<i>filename,permissions</i>)</code></dt>
+    <dd>Change the file permissions on the specified filename (normally write
+        the value has an octal value (such as 0700, 0755, 0444).</dd><p>
+  <dt><code>filetype(<i>filename</i>)</code></dt>
+
+    <dd>Returns the type of the file. Possible values are <code>fifo, char,
+       dir, block, link, file,</code> and <code>unknown</code>.</dd><p>
+  <dt><code>chgrp(<i>filename, group</i>)</code></dt>
+    <dd>Attempts to change the group of the file filename to group
+      (specified by name or number). Only the superuser may change the group
+      of a file arbitrarily; other users may change the group of a file to
+      any group of which that user is a member.  Returns TRUE on success or
+      FALSE on failure.</dd><p>
+   <dt><code>glob(<i>pattern [,flags]</i>)</code></dt>
+
+     <dd>Searches for all the pathnames matching pattern according to the rules
+     used by common shells.  No tilde expansion or parameter substitution is
+     done.  It returns an array containing the matched files/directories or
+     FALSE on error.  Valid flags are:
+     <ul>
+       <li><code>GLOB_MARK</code> - Adds a slash to each item returned</li>
+       <li><code>GLOB_NOSORT</code> - Return files as they appear in the
+          directory (no sorting)</li>
+       <li><code>GLOB_NOCHECK</code> - Return the search pattern if no files
+          matching it were found</li>
+
+       <li><code>GLOB_NOESCAPE</code> - Backslashes do not quote metacharacters</li>
+       <li><code>GLOB_BRACE</code> - Expands {a,b,c} to match 'a', 'b', or 'c'</code>
+       <li><code>GLOB_ONLYDIR</code> - Return only directory entries which match
+          the pattern</li>
+     </ul></dd>
+
+</dl></td></tr></table></p>
+
+<p><hr width=80%></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>
+$dir = "/tmp/";
+
+// Open a known directory, and proceed to read its contents
+if (is_dir($dir)) {
+  if ($dh = opendir($dir)) {
+    while (($file = readdir($dh)) !== false)
+      echo "filename: $file : filetype: " .
+                     filetype($dir . $file) . "\n";
+    closedir($dh);
+    }
+  }</pre></td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$d = dir("/etc");
+echo "Path: " . $d->path . "&lt;br>\n";
+while (false !== ($entry = $d->read())) {
+   echo $entry . "&lt;br>\n";
+  }
+$d->close();
+</pre></td></tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+
+<pre>foreach (glob("*.txt") as $filename) {
+   echo "$filename size " . filesize($filename) . "\n";
+  }</pre></td></tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>// a recursive directory lister
+function ls($dir){
+  $handle = opendir($dir);
+  while (false !== ($file = readdir($handle))) {
+    if ($file != '.' && $file != '..') {
+      $path = "$dir/$file";
+      if (is_dir($path)) $output[$file] = ls($path);
+      if (is_file($path)) $output[] = $file;
+      }
+    }
+  closedir($handle);
+  return isset($output) ? $output : false;
+} // ls
+
+print_r( ls('.') );
+</pre></td></tr></table></p>
+
+</td></tr></table>
+
+<p><hr width="90%"></p>
+
+<a name="PHP Regular Expressions"></a>
+<p class="pageHeading">PHP Regular Expressions</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+
+<p><i>Regular Expressions</i> are patterns that are used to match portions
+of strings.  You define a regular expression using a syntax very similar
+to a common standard set by Perl.  Other languages use this same or similar
+syntax, including Javascript.</p>
+
+<p>A series of PHP functions are provided that operate on regular expressions,
+making it possible to define and reference complex string patterns.</p>
+
+<a name="Pattern Syntax"></a>
+<p class=minorPageHeading>Pattern Syntax</p>
+
+<p>The PCRE regular expression library is a set of functions that implement
+regular expression pattern matching using the same syntax and semantics as
+Perl 5, with just a few differences. The current implementation corresponds
+to Perl 5.005.  Regular expressions are also described in the Perl
+documentation and in a number of other books, some of which have copious
+examples. Jeffrey Friedl's "Mastering Regular Expressions", published by
+O'Reilly (ISBN 1-56592-257-3), covers them in great detail.</p>
+
+<p>A regular expression is a pattern that is matched against a subject
+string from left to right. Most characters stand for themselves in a pattern,
+and match the corresponding characters in the subject.</p>
+
+<p>For a good initial discussion of regular expression syntax, check the
+PHP manual:</p>
+
+<p><a target="_blank"
+  href="http://www.php.net/manual/en/reference.pcre.pattern.syntax.php">http://www.php.net/manual/en/reference.pcre.pattern.syntax.php</a></p>
+
+<p>Other very useful common references are:</p>
+
+<p><a href="http://zvon.org/other/PerlTutorial/Output/index.html">http://zvon.org/other/PerlTutorial/Output/index.html</a></p>
+
+<p><a href="http://www.regularexpressions.info/">http://www.regularexpressions.info/</a></p>
+
+<p><a href="http://www.regexlib.com/">http://www.regexlib.com/</a></p>
+
+<p><hr width="80%"></p>
+
+<a name="PHP Regular Expression Functions"></a>
+<p class=minorPageHeading>PHP Regular Expression Functions</p>
+
+<p class=mediumFixedText>preg_grep ( <i>pattern, input [, flags]</i> )</p>
+
+<p><code>preg_grep()</code> returns the array consisting of the elements of
+the input array that match the given pattern.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$array = array(1.2,23,'stuff','17.123',0.0002);
+
+// return all array elements
+//   containing floating point numbers
+$fl_array = preg_grep("/^(\d+)?\.\d+$/", $array);
+print_r ($fl_array);
+<hr>
+Array ( [0] => 1.2 [3] => 17.123 [4] => 0.0002 )</td>
+</tr></table></p>
+
+<p><hr width="80%"></p>
+
+<p><code><b>preg_match<br>
+ &nbsp; &nbsp; ( <i>pattern, subject, [&matches, options]</i> )</b></code></p>
+
+<p>Searches <i>subject</i> for a match to the regular expression given in
+<i>pattern,</i>.  If <i>matches</i> is provided, then it is filled with the
+results of search.  <i>$matches[0]</i> will contain the text that matched
+the full pattern, <i>$matches[1]</i> will have the text that matched the
+first captured parenthesized subpattern, and so on.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$subject = "abcdef def fred def defxyz";
+$pattern = '/def/';
+preg_match($pattern, $subject, $matches);
+echo '&lt;pre>'; print_r($matches);
+<hr>
+Array
+(
+    [0] => def
+)</td>
+</tr></table></p>
+
+<p><hr width="80%"></p>
+
+<p><code><b>preg_match_all<br>
+ &nbsp; &nbsp; ( <i>pattern, subject, [&matches, options]</i> )</b></code></p>
+
+<p>Searches <i>subject</i> for all matches to the regular expression given in
+<i>pattern</i> and puts them in <i>matches</i>. After the first match is
+found, the subsequent searches are continued on from end of the last match.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$subject = "abcdef def fred def defxyz";
+$pattern = '/def/';
+preg_match_all
+  ($pattern, $subject, $matches, PREG_OFFSET_CAPTURE);
+echo '&lt;pre>'; print_r($matches);
+<hr>
+Array
+(
+    [0] => Array
+        (
+            [0] => Array
+                (
+                    [0] => def
+                    [1] => 3
+                )
+            [1] => Array
+                (
+                    [0] => def
+                    [1] => 7
+                )
+            [2] => Array
+                (
+                    [0] => def
+                    [1] => 16
+                )
+            [3] => Array
+                (
+                    [0] => def
+                    [1] => 20
+                )
+        )
+)</td>
+
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>// get host name from URL
+preg_match('|^(http://)?([^/]+)|i',
+   "http://www.php.net/index.html", $matches);
+$host = $matches[2];  // www.php.net
+
+// get last two segments of host name
+preg_match('|[^\./]+\.[^\./]+$|', $host, $matches);
+echo "domain name is: {$matches[0]}\n";
+<hr>
+domain name is: php.net</td>
+</tr></table></p>
+
+</td></tr></table>
+
+<p><hr></p><!-- ------------------------------------------------------------- -->
+
+<a name="PHP and MySQL"></a>
+<p class="pageHeading">PHP and MySQL</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+
+<p>The course discussion so far has dealt primary with the use of "flat"
+data files.  Flat files are often considered feasible in very low to low
+volume websites as flat files have three inherent weaknesses:</p>
+
+<p><ol>
+  <li>The inability to index the data. This makes it necessary to potentially
+    read ALL the data sequentially. This is a major problem if there are a
+    lot of records in the flat file because the time required to read the
+    flat file is proportionate to the number of records in the flat
+    file.</li><br><br>
+
+  <li>The inability to efficiently control access by users to the
+    data.</li><br><br>
+
+  <li>The inefficient storage of the data. In most cases, the data would
+    not be encrypted or compressed as this would make indexing the data
+    even harder.</li>
+
+</ol></p>
+
+<p>As we've also seen, index files can also be built and utilized with
+direct-access methods to provide easier access to large quantities of data.
+The maintenance of these indexes and the direct-access file itself can
+become quite tedious in large applications, so a common practice is to
+utilize a common storage method that provides easy index maintenance and
+query-based access to the data.</p>
+
+<p>A common alternative, therefore, is a database.  One of the most
+prevalent databases in use is MySQL. Data that is stored in a MySQL database
+can easily be indexed, managed and stored efficiently.</p>
+
+<p>Websites scripted using PHP are very well suited for the MySQL database
+as PHP has a custom and integrated MySQL module that communicates very
+efficiently with MySQL.</p>
+
+<p>This discussion is designed to serve as a short introduction to the
+use of MySQL inside a PHP script.  Further study is required to understand
+the design of databases (both relational databases in general and MySQL
+specifically), and the proper access to them.</p>
+
+<p><hr width="80%"></p>
+
+<a name="Starting a Session with MySQL"></a>
+
+<p class=minorPageHeading>Starting a Session with MySQL</p>
+
+<p>Before the PHP script can communicate with the database to query, insert
+or update the database, the PHP script will first need to connect to the
+MySQL server and specify which database in the MySQL server to operate on.</p>
+
+<p>The <code>mysql_connect()</code> and <code>mysql_select_db()</code>
+functions are provided for this purpose. In order to connect to the
+MySQL server, the server name/address; a username; and a valid password is
+required. Once a connection is successful, the database needs to be
+specified.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>
+
+if (!@mysql_connect("<i>servername</i>", "<i>username</i>", "<i>password</i>"))
+  exit ("Cannot connect to DB!");
+
+if (!@mysql_select_db("<i>databasename</i>"))
+  exit ("Cannot select DB!");</td>
+</tr></table></p>
+
+<p><hr width="80%"></p>
+
+<a name="Executing SQL Statements against a MySQL database"></a>
+<p class=minorPageHeading>Executing SQL Statements against a MySQL database</p>
+
+<p>Once the connection and database selection is successfully performed, the
+PHP script can now proceed to operate on the database using standard SQL
+statements. The <code>mysql_query()</code> function is used for executing
+standard SQL statements against the database.<p>
+
+<p>The following example queries a table called <code>tbl_login</code> in
+the previously selected database to determine if a username/password pair
+provided by the user is valid.</p>
+
+<p>The commands perform the following tasks:</p>
+
+<p><ul>
+
+  <li>The <code>tbl_login</code> table has 3 columns named
+     <code>login, password, last_logged_in</code>.</li><br><br>
+     
+  <li>The <code>last_logged_in column</code> column in the table stores the
+      time that the user last logged into the system.</li><br><br>
+      
+  <li>A webform provides the user's name and password.</li>
+
+</ul></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>
+
+$username = $_POST['Username'];
+$passwd = $_POST['Password'];
+
+// Generate a SELECT SQL statement for execution.
+$query = "SELECT * FROM tbl_login WHERE " .
+         "login = \"$username\" AND password = \"$passwd\"";
+
+// Execute the SQL statement against the currently selected
+//   database.  The results will be stored in the $r variable.
+$r = mysql_query($query);
+
+// After the mysql_query() command executes, the $r variable
+//    is examined to determine of the mysql_query() was
+//    successfully executed.
+if (!$r) exit (mysql_error());
+
+// The mysql_affected_rows() function is used to check the
+//   results of the query.  The function will return the
+//   number of rows in the database table that was affected
+//   by the last query
+if (mysql_affected_rows() == 0)
+  echo "Username/password pair is invalid. Please try again.";
+
+else {
+  // If successful, read out the last logged in time into a
+  //   $last variable for display to the user
+  $row = mysql_fetch_array($r);
+  $last = $row["last_logged_in"];
+  print "Login successful. You last logged in at $last.";
+  }
+</td></tr></table></p>
+
+<p>The above example demonstrated how a SELECT SQL statement is executed
+against the selected database. The same method is used to execute other
+SQL statements (e.g. UPDATE, INSERT, DELETE, etc.) against the database
+using the <code>mysql_query()</code> and <code>mysql_affected_rows()</code>
+functions.</p>
+
+</td></tr></table>
+
+<p><hr width="90%"></p>
+
+<a name="PHP heredoc"></a>
+<p class="pageHeading">PHP heredoc</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+
+<p>The use of the PHP <code>echo</code> and <code>print</code> commands
+to display output has proven to provide a rich set of features, making it
+relatively easy to output both PHP variable data and HTML tag-based data.
+Both of these methods, however, due to their syntax, both limit the
+capabilities of these commands, as well as make the reading of PHP source
+code difficult at best in certain complicated situations.</p>
+
+<p>Some of the syntactic limitations of these commands are:</p>
+
+<p><ul>
+  <li>PHP variables can only be displayed either inside double-quoted
+    strings, or by themselves in the output expression (through the use
+    of concatenation):
+    
+    <p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>echo "Value is $datavalue\n";
+echo '&lt;input name="UserName" value="' . $username . '">';</td>
+</tr></table></p></li>
+
+  <li>Since HTML tags require the exclusive use of double-quotes to
+    delimit the various tag attribute fields, surrounding HTML tags in
+    PHP output commands creates a difficult-to-read coding environment:
+
+    <p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>echo "&lt;input name=\"UserName\" value=\"$username\">";</td>
+
+</tr></table></p></li>
+</ul></p>
+
+<p>A more-perfect world would allow the use of double-quotes without
+having to escape them (include a backslash), and allow the inclusion of
+variable references without having to use concatenation.</p>
+
+<p>The PHP <code>heredoc</code> notation comes to our rescue.  Here is the
+general syntax of the use of the <code>heredoc &lt;&lt;&lt;</code>
+operator:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>&lt;&lt;&lt; <i>identifier
+
+string data
+
+identifier</i>;</td>
+
+</tr></table></p>
+
+<p>You should provide an identifier after <code>&lt;&lt;&lt;</code>, then
+the string, and then the same identifier to close the quotation.</p>
+
+<p>The closing identifier must begin in the first column of the line. Also,
+the identifier used must follow the same naming rules as any other label
+in PHP: it must contain only alphanumeric characters and underscores, and
+must start with a non-digit character or underscore.</p>
+
+<p>It is very important to note that the line with the closing identifier
+contains no other characters, except possibly a semicolon (;). That means
+especially that the identifier may not be indented, and there may not be
+any spaces or tabs after or before the semicolon. It's also important to
+realize that the first character before the closing identifier must be a
+newline.</p>
+
+<p>If this rule is broken and the closing identifier is not "clean" then
+it's not considered to be a closing identifier and PHP will continue
+looking for one. If in this case a proper closing identifier is not
+found then a parse error will result with the line number being at the
+end of the script.</p>
+
+<p>Heredoc text behaves just like a double-quoted string, without the
+double-quotes. This means that you do not need to escape quotes in your
+heredocs, but you can still use other escape codes. Variables
+are expanded, but the same care must be taken when expressing complex
+variables inside a heredoc as with strings.</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>$str = <font color=red>&lt;&lt;&lt; EOD</font>
+Example of string
+spanning multiple lines
+using heredoc syntax.
+<font color=red>EOD;</font>
+
+$name = 'Fred';
+$table = array('x',23,'test');
+
+echo <font color=red>&lt;&lt;&lt; DELIMITER</font>
+My name is "$name". I am printing {$table[0]}.
+The above string value is $str.
+
+&lt;input name="Sample" value="$name">
+<font color=red>DELIMITER;</font></td>
+
+</tr></table></p>
+
+<p>There <code>heredoc</code> notation, therefore, can make complex
+printing tasks much easier to not only write but to view as source.
+Here are some common examples of <i>real</i> code that <i>screams</i>
+for the use of the <code>heredoc</code> notation:</p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>// generate SQL string
+$sql_string = "INSERT INTO naamah (TXT_Artist, TXT_Album, TXT_Song, " .
+  "TXT_Quality, TXT_Name, TXT_Path, NUM_Year, NUM_Length, " .
+  "NUM_Genre, NUM_Track, NUM_CD, NUM_Size, DAT_Date, NUM_Kat) VALUES ";
+$sql_string = $sql_string."(".chr(34).$txt_artist.chr(34).", ".chr(34);
+$sql_string = $sql_string.$txt_album.chr(34).", ".chr(34);
+$sql_string = $sql_string.$txt_song.chr(34).", ".chr(34);
+$sql_string = $sql_string.$txt_quality.chr(34).", ".chr(34);
+$sql_string = $sql_string.$txt_name.chr(34).", ".chr(34);
+$sql_string = $sql_string.$txt_path.chr(34).", ";
+$sql_string = $sql_string.$num_year.", ";
+$sql_string = $sql_string.$num_length.", ";
+$sql_string = $sql_string.$num_genre.", ";
+$sql_string = $sql_string.$num_track.", ";
+$sql_string = $sql_string.$num_cd.", ";
+$sql_string = $sql_string.$num_size.", ";
+$sql_string = $sql_string.chr(34).$dat_date.chr(34).", ";
+$sql_string = $sql_string.$num_kat.");";
+
+<hr>
+
+$sql_string = <<< EOT
+INSERT INTO musicDatabase (TXT_Artist, TXT_Album, TXT_Song,
+  TXT_Quality, TXT_Name, TXT_Path, NUM_Year, NUM_Length,
+  NUM_Genre, NUM_Track, NUM_CD, NUM_Size, DAT_Date, NUM_Kat) VALUES
+
+  ("$txt_artist", "$txt_album", "$txt_song", "$txt_quality",
+   "$txt_name", "$txt_path", "$num_year", "$num_length",
+   "$num_genre", "$num_track", "$num_cd", "$num_size",
+   "$dat_date", "$num_kat" );
+EOT;</td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>&lt;tr>&lt;td class="form1">&lt;b>Artist&lt;/b>&lt;/td>
+  &lt;td class="form2">&lt;input size="50" name="txt_artist"
+    value="<font color=blue>&lt;? echo $db['TXT_Artist']; ?></font>">&lt;/td>&lt;/tr>
+
+&lt;tr>&lt;td class="form1">&lt;b>Track nr / title&lt;/b>&lt;/td>
+  &lt;td class="form2">&lt;input size="3" name="num_track"
+    value="<font color=blue>&lt;? echo $db['NUM_Track']; ?></font>">&ampnbsp;
+    &lt;input size="44" name="txt_song"
+      value="<font color=blue>&lt;? echo $db['TXT_Song']; ?></font>">&lt;/td>
+&lt;/tr>
+&lt;tr>&lt;td class="form1">&lt;b>Album title&lt;/b>&lt;/td>
+  &lt;td class="form2">&lt;input size="50" name="txt_album"
+    value="<font color=blue>&lt;? echo $db['TXT_Album']; ?></font>">&lt;/td>
+
+&lt;/tr>
+&lt;tr>&lt;td class="form1">&lt;b>Release year&lt;/b>&lt;/td>
+  &lt;td class="form2">&lt;input size="50" name="num_year"
+    value="<font color=blue>&lt;? echo ($db['NUM_Year'] > 0) ?
+               $db['NUM_Year'] : "0"; ?></font>">&lt;/td>
+&lt;/tr>
+
+<hr>
+
+$year = $db['NUM_Year'] > 0) ? $db['NUM_Year'] : "0";
+
+echo &lt;&lt;&lt; EOT
+
+
+&lt;tr>&lt;td class="form1">&lt;b>Artist&lt;/b>&lt;/td>
+  &lt;td class="form2">&lt;input size="50" name="txt_artist"
+    value="{$db['TXT_Artist']}">&lt;/td>&lt;/tr>
+&lt;tr>&lt;td class="form1">&lt;b>Track nr / title&lt;/b>&lt;/td>
+  &lt;td class="form2">&lt;input size="3" name="num_track"
+      value="{$db['NUM_Track']}">&ampnbsp;
+
+    &lt;input size="44" name="txt_song"
+      value="{$db['TXT_Song']}">&lt;/td>
+&lt;/tr>
+&lt;tr>&lt;td class="form1">&lt;b>Album title&lt;/b>&lt;/td>
+  &lt;td class="form2">&lt;input size="50" name="txt_album"
+    value="{$db['TXT_Album']}">&lt;/td>
+&lt;/tr>
+&lt;tr>&lt;td class="form1">&lt;b>Release year&lt;/b>&lt;/td>
+  &lt;td class="form2">&lt;input size="50" name="num_year"
+    value="$year">&lt;/td>
+
+&lt;/tr>
+EOT;</td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>
+echo "&lt;br>&lt;a href=\"#top\">&lt;b>Top&lt;/b>&lt;/a>\n";
+echo "&lt;hr>\n";
+echo "&lt;a name=\"bottom\">&lt;/a>\n";
+echo "&lt;b>Click the button below to generate the SQL script and add ";
+echo "the files to the database.&lt;/b>&lt;br>\n";
+echo "&lt;br>&lt;br>\n";
+echo "&lt;input type=\"submit\" name=\"Save\" value=\"Save Data\">\n";
+echo "&lt;input type=\"hidden\" name=\"filecount\" value=\"";
+echo $filecount . "\">\n";
+echo "&lt;/form>\n";
+
+
+<hr>
+
+echo <<< EOT
+&lt;br>&lt;a href="#top">&lt;b>Top&lt;/b>&lt;/a>
+&lt;hr>
+&lt;a name="bottom">&lt;/a>
+&lt;b>Click the button below to generate the SQL script and add
+the files to the database.&lt;/b>&lt;br>
+
+&lt;br>&lt;br>
+&lt;input type="submit" name="Save" value="Save Data">
+&lt;input type="hidden" name="filecount" value="$filecount">
+&lt;/form>
+EOT;</td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre>
+
+&lt;tr class="form1">
+  &lt;td nowrap>&nbsp;&lt;/td>
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;/td>
+  &lt;td>&lt;/td>
+
+  <font color=blue>&lt;? if (!$as_album) { ?></font>
+
+      &lt;td nowrap>&lt;/td>
+      &lt;td>&lt;/td>
+      &lt;td nowrap>&lt;b>Artist&lt;/b>&lt;/td>
+      &lt;td>&lt;/td>
+      &lt;td nowrap>&lt;b>Track title&lt;/b>&lt;/td>
+  <font color=blue>&lt;? } else { ?></font>
+
+      &lt;td colspan="5" nowrap>&lt;b>Artist&lt;/b>&lt;/td>
+  <font color=blue>&lt;? } ?></font>
+
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;b>Album title&lt;/b>&lt;/td>
+  &lt;td>&nbsp;&lt;/td>
+
+  <font color=blue>&lt;? if (!$as_album) { ?></font>
+
+      &lt;td nowrap>&lt;b>Year&lt;/b>&lt;/td>
+      &lt;td>&lt;/td>
+      &lt;td nowrap>&lt;b>Quality&lt;/b>&lt;/td>
+  <font color=blue>&lt;? } else { ?></font>
+      &lt;td colspan="3" nowrap>&lt;b>Year&lt;/b>&lt;/td>
+  <font color=blue>&lt;? } ?></font>
+
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;b>CD nr&lt;/b>&lt;/td>
+  &lt;td>&lt;/td>
+  &lt;td width="3" nowrap>&lt;b>Category&lt;/b>&lt;/td>
+&lt;/tr>
+
+<hr>
+
+$albumMsg = &lt;&lt;&lt; EOT
+  &lt;td nowrap>&lt;/td>
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;b>Artist&lt;/b>&lt;/td>
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;b>Track title&lt;/b>&lt;/td>
+EOT;
+
+$album1 = (!$as_album) ? $albumMsg :
+  '&lt;td colspan="5" nowrap>&lt;b>Artist&lt;/b>&lt;/td>';
+
+$album2 = (!$as_album) ? '
+  &lt;td nowrap>&lt;b>Year&lt;/b>&lt;/td>
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;b>Quality&lt;/b>&lt;/td>' :
+  '&lt;td colspan="3" nowrap>&lt;b>Year&lt;/b>&lt;/td>';
+    
+echo &lt;&lt;&lt; EOT
+
+&lt;tr class="form1">
+  &lt;td nowrap>&nbsp;&lt;/td>
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;/td>
+  &lt;td>&lt;/td>
+  <font color=blue>$album1</font>
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;b>Album title&lt;/b>&lt;/td>
+  &lt;td>&nbsp;&lt;/td>
+  <font color=blue>$album2</font>
+
+  &lt;td>&lt;/td>
+  &lt;td nowrap>&lt;b>CD nr&lt;/b>&lt;/td>
+  &lt;td>&lt;/td>
+  &lt;td width="3" nowrap>&lt;b>Category&lt;/b>&lt;/td>
+&lt;/tr>
+EOT;</td>
+</tr></table></p>
+
+</td></tr></table>
+
+<p><hr></p><!-- ------------------------------------------------------------- -->
+
+<!--
+
+Topics:
+
+  working with lists  list (x,y,z) = array(...)
+  regular expressions
+  SQL access
+  heredoc
+  examples and rules of displaying using echo and heredoc
+
+  sessions
+  Features that PHP (as an interpreted language) can do that a compiled
+         language can't
+    change variable types on the fly
+    create a variable name during execution and then reference it
+       $x = 'test';   $$x = 12;  echo $test;
+    pass by name
+    create code on the fly and execute it
+
+
+<p><hr width="90%"></p>
+
+<a name=""></a>
+<p class="pageHeading">template</p>
+
+<table width="85%" class="secondaryComments" align=center><tr><td>
+</td></tr></table>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="code">
+<pre></td>
+</tr></table></p>
+
+<p><table border=1 cellpadding=10 align=center><tr><td class="codeDisplay">
+<pre></pre></td>
+</tr></table></p>
+
+<a name=""></a>
+<p class=largeFixedText></p>
+
+<a name=""></a>
+<p class=mediumFixedText></p>
+
+<p><hr width="80%"></p>
+
+<a name=""></a>
+<p class=minorPageHeading></p>
+
+
+
+// table of names/commands and descriptions
+<p><table cellpadding=6>
+<tr><td class=largeFixedText> </td>
+    <td class=listItems> </td></tr>
+</table></p>
+
+-->
