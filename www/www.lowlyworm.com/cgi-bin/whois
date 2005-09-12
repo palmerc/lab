@@ -1,0 +1,79 @@
+#!/usr/bin/perl -w
+ 
+use Net::Whois::Raw;
+use CGI qw(:standard);
+use URI::Escape;
+
+sub initial_request_form();
+sub url_encode($);  # args: string_to_encode
+sub url_decode($);  # args: string_to_decode
+sub result_page($$);  # args: message
+
+print "Content-type: text/html\n\n";
+print "<HTML>\n<HEAD>\n<TITLE>Domain Name Information Provided by WHOIS\n</TITLE>\n</HEAD>\n<BODY>\n";
+
+if ($ENV{'REQUEST_METHOD'} eq "POST") {
+   my $inputline = <STDIN>;
+   my @valpairs = split(/&/,$inputline);
+   foreach $pair (@valpairs) {
+      my ($key,$value) = split(/=/,$pair);
+      $key = url_decode($key);
+      $form{$key} = url_decode($value);
+   }
+   my $whoisresults = whois($form{'domainname'});
+   result_page($form{'domainname'},$whoisresults);
+}
+else {
+   initial_request_form();
+}
+
+print "</BODY>\n</HTML>\n";
+
+
+#################################################################
+### 
+###
+###	BEGIN SUBROUTINE SECTION
+###
+###
+#################################################################
+
+sub initial_request_form() {
+   print <<END_OF_INITIAL;
+<H1>Domain Name Information Provided by WHOIS</H1>
+<FORM action=whois enctype=application/x-www-form-urlencoded method=post>
+<P>Enter Domain Name: <INPUT type=text name=domainname size=10></P>
+<INPUT type=submit>
+<HR>
+<P>Insert Instructions Here</P>
+</FORM>
+END_OF_INITIAL
+}
+
+sub url_encode($) {
+   my $string = shift(@_);
+ 
+   return uri_escape($string);
+}
+ 
+sub url_decode($) {
+   my $string = shift(@_);
+ 
+   return uri_unescape($string);
+}
+
+sub result_page($$) {
+   my $domain = shift(@_);
+   my $message = shift(@_);
+ 
+   print <<END_OF_RESULT_PAGE;
+<H1>WHOIS Result - $domain</H1>
+<A href="whois">Start Over</A>
+<HR>
+<H1>
+<PRE>$message</PRE>
+</H1>
+<HR>
+<A href="whois">Start Over</A>
+END_OF_RESULT_PAGE
+}

@@ -1,0 +1,134 @@
+#!/usr/bin/perl
+
+## Load RADIUS Authentication module
+use Authen::Radius;
+use CGI qw(:standard);
+use URI::Escape;
+
+@hosts = ("rsa-ace-master.it.stsj.seagate.com","rsa-ace-slave.ang.sing.seagate.com");
+$secret = "checkpoint";
+
+$r = new Authen::Radius(Host => $hosts[0], Secret => $secret, TimeOut => 5);
+sub initial_request_form();
+sub access_challenge_form($$$);  # args: state user passwd message
+sub result_page($$);  # args: message
+sub url_encode($);  # args: string_to_encode
+sub url_decode($);  # args: string_to_decode
+
+print "Content-type: text/html\n\n";
+print "<HTML>\n<HEAD>\n<TITLE>ACE SecurID Test and PIN Generation\n</TITLE>\n</HEAD>\n<BODY>\n";
+
+if ($ENV{'REQUEST_METHOD'} eq "POST") {
+   my $inputline = <STDIN>;
+   my @valpairs = split(/&/,$inputline);
+   foreach $pair (@valpairs) {
+      my ($key,$value) = split(/=/,$pair);
+      $key = url_decode($key);
+      $form{$key} = url_decode($value);
+   }
+   my $returnvalue = $r->check_pwd($form{'gid'}, $form{'tokencode'}, $form{'state'});
+   if ($returnvalue == 11) {
+      my @attr = $r->get_attributes;
+      foreach $ind_attr (@attr) {
+         if ($ind_attr->{'Name'} eq "18") {
+            $message = $ind_attr->{'Value'};
+         }
+         if ($ind_attr->{'Name'} eq "24") {
+            $form{'state'} = $ind_attr->{'Value'};
+         }
+      }
+      access_challenge_form($form{'state'},$form{'gid'},$message);
+   } else {
+      if ($returnvalue == 2) {
+         my @attr = $r->get_attributes;
+         $message = "Passcode Accepted";
+         foreach $ind_attr (@attr) {
+            if ($ind_attr->{'Name'} eq "18") {
+               $message = $ind_attr->{'Value'};
+               last;
+            }
+	 }
+         result_page($form{'gid'},$message);
+      } else {
+         my @attr = $r->get_attributes;
+         $message = "Passcode Denied";
+         foreach $ind_attr (@attr) {
+            if ($ind_attr->{'Name'} eq "18") {
+               $message = $ind_attr->{'Value'};
+               last;
+            }
+         }
+         result_page($form{'gid'},$message);
+      }
+   }
+} else {
+   initial_request_form();
+}
+
+print "</BODY>\n</HTML>\n";
+
+#
+# Define subroutines
+#
+
+sub initial_request_form() {
+   print <<END_OF_HTML;
+<H1>ACE SecurID Test and PIN Generation</H1>
+<FORM action=pinchange enctype=application/x-www-form-urlencoded method=post>
+<P>Enter Global ID: <INPUT type=text name=gid maxlength=10 size=10></P>
+<P>Enter Passcode: <INPUT type=password name=tokencode maxlength=10 size=10></P>
+<INPUT type=submit>
+<HR>
+<P>If you need to create a PIN, because you have received a new SecurID token or you have been instructed by the Help Desk to change your PIN, simply enter the 6-digit number currently displayed on your token.  If you need to have your PIN reset you must contact the Help Desk first.  Otherwise you can test your token by entering your Global ID and Passcode (PIN + 6-digit number currently on token).</P> 
+<BR><A href="http://gfo.seagate.com/">GFO Home Page</A>
+</FORM>
+END_OF_HTML
+}
+
+sub access_challenge_form($$$) {
+   my $state = shift(@_);
+   my $user = shift(@_);
+   my $message = shift(@_);
+
+   print <<END_OF_HTML;
+<H1>SecurID Challenge - $user</H1>
+<HR>
+$message
+<HR>
+<FORM action=pinchange enctype=application/x-www-form-urlencoded method=post>
+<INPUT type=hidden name=gid value="$user">
+<INPUT type=hidden name=state value="$state">
+<P>Answer: <INPUT type=text name=tokencode maxlength=10 size=10></P>
+<INPUT type=submit>
+</FORM>
+END_OF_HTML
+}
+
+sub result_page($$) {
+   my $user = shift(@_);
+   my $message = shift(@_);
+
+   print <<END_OF_HTML;
+<H1>SecurID Test Result - $user</H1>
+<HR>
+<H1>
+$message
+</H1>
+<HR>
+<A href="pinchange">Perform Another Test</A>
+<BR>
+<A href="http://gfo.seagate.com/">GFO Home Page</A>
+END_OF_HTML
+}
+
+sub url_encode($) {
+   my $string = shift(@_);
+
+   return uri_escape($string);
+}
+
+sub url_decode($) {
+   my $string = shift(@_);
+
+   return uri_unescape($string);
+}
