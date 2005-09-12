@@ -1,0 +1,52 @@
+#!/usr/bin/perl
+
+### Subroutines prototyped
+sub print_report();
+
+$read_chunk_size = 16;
+$display_width = 16;
+### Process the command line arguments 
+### Basically grab the filename to read in and process 
+while ($arg = shift(@ARGV)) {
+    push (@cloptions,$arg);
+}
+
+$filename = $cloptions[0];
+print $filename . "\n";
+
+if (-r $filename) { ### Check to make sure file exists and is readable
+    open(TYFILE_READ,$filename);
+}
+ else {
+    die "Unable to open file $filename\n";
+}
+
+### Loop until EOF is read
+while (sysread(TYFILE_READ, $read_data, $read_chunk_size)) { 
+   @array_of_data = split(//, $read_data);
+   map {$_ = join("",unpack("H*", $_)); } @array_of_data;
+
+   for ($index = 0; $index <= $#array_of_data; $index++) {
+      print $array_of_data[$index] . " ";
+   }
+   print "\n";
+} 
+### End of main while loop upon reaching EOF 
+
+close(TYFILE_READ);
+
+
+### SUBROUTINES SECTION
+sub tystream_processor() {
+
+$MPEG_START = "000001";
+$M2_VIDSEQ = "B3";
+$M2_SEQEXT = "B5";
+$M2_GRPHDR = "B8";
+$M2_PICHDR = "00";
+$M2_PICEXT = "B5";
+$PES_VID = "E0";
+$PES_AUD = "C0";
+$PES_END = "FFFF";
+
+

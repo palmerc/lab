@@ -1,0 +1,145 @@
+#!/usr/bin/perl
+
+### Subroutines prototyped
+sub tystream_processor();
+
+$read_chunk_size = 262144;
+### Process the command line arguments 
+### Basically grab the filename to read in and process 
+while ($arg = shift(@ARGV)) {
+    push (@cloptions,$arg);
+}
+
+$filename = $cloptions[0];
+sysopen (FILE, $filename, O_RDONLY); # || die "Unable to open file: $!\n";  
+
+   ### Defined MPEG start codes and header types 
+   $MPEG_START = "000001";
+   $M2_VIDSEQ = "B3";
+   $M2_SEQEXT = "B5";
+   $M2_GRPHDR = "B8";
+   $M2_PICHDR = "00";
+   $M2_PICEXT = "B5";
+   $PES_VID = "E0";
+   $PES_AUD = "C0";
+   $PES_END = "FFFF";
+
+   $check_magic = 1;
+   $check_TOC = 1;
+   $first_pass = 1;
+   $lineposition = 0; 
+   $actualread = 1;
+
+   while ($actualread = sysread(FILE, $read_data, $read_chunk_size)) {
+      @buf = split(//, $read_data);
+      map {$_ = join("",unpack("H*", $_)); } @buf;
+   while ($i < $actualread) {
+      ### Deal with first four bytes. If consistent data can be found in fourth
+      ### byte (0x80) as a signature of tystreams we could add logic to check
+      ### for this.
+
+      if ($check_magic == 1) {
+         $BYTE_0 = $buf[0]; ### Number of records in TOC
+         $BYTE_1 = $buf[1]; ### Should be 0x00
+         $BYTE_2 = $buf[2]; ### Should be 0x00
+         $BYTE_3 = $buf[3]; ### Expect 0x80 Signature?
+
+         print "\n\n****** TYSTREAM Report File ******\n\n";
+         print $filename . "\n";
+         print "Number of TOC records 0x" . $BYTE_0 . "\n";
+         print (join(" ","First Four -",$BYTE_0,$BYTE_1,$BYTE_2,$BYTE_3) . "\n\n"); 
+         $check_magic = 0;
+      } #ENDIF
+
+      if ($check_TOC == 1) {
+         print "*** TYSTREAM Table Of Contents ***\n";
+         $TOCount = hex($BYTE_0 .= "0");
+         $TOCount += 4; ### Skip the preamble as you process the TOC
+         for ($lc = 4; $lc < $TOCount; $lc++) {
+            if ($lineposition == 15) {
+               print $buf[$lc] . "\n";
+               $lineposition = 0; 
+            } else {
+               print $buf[$lc] . " "; 
+               $lineposition++;
+            } #END 
+         } #ENDFOR 
+         $i = $TOCount;
+         print $i . " "; 
+         $bytecount = $TOCount;
+         $check_TOC = 0;
+      } #ENDIF 
+      
+      if ($first_pass == 1) {
+         print "\n\n****** TYSTREAM Body of Data ******\n\n";
+         $first_pass = 0;
+      }
+
+
+      if (($buf[$i] eq "00") && ($buf[$i+1] eq "00") && ($buf[$i+2] eq "01")) {
+         print "\n\nByte count so far " . $bytecount . "\n";
+         $lineposition = 0;
+         $startcode_present = 1;
+         if ($buf[$i+3] eq "e0") {
+            print "\n\nTiVo MPEG-2 PES Video Header\n"; 
+            $video_segment = 1;
+         } 
+         elsif ($buf[$i+3] eq "c0") { 
+            print "\n\nTiVo MPEG-1 PES Audio Header\n";
+            $audio_segment = 1;
+         }
+         elsif ($buf[$i+3] eq "b3") {
+            print "\n\nMPEG-2 Video Sequence\n";
+            $video_seq = 1;
+         } 
+         elsif ($buf[$i+3] eq "b8") {
+            print "\n\nMPEG-2 Group Header\n";
+         } 
+         elsif ($buf[$i+3] eq "00") {
+            print "\n\nMPEG-2 Picture Header\n";
+            $picture_header = 1;
+         } 
+         elsif ($buf[$i+3] eq "b5") {
+            if ($picture_header == 1) {
+               print "\n\nPicture Coding Extension\n";
+               $picture_header = 0;
+            }
+            elsif ($video_seq == 1) {
+               print "\n\nSequence Header Extension\n";
+               $video_seq = 0;
+            } else {
+               print "\n\nEncountered unknown extension header";
+            }
+         } else {
+            print "\n\nSegment number " . $buf[$i+3] . "\n"; 
+         }
+      } else {
+         $startcode_present = 0;
+      }
+
+      if (($buf[$i] eq "ff") && ($buf[$i+1] eq "fd")) {
+         print "\n\nByte count so far " . $bytecount . "\n";
+         print "\n\nMPEG-1 Audio Segment\n";
+         $lineposition = 0;
+         $startcode_present = 1;
+      }
+ 
+      if ($startcode_present == 1) {
+         print "\n" . $buf[$i] . " ";
+         $startcode_present = 0;
+         $lineposition++;
+      } else {
+         if ($lineposition == 15) {
+            print $buf[$i] . "\n";
+            $lineposition = 0;
+        } else {
+            print $buf[$i] . " ";
+            $lineposition++;
+        } 
+      }
+     $bytecount++;
+     $i++;
+   }
+   $i = 0;
+   } #ENDWHILE 
+close (FILE);

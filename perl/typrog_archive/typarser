@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+
+$MPEG_START = "000001";
+$M2_VIDSEQ = "B3";
+$M2_SEQEXT = "B5";
+$M2_GRPHDR = "B8";
+$M2_PICHDR = "00";
+$M2_PICEXT = "B5";
+$PES_VID = "E0";
+$PES_AUD = "C0";
+$PES_END = "FFFF";
+$chunk_size = 262144;  
+
+while ($arg = shift(@ARGV)) { push (@cloptions,$arg); }
+$filename = $cloptions[0];
+sysopen (FILE, $filename, O_RDONLY) || die "Unable to open file: $!\n"; 
+
+while ($actualread = sysread(FILE, $read_data, $chunk_size)) {
+   @raw_data = split(//, $read_data);
+   map {$_ = join("",unpack("H*", $_)); } @raw_data;
+
+   ### All processing of the given data chunk must occur within this loop or we
+   ### will need to rethink the whole program. Not to forget that we want to
+   ### make sure that transition from current to next block doesn't create any
+   ### errors in processing.
+   for ($raw_data[$index]) {
+      if ($raw_data[$index
+      $index++;
+   }
+}
+
+close(FILE);

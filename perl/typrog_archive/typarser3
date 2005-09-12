@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+
+$MPEG_START = "000001";
+$M2_VIDSEQ = "B3";
+$M2_SEQEXT = "B5";
+$M2_GRPHDR = "B8";
+$M2_PICHDR = "00";
+$M2_PICEXT = "B5";
+$PES_VID = "E0";
+$PES_AUD = "C0";
+$PES_END = "FFFF";
+$chunk_size = 262144;  
+
+while ($arg = shift(@ARGV)) { push (@cloptions,$arg); }
+$filename = $cloptions[0];
+sysopen (FILE, $filename, O_RDONLY) || die "Unable to open file: $!\n"; 
+
+$threecount = 0;
+$stfirst = 0; 
+$stsecond = 0;
+$stthird = 0;
+while ($actualread = sysread(FILE, $read_data, $chunk_size)) {
+   @raw_data = split(//, $read_data);
+   map {$_ = join("",unpack("H*", $_)); } @raw_data;
+
+   ### All processing of the given data chunk must occur within this loop or we
+   ### will need to rethink the whole program. Not to forget that we want to
+   ### make sure that transition from current to next block doesn't create any
+   ### errors in processing.
+   for (@raw_data) {
+       $previous_data[$index] = $_;
+       $index++;
+       ### FIND THOSE START CODES!
+       if ($_ eq "00") { 
+          if ($stfirst == 0 && $stsecond == 0 && $stthird == 0) { 
+             $threecount = $index;
+             $stfirst = 1;
+             $stsecond = 0;
+             $stthird = 0;
+          } 
+          elsif ($stfirst == 1 && $stsecond == 0 && $stthird == 0 && ($index - $threecount) == 1) {
+             $stfirst = 1;
+             $stsecond = 1;
+             $stthird = 0;
+          } elsif ($stfirst == 1 && $stsecond == 1 && $stthird == 0 && ($index - $threecount) == 2) {
+             $stfirst = 1;
+             $stsecond = 0;
+             $threecount--;
+          }
+       }
+       if ($_ eq "01") {
+          if ($stfirst == 1 && $stsecond == 1 && $stthird == 0 && ($index - $threecount) == 2) {
+             $stfirst = 1;
+             $stsecond = 1;
+             $stthird = 1;
+          } else {
+             $stfirst = 0;
+             $stsecond = 0;
+             $stthird = 0;
+          }
+       }
+       if ($stfirst == 1 and $stsecond == 1 and $stthird == 1) {
+          $currentheader = 1; 
+          $stfirst = 0;
+          $stsecond = 0;
+          $stthird = 0;
+          $position = 0;
+       }
+       if ($currentheader == 1) {
+          $currentheader = 0;
+          $index = 0;
+          print "\n\n"; 
+          for (1..3) {
+             $value = pop @previous_data; 
+             print $value . " "; 
+          }
+          print "\n" . (join(" ",$stfirst, $stsecond, $stthird) . "\n"); 
+          for (@previous_data) {
+             if ($position == 15) {
+                print $_ . "\n";
+                $position = 0;
+             } else {
+                print $_ . " ";
+                $position++;
+             }
+          }
+          @previous_data = (); 
+       } 
+   }
+}
+
+close(FILE);

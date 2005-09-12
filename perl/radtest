@@ -1,0 +1,13 @@
+#!/usr/bin/perl
+
+use Authen::Radius;
+
+$r = new Authen::Radius(Host => 'masterace.stsj.seagate.com', Secret => 'checkpoint');
+print "auth result=", $r->check_pwd('root', '6363'), "\n";
+@resultarray = $r->get_attributes;
+print scalar @resultarray . "\n"; 
+foreach $pair (@resultarray) {
+   while (($key,$value) = each %$pair) {
+      print "$key=$value\n";
+  }
+}

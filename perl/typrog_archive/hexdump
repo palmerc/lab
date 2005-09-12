@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+
+
+$chunk_size = 4096;  
+
+while ($arg = shift(@ARGV)) { push (@cloptions,$arg); }
+$filename = $cloptions[0];
+sysopen (FILE, $filename, O_RDONLY) || die "Unable to open file: $!\n"; 
+
+while ($actualread = sysread(FILE, $read_data, $chunk_size)) {
+   @array_data = split(//, $read_data);
+   map {$_ = join("",unpack("H*", $_)); } @array_data;
+
+   for (@array_data) {
+      if ($lpos == 15) {
+         print $_ . "\n";
+         $lpos = 0;
+      } else {
+         print $_ . " ";
+         $lpos++;
+      } 
+   }
+}
+
+close(FILE);
