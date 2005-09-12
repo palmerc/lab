@@ -1,0 +1,79 @@
+#!/usr/local/bin/php -q
+<?
+
+define(SUFFIX, "dc=seagate, dc=com");
+
+error_reporting(4);
+
+if ($argc < 2)
+    exit("usage: $argv[0] passwd-file\n");
+
+if (! ($f = fopen($argv[1], "r")))
+    exit("Coudln't open '$argv[1]' for read\n");
+
+while (! feof($f))
+{
+    $line = chop(fgets($f, 10240));
+    if (feof($f))
+        break;
+    $pwent = explode(":", $line);
+    if ($pwent[2] < 100)
+        continue;
+    $e = 0;
+    $ldifent[$e++] = "dn: uid=$pwent[0], ou=People, " . SUFFIX . "\n";
+
+    $ldifent[$e++] = "objectClass: top\n";
+
+    $ldifent[$e++] = "objectClass: organizationalPerson\n";
+
+    $ldifent[$e++] = "objectClass: posixAccount\n";
+
+    $ldifent[$e++] = "objectClass: shadowAccount\n";
+
+    $ldifent[$e++] = "uid: $pwent[0]\n";
+
+    if ($pwent[1])
+        $ldifent[$e++] = "userPassword: {crypt}$pwent[1]\n";
+    else {
+        $ldifent[$e++] = "userPassword: {crypt}*NP*\n";
+    }
+
+    $ldifent[$e++] = "uidNumber: $pwent[2]\n";
+
+    $ldifent[$e++] = "gidNumber: $pwent[3]\n";
+
+    if ($pwent[4])
+        $ldifent[$e++] = "gecos: $pwent[4]\n";
+    else
+        $ldifent[$e++] = "gecos: $pwent[0]\n";
+
+    if ($pwent[5])
+        $ldifent[$e++] = "homeDirectory: " . $pwent[0] . "\n";
+    else
+        $ldifent[$e++] = "homeDirectory: /\n";
+
+    if ($pwent[6])
+        $ldifent[$e++] = "loginShell: $pwent[6]\n";
+    else
+        $ldifent[$e++] = "loginShell: /bin/noshell\n";
+
+    $ldifent[$e++] = "cn: $pwent[0]\n";
+
+    $ldifent[$e++] = "sn: $pwent[0]\n";
+    for ($ctr = 0; $ctr < count($ldifent); $ctr++)
+    {
+        if ($ldifent[$ctr])
+            echo $ldifent[$ctr];
+    }
+    echo "shadowlastchange: -1\n";
+    echo "shadowmin: -1\n";
+    echo "shadowmax: -1\n";
+    echo "shadowwarning: -1\n";
+    echo "shadowinactive: -1\n";
+    echo "shadowexpire: -1\n";
+    echo "shadowflag: -1\n";
+    echo "description: -1\n\n";
+    unset($ldifent);
+    unset($pwent);
+}
+?>
