@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <title>
+      Firefox Theme Installer
+    </title>
+<script type="text/javascript">
+      function installTheme(aJarPath, aSkinName) {  
+        var jarFile = aJarPath;
+        var skinName = aSkinName;
+        InstallTrigger.installChrome(InstallTrigger.SKIN, jarFile, skinName);
+      }
+</script>
+  </head>
+  <body>
+    <p>
+
+      <button onclick="
+      installTheme('http://cameronpalmer.com/files/firefox/themes/standard.jar', 'Firefox Standard')">
+      Install Firefox Standard Theme</button>
+    </p>
+    <p>
+      <button onclick="
+      installTheme('http://cameronpalmer.com/files/firefox/themes/fedora.jar', 'Firefox Fedora')">
+      Install Firefox Fedora Theme</button>
+    </p>
+  </body>
+</html>

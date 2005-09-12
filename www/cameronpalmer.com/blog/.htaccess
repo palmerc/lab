@@ -1,0 +1,30 @@
+# alb0000.htm is for the album.  People other than myself probably don't need
+# this.
+DirectoryIndex index.php index.shtml index.html index.htm alb0000.htm
+
+# Replace these with php scripts to make guesses as to what the user was
+# really looking for.  I'm lazy.
+
+RewriteEngine On
+
+RewriteBase /blog/
+
+RewriteRule ^a$ ./ [R=302,L]
+
+RewriteRule ^ark/([0-9]+)/([0-9]+)/([0-9]+)/([^/]+)$ ./item.php?y=$1&m=$2&d=$3&t=$4 [NC,L]
+
+RewriteRule ^ark/$ ./ark [R=301,L]
+RewriteRule ^ark/([0-9]+)/$ ./ark/$1 [R=301,L]
+RewriteRule ^ark/([0-9]+)/([0-9]+)/$ ./ark/$1/$2 [R=301,L]
+RewriteRule ^ark/([0-9]+)/([0-9]+)/([0-9]+)/$ ./ark/$1/$2/$3 [R=301,L]
+
+RewriteRule ^ark$ ./archive.php?t=c [NC,L]
+RewriteRule ^ark/([0-9]+)$ ./archive.php?t=y&y=$1 [NC,L]
+RewriteRule ^ark/([0-9]+)/([0-9]+)$ ./archive.php?t=m&y=$1&m=$2 [NC,L]
+RewriteRule ^ark/([0-9]+)/([0-9]+)/([0-9]+)$ ./archive.php?t=d&y=$1&m=$2&d=$3 [NC,L]
+
+
+RewriteRule ^rss/2.0$ ./index.php?rss=2 [NC,L]
+RewriteRule ^rss/full/2.0$ ./index.php?rss=2&fp=1 [NC,L]
+
+RewriteRule ^about$ ./about.php [NC,L]

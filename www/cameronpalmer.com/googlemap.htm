@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>
+      PrincessCraft GoogleMap Test
+    </title>
+<script src="http://maps.google.com/maps?file=api&amp;v=1&amp;key=ABQIAAAAOIETG0E0dKjOTufoxp5V2hSkKvSN7SEoe8SIEWfgQbA_uxQPiBQE8HWSKDxNcLxYG-BNErFsgTmY8g"
+type="text/javascript">
+</script>
+<style type="text/css">
+ div.c1 {width: 1000px; height: 700px}
+</style>
+  </head>
+  <body>
+
+    <div id="map" class="c1"></div><script type="text/javascript">
+    //<![CDATA[
+    
+    var map = new GMap(document.getElementById("map"));
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+    var point = new GPoint(-97.6210305, 30.440725);
+    map.centerAndZoom(point, 2);
+
+    var marker = new GMarker(point);
+    var html = "<p><b>PrincessCraft<\/b><br>102 N 1st St<br>Pflugerville, TX 78660-2754<\/p><p><b>GPS Coordinates:<\/b><br>30&deg 26&apos 26.61&quot N lat<br>97&deg 37&apos 15.71&quot W long<\/p>";
+    GEvent.addListener(marker, "click", function() {
+       marker.openInfoWindowHtml(html);
+    });
+    map.addOverlay(marker);
+
+    
+    //]]>
+</script>
+  </body>
+</html>

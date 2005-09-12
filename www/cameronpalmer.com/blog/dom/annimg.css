@@ -1,0 +1,21 @@
+a.annotation {
+  position: absolute;
+  border: 2px groove black;
+  padding: 0;
+  display: none;
+}
+a.annotation span {
+  display: block;
+  background: white;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  -moz-opacity: 0.3;
+  filter:alpha(opacity=30);
+}
+a.annotation:hover {
+  border-color: yellow;
+}
+img.annotated {
+  border-width: 0;
+}

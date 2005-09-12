@@ -1,0 +1,21 @@
+body {
+	font: 76% "Lucida Grande",Lucida,"Lucida Unicode",Arial,sans-serif;
+}
+#nav li, #nav ul {
+	display: inline;
+	margin: 0; padding: 0;
+	list-style: none;
+}
+
+#nav ul a {
+	display: block;
+	float: left;
+	margin: 0 3px 0 0;
+	padding: 3px;
+	background: #ddc;
+	border: 1px solid #555;
+}
+
+#nav ul a:hover {
+	background: #f00;
+}
