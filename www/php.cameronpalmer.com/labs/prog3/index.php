@@ -41,10 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 				for ($i = $min_size; $i <= $max_size; $i++){
 					echo "
 				<option value=\"{$i}\" "; 
-					if ($_SERVER['REQUEST_METHOD'] != "POST" and $i == $max_size){
-						echo 'selected="selected"';
-					}
-					if ($_SERVER['REQUEST_METHOD'] == "POST" and $i == $table_size){
+					if ($i == $table_size){
 						echo 'selected="selected"';
 					}
 					echo ">{$i}</option>\n";
@@ -61,10 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 			for ($i = $min_size; $i <= $max_size; $i++){
 				echo "
 			<label for=\"Radio{$i}\">{$i}</label><input id=\"Radio{$i}\" type=\"radio\" name=\"radio_button\" value=\"{$i}\" ";
-					if ($_SERVER['REQUEST_METHOD'] != "POST" and $i == $max_size){
-						echo 'checked="checked" ';
-					}
-					if ($_SERVER['REQUEST_METHOD'] == "POST" and $i == $table_size){
+					if ($i == $table_size){
 						echo 'checked="checked" ';
 					}
 				echo "/>\n";
