@@ -28,7 +28,6 @@
 
 		<h2>Programs</h2>
 		<h3>Program 2</h3>
-			<form action="source.php" method="get">
 			<ul>
 				<?php $program = "labs/prog2/index.php";
 				echo"
@@ -39,13 +38,11 @@
 			</ul>
 			
 		<h3>Program 3</h3>
-			<form action="source.php" method="get">
 			<ul>
 				<?php $program = "labs/prog3/index.php";
 				echo"
 				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
-				<li><a href=\"{$ptr}labs/prog3/source.php\" name=\"filename\">PHP Source</a></li>
+				<li><a href=\"{$ptr}labs/prog3/source.php\" name=\"filename2\">PHP Source</a></li>
 				";
 				?>
 			</ul>
-			</form>
