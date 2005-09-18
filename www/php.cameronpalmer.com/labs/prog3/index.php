@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 		echo "<p class=\"error\">Value out of range, must be between {$min_size} and {$max_size}</p>\n";
 		$table_size = $last_size;
 	} else {
+		echo "<p class=\"nonerror\">Value should be between {$min_size} and {$max_size}</p>\n";
 		$last_size = $table_size;
 	}
 }
@@ -35,25 +36,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 		</div>
 		<div id="select_input">
 			<select name="table_select">
+				<!-- BEGIN Select Options -->
 				<?php
 				for ($i = $min_size; $i <= $max_size; $i++){
-					echo "<option value=\"{$i}\" "; 
+					echo "
+				<option value=\"{$i}\" "; 
 					if ($_SERVER['REQUEST_METHOD'] != "POST" and $i == $max_size){
-						echo 'selected="selected" ';
+						echo 'selected="selected"';
 					}
 					if ($_SERVER['REQUEST_METHOD'] == "POST" and $i == $table_size){
-						echo 'selected="selected" ';
+						echo 'selected="selected"';
 					}
 					echo ">{$i}</option>\n";
 				}
 				?>
+				<!-- END Select Options -->
 			</select>
 			<input type="submit" name="select_submit_button" value="Submit" />
 		</div>
+		
 		<div id="radio_input">
+			<!-- BEGIN Radio Options -->
 			<?php
 			for ($i = $min_size; $i <= $max_size; $i++){
-				echo "<label for=\"Radio{$i}\">{$i}</label><input id=\"Radio{$i}\" type=\"radio\" name=\"radio_button\" value=\"{$i}\" ";
+				echo "
+			<label for=\"Radio{$i}\">{$i}</label><input id=\"Radio{$i}\" type=\"radio\" name=\"radio_button\" value=\"{$i}\" ";
 					if ($_SERVER['REQUEST_METHOD'] != "POST" and $i == $max_size){
 						echo 'checked="checked" ';
 					}
@@ -63,41 +70,36 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 				echo "/>\n";
 			}
 			?>
+			<!-- END Radio Options -->
 			<input type="submit" name="radio_submit_button" value="Submit" />
 		</div>
 	</form>
 </div>
+		<?php table_generate($table_size); ?>
 
-<div>
-	<table id="progtable">
 <?php
-echo'
+function table_generate($table_size){
+		echo'
+		<table id="progtable">
 		<!-- The table head -->
-        <tr>
-            <th>
-                &nbsp;
-            </th>
-	';
-            for ($i=1; $i <= $table_size; $i++) {
-                echo "<th>{$i}</th>";
-            }
-echo'
-		</tr>
+		<tr><th>&nbsp;</th>';
+    for ($i=1; $i <= $table_size; $i++) {
+	  	echo "<th>{$i}</th>";
+    }
+	  echo"</tr>
 		<!-- Generate the table -->
-	';
-	for ($i=1; $i <= $table_size; $i++) {
-		echo"
-			<tr>
-				<th>{$i}</th>
-			";
+		";
+		for ($i=1; $i <= $table_size; $i++) {
+			echo"
+			<tr><th>{$i}</th>";
 			for ($j=1; $j <= $table_size; $j++) {
 				echo "<td>" . $i * $j. "</td>";
 			}
-		echo"
-			</tr>
-			";
-	}
-
+			echo"</tr>\n";
+		}
+		echo'
+		</table>
+		<!-- END table -->
+		';
+}
 ?>
-    </table>
-</div>
