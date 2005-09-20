@@ -20,60 +20,60 @@
 <div id="main">
 
 <?php // MAIN
-if ($_SERVER['REQUEST_METHOD']=="POST"){
-    // Save all the POSTed values to an array.
-        $_SERVER['REMOTE_ADDR'],
-        date(Ymd);
-    
-        $firstname = $_REQUEST['firstname'];
-        $lastname = $_REQUEST['lastname'];
-        $company = $_REQUEST['company'];
-        $address1 = $_REQUEST['address1'];
-        $address2 = $_REQUEST['address2'];
-        $city = $_REQUEST['city'];
-        $state = $_REQUEST['state'];
-        $zipcode = $_REQUEST['zipcode'];
-        $dayphone = $_REQUEST['dayphone'];
-        $fax = $_REQUEST['fax'];
-        $email = $_REQUEST['email'];
-            
-        $degree_type = $_REQUEST['degree_type'];
-        $major = $_REQUEST['major'];
-        $gradyear = $_REQUEST['gradyear'];
-        $changetype = $_REQUEST['changetype'];
-    data_validator();
-    file_writer($write_file);
-    echo "<p>Thank you for completing the registration. {$problem}</p>
-        <p><a href=\"index.php\">Perform another registration</a></p>";
-} else {
-    form_function();
-} ?>
+    if ($_SERVER['REQUEST_METHOD']=="POST"){
+        
+        // Save all the POSTed values to an array.
+        $form_array = array($_REQUEST['firstname'],
+            $_REQUEST['lastname'],
+            $_REQUEST['company'],
+            $_REQUEST['address1'],
+            $_REQUEST['address2'],
+            $_REQUEST['city'],
+            $_REQUEST['state'],
+            $_REQUEST['zipcode'],
+            $_REQUEST['dayphone'],
+            $_REQUEST['fax'],
+            $_REQUEST['email'],
+                
+            $_REQUEST['degree_type'],
+            $_REQUEST['major'],
+            $_REQUEST['gradyear'],
+            $_REQUEST['changetype'],
+            $_SERVER['REMOTE_ADDR'],
+            date(Ymd));
+
+        $form_array = array_trim($form_array);
+        file_writer($write_file, $form_array);
+        echo "<p>Thank you for completing the registration. {$problem}</p>
+            <p><a href=\"index.php\">Perform another registration</a></p>";
+    } else {
+        form_function();
+    } 
+?>
 
 </div>
 </body>
 </html>
 
 <?php // FUNCTIONS
+    function array_trim($form_array){
+        foreach ($form_array as $current_value){
+            $current_value = preg_replace('/\s{2}/',' ',$current_value);
+            $temp_array[] = trim($current_value);
+            
+        }
+        return $temp_array;
+    }
 
-function data_validator(){
-        
-}
-
-function file_writer($write_file){
-        
-    
+    function file_writer($write_file, $form_array){
         // Generate the line to be fputs to the file.
-        $line = "{$firstname},{$lastname},{$company},{$address1},{$address2},{$city},{$state},"
-        ."{$zipcode},{$dayphone},{$fax},{$email},{$degree_type},{$major},{$gradyear},{$ipaddr},{$date},"
-        ."{$changetype}\n";
-        
+        $line = implode(",", $form_array) . "\n";
+
+        // OPEN the file and create a handle
         // If the file does not exist create it and add the header line to the file.
         if (!file_exists($write_file)) {
             $handle = fopen($write_file, "w");
             if ($handle === FALSE) echo "<p>An error has occured while trying to create the file {$write_file}</p>";
-            $header = "firstname,lastname,company,address1,address2,city,state,"
-            ."zipcode,dayphone,fax,email,degree_type,major,gradyear,ipaddr,date,"
-            ."changetype\n";
             fputs($handle, $header);
         // Otherwise just append the data to the file.
         } else {
@@ -86,9 +86,9 @@ function file_writer($write_file){
             echo "<p>An error has occured while trying to write to the file {$write_file}</p>";
         }
         fclose($handle);
-} // END file_writer()
+    } // END file_writer()
        
-function form_function($problem = "none") { 
+    function form_function() { 
 ?>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" 
         onsubmit="return VerifyData()" enctype="multipart/form-data" name="Alumni">
@@ -121,7 +121,7 @@ function form_function($problem = "none") {
             <td><input type="text" id="zipcode" name="zipcode" value="" size="10" /></td>
         </tr>
         <tr>
-            <td colspan="2" <?php if ($problem == 'phone') echo "style=\"color=#f00;\"";?> >Please enter the number without dashes or spaces. (e.g. 9405551212)</td>
+            <td colspan="2">Please enter the number without dashes or spaces. (e.g. 9405551212)</td>
         </tr>
         <tr>
             <td><label for="dayphone">Daytime Phone</label></td>
