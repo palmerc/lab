@@ -1,0 +1,337 @@
+html, body {
+    margin: 0; padding: 0;
+    background: #fff;
+    font: normal 87% Verdana,Arial,sans-serif;
+}
+
+#wrap {
+    width: 760px;
+}
+
+
+/* !Centering the wrapper
+ * **********************
+ */
+body {
+    text-align: center;
+}
+#wrap {
+    margin: 0 auto;
+    text-align: left;
+}
+
+
+
+/* !Header
+ * *******
+ */
+#header img {
+    float: left;
+    /*border-top: 8px solid #fc3;*/
+    padding-top: 20px;
+}
+#header h1 {
+    margin: 0;
+    margin-left: 120px;
+    padding: 30px 20px 10px 20px;
+    color: #65706a;
+    font: 3.2em "Arial Narrow",Arial,sans-serif;
+}
+
+.cf {
+    width: 1px; height: 1px; line-height: 1px;
+    clear: left;
+}
+
+
+
+/* !Tabby things, nav, etc
+ * *************
+ */
+#nav {
+    margin: 0 0 0 130px;
+    padding: 0 0 33px 10px;
+    background: url(../i/olive-bar.gif) bottom left repeat-x;
+}
+
+#nav li {
+    margin: 0; padding: 0;
+    display: inline;
+    list-style-type: none;
+}
+
+#nav a:link, #nav a:visited {
+    float: left;
+    line-height: 20px;
+    font-weight: bold;
+    padding: 6px 12px 6px 12px;
+    text-decoration: none;
+    color: #708491;
+}
+
+#nav a:link.active, #nav a:visited.active, #nav a:hover {
+    color: #000;
+    background: url(../i/tab_rounded.gif) no-repeat bottom center;
+}
+
+/* !Boxes, yay!
+ * *************
+ */
+#content {
+    float: left; width: 560px;
+    padding-bottom: 1em;
+}
+body.wide #content {
+	width: auto;
+}
+
+#sidebar {
+    margin-left: 580px;
+}
+#footer {
+    clear: left;
+    background: url(../i/olive-bar.gif) top left repeat-x;
+    padding: 10px;
+}
+
+#footer address {
+    float: left;
+}
+
+#footer ul {
+    float: right;
+    list-style: none;
+}
+
+#footer li {
+    float: left;
+    padding: 0 5px 0 0;
+}
+
+#footer a {
+    color: #555;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: blue;
+    text-decoration: none;
+}
+
+
+/* !Columns
+ * ********
+ */
+.column.left {
+	width: 45%;
+	float: left;
+}
+.column.left:first-child div:first-child {
+	margin: 0; padding: 0;
+	margin-top: -2em;
+}
+.column.right {
+	margin-left: 54%;
+	width: 45%;
+}
+
+
+/* !Content styles
+ * ***************
+ */
+#content ul, #content ol {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#content ul, #content ol, #content li {
+    list-style: none;
+}
+#content li {
+    padding-left: 24px;
+    background: url(../i/arrow.gif) 4px 0.3em no-repeat;
+}
+
+#content p, #content li {
+    line-height: 150%;
+    margin-left: 20px;
+    _font-size: 105%;
+}
+#content h2 {
+    font: normal 2em Verdana;
+	color: #369;
+    margin: 1em 0;
+}
+#content h3 {
+    font: normal 1.5em Verdana;
+	margin: 0;
+	padding: 0;
+}
+#content pre {
+	font-size: 120%;
+}
+#content form {
+	margin: 0;
+}
+
+fieldset {
+	border: 0;
+	padding: 20px 0 20px 10px;
+}
+legend {
+	font-size: 1.5em;
+}
+	
+
+
+/* !Corners
+ * ******************************
+ */
+
+.roundy {
+	position: relative;
+	border: 1px solid #000;
+	padding: 3px;
+}
+
+label.roundy {
+	display: block;
+	cursor: pointer; cursor: hand;
+	_height: 1%;
+	margin-bottom: 3px;
+}
+label.roundy:hover, label.roundy.hover {
+	background-color: #eed;
+}
+
+.roundy.semi {
+	border-color: #ccc;
+}
+.roundy.semi .c {
+	background-image: url(../i/n_corner-12-ccc.png);
+}
+/*  This one is only needed in IE, because everything else handles alpha-
+	transparent png's properly.
+ */
+* html .roundy.semi.hover .c {
+	background-image: url(../i/n_corner-12-ccc_eed.png);
+}
+
+.roundy .c {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    overflow: hidden;
+	_margin-bottom: 1px;
+}
+
+.c.tl { top: -1px;     left: -1px;    background-position: 0 0; }
+.c.tr { top: -1px;     right: -1px;   background-position: 10px 0; }
+.c.br { bottom: -1px;  right: -1px;   background-position: -10px -10px; }
+.c.bl { bottom: -1px;  left: -1px;    background-position: 0 -10px; }
+
+.semi .c.tl { background-position: 0 0; }
+.semi .c.tr { background-position: 6px 0; }
+.semi .c.br { background-position: -6px -6px; }
+.semi .c.bl { background-position: 0 -6px; }
+
+* html .c.br, * html .c.bl {
+    bottom: -2px;
+}
+
+/* !NiceTitles for the quote page
+ * ******************************
+ */
+div.nicetitle {
+    position: absolute;
+    padding: 4px;
+    top: 0px;
+    left: 0px;
+    color: white;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    width: 300px;
+    font-weight: normal;
+    background: url(../i/ntbg.png);
+	border: 4px solid gold;
+}
+div.nicetitle p {
+    margin: 0; padding: 0 3px;
+}
+div.nicetitle p.destination {
+    font-size: 9px;
+    text-align: left;
+    padding-top: 3px;
+}
+
+p.titletext {
+	text-align: left;
+}
+div.nicetitle img {
+	border: 4px solid #fff;
+}
+
+/* !Price Sheet
+ * ************
+ */
+span.price {
+	float: right;
+	padding-top: 2px;
+}
+.hide {
+	display: none;
+}
+label.radio {
+	margin-left: 30px;
+}
+label.radio input {
+	margin-bottom: 2px;
+}
+
+/* !Validator Buttons
+ * ******************
+ */
+a#rssbutton, a#rssbutton:hover {
+	border: 1px solid;
+	border-color: #fc9 #630 #330 #f96;
+	padding: 0 3px;
+	font: bold 10px verdana,sans-serif;
+	color: #fff;
+	background: #f60;
+	text-decoration: none;
+	margin: 0;
+}
+
+#inventory img {
+	height: 100px;
+}
+
+#inventory tr:hover {
+	background-color: #ff9;
+}
+
+/* !Quote Tables
+ * *************
+ */
+.quotesummary {
+    min-width: 50%;
+    border-collapse: collapse;
+}
+.quotesummary td {
+    border-top: 1px solid #ddd;
+    margin: 0;
+    padding: 3px;
+    text-align: left;
+    border-bottom-color: #eee;
+}
+.quotesummary .moolah {
+    text-align: right;
+    padding-left: 15px;
+}
+.quotesummary tr.total td {
+    border-color: #eee;
+    font-weight: bold;
+    border-top: 2px solid #ccc;
+}
+.quotesummary td.total {
+    text-align: right;
+}

@@ -1,0 +1,29 @@
+#nav, ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#nav li {
+  float: left;
+  position: relative;
+  width: 10em;
+}
+  
+#nav li ul {
+  display: none;
+  position: absolute; 
+  top: 1em;
+  left: 0;
+  background: #eed;
+}
+  
+#nav li > ul {
+  top: auto;
+  left: auto;
+}
+
+#nav li:hover ul, #nav li.sfhover ul { 
+  display: block;
+  clear: left;
+}

@@ -1,0 +1,34 @@
+label {
+    display: block;
+    cursor: pointer; cursor: hand;
+}
+label:hover, tr:hover td {
+    background: #eed;
+}
+table.matrix {
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 2px 4px;
+}
+th {
+    font-weight: normal;
+    color: #666;
+}
+th {
+    text-align: center;
+}
+th.lefty {
+    text-align: left;
+    border-left: 0;
+}
+td {
+    text-align: center;
+}
+tr.top th {
+    border: 0;
+}
+th.ind {
+    padding-left: 20px;
+}

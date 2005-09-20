@@ -1,0 +1,256 @@
+/* 	PrincessCraft Stylesheet
+	(c) 2005 Cameron Palmer
+ */
+
+/* 	!Main
+ *	Sets up the basic styles for the page
+ * 	***************************************************/
+body {
+	background: #ffc;
+	text-align: center;
+	padding: 0; margin: 0;
+	font: x-small Arial;
+	color: #fff;
+}
+
+
+/* 	!Wrapper
+ *	The centered part of the page
+ * 	***************************************************/
+#wrap {
+	margin: 0 auto;
+	width: 800px;
+	text-align: left;
+	background: #191919;
+	font-size: 120%;
+	border-left: 1px solid #191919;
+	border-right: 1px solid #191919;
+}
+
+body > #wrap {
+	/*  For smart browsers: make the wrap fluid in Netscape 6+, Firefox, Safari,
+		and Opera which can understand this.  Min-width is not recognized by
+		IE* so we leave it fixed width above.
+	 */
+	min-width: 750px;
+	width: 90%;
+}
+
+
+/* 	!Header
+ *	Masthead up top
+ * 	***************************************************/
+#header {
+	text-align: right;
+}
+
+
+/* 	!Navbar
+ *	Navigation and 1-800 number
+ * 	***************************************************/
+#navbar {
+	text-align: center;
+	background-color: #ff9;
+	font-size: 130%;
+	color: #000;
+	padding: 0.2em 5em;
+}
+
+#navbar_widener {
+	clear: both;
+}
+
+#nav, #nav ul {
+	float: left;
+	width: 80em;
+	list-style: none;
+	line-height: 1.1em;
+	padding: 0;
+	margin: 0;
+}
+
+#nav a {
+	display: block;
+	color: #000;
+	background-color: #fff;
+	text-decoration: none;
+}
+
+#nav li li li a {
+	display: block;
+	width: 10em;
+	_width: 10em;
+	color: #000;
+	background-color: #fff;
+	text-decoration: none;
+}
+
+#nav li {
+	position: relative;
+	float: left;
+	width: 10em;
+	background: #ff9;
+	line-height: 1.1em;
+	height: auto;
+}
+
+#nav li ul {
+	position: absolute;
+	left: -999em;
+	width: 10em;
+	_width: 10em;
+	margin: 0;
+	border: solid #555;
+	border-width: 2px 0;
+	top: 1em;
+}
+
+#nav, #nav ul, #nav li {
+_height: 1%;
+}
+
+#nav li li {
+	padding: 4px 0 4px 0;
+	background: #fff;
+	width: 10em
+}
+
+#nav li li li {
+	padding: 4px 0 4px 0;
+	background: #fff;
+	width: 10em
+}
+
+#nav li ul a {
+	width: em;
+	_width: 10em;
+}
+
+#nav li ul ul {
+	margin: -1.1em 0 0 10em;
+}
+
+#nav li:hover ul ul, #nav li:hover ul ul ul, #nav li.sfhover ul ul, #nav li.sfhover ul ul ul {
+	left: -999em;
+}
+
+#nav li:hover ul, #nav li li:hover ul, #nav li li li:hover ul, #nav li.sfhover ul, #nav li li.sfhover ul, #nav li li li.sfhover ul {
+	left: auto;
+	_left: 0;
+}
+
+#nav a:hover, #nav a.sfhover {
+	background-color: #ff9;
+}
+
+
+/* 	!Content
+ *	Content area styles (the right-hand inset part)
+ * 	***************************************************/
+#content {
+	clear: right;
+	float: right;
+	width: 80%;
+}
+
+#content_inner {
+	margin: 10px;
+	padding: 20px;
+	background: #fff;
+	color: #000;
+}
+
+#content_inner a {
+	color: #369;
+	text-decoration: none;
+}
+
+#content_inner_header {
+	margin: -20px -20px 0 -20px;
+	background: #ff9;
+}
+
+#content_inner_header h2 {
+	margin: 0; padding: 10px;
+	font: 2.2em Georgia;
+}
+
+/* 	!Sidebar
+ *	Including list of products
+ * 	***************************************************/
+#sidebar {
+	text-align: center;
+	float: left;
+	width: 20%;
+	_width: 15%;
+	margin: 0;
+	background: #191919;
+	padding: 0;
+}
+
+#sidebar h3 {
+	color: gold;
+	font-size: 1.2em;
+	margin: 0;
+	padding-top: 5px;
+}
+
+#rvtrader {
+	margin: 8px 5px;
+	text-align: center;
+}
+
+#rvtrader a {
+	text-decoration: none;
+	font-size: 1.6em;
+	color: #69c;
+}
+
+#img {
+	min-height: 50px;
+	float: left;
+	clear: left;
+	width: 50%;
+}
+
+/* 	!Footer
+ *	Footer, duh.
+ * 	***************************************************/
+#footer {
+	text-align: left;
+	background: #000;
+	font-size: 100%;
+	color: #fff;
+	padding: 0.4em 1em;
+	border-top: 1px solid gold;
+	border-bottom: 1px solid gold;
+}
+
+#footer address {
+	font-style: normal;
+}
+
+/* !Validator Buttons
+ * ******************
+ */
+#rssbutton {
+	border: 1px solid;
+	border-color: #FC9 #630 #330 #F96;
+	padding: 0 3px;
+	font: bold 10px verdana,sans-serif;
+	color: #FFF;
+	background: #F60;
+	text-decoration: none;
+	margin: 0;
+}
+
+
+/* 	!Fixit
+ *	Clear the content so the footer appears properly
+ * 	***************************************************/
+.fixit {
+	clear: both;
+	height: 1px;
+	line-height: 1px;
+	font-size: 1px;
+}

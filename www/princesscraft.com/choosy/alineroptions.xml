@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8"?>
+<options>
+  <models>
+    <characteristics>
+        <characteristic id="sleeps">Sleeps</characteristic>
+        <characteristic id="beds"># of Beds</characteristic>
+        <characteristic id="shower_toilet">Water Heater, Sit Down Shower, and Cassette Toilet</characteristic>
+        <characteristic id="travel_toilet">Cassette Toilet Optional</characteristic>
+    </characteristics>
+    <option id="aliner_std">
+      <name>Aliner Standard</name>
+      <cost>8743.00</cost>
+      <characteristics>
+        <characteristic id="sleeps">2-6</characteristic>
+        <characteristic id="beds">Configurable</characteristic>
+      </characteristics>
+      <includes>
+        <include>baggage_door</include>
+      </includes>
+      <allows>
+        <allow>expedition</allow>
+        <allow>privacy_panels</allow>
+        <allow>propane_cover</allow>
+        <allow>screen_room</allow>
+        <allow>awning</allow>
+        <allow>step</allow>
+        <allow>stone_guard</allow>
+        <allow>water_pump</allow>
+        <allow>water_heater_demand_pump</allow>
+        <allow>power_vent</allow>
+        <allow>baggage_door</allow>
+        <allow>third_roof_vent</allow>
+        <allow>large_baggage_door</allow>
+        <allow>electric_brakes</allow>
+        <allow>aux_battery</allow>
+        <allow>spare_tire</allow>
+        <allow>tire_carrier</allow>
+        <allow>dual_propane</allow>
+        <allow>am_fm_cd_player</allow>
+        <allow>front_jacks</allow>
+        <allow>tire_cover</allow>
+        <allow>galley</allow>
+        <allow>io_stove</allow>
+        <allow>microwave</allow>
+        <allow>two_five_refrigerator</allow>
+        <allow>three_refrigerator</allow>
+        <allow>heater_16000</allow>
+        <allow>air_conditioner_5000</allow>
+        <allow>travel_toilet</allow>
+        <allow>ext_shower</allow>
+        <allow>flexsteel_sofa</allow>
+        <allow>bunk_bed_cushions</allow>
+        <allow>rear_innerspring_mattress</allow>
+        <allow>tote_dinette</allow>
+        <allow>cushion_upgrade_lx</allow>
+        <allow>cushion_upgrade_bunk</allow>
+        <allow>cushion_upgrade_bunk_bed</allow>
+        <allow>cushion_upgrade_dinette</allow>
+        <allow>front_storage_dinette</allow>
+        <allow>front_skylight</allow>
+        <allow>front_sky</allow>
+        <allow>front_opening_sky</allow>
+        <allow>front_large_sky</allow>
+        <allow>front_large_open_sky</allow>
+        <allow>front_none</allow>
+        <allow>rear_skylight</allow>
+        <allow>rear_large_sky</allow>
+        <allow>rear_large_opening_sky</allow>
+        <allow>rear_sky</allow>
+        <allow>rear_opening_sky</allow>
+        <allow>rear_none</allow>
+        <allow>corner_angle_window</allow>
+        <allow>deluxe_window_pkg</allow>
+        <allow>cathedral_window</allow>
+      </allows>
+    </option>
+    <option id="aliner_lxe">
+      <name>Aliner LXE</name>
+      <cost>11900.00</cost>
+      <characteristics>
+        <characteristic id="sleeps">2</characteristic>
+        <characteristic id="beds">2 Twins</characteristic>
+        <characteristic id="shower_toilet">yes please</characteristic>
+      </characteristics>
+      <includes>
+        <include>water_heater_demand_pump</include>
+        <include>three_refrigerator</include>
+      </includes>
+      <allows>
+        <allow>expedition</allow>
+        <allow>privacy_panels</allow>
+        <allow>propane_cover</allow>
+        <allow>screen_room</allow>
+        <allow>awning</allow>
+        <allow>step</allow>
+        <allow>stone_guard</allow>
+        <allow>water_pump</allow>
+        <allow>water_heater_demand_pump</allow>
+        <allow>power_vent</allow>
+        <allow>baggage_door</allow>
+        <allow>third_roof_vent</allow>
+        <allow>large_baggage_door</allow>
+        <allow>electric_brakes</allow>
+        <allow>aux_battery</allow>
+        <allow>spare_tire</allow>
+        <allow>tire_carrier</allow>
+        <allow>dual_propane</allow>
+        <allow>am_fm_cd_player</allow>
+        <allow>front_jacks</allow>
+        <allow>tire_cover</allow>
+        <allow>galley</allow>
+        <allow>three_refrigerator</allow>
+        <allow>io_stove</allow>
+        <allow>microwave</allow>
+        <allow>heater_16000</allow>
+        <allow>air_conditioner_5000</allow>
+        <allow>travel_toilet</allow>
+        <allow>ext_shower</allow>
+        <allow>flexsteel_sofa</allow>
+        <allow>bunk_bed_cushions</allow>
+        <allow>rear_innerspring_mattress</allow>
+        <allow>tote_dinette</allow>
+        <allow>cushion_upgrade_lx</allow>
+        <allow>cushion_upgrade_bunk</allow>
+        <allow>cushion_upgrade_bunk_bed</allow>
+        <allow>cushion_upgrade_dinette</allow>
+        <allow>front_storage_dinette</allow>
+        <allow>front_skylight</allow>
+        <allow>front_sky</allow>
+        <allow>front_opening_sky</allow>
+        <allow>front_large_sky</allow>
+        <allow>front_large_open_sky</allow>
+        <allow>front_none</allow>
+        <allow>rear_skylight</allow>
+        <allow>rear_large_sky</allow>
+        <allow>rear_large_opening_sky</allow>
+        <allow>rear_sky</allow>
+        <allow>rear_opening_sky</allow>
+        <allow>rear_none</allow>
+        <allow>corner_angle_window</allow>
+        <allow>deluxe_window_pkg</allow>
+        <allow>cathedral_window</allow>
+      </allows>
+    </option>
+    <option id="aliner_lx">
+      <name>Aliner LX</name>
+      <cost>9730.00</cost>
+      <characteristics>
+        <characteristic id="sleeps">2</characteristic>
+        <characteristic id="beds">1 Full</characteristic>
+        <characteristic id="travel_toilet">yes please</characteristic>
+      </characteristics>
+      <includes>
+        <include>three_refrigerator</include>
+      </includes>
+      <allows>
+        <allow>expedition</allow>
+        <allow>privacy_panels</allow>
+        <allow>propane_cover</allow>
+        <allow>screen_room</allow>
+        <allow>awning</allow>
+        <allow>step</allow>
+        <allow>stone_guard</allow>
+        <allow>water_pump</allow>
+        <allow>water_heater_demand_pump</allow>
+        <allow>power_vent</allow>
+        <allow>baggage_door</allow>
+        <allow>third_roof_vent</allow>
+        <allow>large_baggage_door</allow>
+        <allow>electric_brakes</allow>
+        <allow>aux_battery</allow>
+        <allow>spare_tire</allow>
+        <allow>tire_carrier</allow>
+        <allow>dual_propane</allow>
+        <allow>am_fm_cd_player</allow>
+        <allow>front_jacks</allow>
+        <allow>tire_cover</allow>
+        <allow>io_stove</allow>
+        <allow>microwave</allow>
+        <allow>three_refrigerator</allow>
+        <allow>heater_16000</allow>
+        <allow>air_conditioner_5000</allow>
+        <allow>travel_toilet</allow>
+        <allow>ext_shower</allow>
+        <allow>flexsteel_sofa</allow>
+        <allow>bunk_bed_cushions</allow>
+        <allow>rear_innerspring_mattress</allow>
+        <allow>tote_dinette</allow>
+        <allow>cushion_upgrade_lx</allow>
+        <allow>cushion_upgrade_bunk</allow>
+        <allow>cushion_upgrade_bunk_bed</allow>
+        <allow>cushion_upgrade_dinette</allow>
+        <allow>front_storage_dinette</allow>
+        <allow>front_skylight</allow>
+        <allow>front_sky</allow>
+        <allow>front_opening_sky</allow>
+        <allow>front_large_sky</allow>
+        <allow>front_large_open_sky</allow>
+        <allow>front_none</allow>
+        <allow>rear_skylight</allow>
+        <allow>rear_large_sky</allow>
+        <allow>rear_large_opening_sky</allow>
+        <allow>rear_sky</allow>
+        <allow>rear_opening_sky</allow>
+        <allow>rear_none</allow>
+        <allow>corner_angle_window</allow>
+        <allow>deluxe_window_pkg</allow>
+        <allow>cathedral_window</allow>
+      </allows>
+    </option>
+    <option id="aliner_sportliner">
+      <name>Aliner Sportliner</name>
+      <cost>7210.00</cost>
+      <characteristics>
+        <characteristic id="sleeps">2</characteristic>
+        <characteristic id="beds">2 Twin</characteristic>
+      </characteristics>
+      <includes>
+        <include>step</include>
+      </includes>
+      <allows>
+        <allow>privacy_panels</allow>
+        <allow>propane_cover</allow>
+        <allow>screen_room</allow>
+        <allow>awning</allow>
+        <allow>step</allow>
+        <allow>stone_guard</allow>
+        <allow>water_pump</allow>
+        <allow>water_heater_demand_pump</allow>
+        <allow>power_vent</allow>
+        <allow>baggage_door</allow>
+        <allow>third_roof_vent</allow>
+        <allow>large_baggage_door</allow>
+        <allow>electric_brakes</allow>
+        <allow>aux_battery</allow>
+        <allow>spare_tire</allow>
+        <allow>tire_carrier</allow>
+        <allow>dual_propane</allow>
+        <allow>am_fm_cd_player</allow>
+        <allow>front_jacks</allow>
+        <allow>tire_cover</allow>
+        <allow>io_stove</allow>
+        <allow>microwave</allow>
+        <allow>two_five_refrigerator</allow>
+        <allow>heater_16000</allow>
+        <allow>air_conditioner_5000</allow>
+        <allow>travel_toilet</allow>
+        <allow>ext_shower</allow>
+        <allow>flexsteel_sofa</allow>
+        <allow>bunk_bed_cushions</allow>
+        <allow>rear_innerspring_mattress</allow>
+        <allow>tote_dinette</allow>
+        <allow>cushion_upgrade_lx</allow>
+        <allow>cushion_upgrade_bunk</allow>
+        <allow>cushion_upgrade_bunk_bed</allow>
+        <allow>cushion_upgrade_dinette</allow>
+        <allow>front_storage_dinette</allow>
+        <allow>front_skylight</allow>
+        <allow>front_sky</allow>
+        <allow>front_opening_sky</allow>
+        <allow>front_large_sky</allow>
+        <allow>front_large_open_sky</allow>
+        <allow>front_none</allow>
+        <allow>rear_skylight</allow>
+        <allow>rear_large_sky</allow>
+        <allow>rear_large_opening_sky</allow>
+        <allow>rear_sky</allow>
+        <allow>rear_opening_sky</allow>
+        <allow>rear_none</allow>
+        <allow>corner_angle_window</allow>
+        <allow>deluxe_window_pkg</allow>
+        <allow>cathedral_window</allow>
+      </allows>
+    </option>
+    <option id="aliner_scout">
+      <name>Aliner Scout</name>
+      <cost>6090.00</cost>
+      <characteristics>
+        <characteristic id="sleeps">2</characteristic>
+        <characteristic id="beds">2 Twin</characteristic>
+      </characteristics>
+      <includes>
+        <include>step</include>
+      </includes>
+      <allows>
+        <allow>privacy_panels</allow>
+        <allow>propane_cover</allow>
+        <allow>screen_room</allow>
+        <allow>awning</allow>
+        <allow>step</allow>
+        <allow>stone_guard</allow>
+        <allow>water_pump</allow>
+        <allow>water_heater_demand_pump</allow>
+        <allow>power_vent</allow>
+        <allow>baggage_door</allow>
+        <allow>third_roof_vent</allow>
+        <allow>large_baggage_door</allow>
+        <allow>electric_brakes</allow>
+        <allow>aux_battery</allow>
+        <allow>spare_tire</allow>
+        <allow>tire_carrier</allow>
+        <allow>dual_propane</allow>
+        <allow>am_fm_cd_player</allow>
+        <allow>front_jacks</allow>
+        <allow>tire_cover</allow>
+        <allow>io_stove</allow>
+        <allow>microwave</allow>
+        <allow>two_five_refrigerator</allow>
+        <allow>heater_16000</allow>
+        <allow>air_conditioner_5000</allow>
+        <allow>travel_toilet</allow>
+        <allow>ext_shower</allow>
+        <allow>flexsteel_sofa</allow>
+        <allow>bunk_bed_cushions</allow>
+        <allow>rear_innerspring_mattress</allow>
+        <allow>tote_dinette</allow>
+        <allow>cushion_upgrade_lx</allow>
+        <allow>cushion_upgrade_bunk</allow>
+        <allow>cushion_upgrade_bunk_bed</allow>
+        <allow>cushion_upgrade_dinette</allow>
+        <allow>front_storage_dinette</allow>
+        <allow>front_skylight</allow>
+        <allow>front_sky</allow>
+        <allow>front_opening_sky</allow>
+        <allow>front_large_sky</allow>
+        <allow>front_large_open_sky</allow>
+        <allow>front_none</allow>
+        <allow>rear_skylight</allow>
+        <allow>rear_large_sky</allow>
+        <allow>rear_large_opening_sky</allow>
+        <allow>rear_sky</allow>
+        <allow>rear_opening_sky</allow>
+        <allow>rear_none</allow>
+        <allow>corner_angle_window</allow>
+        <allow>deluxe_window_pkg</allow>
+        <allow>cathedral_window</allow>
+      </allows>
+    </option>
+  </models>
+  <section name="equipment">
+    <option id="expedition">
+      <name>Expedition Package</name>
+      <barker>The Expedition Package features a 2500 lb. Axle, and ABS 32 cubic ft.
+      impact resistant cargo bin, a six-inch lift, 14" tires, a step, and a
+      longer, heavy duty frame to allow for extra rear storage.</barker>
+      <includes>
+        <include>step</include>
+      </includes>
+      <cost>1015.00</cost>
+    </option>
+  </section>
+  <section name="accessory">
+    <option id="privacy_panels">
+      <name>Privacy Panels</name>
+      <requires>
+        <require>screen_room</require>
+      </requires>
+      <cost>259.00</cost>
+    </option>
+    <option id="propane_cover">
+      <type>accessory</type>
+      <name>Aerodynamic Propane Cover</name>
+      <cost>210.00</cost>
+    </option>
+    <option id="screen_room">
+      <name>Screen Room</name>
+      <cost>455.00</cost>
+    </option>
+    <option id="awning">
+      <name>Custom Awning</name>
+      <cost>455.00</cost>
+    </option>
+    <option id="step">
+      <name>Step</name>
+      <cost>42.00</cost>
+    </option>
+    <option id="stone_guard">
+      <name>Stone Guard</name>
+      <cost>56.00</cost>
+    </option>
+    <option id="water_pump">
+      <name>Water Pump</name>
+      <cost>49.00</cost>
+    </option>
+    <option id="water_heater_demand_pump">
+      <name>6-gallon Water Heater with Demand Pump</name>
+      <cost>644.00</cost>
+    </option>
+    <option id="power_vent">
+      <name>Fantastic Power Ventilation (reversible with
+      remote)</name>
+      <cost>238.00</cost>
+    </option>
+    <option id="baggage_door">
+      <name>Baggage Door</name>
+      <cost>56.00</cost>
+    </option>
+    <option id="third_roof_vent">
+      <name>Third Roof Vent</name>
+      <cost>56.00</cost>
+    </option>
+    <option id="large_baggage_door">
+      <name>Large Baggage Door for Bunk Model</name>
+      <cost>105.00</cost>
+    </option>
+    <option id="electric_brakes">
+      <name>Electric Brakes</name>
+      <cost>266.00</cost>
+    </option>
+    <option id="aux_battery">
+      <name>Auxiliary Battery Setup</name>
+      <cost>49.00</cost>
+    </option>
+    <option id="spare_tire">
+      <name>Spare Tire</name>
+      <cost>62.00</cost>
+    </option>
+    <option id="tire_carrier">
+      <name>Tire Carrier</name>
+      <cost>42.00</cost>
+    </option>
+    <option id="dual_propane">
+      <name>Dual Propane Tanks with Auto Regulator</name>
+      <cost>119.00</cost>
+    </option>
+    <option id="am_fm_cd_player">
+      <name>AM/FM CD Player</name>
+      <cost>413.00</cost>
+    </option>
+    <option id="front_jacks">
+      <name>Front Stabilizer Jacks</name>
+      <cost>135.00</cost>
+    </option>
+    <option id="tire_cover">
+      <name>Tire Cover</name>
+      <cost>14.00</cost>
+    </option>
+  </section>
+  <section name="kitchen">
+    <option id="galley">
+      <name>Galley Package</name>
+      <includes>
+        <include>io_stove</include>
+        <include>three_refrigerator</include>
+      </includes>
+      <cost>1085.00</cost>
+    </option>
+    <option id="io_stove">
+      <type>kitchen</type>
+      <name>Indoor/Outdoor 2-burner Stove</name>
+      <cost>N/A</cost>
+    </option>
+    <option id="microwave">
+      <name>Microwave</name>
+      <cost>140.00</cost>
+    </option>
+    <option id="two_five_refrigerator">
+      <name>Dometic RM 4223 2.5ft³ 3-way
+      Refrigerator</name>
+      <cost>700.00</cost>
+    </option>
+    <option id="three_refrigerator">
+      <name>Dometic RM 2310 3.0ft³ 3-way Refrigerator
+      with Freezer</name>
+      <requires>
+        <require>galley</require>
+      </requires>
+      <cost>N/A</cost>
+    </option>
+  </section>
+  <section name="heating">
+    <option id="heater_16000">
+      <name>16,000 BTU Electronic Ignition Furnace</name>
+      <cost>434.00</cost>
+    </option>
+    <option id="air_conditioner_5000">
+      <name>5000 BTU Air Conditioner</name>
+      <cost>623.00</cost>
+    </option>
+  </section>
+  <section name="restroom">
+    <option id="travel_toilet">
+      <name>Travel Toilet</name>
+      <cost>91.00</cost>
+    </option>
+    <option id="ext_shower">
+      <name>Outside Auxiliary Shower</name>
+      <cost>210.00</cost>
+    </option>
+  </section>
+  <section name="seating">
+    <option id="flexsteel_sofa">
+      <name>Flexsteel Sofa</name>
+      <cost>525.00</cost>
+    </option>
+    <option id="bunk_bed_cushions">
+      <name>Bunk Bed Cushions</name>
+      <cost>140.00</cost>
+    </option>
+    <option id="rear_innerspring_mattress">
+      <name>Rear Full-size Innerspring Mattress with Lift</name>
+      <cost>140.00</cost>
+    </option>
+    <option id="tote_dinette">
+      <name>Tote Base for Dinette</name>
+      <cost>28.00</cost>
+    </option>
+    <option id="cushion_upgrade_lx">
+      <name>Cushion Upgrade for LX Sofabed and Double
+      Dinette</name>
+      <cost>140.00</cost>
+    </option>
+    <option id="cushion_upgrade_bunk">
+      <name>Cushion Upgrade for Bunk Model (rear dinette)</name>
+      <cost>105.00</cost>
+    </option>
+    <option id="cushion_upgrade_bunk_bed">
+      <name>Cushion Upgrade for Bunk Bed</name>
+      <cost>210.00</cost>
+    </option>
+    <option id="cushion_upgrade_dinette">
+      <name>Cushion Upgrade for Front Dinette</name>
+      <cost>105.00</cost>
+    </option>
+    <option id="front_storage_dinette">
+      <name>Front Storage Dinette</name>
+      <cost>140.00</cost>
+    </option>
+  </section>
+  <section name="windows">
+    <option id="front_skylight" type="single_exclusion">
+      <name>Front Skylight Option</name>
+      <suboption id="front_sky">
+        <name>Two Regular Skylights</name>
+        <cost>273.00</cost>
+      </suboption>
+      <suboption id="front_opening_sky">
+        <name>Two Regular Opening Skylights</name>
+        <cost>574.00</cost>
+      </suboption>
+      <suboption id="front_large_sky">
+        <name>Large Skylight</name>
+        <cost>378.00</cost>
+      </suboption>
+      <suboption id="front_large_open_sky">
+        <name>Large Opening Skylight</name>
+        <cost>574.00</cost>
+      </suboption>
+      <suboption id="front_none" default="true">
+        <name>No Front Skylights</name>
+        <cost>Included</cost>
+      </suboption>
+    </option>
+    <option id="rear_skylight" type="single_exclusion">
+      <name>Rear Skylight Option</name>
+      <suboption id="rear_large_sky">
+        <name>Large Skylight</name>
+        <cost>378.00</cost>
+      </suboption>
+      <suboption id="rear_large_opening_sky">
+        <name>Large Opening Skylight</name>
+        <cost>574.00</cost>
+      </suboption>
+      <suboption id="rear_sky">
+        <name>Two Regular Skylights</name>
+        <cost>273.00</cost>
+      </suboption>
+      <suboption id="rear_opening_sky">
+        <name>Two Regular Opening Skylights</name>
+        <cost>574.00</cost>
+      </suboption>
+      <suboption id="rear_none" default="true">
+        <name>No Rear Skylights</name>
+        <cost>Included</cost>
+      </suboption>
+    </option>
+    <option id="corner_angle_window">
+      <name>Corner Angle Window</name>
+      <cost>98.00</cost>
+    </option>
+    <option id="deluxe_window_pkg">
+      <name>Deluxe Window Package (includes 3 small corner
+      windows)</name>
+      <cost>266.00</cost>
+    </option>
+    <option id="cathedral_window">
+      <name>Cathedral Window</name>
+      <cost>189.00</cost>
+    </option>
+  </section>
+</options>

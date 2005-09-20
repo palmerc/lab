@@ -1,0 +1,3 @@
+<?php
+    $ptr="/cameron/princesscraft/";
+?>
