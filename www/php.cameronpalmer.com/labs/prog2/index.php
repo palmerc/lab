@@ -4,7 +4,7 @@
 	require("../../php-template.php");
 ?>
 <div>
-	<table id="progtable">
+	<table class="progtable">
 <?php
 echo'
 		<!-- The table head -->

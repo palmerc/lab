@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 <?php
 function table_generate($table_size){
 		echo'
-		<table id="progtable">
+		<table class="progtable">
 		<!-- The table head -->
 		<tr><th>&nbsp;</th>';
     for ($i=1; $i <= $table_size; $i++) {

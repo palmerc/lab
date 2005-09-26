@@ -46,3 +46,13 @@
 				";
 				?>
 			</ul>
+
+		<h3>Program 4</h3>
+			<ul>
+				<?php $program = "labs/prog4/index.php";
+				echo"
+				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
+				<li><a href=\"{$ptr}labs/prog4/source.php\" name=\"filename3\">PHP Source</a></li>
+				";
+				?>
+			</ul>
