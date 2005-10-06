@@ -1,0 +1,67 @@
+-- Copyright (C) 1991-2005 Altera Corporation
+-- Your use of Altera Corporation's design tools, logic functions 
+-- and other software and tools, and its AMPP partner logic 
+-- functions, and any output files any of the foregoing 
+-- (including device programming or simulation files), and any 
+-- associated documentation or information are expressly subject 
+-- to the terms and conditions of the Altera Program License 
+-- Subscription Agreement, Altera MegaCore Function License 
+-- Agreement, or other applicable license agreement, including, 
+-- without limitation, that your use is for the sole purpose of 
+-- programming logic devices manufactured by Altera and sold by 
+-- Altera or its authorized distributors.  Please refer to the 
+-- applicable agreement for further details.
+--A1L2 is 2~8
+A1L2_p1_out = E & D & C;
+A1L2_or_out = A1L2_p1_out;
+A1L2 = A1L2_or_out;
+
+
+--A1L1 is 1~8
+A1L1_p1_out = C & B & A;
+A1L1_or_out = A1L1_p1_out;
+A1L1 = A1L1_or_out;
+
+
+--E is E
+--operation mode is input
+
+E = INPUT();
+
+
+--D is D
+--operation mode is input
+
+D = INPUT();
+
+
+--C is C
+--operation mode is input
+
+C = INPUT();
+
+
+--B is B
+--operation mode is input
+
+B = INPUT();
+
+
+--A is A
+--operation mode is input
+
+A = INPUT();
+
+
+--Y is Y
+--operation mode is output
+
+Y = OUTPUT(A1L2);
+
+
+--X is X
+--operation mode is output
+
+X = OUTPUT(A1L1);
+
+

@@ -1,0 +1,287 @@
+
+<!--
+This XML file (created on Sat Oct 01 00:50:33 2005) contains limited information
+from the compilation of logic designs using Quartus II software (BUT NOT THE
+LOGIC DESIGN FILES) that will be transmitted to Altera Corporation through
+operation of the "TalkBack" feature.  To enable/disable this feature, run
+qtb_install.exe located in your quartus/bin folder.  For more information, go
+to www.altera.com/products/software/download/dnl-download_license.html
+-->
+<talkback>
+<ver>5.0</ver>
+<schema>quartus_version_5.0_build_168.xsd</schema><license>
+	<host_id>0014bf2307b3</host_id>
+	<nic_id>0014bf2307b3</nic_id>
+	<cdrive_id>b8ea2d9c</cdrive_id>
+</license>
+<tool>
+	<name>Quartus II</name>
+	<version>5.0</version>
+	<build>Build 168 SP 1</build>
+	<module>quartus_fit.exe</module>
+	<edition>Web Edition</edition>
+	<compilation_end_time>Sat Oct 01 00:50:34 2005</compilation_end_time>
+</tool>
+<machine>
+	<os>Windows XP</os>
+	<cpu>
+		<proc_count>1</proc_count>
+		<cpu_freq units="MHz">1993</cpu_freq>
+	</cpu>
+	<ram units="MB">191</ram>
+</machine>
+<top_file>D:/lab4/simple</top_file>
+<resource_usage_summary>
+	<rsc name="Logic cells" util="1" max=" 128 " type="int">2 </rsc>
+	<rsc name="Registers" util="0" max=" 128 " type="int">0 </rsc>
+	<rsc name="Number of pterms used" type="int">2</rsc>
+	<rsc name="User inserted logic elements" type="int">0</rsc>
+	<rsc name="I/O pins" util="16" max=" 68 " type="int">11 </rsc>
+	<rsc name="-- Clock pins" util="0" max=" 2 " type="int">0 </rsc>
+	<rsc name="-- Dedicated input pins" util="0" max=" 2 " type="int">0 </rsc>
+	<rsc name="Global signals" type="int">0</rsc>
+	<rsc name="Shareable expanders" util="0" max=" 128 " type="int">0 </rsc>
+	<rsc name="Parallel expanders" util="0" max=" 120 " type="int">0 </rsc>
+	<rsc name="Cells using turbo bit" util="1" max=" 128 " type="int">2 </rsc>
+	<rsc name="Maximum fan-out node" type="text">C</rsc>
+	<rsc name="Maximum fan-out" type="int">2</rsc>
+	<rsc name="Total fan-out" type="int">8</rsc>
+	<rsc name="Average fan-out" type="text">0.62</rsc>
+</resource_usage_summary>
+<non_global_high_fan_out_signals>
+	<row>
+		<name>2~8</name>
+		<fan_out>1</fan_out>
+	</row>
+	<row>
+		<name>1~8</name>
+		<fan_out>1</fan_out>
+	</row>
+	<row>
+		<name>E</name>
+		<fan_out>1</fan_out>
+	</row>
+	<row>
+		<name>D</name>
+		<fan_out>1</fan_out>
+	</row>
+	<row>
+		<name>C</name>
+		<fan_out>2</fan_out>
+	</row>
+	<row>
+		<name>B</name>
+		<fan_out>1</fan_out>
+	</row>
+	<row>
+		<name>A</name>
+		<fan_out>1</fan_out>
+	</row>
+</non_global_high_fan_out_signals>
+<interconnect_usage_summary>
+	<rsc name="Output enables" util="0" max=" 6 " type="int">0 </rsc>
+	<rsc name="PIA buffers" util="1" max=" 288 " type="int">5 </rsc>
+	<rsc name="PIAs" util="1" max=" 288 " type="int">5 </rsc>
+</interconnect_usage_summary>
+<mep_data>
+	<command_line>quartus_fit --read_settings_files=off --write_settings_files=off simple -c simple</command_line>
+</mep_data>
+<software_data>
+	<smart_recompile>off</smart_recompile>
+</software_data>
+<messages>
+	<info>Info: Quartus II Fitter was successful. 0 errors, 0 warnings</info>
+	<info>Info: Elapsed time: 00:00:04</info>
+	<info>Info: Processing ended: Sat Oct 01 00:50:33 2005</info>
+	<info>Info: Selected device EPM7128SLC84-7 for design &quot;simple&quot;</info>
+	<info>Info: Command: quartus_fit --read_settings_files=off --write_settings_files=off simple -c simple</info>
+</messages>
+<fitter_settings>
+	<row>
+		<option>Device</option>
+		<setting>EPM7128SLC84-7</setting>
+	</row>
+	<row>
+		<option>Use smart compilation</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Optimize Timing</option>
+		<setting>Normal compilation</setting>
+		<default_value>Normal compilation</default_value>
+	</row>
+	<row>
+		<option>Optimize IOC Register Placement for Timing</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Limit to One Fitting Attempt</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Fitter Initial Placement Seed</option>
+		<setting>1</setting>
+		<default_value>1</default_value>
+	</row>
+	<row>
+		<option>Slow Slew Rate</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Fitter Effort</option>
+		<setting>Auto Fit</setting>
+		<default_value>Auto Fit</default_value>
+	</row>
+</fitter_settings>
+<fitter_device_options>
+	<row>
+		<option>Enable user-supplied start-up clock (CLKUSR)</option>
+		<setting>Off</setting>
+	</row>
+	<row>
+		<option>Enable device-wide reset (DEV_CLRn)</option>
+		<setting>Off</setting>
+	</row>
+	<row>
+		<option>Enable device-wide output enable (DEV_OE)</option>
+		<setting>Off</setting>
+	</row>
+	<row>
+		<option>Enable INIT_DONE output</option>
+		<setting>Off</setting>
+	</row>
+	<row>
+		<option>Configuration scheme</option>
+		<setting>Passive Serial</setting>
+	</row>
+	<row>
+		<option>Reserve all unused pins</option>
+		<setting>As output driving an unspecified signal</setting>
+	</row>
+	<row>
+		<option>Security bit</option>
+		<setting>Off</setting>
+	</row>
+	<row>
+		<option>Base pin-out file on sameframe device</option>
+		<setting>Off</setting>
+	</row>
+</fitter_device_options>
+<input_pins>
+	<row>
+		<name>A</name>
+		<pin__>24</pin__>
+		<lab>3</lab>
+		<combinational_fan_out>1</combinational_fan_out>
+		<registered_fan_out>0</registered_fan_out>
+		<global>no</global>
+		<input_register>no</input_register>
+		<i_o_standard>TTL</i_o_standard>
+		<location_assigned_by>Fitter</location_assigned_by>
+	</row>
+	<row>
+		<name>B</name>
+		<pin__>4</pin__>
+		<lab>1</lab>
+		<combinational_fan_out>1</combinational_fan_out>
+		<registered_fan_out>0</registered_fan_out>
+		<global>no</global>
+		<input_register>no</input_register>
+		<i_o_standard>TTL</i_o_standard>
+		<location_assigned_by>Fitter</location_assigned_by>
+	</row>
+	<row>
+		<name>C</name>
+		<pin__>52</pin__>
+		<lab>5</lab>
+		<combinational_fan_out>2</combinational_fan_out>
+		<registered_fan_out>0</registered_fan_out>
+		<global>no</global>
+		<input_register>no</input_register>
+		<i_o_standard>TTL</i_o_standard>
+		<location_assigned_by>Fitter</location_assigned_by>
+	</row>
+	<row>
+		<name>D</name>
+		<pin__>81</pin__>
+		<lab>8</lab>
+		<combinational_fan_out>1</combinational_fan_out>
+		<registered_fan_out>0</registered_fan_out>
+		<global>no</global>
+		<input_register>no</input_register>
+		<i_o_standard>TTL</i_o_standard>
+		<location_assigned_by>Fitter</location_assigned_by>
+	</row>
+	<row>
+		<name>E</name>
+		<pin__>33</pin__>
+		<lab>4</lab>
+		<combinational_fan_out>1</combinational_fan_out>
+		<registered_fan_out>0</registered_fan_out>
+		<global>no</global>
+		<input_register>no</input_register>
+		<i_o_standard>TTL</i_o_standard>
+		<location_assigned_by>Fitter</location_assigned_by>
+	</row>
+</input_pins>
+<output_pins>
+	<row>
+		<name>X</name>
+		<pin__>11</pin__>
+		<lab>1</lab>
+		<output_register>no</output_register>
+		<slow_slew_rate>no</slow_slew_rate>
+		<open_drain>no</open_drain>
+		<tri_primitive>no</tri_primitive>
+		<i_o_standard>TTL</i_o_standard>
+		<location_assigned_by>Fitter</location_assigned_by>
+		<load>Unspecified</load>
+	</row>
+	<row>
+		<name>Y</name>
+		<pin__>12</pin__>
+		<lab>1</lab>
+		<output_register>no</output_register>
+		<slow_slew_rate>no</slow_slew_rate>
+		<open_drain>no</open_drain>
+		<tri_primitive>no</tri_primitive>
+		<i_o_standard>TTL</i_o_standard>
+		<location_assigned_by>Fitter</location_assigned_by>
+		<load>Unspecified</load>
+	</row>
+</output_pins>
+<compilation_summary>
+	<flow_status>Successful - Sat Oct 01 00:50:33 2005</flow_status>
+	<quartus_ii_version>5.0 Build 168 06/22/2005 SP 1 SJ Web Edition</quartus_ii_version>
+	<revision_name>simple</revision_name>
+	<top_level_entity_name>simple</top_level_entity_name>
+	<family>MAX7000S</family>
+	<device>EPM7128SLC84-7</device>
+	<timing_models>Final</timing_models>
+	<met_timing_requirements>N/A</met_timing_requirements>
+	<total_macrocells>2 / 128 ( 1 % )</total_macrocells>
+	<total_pins>11 / 68 ( 16 % )</total_pins>
+</compilation_summary>
+<compile_id>C0B13AB6</compile_id>
+<files>
+	<top>D:/lab4/simple.gdf</top>
+	<extensions>
+		<ext ext_name="gdf">1</ext>
+	</extensions>
+	<sub_files>
+		<sub_file>D:/lab4/simple.gdf</sub_file>
+	</sub_files>
+</files>
+<architecture>
+	<family>MAX7000S</family>
+	<auto_device>OFF</auto_device>
+	<device>EPM7128SLC84-7</device>
+</architecture>
+<pkg_io>
+	<pin_std count="11">TTL</pin_std>
+</pkg_io>
+</talkback>

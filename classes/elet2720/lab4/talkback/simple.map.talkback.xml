@@ -1,0 +1,236 @@
+
+<!--
+This XML file (created on Sat Oct 01 00:50:22 2005) contains limited information
+from the compilation of logic designs using Quartus II software (BUT NOT THE
+LOGIC DESIGN FILES) that will be transmitted to Altera Corporation through
+operation of the "TalkBack" feature.  To enable/disable this feature, run
+qtb_install.exe located in your quartus/bin folder.  For more information, go
+to www.altera.com/products/software/download/dnl-download_license.html
+-->
+<talkback>
+<ver>5.0</ver>
+<schema>quartus_version_5.0_build_168.xsd</schema><license>
+	<host_id>0014bf2307b3</host_id>
+	<nic_id>0014bf2307b3</nic_id>
+	<cdrive_id>b8ea2d9c</cdrive_id>
+</license>
+<tool>
+	<name>Quartus II</name>
+	<version>5.0</version>
+	<build>Build 168 SP 1</build>
+	<module>quartus_map.exe</module>
+	<edition>Web Edition</edition>
+	<compilation_end_time>Sat Oct 01 00:50:22 2005</compilation_end_time>
+</tool>
+<machine>
+	<os>Windows XP</os>
+	<cpu>
+		<proc_count>1</proc_count>
+		<cpu_freq units="MHz">1993</cpu_freq>
+	</cpu>
+	<ram units="MB">191</ram>
+</machine>
+<top_file>D:/lab4/simple</top_file>
+<mep_data>
+	<command_line>quartus_map --read_settings_files=on --write_settings_files=off simple -c simple</command_line>
+</mep_data>
+<software_data>
+	<smart_recompile>off</smart_recompile>
+</software_data>
+<messages>
+	<info>Info: Quartus II Analysis &amp; Synthesis was successful. 0 errors, 0 warnings</info>
+	<info>Info: Elapsed time: 00:00:09</info>
+	<info>Info: Processing ended: Sat Oct 01 00:50:21 2005</info>
+	<info>Info: Implemented 9 device resources after synthesis - the final resource count might be different</info>
+	<info>Info: Implemented 2 macrocells</info>
+</messages>
+<analysis___synthesis_settings>
+	<row>
+		<option>Device</option>
+		<setting>EPM7128SLC84-7</setting>
+	</row>
+	<row>
+		<option>Top-level entity name</option>
+		<setting>simple</setting>
+		<default_value>simple</default_value>
+	</row>
+	<row>
+		<option>Family name</option>
+		<setting>MAX7000S</setting>
+		<default_value>Stratix</default_value>
+	</row>
+	<row>
+		<option>Use smart compilation</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Create Debugging Nodes for IP Cores</option>
+		<setting>off</setting>
+		<default_value>off</default_value>
+	</row>
+	<row>
+		<option>Preserve fewer node names</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Disable OpenCore Plus hardware evaluation</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Verilog Version</option>
+		<setting>Verilog_2001</setting>
+		<default_value>Verilog_2001</default_value>
+	</row>
+	<row>
+		<option>VHDL Version</option>
+		<setting>VHDL93</setting>
+		<default_value>VHDL93</default_value>
+	</row>
+	<row>
+		<option>State Machine Processing</option>
+		<setting>Auto</setting>
+		<default_value>Auto</default_value>
+	</row>
+	<row>
+		<option>Extract Verilog State Machines</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Extract VHDL State Machines</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Add Pass-Through Logic to Inferred RAMs</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>NOT Gate Push-Back</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Power-Up Don&apos;t Care</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Remove Redundant Logic Cells</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Remove Duplicate Registers</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Ignore CARRY Buffers</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Ignore CASCADE Buffers</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Ignore GLOBAL Buffers</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Ignore ROW GLOBAL Buffers</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Ignore LCELL Buffers -- MAX 7000B/7000AE/3000A/7000S/7000A</option>
+		<setting>Auto</setting>
+		<default_value>Auto</default_value>
+	</row>
+	<row>
+		<option>Ignore SOFT Buffers -- MAX 7000B/7000AE/3000A/7000S/7000A</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Limit AHDL Integers to 32 Bits</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Optimization Technique -- MAX 7000B/7000AE/3000A/7000S/7000A</option>
+		<setting>Speed</setting>
+		<default_value>Speed</default_value>
+	</row>
+	<row>
+		<option>Allow XOR Gate Usage</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Auto Logic Cell Insertion</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Parallel Expander Chain Length -- MAX 7000B/7000AE/3000A/7000S/7000A</option>
+		<setting>4</setting>
+		<default_value>4</default_value>
+	</row>
+	<row>
+		<option>Auto Parallel Expanders</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Auto Open-Drain Pins</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Remove Duplicate Logic</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+	<row>
+		<option>Auto Resource Sharing</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Maximum Fan-in Per Macrocell -- MAX 7000B/7000AE/3000A/7000S/7000A</option>
+		<setting>100</setting>
+		<default_value>100</default_value>
+	</row>
+	<row>
+		<option>Ignore translate_off and translate_on Synthesis Directives</option>
+		<setting>Off</setting>
+		<default_value>Off</default_value>
+	</row>
+	<row>
+		<option>Show Parameter Settings Tables in Synthesis Report</option>
+		<setting>On</setting>
+		<default_value>On</default_value>
+	</row>
+</analysis___synthesis_settings>
+<compilation_summary>
+	<flow_status>Successful - Sat Oct 01 00:50:21 2005</flow_status>
+	<quartus_ii_version>5.0 Build 168 06/22/2005 SP 1 SJ Web Edition</quartus_ii_version>
+	<revision_name>simple</revision_name>
+	<top_level_entity_name>simple</top_level_entity_name>
+	<family>MAX7000S</family>
+	<device>EPM7128SLC84-7</device>
+	<timing_models>Final</timing_models>
+	<met_timing_requirements>N/A</met_timing_requirements>
+	<total_macrocells>2</total_macrocells>
+	<total_pins>7</total_pins>
+</compilation_summary>
+<compile_id>F6BAAD5C</compile_id>
+</talkback>
