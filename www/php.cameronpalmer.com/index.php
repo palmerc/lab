@@ -9,7 +9,7 @@
 				<th>Student</th><td><strong>Cameron L Palmer</strong></td>
 			</tr>
 			<tr>
-				<th>Picture</th><td><img src="i/ninja_cam.jpg" alt="Ninja Cameron" width="100" /></td>
+				<th>Picture</th><td><img src="i/ninja_cam.jpg" alt="Ninja Cameron" width="128" /></td>
 			</tr>
 			<tr>
 				<th>Email</th><td><a href="mailto:cameron.palmer@gmail.com">cameron.palmer@gmail.com</a></td>
