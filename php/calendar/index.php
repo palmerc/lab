@@ -1,4 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
 <title>COBA Web Calendar</title>
@@ -28,11 +31,54 @@ if ($_SERVER['argv']) {
 
 function query_month($ym) {
 	// Make database query for the specified month and return a nice pretty array of days
-	return array();
+
+	$firstday = mktime(0, 0, 0, date("m"), 1, date("Y"));
+	$lastday = mktime(0, 0, 0, date("m")+1, -1, date("Y"));
+	echo "The first day: " . date("l, M d, Y", $firstday) . "<br />\n";
+	echo "The last day: " . date("l, M d, Y", $lastday) . "<br />\n";
+	$startdayofweek = date("w", $firstday);
+	$lastdayofweek = date("w", $lastday);
+	
+	if ($startdayofweek != 7) {
+		$hoursback = ($startdayofweek) * 24;
+		$begincalendar = mktime(date("H")-$hoursback, 0, 0, date("m"), 1, date("Y"));
+		echo "The top of the calendar: " . date("l, M d Y",$begincalendar) . "<br />";
+		for ($i=0; $i < $startdayofweek; $i++) {
+			$day = mktime(0, 0, 0, date("m", $begincalendar), date("d", $begincalendar)+$i, date("Y", $begincalendar));
+			$data_array[] = date("d", $day);
+		}
+	}
+
+	$currentcalendar = mktime(0, 0, 0, date("m"), 1, date("Y"));
+	for ($i=1; $i <= date("d", $lastday); $i++) {
+		$day = mktime(0, 0, 0, date("m", $currentcalendar), $i, date("Y", $currentcalendar));
+		$data_array[] = date("d", $day);
+	}
+	
+	if ($lastdayofweek != 6) {
+		if ($lastdayofweek == 7) {
+			$hoursforward = ($lastdayofweek - 1) * 24;
+			$loopdays = $lastdayofweek - 1;
+		} else { 
+			$hoursforward = (6 - $lastdayofweek) * 24;
+			$loopdays = 6 - $lastdayofweek;
+		}
+		$endcalendar = mktime(date("H")+$hoursforward, 0, 0, date("m"), date("d",$lastday), date("Y"));
+		echo "The bottom of the calendar: " . date("l, M d Y",$endcalendar) . "<br />";
+		for ($i=0; $i < $loopdays; $i++) {
+			$day = mktime(0, 0, 0, date("m", $endcalendar), 1+$i, date("Y", $endcalendar));
+			$data_array[] = date("d", $day);
+		}
+	}
+	
+	//$date_array[] = $day, $events;
+
+		
+	return $data_array;
 }
 
 function display_month($ym, $data_array) {
-
+	//print_r($data_array);
 	// Convert the $ym (year month) to a displayable title
 	$title = date("F Y", $ym);
 	// Create the previous and next month arrows link
@@ -61,15 +107,18 @@ function display_month($ym, $data_array) {
 		</tr>
 			';
 
-	$num_weeks = 5;
+	$calendardays = 0;
+	$num_weeks = 6;
 	for ($i=0; $i < $num_weeks; $i++) {
 		echo'<tr id="firstweek">';
 		for ($j=1; $j <= 7; $j++) {
+			$day = $data_array[$calendardays];
 			echo"
 			<td class=\"jun sun\" id=\"jun30\">
-				<div class=\"date\">{$j}</div>
+				<div class=\"date\">{$day}</div>
 			</td>
 					";
+			$calendardays++;
 		}
 		echo'</tr>';
 	}
