@@ -1,0 +1,98 @@
+table#calendar {
+	background: white
+}
+table#calendar a {
+	text-decoration: none;
+}
+tr#days th {
+	width: 18%;
+}
+tr#days th.sat, tr#days th.sun {
+	width: 5%;
+}
+table#calendar tr#days th {
+	color: #CCE; background-color: #557;
+  font-weight: bold; text-align: center;
+  padding: 1px 0.33em;
+}
+table#calendar tr#title th {
+	background: #9CF; color: black;
+  border: 1px solid #242; font-size: 120%;
+}
+table#calendar td {
+	vertical-align: top; padding: 0;
+  border: 0px solid gray; border-width: 0 0 1px 1px;
+}
+table#calendar td.sat {
+	border-right: 1px solid gray;
+}
+table#calendar a {
+	font-weight: bold;
+	display: block;
+	margin: 0;
+}
+table#calendar a:link {
+	color: navy;
+}
+table#calendar a:visited {
+	color: purple;
+}
+table#calendar a:hover {
+	background: #FF6;
+}
+table#calendar td.sat, table#calendar td.sun {
+	background: #DDF;
+}
+table#calendar td.jun, table#calendar td.aug {
+  background: #AAC; 
+  color: #88A;
+}
+table#calendar tr#lastweek td {
+	border-bottom: 2px solid #AAB;
+}
+table#calendar td.holiday {
+	background: #BBF;
+}
+table#calendar td#jul16 {
+	background-color: #6AF;
+}
+td#jul16 div.date {
+	color: #33C;
+	font-weight: bold;
+	background: #CCF;
+}
+div.event {
+	margin: 0.5em;
+}
+div.event span {
+	display: block;
+}
+div.holiday {
+	font-style: italic;
+}
+span.time {
+	font-weight: bold;
+}
+span.loc {
+	color: #555;
+	font-style: italic;
+}
+div.date {
+	float: right;
+	text-align: center;
+  border: 1px solid gray;
+  border-width: 0 0 1px 1px;
+  padding: 0.125em 0.25em 0 0.25em;
+  margin: 0; 
+  background: #F3F3F3;
+}
+td.sat div.date, td.sun div.date {
+	border-width: 0;
+  color: gray;
+  background: transparent;
+}
+td.jun div.date, td.aug div.date {
+	border-width: 0;
+  color: gray;
+  background: transparent;
+}
