@@ -11,13 +11,13 @@
 
 <?php
 
-$current_ym = mktime();	
 // Display the current month if called but accept changes via the URL. So we will need GET
-if ($_SERVER['argv']) {
-	$requested_ym = array_pop($_SERVER['argv']);
+if ($_GET) {
+    list($requested_ym,) = each($_GET);
 	$data_array = query_month($requested_ym);
-	display_month($reqested_ym, $data_array);
+	display_month($requested_ym, $data_array);
 } else {
+    $current_ym = date("Ym", mktime());	
 	$data_array = query_month($current_ym);
 	display_month($current_ym, $data_array);
 }
@@ -31,66 +31,76 @@ if ($_SERVER['argv']) {
 
 function query_month($ym) {
 	// Make database query for the specified month and return a nice pretty array of days
-
-	$firstday = mktime(0, 0, 0, date("m"), 1, date("Y"));
-	$lastday = mktime(0, 0, 0, date("m")+1, -1, date("Y"));
-	echo "The first day: " . date("l, M d, Y", $firstday) . "<br />\n";
-	echo "The last day: " . date("l, M d, Y", $lastday) . "<br />\n";
-	$startdayofweek = date("w", $firstday);
-	$lastdayofweek = date("w", $lastday);
+    $year = substr($ym, 0, 4);
+    $month = substr($ym, 4, 2);
+    //echo "{$month} {$year}<br />\n";
+    
+    // Grab the first day and last day of the month
+	$firstday = mktime(0, 0, 0, $month, 1, $year);
+	$lastday = mktime(0, 0, 0, $month+1, 0, $year);
+	//echo "The first day: " . date("l, M d, Y", $firstday) . "<br />\n";
+	//echo "The last day: " . date("l, M d, Y", $lastday) . "<br />\n";
+    
+    // What day of the week is the first and last day of the month?
+    // 1 to 7 AKA Monday to Sunday
+    $startdayofweek = date("w", $firstday);
+	$enddayofweek = date("w", $lastday);
+    $lastdayofmonth = date("d", $lastday);
 	
+    // We have a square calendar so we need to show the end of the previous month
+    // if the first isn't on a Sunday
 	if ($startdayofweek != 7) {
-		$hoursback = ($startdayofweek) * 24;
-		$begincalendar = mktime(date("H")-$hoursback, 0, 0, date("m"), 1, date("Y"));
-		echo "The top of the calendar: " . date("l, M d Y",$begincalendar) . "<br />";
+        // Zero is the last day of the previous month as far as mktime is concerned
+		//echo "The top of the calendar: " . date("l, M d Y",$begincalendar) . "<br />";
 		for ($i=0; $i < $startdayofweek; $i++) {
-			$day = mktime(0, 0, 0, date("m", $begincalendar), date("d", $begincalendar)+$i, date("Y", $begincalendar));
-			$data_array[] = date("d", $day);
+			$data_array[] = mktime(0, 0, 0, $month, date(-($startdayofweek-1))+$i, $year);
 		}
 	}
 
-	$currentcalendar = mktime(0, 0, 0, date("m"), 1, date("Y"));
-	for ($i=1; $i <= date("d", $lastday); $i++) {
-		$day = mktime(0, 0, 0, date("m", $currentcalendar), $i, date("Y", $currentcalendar));
-		$data_array[] = date("d", $day);
+    // The month we are interested in is handled here.
+	for ($i=1; $i <= $lastdayofmonth; $i++) {
+        $data_array[] = mktime(0, 0, 0, $month, $i, $year);
 	}
 	
-	if ($lastdayofweek != 6) {
-		if ($lastdayofweek == 7) {
-			$hoursforward = ($lastdayofweek - 1) * 24;
-			$loopdays = $lastdayofweek - 1;
+    // We have a square calendar so we need to show the beginning of the next month
+    // if the last day isn't on a Saturday
+	if ($enddayofweek != 6) {
+		if ($enddayofweek == 7) {
+			$loopdays = $enddayofweek - 1;
 		} else { 
-			$hoursforward = (6 - $lastdayofweek) * 24;
-			$loopdays = 6 - $lastdayofweek;
+			$loopdays = 6 - $enddayofweek;
 		}
-		$endcalendar = mktime(date("H")+$hoursforward, 0, 0, date("m"), date("d",$lastday), date("Y"));
-		echo "The bottom of the calendar: " . date("l, M d Y",$endcalendar) . "<br />";
-		for ($i=0; $i < $loopdays; $i++) {
-			$day = mktime(0, 0, 0, date("m", $endcalendar), 1+$i, date("Y", $endcalendar));
-			$data_array[] = date("d", $day);
+		//$endcalendar = mktime(0, 0, 0, $month, $lastdayofmonth+$daysforward, $year);
+		//echo "The bottom of the calendar: " . date("l, M d Y",$endcalendar) . "<br />";
+		for ($i=1; $i <= $loopdays; $i++) {
+			$data_array[] = mktime(0, 0, 0, $month, $lastdayofmonth+$i, $year);
 		}
 	}
-	
-	//$date_array[] = $day, $events;
-
 		
 	return $data_array;
 }
 
 function display_month($ym, $data_array) {
+    //echo "{$ym}<br />\n";
+    //echo '<pre>';
 	//print_r($data_array);
+    //echo '</pre>';
 	// Convert the $ym (year month) to a displayable title
-	$title = date("F Y", $ym);
+    $year = substr($ym, 0, 4);
+    $month = substr($ym, 4, 2);
+    //echo "{$month} {$year}<br />\n";
+    $month_name = date("F", mktime(0, 0, 0, $month, 1, $year));
+	
 	// Create the previous and next month arrows link
-	$prev_mo = date("Ym", mktime(0, 0, 0, date("m")-1, date("d"),  date("Y")));
-	$next_mo = date("Ym", mktime(0, 0, 0, date("m")+1, date("d"),  date("Y")));
+	$prev_mo = date("Ym", mktime(0, 0, 0, $month-1, 1,  $year));
+	$next_mo = date("Ym", mktime(0, 0, 0, $month+1, 1,  $year));
 	echo'
 	<table cellspacing="0" width="100%" id="calendar">
 		<tr id="title">
 			';
 	echo"
 			<th id=\"lastmonth\"><a href=\"{$prev_mo}\">&laquo;</a></th>
-			<th colspan=\"5\" id=\"thismonth\">{$title}</th>
+			<th colspan=\"5\" id=\"thismonth\">{$month_name} {$year}</th>
 			<th id=\"nextmonth\"><a href=\"{$next_mo}\">&raquo;</a></th>
 			";
 	echo'
@@ -107,20 +117,31 @@ function display_month($ym, $data_array) {
 		</tr>
 			';
 
-	$calendardays = 0;
-	$num_weeks = 6;
-	for ($i=0; $i < $num_weeks; $i++) {
-		echo'<tr id="firstweek">';
-		for ($j=1; $j <= 7; $j++) {
-			$day = $data_array[$calendardays];
+	$i = 0;
+    $week = 0;
+    $nameofweek = array("firstweek", "secondweek", "thirdweek", "fourthweek", "fifthweek", "sixthweek");
+	while ($i < count($data_array)) {
+        $thisweek = $nameofweek[$week];
+		echo"
+        <tr id=\"{$thisweek}\">
+        ";
+		for ($j=0; $j < 7; $j++) {
+			$day = date("M D d", $data_array[$i]);
+            $shortmonth = strtolower(substr($day, 0 , 3));
+            $shortday = strtolower(substr($day, 4, 3));
+            $date = strtolower(substr($day, 8, 2));
 			echo"
-			<td class=\"jun sun\" id=\"jun30\">
-				<div class=\"date\">{$day}</div>
+			<td class=\"{$shortmonth} {$shortday}\" id=\"{$shortmonth}{$date}\">
+				<div class=\"date\">{$date}</div>
 			</td>
 					";
-			$calendardays++;
+			$i++;
+            
 		}
-		echo'</tr>';
+        $week++;
+		echo'
+        </tr>
+        ';
 	}
 	echo'
 	</table>
