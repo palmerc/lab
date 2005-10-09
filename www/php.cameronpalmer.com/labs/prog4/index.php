@@ -1,119 +1,304 @@
 <?php
-	$title = "CSCE 2410 - PHP Program 4";
-	$section = "Assignment: Matrices";
+	$title = "CSCE 2410 - PHP Program 5";
+	$section = "Assignment: Specialized Functions";
 	require("../../php-template.php");
-	$rows = 5;
-	$cols = 5;
-		
-if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
-	// Check to see which button was hit and grab the value
-	//print_r($_REQUEST);
-	$matrixA = array();
-	$matrixB = array();
-	$matrixC = array();
-			
-	for ($i=0; $i < $rows; $i++){
-		for ($j=0; $j < $cols; $j++){
-			$matrixA[$i][$j] = $_REQUEST['matrixA'][$i][$j];
-			$matrixB[$i][$j] = $_REQUEST['matrixB'][$i][$j];
-		}
-	}
+$test_string1 = "This    is     a                                         test!!!";
+$test_string2 = "Lorem ipsum and all that jazz.";
+$test_array = array("The\n",
+												"                        \n",
+												"LAZY brown DOG\n",
+												"               \n",
+												"\n",
+												"jumped       OVER  the   MOON\n");
+$null_string = "";
+$notso_null_string = '                        ';
 
-	if (isset($_POST['add'])){
-		$matrixC = matrix_add($matrixA, $matrixB);
-		matrix_result($matrixC);
-	}
-	if (isset($_POST['subtract'])){
-		$matrixC = matrix_subtract($matrixA, $matrixB);
-		matrix_result($matrixC);
-	} 
-} else {
-	$matrixA = array();
-	$matrixB = array();
-	for ($i=0; $i < $rows; $i++){
-		for ($j=0; $j < $cols; $j++){
-			$matrixA[$i][$j] = $i + $j;
-			$matrixB[$i][$j] = $i + $j;
-		}
-	}
-	//print_r($matrix_array);
-}
-
-?>
-
-<!-- BEGIN Generate the form -->
+echo'
 <div class="form">
-	<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-		<?php matrix_display("matrixA", "Matrix A:", $matrixA); ?>
-		<?php matrix_display("matrixB", "Matrix B:", $matrixB); ?>
-		<div style="float: left; clear: left;">
-			<input type="submit" name="add" value="Add Matrix A and B" />
-			<input type="submit" name="subtract" value="Subtract Matrix B from A" />
-		</div>
-	</form>
+		';
+
+strleading_tester();
+strileading_tester();
+strtrailing_tester();
+stritrailing_tester();
+explodeCount_tester();
+removeMultipleBlanks_tester();
+removeMultipleBlankLines_tester();
+
+																		
+echo'
 </div>
+		';
 
-<?php
+function display_tests($title, $data_array) {
+	echo"
+		<table class=\"matrix\">
+			<tr>
+				<th colspan=\"1\">{$title}</th>
+			</tr>
+			<tr>
+				<th>Param1</th>
+				<th>Param2</th>
+				<th>Value Returned</th>
+			</tr>
+			";
 
-function matrix_display($matrix_name, $matrix_display_name, $matrix){
-		$cols = count($matrix);
-		$rows = $cols;
-		echo "<table class=\"matrix\">\n";
-		echo "<tr><th colspan=\"{$cols}\">{$matrix_display_name}</th></tr>\n";
-		for ($i=0; $i < $rows; $i++){
-			echo "<tr>";
-			for ($j=0; $j < $cols;$j++){
-				echo "<td><input type=\"text\" name=\"{$matrix_name}[{$i}][{$j}]\" size=\"6\" value=\"";
-				$value = $matrix[$i][$j];
-				echo $value;
-				echo "\" /></td>";
-			}
-			echo "</tr>\n";
-		}
-		echo "</table>\n";
-}
-
-function matrix_add($matrixA, $matrixB){
-	$matrixC = array();
-	$cols = count($matrixA);
-	$rows = $cols;
-	for ($i=0; $i < $rows; $i++){
-		for ($j=0; $j < $cols; $j++){
-			$matrixC[$i][$j] = (integer)$matrixA[$i][$j] + (integer)$matrixB[$i][$j];
-		}
+	foreach ($data_array as $results_array) {
+		list($param1, $param2, $result) = $results_array;
+		echo"
+			<tr>
+				<td><pre>&ldquo;{$param1}&rdquo;</pre></td>
+				<td><pre>&ldquo;{$param2}&rdquo;</pre></td>
+				<td><pre>&ldquo;{$result}&rdquo;</pre></td>
+			</tr>
+				";
 	}
-	//print_r($matrixC);
-	return $matrixC;
+	echo'
+		</table>
+			';
 }
 
-function matrix_subtract($matrixA, $matrixB){
-	$matrixC = array();
-	$cols = count($matrixA);
-	$rows = $cols;
-	for ($i=0; $i < $rows; $i++){
-		for ($j=0; $j < $cols; $j++){
-			$matrixC[$i][$j] = (integer)$matrixA[$i][$j] - (integer)$matrixB[$i][$j];
-		}
+function strleading($string_in, $amtmatch) {
+	if (is_string($amtmatch)) {
+		$pattern = '/^'.$amtmatch.'/';
+		if (preg_match($pattern, $string_in)) return true;
+		else return false;
+	} elseif (is_integer($amtmatch) and $amtmatch >= 0) {
+		return substr($string_in, 0, $amtmatch);
+	}	elseif (is_integer($amtmatch) and $amtmatch < 0) {
+		return substr($string_in, $amtmatch, abs($amtmatch));
+	} else {
+		die ("strleading(): Error invalid parameter\n");
 	}
-	return $matrixC;
 }
 
-function matrix_result($matrix){
-		$cols = count($matrix);
-		$rows = $cols;
-		echo "<table class=\"progtable\">\n";
-		echo "<tr><th colspan=\"{$cols}\">Matrix Result:</th></tr>\n";
-		for ($i=0; $i < $rows; $i++){
-			echo "<tr>";
-			for ($j=0; $j < $cols;$j++){
-				echo "<td>";
-				echo $matrix[$i][$j];
-				echo "</td>";
-			}
-			echo "</tr>\n";
+function strileading($string_in, $amtmatch) {
+	if (is_string($amtmatch)) {
+		$pattern = '/^'.$amtmatch.'/i';
+		if (preg_match($pattern, $string_in)) return true;
+		else return false;
+	} elseif (is_integer($amtmatch) and $amtmatch >= 0) {
+		return substr($string_in, 0, $amtmatch);
+	}	elseif (is_integer($amtmatch) and $amtmatch < 0) {
+		return substr($string_in, $amtmatch, abs($amtmatch));
+	} else {
+		die ("strileading(): Error invalid parameter\n");
+	}
+}
+
+function strtrailing($string_in, $amtmatch) {
+	if (is_string($amtmatch)) {
+		$pattern = '/'.$amtmatch.'$/';
+		if (preg_match($pattern, $string_in)) return true;
+		else return false;
+	} elseif (is_integer($amtmatch) and $amtmatch >= 0) {
+		return substr($string_in, -($amtmatch), $amtmatch);
+	}	elseif (is_integer($amtmatch) and $amtmatch < 0) {
+		return substr($string_in, 0, abs($amtmatch));
+	} else {
+		die ("strtrailing(): Error invalid parameter\n");
+	}
+}
+
+function stritrailing($string_in, $amtmatch) {
+	if (is_string($amtmatch)) {
+		$pattern = '/'.$amtmatch.'$/i';
+		if (preg_match($pattern, $string_in)) return true;
+		else return false;
+	} elseif (is_integer($amtmatch) and $amtmatch >= 0) {
+		return substr($string_in, -($amtmatch), $amtmatch);
+	}	elseif (is_integer($amtmatch) and $amtmatch < 0) {
+		return substr($string_in, 0, abs($amtmatch));
+	} else {
+		die ("stritrailing(): Error invalid parameter\n");
+	}
+}
+
+function removeMultipleBlanks($string_in) {
+	return preg_replace('/\s\s+/', ' ',$string_in);
+}
+
+function explodeCount($string_in, $seperator, &$count, $limit=null) {
+	if ($limit != null) {
+		$data_array = explode($seperator, $string_in, $limit);
+	} else {
+		$data_array = explode($seperator, $string_in);
+	}
+	$count = count($data_array);
+	return $data_array;
+}
+
+function removeMultipleBlankLines(&$string_array) {
+	$count = 0;
+  $count = count($string_array);
+  //echo "<pre>" . print_r($string_array) . "</pre>";
+  for ($i=0; $i < $count; $i++) {
+		if (preg_match('/^\s*$/', $string_array[$i]) and preg_match('/^\s*$/', $string_array[$i+1])) {
+			continue;
 		}
-		echo "</table>\n";
+		$data_array[] = $string_array[$i];
+  }
+  $string_array = $data_array;
+  //echo "<pre>" . print_r($string_array) . "</pre>";
+	$count -= count($data_array);
+
+	return $count;
+}
+
+function strleading_tester() {
+	global $test_string2;
+	
+	// strleading() tests
+	$results_array = array($test_string2, "Lorem", 0);
+	$results_array[2] = (strleading($results_array[0], $results_array[1]) ? 'true' : 'false');
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, "lorem", 0);
+	$results_array[2] = (strleading($results_array[0], $results_array[1]) ? 'true' : 'false');
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, 5, 0);
+	$results_array[2] = strleading($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, 0, 0);
+	$results_array[2] = strleading($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, -5, 0);
+	$results_array[2] = strleading($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	display_tests("strleading()", $data_array);
+}
+
+function strileading_tester() {
+	global $test_string2;
+	
+	// strileading() tests
+	$results_array = array($test_string2, "Lorem", 0);
+	$results_array[2] = (strileading($results_array[0], $results_array[1]) ? 'true' : 'false');
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, "lorem", 0);
+	$results_array[2] = (strileading($results_array[0], $results_array[1]) ? 'true' : 'false');
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, 5, 0);
+	$results_array[2] = strileading($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, 0, 0);
+	$results_array[2] = strileading($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, -5, 0);
+	$results_array[2] = strileading($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	display_tests("strileading()", $data_array);
+}
+
+function strtrailing_tester() {
+	global $test_string2;
+	
+	// strtrailing() tests
+	$results_array = array($test_string2, "jazz.", 0);
+	$results_array[2] = (strtrailing($results_array[0], $results_array[1]) ? 'true' : 'false');
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, "Jazz.", 0);
+	$results_array[2] = (strtrailing($results_array[0], $results_array[1]) ? 'true' : 'false');
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, 5, 0);
+	$results_array[2] = strtrailing($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, 0, 0);
+	$results_array[2] = strtrailing($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, -5, 0);
+	$results_array[2] = strtrailing($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	display_tests("strtrailing()", $data_array);
+}
+
+function stritrailing_tester() {
+	global $test_string2;
+	
+	// stritrailing() tests
+	$results_array = array($test_string2, "jazz.", 0);
+	$results_array[2] = (stritrailing($results_array[0], $results_array[1]) ? 'true' : 'false');
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, "Jazz.", 0);
+	$results_array[2] = (stritrailing($results_array[0], $results_array[1]) ? 'true' : 'false');
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, 5, 0);
+	$results_array[2] = stritrailing($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, 0, 0);
+	$results_array[2] = stritrailing($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	$results_array = array($test_string2, -5, 0);
+	$results_array[2] = stritrailing($results_array[0], $results_array[1]);
+	$data_array[] = $results_array;
+	
+	display_tests("stritrailing()", $data_array);
+}
+
+function removeMultipleBlanks_tester() {
+	global $test_string1, $null_string, $notso_null_string;
+	
+	// removeMultipleBlanks() tests
+	$results_array = array($test_string1, "n/a", "");
+	$results_array[2] = removeMultipleBlanks($results_array[0]);
+	$data_array[] = $results_array;
+
+	$results_array = array($null_string, "n/a", "");
+	$results_array[2] = removeMultipleBlanks($results_array[0]);
+	$data_array[] = $results_array;
+
+	$results_array = array($notso_null_string, "n/a", "");
+	$results_array[2] = removeMultipleBlanks($results_array[0]);
+	$data_array[] = $results_array;
+	
+	display_tests("removeMultipleBlanks()", $data_array);
+}
+
+function explodeCount_tester() {
+	global $test_string2;
+	
+	$results_array = array($test_string2, "", 0);
+	$results_array[1] = explodeCount($results_array[0], " ", $count);
+	$results_array[2] = $count;
+	$data_array[] = $results_array;
+
+	$results_array = array($test_string2, "", 0);
+	$results_array[1] = explodeCount($results_array[0], " ", $count, 4);
+	$results_array[2] = $count;
+	$data_array[] = $results_array;
+			
+	display_tests("explodeCount()", $data_array);
+}
+
+function removeMultipleBlankLines_tester() {
+	global $test_array;
+
+	// removeMultipleBlankLines() tests
+	$results_array = array($test_array, "n/a", "");
+	$results_array[2] = removeMultipleBlankLines($results_array[0]);
+	$results_array[0] = implode($test_array);
+	$data_array[] = $results_array;
+
+	display_tests("removeMultipleBlankLines()", $data_array);
 }
 
 ?>
