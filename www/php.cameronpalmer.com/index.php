@@ -56,3 +56,12 @@
 				";
 				?>
 			</ul>
+		<h3>Program 5</h3>
+			<ul>
+				<?php $program = "labs/prog5/index.php";
+				echo"
+				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
+				<li><a href=\"{$ptr}labs/prog5/source.php\" name=\"filename3\">PHP Source</a></li>
+				";
+				?>
+			</ul>
