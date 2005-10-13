@@ -121,7 +121,11 @@ function display_month($ym, $data_array) {
     $week = 0;
     $nameofweek = array("firstweek", "secondweek", "thirdweek", "fourthweek", "fifthweek", "sixthweek");
 	while ($i < count($data_array)) {
-        $thisweek = $nameofweek[$week];
+        if (count($data_array) - $i <= 7) {
+            $thisweek = "lastweek";
+        } else {
+            $thisweek = $nameofweek[$week];
+        }
 		echo"
         <tr id=\"{$thisweek}\">
         ";
