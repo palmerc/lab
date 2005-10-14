@@ -1,15 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-
-<head>
-<title>COBA Web Calendar</title>
-	<link rel="stylesheet" type="text/css" href="main.css" />
-</head>
-<body>
-
 <?php
+//$settings['pagetype'] = "ms t";
+$settings['title'] = "UNT/College of Business/News/Calendar";
+$settings['extrasheets'] = array("main.css"); //or false
+require(strtolower(dirname(__FILE__)).'/../../common/common.php');
+include("../../_generalinfo.inc");
+include("../../about/_aboutside.inc");
+$db_name="cobadb";
+include("../../dbconnect/cobaweb.php");
 
 // Display the current month if called but accept changes via the URL. So we will need GET
 if ($_GET) {
@@ -17,17 +14,11 @@ if ($_GET) {
 	$data_array = query_month($requested_ym);
 	display_month($requested_ym, $data_array);
 } else {
+    echo
     $current_ym = date("Ym", mktime());	
 	$data_array = query_month($current_ym);
 	display_month($current_ym, $data_array);
 }
-
-?>
-
-</body>
-</html>
-
-<?php
 
 function query_month($ym) {
 	// Make database query for the specified month and return a nice pretty array of days
@@ -52,8 +43,8 @@ function query_month($ym) {
 	if ($startdayofweek != 7) {
         // Zero is the last day of the previous month as far as mktime is concerned
 		//echo "The top of the calendar: " . date("l, M d Y",$begincalendar) . "<br />";
-		for ($i=0; $i < $startdayofweek; $i++) {
-			$data_array[] = mktime(0, 0, 0, $month, date(-($startdayofweek-1))+$i, $year);
+		for ($i=0; $i < $startdayofweek; $i++) {                
+			$data_array[] = mktime(0, 0, 0, $month, -($startdayofweek-1)+$i, $year);
 		}
 	}
 
@@ -131,14 +122,23 @@ function display_month($ym, $data_array) {
         ";
 		for ($j=0; $j < 7; $j++) {
 			$day = date("M D d", $data_array[$i]);
+            $longday = date("Y-m-d", $data_array[$i]);
             $shortmonth = strtolower(substr($day, 0 , 3));
             $shortday = strtolower(substr($day, 4, 3));
             $date = strtolower(substr($day, 8, 2));
+            $sql = "SELECT * FROM tbl_news WHERE calstart='{$longday}'";
+            $r = mysql_query($sql) or die("Can't update record {$longday}<br />".mysql_error());
+            $p = mysql_fetch_array($r);
+            list($news_title, $news_body) = array($p['title'], $p['body']);
+             
+            
+            //Print the calendar day.
 			echo"
 			<td class=\"{$shortmonth} {$shortday}\" id=\"{$shortmonth}{$date}\">
-				<div class=\"date\">{$date}</div>
+                <div class=\"date\">{$date}</div>
+                <div class=\"event\">{$news_title}</div>
 			</td>
-					";
+                ";
 			$i++;
             
 		}
