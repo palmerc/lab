@@ -1,10 +1,10 @@
 <?php
-//$settings['pagetype'] = "ms t";
+$settings['pagetype'] = "i";
 $settings['title'] = "UNT/College of Business/News/Calendar";
 $settings['extrasheets'] = array("main.css"); //or false
 require(strtolower(dirname(__FILE__)).'/../../common/common.php');
 include("../../_generalinfo.inc");
-include("../../about/_aboutside.inc");
+//include("../../about/_aboutside.inc");
 $db_name="cobadb";
 include("../../dbconnect/cobaweb.php");
 
@@ -14,10 +14,14 @@ if ($_GET) {
 	$data_array = query_month($requested_ym);
 	display_month($requested_ym, $data_array);
 } else {
-    echo
-    $current_ym = date("Ym", mktime());	
-	$data_array = query_month($current_ym);
-	display_month($current_ym, $data_array);
+    $current_ym = date("Ym", mktime());
+    // Write the current month to the URL so that it is always obvious how to
+    // change the month in the command-line. Otherwise it would only appear when
+    // people changed months using the arrow buttons.
+    header("Location: http://" . $_SERVER['HTTP_HOST'] 
+        . rtrim(dirname($_SERVER['PHP_SELF']), '/\\')
+        . "/" 
+        . $current_ym);
 }
 
 function query_month($ym) {
@@ -136,7 +140,12 @@ function display_month($ym, $data_array) {
 			echo"
 			<td class=\"{$shortmonth} {$shortday}\" id=\"{$shortmonth}{$date}\">
                 <div class=\"date\">{$date}</div>
-                <div class=\"event\">{$news_title}</div>
+                <div class=\"event\">";
+            if ($news_title) {
+                echo "<a href=\"?\">{$news_title}</a>";
+            } 
+            echo"
+            </div>
 			</td>
                 ";
 			$i++;

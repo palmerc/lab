@@ -3,6 +3,7 @@ table#calendar {
 	background: white;
 }
 table#calendar a {
+	border-bottom-style: none;
 	text-decoration: none;
 }
 tr#days th {
@@ -19,16 +20,25 @@ table#calendar tr#days th {
 	padding: 1px 0.33em;
 }
 table#calendar tr#title th {
+	text-align: center;
 	background: #369; 
 	color: #fff;
 	border: 1px solid #369; 
 	font-size: 120%;
+}
+table#calendar tr#title th#lastmonth a {
+	text-align: center;
+}
+table#calendar tr#title th#nextmonth a {
+	text-align: center;
 }
 table#calendar td {
 	vertical-align: top;
 	padding: 0;
 	border: 0px solid gray;
 	border-width: 0 0 1px 1px;
+	height: 7em;
+	width: 7em;
 }
 table#calendar td.sat {
 	border-right: 1px solid gray;
@@ -70,7 +80,14 @@ td#jul16 div.date {
 	background: #CCF;
 }*/
 div.event {
+	color: #000;	
 	margin: 0.5em;
+	font-size: 0.70em;
+}
+table#calendar div.event a {
+	color: #000;
+	font-weight: normal;
+	border-bottom-style: dotted;
 }
 div.event span {
 	display: block;
