@@ -7,6 +7,7 @@ include("../../_generalinfo.inc");
 //include("../../about/_aboutside.inc");
 $db_name="cobadb";
 include("../../dbconnect/cobaweb.php");
+require(strtolower($_SERVER["DOCUMENT_ROOT"])."/news/_functions.inc");
 
 // Display the current month if called but accept changes via the URL. So we will need GET
 if ($_GET) {
@@ -133,7 +134,10 @@ function display_month($ym, $data_array) {
             $sql = "SELECT * FROM tbl_news WHERE calstart='{$longday}'";
             $r = mysql_query($sql) or die("Can't update record {$longday}<br />".mysql_error());
             $p = mysql_fetch_array($r);
-            list($news_title, $news_body) = array($p['title'], $p['body']);
+            //echo "<pre>";
+            //print_r($p);
+            //echo "</pre>";
+            list($news_title, $news_body, $news_link) = array($p['title'], $p['body'], mklink($p));
              
             
             //Print the calendar day.
@@ -142,7 +146,7 @@ function display_month($ym, $data_array) {
                 <div class=\"date\">{$date}</div>
                 <div class=\"event\">";
             if ($news_title) {
-                echo "<a href=\"?\">{$news_title}</a>";
+                echo "<a href=\"{$news_link}\">{$news_title}</a>";
             } 
             echo"
             </div>
