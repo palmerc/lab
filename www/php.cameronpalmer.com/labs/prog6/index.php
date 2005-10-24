@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 	// cleanup the filename and allow for .dat or no extension
 	if (isset($_POST['filename'])) {
-		print_r($_POST);
+		//print_r($_POST);
 		$passed_value = trim($_POST['filename']);
 		if (preg_match('/\.dat$/', $passed_value)) { 
 			$datfile = $passed_value;
@@ -29,36 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 	$index_handle = fopen($indexfile, "rb");
 
-	echo"
-		<table class=\"progtable\">
-			";
-	while ($line = fgets($index_handle)) {
-		$quote_info = explode(',', $line);
-		$starting_offset = $quote_info[0];
-		$ending_offset = $quote_info[3] - $starting_offset;
-		fseek($handle, $starting_offset);
-		$quote = fread($handle, $ending_offset);
-		echo"
-			<tr>
-				<td>
-				";
-		if (isset($_POST['preformat'])) {
-			echo"
-					<pre>{$quote}</pre>
-					";
-		} else {
-			echo"
-					{$quote}
-					";
-		}
-		echo"
-				</td>
-			</tr>
-				";
+	if ($_POST['limitation'] == "Max Lines" and $_POST['maxsize'] > 0) {
+		$quote_array = selectQuotes($handle, $index_handle, 0,$maxsize);
+		displayQuotes($quote_array);
+	} else if ($_POST['limitation'] == "Max Characters" and $_POST['maxsize'] > 0) {
+		$quote_array = selectQuotes($handle, $index_handle, $maxsize, 0);
+		displayQuotes($quote_array);
+	} else {
+		$quote_array = selectQuotes($handle, $index_handle, 0, 0);
+		displayQuotes($quote_array);
 	}
-		echo"
-		</table>
-			";
+
 } else {
   echo"
 	  	<form method=\"post\" action=\"{$_SERVER['PHP_SELF']}\">
@@ -73,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		  										<option>Max Lines</option>
 			  									<option>Max Characters</option>
 			  								</select>
-		  			Max Size: <input type=\"text\" size=\"4\" value=\"\" />
+		  			Max Size: <input type=\"text\" name=\"maxsize\" size=\"4\" value=\"\" />
 		  			Preformat output: <input type=\"checkbox\" name=\"preformat\" />
 		  		</p>
 		  		<p>
@@ -100,7 +81,8 @@ function createIndexFile($datfile, $indexfile, $handle) {
 		$char_count += strlen($line);
 		$line_count++;
 		if (preg_match('/^%/', $line)) {
-			$ending_offset = ftell($handle);
+			// remove 2 one for the newline and one for the %
+			$ending_offset = ftell($handle) - 2;
 			$write_line = "{$line_offset},{$line_count},{$char_count},{$ending_offset}\n";
 			fwrite($whandle, $write_line);
 
@@ -115,6 +97,60 @@ function createIndexFile($datfile, $indexfile, $handle) {
 	fclose($whandle);
 }
 
+function selectQuotes($handle, $index_handle, $maxchars="0", $maxlines="0") {
+	// Read in the index to an array
+	while ($line = fgets($index_handle)) {
+		$list_of_potentials[] = $line;
+	}
+	$numofquotes = count($list_of_potentials);
 
+	// Choose 5 unique values within the range of quotes
+	while (count($chosen_array) < 5) {
+		$chosen_one = rand(0, $numofquotes);
+		$chosen_array[$chosen_one] = $chosen_one; 
+	}
+
+	foreach ($chosen_array as $the_one) {
+		$line = $list_of_potentials[$the_one];	
+		$quote_info = explode(',', $line);
+		$starting_offset = $quote_info[0];
+		$ending_offset = $quote_info[3] - $starting_offset;
+		fseek($handle, $starting_offset);
+		$quote_array[] = fread($handle, $ending_offset);
+	}
+
+	return $quote_array;
+}
+
+function displayQuotes($quote_array) {
+	echo"
+		<table class=\"quotetable\">
+			";
+
+	foreach($quote_array as $quote) {			
+		echo"
+			<tr>
+				<td>
+				";
+		if (isset($_POST['preformat'])) {
+			echo"
+					<pre>{$quote}</pre>
+					";
+		} else {
+			echo"
+					{$quote}
+					";
+		}
+
+		echo"
+				</td>
+			</tr>
+				";
+	}
+	
+	echo"
+		</table>
+			";
+}
 
 ?>
