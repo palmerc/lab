@@ -14,7 +14,7 @@
 	  			</p>
 	  			<p>
 		  			Always build index? <input type=\"checkbox\" name=\"buildindex\"";
-	if (isset($_POST['buildindex'])) echo "checked=\"checked\"";
+	if (isset($_POST['buildindex'])) echo " checked=\"checked\"";
 	echo' />
 		  			Limitation: <select name="limitation">
 		  ';
@@ -36,7 +36,7 @@
 			  		</select>
 		  			Max Size: <input type=\"text\" name=\"maxsize\" size=\"4\" value=\"{$_POST['maxsize']}\" />
 		  			Preformat output: <input type=\"checkbox\" name=\"preformat\"";
-	if (isset($_POST['preformat'])) echo "checked=\"checked\"";
+	if (isset($_POST['preformat'])) echo " checked=\"checked\"";
 	echo " />
 		  		</p>
 		  		<p>
