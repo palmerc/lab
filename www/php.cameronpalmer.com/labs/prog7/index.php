@@ -15,33 +15,29 @@
 	</form>
 
 <?php
-
-//	echo '<div style="class: leftside;"><pre>';
-//	print_r($_FILES);
-//	echo '</pre></div>';
-
-	if ($_SERVER['REQUEST_METHOD'] == "POST") {
-		uploadFiles($upload_dir);
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+		if (!uploadFile($upload_dir)) {
+            echo "<hr><p>Only JPEG, GIF or PNG files are allowed</p>";
+        }
 	}
 
 	displayImages($upload_dir);
 
-function uploadFiles($upload_dir) {
-	//$gd_array = gd_info();
-	print_r($gd_array);
-	$upload_file = $upload_dir . basename($_FILES['filename']['name']);
-//	echo $upload_file;
-	move_uploaded_file($_FILES['filename']['tmp_name'], $upload_file);
-	//$thumb_file = $upload_dir . "thumb" . basename($_FILES['filename']['name']);
-	
-	//copy($upload_file, $thumb_file);
-	//resizeImageByWidth($thumb_file, 100);
+function uploadFile($upload_dir) {
+    $file_info = getimagesize($_FILES['filename']['tmp_name']);
+    $mime_type =$file_info['mime'];
+    if ($mime_type == 'image/jpeg' or $mime_type == 'image/gif' or $mime_type == 'image/png') {
+        $upload_file = $upload_dir . basename($_FILES['filename']['name']);
+        move_uploaded_file($_FILES['filename']['tmp_name'], $upload_file);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function displayImages($upload_dir) {
 	$dh  = opendir($upload_dir);
-	//echo $upload_dir;	while (false !== ($filename = readdir($dh))) {  	$file_array[] = $filename;	}
-	//print_r($file_array);
+	while (false !== ($filename = readdir($dh))) {  	$file_array[] = $filename;	}
 	if (count($file_array) > 0) {
 		echo '<table class="phototable">';
 		foreach ($file_array as $file) {
@@ -54,26 +50,5 @@ function displayImages($upload_dir) {
 		echo '</table>';
 	}
 }
-
-function resizeImageByWidth($filename, $newwidth) {	
-	list($width, $height) = getimagesize($filename);
-	$percentage = $newwidth / $width;
-
-	$thumbwidth = $width * $percentage;
-	$thumbheight = $height * $percentage;
-
-	$thumbnail = imagecreatetruecolor($newwidth, $newheight);
-	$sourceimg = imagecreatefromjpeg($filename);
-
-	imagecopyresampled($thumbnail, $sourceimg, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-
-	imagejpeg($thumbnail);
-}
-
-function checkFileType() {
-
-}
-
-
 
 ?>
