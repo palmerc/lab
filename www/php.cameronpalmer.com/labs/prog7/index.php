@@ -5,7 +5,8 @@
 
 	$upload_dir = "uploaddir/";
 ?>
-	<form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>" class="leftside">
+    <div class="leftside">
+	<form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 		<p>
 			<input type="file" name="filename" value="" />
 		</p>
@@ -13,11 +14,13 @@
 			<input type="submit" name="submit" value="Upload file" />
 		</p>
 	</form>
+    <hr>
+    </div>
 
 <?php
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		if (!uploadFile($upload_dir)) {
-            echo "<hr><p>Only JPEG, GIF or PNG files are allowed</p>";
+            echo "<p class=\"leftside warning\">Only JPEG, GIF or PNG files are allowed</p>";
         }
 	}
 
