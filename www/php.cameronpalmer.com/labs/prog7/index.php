@@ -41,7 +41,7 @@ function displayImages($upload_dir) {
 	if (count($file_array) > 0) {
 		echo '<table class="phototable">';
 		foreach ($file_array as $file) {
-			if (preg_match('/\.jpg$/', $file)) {
+			if (preg_match('/(\.jpg)|(\.png)|(\.gif)$/', $file)) {
 				$FQfile = $upload_dir . rawurlencode($file);
 				echo "<tr><td><a href=\"{$FQfile}\"><img alt=\"{$file}\" width=\"100\" src=\"" 
 					. $FQfile . "\" /></a></td></tr>";
