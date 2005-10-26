@@ -21,6 +21,7 @@
 	</form>
     <hr>
     </div>
+    <br style="clear: both;" />
 
 <?php
   if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -52,17 +53,17 @@ function displayImages($upload_dir) {
   	$file_array[] = $filename;
 	}
 	if (count($file_array) > 0) {
-		echo '<table class="phototable">';
+		//echo '<table class="phototable">';
 		foreach ($file_array as $file) {
 			if (preg_match('/(\.jpg)|(\.png)|(\.gif)/', $file)) {
 				$image_thumb = "thumb-".$file;
 				$FQfile = $upload_dir . rawurlencode($file);
 				$FQimage_thumb = $upload_dir.'thumbnails/'. rawurlencode($image_thumb);
-				echo "<tr><td><a href=\"{$FQfile}\"><img alt=\"{$file}\" width=\"100\" src=\"" 
-					. $FQimage_thumb . "\" /></a></td></tr>";
+				echo "<div class=\"pic\"><a href=\"{$FQfile}\"><img alt=\"{$file}\" width=\"100\" src=\"" 
+					. $FQimage_thumb . "\" /></a></div>";
 			}
 		}
-		echo '</table>';
+		//echo '</table>';
 	}
 }
 
