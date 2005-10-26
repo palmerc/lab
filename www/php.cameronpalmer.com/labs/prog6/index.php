@@ -77,13 +77,13 @@
 		//var_dump($indexfile);
 	
 		if (is_file($datfile)) {
-			$handle = fopen($datfile, "rb") or die("Unable to open {$datfile}");;
+			$handle = @fopen($datfile, "rb") or die("Unable to open {$datfile}");
 			if ((isset($_POST['buildindex']) and file_exists($datfile)) or 
 					(file_exists($datfile) and !file_exists($indexfile))) {
 				createIndexFile($datfile, $indexfile);
 			}
 		
-			$index_handle = fopen($indexfile, "rb") or die("Unable to open {$indexfile}");
+			$index_handle = @fopen($indexfile, "rb") or die("Unable to open {$indexfile}");
 	
 			if ($_POST['limitation'] == "Max Lines" and $_POST['maxsize'] > 0) {
 				$maxsize = $_POST['maxsize'];

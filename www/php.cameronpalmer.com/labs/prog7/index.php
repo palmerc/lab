@@ -3,7 +3,16 @@
 	$section = "Assignment: Image Uploading";
 	require("../../php-template.php");
 
+	$jpegtopnm = "/sw/bin/jpegtopnm";
+	$pngtopnm = "/sw/bin/pngtopnm";
+	$giftopnm = "/sw/bin/giftopnm";
+	$pamscale = "/sw/bin/pamscale";
+	$pnmtojpeg = "/sw/bin/pnmtojpeg";
+	$pnmtopng = "/sw/bin/pnmtopng";
+	$pnmtogif = "/sw/bin/pnmtogif";
 	$upload_dir = "uploaddir/";
+
+	$width = 100; // Pixel width of thumbnails
 ?>
     <div class="leftside">
 	<form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
@@ -18,17 +27,20 @@
     </div>
 
 <?php
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		if (!uploadFile($upload_dir)) {
-            echo "<p class=\"leftside warning\">Only JPEG, GIF or PNG files are allowed</p>";
-        }
-	}
-
+    	echo "<p class=\"leftside warning\">Only JPEG, GIF or PNG files are allowed</p>";
+    } else {
+    	$image_name = $_FILES['filename']['name'];
+    	$image_thumb = "thumb-".$_FILES['filename']['name'];
+    	scaleImageByWidth($upload_dir.$image_name, $upload_dir.'thumbnails/'.$image_thumb, $width);
+  	}
+  }
 	displayImages($upload_dir);
 
 function uploadFile($upload_dir) {
     $file_info = getimagesize($_FILES['filename']['tmp_name']);
-    $mime_type =$file_info['mime'];
+    $mime_type = $file_info['mime'];
     if ($mime_type == 'image/jpeg' or $mime_type == 'image/gif' or $mime_type == 'image/png') {
         $upload_file = $upload_dir . basename($_FILES['filename']['name']);
         move_uploaded_file($_FILES['filename']['tmp_name'], $upload_file);
@@ -40,17 +52,41 @@ function uploadFile($upload_dir) {
 
 function displayImages($upload_dir) {
 	$dh  = opendir($upload_dir);
-	while (false !== ($filename = readdir($dh))) {  	$file_array[] = $filename;	}
+	while (false !== ($filename = readdir($dh))) {
+  	$file_array[] = $filename;
+	}
 	if (count($file_array) > 0) {
 		echo '<table class="phototable">';
 		foreach ($file_array as $file) {
-			if (preg_match('/(\.jpg)|(\.png)|(\.gif)$/', $file)) {
+			if (preg_match('/(\.jpg)|(\.png)|(\.gif)/', $file)) {
+				$image_thumb = "thumb-".$file;
 				$FQfile = $upload_dir . rawurlencode($file);
+				$FQimage_thumb = $upload_dir.'thumbnails/'. rawurlencode($image_thumb);
 				echo "<tr><td><a href=\"{$FQfile}\"><img alt=\"{$file}\" width=\"100\" src=\"" 
-					. $FQfile . "\" /></a></td></tr>";
+					. $FQimage_thumb . "\" /></a></td></tr>";
 			}
 		}
 		echo '</table>';
+	}
+}
+
+function scaleImageByWidth($image_file, $newfile, $width) {
+	global $jpegtopnm, $pngtopnm, $giftopnm, $pamscale,	$pnmtojpeg, $pnmtopng, $pnmtogif;
+
+	$imageinfo = getimagesize($image_file);
+	$newwidth = $width;	
+	$image_file = escapeshellarg($image_file);
+	$newfile = escapeshellarg($newfile);	
+	if ($imageinfo['mime'] == 'image/jpeg') {
+		$execstr = "{$jpegtopnm} {$image_file} | {$pamscale} -width=100 | {$pnmtojpeg} > {$newfile}";
+		//var_dump($execstr);
+		exec($execstr);
+	} else if ($imageinfo['mime'] == 'image/png') {
+		exec("{$pngtopnm} {$image_file} | {$pamscale} -width={$newwidth} | {$pnmtopng} > {$newfile}");
+	} else if ($imageinfo['mime'] == 'image/gif') {
+		exec("{$giftopnm} {$image_file} | {$pamscale} -width={$newwidth} | {$giftojpeg} > {$newfile}");
+	} else {
+		echo "File type cannot be converted";
 	}
 }
 
