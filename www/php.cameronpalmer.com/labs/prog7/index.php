@@ -19,7 +19,7 @@
 			<input type="submit" name="submit" value="Upload file" />
 		</p>
 	</form>
-    <hr>
+    <hr />
     </div>
     <br style="clear: both;" />
 
