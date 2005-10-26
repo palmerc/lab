@@ -27,6 +27,7 @@
   if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		if (!uploadFile($upload_dir)) {
     	echo "<p class=\"leftside warning\">Only JPEG, GIF or PNG files are allowed</p>";
+    	echo '<br style="clear: both;" />';
     } else {
     	$image_name = $_FILES['filename']['name'];
     	$image_thumb = "thumb-".$_FILES['filename']['name'];
