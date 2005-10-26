@@ -2,16 +2,9 @@
 	$title = "CSCE 2410 - PHP Program 7";
 	$section = "Assignment: Image Uploading";
 	require("../../php-template.php");
+	require("netpbm.php");
 
-	$jpegtopnm = "/sw/bin/jpegtopnm";
-	$pngtopnm = "/sw/bin/pngtopnm";
-	$giftopnm = "/sw/bin/giftopnm";
-	$pamscale = "/sw/bin/pamscale";
-	$pnmtojpeg = "/sw/bin/pnmtojpeg";
-	$pnmtopng = "/sw/bin/pnmtopng";
-	$pnmtogif = "/sw/bin/pnmtogif";
 	$upload_dir = "uploaddir/";
-
 	$width = 100; // Pixel width of thumbnails
 ?>
     <div class="leftside">
