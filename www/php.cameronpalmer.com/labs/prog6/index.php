@@ -76,8 +76,8 @@
 		//var_dump($datfile);
 		//var_dump($indexfile);
 	
-		if (file_exists($datfile)) {
-			$handle = @fopen($datfile, "rb");
+		if (is_file($datfile)) {
+			$handle = fopen($datfile, "rb") or die("Unable to open {$datfile}");;
 			if ((isset($_POST['buildindex']) and file_exists($datfile)) or 
 					(file_exists($datfile) and !file_exists($indexfile))) {
 				createIndexFile($datfile, $indexfile);
