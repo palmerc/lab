@@ -1,5 +1,4 @@
 <?php
-	$netpbmdir = "/usr/local/netpbm/bin/";
 	$jpegtopnm = "{$netpbmdir}jpegtopnm";
 	$pngtopnm = "{$netpbmdir}pngtopnm";
 	$giftopnm = "{$netpbmdir}giftopnm";

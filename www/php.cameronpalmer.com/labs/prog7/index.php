@@ -2,6 +2,9 @@
 	$title = "CSCE 2410 - PHP Program 7";
 	$section = "Assignment: Image Uploading";
 	require("../../php-template.php");
+	$netpbmdir="/usr/local/netpbm/bin/";
+	$root_dir = dirname(__FILE__);
+	if (file_exists("{$root_dir}/netpbm_root.php")) require("{$root_dir}/netpbm_root.php");
 	require("netpbm.php");
 
 	$upload_dir = "uploaddir/";
