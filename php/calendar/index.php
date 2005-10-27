@@ -1,7 +1,7 @@
 <?php
 $settings['pagetype'] = "i";
 $settings['title'] = "UNT/College of Business/News/Calendar";
-$settings['extrasheets'] = array("main.css"); //or false
+$settings['extrasheets'] = array("calendar.css"); //or false
 require(strtolower(dirname(__FILE__)).'/../../common/common.php');
 include("../../_generalinfo.inc");
 //include("../../about/_aboutside.inc");

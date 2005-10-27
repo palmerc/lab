@@ -6,10 +6,10 @@ table#calendar a {
 	border-bottom-style: none;
 	text-decoration: none;
 }
-tr#days th {
+html > body tr#days th {
 	width: 18%;
 }
-tr#days th.sat, tr#days th.sun {
+html > body tr#days th.sat, tr#days th.sun {
 	width: 5%;
 }
 table#calendar tr#days th {
@@ -17,7 +17,7 @@ table#calendar tr#days th {
 	background-color: #000;
 	font-weight: bold; 
 	text-align: center;
-	padding: 1px 0.33em;
+	/*padding: 1px 0.33em;*/
 }
 table#calendar tr#title th {
 	text-align: center;
@@ -61,24 +61,12 @@ table#calendar a:hover {
 table#calendar td.sat, table#calendar td.sun {
 	background: #eed;
 }
-/*table#calendar td.jun, table#calendar td.aug {
-	background: #AAC; 
-	color: #88A;
-}*/
 table#calendar tr#lastweek td {
 	border-bottom: 2px solid #AAB;
 }
 table#calendar td.holiday {
 	background: #BBF;
 }
-/*table#calendar td#jul16 {
-	background-color: #6AF;
-}
-td#jul16 div.date {
-	color: #33C;
-	font-weight: bold;
-	background: #CCF;
-}*/
 div.event {
 	color: #000;	
 	margin: 0.5em;
@@ -116,9 +104,3 @@ td.sat div.date, td.sun div.date {
 	color: #555;
 	background: transparent;
 }
-
-/* td.jun div.date, td.aug div.date {
-	border-width: 0;
-	color: gray;
-	background: transparent;
-} */
