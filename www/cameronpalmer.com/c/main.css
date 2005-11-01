@@ -1,8 +1,36 @@
 body {
+	font: small Arial;
+}
+
+div#body {
+	width: 90%;
+	margin-left: 1.5em;
+	float: left;
+	clear: left;
+}
+
+div#header {
+	border: 1px Solid #000;
+	float: left;
+	clear: left;
+	width: 90%;
+	margin: 1em;
+	padding: 1em;
+}
+div#header img {
+	float: left;
+}
+div#header h1 {
 	font: small Georgia;
+	font-size: 250%;
+	float: left;
+	padding-left: 1em;
 }
 
 #footer {
+	border: 1px Solid #000;
 	float: left;
-	width: 100%;
+	width: 90%;
+	margin: 1em;
+	padding: 1em;
 }

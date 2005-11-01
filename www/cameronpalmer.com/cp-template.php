@@ -6,31 +6,42 @@ ob_start("do_content");
 
 function do_header() {
   global $title, $section, $alternate_css;
-    echo '
+    echo'
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>';
+    <head>
+        ';
 
-echo "
-    <title>{$title}</title>
-";
+    echo"
+        <title>{$title}</title>
+        ";
 
+    echo"
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"c/main.css\" />
+        ";
 
+    if ($alternate_css and file_exists($alternate_css)) {
+        echo"
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"{$alternate_css}\" />
+            ";
+    }
 
-echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"c/main.css\" />\n";
-if ($alternate_css and file_exists($alternate_css)) {
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$alternate_css}\" />\n";
-}
-
-echo '
-    <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
-    <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
-</head>
-<body>
-';
-
+    echo'
+        <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
+        <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
+    </head>
+    <body>
+        <div id="page">
+        ';
+    echo"
+            <div id=\"header\">
+                <img src=\"i/bison.jpg\" alt=\"American Bison from the back of the five cent piece\"/>
+                <h1>{$title}</h1>
+            </div>
+            <div id=\"body\">
+                <h2>{$section}</h2>
+        ";
 }
 
 function do_content($buf) {
@@ -41,11 +52,13 @@ function do_content($buf) {
 
 function do_footer($buf) {
     return $buf.'
-<div id="footer">
-    Copyright &copy; 2005 Cameron Palmer<br />
-    <a href="mailto:cameron@cameronpalmer.com">cameron@cameronpalmer.com</a>
-</div>
-</body>
+            </div>
+            <div id="footer">
+                Copyright &copy; 2005 Cameron Palmer<br />
+                <a href="mailto:cameron.palmer@gmail.com">cameron.palmer@gmail.com</a>
+            </div>
+        </div>
+    </body>
 </html>
 ';
 
