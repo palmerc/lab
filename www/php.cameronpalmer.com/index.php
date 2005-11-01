@@ -32,7 +32,7 @@
 				<?php $program = "labs/prog2/index.php";
 				echo"
 				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
-				<li><a href=\"{$ptr}labs/prog2/source.php\" name=\"filename\">PHP Source</a></li>
+				<li><a href=\"{$ptr}labs/prog2/source.php\" name=\"filename2\">PHP Source</a></li>
 				";
 				?>
 			</ul>
@@ -42,7 +42,7 @@
 				<?php $program = "labs/prog3/index.php";
 				echo"
 				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
-				<li><a href=\"{$ptr}labs/prog3/source.php\" name=\"filename2\">PHP Source</a></li>
+				<li><a href=\"{$ptr}labs/prog3/source.php\" name=\"filename3\">PHP Source</a></li>
 				";
 				?>
 			</ul>
@@ -52,7 +52,7 @@
 				<?php $program = "labs/prog4/index.php";
 				echo"
 				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
-				<li><a href=\"{$ptr}labs/prog4/source.php\" name=\"filename3\">PHP Source</a></li>
+				<li><a href=\"{$ptr}labs/prog4/source.php\" name=\"filename4\">PHP Source</a></li>
 				";
 				?>
 			</ul>
@@ -61,7 +61,7 @@
 				<?php $program = "labs/prog5/index.php";
 				echo"
 				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
-				<li><a href=\"{$ptr}labs/prog5/source.php\" name=\"filename3\">PHP Source</a></li>
+				<li><a href=\"{$ptr}labs/prog5/source.php\" name=\"filename5\">PHP Source</a></li>
 				";
 				?>
 			</ul>
@@ -70,7 +70,7 @@
 				<?php $program = "labs/prog6/index.php";
 				echo"
 				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
-				<li><a href=\"{$ptr}labs/prog6/source.php\" name=\"filename3\">PHP Source</a></li>
+				<li><a href=\"{$ptr}labs/prog6/source.php\" name=\"filename6\">PHP Source</a></li>
 				";
 				?>
 			</ul>
@@ -79,7 +79,7 @@
 				<?php $program = "labs/prog7/index.php";
 				echo"
 				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
-				<li><a href=\"{$ptr}labs/prog7/source.php\" name=\"filename3\">PHP Source</a></li>
+				<li><a href=\"{$ptr}labs/prog7/source.php\" name=\"filename7\">PHP Source</a></li>
 				";
 				?>
 			</ul>
