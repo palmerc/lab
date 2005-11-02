@@ -49,6 +49,7 @@ function do_header() {
     						<li><a href="wiki/">Course Wiki</a></li>
      						<li><a href="resume.php">Resum&eacute;</a></li> 			    			    			    			
      					</ul>
+                        <div class=\"cleary\">&nbsp;</div>
     				</div>
     		';
     echo"

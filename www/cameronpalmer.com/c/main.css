@@ -21,19 +21,17 @@ div#pbody {
 
 div#header {
 	border: 1px Solid #000;
-/*	float: left;
-	clear: left;
-	width: 100%;*/
-	padding: 1em;
+    min-height: 130px;
 }
 div#header img {
-	float: left;
+	float: left; padding: 1em;
 }
 div#header h1 {
+    padding: 0; margin: 0;
 	font: small Georgia;
 	font-size: 250%;
-	float: left;
-	padding-left: 1em;
+	margin-left: 1em;
+    padding-top: 1em;
 }
 
 div#sidebar {
@@ -41,13 +39,14 @@ div#sidebar {
 	border-right: 1px solid;
 	border-bottom: 1px solid;
 	border-color: #000;
-	border-top: 1px solid #fff; /* Junk to force no margin on the top */
-	padding-bottom: 1em;
+}
+div#sidebar ul {
+    margin: 0; padding: 6px 0;
 }
 div#sidebar li {
 	font-size: 110%;
 	float: left;
-	margin: 0 1em 1em 0;
+	padding: 0 6px;
 	list-style: none;
 }
 div#sidebar a {
