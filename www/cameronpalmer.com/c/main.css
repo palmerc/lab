@@ -2,8 +2,18 @@ body {
 	font: small Arial;
 }
 
-div#body {
+div#content {
+	float: left;
+	clear: left;
+	margin: 1em;
+}
+div#content p {
+	padding-left: .75em;
+}
+
+div#pbody {
 	width: 90%;
+	margin-top: 1em;
 	margin-left: 1.5em;
 	float: left;
 	clear: left;
@@ -11,10 +21,9 @@ div#body {
 
 div#header {
 	border: 1px Solid #000;
-	float: left;
+/*	float: left;
 	clear: left;
-	width: 90%;
-	margin: 1em;
+	width: 100%;*/
 	padding: 1em;
 }
 div#header img {
@@ -27,10 +36,43 @@ div#header h1 {
 	padding-left: 1em;
 }
 
+div#sidebar {
+	border-left: 1px solid;
+	border-right: 1px solid;
+	border-bottom: 1px solid;
+	border-color: #000;
+	border-top: 1px solid #fff; /* Junk to force no margin on the top */
+	padding-bottom: 1em;
+}
+div#sidebar li {
+	font-size: 110%;
+	float: left;
+	margin: 0 1em 1em 0;
+	list-style: none;
+}
+div#sidebar a {
+	color: black;
+	text-decoration: none;
+}
+div#sidebar a:hover {
+	color: #00964d;
+}
+
 #footer {
 	border: 1px Solid #000;
 	float: left;
-	width: 90%;
-	margin: 1em;
+	width: 100%;
 	padding: 1em;
+}
+#footer a {
+	text-decoration: none;
+	color: #000;
+}
+div#footer a:hover {
+	color: #00964d;
+}
+
+div.cleary {
+	clear: left;
+	width: 0; height: 0; line-height: 0;
 }

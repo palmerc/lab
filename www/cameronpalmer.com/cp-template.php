@@ -32,14 +32,27 @@ function do_header() {
         <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
     </head>
     <body>
-        <div id="page">
-        ';
+    	<div id="pbody">
+    		';
     echo"
             <div id=\"header\">
                 <img src=\"i/bison.jpg\" alt=\"American Bison from the back of the five cent piece\"/>
                 <h1>{$title}</h1>
+                <div class=\"cleary\">&nbsp;</div>
             </div>
-            <div id=\"body\">
+        ";
+    echo'
+        		<div id="sidebar">
+    					<ul>
+    						<li><a href="gallery/">Photo Gallery</a></li>
+    						<li><a href="http://trac.cameronpalmer.com/">Trac Laboratory</a></li>
+    						<li><a href="wiki/">Course Wiki</a></li>
+     						<li><a href="resume.php">Resum&eacute;</a></li> 			    			    			    			
+     					</ul>
+    				</div>
+    		';
+    echo"
+            <div id=\"content\">
                 <h2>{$section}</h2>
         ";
 }
@@ -51,8 +64,11 @@ function do_content($buf) {
 }
 
 function do_footer($buf) {
+		echo"
+					  
+    		";
     return $buf.'
-            </div>
+    				</div>
             <div id="footer">
                 Copyright &copy; 2005 Cameron Palmer<br />
                 <a href="mailto:cameron.palmer@gmail.com">cameron.palmer@gmail.com</a>

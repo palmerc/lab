@@ -13,7 +13,10 @@
     <div class="leftside">
 	<form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 		<p>
-			<input type="file" name="filename" value="" />
+			Local file: <input type="file" name="filename" value="" />
+		</p>
+		<p>
+			URL of image: <input type="text" name="urlloc" value="" />
 		</p>
 		<p>
 			<input type="submit" name="submit" value="Upload file" />
@@ -25,6 +28,7 @@
 
 <?php
   if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  	//print_r($_SERVER);
 		if (!uploadFile($upload_dir)) {
     	echo "<p class=\"leftside warning\">Only JPEG, GIF or PNG files are allowed</p>";
     	echo '<br style="clear: both;" />';
@@ -37,15 +41,34 @@
 	displayImages($upload_dir);
 
 function uploadFile($upload_dir) {
-    $file_info = getimagesize($_FILES['filename']['tmp_name']);
-    $mime_type = $file_info['mime'];
-    if ($mime_type == 'image/jpeg' or $mime_type == 'image/gif' or $mime_type == 'image/png') {
-        $upload_file = $upload_dir . basename($_FILES['filename']['name']);
-        move_uploaded_file($_FILES['filename']['tmp_name'], $upload_file);
+		//var_dump($_POST['urlloc']);
+		if (preg_match('/^http:\/\//', $_POST['urlloc'])) {
+			$url_file = $_POST['urlloc'];
+			$file_info = getimagesize($url_file);
+			$mime_type = $file_info['mime'];
+			var_dump($url_file);
+			$url_array = split('/', $url_file);
+			$filename = $url_array[-1];
+    	if ($mime_type == 'image/jpeg' or $mime_type == 'image/gif' or $mime_type == 'image/png') {
+    		//var_dump($url_file);
+        copy($url_file, $upload_dir.$filename);
         return true;
-    } else {
-        return false;
-    }
+    	} else {
+    		return false;
+    	}
+		} else if (isset($_FILES)) {
+    	$file_info = getimagesize($_FILES['filename']['tmp_name']);
+	    $mime_type = $file_info['mime'];
+	    if ($mime_type == 'image/jpeg' or $mime_type == 'image/gif' or $mime_type == 'image/png') {
+	        $upload_file = $upload_dir . basename($_FILES['filename']['name']);
+	        move_uploaded_file($_FILES['filename']['tmp_name'], $upload_file);
+	        return true;
+	    } else {
+	        return false;
+	    }
+		} else {
+			return false;
+		}
 }
 
 function displayImages($upload_dir) {
