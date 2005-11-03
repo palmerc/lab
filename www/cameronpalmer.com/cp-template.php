@@ -74,7 +74,7 @@ function do_footer($buf) {
     				</div>
             <div id="footer">
                 Copyright &copy; 2005 Cameron Palmer<br />
-                <a href="mailto:cameron.palmer@gmail.com">cameron.palmer@gmail.com</a>
+                cameron DOT palmer AT gmail DOT com
             </div>
         </div>
     </body>
