@@ -37,7 +37,7 @@ function do_header() {
     echo"
             <div id=\"header\">
                 <img src=\"i/bison.jpg\" alt=\"American Bison from the back of the five cent piece\"/>
-                <h1>{$title}</h1>
+                <h1>The Bitter Buffalo</h1>
                 <div class=\"cleary\">&nbsp;</div>
             </div>
         ";
