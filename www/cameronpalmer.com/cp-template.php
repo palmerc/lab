@@ -1,11 +1,16 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
+$ptr = "/";
+
+$root_dir = dirname(__FILE__);
+if (file_exists("{$root_dir}/cp_root.php")) require("{$root_dir}/cp_root.php");
+
 do_header();
 ob_start("do_footer");
 ob_start("do_content");
 
 function do_header() {
-  global $title, $section, $alternate_css;
+  global $title, $section, $ptr, $alternate_css;
     echo'
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -18,7 +23,7 @@ function do_header() {
         ";
 
     echo"
-        <link rel=\"stylesheet\" type=\"text/css\" href=\"c/main.css\" />
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"{$ptr}c/main.css\" />
         ";
 
     if ($alternate_css and file_exists($alternate_css)) {
@@ -36,23 +41,20 @@ function do_header() {
     		';
     echo"
             <div id=\"header\">
-                <img src=\"i/bison.jpg\" alt=\"American Bison from the back of the five cent piece\"/>
+                <img src=\"{$ptr}i/bison.jpg\" alt=\"American Bison from the back of the five cent piece\"/>
                 <h1>The Bitter Buffalo</h1>
                 <div class=\"cleary\">&nbsp;</div>
             </div>
-        ";
-    echo'
-        		<div id="sidebar">
+        		<div id=\"sidebar\">
     					<ul>
-    						<li><a href="gallery/">Photo Gallery</a></li>
-    						<li><a href="http://trac.cameronpalmer.com/">Trac Laboratory</a></li>
-    						<li><a href="wiki/">Course Wiki</a></li>
-     						<li><a href="resume.php">R&eacute;sum&eacute;</a></li> 			    			    			    			
+    						<li><a href=\"{$ptr}\">Home</a></li>
+    						<li><a href=\"{$ptr}gallery/\">Photo Gallery</a></li>
+    						<li><a href=\"http://trac.cameronpalmer.com/\">Trac Laboratory</a></li>
+    						<li><a href=\"{$ptr}wiki/\">Course Wiki</a></li>
+     						<li><a href=\"{$ptr}resume.php\">R&eacute;sum&eacute;</a></li> 			    			    			    			
      					</ul>
-                        <div class=\"cleary\">&nbsp;</div>
+              <div class=\"cleary\">&nbsp;</div>
     				</div>
-    		';
-    echo"
             <div id=\"content\">
                 <h2>{$section}</h2>
         ";
