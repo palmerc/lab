@@ -47,7 +47,7 @@ function do_header() {
     						<li><a href="gallery/">Photo Gallery</a></li>
     						<li><a href="http://trac.cameronpalmer.com/">Trac Laboratory</a></li>
     						<li><a href="wiki/">Course Wiki</a></li>
-     						<li><a href="resume.php">Resum&eacute;</a></li> 			    			    			    			
+     						<li><a href="resume.php">R&eacute;sum&eacute;</a></li> 			    			    			    			
      					</ul>
                         <div class=\"cleary\">&nbsp;</div>
     				</div>
