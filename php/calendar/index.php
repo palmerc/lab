@@ -1,5 +1,5 @@
 <?php
-$settings['pagetype'] = "i";
+$settings['pagetype'] = "i t";
 $settings['title'] = "UNT/College of Business/News/Calendar";
 $settings['extrasheets'] = array("calendar.css"); //or false
 require(strtolower(dirname(__FILE__)).'/../../common/common.php');
@@ -91,8 +91,13 @@ function display_month($ym, $data_array) {
 	$prev_mo = date("Ym", mktime(0, 0, 0, $month-1, 1,  $year));
 	$next_mo = date("Ym", mktime(0, 0, 0, $month+1, 1,  $year));
 	echo'
+    <div id="title">
+    <h1>COBA News Calendar</h1>
+    </div>
+    <div id="main">
+    <p><a href="/news">Return to News Archive</a></p>
 	<table cellspacing="0" width="100%" id="calendar">
-		<tr id="title">
+		<tr id="caltitle">
 			';
 	echo"
 			<th id=\"lastmonth\"><a href=\"{$prev_mo}\">&laquo;</a></th>
@@ -131,23 +136,24 @@ function display_month($ym, $data_array) {
             $shortmonth = strtolower(substr($day, 0 , 3));
             $shortday = strtolower(substr($day, 4, 3));
             $date = strtolower(substr($day, 8, 2));
-            $sql = "SELECT * FROM tbl_news WHERE calstart='{$longday}'";
+            $sql = "SELECT * FROM tbl_news WHERE calstart <='{$longday}' AND calend >='{$longday}' AND status='Publish' AND calshow='1'";
             $r = mysql_query($sql) or die("Can't update record {$longday}<br />".mysql_error());
-            $p = mysql_fetch_array($r);
-            //echo "<pre>";
-            //print_r($p);
-            //echo "</pre>";
-            list($news_title, $news_body, $news_link) = array($p['title'], $p['body'], mklink($p));
-             
-            
             //Print the calendar day.
 			echo"
 			<td class=\"{$shortmonth} {$shortday}\" id=\"{$shortmonth}{$date}\">
                 <div class=\"date\">{$date}</div>
                 <div class=\"event\">";
-            if ($news_title) {
-                echo "<a href=\"{$news_link}\">{$news_title}</a>";
-            } 
+            while($p = mysql_fetch_array($r)) {
+                //echo "<pre>";
+                //print_r($p);
+                //echo "</pre>";
+                list($news_title, $news_body, $news_link) = array($p['title'], $p['body'], mklink($p));
+             
+            
+                if ($news_title) {
+                    echo "<a href=\"{$news_link}\">{$news_title}</a>";
+                } 
+            }
             echo"
             </div>
 			</td>
@@ -162,6 +168,7 @@ function display_month($ym, $data_array) {
 	}
 	echo'
 	</table>
+    </div>
 			';
 } // END display_month()
 ?>
