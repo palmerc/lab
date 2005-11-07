@@ -1,8 +1,8 @@
-Project Information                                      e:\lab9\s-r_latch.rpt
+Project Information                                          e:\lab9\de_ff.rpt
 
 MAX+plus II Compiler Report File
 Version 10.2 07/10/2002
-Compiled: 11/06/2005 23:12:09
+Compiled: 11/06/2005 22:53:44
 
 Copyright (C) 1988-2002 Altera Corporation
 Any megafunction design, and related net list (encrypted or decrypted),
@@ -36,17 +36,16 @@ needed under any third party's intellectual property, are provided herein.
 Chip/                     Input   Output   Bidir         Shareable
 POF       Device          Pins    Pins     Pins     LCs  Expanders  % Utilized
 
-s-r_latch
-      EPM7128SLC84-7       2        2        0      2       0           1  %
+de_ff     EPM7128SLC84-7   2        2        0      2       0           1  %
 
 User Pins:                 2        2        0  
 
 
 
-Device-Specific Information:                             e:\lab9\s-r_latch.rpt
-s-r_latch
+Device-Specific Information:                                 e:\lab9\de_ff.rpt
+de_ff
 
-***** Logic for device 's-r_latch' compiled without errors.
+***** Logic for device 'de_ff' compiled without errors.
 
 
 
@@ -66,12 +65,12 @@ Device Options:
                  E  E  E     E  E  E  C                 E  E  E  V  E  E  E  
                  R  R  R     R  R  R  C                 R  R  R  C  R  R  R  
                  V  V  V  G  V  V  V  I  G  G  G  G  G  V  V  V  C  V  V  V  
-                 E  E  E  N  E  E  E  N  N  N  N  N  N  E  E  E  I  E  E  E  
-              S  D  D  D  D  D  D  D  T  D  D  D  D  D  D  D  D  O  D  D  D  
+              E  E  E  E  N  E  E  E  N  N  N  N  N  N  E  E  E  I  E  E  E  
+              N  D  D  D  D  D  D  D  T  D  D  D  D  D  D  D  D  O  D  D  D  
             -----------------------------------------------------------------_ 
           /  11 10  9  8  7  6  5  4  3  2  1 84 83 82 81 80 79 78 77 76 75   | 
-       R | 12                                                              74 | Q 
-   VCCIO | 13                                                              73 | QBAR 
+       D | 12                                                              74 | QBAR 
+   VCCIO | 13                                                              73 | Q 
     #TDI | 14                                                              72 | GND 
 RESERVED | 15                                                              71 | #TDO 
 RESERVED | 16                                                              70 | RESERVED 
@@ -118,8 +117,8 @@ PDn = Power Down pin.
 & = JTAG pin used for I/O. When used as user I/O, JTAG pins must be kept stable before and during configuration.  JTAG pin stability prevents accidental loading of JTAG instructions.
 
 
-Device-Specific Information:                             e:\lab9\s-r_latch.rpt
-s-r_latch
+Device-Specific Information:                                 e:\lab9\de_ff.rpt
+de_ff
 
 ** RESOURCE USAGE **
 
@@ -142,8 +141,8 @@ Total logic cells used:                          2/128    (  1%)
 Total shareable expanders used:                  0/128    (  0%)
 Total Turbo logic cells used:                    2/128    (  1%)
 Total shareable expanders not available (n/a):   0/128    (  0%)
-Average fan-in:                                  2.50
-Total fan-in:                                     5
+Average fan-in:                                  3.00
+Total fan-in:                                     6
 
 Total input pins required:                       2
 Total fast input logic cells required:           0
@@ -152,7 +151,7 @@ Total bidirectional pins required:               0
 Total reserved pins required                     4
 Total logic cells required:                      2
 Total flipflops required:                        0
-Total product terms required:                    3
+Total product terms required:                    5
 Total logic cells lending parallel expanders:    0
 Total shareable expanders in database:           0
 
@@ -160,16 +159,16 @@ Synthesized logic cells:                         1/ 128   (  0%)
 
 
 
-Device-Specific Information:                             e:\lab9\s-r_latch.rpt
-s-r_latch
+Device-Specific Information:                                 e:\lab9\de_ff.rpt
+de_ff
 
 ** INPUTS **
 
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-  12    (3)  (A)      INPUT               0      0   0    0    0    2    0  R
-  11    (5)  (A)      INPUT               0      0   0    0    0    1    0  S
+  12    (3)  (A)      INPUT               0      0   0    0    0    2    0  D
+  11    (5)  (A)      INPUT               0      0   0    0    0    2    0  EN
 
 
 Code:
@@ -182,16 +181,16 @@ t = Turbo logic cell
 r = Fitter-inserted logic cell
 
 
-Device-Specific Information:                             e:\lab9\s-r_latch.rpt
-s-r_latch
+Device-Specific Information:                                 e:\lab9\de_ff.rpt
+de_ff
 
 ** OUTPUTS **
 
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-  74    117    H     OUTPUT      t        0      0   0    1    1    0    0  Q
-  73    115    H     OUTPUT    s t        0      0   0    2    1    2    0  QBAR
+  73    115    H     OUTPUT    s t        0      0   0    2    1    2    0  Q
+  74    117    H     OUTPUT      t        0      0   0    2    1    0    0  QBAR
 
 
 Code:
@@ -204,48 +203,50 @@ t = Turbo logic cell
 r = Fitter-inserted logic cell
 
 
-Device-Specific Information:                             e:\lab9\s-r_latch.rpt
-s-r_latch
+Device-Specific Information:                                 e:\lab9\de_ff.rpt
+de_ff
 
 ** LOGIC CELL INTERCONNECTIONS **
 
 Logic Array Block 'H':
 
              Logic cells placed in LAB 'H'
-        +--- LC117 Q
-        | +- LC115 QBAR
+        +--- LC115 Q
+        | +- LC117 QBAR
         | | 
         | |   Other LABs fed by signals
         | |   that feed LAB 'H'
 LC      | | | A B C D E F G H |     Logic cells that feed LAB 'H':
-LC115-> * * | - - - - - - - * | <-- QBAR
+LC115-> * * | - - - - - - - * | <-- Q
 
 Pin
-12   -> * * | - - - - - - - * | <-- R
-11   -> - * | - - - - - - - * | <-- S
+12   -> * * | - - - - - - - * | <-- D
+11   -> * * | - - - - - - - * | <-- EN
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:                             e:\lab9\s-r_latch.rpt
-s-r_latch
+Device-Specific Information:                                 e:\lab9\de_ff.rpt
+de_ff
 
 ** EQUATIONS **
 
-R        : INPUT;
-S        : INPUT;
+D        : INPUT;
+EN       : INPUT;
 
--- Node name is 'Q' 
--- Equation name is 'Q', location is LC117, type is output.
+-- Node name is 'Q' = '~6~1' 
+-- Equation name is 'Q', location is LC115, type is output.
  Q       = LCELL( _EQ001 $  GND);
-  _EQ001 = !QBAR & !R;
+  _EQ001 =  D &  EN
+         # !EN &  Q
+         #  D &  Q;
 
--- Node name is 'QBAR' = '~11~1' 
--- Equation name is 'QBAR', location is LC115, type is output.
- QBAR    = LCELL( _EQ002 $ !S);
-  _EQ002 = !QBAR & !R & !S;
+-- Node name is 'QBAR' 
+-- Equation name is 'QBAR', location is LC117, type is output.
+ QBAR    = LCELL( _EQ002 $ !Q);
+  _EQ002 = !D &  EN &  Q;
 
 
 
@@ -255,7 +256,7 @@ S        : INPUT;
 
 
 
-Project Information                                      e:\lab9\s-r_latch.rpt
+Project Information                                          e:\lab9\de_ff.rpt
 
 ** COMPILATION SETTINGS & TIMES **
 
@@ -344,4 +345,4 @@ Compilation Times
 Memory Allocated
 -----------------
 
-Peak memory allocated during compilation  = 3,235K
+Peak memory allocated during compilation  = 3,233K
