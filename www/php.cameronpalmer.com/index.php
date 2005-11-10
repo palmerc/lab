@@ -92,3 +92,12 @@
 				";
 				?>
 			</ul>
+		<h3>Final Program - SQL Web Calendar</h3>
+			<ul>
+				<?php $program = "labs/final/index.php";
+				echo"
+				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
+				<li><a href=\"{$ptr}labs/final/source.php\" name=\"final\">PHP Source</a></li>
+				";
+				?>
+			</ul>
