@@ -7,7 +7,7 @@ Author: Cameron Palmer
 import re, sys, os
 import mechanize, pullparser, urllib2, urlparse
 
-baseurl = "http://dev.coba.unt.edu/mgmt"
+baseurl = "http://palmerc-dev.coba.unt.edu/mgmt"
 
 visited = []
 queue = [baseurl]
