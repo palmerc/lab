@@ -1,6 +1,6 @@
 <?php
 	$title = "CSCE 2410 - PHP Program 3";
-	$section = "Assignment: Generate a Multiplication Table";
+	$section = "Assignment: Generate a Dynamic Multiplication Table";
 	require("../../php-template.php");
 	$default_size = 12;
 	$min_size = 2;

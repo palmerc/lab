@@ -27,7 +27,7 @@
 		</div>
 
 		<h2>Programs</h2>
-		<h3>Program 2</h3>
+		<h3>Program 2 - Generate a Static Multiplication Table</h3>
 			<ul>
 				<?php $program = "labs/prog2/index.php";
 				echo"
@@ -37,7 +37,7 @@
 				?>
 			</ul>
 			
-		<h3>Program 3</h3>
+		<h3>Program 3 - Generate a Dynamic Multiplication Table</h3>
 			<ul>
 				<?php $program = "labs/prog3/index.php";
 				echo"
@@ -47,7 +47,7 @@
 				?>
 			</ul>
 
-		<h3>Program 4</h3>
+		<h3>Program 4 - Matrices</h3>
 			<ul>
 				<?php $program = "labs/prog4/index.php";
 				echo"
@@ -56,7 +56,7 @@
 				";
 				?>
 			</ul>
-		<h3>Program 5</h3>
+		<h3>Program 5 - Specialized Functions</h3>
 			<ul>
 				<?php $program = "labs/prog5/index.php";
 				echo"
@@ -65,7 +65,7 @@
 				";
 				?>
 			</ul>
-		<h3>Program 6</h3>
+		<h3>Program 6 - Quotation Display System</h3>
 			<ul>
 				<?php $program = "labs/prog6/index.php";
 				echo"
@@ -74,12 +74,21 @@
 				";
 				?>
 			</ul>
-		<h3>Program 7</h3>
+		<h3>Program 7 - Image Uploading</h3>
 			<ul>
 				<?php $program = "labs/prog7/index.php";
 				echo"
 				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
 				<li><a href=\"{$ptr}labs/prog7/source.php\" name=\"filename7\">PHP Source</a></li>
+				";
+				?>
+			</ul>
+		<h3>Program 8 - Web Page Parsing</h3>
+			<ul>
+				<?php $program = "labs/prog8/index.php";
+				echo"
+				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
+				<li><a href=\"{$ptr}labs/prog8/source.php\" name=\"filename8\">PHP Source</a></li>
 				";
 				?>
 			</ul>

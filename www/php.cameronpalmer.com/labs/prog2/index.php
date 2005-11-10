@@ -1,6 +1,6 @@
 <?php
 	$title = "CSCE 2410 - PHP Program 2";
-	$section = "Assignment: Generate a Multiplication Table";
+	$section = "Assignment: Generate a Static Multiplication Table";
 	require("../../php-template.php");
 ?>
 <div>
