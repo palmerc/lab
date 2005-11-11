@@ -2,7 +2,7 @@ Project Informationc:\documents and settings\cameron palmer\my documents\elet272
 
 MAX+plus II Compiler Report File
 Version 10.2 07/10/2002
-Compiled: 11/11/2005 01:28:26
+Compiled: 11/11/2005 02:09:32
 
 Copyright (C) 1988-2002 Altera Corporation
 Any megafunction design, and related net list (encrypted or decrypted),
@@ -43,6 +43,23 @@ User Pins:                 4        7        0
 
 
 
+Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
+
+** PIN/LOCATION/CHIP ASSIGNMENTS **
+
+                  Actual                  
+    User       Assignments                
+Assignments   (if different)     Node Name
+
+bcd2seven@58                      A
+bcd2seven@60                      B
+bcd2seven@61                      C
+bcd2seven@63                      D
+bcd2seven@64                      E
+bcd2seven@65                      F
+bcd2seven@67                      G
+
+
 Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 bcd2seven
 
@@ -60,33 +77,33 @@ Device Options:
     User Code                                  = ffff
     MultiVolt I/O                              = OFF
 
-                       R     R  R  R                    R                    
-                       E     E  E  E                    E                    
-                       S     S  S  S  V                 S                    
-                       E     E  E  E  C                 E        V           
-              b  b  b  R     R  R  R  C                 R        C           
-              c  c  c  V  G  V  V  V  I  G  G  G  G  G  V        C           
-              d  d  d  E  N  E  E  E  N  N  N  N  N  N  E        I           
-              4  2  1  D  D  D  D  D  T  D  D  D  D  D  D  D  C  O  B  A  E  
+              R              R  R  R                    R  R  R     R  R  R  
+              E              E  E  E                    E  E  E     E  E  E  
+              S              S  S  S  V                 S  S  S     S  S  S  
+              E              E  E  E  C                 E  E  E  V  E  E  E  
+              R  b  b  b     R  R  R  C                 R  R  R  C  R  R  R  
+              V  c  c  c  G  V  V  V  I  G  G  G  G  G  V  V  V  C  V  V  V  
+              E  d  d  d  N  E  E  E  N  N  N  N  N  N  E  E  E  I  E  E  E  
+              D  4  2  1  D  D  D  D  T  D  D  D  D  D  D  D  D  O  D  D  D  
             -----------------------------------------------------------------_ 
           /  11 10  9  8  7  6  5  4  3  2  1 84 83 82 81 80 79 78 77 76 75   | 
-    bcd8 | 12                                                              74 | F 
-   VCCIO | 13                                                              73 | G 
+    bcd8 | 12                                                              74 | RESERVED 
+   VCCIO | 13                                                              73 | RESERVED 
     #TDI | 14                                                              72 | GND 
 RESERVED | 15                                                              71 | #TDO 
 RESERVED | 16                                                              70 | RESERVED 
 RESERVED | 17                                                              69 | RESERVED 
 RESERVED | 18                                                              68 | RESERVED 
-     GND | 19                                                              67 | RESERVED 
+     GND | 19                                                              67 | G 
 RESERVED | 20                                                              66 | VCCIO 
-RESERVED | 21                                                              65 | RESERVED 
-RESERVED | 22                        EPM7128SLC84-7                        64 | RESERVED 
-    #TMS | 23                                                              63 | RESERVED 
+RESERVED | 21                                                              65 | F 
+RESERVED | 22                        EPM7128SLC84-7                        64 | E 
+    #TMS | 23                                                              63 | D 
 RESERVED | 24                                                              62 | #TCK 
-RESERVED | 25                                                              61 | RESERVED 
-   VCCIO | 26                                                              60 | RESERVED 
+RESERVED | 25                                                              61 | C 
+   VCCIO | 26                                                              60 | B 
 RESERVED | 27                                                              59 | GND 
-RESERVED | 28                                                              58 | RESERVED 
+RESERVED | 28                                                              58 | A 
 RESERVED | 29                                                              57 | RESERVED 
 RESERVED | 30                                                              56 | RESERVED 
 RESERVED | 31                                                              55 | RESERVED 
@@ -131,9 +148,9 @@ B:    LC17 - LC32     0/16(  0%)   1/ 8( 12%)   0/16(  0%)   0/36(  0%)
 C:    LC33 - LC48     0/16(  0%)   1/ 8( 12%)   0/16(  0%)   0/36(  0%) 
 D:    LC49 - LC64     0/16(  0%)   0/ 8(  0%)   0/16(  0%)   0/36(  0%) 
 E:    LC65 - LC80     0/16(  0%)   0/ 8(  0%)   0/16(  0%)   0/36(  0%) 
-F:    LC81 - LC96     0/16(  0%)   1/ 8( 12%)   0/16(  0%)   0/36(  0%) 
-G:   LC97 - LC112     0/16(  0%)   1/ 8( 12%)   0/16(  0%)   0/36(  0%) 
-H:  LC113 - LC128     7/16( 43%)   7/ 8( 87%)   0/16(  0%)   4/36( 11%) 
+F:    LC81 - LC96     3/16( 18%)   4/ 8( 50%)   0/16(  0%)   4/36( 11%) 
+G:   LC97 - LC112     4/16( 25%)   5/ 8( 62%)   0/16(  0%)   4/36( 11%) 
+H:  LC113 - LC128     0/16(  0%)   0/ 8(  0%)   0/16(  0%)   0/36(  0%) 
 
 
 Total dedicated input pins used:                 0/4      (  0%)
@@ -168,9 +185,9 @@ bcd2seven
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-   9    (8)  (A)      INPUT               0      0   0    0    0    7    0  bcd1
-  10    (6)  (A)      INPUT               0      0   0    0    0    7    0  bcd2
-  11    (5)  (A)      INPUT               0      0   0    0    0    7    0  bcd4
+   8   (11)  (A)      INPUT               0      0   0    0    0    7    0  bcd1
+   9    (8)  (A)      INPUT               0      0   0    0    0    7    0  bcd2
+  10    (6)  (A)      INPUT               0      0   0    0    0    7    0  bcd4
   12    (3)  (A)      INPUT               0      0   0    0    0    4    0  bcd8
 
 
@@ -192,13 +209,13 @@ bcd2seven
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-  76    120    H     OUTPUT      t        0      0   0    4    0    0    0  A
-  77    123    H     OUTPUT      t        0      0   0    3    0    0    0  B
-  79    125    H     OUTPUT      t        0      0   0    3    0    0    0  C
-  80    126    H     OUTPUT      t        0      0   0    4    0    0    0  D
-  75    118    H     OUTPUT      t        0      0   0    3    0    0    0  E
-  74    117    H     OUTPUT      t        0      0   0    4    0    0    0  F
-  73    115    H     OUTPUT      t        0      0   0    4    0    0    0  G
+  58     91    F     OUTPUT      t        0      0   0    4    0    0    0  A
+  60     93    F     OUTPUT      t        0      0   0    3    0    0    0  B
+  61     94    F     OUTPUT      t        0      0   0    3    0    0    0  C
+  63     97    G     OUTPUT      t        0      0   0    4    0    0    0  D
+  64     99    G     OUTPUT      t        0      0   0    3    0    0    0  E
+  65    101    G     OUTPUT      t        0      0   0    4    0    0    0  F
+  67    104    G     OUTPUT      t        0      0   0    4    0    0    0  G
 
 
 Code:
@@ -216,26 +233,50 @@ bcd2seven
 
 ** LOGIC CELL INTERCONNECTIONS **
 
-Logic Array Block 'H':
+Logic Array Block 'F':
 
-                       Logic cells placed in LAB 'H'
-        +------------- LC120 A
-        | +----------- LC123 B
-        | | +--------- LC125 C
-        | | | +------- LC126 D
-        | | | | +----- LC118 E
-        | | | | | +--- LC117 F
-        | | | | | | +- LC115 G
-        | | | | | | | 
-        | | | | | | |   Other LABs fed by signals
-        | | | | | | |   that feed LAB 'H'
-LC      | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'H':
+               Logic cells placed in LAB 'F'
+        +----- LC91 A
+        | +--- LC93 B
+        | | +- LC94 C
+        | | | 
+        | | |   Other LABs fed by signals
+        | | |   that feed LAB 'F'
+LC      | | | | A B C D E F G H |     Logic cells that feed LAB 'F':
 
 Pin
-9    -> * * * * * * * | - - - - - - - * | <-- bcd1
-10   -> * * * * * * * | - - - - - - - * | <-- bcd2
-11   -> * * * * * * * | - - - - - - - * | <-- bcd4
-12   -> * - - * - * * | - - - - - - - * | <-- bcd8
+8    -> * * * | - - - - - * * - | <-- bcd1
+9    -> * * * | - - - - - * * - | <-- bcd2
+10   -> * * * | - - - - - * * - | <-- bcd4
+12   -> * - - | - - - - - * * - | <-- bcd8
+
+
+* = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
+- = The logic cell or pin is not an input to the logic cell (or LAB).
+
+
+Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
+bcd2seven
+
+** LOGIC CELL INTERCONNECTIONS **
+
+Logic Array Block 'G':
+
+                 Logic cells placed in LAB 'G'
+        +------- LC97 D
+        | +----- LC99 E
+        | | +--- LC101 F
+        | | | +- LC104 G
+        | | | | 
+        | | | |   Other LABs fed by signals
+        | | | |   that feed LAB 'G'
+LC      | | | | | A B C D E F G H |     Logic cells that feed LAB 'G':
+
+Pin
+8    -> * * * * | - - - - - * * - | <-- bcd1
+9    -> * * * * | - - - - - * * - | <-- bcd2
+10   -> * * * * | - - - - - * * - | <-- bcd4
+12   -> * - * * | - - - - - * * - | <-- bcd8
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
@@ -253,43 +294,43 @@ bcd4     : INPUT;
 bcd8     : INPUT;
 
 -- Node name is 'A' 
--- Equation name is 'A', location is LC120, type is output.
+-- Equation name is 'A', location is LC091, type is output.
  A       = LCELL( _EQ001 $  VCC);
   _EQ001 = !bcd1 & !bcd2 &  bcd4 & !bcd8
          #  bcd1 & !bcd2 & !bcd4 & !bcd8;
 
 -- Node name is 'B' 
--- Equation name is 'B', location is LC123, type is output.
+-- Equation name is 'B', location is LC093, type is output.
  B       = LCELL( _EQ002 $  VCC);
   _EQ002 = !bcd1 &  bcd2 &  bcd4
          #  bcd1 & !bcd2 &  bcd4;
 
 -- Node name is 'C' 
--- Equation name is 'C', location is LC125, type is output.
+-- Equation name is 'C', location is LC094, type is output.
  C       = LCELL( _EQ003 $  VCC);
   _EQ003 = !bcd1 &  bcd2 & !bcd4;
 
 -- Node name is 'D' 
--- Equation name is 'D', location is LC126, type is output.
+-- Equation name is 'D', location is LC097, type is output.
  D       = LCELL( _EQ004 $  VCC);
   _EQ004 =  bcd1 &  bcd2 &  bcd4 & !bcd8
          #  bcd1 & !bcd2 & !bcd4 & !bcd8
          # !bcd1 & !bcd2 &  bcd4 & !bcd8;
 
 -- Node name is 'E' 
--- Equation name is 'E', location is LC118, type is output.
+-- Equation name is 'E', location is LC099, type is output.
  E       = LCELL( _EQ005 $ !bcd1);
   _EQ005 = !bcd1 & !bcd2 &  bcd4;
 
 -- Node name is 'F' 
--- Equation name is 'F', location is LC117, type is output.
+-- Equation name is 'F', location is LC101, type is output.
  F       = LCELL( _EQ006 $  bcd8);
   _EQ006 = !bcd2 &  bcd4 & !bcd8
          # !bcd1 &  bcd4 & !bcd8
          # !bcd1 & !bcd2 & !bcd8;
 
 -- Node name is 'G' 
--- Equation name is 'G', location is LC115, type is output.
+-- Equation name is 'G', location is LC104, type is output.
  G       = LCELL( _EQ007 $  VCC);
   _EQ007 =  bcd1 &  bcd2 &  bcd4 & !bcd8
          # !bcd2 & !bcd4 & !bcd8;
@@ -379,16 +420,16 @@ Compilation Times
 
    Compiler Netlist Extractor             00:00:00
    Database Builder                       00:00:00
-   Logic Synthesizer                      00:00:00
+   Logic Synthesizer                      00:00:01
    Partitioner                            00:00:00
    Fitter                                 00:00:00
    Timing SNF Extractor                   00:00:00
    Assembler                              00:00:02
    --------------------------             --------
-   Total Time                             00:00:02
+   Total Time                             00:00:03
 
 
 Memory Allocated
 -----------------
 
-Peak memory allocated during compilation  = 3,515K
+Peak memory allocated during compilation  = 3,505K
