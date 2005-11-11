@@ -1,8 +1,8 @@
-Project Informationw:\vhosts\palmerc-dev.coba.unt.edu\cameron\lab\classes\elet2720\bcd2seven\bcd2seven.rpt
+Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 
 MAX+plus II Compiler Report File
 Version 10.2 07/10/2002
-Compiled: 11/10/2005 15:32:58
+Compiled: 11/11/2005 01:28:26
 
 Copyright (C) 1988-2002 Altera Corporation
 Any megafunction design, and related net list (encrypted or decrypted),
@@ -43,7 +43,7 @@ User Pins:                 4        7        0
 
 
 
-Device-Specific Information:w:\vhosts\palmerc-dev.coba.unt.edu\cameron\lab\classes\elet2720\bcd2seven\bcd2seven.rpt
+Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 bcd2seven
 
 ***** Logic for device 'bcd2seven' compiled without errors.
@@ -67,10 +67,10 @@ Device Options:
               b  b  b  R     R  R  R  C                 R        C           
               c  c  c  V  G  V  V  V  I  G  G  G  G  G  V        C           
               d  d  d  E  N  E  E  E  N  N  N  N  N  N  E        I           
-              3  2  1  D  D  D  D  D  T  D  D  D  D  D  D  D  C  O  B  A  E  
+              4  2  1  D  D  D  D  D  T  D  D  D  D  D  D  D  C  O  B  A  E  
             -----------------------------------------------------------------_ 
           /  11 10  9  8  7  6  5  4  3  2  1 84 83 82 81 80 79 78 77 76 75   | 
-    bcd4 | 12                                                              74 | F 
+    bcd8 | 12                                                              74 | F 
    VCCIO | 13                                                              73 | G 
     #TDI | 14                                                              72 | GND 
 RESERVED | 15                                                              71 | #TDO 
@@ -118,7 +118,7 @@ PDn = Power Down pin.
 & = JTAG pin used for I/O. When used as user I/O, JTAG pins must be kept stable before and during configuration.  JTAG pin stability prevents accidental loading of JTAG instructions.
 
 
-Device-Specific Information:w:\vhosts\palmerc-dev.coba.unt.edu\cameron\lab\classes\elet2720\bcd2seven\bcd2seven.rpt
+Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 bcd2seven
 
 ** RESOURCE USAGE **
@@ -160,7 +160,7 @@ Synthesized logic cells:                         0/ 128   (  0%)
 
 
 
-Device-Specific Information:w:\vhosts\palmerc-dev.coba.unt.edu\cameron\lab\classes\elet2720\bcd2seven\bcd2seven.rpt
+Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 bcd2seven
 
 ** INPUTS **
@@ -168,10 +168,10 @@ bcd2seven
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-   9    (8)  (A)      INPUT               0      0   0    0    0    4    0  bcd1
+   9    (8)  (A)      INPUT               0      0   0    0    0    7    0  bcd1
   10    (6)  (A)      INPUT               0      0   0    0    0    7    0  bcd2
-  11    (5)  (A)      INPUT               0      0   0    0    0    7    0  bcd3
-  12    (3)  (A)      INPUT               0      0   0    0    0    7    0  bcd4
+  11    (5)  (A)      INPUT               0      0   0    0    0    7    0  bcd4
+  12    (3)  (A)      INPUT               0      0   0    0    0    4    0  bcd8
 
 
 Code:
@@ -184,7 +184,7 @@ t = Turbo logic cell
 r = Fitter-inserted logic cell
 
 
-Device-Specific Information:w:\vhosts\palmerc-dev.coba.unt.edu\cameron\lab\classes\elet2720\bcd2seven\bcd2seven.rpt
+Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 bcd2seven
 
 ** OUTPUTS **
@@ -211,7 +211,7 @@ t = Turbo logic cell
 r = Fitter-inserted logic cell
 
 
-Device-Specific Information:w:\vhosts\palmerc-dev.coba.unt.edu\cameron\lab\classes\elet2720\bcd2seven\bcd2seven.rpt
+Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 bcd2seven
 
 ** LOGIC CELL INTERCONNECTIONS **
@@ -232,66 +232,67 @@ Logic Array Block 'H':
 LC      | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'H':
 
 Pin
-9    -> * - - * - * * | - - - - - - - * | <-- bcd1
+9    -> * * * * * * * | - - - - - - - * | <-- bcd1
 10   -> * * * * * * * | - - - - - - - * | <-- bcd2
-11   -> * * * * * * * | - - - - - - - * | <-- bcd3
-12   -> * * * * * * * | - - - - - - - * | <-- bcd4
+11   -> * * * * * * * | - - - - - - - * | <-- bcd4
+12   -> * - - * - * * | - - - - - - - * | <-- bcd8
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:w:\vhosts\palmerc-dev.coba.unt.edu\cameron\lab\classes\elet2720\bcd2seven\bcd2seven.rpt
+Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 bcd2seven
 
 ** EQUATIONS **
 
 bcd1     : INPUT;
 bcd2     : INPUT;
-bcd3     : INPUT;
 bcd4     : INPUT;
+bcd8     : INPUT;
 
 -- Node name is 'A' 
 -- Equation name is 'A', location is LC120, type is output.
  A       = LCELL( _EQ001 $  VCC);
-  _EQ001 = !bcd1 &  bcd2 & !bcd3 & !bcd4
-         # !bcd1 & !bcd2 & !bcd3 &  bcd4;
+  _EQ001 = !bcd1 & !bcd2 &  bcd4 & !bcd8
+         #  bcd1 & !bcd2 & !bcd4 & !bcd8;
 
 -- Node name is 'B' 
 -- Equation name is 'B', location is LC123, type is output.
  B       = LCELL( _EQ002 $  VCC);
-  _EQ002 =  bcd2 &  bcd3 &  bcd4
-         #  bcd2 & !bcd3 & !bcd4;
+  _EQ002 = !bcd1 &  bcd2 &  bcd4
+         #  bcd1 & !bcd2 &  bcd4;
 
 -- Node name is 'C' 
 -- Equation name is 'C', location is LC125, type is output.
  C       = LCELL( _EQ003 $  VCC);
-  _EQ003 = !bcd2 &  bcd3 & !bcd4;
+  _EQ003 = !bcd1 &  bcd2 & !bcd4;
 
 -- Node name is 'D' 
 -- Equation name is 'D', location is LC126, type is output.
- D       = LCELL( _EQ004 $  bcd1);
-  _EQ004 = !bcd1 & !bcd2 &  bcd4
-         # !bcd1 &  bcd3 & !bcd4;
+ D       = LCELL( _EQ004 $  VCC);
+  _EQ004 =  bcd1 &  bcd2 &  bcd4 & !bcd8
+         #  bcd1 & !bcd2 & !bcd4 & !bcd8
+         # !bcd1 & !bcd2 &  bcd4 & !bcd8;
 
 -- Node name is 'E' 
 -- Equation name is 'E', location is LC118, type is output.
- E       = LCELL( _EQ005 $ !bcd4);
-  _EQ005 =  bcd2 & !bcd3 & !bcd4;
+ E       = LCELL( _EQ005 $ !bcd1);
+  _EQ005 = !bcd1 & !bcd2 &  bcd4;
 
 -- Node name is 'F' 
 -- Equation name is 'F', location is LC117, type is output.
- F       = LCELL( _EQ006 $  bcd1);
-  _EQ006 = !bcd1 &  bcd2 & !bcd3
-         # !bcd1 &  bcd2 & !bcd4
-         # !bcd1 & !bcd3 & !bcd4;
+ F       = LCELL( _EQ006 $  bcd8);
+  _EQ006 = !bcd2 &  bcd4 & !bcd8
+         # !bcd1 &  bcd4 & !bcd8
+         # !bcd1 & !bcd2 & !bcd8;
 
 -- Node name is 'G' 
 -- Equation name is 'G', location is LC115, type is output.
  G       = LCELL( _EQ007 $  VCC);
-  _EQ007 = !bcd1 &  bcd2 &  bcd3 &  bcd4
-         # !bcd1 & !bcd2 & !bcd3;
+  _EQ007 =  bcd1 &  bcd2 &  bcd4 & !bcd8
+         # !bcd2 & !bcd4 & !bcd8;
 
 
 
@@ -301,7 +302,7 @@ bcd4     : INPUT;
 
 
 
-Project Informationw:\vhosts\palmerc-dev.coba.unt.edu\cameron\lab\classes\elet2720\bcd2seven\bcd2seven.rpt
+Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\bcd2seven\bcd2seven.rpt
 
 ** COMPILATION SETTINGS & TIMES **
 
@@ -382,12 +383,12 @@ Compilation Times
    Partitioner                            00:00:00
    Fitter                                 00:00:00
    Timing SNF Extractor                   00:00:00
-   Assembler                              00:00:01
+   Assembler                              00:00:02
    --------------------------             --------
-   Total Time                             00:00:01
+   Total Time                             00:00:02
 
 
 Memory Allocated
 -----------------
 
-Peak memory allocated during compilation  = 3,677K
+Peak memory allocated during compilation  = 3,515K
