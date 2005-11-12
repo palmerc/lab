@@ -1,5 +1,5 @@
 --
---  Copyright (C) 1988-2002 Altera Corporation
+--  Copyright (C) 1988-2003 Altera Corporation
 --  Any megafunction design, and related net list (encrypted or decrypted),
 --  support information, device programming or simulation file, and any other
 --  associated documentation or information provided by Altera or a partner
@@ -252,7 +252,8 @@ END;
 
 OTHER_CONFIGURATION
 BEGIN
-	LAST_MAXPLUS2_VERSION = 10.2;
+	EXPLICIT_FAMILY = 1;
+	LAST_MAXPLUS2_VERSION = 10.23;
 	FLEX_10K_52_COLUMNS = 40;
 	DEFAULT_9K_EXP_PER_LCELL = 1/2;
 	LOCAL_INTERCONNECT_PER_LAB_PERCENT = 100;
@@ -262,7 +263,6 @@ BEGIN
 	ROW_PINS_PERCENT = 50;
 	ORIGINAL_MAXPLUS2_VERSION = 10.2;
 	COMPILER_DATA = "1,1,0,1,0,0,0,1,1,1,1,0,1,1,1";
-	EXPLICIT_FAMILY = OFF;
 END;
 
 DEFINE_LOGIC_SYNTHESIS_STYLE NORMAL.MAX5000
