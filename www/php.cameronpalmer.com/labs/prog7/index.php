@@ -69,7 +69,7 @@ function displayImages($upload_dir) {
 }
 
 function scaleImageByWidth($image_file, $newfile, $width) {
-        global $jpegtopnm, $pngtopnm, $giftopnm, $pamscale,        $pnmtojpeg, $pnmtopng, $pnmtogif;
+        global $jpegtopnm, $pngtopnm, $giftopnm, $pamscale, $pnmtojpeg, $pnmtopng, $ppmtogif;
 
         $imageinfo = getimagesize($image_file);
         $newwidth = $width;        
