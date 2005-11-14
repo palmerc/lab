@@ -13,7 +13,10 @@
     <div class="leftside">
         <form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
                 <p>
-                        <input type="file" name="filename" value="" />
+                        <input type="file" name="filename0" value="" />
+                </p>
+                <p>
+                        <input type="file" name="filename1" value="" />
                 </p>
                 <p>
                         <input type="submit" name="submit" value="Upload file" />
@@ -25,23 +28,25 @@
 
 <?php
   if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                if (!uploadFile($upload_dir)) {
-        echo "<p class=\"leftside warning\">Only JPEG, GIF or PNG files are allowed</p>";
+   	foreach ($_FILES as $file) {
+    	if (!uploadFile($file, $upload_dir)) {
+      	echo "<p class=\"leftside warning\">Only JPEG, GIF or PNG files are allowed</p>";
         echo '<br style="clear: both;" />';
-    } else {
-        $image_name = $_FILES['filename']['name'];
-        $image_thumb = "thumb-".$_FILES['filename']['name'];
+      } else {
+        $image_name = $file['name'];
+        $image_thumb = "thumb-".$file['name'];
         scaleImageByWidth($upload_dir.$image_name, $upload_dir.'thumbnails/'.$image_thumb, $width);
-        }
+      }
+  	}
   }
         displayImages($upload_dir);
 
-function uploadFile($upload_dir) {
-    $file_info = getimagesize($_FILES['filename']['tmp_name']);
+function uploadFile($file, $upload_dir) {
+    $file_info = getimagesize($file['tmp_name']);
     $mime_type = $file_info['mime'];
     if ($mime_type == 'image/jpeg' or $mime_type == 'image/gif' or $mime_type == 'image/png') {
-        $upload_file = $upload_dir . basename($_FILES['filename']['name']);
-        move_uploaded_file($_FILES['filename']['tmp_name'], $upload_file);
+        $upload_file = $upload_dir . basename($file['name']);
+        move_uploaded_file($file['tmp_name'], $upload_file);
         return true;
     } else {
         return false;
