@@ -56,7 +56,7 @@ function displayImages($upload_dir) {
         if (count($file_array) > 0) {
                 //echo '<table class="phototable">';
                 foreach ($file_array as $file) {
-                        if (preg_match('/(\.jpg)|(\.png)|(\.gif)/', $file)) {
+                        if (preg_match('/(\.jpg)|(\.png)|(\.gif)/i', $file)) {
                                 $image_thumb = "thumb-".$file;
                                 $FQfile = $upload_dir . rawurlencode($file);
                                 $FQimage_thumb = $upload_dir.'thumbnails/'. rawurlencode($image_thumb);
