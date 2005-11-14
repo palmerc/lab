@@ -5,5 +5,5 @@
 	$pamscale = "{$netpbmdir}pamscale";
 	$pnmtojpeg = "{$netpbmdir}pnmtojpeg";
 	$pnmtopng = "{$netpbmdir}pnmtopng";
-	$pnmtogif = "{$netpbmdir}pnmtogif";
+	$ppmtogif = "{$netpbmdir}ppmtogif";
 ?>

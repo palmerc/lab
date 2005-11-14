@@ -1,14 +1,14 @@
 <?php
-        $title = "CSCE 2410 - PHP Program 7";
-        $section = "Assignment: Image Uploading";
-        require("../../php-template.php");
-        $netpbmdir="/usr/local/netpbm/bin/";
-        $root_dir = dirname(__FILE__);
-        if (file_exists("{$root_dir}/netpbm_root.php")) require("{$root_dir}/netpbm_root.php");
-        require("netpbm.php");
+	$title = "CSCE 2410 - PHP Program 7";
+  $section = "Assignment: Image Uploading";
+  require("../../php-template.php");
+  $netpbmdir="/usr/local/netpbm/bin/";
+  $root_dir = dirname(__FILE__);
+  if (file_exists("{$root_dir}/netpbm_root.php")) require("{$root_dir}/netpbm_root.php");
+  require("netpbm.php");
 
-        $upload_dir = "uploaddir/";
-        $width = 100; // Pixel width of thumbnails
+  $upload_dir = "uploaddir/";
+  $width = 100; // Pixel width of thumbnails
 ?>
     <div class="leftside">
         <form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
@@ -82,7 +82,7 @@ function scaleImageByWidth($image_file, $newfile, $width) {
         } else if ($imageinfo['mime'] == 'image/png') {
                 exec("{$pngtopnm} {$image_file} | {$pamscale} -width={$newwidth} | {$pnmtopng} > {$newfile}");
         } else if ($imageinfo['mime'] == 'image/gif') {
-                exec("{$giftopnm} {$image_file} | {$pamscale} -width={$newwidth} | {$pnmtogif} > {$newfile}");
+                exec("{$giftopnm} {$image_file} | {$pamscale} -width={$newwidth} | {$ppmtogif} > {$newfile}");
         } else {
                 echo "File type cannot be converted";
         }
