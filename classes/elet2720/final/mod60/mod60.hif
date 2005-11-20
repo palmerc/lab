@@ -1,6 +1,6 @@
 HIF003
 --
--- Copyright (C) 1988-2002 Altera Corporation
+-- Copyright (C) 1988-2003 Altera Corporation
 -- Any megafunction design, and related net list (encrypted or decrypted),
 -- support information, device programming or simulation file, and any other
 -- associated documentation or information provided by Altera or a partner
@@ -24,16 +24,54 @@ HIF003
 --
 FILES
 {
+	jk-ff.gdf
+	{
+		jk-ff [] []
+		{
+			3 [] [];
+		}
+	}
+	jk-enable.gdf
+	{
+		jk-enable [] []
+		{
+			1 [] [];
+		}
+	}
+	and5.gdf
+	{
+		and5 [] []
+		{
+			2 [] [];
+		}
+	}
+	mod60.gdf
+	{
+		mod60 [] []
+		{
+			0 [] [];
+		}
+	}
 }
 TREE
 {
 	mod60::(0,0):(0): mod60.gdf
 	{
+		jk-ff::(0,0):(48): jk-ff.gdf;
+		jk-ff::(0,0):(47): jk-ff.gdf;
+		jk-ff::(0,0):(46): jk-ff.gdf;
+		jk-ff::(0,0):(45): jk-ff.gdf;
+		jk-ff::(0,0):(44): jk-ff.gdf;
+		jk-ff::(0,0):(43): jk-ff.gdf;
+		jk-ff::(0,0):(42): jk-ff.gdf;
+		jk-ff::(0,0):(41): jk-ff.gdf;
+		jk-ff::(0,0):(40): jk-ff.gdf;
 		jk-enable::(0,0):(7): jk-enable.gdf;
 		jk-enable::(0,0):(6): jk-enable.gdf;
 		jk-enable::(0,0):(4): jk-enable.gdf;
 		jk-enable::(0,0):(3): jk-enable.gdf;
 		jk-enable::(0,0):(2): jk-enable.gdf;
-		jk-enable::(0,0):(1): jk-enable.gdf;
+		and5::(0,0):(23): and5.gdf;
+		jk-enable::(0,0):(39): jk-enable.gdf;
 	}
 }
