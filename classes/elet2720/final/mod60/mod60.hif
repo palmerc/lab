@@ -24,11 +24,11 @@ HIF003
 --
 FILES
 {
-	jk-ff.gdf
+	and5.gdf
 	{
-		jk-ff [] []
+		and5 [] []
 		{
-			3 [] [];
+			2 [] [];
 		}
 	}
 	jk-enable.gdf
@@ -36,13 +36,6 @@ FILES
 		jk-enable [] []
 		{
 			1 [] [];
-		}
-	}
-	and5.gdf
-	{
-		and5 [] []
-		{
-			2 [] [];
 		}
 	}
 	mod60.gdf
@@ -57,21 +50,6 @@ TREE
 {
 	mod60::(0,0):(0): mod60.gdf
 	{
-		jk-ff::(0,0):(48): jk-ff.gdf;
-		jk-ff::(0,0):(47): jk-ff.gdf;
-		jk-ff::(0,0):(46): jk-ff.gdf;
-		jk-ff::(0,0):(45): jk-ff.gdf;
-		jk-ff::(0,0):(44): jk-ff.gdf;
-		jk-ff::(0,0):(43): jk-ff.gdf;
-		jk-ff::(0,0):(42): jk-ff.gdf;
-		jk-ff::(0,0):(41): jk-ff.gdf;
-		jk-ff::(0,0):(40): jk-ff.gdf;
-		jk-enable::(0,0):(7): jk-enable.gdf;
-		jk-enable::(0,0):(6): jk-enable.gdf;
-		jk-enable::(0,0):(4): jk-enable.gdf;
-		jk-enable::(0,0):(3): jk-enable.gdf;
-		jk-enable::(0,0):(2): jk-enable.gdf;
-		and5::(0,0):(23): and5.gdf;
-		jk-enable::(0,0):(39): jk-enable.gdf;
+		and5::(0,0):(69): and5.gdf;
 	}
 }

@@ -2,7 +2,7 @@ Project Informationc:\documents and settings\cameron palmer\my documents\elet272
 
 MAX+plus II Compiler Report File
 Version 10.23 07/09/2003
-Compiled: 11/19/2005 23:14:05
+Compiled: 11/23/2005 01:25:30
 
 Copyright (C) 1988-2003 Altera Corporation
 Any megafunction design, and related net list (encrypted or decrypted),
@@ -57,7 +57,7 @@ Project Informationc:\documents and settings\cameron palmer\my documents\elet272
 
 
 
-|and5:23|
+|and5:69|
 
 
 Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\mod60\mod60.rpt
@@ -159,8 +159,8 @@ Total logic cells used:                          6/128    (  4%)
 Total shareable expanders used:                  0/128    (  0%)
 Total Turbo logic cells used:                    6/128    (  4%)
 Total shareable expanders not available (n/a):   0/128    (  0%)
-Average fan-in:                                  5.00
-Total fan-in:                                    30
+Average fan-in:                                  5.50
+Total fan-in:                                    33
 
 Total input pins required:                       1
 Total fast input logic cells required:           0
@@ -211,12 +211,12 @@ mod60
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-  75    118    H         FF   +  t        0      0   0    0    0    4    0  A
-  79    125    H         FF   +  t        0      0   0    0    1    3    0  B
+  75    118    H         FF   +  t        0      0   0    0    0    5    0  A
+  79    125    H         FF   +  t        0      0   0    0    1    4    0  B
   77    123    H         FF   +  t        0      0   0    0    6    4    0  C
   76    120    H         FF   +  t        0      0   0    0    6    4    0  D
-  74    117    H         FF   +  t        0      0   0    0    5    3    0  E
-  73    115    H         FF   +  t        0      0   0    0    4    4    0  F
+  74    117    H         FF   +  t        0      0   0    0    6    4    0  E
+  73    115    H         FF   +  t        0      0   0    0    6    4    0  F
 
 
 Code:
@@ -247,11 +247,11 @@ Logic Array Block 'H':
         | | | | | |   Other LABs fed by signals
         | | | | | |   that feed LAB 'H'
 LC      | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'H':
-LC118-> * * * * * - | - - - - - - - * | <-- A
-LC125-> - * * * - * | - - - - - - - * | <-- B
+LC118-> * * * * * * | - - - - - - - * | <-- A
+LC125-> - * * * * * | - - - - - - - * | <-- B
 LC123-> - - * * * * | - - - - - - - * | <-- C
 LC120-> - - * * * * | - - - - - - - * | <-- D
-LC117-> - - * * * - | - - - - - - - * | <-- E
+LC117-> - - * * * * | - - - - - - - * | <-- E
 LC115-> - - * * * * | - - - - - - - * | <-- F
 
 Pin
@@ -275,31 +275,31 @@ CLK      : INPUT;
 
 -- Node name is 'B' = ':52' 
 -- Equation name is 'B', type is output 
- B       = TFFE(!A, GLOBAL( CLK),  VCC,  VCC,  VCC);
+ B       = TFFE( A, GLOBAL( CLK),  VCC,  VCC,  VCC);
 
 -- Node name is 'C' = ':54' 
 -- Equation name is 'C', type is output 
  C       = TFFE( _EQ001, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ001 =  D &  E &  F
-         #  A &  B &  C
-         # !C &  E &  F;
+  _EQ001 =  C &  D &  E &  F
+         #  A &  B;
 
 -- Node name is 'D' = ':55' 
 -- Equation name is 'D', type is output 
  D       = TFFE( _EQ002, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ002 =  A &  B &  C &  D
-         #  D &  E &  F;
+  _EQ002 =  C &  D &  E &  F
+         #  A &  B &  C;
 
 -- Node name is 'E' = ':56' 
 -- Equation name is 'E', type is output 
  E       = TFFE( _EQ003, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ003 =  C &  D &  E &  F
-         #  A &  C &  D &  E;
+  _EQ003 =  A &  B &  C &  D
+         #  C &  D &  E &  F;
 
 -- Node name is 'F' = ':57' 
 -- Equation name is 'F', type is output 
  F       = TFFE( _EQ004, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ004 =  B &  C &  D &  F;
+  _EQ004 =  A &  B &  C &  D &  E
+         #  C &  D &  E &  F;
 
 
 
@@ -389,8 +389,8 @@ Compilation Times
    Logic Synthesizer                      00:00:00
    Partitioner                            00:00:00
    Fitter                                 00:00:00
-   Timing SNF Extractor                   00:00:01
-   Assembler                              00:00:01
+   Timing SNF Extractor                   00:00:00
+   Assembler                              00:00:02
    --------------------------             --------
    Total Time                             00:00:02
 
@@ -398,4 +398,4 @@ Compilation Times
 Memory Allocated
 -----------------
 
-Peak memory allocated during compilation  = 4,008K
+Peak memory allocated during compilation  = 3,521K
