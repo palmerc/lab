@@ -8,60 +8,56 @@ around with stack operations and handling HTML. Maybe I should consider incopora
 TIDY like functionality using the DTD...
 
 """
-from sgmllib import SGMLParser
-import re, htmlentitydefs
+import HTMLParser
+
+class Stripper:
+    htmlDoc = ''
+
+    def __init__(self, htmlSource):
+        htmlDoc = htmlSource
+
+    def printDoc(self):
+        #p = HTMLParser()
+        #p.feed(htmlDoc)
+        #print p.get_starttag_text()
+        #p.close()
+        print self.htmlDoc
 
 class Stack:
     def __init__(self):
         self.items = []
-    
+
     def push(self, item):
         self.items.append(item)
-    
+
     def pop(self):
         return self.items.pop()
-        
+
     def isEmpty(self):
         return len(self.items) == 0
-    
+
 def main():
     import sys
-    if sys.argc < 2:
-        print "format: %s <url | file.htm", sys.argv[0]
+    try:
+        fin = sys.argv[1]
+    except IndexError:
+        sys.stderr.write('USAGE: %s <url | file.htm>\n'% sys.argv[0])
         sys.exit(1)
-    clinput = sys.argv[1]
-    
-    if clinput == "":
-        import urllib
-        sock = urllib.urlopen(url)
-        htmlSource = scok.read()
-        sock.close()
-        
-    elif file:
-        
-            
-    else:
-        infile = open(fname, 'r')
 
-    s = Stack()
-    # Read in a line from the file
-    p = re.compile('<(/?)|(!?)(\w+)([^>]*)(/?)>|(.*)', re.IGNORECASE)
-    for line in infile:
-        # Check the line for HTML tags
-        # print line
-        iterator = p.finditer(line)
-        for match in iterator:
-            # Push the tags onto the stack
-            s.push(match.group())
-            # print match.group()
-      
-    # Pop the tag off the stack
-    
-    print "\n".join(s.items)
-    while not s.isEmpty():
-        print s.pop()
-        
-    infile.close()
+    if fin.startswith('http://'):
+        import urllib
+        sock = urllib.urlopen(fin)
+        htmlSource = sock.read()
+        sock.close()
+
+    else:
+        htmlSource = open(fin, 'rb').read()
+
+    s = Stripper(htmlSource);
+    s.printDoc()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except IOError:
+        pass

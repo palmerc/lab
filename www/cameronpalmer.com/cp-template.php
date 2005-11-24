@@ -35,6 +35,13 @@ function do_header() {
     echo'
         <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
         <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
+	
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+	</script>
+	<script type="text/javascript">
+		_uacct="UA-68677-1";
+		urchinTracker();
+	</script>
     </head>
     <body>
     	<div id="pbody">
