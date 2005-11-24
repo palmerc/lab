@@ -1,4 +1,4 @@
-' Copyright (C) 1988-2002 Altera Corporation
+' Copyright (C) 1988-2003 Altera Corporation
 ' Any megafunction design, and related net list (encrypted or decrypted),
 ' support information, device programming or simulation file, and any other
 ' associated documentation or information provided by Altera or a partner
@@ -18,10 +18,10 @@
 ' their respective licensors.  No other licenses, including any licenses
 ' needed under any third party's intellectual property, are provided herein.
 
-'Device #1: EPM7128S - g:\bcd2seven\bcd2seven.pof Tue Nov 15 13:24:52 2005
+'Device #1: EPM7128S - c:\documents and settings\cameron palmer\my documents\elet2720\final\bcd2seven\bcd2seven.pof Wed Nov 23 19:22:47 2005
 
-NOTE "CREATOR" "Altera Jam/STAPL Composer Version 10.2 06/28/2002";
-NOTE "DATE" "2005/11/15";
+NOTE "CREATOR" "Altera Jam/STAPL Composer Version 10.23 07/09/2003";
+NOTE "DATE" "2005/11/23";
 NOTE "DEVICE" "EPM7128S";
 NOTE "FILE" "bcd2seven.pof";
 NOTE "TARGET" "1";
@@ -32,7 +32,7 @@ NOTE "SAVE_DATA" "DEVICE_DATA";
 NOTE "SAVE_DATA_VARIABLES" "V0, A12, A13, A21, A22, A25, A43";
 NOTE "STAPL_VERSION" "JESD71";
 NOTE "JAM_VERSION" "2.0";
-NOTE "ALG_VERSION" "14";
+NOTE "ALG_VERSION" "15";
 ACTION PROGRAM = L0, DO_BLANK_CHECK OPTIONAL, DO_VERIFY RECOMMENDED, DO_SECURE OPTIONAL,
 DO_READ_UES OPTIONAL,
 L15;
@@ -1121,7 +1121,7 @@ PROCEDURE L149 USES DEVICE_DATA, TEMP_DATA
 ;
 V74 = 1;
 IF (V4 == 1) THEN CALL L126;
-V74 = 0;
+IF (V103) THEN V74 = 0;
 ENDPROC;
 PROCEDURE L150 USES DEVICE_DATA, TEMP_DATA, L53, L273, L215, L356, L54;
 CALL L53;
@@ -1661,4 +1661,4 @@ IF (j != 317) THEN V52 = j - 108;
 IF (j == 317) THEN V52 = -1;
 ENDPROC;
 ' END OF FILE
-CRC B5EA;
+CRC 7757;

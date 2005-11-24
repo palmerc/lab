@@ -2,7 +2,7 @@ Project Informationc:\documents and settings\cameron palmer\my documents\elet272
 
 MAX+plus II Compiler Report File
 Version 10.23 07/09/2003
-Compiled: 11/22/2005 11:10:25
+Compiled: 11/23/2005 19:17:15
 
 Copyright (C) 1988-2003 Altera Corporation
 Any megafunction design, and related net list (encrypted or decrypted),
@@ -150,8 +150,8 @@ Total logic cells used:                          3/128    (  2%)
 Total shareable expanders used:                  0/128    (  0%)
 Total Turbo logic cells used:                    3/128    (  2%)
 Total shareable expanders not available (n/a):   0/128    (  0%)
-Average fan-in:                                  3.66
-Total fan-in:                                    11
+Average fan-in:                                  4.33
+Total fan-in:                                    13
 
 Total input pins required:                       2
 Total fast input logic cells required:           0
@@ -160,7 +160,7 @@ Total bidirectional pins required:               0
 Total reserved pins required                     4
 Total logic cells required:                      3
 Total flipflops required:                        3
-Total product terms required:                    4
+Total product terms required:                    5
 Total logic cells lending parallel expanders:    0
 Total shareable expanders in database:           0
 
@@ -203,9 +203,9 @@ mod6
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-  73    115    H         FF   +  t        0      0   0    1    0    1    0  A
-  75    118    H         FF   +  t        0      0   0    1    3    1    0  B
-  74    117    H         FF   +  t        0      0   0    1    1    2    0  C
+  73    115    H         FF   +  t        0      0   0    1    0    2    0  A
+  75    118    H         FF   +  t        0      0   0    1    3    2    0  B
+  74    117    H         FF   +  t        0      0   0    1    3    2    0  C
 
 
 Code:
@@ -233,8 +233,8 @@ Logic Array Block 'H':
         | | |   Other LABs fed by signals
         | | |   that feed LAB 'H'
 LC      | | | | A B C D E F G H |     Logic cells that feed LAB 'H':
-LC115-> * * - | - - - - - - - * | <-- A
-LC118-> - * - | - - - - - - - * | <-- B
+LC115-> * * * | - - - - - - - * | <-- A
+LC118-> - * * | - - - - - - - * | <-- B
 LC117-> - * * | - - - - - - - * | <-- C
 
 Pin
@@ -261,13 +261,14 @@ EN       : INPUT;
 -- Node name is 'B' = ':6' 
 -- Equation name is 'B', type is output 
  B       = TFFE( _EQ001, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ001 =  B &  C &  EN
-         # !A &  C &  EN;
+  _EQ001 =  A &  B &  EN
+         #  A & !C &  EN;
 
 -- Node name is 'C' = ':7' 
 -- Equation name is 'C', type is output 
  C       = TFFE( _EQ002, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ002 =  C &  EN;
+  _EQ002 =  A &  B &  EN
+         #  A &  C &  EN;
 
 
 
@@ -355,15 +356,15 @@ Compilation Times
    Compiler Netlist Extractor             00:00:00
    Database Builder                       00:00:00
    Logic Synthesizer                      00:00:00
-   Partitioner                            00:00:00
+   Partitioner                            00:00:01
    Fitter                                 00:00:00
    Timing SNF Extractor                   00:00:00
    Assembler                              00:00:01
    --------------------------             --------
-   Total Time                             00:00:01
+   Total Time                             00:00:02
 
 
 Memory Allocated
 -----------------
 
-Peak memory allocated during compilation  = 3,719K
+Peak memory allocated during compilation  = 3,342K
