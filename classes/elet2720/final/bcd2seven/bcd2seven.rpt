@@ -2,7 +2,7 @@ Project Informationc:\documents and settings\cameron palmer\my documents\elet272
 
 MAX+plus II Compiler Report File
 Version 10.23 07/09/2003
-Compiled: 11/23/2005 19:22:46
+Compiled: 11/25/2005 20:30:01
 
 Copyright (C) 1988-2003 Altera Corporation
 Any megafunction design, and related net list (encrypted or decrypted),
@@ -29,6 +29,7 @@ needed under any third party's intellectual property, are provided herein.
 ***** Project compilation was successful
 
 
+BCD2SEVEN
 
 
 ** DEVICE SUMMARY **
@@ -81,13 +82,13 @@ Device Options:
                        E     E  E  E                    E  E  E              
                        S     S  S  S  V                 S  S  S              
                        E     E  E  E  C                 E  E  E  V           
-              b  b  b  R     R  R  R  C                 R  R  R  C           
-              c  c  c  V  G  V  V  V  I  G  G  G  G  G  V  V  V  C           
-              d  d  d  E  N  E  E  E  N  N  N  N  N  N  E  E  E  I           
+              B  B  B  R     R  R  R  C                 R  R  R  C           
+              C  C  C  V  G  V  V  V  I  G  G  G  G  G  V  V  V  C           
+              D  D  D  E  N  E  E  E  N  N  N  N  N  N  E  E  E  I           
               4  2  1  D  D  D  D  D  T  D  D  D  D  D  D  D  D  O  G  E  F  
             -----------------------------------------------------------------_ 
           /  11 10  9  8  7  6  5  4  3  2  1 84 83 82 81 80 79 78 77 76 75   | 
-    bcd8 | 12                                                              74 | D 
+    BCD8 | 12                                                              74 | D 
    VCCIO | 13                                                              73 | C 
     #TDI | 14                                                              72 | GND 
 RESERVED | 15                                                              71 | #TDO 
@@ -159,8 +160,8 @@ Total logic cells used:                          7/128    (  5%)
 Total shareable expanders used:                  0/128    (  0%)
 Total Turbo logic cells used:                    7/128    (  5%)
 Total shareable expanders not available (n/a):   0/128    (  0%)
-Average fan-in:                                  3.57
-Total fan-in:                                    25
+Average fan-in:                                  4.00
+Total fan-in:                                    28
 
 Total input pins required:                       4
 Total fast input logic cells required:           0
@@ -169,7 +170,7 @@ Total bidirectional pins required:               0
 Total reserved pins required                     4
 Total logic cells required:                      7
 Total flipflops required:                        0
-Total product terms required:                   15
+Total product terms required:                   24
 Total logic cells lending parallel expanders:    0
 Total shareable expanders in database:           0
 
@@ -185,10 +186,10 @@ bcd2seven
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-   9    (8)  (A)      INPUT               0      0   0    0    0    7    0  bcd1
-  10    (6)  (A)      INPUT               0      0   0    0    0    7    0  bcd2
-  11    (5)  (A)      INPUT               0      0   0    0    0    7    0  bcd4
-  12    (3)  (A)      INPUT               0      0   0    0    0    4    0  bcd8
+   9    (8)  (A)      INPUT               0      0   0    0    0    7    0  BCD1
+  10    (6)  (A)      INPUT               0      0   0    0    0    7    0  BCD2
+  11    (5)  (A)      INPUT               0      0   0    0    0    7    0  BCD4
+  12    (3)  (A)      INPUT               0      0   0    0    0    7    0  BCD8
 
 
 Code:
@@ -210,10 +211,10 @@ bcd2seven
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
   69    107    G     OUTPUT      t        0      0   0    4    0    0    0  A
-  70    109    G     OUTPUT      t        0      0   0    3    0    0    0  B
-  73    115    H     OUTPUT      t        0      0   0    3    0    0    0  C
+  70    109    G     OUTPUT      t        0      0   0    4    0    0    0  B
+  73    115    H     OUTPUT      t        0      0   0    4    0    0    0  C
   74    117    H     OUTPUT      t        0      0   0    4    0    0    0  D
-  76    120    H     OUTPUT      t        0      0   0    3    0    0    0  E
+  76    120    H     OUTPUT      t        0      0   0    4    0    0    0  E
   75    118    H     OUTPUT      t        0      0   0    4    0    0    0  F
   77    123    H     OUTPUT      t        0      0   0    4    0    0    0  G
 
@@ -244,10 +245,10 @@ Logic Array Block 'G':
 LC      | | | A B C D E F G H |     Logic cells that feed LAB 'G':
 
 Pin
-9    -> * * | - - - - - - * * | <-- bcd1
-10   -> * * | - - - - - - * * | <-- bcd2
-11   -> * * | - - - - - - * * | <-- bcd4
-12   -> * - | - - - - - - * * | <-- bcd8
+9    -> * * | - - - - - - * * | <-- BCD1
+10   -> * * | - - - - - - * * | <-- BCD2
+11   -> * * | - - - - - - * * | <-- BCD4
+12   -> * * | - - - - - - * * | <-- BCD8
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
@@ -273,10 +274,10 @@ Logic Array Block 'H':
 LC      | | | | | | A B C D E F G H |     Logic cells that feed LAB 'H':
 
 Pin
-9    -> * * * * * | - - - - - - * * | <-- bcd1
-10   -> * * * * * | - - - - - - * * | <-- bcd2
-11   -> * * * * * | - - - - - - * * | <-- bcd4
-12   -> - * - * * | - - - - - - * * | <-- bcd8
+9    -> * * * * * | - - - - - - * * | <-- BCD1
+10   -> * * * * * | - - - - - - * * | <-- BCD2
+11   -> * * * * * | - - - - - - * * | <-- BCD4
+12   -> * * * * * | - - - - - - * * | <-- BCD8
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
@@ -288,52 +289,62 @@ bcd2seven
 
 ** EQUATIONS **
 
-bcd1     : INPUT;
-bcd2     : INPUT;
-bcd4     : INPUT;
-bcd8     : INPUT;
+BCD1     : INPUT;
+BCD2     : INPUT;
+BCD4     : INPUT;
+BCD8     : INPUT;
 
 -- Node name is 'A' 
 -- Equation name is 'A', location is LC107, type is output.
- A       = LCELL( _EQ001 $  GND);
-  _EQ001 = !bcd1 & !bcd2 &  bcd4 & !bcd8
-         #  bcd1 & !bcd2 & !bcd4 & !bcd8;
+ A       = LCELL( _EQ001 $  VCC);
+  _EQ001 = !BCD1 &  BCD2 &  BCD4 &  BCD8
+         #  BCD1 & !BCD2 &  BCD4 & !BCD8
+         #  BCD1 &  BCD2 & !BCD4;
 
 -- Node name is 'B' 
 -- Equation name is 'B', location is LC109, type is output.
- B       = LCELL( _EQ002 $  GND);
-  _EQ002 = !bcd1 &  bcd2 &  bcd4
-         #  bcd1 & !bcd2 &  bcd4;
+ B       = LCELL( _EQ002 $  VCC);
+  _EQ002 = !BCD1 &  BCD2 & !BCD4 &  BCD8
+         #  BCD1 & !BCD2 & !BCD4
+         #  BCD1 & !BCD2 & !BCD8
+         #  BCD1 & !BCD4 & !BCD8;
 
 -- Node name is 'C' 
 -- Equation name is 'C', location is LC115, type is output.
- C       = LCELL( _EQ003 $  GND);
-  _EQ003 = !bcd1 &  bcd2 & !bcd4;
+ C       = LCELL( _EQ003 $  VCC);
+  _EQ003 =  BCD1 & !BCD2 &  BCD4 &  BCD8
+         #  BCD1 & !BCD4 & !BCD8
+         # !BCD2 & !BCD4 & !BCD8;
 
 -- Node name is 'D' 
 -- Equation name is 'D', location is LC117, type is output.
- D       = LCELL( _EQ004 $  GND);
-  _EQ004 =  bcd1 &  bcd2 &  bcd4 & !bcd8
-         #  bcd1 & !bcd2 & !bcd4 & !bcd8
-         # !bcd1 & !bcd2 &  bcd4 & !bcd8;
+ D       = LCELL( _EQ004 $  VCC);
+  _EQ004 = !BCD1 &  BCD2 &  BCD4 &  BCD8
+         #  BCD1 &  BCD2 & !BCD4 &  BCD8
+         #  BCD1 & !BCD2 &  BCD4 & !BCD8
+         # !BCD1 & !BCD2 & !BCD4;
 
 -- Node name is 'E' 
 -- Equation name is 'E', location is LC120, type is output.
- E       = LCELL( _EQ005 $  bcd1);
-  _EQ005 = !bcd1 & !bcd2 &  bcd4;
+ E       = LCELL( _EQ005 $  VCC);
+  _EQ005 =  BCD1 &  BCD2 & !BCD4 &  BCD8
+         # !BCD1 &  BCD2 &  BCD4
+         # !BCD1 &  BCD8;
 
 -- Node name is 'F' 
 -- Equation name is 'F', location is LC118, type is output.
- F       = LCELL( _EQ006 $  GND);
-  _EQ006 =  bcd1 &  bcd2 & !bcd8
-         #  bcd2 & !bcd4 & !bcd8
-         #  bcd1 & !bcd4 & !bcd8;
+ F       = LCELL( _EQ006 $  VCC);
+  _EQ006 = !BCD1 &  BCD2 & !BCD4 & !BCD8
+         # !BCD2 &  BCD4 &  BCD8
+         # !BCD1 &  BCD4 &  BCD8
+         # !BCD1 & !BCD2 &  BCD8;
 
 -- Node name is 'G' 
 -- Equation name is 'G', location is LC123, type is output.
- G       = LCELL( _EQ007 $  GND);
-  _EQ007 =  bcd1 &  bcd2 &  bcd4 & !bcd8
-         # !bcd2 & !bcd4 & !bcd8;
+ G       = LCELL( _EQ007 $  VCC);
+  _EQ007 = !BCD1 & !BCD2 & !BCD4 &  BCD8
+         # !BCD1 &  BCD2 & !BCD4 & !BCD8
+         #  BCD2 &  BCD4 &  BCD8;
 
 
 
@@ -418,18 +429,18 @@ VHDL Netlist Writer                       = off
 Compilation Times
 -----------------
 
-   Compiler Netlist Extractor             00:00:00
+   Compiler Netlist Extractor             00:00:01
    Database Builder                       00:00:00
    Logic Synthesizer                      00:00:00
    Partitioner                            00:00:00
-   Fitter                                 00:00:01
+   Fitter                                 00:00:00
    Timing SNF Extractor                   00:00:00
-   Assembler                              00:00:01
+   Assembler                              00:00:02
    --------------------------             --------
-   Total Time                             00:00:02
+   Total Time                             00:00:03
 
 
 Memory Allocated
 -----------------
 
-Peak memory allocated during compilation  = 3,507K
+Peak memory allocated during compilation  = 4,672K

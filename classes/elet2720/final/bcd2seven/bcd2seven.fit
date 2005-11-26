@@ -1,6 +1,6 @@
 -- MAX+plus II Compiler Fit File      
 -- Version 10.23 07/09/2003           
--- Compiled: 11/23/2005 19:22:46      
+-- Compiled: 11/25/2005 20:30:01      
 
 -- Copyright (C) 1988-2003 Altera Corporation
 -- Any megafunction design, and related net list (encrypted or decrypted),
@@ -27,10 +27,10 @@ BEGIN
 
     DEVICE = "EPM7128SLC84-7";
 
-    "bcd1"                         : INPUT_PIN  = 9      ; -- LC8
-    "bcd2"                         : INPUT_PIN  = 10     ; -- LC6
-    "bcd4"                         : INPUT_PIN  = 11     ; -- LC5
-    "bcd8"                         : INPUT_PIN  = 12     ; -- LC3
+    "BCD1"                         : INPUT_PIN  = 9      ; -- LC8
+    "BCD2"                         : INPUT_PIN  = 10     ; -- LC6
+    "BCD4"                         : INPUT_PIN  = 11     ; -- LC5
+    "BCD8"                         : INPUT_PIN  = 12     ; -- LC3
     "A"                            : OUTPUT_PIN = 69     ; -- LC107
     "B"                            : OUTPUT_PIN = 70     ; -- LC109
     "C"                            : OUTPUT_PIN = 73     ; -- LC115
@@ -44,15 +44,15 @@ END;
 INTERNAL_INFO "bcd2seven"
 BEGIN
 	DEVICE = EPM7128SLC84-7;
-	LC123   : LORAX = "G144R0";
-	LC118   : LORAX = "G111R0";
-	LC120   : LORAX = "G113R0";
-	LC117   : LORAX = "G110R0";
-	LC115   : LORAX = "G55R0";
-	LC109   : LORAX = "G138R0";
 	LC107   : LORAX = "G197R0";
+	LC109   : LORAX = "G138R0";
+	LC115   : LORAX = "G55R0";
+	LC117   : LORAX = "G110R0";
+	LC120   : LORAX = "G113R0";
+	LC118   : LORAX = "G111R0";
+	LC123   : LORAX = "G144R0";
 	OH7R0P9 : LORAX = "G206R0,PA32R0C6,PA32R0C7";
-	OH2R0P12 : LORAX = "G148R0,PA19R0C6,PA19R0C7";
-	OH4R0P11 : LORAX = "G204R0,PA29R0C6,PA29R0C7";
 	OH5R0P10 : LORAX = "G205R0,PA28R0C6,PA28R0C7";
+	OH4R0P11 : LORAX = "G204R0,PA29R0C6,PA29R0C7";
+	OH2R0P12 : LORAX = "G148R0,PA19R0C6,PA19R0C7";
 END;
