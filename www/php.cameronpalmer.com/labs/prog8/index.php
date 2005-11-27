@@ -43,7 +43,7 @@
 ?>
 <?php
 		while ($item = array_shift($stack)) {
-			if (preg_match('/<meta\s.*content=(.*)[^>]>/i', $item, $content)) {
+			if (preg_match('/<meta\s.*content=(.+)[^>]*>/i', $item, $content)) {
 				$content_collector[] = $content[1];
 			}
 			if (preg_match('/<title>/i', $item)) {
@@ -97,6 +97,7 @@
 				if ($subtable[$i]['images'] > 0) {
 					echo "Image(s) " . $subtable[$i]['images'] . "<br />\n";
 				}
+				echo "<br />\n";
 				$j++;
 			}
 			echo "</blockquote>\n";
