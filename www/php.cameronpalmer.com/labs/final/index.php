@@ -1,172 +1,6 @@
-<?php
-        $title = "CSCE 2410 - PHP Final Program";
-        $section = "Assignment: SQL Web Calendar";
-        require("../../php-template.php");
-        
-$db_name="calendar";
-//include("dbconnect.php");
+<?phpclass Calendar {    var $month, $year, $today, $dayHeadings;    // Constructor for the Calendar class    function Calendar($month, $year)    {        $this->setToday();        $this->setDayHeadings(5);        if (!$month) { $this->setMonth(date("m")); }        else { $this->setMonth($month); }        if (!$year) { $this->setYear(date("Y")); }        else { $this->setYear($year); }    }        function setMonth($month)    {        $this->month = $month;    }        function setYear($year)    {        $this->year = $year;    }    function setToday()    {        $this->today = date("Ymd");    }        function setDayHeadings($startingDay=0)    {        // zero is sunday, six is saturday        $defaultDays = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');             if ($startingDay != 0) {            for ($index=$startingDay; count($newArrangement) < 7; $index++) {                if ($index < 7) {                    $newArrangement[] = $defaultDays[$index];                } else {                    $index = 0;                    $newArrangement[] = $defaultDays[$index];                }            }                        $this->dayHeadings = $newArrangement;            return;        }                 $this->dayHeadings = $defaultDays;        return;    }        function getDayHeadings()    {        return $this->dayHeadings;    }    // getTodayDate    function getToday()    {        return $this->today;    }       // getWeekNumeric    function getWeekNumeric()    {        return date("W");    }          // Function to split the YMD format into an array    function splitYmd($Ymd) {        $year = substr($Ymd, 0, 4);        $month = substr($Ymd, 4, 2);        $day = substr($Ymd, 6, 2);        return array($year, $month, $day);    }       // getDayofWeek    function getShortDayofWeek($Ymd)    {        list($year, $month, $day) = $this->splitYmd($Ymd);        return date("D", mktime(0, 0, 0, $month, $day, $year));    }        function getLongDayofWeek($Ymd)    {        list($year, $month, $day) = $this->splitYmd($Ymd);        return date("l", mktime(0, 0, 0, $month, $day, $year));    }        function getDaysinMonth($Ymd)    {        list($year, $month, $day) = $this->splitYmd($Ymd);        return date("t", mktime(0, 0, 0, $year, $month, $day));    }        // getPrevMonth    function getPrevMonth()    {        return date("Ym", mktime(0, 0, 0, $this->month-1, 1,  $this->year));    }        // getNextMonth    function getNextMonth()    {        return date("Ym", mktime(0, 0, 0, $this->month+1, 1,  $this->year));    }        function getLongMonthName()    {        return date("F", mktime(0, 0, 0, $this->month, 1, $this->year));    }        function htmlCalendar()    {        //        // Start the calendar table display        echo'        <table style="float: left;" cellspacing="0" width="100%" id="calendar">            ';                //        // Calendar navigation bar        echo'            <tr id="caltitle">                <th id="lastmonth"><a href="';            echo $this->getPrevMonth();            echo '">&laquo;</a></th><th colspan="5" id="thismonth">';            echo $this->getLongMonthName();            echo " {$this->year}</th>";            echo '<th id="nextmonth"><a href="';            echo $this->getNextMonth();            echo '">&raquo;</a></th>            </tr>            ';               //        // Create day of the week headings        echo'            <tr id="days">            ';        $dayHeadings = $this->getDayHeadings();        foreach ($dayHeadings as $day) {            echo'                <th class="';                    echo strtolower($day);                    echo "\">{$day}</th>                ";        }        echo'            </tr>            ';        // End day of the week headings                      $week = 0;                //$nameofweek = array("firstweek", "secondweek", "thirdweek", "fourthweek", "fifthweek", "sixthweek");        while ($week < count($data_array)) {            if (count($data_array) - $i <= 7) {                $thisweek = "lastweek";            } else {                $thisweek = $nameofweek[$week];            }            echo"                <tr id=\"{$thisweek}\">            ";            for ($j=0; $j < 7; $j++) {                $day = date("M D d", $data_array[$i]);                $longday = date("Y-m-d", $data_array[$i]);                $shortmonth = strtolower(substr($day, 0 , 3));                $shortday = strtolower(substr($day, 4, 3));                $date = strtolower(substr($day, 8, 2));                //$sql = "SELECT * FROM tbl_news WHERE calstart <='{$longday}' AND calend >='{$longday}' AND status='Publish' AND calshow='1'";                //$r = mysql_query($sql) or die("Can't update record {$longday}<br />".mysql_error());                                //Print the calendar day.                echo"                <td class=\"{$shortmonth} {$shortday}\" id=\"{$shortmonth}{$date}\">                    <div class=\"date\">{$date}</div>                    <div class=\"event\">";                //while($p = mysql_fetch_array($r)) {                    //echo "<pre>";                    //print_r($p);                    //echo "</pre>";                //    list($news_title, $news_body, $news_link) = array($p['title'], $p['body'], mklink($p));                                                 //    if ($news_title) {                //        echo "<a href=\"{$news_link}\">{$news_title}</a>";                //    }                 //}                echo"                </div>                </td>                    ";                //$i++;                            }            $week++;            echo'            </tr>            ';        }        echo'        </table>        <br style="clear: left;" />        <br />            ';    } // END display_month()} // END class Calendar
 
-// Display the current month if called but accept changes via the URL. So we will need GET
-if ($_GET) {
-    list($requested_ym,) = each($_GET);
-	$data_array = query_month($requested_ym);
-	display_month($requested_ym, $data_array);
-} else {
-    $current_ym = date("Ym", mktime());
-    // Write the current month to the URL so that it is always obvious how to
-    // change the month in the command-line. Otherwise it would only appear when
-    // people changed months using the arrow buttons.
-//    header("Location: http://" . $_SERVER['HTTP_HOST'] 
-//        . rtrim(dirname($_SERVER['PHP_SELF']), '/\\')
-//        . "/" 
-//        . $current_ym);
-}
-
-function query_month($ym) {
-	// Make database query for the specified month and return a nice pretty array of days
-    $year = substr($ym, 0, 4);
-    $month = substr($ym, 4, 2);
-    //echo "{$month} {$year}<br />\n";
-    
-    // Grab the first day and last day of the month
-	$firstday = mktime(0, 0, 0, $month, 1, $year);
-	$lastday = mktime(0, 0, 0, $month+1, 0, $year);
-	//echo "The first day: " . date("l, M d, Y", $firstday) . "<br />\n";
-	//echo "The last day: " . date("l, M d, Y", $lastday) . "<br />\n";
-    
-    // What day of the week is the first and last day of the month?
-    // 1 to 7 AKA Monday to Sunday
-    $startdayofweek = date("w", $firstday);
-	$enddayofweek = date("w", $lastday);
-    $lastdayofmonth = date("d", $lastday);
-	
-    // We have a square calendar so we need to show the end of the previous month
-    // if the first isn't on a Sunday
-	if ($startdayofweek != 7) {
-        // Zero is the last day of the previous month as far as mktime is concerned
-		//echo "The top of the calendar: " . date("l, M d Y",$begincalendar) . "<br />";
-		for ($i=0; $i < $startdayofweek; $i++) {                
-			$data_array[] = mktime(0, 0, 0, $month, -($startdayofweek-1)+$i, $year);
-		}
-	}
-
-    // The month we are interested in is handled here.
-	for ($i=1; $i <= $lastdayofmonth; $i++) {
-        $data_array[] = mktime(0, 0, 0, $month, $i, $year);
-	}
-	
-    // We have a square calendar so we need to show the beginning of the next month
-    // if the last day isn't on a Saturday
-	if ($enddayofweek != 6) {
-		if ($enddayofweek == 7) {
-			$loopdays = $enddayofweek - 1;
-		} else { 
-			$loopdays = 6 - $enddayofweek;
-		}
-		//$endcalendar = mktime(0, 0, 0, $month, $lastdayofmonth+$daysforward, $year);
-		//echo "The bottom of the calendar: " . date("l, M d Y",$endcalendar) . "<br />";
-		for ($i=1; $i <= $loopdays; $i++) {
-			$data_array[] = mktime(0, 0, 0, $month, $lastdayofmonth+$i, $year);
-		}
-	}
-		
-	return $data_array;
-}
-
-function display_month($ym, $data_array) {
-    //echo "{$ym}<br />\n";
-    //echo '<pre>';
-	//print_r($data_array);
-    //echo '</pre>';
-	// Convert the $ym (year month) to a displayable title
-    $year = substr($ym, 0, 4);
-    $month = substr($ym, 4, 2);
-    //echo "{$month} {$year}<br />\n";
-    $month_name = date("F", mktime(0, 0, 0, $month, 1, $year));
-	
-	// Create the previous and next month arrows link
-	$prev_mo = date("Ym", mktime(0, 0, 0, $month-1, 1,  $year));
-	$next_mo = date("Ym", mktime(0, 0, 0, $month+1, 1,  $year));
-	echo'
-    <div id="title">
-    <h1>COBA News Calendar</h1>
-    </div>
-    <div id="main">
-    <p><a href="/news">Return to News Archive</a></p>
-	<table cellspacing="0" width="100%" id="calendar">
-		<tr id="caltitle">
-			';
-	echo"
-			<th id=\"lastmonth\"><a href=\"{$prev_mo}\">&laquo;</a></th>
-			<th colspan=\"5\" id=\"thismonth\">{$month_name} {$year}</th>
-			<th id=\"nextmonth\"><a href=\"{$next_mo}\">&raquo;</a></th>
-			";
-	echo'
-		</tr>
-		<!-- CALENDAR HEADINGS -->
-		<tr id="days">
-			<th class="sun">Sun</th>
-			<th class="mon">Mon</th>
-			<th class="tue">Tue</th>
-			<th class="wed">Wed</th>
-			<th class="thu">Thu</th>
-			<th class="fri">Fri</th>
-			<th class="sat">Sat</th>
-		</tr>
-			';
-
-	$i = 0;
-    $week = 0;
-    $nameofweek = array("firstweek", "secondweek", "thirdweek", "fourthweek", "fifthweek", "sixthweek");
-	while ($i < count($data_array)) {
-        if (count($data_array) - $i <= 7) {
-            $thisweek = "lastweek";
-        } else {
-            $thisweek = $nameofweek[$week];
-        }
-		echo"
-        <tr id=\"{$thisweek}\">
-        ";
-		for ($j=0; $j < 7; $j++) {
-			$day = date("M D d", $data_array[$i]);
-            $longday = date("Y-m-d", $data_array[$i]);
-            $shortmonth = strtolower(substr($day, 0 , 3));
-            $shortday = strtolower(substr($day, 4, 3));
-            $date = strtolower(substr($day, 8, 2));
-            $sql = "SELECT * FROM tbl_news WHERE calstart <='{$longday}' AND calend >='{$longday}' AND status='Publish' AND calshow='1'";
-            $r = mysql_query($sql) or die("Can't update record {$longday}<br />".mysql_error());
-            //Print the calendar day.
-			echo"
-			<td class=\"{$shortmonth} {$shortday}\" id=\"{$shortmonth}{$date}\">
-                <div class=\"date\">{$date}</div>
-                <div class=\"event\">";
-            while($p = mysql_fetch_array($r)) {
-                //echo "<pre>";
-                //print_r($p);
-                //echo "</pre>";
-                list($news_title, $news_body, $news_link) = array($p['title'], $p['body'], mklink($p));
-             
-            
-                if ($news_title) {
-                    echo "<a href=\"{$news_link}\">{$news_title}</a>";
-                } 
-            }
-            echo"
-            </div>
-			</td>
-                ";
-			$i++;
-            
-		}
-        $week++;
-		echo'
-        </tr>
-        ';
-	}
-	echo'
-	</table>
-    </div>
-			';
-} // END display_month()
-
-?>
+$title = "CSCE 2410 - PHP Final Program";
+$section = "Assignment: SQL Web Calendar";
+require("../../php-template.php");
+            $cal = new Calendar();    $today = $cal->getToday();    echo $cal->getLongDayofWeek($today);    $cal->htmlCalendar();    ?>

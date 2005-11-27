@@ -92,6 +92,15 @@
 				";
 				?>
 			</ul>
+		<h3>Program 9 - Class-based Rational Numbers</h3>
+			<ul>
+				<?php $program = "labs/prog9/index.php";
+				echo"
+				<li><a href=\"". $ptr . $program . "\">Web Page</a></li>
+				<li><a href=\"{$ptr}labs/prog9/source.php\" name=\"filename9\">PHP Source</a></li>
+				";
+				?>
+			</ul>
 		<h3>Final Program - SQL Web Calendar</h3>
 			<ul>
 				<?php $program = "labs/final/index.php";
