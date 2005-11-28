@@ -20,7 +20,8 @@
 			';
 	echo'
 		<div class="leftside">
-		<hr />
+			<hr />
+		</div>
 			';
 
 
