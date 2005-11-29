@@ -1,8 +1,8 @@
-Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Project Informationc:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 
 MAX+plus II Compiler Report File
 Version 10.23 07/09/2003
-Compiled: 11/25/2005 22:17:29
+Compiled: 11/28/2005 21:54:22
 
 Copyright (C) 1988-2003 Altera Corporation
 Any megafunction design, and related net list (encrypted or decrypted),
@@ -42,15 +42,15 @@ User Pins:                 1        23       0
 
 
 
-Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Project Informationc:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 
 ** PROJECT COMPILATION MESSAGES **
 
-Warning: Primitive 'LP' is stuck at VCC
 Warning: Primitive 'RP' is stuck at VCC
+Warning: Primitive 'LP' is stuck at VCC
 
 
-Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Project Informationc:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 
 ** AUTO GLOBAL SIGNALS **
 
@@ -59,7 +59,7 @@ Project Informationc:\documents and settings\cameron palmer\my documents\elet272
 INFO: Signal 'CLK' chosen for auto global Clock
 
 
-Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Project Informationc:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 
 ** PIN/LOCATION/CHIP ASSIGNMENTS **
 
@@ -75,7 +75,6 @@ clock@63                          Ld
 clock@64                          Le
 clock@65                          Lf
 clock@67                          Lg
-clock@68                          LP
 clock@69                          Ra
 clock@70                          Rb
 clock@73                          Rc
@@ -83,18 +82,17 @@ clock@74                          Rd
 clock@76                          Re
 clock@75                          Rf
 clock@77                          Rg
-clock@79                          RP
 
 
-Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Project Informationc:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 
 ** FILE HIERARCHY **
 
 
 
+|bcd2seven:4|
 |bcd2seven:1|
 |bcd2seven:31|
-|bcd2seven:4|
 |mod6:2|
 |mod10:3|
 |clk_div:26|
@@ -143,7 +141,7 @@ Project Informationc:\documents and settings\cameron palmer\my documents\elet272
 |mod12:30|
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ***** Logic for device 'clock' compiled without errors.
@@ -160,14 +158,14 @@ Device Options:
     User Code                                  = ffff
     MultiVolt I/O                              = OFF
 
-              R  R  R  R     R  R  R                    R  R                 
-              E  E  E  E     E  E  E                    E  E                 
-              S  S  S  S     S  S  S  V                 S  S                 
-              E  E  E  E     E  E  E  C                 E  E     V           
-              R  R  R  R     R  R  R  C                 R  R     C           
-              V  V  V  V  G  V  V  V  I  G  G  G  C  G  V  V     C           
-              E  E  E  E  N  E  E  E  N  N  N  N  L  N  E  E  R  I  R  R  R  
-              D  D  D  D  D  D  D  D  T  D  D  D  K  D  D  D  P  O  g  e  f  
+              R  R  R  R     R  R  R                    R  R  R              
+              E  E  E  E     E  E  E                    E  E  E              
+              S  S  S  S     S  S  S  V                 S  S  S              
+              E  E  E  E     E  E  E  C                 E  E  E  V           
+              R  R  R  R     R  R  R  C                 R  R  R  C           
+              V  V  V  V  G  V  V  V  I  G  G  G  C  G  V  V  V  C           
+              E  E  E  E  N  E  E  E  N  N  N  N  L  N  E  E  E  I  R  R  R  
+              D  D  D  D  D  D  D  D  T  D  D  D  K  D  D  D  D  O  g  e  f  
             -----------------------------------------------------------------_ 
           /  11 10  9  8  7  6  5  4  3  2  1 84 83 82 81 80 79 78 77 76 75   | 
 RESERVED | 12                                                              74 | Rd 
@@ -176,31 +174,31 @@ RESERVED | 12                                                              74 | 
 RESERVED | 15                                                              71 | #TDO 
 RESERVED | 16                                                              70 | Rb 
 RESERVED | 17                                                              69 | Ra 
-RESERVED | 18                                                              68 | LP 
+RESERVED | 18                                                              68 | Ha 
      GND | 19                                                              67 | Lg 
 RESERVED | 20                                                              66 | VCCIO 
-RESERVED | 21                                                              65 | Lf 
-RESERVED | 22                        EPM7128SLC84-7                        64 | Le 
+      Hg | 21                                                              65 | Lf 
+      Hf | 22                        EPM7128SLC84-7                        64 | Le 
     #TMS | 23                                                              63 | Ld 
-      Hf | 24                                                              62 | #TCK 
+RESERVED | 24                                                              62 | #TCK 
       Hd | 25                                                              61 | Lc 
    VCCIO | 26                                                              60 | Lb 
-      Hg | 27                                                              59 | GND 
-      Hc | 28                                                              58 | La 
-      Hb | 29                                                              57 | RESERVED 
-      Ha | 30                                                              56 | RESERVED 
+RESERVED | 27                                                              59 | GND 
+RESERVED | 28                                                              58 | La 
+      Hc | 29                                                              57 | RESERVED 
+      Hb | 30                                                              56 | RESERVED 
       He | 31                                                              55 | RESERVED 
      GND | 32                                                              54 | RESERVED 
          |_  33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53  _| 
            ------------------------------------------------------------------ 
-              R  R  R  R  R  V  R  R  R  G  V  R  R  R  G  R  R  R  R  R  V  
-              E  E  E  E  E  C  E  E  E  N  C  E  E  E  N  E  E  E  E  E  C  
-              S  S  S  S  S  C  S  S  S  D  C  S  S  S  D  S  S  S  S  S  C  
-              E  E  E  E  E  I  E  E  E     I  E  E  E     E  E  E  E  E  I  
-              R  R  R  R  R  O  R  R  R     N  R  R  R     R  R  R  R  R  O  
-              V  V  V  V  V     V  V  V     T  V  V  V     V  V  V  V  V     
-              E  E  E  E  E     E  E  E        E  E  E     E  E  E  E  E     
-              D  D  D  D  D     D  D  D        D  D  D     D  D  D  D  D     
+              R  R  R  R  R  V  R  R  R  G  V  R  R  L  G  R  R  R  R  R  V  
+              E  E  E  E  E  C  E  E  E  N  C  E  P  P  N  E  E  E  E  E  C  
+              S  S  S  S  S  C  S  S  S  D  C  S        D  S  S  S  S  S  C  
+              E  E  E  E  E  I  E  E  E     I  E           E  E  E  E  E  I  
+              R  R  R  R  R  O  R  R  R     N  R           R  R  R  R  R  O  
+              V  V  V  V  V     V  V  V     T  V           V  V  V  V  V     
+              E  E  E  E  E     E  E  E        E           E  E  E  E  E     
+              D  D  D  D  D     D  D  D        D           D  D  D  D  D     
 
 
 N.C. = No Connect. This pin has no internal connection to the device.
@@ -218,7 +216,7 @@ PDn = Power Down pin.
 & = JTAG pin used for I/O. When used as user I/O, JTAG pins must be kept stable before and during configuration.  JTAG pin stability prevents accidental loading of JTAG instructions.
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** RESOURCE USAGE **
@@ -227,13 +225,13 @@ clock
 Logic Array Block     Logic Cells   I/O Pins    Expanders   Interconnect
 
 A:     LC1 - LC16     0/16(  0%)   0/ 8(  0%)   0/16(  0%)   0/36(  0%) 
-B:    LC17 - LC32     1/16(  6%)   1/ 8( 12%)   0/16(  0%)   2/36(  5%) 
-C:    LC33 - LC48    16/16(100%)   8/ 8(100%)   0/16(  0%)  14/36( 38%) 
-D:    LC49 - LC64    15/16( 93%)   0/ 8(  0%)   0/16(  0%)  15/36( 41%) 
-E:    LC65 - LC80    15/16( 93%)   0/ 8(  0%)   0/16(  0%)  14/36( 38%) 
+B:    LC17 - LC32     2/16( 12%)   3/ 8( 37%)   0/16(  0%)   4/36( 11%) 
+C:    LC33 - LC48    16/16(100%)   5/ 8( 62%)   0/16(  0%)  19/36( 52%) 
+D:    LC49 - LC64    16/16(100%)   0/ 8(  0%)   0/16(  0%)  17/36( 47%) 
+E:    LC65 - LC80    14/16( 87%)   2/ 8( 25%)   0/16(  0%)  13/36( 36%) 
 F:    LC81 - LC96     3/16( 18%)   4/ 8( 50%)   0/16(  0%)   3/36(  8%) 
 G:   LC97 - LC112    16/16(100%)   8/ 8(100%)   0/16(  0%)  12/36( 33%) 
-H:  LC113 - LC128     8/16( 50%)   6/ 8( 75%)   0/16(  0%)   5/36( 13%) 
+H:  LC113 - LC128     7/16( 43%)   5/ 8( 62%)   0/16(  0%)   5/36( 13%) 
 
 
 Total dedicated input pins used:                 1/4      ( 25%)
@@ -252,7 +250,7 @@ Total bidirectional pins required:               0
 Total reserved pins required                     4
 Total logic cells required:                     74
 Total flipflops required:                       41
-Total product terms required:                  178
+Total product terms required:                  180
 Total logic cells lending parallel expanders:    0
 Total shareable expanders in database:           0
 
@@ -260,7 +258,7 @@ Synthesized logic cells:                         0/ 128   (  0%)
 
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** INPUTS **
@@ -286,7 +284,7 @@ Sections of this Report File for information on which signals' fan-outs are used
 Clock, Clear, Preset, Output Enable, and synchronous Load signals.
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** OUTPUTS **
@@ -294,13 +292,13 @@ clock
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
-  30     37    C     OUTPUT      t        0      0   0    0    4    0    0  Ha
-  29     38    C     OUTPUT      t        0      0   0    0    4    0    0  Hb
-  28     40    C     OUTPUT      t        0      0   0    0    4    0    0  Hc
+  68    105    G     OUTPUT      t        0      0   0    0    4    0    0  Ha
+  30     37    C     OUTPUT      t        0      0   0    0    4    0    0  Hb
+  29     38    C     OUTPUT      t        0      0   0    0    4    0    0  Hc
   25     45    C     OUTPUT      t        0      0   0    0    4    0    0  Hd
   31     35    C     OUTPUT      t        0      0   0    0    4    0    0  He
-  24     46    C     OUTPUT      t        0      0   0    0    4    0    0  Hf
-  27     43    C     OUTPUT      t        0      0   0    0    4    0    0  Hg
+  22     17    B     OUTPUT      t        0      0   0    0    4    0    0  Hf
+  21     19    B     OUTPUT      t        0      0   0    0    4    0    0  Hg
   58     91    F     OUTPUT      t        0      0   0    0    3    0    0  La
   60     93    F     OUTPUT      t        0      0   0    0    3    0    0  Lb
   61     94    F     OUTPUT      t        0      0   0    0    3    0    0  Lc
@@ -308,7 +306,7 @@ clock
   64     99    G     OUTPUT      t        0      0   0    0    3    0    0  Le
   65    101    G     OUTPUT      t        0      0   0    0    3    0    0  Lf
   67    104    G     OUTPUT      t        0      0   0    0    3    0    0  Lg
-  68    105    G     OUTPUT      t        0      0   0    0    0    0    0  LP
+  46     69    E     OUTPUT      t        0      0   0    0    0    0    0  LP
   69    107    G     OUTPUT      t        0      0   0    0    4    0    0  Ra
   70    109    G     OUTPUT      t        0      0   0    0    4    0    0  Rb
   73    115    H     OUTPUT      t        0      0   0    0    4    0    0  Rc
@@ -316,7 +314,7 @@ clock
   76    120    H     OUTPUT      t        0      0   0    0    4    0    0  Re
   75    118    H     OUTPUT      t        0      0   0    0    4    0    0  Rf
   77    123    H     OUTPUT      t        0      0   0    0    4    0    0  Rg
-  79    125    H     OUTPUT      t        0      0   0    0    0    0    0  RP
+  45     67    E     OUTPUT      t        0      0   0    0    0    0    0  RP
 
 
 Code:
@@ -329,7 +327,7 @@ t = Turbo logic cell
 r = Fitter-inserted logic cell
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** BURIED LOGIC **
@@ -337,57 +335,57 @@ clock
                                          Shareable
                                          Expanders     Fan-In    Fan-Out
  Pin     LC  LAB  Primitive    Code   Total Shared n/a INP  FBK  OUT  FBK  Name
- (46)    69    E       SOFT      t        0      0   0    0    2    0    1  |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node1
-   -     68    E       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node2
-   -     66    E       SOFT      t        0      0   0    0    4    0    1  |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node3
-   -     79    E       SOFT      t        0      0   0    0    5    0    1  |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node4
- (35)    59    D       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:206|addcore:adder|addcore:adder0|result_node2
- (48)    72    E       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:207|addcore:adder|addcore:adder0|result_node2
+   -     68    E       SOFT      t        0      0   0    0    2    0    1  |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node1
+ (52)    80    E       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node2
+   -     74    E       SOFT      t        0      0   0    0    4    0    1  |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node3
+   -     78    E       SOFT      t        0      0   0    0    5    0    1  |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node4
+   -     52    D       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:206|addcore:adder|addcore:adder0|result_node2
+   -     54    D       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:207|addcore:adder|addcore:adder0|result_node2
  (39)    53    D       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:208|addcore:adder|addcore:adder0|result_node2
-   -     50    D       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:209|addcore:adder|addcore:adder0|result_node2
-   -     41    C       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:210|addcore:adder|addcore:adder0|result_node2
+ (23)    48    C       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:209|addcore:adder|addcore:adder0|result_node2
+   -     47    C       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:210|addcore:adder|addcore:adder0|result_node2
    -     39    C       SOFT      t        0      0   0    0    3    0    1  |clk_div:26|lpm_add_sub:211|addcore:adder|addcore:adder0|result_node2
- (49)    73    E       DFFE   +  t        0      0   0    0    3    0    7  |clk_div:26|count_1MHz4 (|clk_div:26|:47)
-   -     74    E       DFFE   +  t        0      0   0    0    3    0    8  |clk_div:26|count_1MHz3 (|clk_div:26|:48)
- (50)    75    E       DFFE   +  t        0      0   0    0    3    0    4  |clk_div:26|count_1MHz2 (|clk_div:26|:49)
-   -     76    E       DFFE   +  t        0      0   0    0    3    0    4  |clk_div:26|count_1MHz1 (|clk_div:26|:50)
- (51)    77    E       TFFE   +  t        0      0   0    0    3    0    5  |clk_div:26|count_1MHz0 (|clk_div:26|:51)
-   -     78    E       DFFE   +  t        0      0   0    0    3    0    4  |clk_div:26|:78
+   -     70    E       DFFE   +  t        0      0   0    0    3    0    7  |clk_div:26|count_1MHz4 (|clk_div:26|:47)
+   -     71    E       DFFE   +  t        0      0   0    0    3    0    8  |clk_div:26|count_1MHz3 (|clk_div:26|:48)
+ (48)    72    E       DFFE   +  t        0      0   0    0    3    0    4  |clk_div:26|count_1MHz2 (|clk_div:26|:49)
+ (49)    73    E       DFFE   +  t        0      0   0    0    3    0    4  |clk_div:26|count_1MHz1 (|clk_div:26|:50)
+ (50)    75    E       TFFE   +  t        0      0   0    0    3    0    5  |clk_div:26|count_1MHz0 (|clk_div:26|:51)
+   -     76    E       DFFE   +  t        0      0   0    0    3    0    4  |clk_div:26|:78
    -     55    D       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_100KHz2 (|clk_div:26|:94)
  (34)    61    D       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_100KHz1 (|clk_div:26|:95)
-   -     63    D       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_100KHz0 (|clk_div:26|:96)
- (33)    64    D       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:98
- (44)    65    E       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_10KHz2 (|clk_div:26|:115)
- (45)    67    E       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_10KHz1 (|clk_div:26|:116)
-   -     71    E       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_10KHz0 (|clk_div:26|:117)
-   -     70    E       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:119
-   -     58    D       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_1KHz2 (|clk_div:26|:136)
- (36)    57    D       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_1KHz1 (|clk_div:26|:137)
-   -     54    D       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_1KHz0 (|clk_div:26|:138)
-   -     52    D       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:140
- (37)    56    D       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_100Hz2 (|clk_div:26|:157)
-   -     60    D       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_100Hz1 (|clk_div:26|:158)
- (41)    49    D       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_100Hz0 (|clk_div:26|:159)
- (40)    51    D       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:161
-   -     36    C       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_10Hz2 (|clk_div:26|:178)
-   -     18    B       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_10Hz1 (|clk_div:26|:179)
-   -     34    C       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_10Hz0 (|clk_div:26|:180)
-   -     42    C       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:182
-   -     47    C       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_1Hz2 (|clk_div:26|:199)
-   -     44    C       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_1Hz1 (|clk_div:26|:200)
- (23)    48    C       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_1Hz0 (|clk_div:26|:201)
-   -     33    C       TFFE      t        0      0   0    0    4    0   11  |clk_div:26|:203
-   -    106    G       TFFE      t        0      0   0    0    3    7    6  |mod6:2|A (|mod6:2|:1)
-   -    103    G       TFFE      t        0      0   0    0    6    7    2  |mod6:2|B (|mod6:2|:6)
-   -     98    G       TFFE      t        0      0   0    0    6    7    6  |mod6:2|C (|mod6:2|:7)
-   -    122    H       TFFE      t        0      0   0    0    1    7   10  |mod10:3|A (|mod10:3|:1)
- (71)   112    G       TFFE      t        0      0   0    0    4    7    3  |mod10:3|B (|mod10:3|:6)
-   -    111    G       TFFE      t        0      0   0    0    3    7    1  |mod10:3|C (|mod10:3|:7)
-   -    113    H       TFFE      t        0      0   0    0    5    7    9  |mod10:3|D (|mod10:3|:31)
-   -    108    G       TFFE      t        0      0   0    0    5    7    3  |mod12:30|A (|mod12:30|:1)
-   -    102    G       TFFE      t        0      0   0    0    6    7    2  |mod12:30|B (|mod12:30|:6)
+   -     62    D       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_100KHz0 (|clk_div:26|:96)
+   -     63    D       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:98
+ (33)    64    D       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_10KHz2 (|clk_div:26|:115)
+   -     50    D       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_10KHz1 (|clk_div:26|:116)
+ (40)    51    D       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_10KHz0 (|clk_div:26|:117)
+ (37)    56    D       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:119
+   -     60    D       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_1KHz2 (|clk_div:26|:136)
+ (35)    59    D       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_1KHz1 (|clk_div:26|:137)
+ (41)    49    D       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_1KHz0 (|clk_div:26|:138)
+   -     58    D       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:140
+   -     33    C       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_100Hz2 (|clk_div:26|:157)
+ (44)    65    E       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_100Hz1 (|clk_div:26|:158)
+ (27)    43    C       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_100Hz0 (|clk_div:26|:159)
+   -     36    C       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:161
+ (28)    40    C       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_10Hz2 (|clk_div:26|:178)
+   -     66    E       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_10Hz1 (|clk_div:26|:179)
+   -     44    C       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_10Hz0 (|clk_div:26|:180)
+ (24)    46    C       TFFE      t        0      0   0    0    4    0    4  |clk_div:26|:182
+   -     34    C       DFFE      t        0      0   0    0    5    0    4  |clk_div:26|count_1Hz2 (|clk_div:26|:199)
+ (36)    57    D       TFFE      t        0      0   0    0    2    0    4  |clk_div:26|count_1Hz1 (|clk_div:26|:200)
+   -     41    C       TFFE      t        0      0   0    0    4    0    5  |clk_div:26|count_1Hz0 (|clk_div:26|:201)
+   -     42    C       TFFE      t        0      0   0    0    4    0   11  |clk_div:26|:203
+   -    114    H       TFFE      t        0      0   0    0    3    7    6  |mod6:2|A (|mod6:2|:1)
+   -    111    G       TFFE      t        0      0   0    0    6    7    2  |mod6:2|B (|mod6:2|:6)
+   -    110    G       TFFE      t        0      0   0    0    6    7    6  |mod6:2|C (|mod6:2|:7)
+   -    113    H       TFFE      t        0      0   0    0    1    7   10  |mod10:3|A (|mod10:3|:1)
+   -    108    G       TFFE      t        0      0   0    0    4    7    3  |mod10:3|B (|mod10:3|:6)
+   -     98    G       TFFE      t        0      0   0    0    3    7    1  |mod10:3|C (|mod10:3|:7)
+   -    106    G       TFFE      t        0      0   0    0    5    7    9  |mod10:3|D (|mod10:3|:31)
+ (71)   112    G       TFFE      t        0      0   0    0    5    7    3  |mod12:30|A (|mod12:30|:1)
+   -    103    G       TFFE      t        0      0   0    0    6    7    2  |mod12:30|B (|mod12:30|:6)
    -    100    G       TFFE      t        0      0   0    0    9    7    2  |mod12:30|C (|mod12:30|:7)
-   -    110    G       TFFE      t        0      0   0    0    9    7    2  |mod12:30|D (|mod12:30|:31)
+   -    102    G       TFFE      t        0      0   0    0    9    7    2  |mod12:30|D (|mod12:30|:31)
 
 
 Code:
@@ -400,31 +398,34 @@ t = Turbo logic cell
 r = Fitter-inserted logic cell
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** LOGIC CELL INTERCONNECTIONS **
 
 Logic Array Block 'B':
 
-           Logic cells placed in LAB 'B'
-        +- LC18 |clk_div:26|count_10Hz1
-        | 
-        |   Other LABs fed by signals
-        |   that feed LAB 'B'
-LC      | | A B C D E F G H |     Logic cells that feed LAB 'B':
+             Logic cells placed in LAB 'B'
+        +--- LC17 Hf
+        | +- LC19 Hg
+        | | 
+        | |   Other LABs fed by signals
+        | |   that feed LAB 'B'
+LC      | | | A B C D E F G H |     Logic cells that feed LAB 'B':
 
 Pin
-83   -> - | - - - - - - - - | <-- CLK
-LC51 -> * | - * * - - - - - | <-- |clk_div:26|:161
-LC34 -> * | - * * - - - - - | <-- |clk_div:26|count_10Hz0
+83   -> - - | - - - - - - - - | <-- CLK
+LC112-> * * | - * * - - - * - | <-- |mod12:30|A
+LC103-> * * | - * * - - - * - | <-- |mod12:30|B
+LC100-> * * | - * * - - - * - | <-- |mod12:30|C
+LC102-> * * | - * * - - - * - | <-- |mod12:30|D
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** LOGIC CELL INTERCONNECTIONS **
@@ -432,151 +433,157 @@ clock
 Logic Array Block 'C':
 
                                          Logic cells placed in LAB 'C'
-        +------------------------------- LC41 |clk_div:26|lpm_add_sub:210|addcore:adder|addcore:adder0|result_node2
-        | +----------------------------- LC39 |clk_div:26|lpm_add_sub:211|addcore:adder|addcore:adder0|result_node2
-        | | +--------------------------- LC36 |clk_div:26|count_10Hz2
-        | | | +------------------------- LC34 |clk_div:26|count_10Hz0
-        | | | | +----------------------- LC42 |clk_div:26|:182
-        | | | | | +--------------------- LC47 |clk_div:26|count_1Hz2
-        | | | | | | +------------------- LC44 |clk_div:26|count_1Hz1
-        | | | | | | | +----------------- LC48 |clk_div:26|count_1Hz0
-        | | | | | | | | +--------------- LC33 |clk_div:26|:203
-        | | | | | | | | | +------------- LC37 Ha
-        | | | | | | | | | | +----------- LC38 Hb
-        | | | | | | | | | | | +--------- LC40 Hc
-        | | | | | | | | | | | | +------- LC45 Hd
-        | | | | | | | | | | | | | +----- LC35 He
-        | | | | | | | | | | | | | | +--- LC46 Hf
-        | | | | | | | | | | | | | | | +- LC43 Hg
+        +------------------------------- LC48 |clk_div:26|lpm_add_sub:209|addcore:adder|addcore:adder0|result_node2
+        | +----------------------------- LC47 |clk_div:26|lpm_add_sub:210|addcore:adder|addcore:adder0|result_node2
+        | | +--------------------------- LC39 |clk_div:26|lpm_add_sub:211|addcore:adder|addcore:adder0|result_node2
+        | | | +------------------------- LC33 |clk_div:26|count_100Hz2
+        | | | | +----------------------- LC43 |clk_div:26|count_100Hz0
+        | | | | | +--------------------- LC36 |clk_div:26|:161
+        | | | | | | +------------------- LC40 |clk_div:26|count_10Hz2
+        | | | | | | | +----------------- LC44 |clk_div:26|count_10Hz0
+        | | | | | | | | +--------------- LC46 |clk_div:26|:182
+        | | | | | | | | | +------------- LC34 |clk_div:26|count_1Hz2
+        | | | | | | | | | | +----------- LC41 |clk_div:26|count_1Hz0
+        | | | | | | | | | | | +--------- LC42 |clk_div:26|:203
+        | | | | | | | | | | | | +------- LC37 Hb
+        | | | | | | | | | | | | | +----- LC38 Hc
+        | | | | | | | | | | | | | | +--- LC45 Hd
+        | | | | | | | | | | | | | | | +- LC35 He
         | | | | | | | | | | | | | | | | 
         | | | | | | | | | | | | | | | |   Other LABs fed by signals
         | | | | | | | | | | | | | | | |   that feed LAB 'C'
 LC      | | | | | | | | | | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'C':
-LC41 -> - - * - - - - - - - - - - - - - | - - * - - - - - | <-- |clk_div:26|lpm_add_sub:210|addcore:adder|addcore:adder0|result_node2
-LC39 -> - - - - - * - - - - - - - - - - | - - * - - - - - | <-- |clk_div:26|lpm_add_sub:211|addcore:adder|addcore:adder0|result_node2
-LC36 -> * - * * * - - - - - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_10Hz2
-LC34 -> * - * * * - - - - - - - - - - - | - * * - - - - - | <-- |clk_div:26|count_10Hz0
-LC42 -> - - - - * * * * * - - - - - - - | - - * - - - - - | <-- |clk_div:26|:182
-LC47 -> - * - - - * - * * - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_1Hz2
-LC44 -> - * - - - * * * * - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_1Hz1
-LC48 -> - * - - - * * * * - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_1Hz0
+LC48 -> - - - * - - - - - - - - - - - - | - - * - - - - - | <-- |clk_div:26|lpm_add_sub:209|addcore:adder|addcore:adder0|result_node2
+LC47 -> - - - - - - * - - - - - - - - - | - - * - - - - - | <-- |clk_div:26|lpm_add_sub:210|addcore:adder|addcore:adder0|result_node2
+LC39 -> - - - - - - - - - * - - - - - - | - - * - - - - - | <-- |clk_div:26|lpm_add_sub:211|addcore:adder|addcore:adder0|result_node2
+LC33 -> * - - * * * - - - - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_100Hz2
+LC43 -> * - - * * * - - - - - - - - - - | - - * - * - - - | <-- |clk_div:26|count_100Hz0
+LC36 -> - - - - - * * * * - - - - - - - | - - * - * - - - | <-- |clk_div:26|:161
+LC40 -> - * - - - - * * * - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_10Hz2
+LC44 -> - * - - - - * * * - - - - - - - | - - * - * - - - | <-- |clk_div:26|count_10Hz0
+LC46 -> - - - - - - - - * * * * - - - - | - - * * - - - - | <-- |clk_div:26|:182
+LC34 -> - - * - - - - - - * * * - - - - | - - * - - - - - | <-- |clk_div:26|count_1Hz2
+LC41 -> - - * - - - - - - * * * - - - - | - - * * - - - - | <-- |clk_div:26|count_1Hz0
 
 Pin
 83   -> - - - - - - - - - - - - - - - - | - - - - - - - - | <-- CLK
-LC51 -> - - * * * - - - - - - - - - - - | - * * - - - - - | <-- |clk_div:26|:161
-LC18 -> * - * * * - - - - - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_10Hz1
-LC108-> - - - - - - - - - * * * * * * * | - - * - - - * - | <-- |mod12:30|A
-LC102-> - - - - - - - - - * * * * * * * | - - * - - - * - | <-- |mod12:30|B
-LC100-> - - - - - - - - - * * * * * * * | - - * - - - * - | <-- |mod12:30|C
-LC110-> - - - - - - - - - * * * * * * * | - - * - - - * - | <-- |mod12:30|D
+LC58 -> - - - * * * - - - - - - - - - - | - - * - * - - - | <-- |clk_div:26|:140
+LC65 -> * - - * * * - - - - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_100Hz1
+LC66 -> - * - - - - * * * - - - - - - - | - - * - - - - - | <-- |clk_div:26|count_10Hz1
+LC57 -> - - * - - - - - - * * * - - - - | - - * - - - - - | <-- |clk_div:26|count_1Hz1
+LC112-> - - - - - - - - - - - - * * * * | - * * - - - * - | <-- |mod12:30|A
+LC103-> - - - - - - - - - - - - * * * * | - * * - - - * - | <-- |mod12:30|B
+LC100-> - - - - - - - - - - - - * * * * | - * * - - - * - | <-- |mod12:30|C
+LC102-> - - - - - - - - - - - - * * * * | - * * - - - * - | <-- |mod12:30|D
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** LOGIC CELL INTERCONNECTIONS **
 
 Logic Array Block 'D':
 
-                                       Logic cells placed in LAB 'D'
-        +----------------------------- LC59 |clk_div:26|lpm_add_sub:206|addcore:adder|addcore:adder0|result_node2
-        | +--------------------------- LC53 |clk_div:26|lpm_add_sub:208|addcore:adder|addcore:adder0|result_node2
-        | | +------------------------- LC50 |clk_div:26|lpm_add_sub:209|addcore:adder|addcore:adder0|result_node2
-        | | | +----------------------- LC55 |clk_div:26|count_100KHz2
-        | | | | +--------------------- LC61 |clk_div:26|count_100KHz1
-        | | | | | +------------------- LC63 |clk_div:26|count_100KHz0
-        | | | | | | +----------------- LC64 |clk_div:26|:98
-        | | | | | | | +--------------- LC58 |clk_div:26|count_1KHz2
-        | | | | | | | | +------------- LC57 |clk_div:26|count_1KHz1
-        | | | | | | | | | +----------- LC54 |clk_div:26|count_1KHz0
-        | | | | | | | | | | +--------- LC52 |clk_div:26|:140
-        | | | | | | | | | | | +------- LC56 |clk_div:26|count_100Hz2
-        | | | | | | | | | | | | +----- LC60 |clk_div:26|count_100Hz1
-        | | | | | | | | | | | | | +--- LC49 |clk_div:26|count_100Hz0
-        | | | | | | | | | | | | | | +- LC51 |clk_div:26|:161
-        | | | | | | | | | | | | | | | 
-        | | | | | | | | | | | | | | |   Other LABs fed by signals
-        | | | | | | | | | | | | | | |   that feed LAB 'D'
-LC      | | | | | | | | | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'D':
-LC59 -> - - - * - - - - - - - - - - - | - - - * - - - - | <-- |clk_div:26|lpm_add_sub:206|addcore:adder|addcore:adder0|result_node2
-LC53 -> - - - - - - - * - - - - - - - | - - - * - - - - | <-- |clk_div:26|lpm_add_sub:208|addcore:adder|addcore:adder0|result_node2
-LC50 -> - - - - - - - - - - - * - - - | - - - * - - - - | <-- |clk_div:26|lpm_add_sub:209|addcore:adder|addcore:adder0|result_node2
-LC55 -> * - - * - * * - - - - - - - - | - - - * - - - - | <-- |clk_div:26|count_100KHz2
-LC61 -> * - - * * * * - - - - - - - - | - - - * - - - - | <-- |clk_div:26|count_100KHz1
-LC63 -> * - - * * * * - - - - - - - - | - - - * - - - - | <-- |clk_div:26|count_100KHz0
-LC58 -> - * - - - - - * - * * - - - - | - - - * - - - - | <-- |clk_div:26|count_1KHz2
-LC57 -> - * - - - - - * * * * - - - - | - - - * - - - - | <-- |clk_div:26|count_1KHz1
-LC54 -> - * - - - - - * * * * - - - - | - - - * - - - - | <-- |clk_div:26|count_1KHz0
-LC52 -> - - - - - - - - - - * * * * * | - - - * - - - - | <-- |clk_div:26|:140
-LC56 -> - - * - - - - - - - - * - * * | - - - * - - - - | <-- |clk_div:26|count_100Hz2
-LC60 -> - - * - - - - - - - - * * * * | - - - * - - - - | <-- |clk_div:26|count_100Hz1
-LC49 -> - - * - - - - - - - - * * * * | - - - * - - - - | <-- |clk_div:26|count_100Hz0
+                                         Logic cells placed in LAB 'D'
+        +------------------------------- LC52 |clk_div:26|lpm_add_sub:206|addcore:adder|addcore:adder0|result_node2
+        | +----------------------------- LC54 |clk_div:26|lpm_add_sub:207|addcore:adder|addcore:adder0|result_node2
+        | | +--------------------------- LC53 |clk_div:26|lpm_add_sub:208|addcore:adder|addcore:adder0|result_node2
+        | | | +------------------------- LC55 |clk_div:26|count_100KHz2
+        | | | | +----------------------- LC61 |clk_div:26|count_100KHz1
+        | | | | | +--------------------- LC62 |clk_div:26|count_100KHz0
+        | | | | | | +------------------- LC63 |clk_div:26|:98
+        | | | | | | | +----------------- LC64 |clk_div:26|count_10KHz2
+        | | | | | | | | +--------------- LC50 |clk_div:26|count_10KHz1
+        | | | | | | | | | +------------- LC51 |clk_div:26|count_10KHz0
+        | | | | | | | | | | +----------- LC56 |clk_div:26|:119
+        | | | | | | | | | | | +--------- LC60 |clk_div:26|count_1KHz2
+        | | | | | | | | | | | | +------- LC59 |clk_div:26|count_1KHz1
+        | | | | | | | | | | | | | +----- LC49 |clk_div:26|count_1KHz0
+        | | | | | | | | | | | | | | +--- LC58 |clk_div:26|:140
+        | | | | | | | | | | | | | | | +- LC57 |clk_div:26|count_1Hz1
+        | | | | | | | | | | | | | | | | 
+        | | | | | | | | | | | | | | | |   Other LABs fed by signals
+        | | | | | | | | | | | | | | | |   that feed LAB 'D'
+LC      | | | | | | | | | | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'D':
+LC52 -> - - - * - - - - - - - - - - - - | - - - * - - - - | <-- |clk_div:26|lpm_add_sub:206|addcore:adder|addcore:adder0|result_node2
+LC54 -> - - - - - - - * - - - - - - - - | - - - * - - - - | <-- |clk_div:26|lpm_add_sub:207|addcore:adder|addcore:adder0|result_node2
+LC53 -> - - - - - - - - - - - * - - - - | - - - * - - - - | <-- |clk_div:26|lpm_add_sub:208|addcore:adder|addcore:adder0|result_node2
+LC55 -> * - - * - * * - - - - - - - - - | - - - * - - - - | <-- |clk_div:26|count_100KHz2
+LC61 -> * - - * * * * - - - - - - - - - | - - - * - - - - | <-- |clk_div:26|count_100KHz1
+LC62 -> * - - * * * * - - - - - - - - - | - - - * - - - - | <-- |clk_div:26|count_100KHz0
+LC63 -> - - - - - - * * * * * - - - - - | - - - * - - - - | <-- |clk_div:26|:98
+LC64 -> - * - - - - - * - * * - - - - - | - - - * - - - - | <-- |clk_div:26|count_10KHz2
+LC50 -> - * - - - - - * * * * - - - - - | - - - * - - - - | <-- |clk_div:26|count_10KHz1
+LC51 -> - * - - - - - * * * * - - - - - | - - - * - - - - | <-- |clk_div:26|count_10KHz0
+LC56 -> - - - - - - - - - - * * * * * - | - - - * - - - - | <-- |clk_div:26|:119
+LC60 -> - - * - - - - - - - - * - * * - | - - - * - - - - | <-- |clk_div:26|count_1KHz2
+LC59 -> - - * - - - - - - - - * * * * - | - - - * - - - - | <-- |clk_div:26|count_1KHz1
+LC49 -> - - * - - - - - - - - * * * * - | - - - * - - - - | <-- |clk_div:26|count_1KHz0
 
 Pin
-83   -> - - - - - - - - - - - - - - - | - - - - - - - - | <-- CLK
-LC78 -> - - - * * * * - - - - - - - - | - - - * - - - - | <-- |clk_div:26|:78
-LC70 -> - - - - - - - * * * * - - - - | - - - * - - - - | <-- |clk_div:26|:119
+83   -> - - - - - - - - - - - - - - - - | - - - - - - - - | <-- CLK
+LC76 -> - - - * * * * - - - - - - - - - | - - - * - - - - | <-- |clk_div:26|:78
+LC46 -> - - - - - - - - - - - - - - - * | - - * * - - - - | <-- |clk_div:26|:182
+LC41 -> - - - - - - - - - - - - - - - * | - - * * - - - - | <-- |clk_div:26|count_1Hz0
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** LOGIC CELL INTERCONNECTIONS **
 
 Logic Array Block 'E':
 
-                                       Logic cells placed in LAB 'E'
-        +----------------------------- LC69 |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node1
-        | +--------------------------- LC68 |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node2
-        | | +------------------------- LC66 |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node3
-        | | | +----------------------- LC79 |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node4
-        | | | | +--------------------- LC72 |clk_div:26|lpm_add_sub:207|addcore:adder|addcore:adder0|result_node2
-        | | | | | +------------------- LC73 |clk_div:26|count_1MHz4
-        | | | | | | +----------------- LC74 |clk_div:26|count_1MHz3
-        | | | | | | | +--------------- LC75 |clk_div:26|count_1MHz2
-        | | | | | | | | +------------- LC76 |clk_div:26|count_1MHz1
-        | | | | | | | | | +----------- LC77 |clk_div:26|count_1MHz0
-        | | | | | | | | | | +--------- LC78 |clk_div:26|:78
-        | | | | | | | | | | | +------- LC65 |clk_div:26|count_10KHz2
-        | | | | | | | | | | | | +----- LC67 |clk_div:26|count_10KHz1
-        | | | | | | | | | | | | | +--- LC71 |clk_div:26|count_10KHz0
-        | | | | | | | | | | | | | | +- LC70 |clk_div:26|:119
-        | | | | | | | | | | | | | | | 
-        | | | | | | | | | | | | | | |   Other LABs fed by signals
-        | | | | | | | | | | | | | | |   that feed LAB 'E'
-LC      | | | | | | | | | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'E':
-LC69 -> - - - - - - - - * - - - - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node1
-LC68 -> - - - - - - - * - - - - - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node2
-LC66 -> - - - - - - * - - - - - - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node3
-LC79 -> - - - - - * - - - - - - - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node4
-LC72 -> - - - - - - - - - - - * - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:207|addcore:adder|addcore:adder0|result_node2
-LC73 -> - - - * - * * * * * * - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz4
-LC74 -> - - * * - * * * * * * - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz3
-LC75 -> - * * * - - - - - - * - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz2
-LC76 -> * * * * - - - - - - - - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz1
-LC77 -> * * * * - - - - - * - - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz0
-LC65 -> - - - - * - - - - - - * - * * | - - - - * - - - | <-- |clk_div:26|count_10KHz2
-LC67 -> - - - - * - - - - - - * * * * | - - - - * - - - | <-- |clk_div:26|count_10KHz1
-LC71 -> - - - - * - - - - - - * * * * | - - - - * - - - | <-- |clk_div:26|count_10KHz0
+                                     Logic cells placed in LAB 'E'
+        +--------------------------- LC68 |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node1
+        | +------------------------- LC80 |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node2
+        | | +----------------------- LC74 |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node3
+        | | | +--------------------- LC78 |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node4
+        | | | | +------------------- LC70 |clk_div:26|count_1MHz4
+        | | | | | +----------------- LC71 |clk_div:26|count_1MHz3
+        | | | | | | +--------------- LC72 |clk_div:26|count_1MHz2
+        | | | | | | | +------------- LC73 |clk_div:26|count_1MHz1
+        | | | | | | | | +----------- LC75 |clk_div:26|count_1MHz0
+        | | | | | | | | | +--------- LC76 |clk_div:26|:78
+        | | | | | | | | | | +------- LC65 |clk_div:26|count_100Hz1
+        | | | | | | | | | | | +----- LC66 |clk_div:26|count_10Hz1
+        | | | | | | | | | | | | +--- LC69 LP
+        | | | | | | | | | | | | | +- LC67 RP
+        | | | | | | | | | | | | | | 
+        | | | | | | | | | | | | | |   Other LABs fed by signals
+        | | | | | | | | | | | | | |   that feed LAB 'E'
+LC      | | | | | | | | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'E':
+LC68 -> - - - - - - - * - - - - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node1
+LC80 -> - - - - - - * - - - - - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node2
+LC74 -> - - - - - * - - - - - - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node3
+LC78 -> - - - - * - - - - - - - - - | - - - - * - - - | <-- |clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node4
+LC70 -> - - - * * * * * * * - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz4
+LC71 -> - - * * * * * * * * - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz3
+LC72 -> - * * * - - - - - * - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz2
+LC73 -> * * * * - - - - - - - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz1
+LC75 -> * * * * - - - - * - - - - - | - - - - * - - - | <-- |clk_div:26|count_1MHz0
 
 Pin
-83   -> - - - - - - - - - - - - - - - | - - - - - - - - | <-- CLK
-LC64 -> - - - - - - - - - - - * * * * | - - - - * - - - | <-- |clk_div:26|:98
+83   -> - - - - - - - - - - - - - - | - - - - - - - - | <-- CLK
+LC58 -> - - - - - - - - - - * - - - | - - * - * - - - | <-- |clk_div:26|:140
+LC43 -> - - - - - - - - - - * - - - | - - * - * - - - | <-- |clk_div:26|count_100Hz0
+LC36 -> - - - - - - - - - - - * - - | - - * - * - - - | <-- |clk_div:26|:161
+LC44 -> - - - - - - - - - - - * - - | - - * - * - - - | <-- |clk_div:26|count_10Hz0
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** LOGIC CELL INTERCONNECTIONS **
@@ -594,16 +601,16 @@ LC      | | | | A B C D E F G H |     Logic cells that feed LAB 'F':
 
 Pin
 83   -> - - - | - - - - - - - - | <-- CLK
-LC106-> * * * | - - - - - * * - | <-- |mod6:2|A
-LC103-> * * * | - - - - - * * - | <-- |mod6:2|B
-LC98 -> * * * | - - - - - * * - | <-- |mod6:2|C
+LC114-> * * * | - - - - - * * - | <-- |mod6:2|A
+LC111-> * * * | - - - - - * * - | <-- |mod6:2|B
+LC110-> * * * | - - - - - * * - | <-- |mod6:2|C
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** LOGIC CELL INTERCONNECTIONS **
@@ -611,82 +618,81 @@ clock
 Logic Array Block 'G':
 
                                          Logic cells placed in LAB 'G'
-        +------------------------------- LC97 Ld
-        | +----------------------------- LC99 Le
-        | | +--------------------------- LC101 Lf
-        | | | +------------------------- LC104 Lg
-        | | | | +----------------------- LC105 LP
-        | | | | | +--------------------- LC106 |mod6:2|A
-        | | | | | | +------------------- LC103 |mod6:2|B
-        | | | | | | | +----------------- LC98 |mod6:2|C
-        | | | | | | | | +--------------- LC112 |mod10:3|B
-        | | | | | | | | | +------------- LC111 |mod10:3|C
-        | | | | | | | | | | +----------- LC108 |mod12:30|A
-        | | | | | | | | | | | +--------- LC102 |mod12:30|B
+        +------------------------------- LC105 Ha
+        | +----------------------------- LC97 Ld
+        | | +--------------------------- LC99 Le
+        | | | +------------------------- LC101 Lf
+        | | | | +----------------------- LC104 Lg
+        | | | | | +--------------------- LC111 |mod6:2|B
+        | | | | | | +------------------- LC110 |mod6:2|C
+        | | | | | | | +----------------- LC108 |mod10:3|B
+        | | | | | | | | +--------------- LC98 |mod10:3|C
+        | | | | | | | | | +------------- LC106 |mod10:3|D
+        | | | | | | | | | | +----------- LC112 |mod12:30|A
+        | | | | | | | | | | | +--------- LC103 |mod12:30|B
         | | | | | | | | | | | | +------- LC100 |mod12:30|C
-        | | | | | | | | | | | | | +----- LC110 |mod12:30|D
+        | | | | | | | | | | | | | +----- LC102 |mod12:30|D
         | | | | | | | | | | | | | | +--- LC107 Ra
         | | | | | | | | | | | | | | | +- LC109 Rb
         | | | | | | | | | | | | | | | | 
         | | | | | | | | | | | | | | | |   Other LABs fed by signals
         | | | | | | | | | | | | | | | |   that feed LAB 'G'
 LC      | | | | | | | | | | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'G':
-LC106-> * * * * - * * * - - * * * * - - | - - - - - * * - | <-- |mod6:2|A
-LC103-> * * * * - - * * - - - - - - - - | - - - - - * * - | <-- |mod6:2|B
-LC98 -> * * * * - - * * - - * * * * - - | - - - - - * * - | <-- |mod6:2|C
-LC112-> - - - - - - - - * * - - - - * * | - - - - - - * * | <-- |mod10:3|B
-LC111-> - - - - - - - - - * - - - - * * | - - - - - - * * | <-- |mod10:3|C
-LC108-> - - - - - - - - - - * * * * - - | - - * - - - * - | <-- |mod12:30|A
-LC102-> - - - - - - - - - - - * * * - - | - - * - - - * - | <-- |mod12:30|B
-LC100-> - - - - - - - - - - - - * * - - | - - * - - - * - | <-- |mod12:30|C
-LC110-> - - - - - - - - - - - - * * - - | - - * - - - * - | <-- |mod12:30|D
+LC111-> - * * * * * * - - - - - - - - - | - - - - - * * - | <-- |mod6:2|B
+LC110-> - * * * * * * - - - * * * * - - | - - - - - * * - | <-- |mod6:2|C
+LC108-> - - - - - - - * * * - - - - * * | - - - - - - * * | <-- |mod10:3|B
+LC98 -> - - - - - - - - * * - - - - * * | - - - - - - * * | <-- |mod10:3|C
+LC106-> - - - - - * * * - * * * * * * * | - - - - - - * * | <-- |mod10:3|D
+LC112-> * - - - - - - - - - * * * * - - | - * * - - - * - | <-- |mod12:30|A
+LC103-> * - - - - - - - - - - * * * - - | - * * - - - * - | <-- |mod12:30|B
+LC100-> * - - - - - - - - - - - * * - - | - * * - - - * - | <-- |mod12:30|C
+LC102-> * - - - - - - - - - - - * * - - | - * * - - - * - | <-- |mod12:30|D
 
 Pin
 83   -> - - - - - - - - - - - - - - - - | - - - - - - - - | <-- CLK
-LC33 -> - - - - - * * * * * * * * * - - | - - - - - - * * | <-- |clk_div:26|:203
-LC122-> - - - - - * * * * * * * * * * * | - - - - - - * * | <-- |mod10:3|A
-LC113-> - - - - - * * * * - * * * * * * | - - - - - - * * | <-- |mod10:3|D
+LC42 -> - - - - - * * * * * * * * * - - | - - - - - - * * | <-- |clk_div:26|:203
+LC114-> - * * * * * * - - - * * * * - - | - - - - - * * - | <-- |mod6:2|A
+LC113-> - - - - - * * * * * * * * * * * | - - - - - - * * | <-- |mod10:3|A
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** LOGIC CELL INTERCONNECTIONS **
 
 Logic Array Block 'H':
 
-                         Logic cells placed in LAB 'H'
-        +--------------- LC122 |mod10:3|A
-        | +------------- LC113 |mod10:3|D
-        | | +----------- LC115 Rc
-        | | | +--------- LC117 Rd
-        | | | | +------- LC120 Re
-        | | | | | +----- LC118 Rf
-        | | | | | | +--- LC123 Rg
-        | | | | | | | +- LC125 RP
-        | | | | | | | | 
-        | | | | | | | |   Other LABs fed by signals
-        | | | | | | | |   that feed LAB 'H'
-LC      | | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'H':
-LC122-> * * * * * * * - | - - - - - - * * | <-- |mod10:3|A
-LC113-> - * * * * * * - | - - - - - - * * | <-- |mod10:3|D
+                       Logic cells placed in LAB 'H'
+        +------------- LC114 |mod6:2|A
+        | +----------- LC113 |mod10:3|A
+        | | +--------- LC115 Rc
+        | | | +------- LC117 Rd
+        | | | | +----- LC120 Re
+        | | | | | +--- LC118 Rf
+        | | | | | | +- LC123 Rg
+        | | | | | | | 
+        | | | | | | |   Other LABs fed by signals
+        | | | | | | |   that feed LAB 'H'
+LC      | | | | | | | | A B C D E F G H |     Logic cells that feed LAB 'H':
+LC113-> * * * * * * * | - - - - - - * * | <-- |mod10:3|A
 
 Pin
-83   -> - - - - - - - - | - - - - - - - - | <-- CLK
-LC33 -> * * - - - - - - | - - - - - - * * | <-- |clk_div:26|:203
-LC112-> - * * * * * * - | - - - - - - * * | <-- |mod10:3|B
-LC111-> - * * * * * * - | - - - - - - * * | <-- |mod10:3|C
+83   -> - - - - - - - | - - - - - - - - | <-- CLK
+LC42 -> * * - - - - - | - - - - - - * * | <-- |clk_div:26|:203
+LC108-> - - * * * * * | - - - - - - * * | <-- |mod10:3|B
+LC98 -> - - * * * * * | - - - - - - * * | <-- |mod10:3|C
+LC106-> * - * * * * * | - - - - - - * * | <-- |mod10:3|D
 
 
 * = The logic cell or pin is an input to the logic cell (or LAB) through the PIA.
 - = The logic cell or pin is not an input to the logic cell (or LAB).
 
 
-Device-Specific Information:c:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Device-Specific Information:c:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 clock
 
 ** EQUATIONS **
@@ -694,413 +700,415 @@ clock
 CLK      : INPUT;
 
 -- Node name is 'Ha' 
--- Equation name is 'Ha', location is LC037, type is output.
- Ha      = LCELL( _EQ001 $  GND);
-  _EQ001 = !_LC100 &  _LC102 & !_LC108 &  _LC110
-         # !_LC100 & !_LC102 &  _LC108 & !_LC110
-         #  _LC100 & !_LC102 & !_LC108;
+-- Equation name is 'Ha', location is LC105, type is output.
+ Ha      = LCELL( _EQ001 $  VCC);
+  _EQ001 = !_LC100 &  _LC102 &  _LC103 &  _LC112
+         #  _LC100 &  _LC102 & !_LC103 &  _LC112
+         #  _LC100 & !_LC102 & !_LC103 & !_LC112
+         # !_LC100 & !_LC102 & !_LC103 &  _LC112;
 
 -- Node name is 'Hb' 
--- Equation name is 'Hb', location is LC038, type is output.
- Hb      = LCELL( _EQ002 $  GND);
-  _EQ002 =  _LC100 & !_LC102 &  _LC108 & !_LC110
-         #  _LC100 &  _LC102 & !_LC108
-         #  _LC102 & !_LC108 &  _LC110
-         #  _LC100 & !_LC108 &  _LC110;
+-- Equation name is 'Hb', location is LC037, type is output.
+ Hb      = LCELL( _EQ002 $  VCC);
+  _EQ002 =  _LC100 & !_LC102 & !_LC103 &  _LC112
+         #  _LC102 &  _LC103 &  _LC112
+         #  _LC100 &  _LC103 & !_LC112
+         #  _LC100 &  _LC102 & !_LC112;
 
 -- Node name is 'Hc' 
--- Equation name is 'Hc', location is LC040, type is output.
- Hc      = LCELL( _EQ003 $  GND);
-  _EQ003 = !_LC100 &  _LC102 & !_LC108 & !_LC110
-         #  _LC100 &  _LC102 &  _LC110
-         #  _LC100 & !_LC108 &  _LC110;
+-- Equation name is 'Hc', location is LC038, type is output.
+ Hc      = LCELL( _EQ003 $  VCC);
+  _EQ003 = !_LC100 & !_LC102 &  _LC103 & !_LC112
+         #  _LC100 &  _LC102 &  _LC103
+         #  _LC100 &  _LC102 & !_LC112;
 
 -- Node name is 'Hd' 
 -- Equation name is 'Hd', location is LC045, type is output.
- Hd      = LCELL( _EQ004 $  GND);
-  _EQ004 = !_LC100 &  _LC102 & !_LC108 &  _LC110
-         # !_LC100 & !_LC102 &  _LC108 & !_LC110
-         #  _LC100 & !_LC102 & !_LC108 & !_LC110
-         #  _LC100 &  _LC102 &  _LC108;
+ Hd      = LCELL( _EQ004 $  VCC);
+  _EQ004 = !_LC100 &  _LC102 &  _LC103 & !_LC112
+         # !_LC100 & !_LC102 & !_LC103 &  _LC112
+         #  _LC100 & !_LC102 & !_LC103 & !_LC112
+         #  _LC100 &  _LC103 &  _LC112;
 
 -- Node name is 'He' 
 -- Equation name is 'He', location is LC035, type is output.
- He      = LCELL( _EQ005 $  GND);
-  _EQ005 =  _LC100 & !_LC102 & !_LC108 & !_LC110
-         # !_LC100 & !_LC102 &  _LC108
-         #  _LC108 & !_LC110;
+ He      = LCELL( _EQ005 $  VCC);
+  _EQ005 =  _LC100 & !_LC102 & !_LC103 & !_LC112
+         # !_LC100 & !_LC103 &  _LC112
+         # !_LC102 &  _LC112;
 
 -- Node name is 'Hf' 
--- Equation name is 'Hf', location is LC046, type is output.
- Hf      = LCELL( _EQ006 $  GND);
-  _EQ006 =  _LC100 & !_LC102 &  _LC108 &  _LC110
-         #  _LC102 &  _LC108 & !_LC110
-         # !_LC100 &  _LC102 & !_LC110
-         # !_LC100 &  _LC108 & !_LC110;
+-- Equation name is 'Hf', location is LC017, type is output.
+ Hf      = LCELL( _EQ006 $  VCC);
+  _EQ006 =  _LC100 &  _LC102 & !_LC103 &  _LC112
+         # !_LC102 &  _LC103 &  _LC112
+         # !_LC100 & !_LC102 &  _LC103
+         # !_LC100 & !_LC102 &  _LC112;
 
 -- Node name is 'Hg' 
--- Equation name is 'Hg', location is LC043, type is output.
- Hg      = LCELL( _EQ007 $  GND);
-  _EQ007 =  _LC100 &  _LC102 &  _LC108 & !_LC110
-         #  _LC100 & !_LC102 & !_LC108 &  _LC110
-         # !_LC100 & !_LC102 & !_LC110;
+-- Equation name is 'Hg', location is LC019, type is output.
+ Hg      = LCELL( _EQ007 $  VCC);
+  _EQ007 =  _LC100 & !_LC102 &  _LC103 &  _LC112
+         #  _LC100 &  _LC102 & !_LC103 & !_LC112
+         # !_LC100 & !_LC102 & !_LC103;
 
 -- Node name is 'La' 
 -- Equation name is 'La', location is LC091, type is output.
  La      = LCELL( _EQ008 $  GND);
-  _EQ008 =  _LC098 & !_LC103 & !_LC106
-         # !_LC098 & !_LC103 &  _LC106;
+  _EQ008 =  _LC110 & !_LC111 & !_LC114
+         # !_LC110 & !_LC111 &  _LC114;
 
 -- Node name is 'Lb' 
 -- Equation name is 'Lb', location is LC093, type is output.
  Lb      = LCELL( _EQ009 $  GND);
-  _EQ009 =  _LC098 &  _LC103 & !_LC106
-         #  _LC098 & !_LC103 &  _LC106;
+  _EQ009 =  _LC110 & !_LC111 &  _LC114
+         #  _LC110 &  _LC111 & !_LC114;
 
 -- Node name is 'Lc' 
 -- Equation name is 'Lc', location is LC094, type is output.
  Lc      = LCELL( _EQ010 $  GND);
-  _EQ010 = !_LC098 &  _LC103 & !_LC106;
+  _EQ010 = !_LC110 &  _LC111 & !_LC114;
 
 -- Node name is 'Ld' 
 -- Equation name is 'Ld', location is LC097, type is output.
- Ld      = LCELL( _EQ011 $  _LC098);
-  _EQ011 =  _LC098 &  _LC103 & !_LC106
-         # !_LC103 &  _LC106;
+ Ld      = LCELL( _EQ011 $  _LC110);
+  _EQ011 =  _LC110 &  _LC111 & !_LC114
+         # !_LC111 &  _LC114;
 
 -- Node name is 'Le' 
 -- Equation name is 'Le', location is LC099, type is output.
- Le      = LCELL( _EQ012 $  _LC106);
-  _EQ012 =  _LC098 & !_LC103 & !_LC106;
+ Le      = LCELL( _EQ012 $  _LC114);
+  _EQ012 =  _LC110 & !_LC111 & !_LC114;
 
 -- Node name is 'Lf' 
 -- Equation name is 'Lf', location is LC101, type is output.
- Lf      = LCELL( _EQ013 $ !_LC098);
-  _EQ013 =  _LC098 &  _LC103 &  _LC106
-         # !_LC098 & !_LC103 & !_LC106;
+ Lf      = LCELL( _EQ013 $ !_LC110);
+  _EQ013 =  _LC110 &  _LC111 &  _LC114
+         # !_LC110 & !_LC111 & !_LC114;
 
 -- Node name is 'Lg' 
 -- Equation name is 'Lg', location is LC104, type is output.
  Lg      = LCELL( _EQ014 $  GND);
-  _EQ014 =  _LC098 &  _LC103 &  _LC106
-         # !_LC098 & !_LC103;
+  _EQ014 =  _LC110 &  _LC111 &  _LC114
+         # !_LC110 & !_LC111;
 
 -- Node name is 'LP' 
--- Equation name is 'LP', location is LC105, type is output.
+-- Equation name is 'LP', location is LC069, type is output.
  LP      = LCELL( GND $  VCC);
 
 -- Node name is 'Ra' 
 -- Equation name is 'Ra', location is LC107, type is output.
  Ra      = LCELL( _EQ015 $  GND);
-  _EQ015 = !_LC111 &  _LC112 &  _LC113 & !_LC122
-         # !_LC111 & !_LC112 & !_LC113 &  _LC122
-         #  _LC111 & !_LC112 & !_LC122;
+  _EQ015 = !_LC098 &  _LC106 &  _LC108 &  _LC113
+         #  _LC098 &  _LC106 & !_LC108 &  _LC113
+         #  _LC098 & !_LC106 & !_LC108 & !_LC113
+         # !_LC098 & !_LC106 & !_LC108 &  _LC113;
 
 -- Node name is 'Rb' 
 -- Equation name is 'Rb', location is LC109, type is output.
  Rb      = LCELL( _EQ016 $  GND);
-  _EQ016 =  _LC111 & !_LC112 & !_LC113 &  _LC122
-         #  _LC111 &  _LC112 & !_LC122
-         #  _LC112 &  _LC113 & !_LC122
-         #  _LC111 &  _LC113 & !_LC122;
+  _EQ016 =  _LC098 & !_LC106 & !_LC108 &  _LC113
+         #  _LC106 &  _LC108 &  _LC113
+         #  _LC098 &  _LC108 & !_LC113
+         #  _LC098 &  _LC106 & !_LC113;
 
 -- Node name is 'Rc' 
 -- Equation name is 'Rc', location is LC115, type is output.
  Rc      = LCELL( _EQ017 $  GND);
-  _EQ017 = !_LC111 &  _LC112 & !_LC113 & !_LC122
-         #  _LC111 &  _LC112 &  _LC113
-         #  _LC111 &  _LC113 & !_LC122;
+  _EQ017 = !_LC098 & !_LC106 &  _LC108 & !_LC113
+         #  _LC098 &  _LC106 &  _LC108
+         #  _LC098 &  _LC106 & !_LC113;
 
 -- Node name is 'Rd' 
 -- Equation name is 'Rd', location is LC117, type is output.
  Rd      = LCELL( _EQ018 $  GND);
-  _EQ018 = !_LC111 &  _LC112 &  _LC113 & !_LC122
-         # !_LC111 & !_LC112 & !_LC113 &  _LC122
-         #  _LC111 & !_LC112 & !_LC113 & !_LC122
-         #  _LC111 &  _LC112 &  _LC122;
+  _EQ018 = !_LC098 &  _LC106 &  _LC108 & !_LC113
+         # !_LC098 & !_LC106 & !_LC108 &  _LC113
+         #  _LC098 & !_LC106 & !_LC108 & !_LC113
+         #  _LC098 &  _LC108 &  _LC113;
 
 -- Node name is 'Re' 
 -- Equation name is 'Re', location is LC120, type is output.
  Re      = LCELL( _EQ019 $  GND);
-  _EQ019 =  _LC111 & !_LC112 & !_LC113 & !_LC122
-         # !_LC111 & !_LC112 &  _LC122
-         # !_LC113 &  _LC122;
+  _EQ019 =  _LC098 & !_LC106 & !_LC108 & !_LC113
+         # !_LC098 & !_LC108 &  _LC113
+         # !_LC106 &  _LC113;
 
 -- Node name is 'Rf' 
 -- Equation name is 'Rf', location is LC118, type is output.
  Rf      = LCELL( _EQ020 $  GND);
-  _EQ020 =  _LC111 & !_LC112 &  _LC113 &  _LC122
-         #  _LC112 & !_LC113 &  _LC122
-         # !_LC111 &  _LC112 & !_LC113
-         # !_LC111 & !_LC113 &  _LC122;
+  _EQ020 =  _LC098 &  _LC106 & !_LC108 &  _LC113
+         # !_LC106 &  _LC108 &  _LC113
+         # !_LC098 & !_LC106 &  _LC108
+         # !_LC098 & !_LC106 &  _LC113;
 
 -- Node name is 'Rg' 
 -- Equation name is 'Rg', location is LC123, type is output.
  Rg      = LCELL( _EQ021 $  GND);
-  _EQ021 =  _LC111 &  _LC112 & !_LC113 &  _LC122
-         #  _LC111 & !_LC112 &  _LC113 & !_LC122
-         # !_LC111 & !_LC112 & !_LC113;
+  _EQ021 =  _LC098 & !_LC106 &  _LC108 &  _LC113
+         #  _LC098 &  _LC106 & !_LC108 & !_LC113
+         # !_LC098 & !_LC106 & !_LC108;
 
 -- Node name is 'RP' 
--- Equation name is 'RP', location is LC125, type is output.
+-- Equation name is 'RP', location is LC067, type is output.
  RP      = LCELL( GND $  VCC);
 
 -- Node name is '|clk_div:26|:201' = '|clk_div:26|count_1Hz0' 
--- Equation name is '_LC048', type is buried 
-_LC048   = TFFE(!_EQ022,  _LC042,  VCC,  VCC,  VCC);
-  _EQ022 = !_LC044 &  _LC047 & !_LC048;
+-- Equation name is '_LC041', type is buried 
+_LC041   = TFFE(!_EQ022,  _LC046,  VCC,  VCC,  VCC);
+  _EQ022 =  _LC034 & !_LC041 & !_LC057;
 
 -- Node name is '|clk_div:26|:200' = '|clk_div:26|count_1Hz1' 
--- Equation name is '_LC044', type is buried 
-_LC044   = TFFE( _LC048,  _LC042,  VCC,  VCC,  VCC);
+-- Equation name is '_LC057', type is buried 
+_LC057   = TFFE( _LC041,  _LC046,  VCC,  VCC,  VCC);
 
 -- Node name is '|clk_div:26|:199' = '|clk_div:26|count_1Hz2' 
--- Equation name is '_LC047', type is buried 
-_LC047   = DFFE( _EQ023 $  _LC039,  _LC042,  VCC,  VCC,  VCC);
-  _EQ023 =  _LC039 & !_LC044 &  _LC047 & !_LC048;
+-- Equation name is '_LC034', type is buried 
+_LC034   = DFFE( _EQ023 $  _LC039,  _LC046,  VCC,  VCC,  VCC);
+  _EQ023 =  _LC034 &  _LC039 & !_LC041 & !_LC057;
 
 -- Node name is '|clk_div:26|:138' = '|clk_div:26|count_1KHz0' 
--- Equation name is '_LC054', type is buried 
-_LC054   = TFFE(!_EQ024,  _LC070,  VCC,  VCC,  VCC);
-  _EQ024 = !_LC054 & !_LC057 &  _LC058;
+-- Equation name is '_LC049', type is buried 
+_LC049   = TFFE(!_EQ024,  _LC056,  VCC,  VCC,  VCC);
+  _EQ024 = !_LC049 & !_LC059 &  _LC060;
 
 -- Node name is '|clk_div:26|:137' = '|clk_div:26|count_1KHz1' 
--- Equation name is '_LC057', type is buried 
-_LC057   = TFFE( _LC054,  _LC070,  VCC,  VCC,  VCC);
+-- Equation name is '_LC059', type is buried 
+_LC059   = TFFE( _LC049,  _LC056,  VCC,  VCC,  VCC);
 
 -- Node name is '|clk_div:26|:136' = '|clk_div:26|count_1KHz2' 
--- Equation name is '_LC058', type is buried 
-_LC058   = DFFE( _EQ025 $  _LC053,  _LC070,  VCC,  VCC,  VCC);
-  _EQ025 =  _LC053 & !_LC054 & !_LC057 &  _LC058;
+-- Equation name is '_LC060', type is buried 
+_LC060   = DFFE( _EQ025 $  _LC053,  _LC056,  VCC,  VCC,  VCC);
+  _EQ025 = !_LC049 &  _LC053 & !_LC059 &  _LC060;
 
 -- Node name is '|clk_div:26|:51' = '|clk_div:26|count_1MHz0' 
--- Equation name is '_LC077', type is buried 
-_LC077   = TFFE(!_EQ026, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ026 =  _LC073 &  _LC074 & !_LC077;
+-- Equation name is '_LC075', type is buried 
+_LC075   = TFFE(!_EQ026, GLOBAL( CLK),  VCC,  VCC,  VCC);
+  _EQ026 =  _LC070 &  _LC071 & !_LC075;
 
 -- Node name is '|clk_div:26|:50' = '|clk_div:26|count_1MHz1' 
--- Equation name is '_LC076', type is buried 
-_LC076   = DFFE( _EQ027 $  _LC069, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ027 =  _LC069 &  _LC073 &  _LC074;
+-- Equation name is '_LC073', type is buried 
+_LC073   = DFFE( _EQ027 $  _LC068, GLOBAL( CLK),  VCC,  VCC,  VCC);
+  _EQ027 =  _LC068 &  _LC070 &  _LC071;
 
 -- Node name is '|clk_div:26|:49' = '|clk_div:26|count_1MHz2' 
--- Equation name is '_LC075', type is buried 
-_LC075   = DFFE( _EQ028 $  _LC068, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ028 =  _LC068 &  _LC073 &  _LC074;
+-- Equation name is '_LC072', type is buried 
+_LC072   = DFFE( _EQ028 $  _LC080, GLOBAL( CLK),  VCC,  VCC,  VCC);
+  _EQ028 =  _LC070 &  _LC071 &  _LC080;
 
 -- Node name is '|clk_div:26|:48' = '|clk_div:26|count_1MHz3' 
--- Equation name is '_LC074', type is buried 
-_LC074   = DFFE( _EQ029 $  _LC066, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ029 =  _LC066 &  _LC073 &  _LC074;
+-- Equation name is '_LC071', type is buried 
+_LC071   = DFFE( _EQ029 $  _LC074, GLOBAL( CLK),  VCC,  VCC,  VCC);
+  _EQ029 =  _LC070 &  _LC071 &  _LC074;
 
 -- Node name is '|clk_div:26|:47' = '|clk_div:26|count_1MHz4' 
--- Equation name is '_LC073', type is buried 
-_LC073   = DFFE( _EQ030 $  _LC079, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ030 =  _LC073 &  _LC074 &  _LC079;
+-- Equation name is '_LC070', type is buried 
+_LC070   = DFFE( _EQ030 $  _LC078, GLOBAL( CLK),  VCC,  VCC,  VCC);
+  _EQ030 =  _LC070 &  _LC071 &  _LC078;
 
 -- Node name is '|clk_div:26|:180' = '|clk_div:26|count_10Hz0' 
--- Equation name is '_LC034', type is buried 
-_LC034   = TFFE(!_EQ031,  _LC051,  VCC,  VCC,  VCC);
-  _EQ031 = !_LC018 & !_LC034 &  _LC036;
+-- Equation name is '_LC044', type is buried 
+_LC044   = TFFE(!_EQ031,  _LC036,  VCC,  VCC,  VCC);
+  _EQ031 =  _LC040 & !_LC044 & !_LC066;
 
 -- Node name is '|clk_div:26|:179' = '|clk_div:26|count_10Hz1' 
--- Equation name is '_LC018', type is buried 
-_LC018   = TFFE( _LC034,  _LC051,  VCC,  VCC,  VCC);
+-- Equation name is '_LC066', type is buried 
+_LC066   = TFFE( _LC044,  _LC036,  VCC,  VCC,  VCC);
 
 -- Node name is '|clk_div:26|:178' = '|clk_div:26|count_10Hz2' 
--- Equation name is '_LC036', type is buried 
-_LC036   = DFFE( _EQ032 $  _LC041,  _LC051,  VCC,  VCC,  VCC);
-  _EQ032 = !_LC018 & !_LC034 &  _LC036 &  _LC041;
+-- Equation name is '_LC040', type is buried 
+_LC040   = DFFE( _EQ032 $  _LC047,  _LC036,  VCC,  VCC,  VCC);
+  _EQ032 =  _LC040 & !_LC044 &  _LC047 & !_LC066;
 
 -- Node name is '|clk_div:26|:117' = '|clk_div:26|count_10KHz0' 
--- Equation name is '_LC071', type is buried 
-_LC071   = TFFE(!_EQ033,  _LC064,  VCC,  VCC,  VCC);
-  _EQ033 =  _LC065 & !_LC067 & !_LC071;
+-- Equation name is '_LC051', type is buried 
+_LC051   = TFFE(!_EQ033,  _LC063,  VCC,  VCC,  VCC);
+  _EQ033 = !_LC050 & !_LC051 &  _LC064;
 
 -- Node name is '|clk_div:26|:116' = '|clk_div:26|count_10KHz1' 
--- Equation name is '_LC067', type is buried 
-_LC067   = TFFE( _LC071,  _LC064,  VCC,  VCC,  VCC);
+-- Equation name is '_LC050', type is buried 
+_LC050   = TFFE( _LC051,  _LC063,  VCC,  VCC,  VCC);
 
 -- Node name is '|clk_div:26|:115' = '|clk_div:26|count_10KHz2' 
--- Equation name is '_LC065', type is buried 
-_LC065   = DFFE( _EQ034 $  _LC072,  _LC064,  VCC,  VCC,  VCC);
-  _EQ034 =  _LC065 & !_LC067 & !_LC071 &  _LC072;
+-- Equation name is '_LC064', type is buried 
+_LC064   = DFFE( _EQ034 $  _LC054,  _LC063,  VCC,  VCC,  VCC);
+  _EQ034 = !_LC050 & !_LC051 &  _LC054 &  _LC064;
 
 -- Node name is '|clk_div:26|:159' = '|clk_div:26|count_100Hz0' 
--- Equation name is '_LC049', type is buried 
-_LC049   = TFFE(!_EQ035,  _LC052,  VCC,  VCC,  VCC);
-  _EQ035 = !_LC049 &  _LC056 & !_LC060;
+-- Equation name is '_LC043', type is buried 
+_LC043   = TFFE(!_EQ035,  _LC058,  VCC,  VCC,  VCC);
+  _EQ035 =  _LC033 & !_LC043 & !_LC065;
 
 -- Node name is '|clk_div:26|:158' = '|clk_div:26|count_100Hz1' 
--- Equation name is '_LC060', type is buried 
-_LC060   = TFFE( _LC049,  _LC052,  VCC,  VCC,  VCC);
+-- Equation name is '_LC065', type is buried 
+_LC065   = TFFE( _LC043,  _LC058,  VCC,  VCC,  VCC);
 
 -- Node name is '|clk_div:26|:157' = '|clk_div:26|count_100Hz2' 
--- Equation name is '_LC056', type is buried 
-_LC056   = DFFE( _EQ036 $  _LC050,  _LC052,  VCC,  VCC,  VCC);
-  _EQ036 = !_LC049 &  _LC050 &  _LC056 & !_LC060;
+-- Equation name is '_LC033', type is buried 
+_LC033   = DFFE( _EQ036 $  _LC048,  _LC058,  VCC,  VCC,  VCC);
+  _EQ036 =  _LC033 & !_LC043 &  _LC048 & !_LC065;
 
 -- Node name is '|clk_div:26|:96' = '|clk_div:26|count_100KHz0' 
--- Equation name is '_LC063', type is buried 
-_LC063   = TFFE(!_EQ037,  _LC078,  VCC,  VCC,  VCC);
-  _EQ037 =  _LC055 & !_LC061 & !_LC063;
+-- Equation name is '_LC062', type is buried 
+_LC062   = TFFE(!_EQ037,  _LC076,  VCC,  VCC,  VCC);
+  _EQ037 =  _LC055 & !_LC061 & !_LC062;
 
 -- Node name is '|clk_div:26|:95' = '|clk_div:26|count_100KHz1' 
 -- Equation name is '_LC061', type is buried 
-_LC061   = TFFE( _LC063,  _LC078,  VCC,  VCC,  VCC);
+_LC061   = TFFE( _LC062,  _LC076,  VCC,  VCC,  VCC);
 
 -- Node name is '|clk_div:26|:94' = '|clk_div:26|count_100KHz2' 
 -- Equation name is '_LC055', type is buried 
-_LC055   = DFFE( _EQ038 $  _LC059,  _LC078,  VCC,  VCC,  VCC);
-  _EQ038 =  _LC055 &  _LC059 & !_LC061 & !_LC063;
+_LC055   = DFFE( _EQ038 $  _LC052,  _LC076,  VCC,  VCC,  VCC);
+  _EQ038 =  _LC052 &  _LC055 & !_LC061 & !_LC062;
 
 -- Node name is '|clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node1' from file "addcore.tdf" line 164, column 16
--- Equation name is '_LC069', type is buried 
-_LC069   = LCELL(!_LC076 $ !_LC077);
+-- Equation name is '_LC068', type is buried 
+_LC068   = LCELL(!_LC073 $ !_LC075);
 
 -- Node name is '|clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node2' from file "addcore.tdf" line 164, column 16
--- Equation name is '_LC068', type is buried 
-_LC068   = LCELL( _LC075 $  _EQ039);
-  _EQ039 =  _LC076 &  _LC077;
+-- Equation name is '_LC080', type is buried 
+_LC080   = LCELL( _LC072 $  _EQ039);
+  _EQ039 =  _LC073 &  _LC075;
 
 -- Node name is '|clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node3' from file "addcore.tdf" line 164, column 16
--- Equation name is '_LC066', type is buried 
-_LC066   = LCELL( _LC074 $  _EQ040);
-  _EQ040 =  _LC075 &  _LC076 &  _LC077;
+-- Equation name is '_LC074', type is buried 
+_LC074   = LCELL( _LC071 $  _EQ040);
+  _EQ040 =  _LC072 &  _LC073 &  _LC075;
 
 -- Node name is '|clk_div:26|lpm_add_sub:205|addcore:adder|addcore:adder0|result_node4' from file "addcore.tdf" line 164, column 16
--- Equation name is '_LC079', type is buried 
-_LC079   = LCELL( _LC073 $  _EQ041);
-  _EQ041 =  _LC074 &  _LC075 &  _LC076 &  _LC077;
+-- Equation name is '_LC078', type is buried 
+_LC078   = LCELL( _LC070 $  _EQ041);
+  _EQ041 =  _LC071 &  _LC072 &  _LC073 &  _LC075;
 
 -- Node name is '|clk_div:26|lpm_add_sub:206|addcore:adder|addcore:adder0|result_node2' from file "addcore.tdf" line 164, column 16
--- Equation name is '_LC059', type is buried 
-_LC059   = LCELL( _LC055 $  _EQ042);
-  _EQ042 =  _LC061 &  _LC063;
+-- Equation name is '_LC052', type is buried 
+_LC052   = LCELL( _LC055 $  _EQ042);
+  _EQ042 =  _LC061 &  _LC062;
 
 -- Node name is '|clk_div:26|lpm_add_sub:207|addcore:adder|addcore:adder0|result_node2' from file "addcore.tdf" line 164, column 16
--- Equation name is '_LC072', type is buried 
-_LC072   = LCELL( _LC065 $  _EQ043);
-  _EQ043 =  _LC067 &  _LC071;
+-- Equation name is '_LC054', type is buried 
+_LC054   = LCELL( _LC064 $  _EQ043);
+  _EQ043 =  _LC050 &  _LC051;
 
 -- Node name is '|clk_div:26|lpm_add_sub:208|addcore:adder|addcore:adder0|result_node2' from file "addcore.tdf" line 164, column 16
 -- Equation name is '_LC053', type is buried 
-_LC053   = LCELL( _LC058 $  _EQ044);
-  _EQ044 =  _LC054 &  _LC057;
+_LC053   = LCELL( _LC060 $  _EQ044);
+  _EQ044 =  _LC049 &  _LC059;
 
 -- Node name is '|clk_div:26|lpm_add_sub:209|addcore:adder|addcore:adder0|result_node2' from file "addcore.tdf" line 164, column 16
--- Equation name is '_LC050', type is buried 
-_LC050   = LCELL( _LC056 $  _EQ045);
-  _EQ045 =  _LC049 &  _LC060;
+-- Equation name is '_LC048', type is buried 
+_LC048   = LCELL( _LC033 $  _EQ045);
+  _EQ045 =  _LC043 &  _LC065;
 
 -- Node name is '|clk_div:26|lpm_add_sub:210|addcore:adder|addcore:adder0|result_node2' from file "addcore.tdf" line 164, column 16
--- Equation name is '_LC041', type is buried 
-_LC041   = LCELL( _LC036 $  _EQ046);
-  _EQ046 =  _LC018 &  _LC034;
+-- Equation name is '_LC047', type is buried 
+_LC047   = LCELL( _LC040 $  _EQ046);
+  _EQ046 =  _LC044 &  _LC066;
 
 -- Node name is '|clk_div:26|lpm_add_sub:211|addcore:adder|addcore:adder0|result_node2' from file "addcore.tdf" line 164, column 16
 -- Equation name is '_LC039', type is buried 
-_LC039   = LCELL( _LC047 $  _EQ047);
-  _EQ047 =  _LC044 &  _LC048;
+_LC039   = LCELL( _LC034 $  _EQ047);
+  _EQ047 =  _LC041 &  _LC057;
 
 -- Node name is '|clk_div:26|:78' 
--- Equation name is '_LC078', type is buried 
-_LC078   = DFFE( _EQ048 $  _LC073, GLOBAL( CLK),  VCC,  VCC,  VCC);
-  _EQ048 = !_LC073 &  _LC074 &  _LC075;
+-- Equation name is '_LC076', type is buried 
+_LC076   = DFFE( _EQ048 $  _LC070, GLOBAL( CLK),  VCC,  VCC,  VCC);
+  _EQ048 = !_LC070 &  _LC071 &  _LC072;
 
 -- Node name is '|clk_div:26|:98' 
--- Equation name is '_LC064', type is buried 
-_LC064   = TFFE( _EQ049,  _LC078,  VCC,  VCC,  VCC);
-  _EQ049 =  _LC055 & !_LC061 & !_LC063;
+-- Equation name is '_LC063', type is buried 
+_LC063   = TFFE( _EQ049,  _LC076,  VCC,  VCC,  VCC);
+  _EQ049 =  _LC055 & !_LC061 & !_LC062;
 
 -- Node name is '|clk_div:26|:119' 
--- Equation name is '_LC070', type is buried 
-_LC070   = TFFE( _EQ050,  _LC064,  VCC,  VCC,  VCC);
-  _EQ050 =  _LC065 & !_LC067 & !_LC071;
+-- Equation name is '_LC056', type is buried 
+_LC056   = TFFE( _EQ050,  _LC063,  VCC,  VCC,  VCC);
+  _EQ050 = !_LC050 & !_LC051 &  _LC064;
 
 -- Node name is '|clk_div:26|:140' 
--- Equation name is '_LC052', type is buried 
-_LC052   = TFFE( _EQ051,  _LC070,  VCC,  VCC,  VCC);
-  _EQ051 = !_LC054 & !_LC057 &  _LC058;
+-- Equation name is '_LC058', type is buried 
+_LC058   = TFFE( _EQ051,  _LC056,  VCC,  VCC,  VCC);
+  _EQ051 = !_LC049 & !_LC059 &  _LC060;
 
 -- Node name is '|clk_div:26|:161' 
--- Equation name is '_LC051', type is buried 
-_LC051   = TFFE( _EQ052,  _LC052,  VCC,  VCC,  VCC);
-  _EQ052 = !_LC049 &  _LC056 & !_LC060;
+-- Equation name is '_LC036', type is buried 
+_LC036   = TFFE( _EQ052,  _LC058,  VCC,  VCC,  VCC);
+  _EQ052 =  _LC033 & !_LC043 & !_LC065;
 
 -- Node name is '|clk_div:26|:182' 
--- Equation name is '_LC042', type is buried 
-_LC042   = TFFE( _EQ053,  _LC051,  VCC,  VCC,  VCC);
-  _EQ053 = !_LC018 & !_LC034 &  _LC036;
+-- Equation name is '_LC046', type is buried 
+_LC046   = TFFE( _EQ053,  _LC036,  VCC,  VCC,  VCC);
+  _EQ053 =  _LC040 & !_LC044 & !_LC066;
 
 -- Node name is '|clk_div:26|:203' 
--- Equation name is '_LC033', type is buried 
-_LC033   = TFFE( _EQ054,  _LC042,  VCC,  VCC,  VCC);
-  _EQ054 = !_LC044 &  _LC047 & !_LC048;
+-- Equation name is '_LC042', type is buried 
+_LC042   = TFFE( _EQ054,  _LC046,  VCC,  VCC,  VCC);
+  _EQ054 =  _LC034 & !_LC041 & !_LC057;
 
 -- Node name is '|mod6:2|:1' = '|mod6:2|A' 
--- Equation name is '_LC106', type is buried 
-_LC106   = TFFE( _EQ055,  _LC033,  VCC,  VCC,  VCC);
-  _EQ055 =  _LC113 &  _LC122;
+-- Equation name is '_LC114', type is buried 
+_LC114   = TFFE( _EQ055,  _LC042,  VCC,  VCC,  VCC);
+  _EQ055 =  _LC106 &  _LC113;
 
 -- Node name is '|mod6:2|:6' = '|mod6:2|B' 
--- Equation name is '_LC103', type is buried 
-_LC103   = TFFE( _EQ056,  _LC033,  VCC,  VCC,  VCC);
-  _EQ056 =  _LC103 &  _LC106 &  _LC113 &  _LC122
-         # !_LC098 &  _LC106 &  _LC113 &  _LC122;
+-- Equation name is '_LC111', type is buried 
+_LC111   = TFFE( _EQ056,  _LC042,  VCC,  VCC,  VCC);
+  _EQ056 =  _LC106 &  _LC111 &  _LC113 &  _LC114
+         #  _LC106 & !_LC110 &  _LC113 &  _LC114;
 
 -- Node name is '|mod6:2|:7' = '|mod6:2|C' 
--- Equation name is '_LC098', type is buried 
-_LC098   = TFFE( _EQ057,  _LC033,  VCC,  VCC,  VCC);
-  _EQ057 =  _LC103 &  _LC106 &  _LC113 &  _LC122
-         #  _LC098 &  _LC106 &  _LC113 &  _LC122;
+-- Equation name is '_LC110', type is buried 
+_LC110   = TFFE( _EQ057,  _LC042,  VCC,  VCC,  VCC);
+  _EQ057 =  _LC106 &  _LC111 &  _LC113 &  _LC114
+         #  _LC106 &  _LC110 &  _LC113 &  _LC114;
 
 -- Node name is '|mod10:3|:1' = '|mod10:3|A' 
--- Equation name is '_LC122', type is buried 
-_LC122   = TFFE( VCC,  _LC033,  VCC,  VCC,  VCC);
+-- Equation name is '_LC113', type is buried 
+_LC113   = TFFE( VCC,  _LC042,  VCC,  VCC,  VCC);
 
 -- Node name is '|mod10:3|:6' = '|mod10:3|B' 
--- Equation name is '_LC112', type is buried 
-_LC112   = TFFE( _EQ058,  _LC033,  VCC,  VCC,  VCC);
-  _EQ058 =  _LC112 &  _LC122
-         # !_LC113 &  _LC122;
+-- Equation name is '_LC108', type is buried 
+_LC108   = TFFE( _EQ058,  _LC042,  VCC,  VCC,  VCC);
+  _EQ058 =  _LC108 &  _LC113
+         # !_LC106 &  _LC113;
 
 -- Node name is '|mod10:3|:7' = '|mod10:3|C' 
--- Equation name is '_LC111', type is buried 
-_LC111   = TFFE( _EQ059,  _LC033,  VCC,  VCC,  VCC);
-  _EQ059 =  _LC112 &  _LC122;
+-- Equation name is '_LC098', type is buried 
+_LC098   = TFFE( _EQ059,  _LC042,  VCC,  VCC,  VCC);
+  _EQ059 =  _LC108 &  _LC113;
 
 -- Node name is '|mod10:3|:31' = '|mod10:3|D' 
--- Equation name is '_LC113', type is buried 
-_LC113   = TFFE( _EQ060,  _LC033,  VCC,  VCC,  VCC);
-  _EQ060 =  _LC111 &  _LC112 &  _LC122
-         #  _LC113 &  _LC122;
+-- Equation name is '_LC106', type is buried 
+_LC106   = TFFE( _EQ060,  _LC042,  VCC,  VCC,  VCC);
+  _EQ060 =  _LC098 &  _LC108 &  _LC113
+         #  _LC106 &  _LC113;
 
 -- Node name is '|mod12:30|:1' = '|mod12:30|A' 
--- Equation name is '_LC108', type is buried 
-_LC108   = TFFE( _EQ061,  _LC033,  VCC,  VCC,  VCC);
-  _EQ061 =  _LC098 &  _LC106 &  _LC113 &  _LC122;
+-- Equation name is '_LC112', type is buried 
+_LC112   = TFFE( _EQ061,  _LC042,  VCC,  VCC,  VCC);
+  _EQ061 =  _LC106 &  _LC110 &  _LC113 &  _LC114;
 
 -- Node name is '|mod12:30|:6' = '|mod12:30|B' 
--- Equation name is '_LC102', type is buried 
-_LC102   = TFFE( _EQ062,  _LC033,  VCC,  VCC,  VCC);
-  _EQ062 =  _LC098 &  _LC106 &  _LC108 &  _LC113 &  _LC122;
+-- Equation name is '_LC103', type is buried 
+_LC103   = TFFE( _EQ062,  _LC042,  VCC,  VCC,  VCC);
+  _EQ062 =  _LC106 &  _LC110 &  _LC112 &  _LC113 &  _LC114;
 
 -- Node name is '|mod12:30|:7' = '|mod12:30|C' 
 -- Equation name is '_LC100', type is buried 
-_LC100   = TFFE( _EQ063,  _LC033,  VCC,  VCC,  VCC);
-  _EQ063 =  _LC098 &  _LC100 &  _LC102 &  _LC106 &  _LC108 &  _LC113 & 
-              _LC122
-         #  _LC098 &  _LC102 &  _LC106 &  _LC108 & !_LC110 &  _LC113 & 
-              _LC122;
+_LC100   = TFFE( _EQ063,  _LC042,  VCC,  VCC,  VCC);
+  _EQ063 =  _LC100 &  _LC103 &  _LC106 &  _LC110 &  _LC112 &  _LC113 & 
+              _LC114
+         # !_LC102 &  _LC103 &  _LC106 &  _LC110 &  _LC112 &  _LC113 & 
+              _LC114;
 
 -- Node name is '|mod12:30|:31' = '|mod12:30|D' 
--- Equation name is '_LC110', type is buried 
-_LC110   = TFFE( _EQ064,  _LC033,  VCC,  VCC,  VCC);
-  _EQ064 =  _LC098 &  _LC100 &  _LC102 &  _LC106 &  _LC108 &  _LC113 & 
-              _LC122
-         #  _LC098 &  _LC102 &  _LC106 &  _LC108 &  _LC110 &  _LC113 & 
-              _LC122;
+-- Equation name is '_LC102', type is buried 
+_LC102   = TFFE( _EQ064,  _LC042,  VCC,  VCC,  VCC);
+  _EQ064 =  _LC100 &  _LC103 &  _LC106 &  _LC110 &  _LC112 &  _LC113 & 
+              _LC114
+         #  _LC102 &  _LC103 &  _LC106 &  _LC110 &  _LC112 &  _LC113 & 
+              _LC114;
 
 
 
@@ -1110,7 +1118,7 @@ _LC110   = TFFE( _EQ064,  _LC033,  VCC,  VCC,  VCC);
 
 
 
-Project Informationc:\documents and settings\cameron palmer\my documents\elet2720\final\clock.rpt
+Project Informationc:\documents and settings\eier\mine dokumenter\elet2720\final\clock.rpt
 
 ** COMPILATION SETTINGS & TIMES **
 
@@ -1187,8 +1195,8 @@ Compilation Times
 
    Compiler Netlist Extractor             00:00:00
    Database Builder                       00:00:00
-   Logic Synthesizer                      00:00:00
-   Partitioner                            00:00:01
+   Logic Synthesizer                      00:00:01
+   Partitioner                            00:00:00
    Fitter                                 00:00:00
    Timing SNF Extractor                   00:00:00
    Assembler                              00:00:02
@@ -1199,4 +1207,4 @@ Compilation Times
 Memory Allocated
 -----------------
 
-Peak memory allocated during compilation  = 6,507K
+Peak memory allocated during compilation  = 5,972K
