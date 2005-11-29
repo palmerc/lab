@@ -1,5 +1,5 @@
 --
---  Copyright (C) 1988-2003 Altera Corporation
+--  Copyright (C) 1988-2002 Altera Corporation
 --  Any megafunction design, and related net list (encrypted or decrypted),
 --  support information, device programming or simulation file, and any other
 --  associated documentation or information provided by Altera or a partner
@@ -226,7 +226,7 @@ END;
 
 SIMULATOR_CONFIGURATION
 BEGIN
-	END_TIME = 1.0us;
+	END_TIME = 2.0us;
 	BIDIR_PIN = STRONG;
 	START_TIME = 0.0ns;
 	GLITCH_TIME = 0.0ns;

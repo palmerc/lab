@@ -19,11 +19,27 @@ end bcd2seven;
 
 architecture bcd2sevenarc of bcd2seven is
 begin
-A <= (not BCD8 or not BCD4 or not BCD2 or BCD1) and (not BCD8 or BCD4 or not BCD2 or not BCD1) and (BCD8 or BCD4 or not BCD2 or not BCD1) and (BCD8 or not BCD4 or BCD2 or not BCD1);
-B <= (not BCD8 or BCD4 or not BCD2 or BCD1) and (BCD8 or BCD4 or not BCD1) and (BCD8 or BCD2 or not BCD1) and (BCD4 or BCD2 or not BCD1);
-C <= (not BCD8 or not BCD4 or BCD2 or not BCD1) and (BCD8 or BCD4 or not BCD1) and (BCD8 or BCD4 or BCD2);
-D <= (not BCD8 or BCD4 or not BCD2 or not BCD1) and (not BCD8 or not BCD4 or not BCD2 or BCD1) and (BCD4 or BCD2 or BCD1) and (BCD8 or not BCD4 or BCD2 or not BCD1);
-E <= (not BCD8 or BCD4 or not BCD2 or not BCD1) and (not BCD4 or not BCD2 or BCD1) and (not BCD8 or BCD1);
-F <= (BCD8 or BCD4 or not BCD2 or BCD1) and (not BCD8 or not BCD4 or BCD1) and (not BCD8 or BCD2 or BCD1) and (not BCD8 or not BCD4 or BCD2);
-G <= (not BCD8 or not BCD4 or not BCD2) and (BCD8 or BCD4 or not BCD2 or BCD1) and (not BCD8 or BCD4 or BCD2 or BCD1);
+A <= (BCD8 or BCD4 or BCD2 or not BCD1) and 
+	(BCD8 or not BCD4 or BCD2 or BCD1) and 
+	(not BCD8 or not BCD4 or BCD2 or not BCD1) and 
+	(not BCD8 or BCD4 or not BCD2 or not BCD1);
+B <= (not BCD8 or not BCD4 or not BCD2) and 
+	(not BCD8 or not BCD4 or BCD1) and 
+	(not BCD8 or not BCD2 or not BCD1) and 
+	(not BCD4 or not BCD2 or BCD1);
+C <= (BCD8 or BCD4 or not BCD2 or BCD1) and 
+	(not BCD8 or not BCD4 or BCD1) and 
+	(not BCD8 or not BCD4 or not BCD2);
+D <= (BCD8 or not BCD4 or BCD2 or BCD1) and 
+	(BCD8 or BCD4 or BCD2 or not BCD1) and 
+	(not BCD4 or not BCD2 or not BCD1) and 
+	(not BCD8 or BCD4 or not BCD2 or BCD1);
+E <= (BCD8 or not BCD4 or BCD2 or BCD1) and 
+	(BCD4 or BCD2 or not BCD1) and 
+	(BCD8 or not BCD1);
+F <= (not BCD8 or not BCD4 or BCD2 or not BCD1) and 
+	(BCD8 or BCD4 or not BCD1) and 
+	(BCD8 or not BCD2 or not BCD1) and 
+	(BCD8 or BCD4 or not BCD2);
+G <= (BCD8 or BCD4 or BCD2) and (not BCD8 or not BCD4 or BCD2 or BCD1) and (BCD8 or not BCD4 or not BCD2 or not BCD1);
 end bcd2sevenarc;
