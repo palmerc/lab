@@ -1,8 +1,8 @@
 -- MAX+plus II Compiler Fit File      
--- Version 10.2 07/10/2002            
--- Compiled: 11/17/2005 18:45:03      
+-- Version 10.23 07/09/2003           
+-- Compiled: 11/29/2005 02:03:18      
 
--- Copyright (C) 1988-2002 Altera Corporation
+-- Copyright (C) 1988-2003 Altera Corporation
 -- Any megafunction design, and related net list (encrypted or decrypted),
 -- support information, device programming or simulation file, and any other
 -- associated documentation or information provided by Altera or a partner
@@ -44,15 +44,15 @@ END;
 INTERNAL_INFO "bcd2seven-pos"
 BEGIN
 	DEVICE = EPM7128SLC84-7;
-	LC99    : LORAX = "G108R0";
 	LC104   : LORAX = "G52R0";
+	LC93    : LORAX = "G191R0";
 	LC101   : LORAX = "G49R0";
+	LC99    : LORAX = "G108R0";
 	LC97    : LORAX = "G106R0";
 	LC94    : LORAX = "G192R0";
-	LC93    : LORAX = "G191R0";
 	LC91    : LORAX = "G136R0";
 	OH10R0P8 : LORAX = "G1R0,PA3R0C5,PA3R0C6";
+	OH2R0P12 : LORAX = "G148R0,PA19R0C6,PA19R0C5";
 	OH7R0P9 : LORAX = "G206R0,PA32R0C5,PA32R0C6";
 	OH5R0P10 : LORAX = "G205R0,PA28R0C5,PA28R0C6";
-	OH2R0P12 : LORAX = "G148R0,PA19R0C6,PA19R0C5";
 END;

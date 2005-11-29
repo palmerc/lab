@@ -1,4 +1,4 @@
-' Copyright (C) 1988-2002 Altera Corporation
+' Copyright (C) 1988-2003 Altera Corporation
 ' Any megafunction design, and related net list (encrypted or decrypted),
 ' support information, device programming or simulation file, and any other
 ' associated documentation or information provided by Altera or a partner
@@ -18,21 +18,21 @@
 ' their respective licensors.  No other licenses, including any licenses
 ' needed under any third party's intellectual property, are provided herein.
 
-'Device #1: EPM7128S - h:\bcd2seven\bcd2seven-pos.pof Thu Nov 17 18:45:05 2005
+'Device #1: EPM7128S - c:\documents and settings\cameron palmer\my documents\elet2720\final\bcd2seven\bcd2seven-pos.pof Tue Nov 29 02:03:18 2005
 
-NOTE "CREATOR" "Altera Jam/STAPL Composer Version 10.2 06/28/2002";
-NOTE "DATE" "2005/11/17";
+NOTE "CREATOR" "Altera Jam/STAPL Composer Version 10.23 07/09/2003";
+NOTE "DATE" "2005/11/29";
 NOTE "DEVICE" "EPM7128S";
 NOTE "FILE" "bcd2seven-pos.pof";
 NOTE "TARGET" "1";
 NOTE "IDCODE" "071280DD";
 NOTE "UES" "FFFF";
-NOTE "CHECKSUM" "001DE805";
+NOTE "CHECKSUM" "001DDC6F";
 NOTE "SAVE_DATA" "DEVICE_DATA";
 NOTE "SAVE_DATA_VARIABLES" "V0, A12, A13, A21, A22, A25, A43";
 NOTE "STAPL_VERSION" "JESD71";
 NOTE "JAM_VERSION" "2.0";
-NOTE "ALG_VERSION" "14";
+NOTE "ALG_VERSION" "15";
 ACTION PROGRAM = L0, DO_BLANK_CHECK OPTIONAL, DO_VERIFY RECOMMENDED, DO_SECURE OPTIONAL,
 DO_READ_UES OPTIONAL,
 L15;
@@ -53,27 +53,29 @@ INTEGER A13[1] = 5;
 INTEGER A25[1] = 10;
 INTEGER A43[1] = 0;
 BOOLEAN A21[104320] = @
-mB300u@@@@3q6aP86Zmm4CO16u0sI@l@@w@zdz@@xx_@@l8Ma@@tVt@x@_k@t3d@
-@j@lRy@jr@pc@@Q@@gX@Fjy@ef@@izV@V@@w@@lz@@@7A5fto@ts_@rw@ds@@p2@
-FeF3yl@txr@@N_l@VGBBv@l@Feb@xmy@DGLn_@hl@V@VVt@@11Xa@x@UV_@@s@y@
-79z@GM@@Zs@xuz@DY@FZv@le_@Aktp@@@k@@@V@z@@k@x@3509t@zVX2ia@@@U@@
-t@RbBX@VlNtxzUB0KG50Aa205H1yW@xzV_l@xw@V@p3u1xz@@bexKG1sKQmCJ8GY
-_ltxC2Eyi19kOGYx4u9u1CkO8g0zZo@@@j@V@N@@z@X20Lr@P6UW1_@z@t8XXhIy
-8O43y_lt@QGcz@7b@z@@G1WAe0G3KmI@t@@B0KW@t@@A0Ce@@@x@lT@@U@k@x@yV
-@txx@Ul205I1WYe0Iu2f4g0GXy0Imt@zV@@@t@@@z@FsG99SLo@XbyVO9jKN23Pd
-mGO9@t@@@vz@V@@rvz_@FeR3g0GXK0e8AWJy@@@txX1_@x@g0GXK0e8A0Kw@@@_@
-@l@@@to@@9PhG@@@j@@l@mICe205I1WYe0Im@@@V50Aa7m3plQW@@@R@z@@L0eGA
-0K45G2tpQG50Aa7m30;
+mB300u@@@@3q6aP86Zmm4CO16u0sI@l@@mVzNz@@yRy@@l8Ma_@@VtVz@UQ@_3d@
+@j@lRy@jr@pc@@Q@@gX@Fjy@ef@@irL@@V@_l@@zz@NJ@v@V8SH_V_@e@vdx@txN
+x@@Vvu@7N@Vuy@@s@VtW@lj8I_@@yzV@txs@lI_v@@WZ5v@x@p_x@i@V@Vd@@@bG
+_@8c@72w9s@F@z@d@xC@lFGqYy@@rx@_dtv@@l_J@@HI@Far@@ez@EU@VZu@pO_@
+Bg@lYxzy@@lx@x@sV@@hx@_@G1WAeWky@@lhtxzsUltx205K1W2f0GHK0COl@xrz
+_ldtx@_P0aO4Td2AmcI3c9P0oYCOL@tx@yV@tr@@_dl0O1w7b@@@R@@_l_@x@350
+gg@pCy03y@x@lHI2NbuHO99uzVl@rWCx@FA@x@@X20LG1W6eWb_l@@N0e0@l@@L0
+OG@@@t@Vx_@z_T@t@v@_ltt@zU50Aa205H1amjI6u@x@k205o381V@t@z@@V@@@d
+vjPrbmG@@@7Mo@XbSIT9CaT23Xby@Uz@dt@@z@Ndtx@V@@@@_@_@h0GXK0e8AWJy
+@@@txX1_@x@g0GXK0e8A0Kw@@@_@@l@@@to@@9PhG@@@j@@l@mICe205I1WYe0Im
+@@@V50Aa7m3_@@xz@V@x@@@sV@@V50Aa205H1aGuQ6K1W2v1y00;
 
 BOOLEAN A22[65920] = @
-m0200u@@@@3q6aP86Zmm4CO16u0UFVV@@zF3_tkltWCu@@@B7sY@@@FR@@@1ZDy@
-z@lD@FR@@ru@Lh@FD@Vq_@F3@lPv@BJ@FPxvy@@@x4pW@lxxTn@dh_@Rv@Nh@@P1
-@FMHXy@VNlp83_@Vl3xx1tz@@zDs2@t@@WM_Vxo@p_i5@@@zXHy0@l@@0Aun@_Tz
-seCu@@lA8e@lNz@wP@VUt@Z7_@tb@lTw@3pn6MTz@1G91000W30600000008Li00
-00u@@BzcXW0Oe205I3m00001x0i10000e000z1mGm064Am3X3yW@@@RQ@@@X00Ho
-uRu@lrc@@x@VW6mAf@lZyMy_@@7204110IW0Ru@_xL@z@@7wWvVgg2LLHbgegAKL
-bLkoghGLL@FmEU_l@@@EOim3OGLMLLu1xDTlD_d@xn@zyd001H0OWxlgBNrrL90G
-G406eh@@lGVcz@@ShUkhF102mTzyhU_h7trVdlkxh408mTVTblkwBtzr@0;
+m0200u@@@@3q6aP86Zmm4CO16u0UFNzz@zF3_t_h32F42UuA6Yv@@@F93_Q@@xbC
+uV@@VRoW@@@lW1CPr@lw@NL_@Kx@Hr@@q@VJn@NQ_VIr@FwULOp7y@@t52z1_Fz@
+zWRXrV@VdO6yltp7CuXinF4EuXAo@Fn_@8w@@m@@62@VXnAy@Vp7io3k@@@@Qa1_
+lz@Xwr2x@_@k7Pm@@jTOVFa1v3V3yGLa@7GnyvW_0@s_@kGPm@tFVO4FC6X7_t@l
+t6b1@@@rXMy0l__@EIPm@@zzEf@dpw@tq_VDl@FJy@nC@@Br@x@@@t@@RL0VF420
+4iQw@z@@00000810200008420000y@etF44G2J0aG90Ia4090000aAB0q9W41Y@W
+@@MxG0WeOSFyjs_F3j1_tVh8z@@@HkA_@@t310YW009G0FqVlzh@@@F4TmGLLKfA
+gg2LLHbgiwAMT5Lgw@@BO7Fz@V@xlFMu19eAhgYLLHLu1xLTlDu@U_TF@tt0W1u@
+U_T@LTvgkkA102Y0m0Tz@@5wpi@@dRrpTz90G0khdVrpVzuk_xyrTVb001kxhhyr
+LVvkl_7;
 
 ENDDATA;
 DATA TEMP_DATA;
@@ -1122,7 +1124,7 @@ PROCEDURE L149 USES DEVICE_DATA, TEMP_DATA
 ;
 V74 = 1;
 IF (V4 == 1) THEN CALL L126;
-V74 = 0;
+IF (V103) THEN V74 = 0;
 ENDPROC;
 PROCEDURE L150 USES DEVICE_DATA, TEMP_DATA, L53, L273, L215, L356, L54;
 CALL L53;
@@ -1662,4 +1664,4 @@ IF (j != 317) THEN V52 = j - 108;
 IF (j == 317) THEN V52 = -1;
 ENDPROC;
 ' END OF FILE
-CRC AAA8;
+CRC CDA3;

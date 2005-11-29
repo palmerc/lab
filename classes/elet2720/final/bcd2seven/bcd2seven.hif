@@ -1,6 +1,6 @@
 HIF003
 --
--- Copyright (C) 1988-2002 Altera Corporation
+-- Copyright (C) 1988-2003 Altera Corporation
 -- Any megafunction design, and related net list (encrypted or decrypted),
 -- support information, device programming or simulation file, and any other
 -- associated documentation or information provided by Altera or a partner
@@ -24,15 +24,8 @@ HIF003
 --
 FILES
 {
-	bcd2seven.vhd
-	{
-		bcd2seven [] [U2043679.DLS,U7449008.DLS,U1147235.DLS]
-		{
-			0 [] [];
-		}
-	}
 }
 TREE
 {
-	bcd2seven::(0,0):(0): bcd2seven.vhd;
+	bcd2seven::(0,0):(0): bcd2seven.gdf;
 }

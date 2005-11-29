@@ -1,6 +1,6 @@
 HIF003
 --
--- Copyright (C) 1988-2002 Altera Corporation
+-- Copyright (C) 1988-2003 Altera Corporation
 -- Any megafunction design, and related net list (encrypted or decrypted),
 -- support information, device programming or simulation file, and any other
 -- associated documentation or information provided by Altera or a partner
@@ -24,6 +24,13 @@ HIF003
 --
 FILES
 {
+	and5.gdf
+	{
+		and5 [] []
+		{
+			1 [] [];
+		}
+	}
 	bcd2seven-pos.gdf
 	{
 		bcd2seven-pos [] []
@@ -34,5 +41,8 @@ FILES
 }
 TREE
 {
-	bcd2seven-pos::(0,0):(0): bcd2seven-pos.gdf;
+	bcd2seven-pos::(0,0):(0): bcd2seven-pos.gdf
+	{
+		and5::(0,0):(75): and5.gdf;
+	}
 }
