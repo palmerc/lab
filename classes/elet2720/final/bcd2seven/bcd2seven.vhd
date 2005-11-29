@@ -26,7 +26,8 @@ A <= (BCD8 or BCD4 or BCD2 or not BCD1) and
 B <= (not BCD8 or not BCD4 or not BCD2) and 
 	(not BCD8 or not BCD4 or BCD1) and 
 	(not BCD8 or not BCD2 or not BCD1) and 
-	(not BCD4 or not BCD2 or BCD1);
+	(not BCD4 or not BCD2 or BCD1) and 
+	(BCD8 or not BCD4 or BCD2 or not BCD1);
 C <= (BCD8 or BCD4 or not BCD2 or BCD1) and 
 	(not BCD8 or not BCD4 or BCD1) and 
 	(not BCD8 or not BCD4 or not BCD2);
@@ -41,5 +42,7 @@ F <= (not BCD8 or not BCD4 or BCD2 or not BCD1) and
 	(BCD8 or BCD4 or not BCD1) and 
 	(BCD8 or not BCD2 or not BCD1) and 
 	(BCD8 or BCD4 or not BCD2);
-G <= (BCD8 or BCD4 or BCD2) and (not BCD8 or not BCD4 or BCD2 or BCD1) and (BCD8 or not BCD4 or not BCD2 or not BCD1);
+G <= (BCD8 or BCD4 or BCD2) and 
+	(not BCD8 or not BCD4 or BCD2 or BCD1) and 
+	(BCD8 or not BCD4 or not BCD2 or not BCD1);
 end bcd2sevenarc;
