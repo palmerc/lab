@@ -27,6 +27,7 @@
             $gcd = $this->gcd($this->numerator, $this->denominator);
             $this->numerator = $this->numerator / $gcd;
             $this->denominator = $this->denominator / $gcd;
+            $this->negative();
 		}
 
 		function display()
@@ -103,6 +104,14 @@
 
 			return new Rational($finaln, $finald);
 		}
+
+        function negative()
+        {
+            if ($this->denominator < 0){
+                $this->numerator = $this->numerator * -1;
+                $this->denominator = $this->denominator * -1;
+            }
+        }
 
 		function gcd($a, $b)
 		{
