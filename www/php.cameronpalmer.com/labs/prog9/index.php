@@ -24,6 +24,9 @@
 				$this->numerator = $thing[0];
 				$this->denominator = $thing[1];
 			}
+            $gcd = $this->gcd($this->numerator, $this->denominator);
+            $this->numerator = $this->numerator / $gcd;
+            $this->denominator = $this->denominator / $gcd;
 		}
 
 		function display()
