@@ -18,7 +18,7 @@ function getcache() {
 function rebuildcache() {
 	global $post_dir,$CACHE;
 	if(isset($CACHE)) return $CACHE;
-	if(!$p=getpostlist()) die("Cannot rebuild cache");
+	if(!$p=getpostlist()); // die("Cannot rebuild cache");
 	$c=array();
 	foreach($p as $i) {
 		//do something

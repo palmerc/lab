@@ -1,41 +1,50 @@
 <?php
 
+$ptr = "/";
+
+$author = "Cameron Palmer";
+$siteurl = "cameronpalmer.com";
+$root_dir = dirname(__FILE__);
+if (file_exists("{$root_dir}/blog_root.php")) include("{$root_dir}/blog_root.php");
+
 function doheader($t="",$id="main") {
+    global $author;
 header("Content-Type: text/html; charset=utf-8");
 echo '<'.'?xml version="1.0" encoding="utf-8"?>'."\n";
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title><?=$t?> (Cameron Palmer)</title>
+    <title><?=$t?> (<?echo $author?>)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
-    <link rel="alternate" title="RSS 2.0" href="/blog/rss/2.0" type="application/rss+xml" />
-    <link rel="stylesheet" type="text/css" href="/blog/main.css" />
-    <script type="text/javascript" src="/blog/dom/annimg.js"></script>
-    <link rel="stylesheet" type="text/css" href="/blog/dom/annimg.css" />
-    <?php if($id=="post") {?><script type="text/javascript" src="/blog/dom/validator.js"></script><?php } ?>
-	
+    <link rel="shortcut icon" type="image/x-icon" href="<?echo $ptr?>favicon.ico" />
+    <link rel="alternate" title="RSS 2.0" href="<?echo $ptr?>rss/2.0" type="application/rss+xml" />
+    <link rel="stylesheet" type="text/css" href="<?echo $ptr?>main.css" />
+    <script type="text/javascript" src="<?echo $ptr?>dom/annimg.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?echo $ptr?>dom/annimg.css" />
+    <?php if($id=="post") {?><script type="text/javascript" src="<?echo $ptr?>dom/validator.js"></script><?php } ?>
 </head>
 <body id="www-cameronpalmer-com">
-<h1 class="hide">Cameron Palmer</h1>
+<h1 class="hide"><?echo $author?></h1>
 <div id="container_container"><div id="container">
 <?php
 
 }
 
 function dofooter() {
+    global $ptr, $siteurl;
 ?><!-- end entries -->
 
 </div>
 <div id="sidebar">
-<h1><a href="/blog/" title="Return Home">CameronPalmer</a></h1>
+<h1><a href="<?echo $ptr . "../"?>" title="Return Home"><?echo $siteurl?></a></h1>
 <h2>Navigation</h2>
 <ul id="menu">
-    <li><a href="/blog/">Blog</a></li>
-    <li><a href="/blog/ark">Archives</a></li>
-    <li><a href="/blog/about">About Me</a></li>
-    <li><a href="/">Main Page</a></li>
+    <li><a href="<?echo $ptr?>">Blog</a></li>
+    <li><a href="<?echo $ptr?>ark">Archives</a></li>
+    <li><a href="<?echo $ptr?>about">About Me</a></li>
+    <li><a href="../">Main Page</a></li>
 </ul>
 
 </div>
