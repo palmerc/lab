@@ -1,12 +1,12 @@
 <?php
 class Calendar {
-    var $month, $year, $today, $dayHeadings;
+    var $month, $year, $today, $dayHeadings, $numofweeks;
 
     // Constructor for the Calendar class
     function Calendar($month, $year)
     {
         $this->setToday();
-        $this->setDayHeadings(5);
+        $this->setDayHeadings(0);
         if (!$month) { $this->setMonth(date("m")); }
         else { $this->setMonth($month); }
         if (!$year) { $this->setYear(date("Y")); }
@@ -45,7 +45,7 @@ class Calendar {
             
             $this->dayHeadings = $newArrangement;
             return;
-        } 
+        }
         
         $this->dayHeadings = $defaultDays;
         return;
@@ -90,10 +90,20 @@ class Calendar {
         return date("l", mktime(0, 0, 0, $month, $day, $year));
     }
     
-    function getDaysinMonth($Ymd)
+    function getDayofWeekNumeric($Ymd)
     {
         list($year, $month, $day) = $this->splitYmd($Ymd);
-        return date("t", mktime(0, 0, 0, $year, $month, $day));
+        return date("w", mktime(0, 0, 0, $month, $day, $year));
+    }
+    
+    function getDaysinMonth()
+    {
+        return date("t", mktime(0, 0, 0, $this->year, $this->month, 1));
+    }
+    
+    function getWeeksinMonth()
+    {
+        return ceil($this->getDaysinMonth() / 7);
     }
     
     // getPrevMonth
@@ -113,7 +123,7 @@ class Calendar {
         return date("F", mktime(0, 0, 0, $this->month, 1, $this->year));
     }
     
-    function htmlCalendar()
+    function htmlCalendar($array_event_objs)
     {
         //
         // Start the calendar table display
@@ -154,18 +164,14 @@ class Calendar {
             ';
         // End day of the week headings
        
-       
-        $week = 0;
+        $firstday = getDayofWeekNumeric($Ym . '01');
+        if ($firstday > 0) {
+            $day7 - $firstday 
         
-        //$nameofweek = array("firstweek", "secondweek", "thirdweek", "fourthweek", "fifthweek", "sixthweek");
-        while ($week < count($data_array)) {
-            if (count($data_array) - $i <= 7) {
-                $thisweek = "lastweek";
-            } else {
-                $thisweek = $nameofweek[$week];
-            }
+        $week = 0;
+        while ($week < $this->getWeeksinMonth()) {
             echo"
-                <tr id=\"{$thisweek}\">
+            <tr id=\"{$thisweek}\">
             ";
             for ($j=0; $j < 7; $j++) {
                 $day = date("M D d", $data_array[$i]);
@@ -173,31 +179,15 @@ class Calendar {
                 $shortmonth = strtolower(substr($day, 0 , 3));
                 $shortday = strtolower(substr($day, 4, 3));
                 $date = strtolower(substr($day, 8, 2));
-                //$sql = "SELECT * FROM tbl_news WHERE calstart <='{$longday}' AND calend >='{$longday}' AND status='Publish' AND calshow='1'";
-                //$r = mysql_query($sql) or die("Can't update record {$longday}<br />".mysql_error());
                 
                 //Print the calendar day.
                 echo"
                 <td class=\"{$shortmonth} {$shortday}\" id=\"{$shortmonth}{$date}\">
                     <div class=\"date\">{$date}</div>
-                    <div class=\"event\">";
-                //while($p = mysql_fetch_array($r)) {
-                    //echo "<pre>";
-                    //print_r($p);
-                    //echo "</pre>";
-                //    list($news_title, $news_body, $news_link) = array($p['title'], $p['body'], mklink($p));
-                 
-                
-                //    if ($news_title) {
-                //        echo "<a href=\"{$news_link}\">{$news_title}</a>";
-                //    } 
-                //}
-                echo"
-                </div>
-                </td>
                     ";
-                //$i++;
-                
+                echo"
+                </td>
+                    ";            
             }
             $week++;
             echo'
@@ -212,10 +202,5 @@ class Calendar {
     } // END display_month()
 
 } // END class Calendar
-
-    $cal = new Calendar();
-    $today = $cal->getToday();
-    echo $cal->getLongDayofWeek($today);
-    $cal->htmlCalendar();
     
 ?>
