@@ -168,19 +168,16 @@ class Calendar {
             ';
         // End day of the week headings
        
-        $firstday = $this->getDayofWeekNumeric($Ym . '01');
-        if ($firstday > 0) {
-        	$startday = 7 - $firstday;
-        }
+        $firstday = $this->getDayofWeekNumeric($this->year.$this->month.'01');
         
         $week = 0;
-        $dayindex = 0;
+        $dayindex = 1;
         while ($week < $this->getWeeksinMonth()) {
             echo"
             <tr id=\"{$thisweek}\">
             ";
             for ($j=0; $j < 7; $j++) {
-            		$epochtime = mktime(0, 0, 0, $this->month, $dayindex-$startday, $this->year);
+            		$epochtime = mktime(0, 0, 0, $this->month, $dayindex-$firstday, $this->year);
                 $day = date("M D d", $epochtime);
                 $longday = date("Ymd", $epochtime);
                 $shortmonth = strtolower(substr($day, 0 , 3));
