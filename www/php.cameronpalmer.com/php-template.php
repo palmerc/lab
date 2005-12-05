@@ -24,8 +24,8 @@ echo "
 ";
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$ptr."c/main.css\" />\n";
-if ($alternate_css and file_exists($alternate_css)) {
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$alternate_css}\" />\n";
+if ($alternate_css) {
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$ptr}{$alternate_css}\" />\n";
 }
 
 echo'
