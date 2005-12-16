@@ -1,3 +1,8 @@
 RewriteEngine On
 RewriteBase /~palmerc/www/php.cameronpalmer.com/labs/final/
-RewriteRule ^(\d+)$ index.php?$1 [L]
+#RewriteBase /
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([0-9]+)$ index.php?$1 [L]
+#RewriteBase /~palmerc/www/php.cameronpalmer.com/labs/final/
+#RewriteRule ^(\d+)$ /index.php?$1 [QSA,L]
