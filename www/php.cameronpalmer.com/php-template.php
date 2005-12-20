@@ -72,6 +72,7 @@ function do_footer($buf) {
 		   cameron DOT palmer AT gmail DOT com
 		   <br style="clear: left;" />
 		</div>
+        <br style="clear: left;" />
 	</div>
 </body>
 </html>

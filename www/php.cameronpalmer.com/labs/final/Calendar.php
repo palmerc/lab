@@ -1,20 +1,20 @@
 <?php
 class Calendar {
-    var $month, $year, $today, $dayHeadings, $numofweeks;
+    var $month, $year, $today, $dayHeadings, $numofweeks, $daysArray;
 
     // Constructor for the Calendar class
     // constructor arguments are $month, $year
     function Calendar()
     {
-    		$this->setToday();
+    	$this->setToday();
         $this->setDayHeadings(0);
-    		if (func_num_args() == 2) {
-    			$this->setMonth(func_get_arg(0));
-    			$this->setYear(func_get_arg(1));
-    		} else { 
-    			$this->setMonth(date("m"));
-    			$this->setYear(date("Y"));
-    		}
+    	if (func_num_args() == 2) {
+    		$this->setMonth(func_get_arg(0));
+    		$this->setYear(func_get_arg(1));
+    	} else { 
+    		$this->setMonth(date("m"));
+    		$this->setYear(date("Y"));
+    	}
     }
     
     function setMonth($month)
@@ -173,29 +173,35 @@ class Calendar {
         $week = 0;
         $dayindex = 1;
         while ($week < $this->getWeeksinMonth()) {
+            $thisweek = $week + 1;
             echo"
-            <tr id=\"{$thisweek}\">
+            <tr id=\"week{$thisweek}\">
             ";
             for ($j=0; $j < 7; $j++) {
-            		$epochtime = mktime(0, 0, 0, $this->month, $dayindex-$firstday, $this->year);
+                $epochtime = mktime(0, 0, 0, $this->month, $dayindex-$firstday, $this->year);
                 $day = date("M D d", $epochtime);
                 $longday = date("Ymd", $epochtime);
                 $shortmonth = strtolower(substr($day, 0 , 3));
                 $shortday = strtolower(substr($day, 4, 3));
                 $date = strtolower(substr($day, 8, 2));
+                $this->daysArray[] = $longday;
                 
-                //Print the calendar day.
-                echo"
-                	<td class=\"{$shortmonth} {$shortday}\" id=\"{$shortmonth}{$date}\">
-                		";
-              	echo"
-                    	<div class=\"date\"";
-                echo ($this->today == $longday) ? " id=\"today\"" : "";
-                echo ">{$date}</div>
-                    ";
-                echo'
-                	</td>
-                    ';
+                if ($this->today == $longday) {
+                    //Print the calendar day.
+                    echo <<< DAY
+                <td class="{$shortmonth} {$shortday}" id="{$shortmonth}{$date}">
+                    <div class="date" id="today">{$date}</div>
+                    <div class="event"></div>
+                </td>
+DAY;
+                } else {
+                    echo <<< DAY
+                <td class="{$shortmonth} {$shortday}" id="{$shortmonth}{$date}">
+                    <div class="date">{$date}</div>
+                    <div class="event"></div>
+                </td>
+DAY;
+                }
                 $dayindex++;            
             }
             $week++;
