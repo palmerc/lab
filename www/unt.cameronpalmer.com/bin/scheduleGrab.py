@@ -1,4 +1,4 @@
-#Download PDF class catalogs and convert to text and upload to database
+#Download PDF class catalogs and convert to text
 
 import urllib2, os
 from BeautifulSoup import BeautifulSoup
