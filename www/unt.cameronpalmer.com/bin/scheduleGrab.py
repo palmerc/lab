@@ -18,9 +18,11 @@ if __name__ == '__main__':
             fileurl = base+link
             fileout = datadir+link.lower()
             fileout = fileout.replace('%20', '_')
+            filetext = fileout.replace('.pdf', '.txt')
             directory = datadir+link.split('/', 1)[0]
             try:
                 os.mkdir(directory)
             except:
                 pass
-            fileobj = os.popen4('wget -q -O %s %s' % (fileout, fileurl))
+            os.popen4('wget -q -O %s %s' % (fileout, fileurl))
+            os.popen4('pdftotext -layout %s %s' % (fileout, filetext))
