@@ -22,20 +22,36 @@ if __name__ == '__main__':
             fileout = fileout.replace('%20', '_')
             filetext = fileout.replace('.pdf', '.txt')
             directory = datadir+link.split('/', 1)[0]
-            try:
+           try:
                 os.mkdir(directory)
             except:
                 pass
             os.popen4('wget -q -O %s %s' % (fileout, fileurl))
             os.popen4('pdftotext -layout %s %s' % (fileout, filetext))
             f = open(filetext, "rb")
-            print '%s' % filetext
-            course = re.compile(r'^\s*([A-Z]{4})\s(\d{4})\s+([ \w]+)')
+            print filetext
+            course = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})\s(?P<coursenumber>\d{4})\s+(?P<coursetitle>.+)')
+            regsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
+                                 r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[\d.]+)' \
+                                 r'\s+(?P<days>[MTWRFSU]+)\s+(?P<starttime>\d{2}:\d{2}\s*am|pm)' \
+                                 r'-(?P<endtime>\d{2}:\d{2}\s*am|pm)\s+(?P<classroom>[A-Z]+\s+\d+)' \
+                                 r'\s*(?P<instructor>[\w ]*)\s*$')
+            specsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
+                                 r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>V)')                
+
             for line in f:
-                match = course.match(line)
-                if match:
-                    print '%s %s %s' % match.groups()
-                
+                line = line.strip()
+                coursematch = course.match(line)
+                regsectionmatch = regsection.match(line)
+                specsectionmatch = specsection.match(line)
+                if coursematch:
+                    print '%s %s %s' % coursematch.groups()
+                if regsectionmatch:
+                    print '%s %s %s %s %s %s %s %s %s' % regsectionmatch.groups()
+                if specsectionmatch:
+                    print '%s %s %s %s' % specsectionmatch.groups()
+                    
+                      
             f.close()
                 
             
