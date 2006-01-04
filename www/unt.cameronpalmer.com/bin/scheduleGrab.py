@@ -1,10 +1,12 @@
 #Download PDF class catalogs and convert to text
 
-import urllib2, os
+import urllib2, os, sys, re
+sys.path.append("BeautifulSoup-2.1.1/")
 from BeautifulSoup import BeautifulSoup
 
 if __name__ == '__main__':
-    """ Download the PDF class schedules from UNT and store them """
+    """ Download the PDF class schedules convert them to text 
+    and store them """
     
     base = 'http://essc.unt.edu/registrar/SOCbydept/'
     url = 'SOCbydeptA.htm'
@@ -26,3 +28,14 @@ if __name__ == '__main__':
                 pass
             os.popen4('wget -q -O %s %s' % (fileout, fileurl))
             os.popen4('pdftotext -layout %s %s' % (fileout, filetext))
+            f = open(filetext, "rb")
+            print '%s' % filetext
+            course = re.compile(r'^\s*([A-Z]{4})\s(\d{4})\s+([ \w]+)')
+            for line in f:
+                match = course.match(line)
+                if match:
+                    print '%s %s %s' % match.groups()
+                
+            f.close()
+                
+            
