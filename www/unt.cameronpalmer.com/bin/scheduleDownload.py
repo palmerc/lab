@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 __author__ = "Cameron Palmer"
 __copyright__ = "Copyright 2005, Cameron Palmer"
