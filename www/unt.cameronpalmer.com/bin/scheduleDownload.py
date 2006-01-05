@@ -21,7 +21,7 @@ if __name__ == '__main__':
         if link.endswith('.pdf'):
             fileurl = base+link
             fileout = (datadir+link).replace('%20', '_').lower()
-            directory = datadir+link.split('/', 1)[0]
+            directory = (datadir+link).lower().split('/', 1)[0]
             if not os.path.exists(directory):
 	            try:
 	            	os.mkdir(directory)
