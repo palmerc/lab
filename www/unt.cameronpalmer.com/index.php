@@ -11,9 +11,10 @@
             files for further automated report and study.</p>
 		</div>
 
-
-		<h3>Raw Schedule Data</h3>
+        <div class="leftside">
+            <h3>Raw Schedule Data</h3>
 			<ul>
-				<li><a href=\"data/pdf">PDF Format</a></li>
-			</ul>
-  </div>
+				<li><a href="data/pdf/">PDF Format</a></li>
+            </ul>
+        </div>
+    </div>
