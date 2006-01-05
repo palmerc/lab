@@ -32,4 +32,4 @@ if __name__ == '__main__':
             	handle = os.popen('wget -q -O %s %s' % (fileout, fileurl))
             	handle.close()
             except OSError, e:
-            	pass
+            	print e.strerror
