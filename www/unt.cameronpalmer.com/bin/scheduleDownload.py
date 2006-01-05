@@ -14,14 +14,13 @@ if __name__ == '__main__':
     base = 'http://essc.unt.edu/registrar/SOCbydept/'
     url = 'SOCbydeptA.htm'
     datadir = '../data/pdf/'
-    html = urllib2.urlopen(base+url).read()
+    html = urllib2.urlopen(base+url) # A file like object
     soup = BeautifulSoup(html)
     for anchor in soup('a'):
         link = anchor['href']
-        if link[-4:] == '.pdf':
+        if link.endswith('.pdf'):
             fileurl = base+link
-            fileout = datadir+link.lower()
-            fileout = fileout.replace('%20', '_')
+            fileout = (datadir+link).replace('%20', '_').lower()
             directory = datadir+link.split('/', 1)[0]
             if not os.path.exists(directory):
 	            try:
@@ -34,4 +33,3 @@ if __name__ == '__main__':
             	handle.close()
             except OSError, e:
             	pass
-           	
