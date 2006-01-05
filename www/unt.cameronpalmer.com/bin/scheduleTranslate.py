@@ -1,52 +1,61 @@
-#Download PDF class catalogs and convert to text
+#!/usr/bin/env python
 
 __author__ = "Cameron Palmer"
 __copyright__ = "Copyright 2005, Cameron Palmer"
 __version__ = "$Rev$"
 __license__ = "GPL"
 
-import os, sys, re
+import os, glob, sys, re
 
+def findpdfs(directory):
+    # http://effbot.org/librarybook/os-path.htm
+    stack = [directory]
+    files = []
+    if os.path.sep == '\\':
+        os.path.sep = '/'
+        
+    while stack:
+        directory = stack.pop()
+        for file in os.listdir(directory):
+            fullname = os.path.join(directory, file)
+            if file.endswith('.pdf'):
+                files.append(fullname)
+            if os.path.isdir(fullname) and not os.path.islink(fullname):
+                stack.append(fullname)
+    return files
+
+def pdftotext(pdffile, textfile=None):
+    """Convert the PDF versions of the schedule to TXT files"""
+
+    if os.path.isdir(pdffile):
+        filelist = findpdfs(pdffile)
+    else:
+        filelist = [pdffile]
+
+    if textfile and os.path.isdir(textfile):
+        datadir = textfile
+    else:
+        datadir = '../data/txt/'
+
+    if textfile and os.path.isfile(textfile):
+        handle = os.popen('pdftotext -layout %s %s' % (pdffile, textfile))
+        handle.close()
+    else:
+        for origfile in filelist:
+            textfile = re.split(r'[/\\]', origfile)[-1]
+            semesdir = re.split(r'[/\\]', origfile)[-2]
+            textfile = textfile.replace('.pdf', '.txt')
+            textfile = datadir + semesdir + textfile          
+            
+            handle = os.popen('pdftotext -layout %s %s' % (pdffile, textfile))
+            handle.close()
+    
 if __name__ == '__main__':
     """Convert the PDF versions of the schedule to TXT files"""
-    
-    datadir = '../data/pdf/'
-            fileurl = base+link
-            fileout = datadir+link.lower()
-            fileout = fileout.replace('%20', '_')
-            filetext = fileout.replace('.pdf', '.txt')
-            directory = datadir+link.split('/', 1)[0]
-            try:
-            	os.mkdir(directory)
-            except:
-            	print 'ERROR!'
-            	pass
-            	
-            os.popen4('pdftotext -layout %s %s' % (fileout, filetext))
-            f = open(filetext, "rb")
-            	print filetext
-            course = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})\s(?P<coursenumber>\d{4})\s+(?P<coursetitle>.+)')
-            regsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
-                                 r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[\d.]+)' \
-                                 r'\s+(?P<days>[MTWRFSU]+)\s+(?P<starttime>\d{2}:\d{2}\s*am|pm)' \
-                                 r'-(?P<endtime>\d{2}:\d{2}\s*am|pm)\s+(?P<classroom>[A-Z]+\s+\d+)' \
-                                 r'\s*(?P<instructor>[\w ]*)\s*$')
-            specsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
-                                 r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>V)')                
 
-            for line in f:
-                line = line.strip()
-                coursematch = course.match(line)
-                regsectionmatch = regsection.match(line)
-                specsectionmatch = specsection.match(line)
-                if coursematch:
-                    print '%s %s %s' % coursematch.groups()
-                if regsectionmatch:
-                    print '%s %s %s %s %s %s %s %s %s' % regsectionmatch.groups()
-                if specsectionmatch:
-                    print '%s %s %s %s' % specsectionmatch.groups()
-                    
-                      
-            f.close()
-                
-            
+    if len(sys.argv) > 1:
+        pdffile =  sys.argv[1].strip()
+    else:
+        pdffile = '../data/pdf/'
+
+    pdftotext(pdffile)    
