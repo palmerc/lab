@@ -15,6 +15,7 @@
             <h3>Raw Schedule Data</h3>
 			<ul>
 				<li><a href="data/pdf/">PDF Format</a></li>
-            </ul>
-        </div>
-    </div>
+				<li><a href="data/txt/">TXT Format</a></li>
+      </ul>
+   	</div>
+  </div>
