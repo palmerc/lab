@@ -50,7 +50,7 @@ def pdftotext(pdffile, textfile=None):
             		raise e
             textfile = datadir + semesdir + textfile          
             
-            handle = os.popen('pdftotext -layout %s %s' % (pdffile, textfile))
+            handle = os.popen('pdftotext -layout %s %s' % (origfile, textfile))
             handle.close()
     
 if __name__ == '__main__':
