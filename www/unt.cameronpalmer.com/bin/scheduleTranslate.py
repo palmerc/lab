@@ -48,7 +48,7 @@ def pdftotext(pdffile, textfile=None):
              		os.makedirs(datadir + semesdir, 0755)
             	except OSError, e:
             		raise e
-            textfile = datadir + semesdir + textfile          
+            textfile = datadir + semesdir + '/' + textfile          
             
             handle = os.popen('pdftotext -layout %s %s' % (origfile, textfile))
             handle.close()
