@@ -33,7 +33,7 @@ def pdftotext(pdffile, textfile=None):
     if textfile and os.path.isdir(textfile):
         datadir = textfile
     else:
-        datadir = '../data/txt/'
+        datadir = '/var/data/www/unt.cameronpalmer.com/data/txt/'
 
     if textfile and os.path.isfile(textfile):
         handle = os.popen('pdftotext -layout %s %s' % (pdffile, textfile))
@@ -59,6 +59,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         pdffile =  sys.argv[1].strip()
     else:
-        pdffile = '../data/pdf/'
+        pdffile = '/var/data/www/unt.cameronpalmer.com/data/pdf/'
 
     pdftotext(pdffile)
