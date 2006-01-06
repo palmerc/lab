@@ -11,8 +11,6 @@ def findpdfs(directory):
     # http://effbot.org/librarybook/os-path.htm
     stack = [directory]
     files = []
-    if os.path.sep == '\\':
-        os.path.sep = '/'
         
     while stack:
         directory = stack.pop()
@@ -45,9 +43,15 @@ def pdftotext(pdffile, textfile=None):
             textfile = re.split(r'[/\\]', origfile)[-1]
             semesdir = re.split(r'[/\\]', origfile)[-2]
             textfile = textfile.replace('.pdf', '.txt')
+            if not os.path.exists(datadir + semesdir):
+            	try:
+            		print 'Mkdir: ' + datadir + semesdir
+             		os.mkdir(datadir + semesdir)
+            	except OSError, e:
+            		raise e
             textfile = datadir + semesdir + textfile          
             
-            handle = os.popen('pdftotext -layout %s %s' % (pdffile, textfile))
+            handle = os.popen('/usr/local/bin/pdftotext -layout %s %s' % (pdffile, textfile))
             handle.close()
     
 if __name__ == '__main__':
@@ -58,4 +62,4 @@ if __name__ == '__main__':
     else:
         pdffile = '../data/pdf/'
 
-    pdftotext(pdffile)    
+    pdftotext(pdffile)
