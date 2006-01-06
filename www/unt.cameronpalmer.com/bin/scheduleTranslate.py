@@ -45,8 +45,7 @@ def pdftotext(pdffile, textfile=None):
             textfile = textfile.replace('.pdf', '.txt')
             if not os.path.exists(datadir + semesdir):
             	try:
-            		print 'Mkdir: ' + datadir + semesdir
-             		os.mkdir(datadir + semesdir)
+             		os.makedirs(datadir + semesdir, 0644)
             	except OSError, e:
             		raise e
             textfile = datadir + semesdir + textfile          
