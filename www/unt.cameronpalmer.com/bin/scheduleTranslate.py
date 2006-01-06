@@ -7,6 +7,9 @@ __license__ = "GPL"
 
 import os, glob, sys, re
 
+def txttocsv(infile, outfile=None):
+    pass
+
 def findpdfs(directory):
     # http://effbot.org/librarybook/os-path.htm
     stack = [directory]
