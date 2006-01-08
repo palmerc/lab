@@ -27,7 +27,7 @@ def txttocsv(inputtxt):
                             r'\s+(?P<classroom>INET)\s*(?P<instructor>.*)$')
     specsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
                             r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[V\d.]+)' \
-                            r'\s*(?P<instructor>[A-Z].*)$')
+                            r'\s*(?P<instructor>[A-Z]*.*)$')
     stack = []
     dept = None
     i = 0
@@ -148,7 +148,7 @@ if __name__ == '__main__':
         #pdffile = '/var/data/www/unt.cameronpalmer.com/data/pdf/'
 
     #textfile = pdftotext(pdffile)
-    textfile = '../data/txt/1061/accounting_1061.txt'
+    textfile = '../data/txt/1061/mathematics_1061.txt'
     input = open(textfile, "rb")
     data = input.readlines()
     txttocsv(data)
