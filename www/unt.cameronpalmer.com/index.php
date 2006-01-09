@@ -16,6 +16,7 @@
 			<ul>
 				<li><a href="data/pdf/">PDF Format</a></li>
 				<li><a href="data/txt/">TXT Format</a></li>
+				<li><a href="data/csv/">CSV Format</a></li>
       </ul>
    	</div>
   </div>
