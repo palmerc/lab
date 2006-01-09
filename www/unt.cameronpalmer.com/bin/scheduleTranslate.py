@@ -121,7 +121,7 @@ def txttocsv(txtfile, csvfile=None):
             		raise e
             csvfile = datadir + semesdir + '/' + csvfile
             input = open(origfile, 'rb')
-            output = open(outfile, 'w')
+            output = open(csvfile, 'w')
             outputtxt = parsetext(input.read())
             output.write(outputtxt)
             input.close()
