@@ -7,7 +7,7 @@ __license__ = "GPL"
 
 import os, glob, sys, re, string
 
-def parsetxt():
+def parsetxt(inputtxt):
     """
     CSV Description:
     TERM,DEPT,COURSENUM,COURSETITLE,SECTION,REGNUM,CREDITTYPE,CREDITHOURS,DAYS,STARTTIME,ENDTIME,CLASSROOM,PROF,NOTES
