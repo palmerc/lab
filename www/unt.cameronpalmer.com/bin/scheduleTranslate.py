@@ -7,11 +7,12 @@ __license__ = "GPL"
 
 import os, glob, sys, re, string
 
-def txttocsv(inputtxt):
+def parsetxt():
     """
     CSV Description:
     TERM,DEPT,COURSENUM,COURSETITLE,SECTION,REGNUM,CREDITTYPE,CREDITHOURS,DAYS,STARTTIME,ENDTIME,CLASSROOM,PROF,NOTES
     """
+
     docstart = re.compile(r'^\s*Updated:\s+(?P<updatedate>\d{1,2}/\d{1,2}/\d{4})' \
                           r'\s+(?P<updatetime>\d{1,2}:\d{1,2}:\d{1,2}AM|PM)' \
                           r'\s+Term:(?P<term>\d{4})' \
@@ -88,7 +89,59 @@ def txttocsv(inputtxt):
     
     #print i 
     return outputtxt
-     
+
+def txttocsv(txtfile, csvfile=None):
+    if os.path.isdir(txtfile):
+        filelist = findtxts(txtfile)
+    else:
+        filelist = [txtfile]
+
+    if csvfile and os.path.isdir(csvfile):
+        datadir = csvfile
+    else:
+        #datadir = '../data/txt/'
+        datadir = '/var/data/www/unt.cameronpalmer.com/data/csv/'
+
+    if csvfile and os.path.isfile(txtfile):
+        input = open(txtfile, 'rb')
+        output = open(outfile, 'w')
+        outputtxt = parsetext(input.read())
+        output.write(outputtxt)
+        input.close()
+        output.close()
+    else:
+        for origfile in filelist:
+            csvfile = re.split(r'[/\\]', origfile)[-1]
+            semesdir = re.split(r'[/\\]', origfile)[-2]
+            csvfile = csvfile.replace('.txt', '.csv')
+            if not os.path.exists(datadir + semesdir):
+            	try:
+             		os.makedirs(datadir + semesdir, 0755)
+            	except OSError, e:
+            		raise e
+            csvfile = datadir + semesdir + '/' + csvfile
+            input = open(origfile, 'rb')
+            output = open(outfile, 'w')
+            outputtxt = parsetext(input.read())
+            output.write(outputtxt)
+            input.close()
+            output.close()
+            
+
+def findtxts(directory):
+    # http://effbot.org/librarybook/os-path.htm
+    stack = [directory]
+    files = []
+        
+    while stack:
+        directory = stack.pop()
+        for file in os.listdir(directory):
+            fullname = os.path.join(directory, file)
+            if file.endswith('.txt'):
+                files.append(fullname)
+            if os.path.isdir(fullname) and not os.path.islink(fullname):
+                stack.append(fullname)
+    return files
 
 def findpdfs(directory):
     # http://effbot.org/librarybook/os-path.htm
@@ -149,12 +202,5 @@ if __name__ == '__main__':
 
     textfile = pdftotext(pdffile)
     #textfile = '../data/txt/1061/accounting_1061.txt'
-    outfile = textfile.replace('txt', 'csv')
-
-    input = open(textfile, "rb")
-    output = open(outfile, "w+")
-    data = input.readlines()
-    outputtxt = txttocsv(data)
-    output.write(outputtxt)
-    input.close()
-    output.close()
+    
+    csvfile = txttocsv(textfile)
