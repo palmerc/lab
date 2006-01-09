@@ -24,7 +24,7 @@ def parsetxt(inputtxt):
                             r'-(?P<endtime>\d{2}:\d{2}\s+(?:am|pm))\s+(?P<classroom>[A-Z]+\s[0-9]*)' \
                             r'\s*(?P<instructor>.*)$')
     inetsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
-                            r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[\d.]+)' \
+                            r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[V\d.]+)' \
                             r'\s+(?P<classroom>INET)\s*(?P<instructor>.*)$')
     specsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
                             r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[V\d.]+)' \
