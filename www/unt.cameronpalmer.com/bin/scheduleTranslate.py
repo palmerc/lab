@@ -32,7 +32,7 @@ def parsetxt(inputtxt):
     stack = []
     dept = None
     #i = 0
-    outputtxt = 'TERM,DEPT,COURSENUM,COURSETITLE,SECTION,REGNUM,CREDITTYPE,CREDITHOURS,DAYS,STARTTIME,ENDTIME,CLASSROOM,PROF,NOTES'
+    outputtxt = 'TERM,DEPT,COURSENUM,COURSETITLE,SECTION,REGNUM,CREDITTYPE,CREDITHOURS,DAYS,STARTTIME,ENDTIME,CLASSROOM,PROF,NOTES\n'
     for line in inputtxt:
         line = line.strip()
         docmatch = docstart.match(line)
@@ -105,7 +105,7 @@ def txttocsv(txtfile, csvfile=None):
     if csvfile and os.path.isfile(txtfile):
         input = open(txtfile, 'rb')
         output = open(outfile, 'w')
-        outputtxt = parsetxt(input.read())
+        outputtxt = parsetxt(input.readlines())
         output.write(outputtxt)
         input.close()
         output.close()
@@ -120,10 +120,9 @@ def txttocsv(txtfile, csvfile=None):
             	except OSError, e:
             		raise e
             csvfile = datadir + semesdir + '/' + csvfile
-            print origfile
             input = open(origfile, 'rb')
             output = open(csvfile, 'w')
-            outputtxt = parsetxt(input.read())
+            outputtxt = parsetxt(input.readlines())
             output.write(outputtxt)
             input.close()
             output.close()
