@@ -105,7 +105,7 @@ def txttocsv(txtfile, csvfile=None):
     if csvfile and os.path.isfile(txtfile):
         input = open(txtfile, 'rb')
         output = open(outfile, 'w')
-        outputtxt = parsetxt(input.reads())
+        outputtxt = parsetxt(input.read())
         output.write(outputtxt)
         input.close()
         output.close()
@@ -120,9 +120,10 @@ def txttocsv(txtfile, csvfile=None):
             	except OSError, e:
             		raise e
             csvfile = datadir + semesdir + '/' + csvfile
+            print origfile
             input = open(origfile, 'rb')
             output = open(csvfile, 'w')
-            outputtxt = parsetxt(input.reads())
+            outputtxt = parsetxt(input.read())
             output.write(outputtxt)
             input.close()
             output.close()
