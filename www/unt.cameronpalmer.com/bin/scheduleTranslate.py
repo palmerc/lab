@@ -19,7 +19,7 @@ def parsetxt(inputtxt):
                           r'\s+(?P<session>Spring|Summer|Fall)\s+(?P<year>\d+)$')
     course = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})\s(?P<coursenumber>\d{4})\s+(?P<coursetitle>.+)$')
     regsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
-                            r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[\d.]+)' \
+                            r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[V\d.]+)' \
                             r'\s+(?P<days>[MTWRFSU]+)\s+(?P<starttime>\d{2}:\d{2}\s+(?:am|pm))' \
                             r'-(?P<endtime>\d{2}:\d{2}\s+(?:am|pm))\s+(?P<classroom>[A-Z]+\s[0-9]*)' \
                             r'\s*(?P<instructor>.*)$')
@@ -28,7 +28,7 @@ def parsetxt(inputtxt):
                             r'\s+(?P<classroom>INET)\s*(?P<instructor>.*)$')
     specsection = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
                             r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[V\d.]+)' \
-                            r'\s*(?P<instructor>[A-Z]*.*)$')
+                            r'\s*(?P<classroom>[A-Z]*\s*[0-9]*)\s*(?P<instructor>[A-Z]*.*)$')
     stack = []
     dept = None
     #i = 0
@@ -78,7 +78,8 @@ def parsetxt(inputtxt):
             stack.append(specsectionmatch.group('regcode'))
             stack.append(specsectionmatch.group('type'))
             stack.append(specsectionmatch.group('credits'))
-            stack.extend(['','','',''])
+            stack.extend(['','',''])
+            stack.append(specsectionmatch.group('classroom'))
             stack.append(specsectionmatch.group('instructor'))
             stack.append('')
             outputtxt = outputtxt + string.join(stack, ',') + '\n'
