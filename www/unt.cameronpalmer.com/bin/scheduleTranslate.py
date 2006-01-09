@@ -105,7 +105,7 @@ def txttocsv(txtfile, csvfile=None):
     if csvfile and os.path.isfile(txtfile):
         input = open(txtfile, 'rb')
         output = open(outfile, 'w')
-        outputtxt = parsetext(input.read())
+        outputtxt = parsetxt(input.read())
         output.write(outputtxt)
         input.close()
         output.close()
@@ -122,7 +122,7 @@ def txttocsv(txtfile, csvfile=None):
             csvfile = datadir + semesdir + '/' + csvfile
             input = open(origfile, 'rb')
             output = open(csvfile, 'w')
-            outputtxt = parsetext(input.read())
+            outputtxt = parsetxt(input.read())
             output.write(outputtxt)
             input.close()
             output.close()
