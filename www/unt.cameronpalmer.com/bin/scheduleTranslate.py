@@ -5,7 +5,7 @@ __copyright__ = "Copyright 2005, Cameron Palmer"
 __version__ = "$Rev$"
 __license__ = "GPL"
 
-import os, glob, sys, re
+import os, glob, sys, re, string
 
 def txttocsv(inputtxt):
     """
@@ -30,8 +30,8 @@ def txttocsv(inputtxt):
                             r'\s*(?P<instructor>[A-Z]*.*)$')
     stack = []
     dept = None
-    i = 0
-    notes = ''
+    #i = 0
+    outputtxt = 'TERM,DEPT,COURSENUM,COURSETITLE,SECTION,REGNUM,CREDITTYPE,CREDITHOURS,DAYS,STARTTIME,ENDTIME,CLASSROOM,PROF,NOTES'
     for line in inputtxt:
         line = line.strip()
         docmatch = docstart.match(line)
@@ -54,13 +54,13 @@ def txttocsv(inputtxt):
             stack.extend([term,dept,number,title])
 
         if regsectionmatch:
-            i = i+1
+            #i = i+1
             stack.extend(regsectionmatch.groups())
             stack.append('')
-            print stack
+            outputtxt = outputtxt + string.join(stack, ',') + '\n'
             stack = []
         elif inetsectionmatch:
-            i = i+1
+            #i = i+1
             stack.append(inetsectionmatch.group('section'))
             stack.append(inetsectionmatch.group('regcode'))
             stack.append(inetsectionmatch.group('type'))
@@ -69,10 +69,10 @@ def txttocsv(inputtxt):
             stack.append(inetsectionmatch.group('classroom'))
             stack.append(inetsectionmatch.group('instructor'))
             stack.append('')
-            print stack
+            outputtxt = outputtxt + string.join(stack, ',') + '\n'
             stack = []
         elif specsectionmatch:
-            i = i+1
+            #i = i+1
             stack.append(specsectionmatch.group('section'))
             stack.append(specsectionmatch.group('regcode'))
             stack.append(specsectionmatch.group('type'))
@@ -80,14 +80,14 @@ def txttocsv(inputtxt):
             stack.extend(['','','',''])
             stack.append(specsectionmatch.group('instructor'))
             stack.append('')
-            print stack
+            outputtxt = outputtxt + string.join(stack, ',') + '\n'
             stack = []
         else:
             stack = []
-            print line
             #print 'NOMATCH: %s' % line
     
-    print i 
+    #print i 
+    return outputtxt
      
 
 def findpdfs(directory):
@@ -116,8 +116,8 @@ def pdftotext(pdffile, textfile=None):
     if textfile and os.path.isdir(textfile):
         datadir = textfile
     else:
-        datadir = '../data/txt/'
-        #datadir = '/var/data/www/unt.cameronpalmer.com/data/txt/'
+        #datadir = '../data/txt/'
+        datadir = '/var/data/www/unt.cameronpalmer.com/data/txt/'
 
     if textfile and os.path.isfile(textfile):
         handle = os.popen('pdftotext -layout %s %s' % (pdffile, textfile))
@@ -144,12 +144,17 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         pdffile =  sys.argv[1].strip()
     else:
-        pdffile = '../data/pdf/'
-        #pdffile = '/var/data/www/unt.cameronpalmer.com/data/pdf/'
+        #pdffile = '../data/pdf/'
+        pdffile = '/var/data/www/unt.cameronpalmer.com/data/pdf/'
 
-    #textfile = pdftotext(pdffile)
-    textfile = '../data/txt/1061/mathematics_1061.txt'
+    textfile = pdftotext(pdffile)
+    #textfile = '../data/txt/1061/accounting_1061.txt'
+    outfile = textfile.replace('txt', 'csv')
+
     input = open(textfile, "rb")
+    output = open(outfile, "w+")
     data = input.readlines()
-    txttocsv(data)
+    outputtxt = txttocsv(data)
+    output.write(outputtxt)
     input.close()
+    output.close()
