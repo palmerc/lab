@@ -202,5 +202,5 @@ if __name__ == '__main__':
 
     textfile = pdftotext(pdffile)
     #textfile = '../data/txt/1061/accounting_1061.txt'
-    
+    textfile = '/var/data/www/unt.cameronpalmer.com/data/txt/'
     csvfile = txttocsv(textfile)
