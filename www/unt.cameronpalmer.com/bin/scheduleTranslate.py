@@ -20,7 +20,7 @@ def parsetxt(inputtxt):
                         r'\s+(?P<updatetime>\d{1,2}:\d{1,2}:\d{1,2}AM|PM)' \
                         r'\s+Term:(?P<term>\d{4})' \
                         r'\s+(?P<session>Spring|Summer|Fall)\s+(?P<year>\d+)$')    
-   course = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})\s(?P<coursenumber>\d{4})\s\s+(?P<coursetitle>.+)$')
+   course = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})\s(?P<coursenumber>\d{4})\s\s+(?P<coursetitle>.{1,30})\s*')
    section = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
                         r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[V\d.]+)\s*')
    days = re.compile(r'\s(?P<days>[MTWRFSU]+)\s')
