@@ -157,7 +157,7 @@ def pdftotxt(pdffile, txtfile=None):
    else:
        filelist = [pdffile]
 
-   if textfile and os.path.isdir(txtfile):
+   if txtfile and os.path.isdir(txtfile):
       datadir = txtfile
    else:
       datadir = dirprefix + 'txt/'
