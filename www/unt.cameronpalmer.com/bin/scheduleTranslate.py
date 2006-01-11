@@ -10,6 +10,91 @@ import os, glob, sys, re, string
 #dirprefix = '../data/'
 dirprefix = '/var/data/www/unt.cameronpalmer.com/data/'
 
+buildings = {
+    'ART': 'Art Building',
+    'ATHC': 'Athletic Center',
+    'ATH': 'Athletic Office Building',
+    'AUDB': 'Auditorium Building',
+    'BAIN': 'Bain Hall',
+    'BIOL': 'Biology Building',
+    'BRUC': 'Bruce Hall',
+    'BUSI': 'Business Administration Building',
+    'CHEM': 'Chemistry Building',
+    'CHIL': 'Chilton Hall',
+    'CLAR': 'Clark Hall',
+    'COL': 'Coliseum',
+    'CINN': 'College Inn',
+    'CRUM': 'Crumley Hall',
+    'CURY': 'Curry Hall',
+    'DALL': 'Dallas Campus',
+    'ESSC': 'Eagle Student Services Center',
+    'ENV': 'Environmental Education, Science & Technology',
+    'PLAN': 'Facilities Complex',
+    'STAD': 'Fouts Field',
+    'ROWF': 'Fraternity Row',
+    'GATE': 'Gateway Center',
+    'GAB': 'General Academic Building',
+    'CHAP': 'Goolsby Chapel',
+    'HKRY': 'Hickory Hall',
+    'HIGH': 'Highland Hall',
+    'ADMN': 'Hurley Administration Building',
+    'INET': 'Internet Course',
+    'ISB': 'Information Sciences Building',
+    'MGYM': 'Ken Bahnsen Gym',
+    'KEND': 'Kendall Hall',
+    'KERR': 'Kerr Hall',
+    'LANG': 'Language Building',
+    'LANX': 'Library Annex',
+    'LYCM': 'Lyceum',
+    'MAPL': 'Maple Hall',
+    'MARQ': 'Marquis Hall',
+    'MAST': 'Masters Hall',
+    'MHA': 'Matthews Hall Annex',
+    'MATT': 'Matthews Hall',
+    'MCON': 'McConnell Hall',
+    'MGOG': 'Mean Green Office Complex and Gym',
+    'MGSG': 'Mean Green Softball and Golf Practice Facility',
+    'MOZA': 'Mozart Square',
+    'PAC': 'Murchison Performing Arts Center',
+    'MUSA': 'Music Annex',
+    'MUSI': 'Music Building',
+    'MPN': 'Music Practice North',
+    'MPS': 'Music Practice South',
+    'OSHA': 'Oak Street Hall Annex',
+    'OSH': 'Oak Street Hall',
+    'PARK': 'Parking Garage',
+    'PACX': 'Performing Arts Center Annex',
+    'PEB': 'Physical Education Building',
+    'FIEL': 'Physical Education Field',
+    'PHYS': 'Physics Building',
+    'PDI': 'Professional Development Institute',
+    'RTFP': 'Radio, TV, Film & Performing Arts Building',
+    'NCAM': 'Research Park',
+    'SFE': 'Santa Fe Square',
+    'SRB': 'Science Research Building',
+    'SCOU': 'Scoular Hall',
+    'PAV': 'Shrader Pavilion',
+    'ROWS': 'Sorrority Row',
+    'SPHS': 'Speech and Hearing Clinic',
+    'WGHT': 'Sports Medicine/Fitness Facility',
+    'STOV': 'Stovall Hall',
+    'SAAC': 'Student Athlete Academic Center',
+    'HEAL': 'Student Health & Wellness Center',
+    'RECS': 'Student Recreation Center',
+    'POLI': 'Sullivant Public Safety Center',
+    'WTEN': 'Tennis Courts',
+    'TH': 'Terrill Hall',
+    'TRAD': 'Traditions Hall',
+    'USB': 'University Services Building',
+    'UU': 'University Union',
+    'VICT': 'Victory Hall',
+    'TENN': 'Waranch Tennis Complex',
+    'WEST': 'West Hall',
+    'LIBR': 'Willis Library',
+    'SOCR': 'Women’s Soccer Field',
+    'WH': 'Wooten Hall',
+}
+
 def parsetxt(inputtxt):
    """
    CSV Description:
@@ -28,8 +113,7 @@ def parsetxt(inputtxt):
                         r'-(?P<endtime>\d{2}:\d{2}\s(?:am|pm))\s')
    classroom = re.compile(r'\s(?P<classroom>INET|(?:[A-Z]+\s[0-9]+))\s')
    instructor = re.compile(r'\s\s+(?P<instructor>[A-Z]{0,1}[a-z-\']*\s*[A-Z]{0,1}[a-z-\']*\s*[A-Z]{0,1}[a-z-\']*)\s*$')
-
-   stack = []
+      stack = []
    dept = None
    outputtxt = 'TERM,DEPT,COURSENUM,COURSETITLE,SECTION,REGNUM,CREDITTYPE,CREDITHOURS,DAYS,STARTTIME,ENDTIME,CLASSROOM,PROF,NOTES\n'
    for line in inputtxt:
