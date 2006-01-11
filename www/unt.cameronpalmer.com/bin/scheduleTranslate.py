@@ -91,7 +91,7 @@ buildings = {
     'TENN': 'Waranch Tennis Complex',
     'WEST': 'West Hall',
     'LIBR': 'Willis Library',
-    'SOCR': 'Women’s Soccer Field',
+    'SOCR': 'Women\'s Soccer Field',
     'WH': 'Wooten Hall',
 }
 
