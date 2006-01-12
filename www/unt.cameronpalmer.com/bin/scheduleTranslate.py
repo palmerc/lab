@@ -7,8 +7,8 @@ __license__ = "GPL"
 
 import os, glob, sys, re, string
 
-#dirprefix = '../data/'
-dirprefix = '/var/data/www/unt.cameronpalmer.com/data/'
+dirprefix = '../data/'
+#dirprefix = '/var/data/www/unt.cameronpalmer.com/data/'
 
 buildings = {
     'ART': 'Art Building',
@@ -113,11 +113,11 @@ def parsetxt(inputtxt):
                         r'-(?P<endtime>\d{2}:\d{2}\s(?:am|pm))\s')
    classroom = re.compile(r'\s(?P<classroom>INET|(?:[A-Z]+\s[0-9]+))\s')
    instructor = re.compile(r'\s\s+(?P<instructor>[A-Z]{0,1}[a-z-\']*\s*[A-Z]{0,1}[a-z-\']*\s*[A-Z]{0,1}[a-z-\']*)\s*$')
-      stack = []
+   stack = []
    dept = None
    outputtxt = 'TERM,DEPT,COURSENUM,COURSETITLE,SECTION,REGNUM,CREDITTYPE,CREDITHOURS,DAYS,STARTTIME,ENDTIME,CLASSROOM,PROF,NOTES\n'
    for line in inputtxt:
-      line = line.strip()
+      line = line.lstrip('\f').rstrip('\s\n')
       docmatch = docstart.match(line)
       coursematch = course.match(line)
       sectionmatch = section.match(line)
