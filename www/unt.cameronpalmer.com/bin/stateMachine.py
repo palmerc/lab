@@ -55,6 +55,7 @@ class scheduleParser:
          self.courseblankcount = currentblankcount
          linematch = self.department.match(line)
          if linematch:
+            print 'linematch'
             print linematch.group('coursedept') + linematch.group('coursenumber') \
                   + linematch.group('coursetitle')
       else:
@@ -84,7 +85,7 @@ class scheduleParser:
       
       self.state = 'NOTES'
 
-testfile = '../data/txt/1061/mathematics_1061.txt'
+testfile = './course_test.txt'
 
 def find(directory, filetype):
     # http://effbot.org/librarybook/os-path.htm
@@ -108,22 +109,21 @@ sp = scheduleParser()
 for line in f:
    # XPDF has this tendency to leave form feeds at the beginning of lines
    line = line.rstrip()
-   #line = line.lstrip()
+   line = line.lstrip('\f')
     
    ## Hello Mister State Machine
    if sp.state == 'DOCSTART':
       if line.strip() == '':
-         print 'BLANKLINE'
+         #print 'BLANKLINE'
          continue
       elif sp.docstart.match(line): sp.startDoc(line)
-      #elif sp.department.match(line): sp.startDepart(line)
       else:
          #print 'NOMATCH in DOCSTART'
          pass
         
    elif sp.state == 'DEPARTMENT':
       if line.strip() == '':
-         print 'BLANKLINE'
+         #print 'BLANKLINE'
          continue
       elif sp.department.match(line): sp.startDepart(line)
       else:
@@ -132,7 +132,7 @@ for line in f:
 
    elif sp.state == 'COURSE':
       if line.strip() == '':
-         print 'BLANKLINE'
+         #print 'BLANKLINE'
          continue
       elif sp.course.match(line): sp.startCourse(line)
       else:
@@ -141,7 +141,7 @@ for line in f:
 
    elif sp.state == 'SECTION':
       if line.strip() == '':
-         print 'BLANKLINE'
+         #print 'BLANKLINE'
          continue
       elif sp.section.match(line):
          sp.state == 'SECTION'
@@ -159,7 +159,7 @@ for line in f:
 
    elif state == 'NOTES':
       if line.strip() == '':
-         print 'BLANKLINE'
+         #print 'BLANKLINE'
          continue
       elif notes.match(line): sp.startNotes(line)
       elif section.match(line): sp.startSection(line)
@@ -171,6 +171,36 @@ for line in f:
    else:
       raise ValueError, "Unexpected input block state: " + state
 
+f.close()
+
+f = open(testfile, 'rb')
+
+docstartcount = 0
+deptcount = 0
+coursecount = 0
+sectioncount = 0
+othercount = 0
+
+for line in f:
+   if sp.docstart.match(line):
+      docstartcount += 1
+   elif sp.department.match(line):
+      deptcount += 1
+   elif sp.course.match(line):
+      coursecount += 1
+   elif sp.section.match(line):
+      sectioncount += 1
+   else:
+      othercount += 1
+      
+print ''
+print 'EXPECTED:'
+print 'start lines: %s' % docstartcount
+print 'department lines: %s' % deptcount
+print 'course lines: %s' % coursecount
+print 'section lines: %s' % sectioncount
+print 'other lines: %s' % othercount
+print ''
 print 'TOTALS:'
 print 'course lines: %s' % sp.coursecount
 print 'section lines: %s' % sp.seccount
