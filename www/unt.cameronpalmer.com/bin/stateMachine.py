@@ -1,67 +1,88 @@
 import os, re
 
 class scheduleParser:
-    beginblank = re.compile(r'^(\s+)')
-    docstart = re.compile(r'^Updated:\s+(?P<updatedate>\d{1,2}/\d{1,2}/\d{4})' \
-                    r'\s+(?P<updatetime>\d{1,2}:\d{1,2}:\d{1,2}AM|PM)' \
-                    r'\s+Term:(?P<term>\d{4})' \
-                    r'\s+(?P<session>Spring|Summer|Fall)\s+(?P<year>\d+)$')
-    department = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})/(?P<extddept>.+)$')
-    course = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})\s+(?P<coursenumber>\d{4})\s+(?P<coursetitle>.+)$')
-    section = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
-                    r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[V\d.]+)')
-    days = re.compile(r'\s(?P<days>[MTWRFSU]+)\s')
-    times = re.compile(r'\s(?P<starttime>\d{2}:\d{2}\s(?:am|pm))' \
-                    r'-(?P<endtime>\d{2}:\d{2}\s(?:am|pm))\s')
-    classroom = re.compile(r'\s(?P<classroom>INET|(?:[A-Z]+\s[0-9]+))\s')
-    instructor = re.compile(r'\s\s+(?P<instructor>[A-Z]{0,1}[a-z-\']*\s*[A-Z]{0,1}[a-z-\']*\s*[A-Z]{0,1}[a-z-\']*)\s*$')
+   beginblank = re.compile(r'^(\s+)')
+   formfeed = re.compile(r'^\f')
+   docstart = re.compile(r'^Updated:\s+(?P<updatedate>\d{1,2}/\d{1,2}/\d{4})' \
+                  r'\s+(?P<updatetime>\d{1,2}:\d{1,2}:\d{1,2}AM|PM)' \
+                  r'\s+Term:(?P<term>\d{4})' \
+                  r'\s+(?P<session>Spring|Summer|Fall)\s+(?P<year>\d+)$')
+   department = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})/(?P<extddept>.+)$')
+   course = re.compile(r'^\s*(?P<coursedept>[A-Z]{3,4})\s' \
+                     r'(?P<coursenumber>\d{4})\s+(?P<coursetitle>.+)$')
+   section = re.compile(r'^\s*(?P<section>\d{3})\s+\((?P<regcode>\d+)\)' \
+                  r'\s+(?P<type>CRE|LAB|REC)\s+(?P<credits>[V\d.]+)')
+   days = re.compile(r'\s(?P<days>[MTWRFSU]+)\s')
+   times = re.compile(r'\s(?P<starttime>\d{2}:\d{2}\s(?:am|pm))' \
+                  r'-(?P<endtime>\d{2}:\d{2}\s(?:am|pm))\s')
+   classroom = re.compile(r'\s(?P<classroom>INET|(?:[A-Z]+\s[0-9]+))\s')
+   instructor = re.compile(r'\s\s+(?P<instructor>[A-Z]{0,1}[a-z-\']*\s*[A-Z]{0,1}[a-z-\']*\s*[A-Z]{0,1}[a-z-\']*)\s*$')
     
-    def __init__(self):
-        ## Starting state
-        self.state = 'DOCSTART'
-        self.blankcount = 0
+   def __init__(self):
+      ## Starting state
+      self.state = 'DOCSTART'
+      self.blankcount = 0
+      self.courseblankcount = 80
+      self.secblankcount = 80
+      self.coursecount = 0
+      self.seccount = 0
+      
+   def startDoc(self, line):
+      docmatch = self.docstart.match(line)
+      self.updatedate = docmatch.group('updatedate')
+      self.updatetime = docmatch.group('updatetime')
+      self.term = docmatch.group('term')
+      self.session = docmatch.group('session')
+      self.year = docmatch.group('year')
+      self.state = 'DEPARTMENT'
+
+   def startDepart(self, line):
+      self.deptlist = line.strip().split('/')
+      (self.dept, self.deptlong) = self.deptlist
+      self.state = 'COURSE'
+
+   def startCourse(self, line):
+      blankmatch = self.beginblank.match(line)
+      if blankmatch:
+         (start, end) = blankmatch.span()
+         currentblankcount = end - start
+      else:
+         currentblankcount = 0
+            
+      if currentblankcount <= self.courseblankcount:
+         print line
+         self.coursecount += 1
+         self.courseblankcount = currentblankcount
+         linematch = self.department.match(line)
+         if linematch:
+            print linematch.group('coursedept') + linematch.group('coursenumber') \
+                  + linematch.group('coursetitle')
+      else:
+         #print 'This line is not less than or equal to previous in spaces'
+         pass
+         
+      # Transition to next state
+      self.state = 'SECTION'
+
+   def startSection(self, line):
+      # The only reason I care about spaces is to identify notes
+      blankmatch = self.beginblank.match(line)
+      if blankmatch:
+         (start, end) = blankmatch.span()
+         self.secblankcount = end - start
+      
+      print line
+      self.seccount += 1
+      
+      self.state = 'SECTION'
         
-    def startDoc(self, line):
-        self.state = 'DOCSTART'
-
-        docmatch = self.docstart.match(line)        
-        self.updatedate = docmatch.group('updatedate')
-        self.updatetime = docmatch.group('updatetime')
-        self.term = docmatch.group('term')
-        self.session = docmatch.group('session')
-        self.year = docmatch.group('year')
-
-    def startDepart(self, line):
-        self.state = 'DEPARTMENT'
-        self.deptlist = line.strip().split('/')
-        (self.dept, self.deptlong) = self.deptlist
-
-    def startCourse(self, line):
-        self.state = 'COURSE'
-
-        blankmatch = self.beginblank.match(line)
-        if blankmatch:
-            (start, end) = blankmatch.span()
-            self.courseblankcount = end - start
-            print self.courseblankcount
-
-    def startSection(self, line):
-        self.state = 'SECTION'
-
-        blankmatch = self.beginblank.match(line)
-        if blankmatch:
-            (start, end) = blankmatch.span()
-            self.secblankcount = end - start
-            print self.secblankcount
-        
-    def startNotes(self, line):
-        self.state = 'NOTES'
-        
-        blankmatch = self.beginblank.match(line)
-        if blankmatch:
-            (start, end) = blankmatch.span()
-            self.secblankcount = end - start
-            print self.secblankcount
+   def startNotes(self, line):
+      blankmatch = self.beginblank.match(line)
+      if blankmatch:
+         (start, end) = blankmatch.span()
+         currentblankcount = end - start
+      
+      self.state = 'NOTES'
 
 testfile = '../data/txt/1061/mathematics_1061.txt'
 
@@ -85,52 +106,71 @@ f = open(testfile, 'rb')
 sp = scheduleParser()
 
 for line in f:
-    print sp.state
-    line = line.rstrip()
-    line = line.lstrip('\f')
+   # XPDF has this tendency to leave form feeds at the beginning of lines
+   line = line.rstrip()
+   #line = line.lstrip()
     
-    ## Hello Mister State Machine
-    if sp.state == 'DOCSTART':
-        if line.strip() == '': print 'BLANKLINE'
-        elif sp.docstart.match(line): sp.startDoc(line)
-        elif sp.department.match(line): sp.startDepart(line)
-        else:
-            #print 'NOMATCH in DOCSTART'
-            pass
+   ## Hello Mister State Machine
+   if sp.state == 'DOCSTART':
+      if line.strip() == '':
+         print 'BLANKLINE'
+         continue
+      elif sp.docstart.match(line): sp.startDoc(line)
+      #elif sp.department.match(line): sp.startDepart(line)
+      else:
+         #print 'NOMATCH in DOCSTART'
+         pass
         
-    elif sp.state == 'DEPARTMENT':
-        if line.strip() == '': print 'BLANKLINE'
-        elif sp.department.match(line): sp.startDepart(line)
-        elif sp.course.match(line): sp.startCourse(line)
-        else:
-            #print 'NOMATCH in DEPARTMENT'
-            pass
+   elif sp.state == 'DEPARTMENT':
+      if line.strip() == '':
+         print 'BLANKLINE'
+         continue
+      elif sp.department.match(line): sp.startDepart(line)
+      else:
+         #print 'NOMATCH in DEPARTMENT'
+         pass
 
-    elif sp.state == 'COURSE':
-        if line.strip() == '': print 'BLANKLINE'
-        elif sp.course.match(line): sp.startCourse(line)
-        elif sp.section.match(line): sp.startSection(line)
-        else:
-            #print 'NOMATCH in COURSE'
-            pass
+   elif sp.state == 'COURSE':
+      if line.strip() == '':
+         print 'BLANKLINE'
+         continue
+      elif sp.course.match(line): sp.startCourse(line)
+      else:
+         #print 'NOMATCH in COURSE'
+         pass
 
-    elif sp.state == 'SECTION':
-        if line.strip() == '': print 'BLANKLINE'
-        elif sp.section.match(line): sp.startSection(line)
-        elif sp.course.match(line): sp.startCourse(line)
-        #elif notes.match(line): startNotes(line)
-        else:
-            #print 'NOMATCH in SECTION'
-            pass
+   elif sp.state == 'SECTION':
+      if line.strip() == '':
+         print 'BLANKLINE'
+         continue
+      elif sp.section.match(line):
+         sp.state == 'SECTION'
+         sp.startSection(line)
+      elif sp.course.match(line):
+         sp.state == 'COURSE'
+         sp.startCourse(line)
+      elif sp.department.match(line):
+         sp.state == 'DEPARTMENT'
+         sp.startDepart(line)
+      #elif notes.match(line): startNotes(line)
+      else:
+         #print 'NOMATCH in SECTION'
+         pass
 
-    elif state == 'NOTES':
-        if line.strip() == '': print 'BLANKLINE'
-        elif notes.match(line): sp.startNotes(line)
-        elif section.match(line): sp.startSection(line)
-        elif course.match(line): sp.startCourse(line)
-        else:
-            #print 'NOMATCH in NOTES'
-            pass
+   elif state == 'NOTES':
+      if line.strip() == '':
+         print 'BLANKLINE'
+         continue
+      elif notes.match(line): sp.startNotes(line)
+      elif section.match(line): sp.startSection(line)
+      elif course.match(line): sp.startCourse(line)
+      else:
+         #print 'NOMATCH in NOTES'
+         pass
 
-    else:
-        raise ValueError, "Unexpected input block state: " + state
+   else:
+      raise ValueError, "Unexpected input block state: " + state
+
+print 'TOTALS:'
+print 'course lines: %s' % sp.coursecount
+print 'section lines: %s' % sp.seccount
