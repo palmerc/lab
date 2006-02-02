@@ -35,16 +35,12 @@ set_array:
 forloop:
    addi $s0, $s0, -1
    beq $s0, $zero, exit
-   
-   
+      
 exit:   
    lw $ra, 0($sp)
    addi $sp, $sp, 4
    jr $ra
    
-
-
-
 compare:
    addi $sp, $sp, -4
    sw $ra, 0($sp)
