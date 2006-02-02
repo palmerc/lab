@@ -1,4 +1,14 @@
-gcc -E Invoke the preprocessor but don't generate assembly
-gcc -S Generate the assembly code but don't proceed to object code
-gcc -c Generate the object file but don't link
-gcc performs all of these steps plus links the file
+Cameron L Palmer
+CSCE 3600 - Homework 3
+Feb 2, 2006
+
+The stages of gcc are:
+
+Preprocessor - cpp
+Covert to assembly - cc1
+Create an object file - as
+Make an executable - ld
+
+In order: cpp -> cc1 -> as -> ld
+
+To discover this behavior you can use the man page, or you can use strace.
