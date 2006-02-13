@@ -6,28 +6,55 @@ Chapter 2 - 2.30, 2.31, 2.37, 2.51
 
 2.30)
 
-   sll $a2, $a2, 2
-   sll $a3, $a3, 2
-   add $v0, $zero, $zero
-   add $t0, $zero, $zero
-outer:
-   add $t4, $a0, $t0
-   lw $t4, 0($t4)
-   add $t1, $zero, $zero
-inner:
-   add $t3, $a1, $t1
-   lw $t3, 0($t3)
-   bne $t3, $t4, skip
-   addi $v0. $v0, 1
+   # $a0 and $a1 contain arrays of 0 to 2499 words
+   # $a2 and $a3 contain the sizes of $a0 and $a1
+   sll $a2, $a2, 2 # $a2 = 2500 * 4
+   sll $a3, $a3, 2 # $a3 = 2500 * 4
+   add $v0, $zero, $zero # $v0 = 0
+   add $t0, $zero, $zero # $t0 = 0
+   
+outer: # Operates on array0
+   # Basically add the $t0 index to $a0 array base address and get address of element
+   add $t4, $a0, $t0 # $t4 = $a0 + $t0
+   # load the element in $t4 and place it in $t4 array
+   lw $t4, 0($t4) # $t4 = $t4[offset]
+   add $t1, $zero, $zero # $t1 = 0; Resets the $t1 value
+   
+inner: # Operates on array1
+   add $t3, $a1, $t1 # $t3 = $a1 + $t1; Store base plus offset in $t3
+   lw $t3, 0($t3) # $t3 = $t3[offset]
+   bne $t3, $t4, skip # if $t3 != $t4 then skip
+   addi $v0, $v0, 1 # $v0 = $v0 + 1; Add 1 to the match count
+   
 skip:
-   addi $t1, $t1, 4
-   bne $t1, $a3, inner
-   addi $t0, $t0, 4
-   bne $t0, $a2, outer
+   addi $t1, $t1, 4 # $t1 = $t1 + 4
+   bne $t1, $a3, inner # if $t1 != $a3 then inner
+   addi $t0, $t0, 4 # $t0 = $t0 + 4
+   bne $t0, $a2, outer # if $t0 != $a2 then outer
+
+## $v0 will contain the number of matches between the two array's elements.
+##
 
 2.31)
 
-3 nanoseconds
+Outer loop loops 2500 times
+Inner loop loops 2500*2500 times
+
+Both have:
+   sll, sll, add, add => 1, 1, 1, 1 = 4 cycles
+   4 cycles
+
+Outer loop has:
+   add, lw, add, addi, bne => 1, 2, 1, 1, 2 = 7 cycles
+   17 500
+   
+Inner loop has:
+   add, lw, bne, addi, addi, bne => 1, 2, 2, 1, 1, 2 = 9 cycles
+   56 250 000
+   
+   Total cycles => 56 267 504
+
+Approximately 28 milliseconds.
 
 2.37)
 
