@@ -9,6 +9,7 @@ function possible_values() {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 //   print_r($_POST);
 } else {
+   # Short term solution taken from Sudoku to go by Michael Mepham
    $_POST['sudoku'][0][1] = '6';
    $_POST['sudoku'][0][5] = '3';
    $_POST['sudoku'][0][7] = '5';
@@ -81,7 +82,7 @@ puzzle to work with.</p>
          
          echo '</td>';
       }
-      echo '</tr>';
+      echo "</tr>\n";
    }
    ?>
    </table>
