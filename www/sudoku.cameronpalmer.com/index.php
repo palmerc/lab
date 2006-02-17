@@ -2,11 +2,41 @@
    $title = "Sudoku";
    require 'sudoku-template.php';
 
-function possible_values() {
-   
+function possible_values($sudoku) {
+   // Move cell by cell and test values
+   echo '<div class="leftside"><ol>';
+   for ($i = 0; $i < 9; $i++) {
+      for ($j = 0; $j < 9; $j++) {
+         $conflict_values = array();
+         $cell_value = $sudoku[$i][$j];
+         if ($cell_value == '') continue;
+         // For the current square try the row and columns to see if a value conflicts
+         for ($row = 0; $row < 9; $row++) {
+            if ($row == $i) continue;
+            if ($sudoku[$row][$j] == '') continue;
+            $conflict_values[] = $sudoku[$row][$j];
+         }
+         for ($col = 0; $col < 9; $col++) {
+            if ($col == $j) continue;
+            if ($sudoku[$i][$col] == '') continue;
+            $conflict_values[] = $sudoku[$i][$col];
+         }
+         $conflict_values = array_unique($conflict_values);
+         sort($conflict_values);
+         $values = implode(',', $conflict_values);
+         echo "<li>Conflict values for row $i col $j - $values</li>\n";
+      }
+   }
+   echo '</ol></div>';
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+   for ($i = 0; $i < 9; $i++) {
+      for ($j = 0; $j < 9; $j++) {
+         $sudoku[$i][$j] = $_POST['sudoku'][$i][$j];
+      }
+   }
+   possible_values($sudoku);
 //   print_r($_POST);
 } else {
    # Short term solution taken from Sudoku to go by Michael Mepham
