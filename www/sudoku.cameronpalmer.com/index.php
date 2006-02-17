@@ -2,8 +2,37 @@
    $title = "Sudoku";
    require 'sudoku-template.php';
 
+function box_conflicts($sudoku) {
+   for ($i = 0; $i < 9; $i++) {
+      for ($j = 0; $j < 9; $j++) {
+         if ($sudoku[$i][$j] == '') continue;
+         if ($i < 3 && $j < 3)
+            $box0[] = $sudoku[$i][$j];
+         else if ($i < 3 && $j < 6)
+            $box1[] = $sudoku[$i][$j];
+         else if ($i < 3 && $j < 9)
+            $box2[] = $sudoku[$i][$j];
+         else if ($i < 6 && $j < 3)
+            $box3[] = $sudoku[$i][$j];
+         else if ($i < 6 && $j < 6)
+            $box4[] = $sudoku[$i][$j];
+         else if ($i < 6 && $j < 9)
+            $box5[] = $sudoku[$i][$j];
+         else if ($i < 9 && $j < 3)
+            $box6[] = $sudoku[$i][$j];
+         else if ($i < 9 && $j < 6)
+            $box7[] = $sudoku[$i][$j];
+         else if ($i < 9 && $j < 9)
+            $box8[] = $sudoku[$i][$j];
+      }
+   }
+   
+   return array($box0, $box1, $box2, $box3, $box4, $box5, $box6, $box7, $box8);
+}
+
 function possible_values($sudoku) {
    // Move cell by cell and test values
+   $box_conflicts = box_conflicts($sudoku);
    echo '<div class="leftside"><ol>';
    for ($i = 0; $i < 9; $i++) {
       for ($j = 0; $j < 9; $j++) {
@@ -21,6 +50,26 @@ function possible_values($sudoku) {
             if ($sudoku[$i][$col] == '') continue;
             $conflict_values[] = $sudoku[$i][$col];
          }
+         
+         if ($i < 3 && $j < 3)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[0]);
+         else if ($i < 3 && $j < 6)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[1]);
+         else if ($i < 3 && $j < 9)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[2]);
+         else if ($i < 6 && $j < 3)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[3]);
+         else if ($i < 6 && $j < 6)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[4]);
+         else if ($i < 6 && $j < 9)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[5]);
+         else if ($i < 9 && $j < 3)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[6]);
+         else if ($i < 9 && $j < 6)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[7]);
+         else if ($i < 9 && $j < 9)
+            $conflict_values = array_merge($conflict_values, $box_conflicts[8]);
+         
          $conflict_values = array_unique($conflict_values);
          sort($conflict_values);
          $values = implode(',', $conflict_values);
