@@ -24,7 +24,9 @@ function possible_values($sudoku) {
          $conflict_values = array_unique($conflict_values);
          sort($conflict_values);
          $values = implode(',', $conflict_values);
-         echo "<li>Conflict values for row $i col $j - $values</li>\n";
+         $row = $i + 1;
+         $col = $j + 1;
+         echo "<li>Conflicts Row $row Col $col -> $values</li>\n";
       }
    }
    echo '</ol></div>';
