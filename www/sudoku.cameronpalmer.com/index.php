@@ -9,7 +9,7 @@ function possible_values($sudoku) {
       for ($j = 0; $j < 9; $j++) {
          $conflict_values = array();
          $cell_value = $sudoku[$i][$j];
-         if ($cell_value == '') continue;
+         if ($cell_value != '') continue;
          // For the current square try the row and columns to see if a value conflicts
          for ($row = 0; $row < 9; $row++) {
             if ($row == $i) continue;
