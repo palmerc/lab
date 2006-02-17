@@ -256,3 +256,38 @@ rational.inputbox {
 .inputbox input {
 	margin: 0 .25em;
 }
+
+table.sudoku {
+	float: left;
+	clear: left;
+	border: 3px Solid #000;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table.sudoku tr {
+}	
+
+table.sudoku tr.thickline {
+	border-style: Solid;
+	border-color: #000;
+	border-bottom: 2px;
+}
+
+table.sudoku td {
+	margin: 0;
+	padding: 0;
+	border: 0 Solid #000;
+	border-width: 0 1px 1px 0;
+}
+
+table.sudoku td.thickline {
+	border-style: Solid;
+	border-color: #000;
+	border-width: 0 1px 1px 3px;
+}
+
+table.sudoku input {
+	border: 0;
+	text-align: center;
+}
