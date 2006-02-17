@@ -1,40 +1,22 @@
-<html>
-<head>
-</head>
-<body>
+<?php
+   require 'sudoku-template.php';
+?>
+
 <h1>Sudoku</h1>
 <p>So I want a web-based Sudoku solver, and maybe a generator. The idea is to solve
 the Permuation Bipartite Graph using a Pile and Chain Exclusion, from ideas 
 culled from Dr. Dobb's.</p>
-<table border="1">
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-<tr>
-<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-</tr>
-</table>
-</body>
 
-</html>
+<table border="1">
+
+<?php
+for ($i = 0; $i < 9; $i++) {
+   print '<tr>';
+   for ($j = 0; $j < 9; $j++) {
+      print "<td><input type=\"text\" size=\"2\" /></td>";
+   }
+   print '</tr>';
+}
+?>
+
+</table>
