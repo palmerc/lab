@@ -110,8 +110,9 @@ function draw_sudoku($sudoku) {
       }
       ?>
       </table>
-      <br />
+      <p>
       <input type="submit" value="Submit" />
+      </p>
    </form>
 <?php
 }
