@@ -47,7 +47,7 @@ echo'
         echo"
         		<div id=\"assignment\">
  	 	        	<h2>{$section}</h2>
-  	        	<a href=\"{$ptr}\">Return Home</a>
+  	        	<a href=\"http://cameronpalmer.com/\">Return Home</a>
   	        </div>
         ";
     } else {
