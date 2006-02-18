@@ -14,6 +14,40 @@ puzzle to work with.</p>
       ";
 }
 
+function display_conflicts($conflict_values) {
+   echo '<div class="leftside"><ol>';
+   for ($i = 0; $i < 9; $i++) { 
+      for ($j = 0; $j < 9; $j++) {
+         if (count($conflict_values[$i][$j]) == 0) continue;
+         $conflict_temp = array_unique($conflict_values[$i][$j]);
+         sort($conflict_temp);
+         $values = implode(',', $conflict_temp);
+         $row = $i + 1;
+         $col = $j + 1;
+
+         echo "<li>Conflicts Row $row Col $col -> $values</li>\n";
+      }
+   }
+   echo '</ol></div>';
+}
+
+function display_potentials($potential_values) {
+   echo '<div class="leftside"><ol>';
+   for ($i = 0; $i < 9; $i++) { 
+      for ($j = 0; $j < 9; $j++) {
+         if (count($potential_values[$i][$j]) == 0) continue;
+         $potential_temp = array_unique($potential_values[$i][$j]);
+         sort($potential_temp);
+         $values = implode(',', $potential_temp);
+         $row = $i + 1;
+         $col = $j + 1;
+
+         echo "<li>Potentials Row $row Col $col -> $values</li>\n";
+      }
+   }
+   echo '</ol></div>';
+}
+
 function draw_sudoku($sudoku) { 
 ?>
    <form class="inputform" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
@@ -83,55 +117,68 @@ function box_conflicts($sudoku) {
    return array($box0, $box1, $box2, $box3, $box4, $box5, $box6, $box7, $box8);
 }
 
-function possible_values($sudoku) {
-   // Move cell by cell and test values
+function conflicts($sudoku) {
    $box_conflicts = box_conflicts($sudoku);
-   echo '<div class="leftside"><ol>';
    for ($i = 0; $i < 9; $i++) {
       for ($j = 0; $j < 9; $j++) {
-         $conflict_values = array();
+         $conflict_temp = array();
          $cell_value = $sudoku[$i][$j];
          if ($cell_value != '') continue;
          // For the current square try the row and columns to see if a value conflicts
          for ($row = 0; $row < 9; $row++) {
             if ($row == $i) continue;
             if ($sudoku[$row][$j] == '') continue;
-            $conflict_values[] = $sudoku[$row][$j];
+            $conflict_temp[] = $sudoku[$row][$j];
          }
          for ($col = 0; $col < 9; $col++) {
             if ($col == $j) continue;
             if ($sudoku[$i][$col] == '') continue;
-            $conflict_values[] = $sudoku[$i][$col];
+            $conflict_temp[] = $sudoku[$i][$col];
          }
-         
          if ($i < 3 && $j < 3)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[0]);
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[0]);
          else if ($i < 3 && $j < 6)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[1]);
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[1]);
          else if ($i < 3 && $j < 9)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[2]);
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[2]);
          else if ($i < 6 && $j < 3)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[3]);
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[3]);
          else if ($i < 6 && $j < 6)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[4]);
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[4]);
          else if ($i < 6 && $j < 9)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[5]);
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[5]);
          else if ($i < 9 && $j < 3)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[6]);
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[6]);
          else if ($i < 9 && $j < 6)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[7]);
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[7]);
          else if ($i < 9 && $j < 9)
-            $conflict_values = array_merge($conflict_values, $box_conflicts[8]);
-         
-         $conflict_values = array_unique($conflict_values);
-         sort($conflict_values);
-         $values = implode(',', $conflict_values);
-         $row = $i + 1;
-         $col = $j + 1;
-         echo "<li>Conflicts Row $row Col $col -> $values</li>\n";
+            $conflict_temp = array_merge($conflict_temp, $box_conflicts[8]);
+         $conflict_values[$i][$j] = $conflict_temp;
       }
    }
-   echo '</ol></div>';
+   return $conflict_values;
+}
+
+function potentials($conflict_values) {
+   for ($i = 0; $i < 9; $i++) {
+      for ($j = 0; $j < 9; $j++) {
+         $potentials = array(1,2,3,4,5,6,7,8,9);
+         if (count($conflict_values[$i][$j]) == 0) continue;
+         $conflict_temp = $conflict_values[$i][$j];
+         $conflict_temp = array_unique($conflict_temp);
+         sort($conflict_temp);
+         
+         $potential_values[$i][$j] = array_diff($potentials, $conflict_temp);
+      }
+   }
+   return $potential_values;
+}
+
+function possible_values($sudoku) {
+   $conflict_values = conflicts($sudoku);
+   display_conflicts($conflict_values);
+   $potential_values = potentials($conflict_values);
+   display_potentials($potential_values);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -180,5 +227,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 ?>
-
-<br class="leftside" />
