@@ -14,10 +14,7 @@ h3 {
 	font: medium Georgia;
 	font-size: 110%;
 }
-ul {
-	margin-left: 2em;
-	list-style: none;
-}
+
 a {
 	color: #000;
 	text-decoration: none;
@@ -33,54 +30,24 @@ li a {
 li a:hover {
 	color: #555;
 }
-table {
-	margin: 0 0 0 50px;
-}
-th {
-	border: solid 1px;
-	border-color: #000;
-	padding: .5em 1em .5em .5em;
-	text-align: left;
-	background-color: #eed;
-}
-td {
-	padding: 5px;
-	border: solid 1px;
-	border-color: #000;
-	text-align: right;
-}
 
 #page {
 	margin: 1.4em;
 	width: 90%;
 	font: medium Arial;
 }
-#frontpage {
+
+#dateline {
+	float: left;
+	clear: left;
 	margin: .5em;
 }
 
-#frontpage h2, p {
-	float: left;
-	clear: left;
-}
-#frontpage p {
-	margin: 0 0 1em .5em;
-}
-#programlist {
-	float: left;
-	margin: 0 1em 1em 0em;
-}
-#programlist h3 {
-	float: left;
-	clear: left;
-	margin: 0 0 0 .5em;
-}
-#programlist ul {
-	float: left;
-	clear: left;
-	margin-left: 2em;
-	padding: 0;
-	list-style: square;
+#assignment a {
+	float: right;
+	margin: .5em 0 0 0;
+	font: medium Arial;
+	min-width: 25%;
 }
 
 .leftside {
@@ -92,94 +59,7 @@ td {
 
 .rightside {
 	float: right;
-	width: 20%;
-}
-
-.form {
-	float: left;
-	clear: left;
-}
-
-.error {
-	float: left;
-	clear: left;
-	margin: 0.5em 1em;
-	color: #f00;
-	text-decoration: bold;
-}
-
-.nonerror {
-	float: left;
-	clear: left;
-	margin: 0.5em 1em;
-}
-
-.quotetable {
-	margin: 2em;
-	float: left;
-	clear: left;	
-}
-
-.quotetable td {
-	text-align: left;
-}
-
-.phototable {
-	margin: 2em;
-	float: left;
-	clear: left;	
-}
-
-.phototable tr {
-	float: left;
-}
-
-.phototable td {
-	text-align: left;
-}
-
-div.pic {
-	float: left;
-	width: 100px;
-	padding: 15px;
-	margin: 5px 2px;
-}
-
-div.pic img {
-	border: 1px solid;
-	border-color: #444 #AAA #AAA #444;
-}
-
-.progtable {
-	margin: 2em;
-	float: left;
-	clear: left;
-}
-
-.progtable td:hover {
-	background-color: #ff9;
-}
-
-.matrix {
-	margin: 0.5em 1em;
-	float: left;
-	clear:left;
-}
-
-.warning {
-	color: #f00;
-}
-
-#text_input {
-	margin: 0.5em 1em;
-}
-
-#radio_input {
-	margin: 0.5em 1em;
-}
-
-#select_input {
-	margin: 0.5em 1em;
+	width: 50%;
 }
 
 #header {
@@ -203,66 +83,14 @@ div.pic img {
 	width: 100%;
 }
 
-#srcode {
-	float: left;
-	width: 90%;
-	margin: 1em;
-	padding: .5em;
-	background-color: #ccf;
-	border: 1px dashed #000;
-}
-
-#dateline {
-	float: left;
-	clear: left;
-	margin: .5em;
-}
-
-#assignment {
-	float: left;
-	clear: both;
-	margin: 0 0 0 .5em;
-	font: medium Georgia;
-}
-#assignment h2 {
-	float: left;
-	margin: 0;
-}
-#assignment a {
-	float: right;
-	margin: .5em 0 0 0;
-	font: medium Arial;
-	min-width: 25%;
-}
-
-#rational {
-	margin: .5em;
-	border: 1px solid #000;
-	background-color: #EEE;
-	padding: .5em;
-}
-rational.inputbox {
-	float: left;
-	margin: .5em;
-}
-#rational select, input {
-	margin: .25em 0;
-}
-.result {
-	float: left;
-	clear: left;
-	margin: .5em;
-}
-.inputbox input {
-	margin: 0 .25em;
-}
-
 form.inputform {
 	float: left;
 	clear: left;
+	margin-left: 5em;
 }
 
 table.sudoku {
+	clear: left;
 	border: 3px Solid #000;
 	border-collapse: collapse;
 	border-spacing: 0;

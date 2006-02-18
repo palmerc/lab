@@ -1,21 +1,29 @@
 <?php
-   $title = "Sudoku";
+   $title = "Sudoku Help";
    require 'sudoku-template.php';
 
 function display_message() {
    echo"
-<p>So I want a web-based Sudoku solver, and maybe a generator. The idea is to solve
+<div class=\"leftside\">
+<p>OBJECTIVE: So I want a web-based Sudoku solver, and maybe a generator. The idea is to solve
 the Permuation Bipartite Graph using a Pile and Chain Exclusion, from ideas 
 culled from Dr. Dobb's.</p>
 
 <p>CURRENT STATE: Got a decent looking CSS layout, and input works. The values are
 stored in an array and don't disappear on submit. Includes a starting hardcoded
-puzzle to work with.</p>
+puzzle to work with. It will solve easy puzzles like the one shown just by clicking
+submit repeatedly. It will not beat a hard puzzle however. This program currently
+only calculates the impossible values for a square and if a square is left with
+only one possibility will fill it in.</p>
+
+<p>NOTE: If the format of this page is messed up, try Firefox. I only test in 
+Firefox and don't care if IE has problems.</p>
+</div>
       ";
 }
 
 function display_conflicts($conflict_values) {
-   echo '<div class="leftside"><ol>';
+   echo '<div class="rightside"><ol>';
    for ($i = 0; $i < 9; $i++) { 
       for ($j = 0; $j < 9; $j++) {
          if (count($conflict_values[$i][$j]) == 0) continue;
@@ -51,6 +59,9 @@ function display_potentials($potential_values) {
 function draw_sudoku($sudoku) { 
 ?>
    <form class="inputform" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+      <p>Show potentials: <input type="checkbox" name="potentials" <?php if (isset($_POST['potentials'])) echo 'checked="checked" '?>/>
+      Show conflicts: <input type="checkbox" name="conflicts" <?php if (isset($_POST['conflicts'])) echo 'checked="checked" '?>/></p>
+  
       <table class="sudoku">
    
       <?php
@@ -176,9 +187,22 @@ function potentials($conflict_values) {
 
 function possible_values($sudoku) {
    $conflict_values = conflicts($sudoku);
-   display_conflicts($conflict_values);
+   //display_conflicts($conflict_values);
    $potential_values = potentials($conflict_values);
-   display_potentials($potential_values);
+   //display_potentials($potential_values);
+   return array($potential_values, $conflict_values);
+}
+
+function fill_in($potential_values, $sudoku) {
+   for ($i = 0; $i < 9; $i++) {
+      for ($j = 0; $j < 9; $j++) {
+         if (count($potential_values[$i][$j]) == 1) {
+            //print_r($potential_values[$i][$j]);
+            $sudoku[$i][$j] = array_pop($potential_values[$i][$j]);
+         }
+      }
+   }
+   return $sudoku;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -188,8 +212,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
    }
    display_message();
+   list($potential_values, $conflict_values) = possible_values($sudoku);
+   $sudoku = fill_in($potential_values, $sudoku);
    draw_sudoku($sudoku);
-   possible_values($sudoku);
+   if (isset($_POST['potentials'])) display_potentials($potential_values);
+   if (isset($_POST['conflicts'])) display_conflicts($conflict_values);
 //   print_r($_POST);
 } else {
    # Short term solution taken from Sudoku to go by Michael Mepham
