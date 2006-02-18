@@ -55,6 +55,7 @@ function do_header() {
         		<div id=\"sidebar\">
     					<ul>
     						<li><a href=\"{$ptr}\">Home</a></li>
+                     <li><a hreg=\"http://sudoku.cameronpalmer.com/\">Sudoku Help</li>
     						<li><a href=\"{$ptr}gallery/\">Photo Gallery</a></li>
     						<li><a href=\"http://trac.cameronpalmer.com/\">Trac Laboratory</a></li>
     						<li><a href=\"{$ptr}wiki/\">Course Wiki</a></li>
