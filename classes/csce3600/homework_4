@@ -1,0 +1,49 @@
+Cameron L Palmer
+CSCE 3600 - Homework 4
+Feb 18, 2006
+
+Data points
+times are written user:system
+
+# TSP - Travelling Salesperson
+ $ time ./tsp < input13
+ gccO1 - 0m48.219s:0m0.060s
+ gccO2 - 0m48.188s:0m0.179s
+ gccO3 - 0m34.896s:0m0.189s
+
+# Have a robot solve a maze
+ $ time ./robot
+ robot01 - 0m0.003s:0m0.001s
+ robot02 - 0m0.003s:0m0.004s
+ robot03 - 0m0.002s:0m0.001s
+ 
+# Calculate the 45th fibonacci number recusively
+ $ time ./fib
+ fib01 - 0m15.850s:0m0.009s
+ fib02 - 0m15.575s:0m0.020s
+ fib03 - 0m13.879s:0m0.015s
+ 
+# Perform the calculations associated with the mandelbrot set
+ $ time ./mandel
+ mandelO1 - 0m4.202s:0m0.007s
+ mandelO2 - 0m4.175s:0m0.001s
+ mandelO3 - 0m4.191s:0m0.006s
+ 
+# Dynamic array list allocation
+ list01 - 0m55.657s:0m4.128s
+ list02 - 1m3.292s:0m4.239s
+ list03 - 0m11.863s:0m4.014s
+ 
+These data points point to the fact that the GCC options 1 and 2 are very similar.
+The really dramatic performance improvements came form gcc optimization level 3.
+The most dramatic speedup was in the dynamic array allocation the run time 
+went from 1 minute to about 11 seconds.
+
+My feeling is that gcc optimizes certain kinds of behaviors better than others.
+For example the array handling must have improved in level 3 optimization, but 
+sometimes math problems like the mandelbrot set just can't be optimized much. I
+think this is due to the iterative nature of the mandelbrot set. A point in the 
+set must be calculated to a certain depth and that can't be improved by a compiler.
+Another optimization for the Fibonacci number calculation was improved but not 
+enough to matter, which leads me to believe a pure recursive algorithm can't be
+improved much.
