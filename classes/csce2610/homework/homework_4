@@ -2,4 +2,68 @@ Cameron L Palmer
 CSCE 2610 - Homework 4
 Feb 19, 2006
 
-3.4, 3.7, 3.11, 3.12
+Problems 3.4, 3.7, 3.11, 3.12
+
+3.4)
+Q. 
+   What number does this two's complement number represent?
+   1111 1111 1111 1111 1111 1111 0000 0110
+
+A.
+   0000 0000 0000 0000 0000 0000 1111 1001
+   +_____________________________________1
+   0000 0000 0000 0000 0000 0000 1111 1010
+
+   -250 decimal
+
+3.7)
+Q. 
+   Compute the absolute value of a number, like:
+   abs $t2, $t3
+
+A.
+   addu $t2, $t3, $zero
+   bgez $t3, pos
+   sub $t3, $t3, $zero
+pos:
+
+3.11)
+   Signed Version
+   subu $t3,$t5,$t7
+   sltu $t2,$t5,$t7 # There can be a carry so you need to check
+   add $t2,$t6,$t2
+   sub $t2,$t4,$t2
+
+   Unsigned Version
+   subu $t3,$t5,$t7
+   sltu $t2,$t5,$t7 # There can be a carry so you need to check
+   addu $t2,$t6,$t2
+   subu $t2,$t4,$t2
+
+3.12)
+   li $t5,0
+   lui $t5,1000 0000 0000 0000
+   and $t0,$s0,$t5
+   and $t1,$s1,$t5
+   beq $t0,$t1,equal
+   beq $t0,$zero,greater
+   j less
+
+equal:
+   sub $t0,$s0,$s1
+   and $t0,$t0,$t5
+   beq $t0,$zero,greater
+   j less
+
+greater:
+   add $t0,$zero,$zero
+   j exit
+   
+less:
+   addi $t0,$zero,1
+
+exit:
+
+
+
+
