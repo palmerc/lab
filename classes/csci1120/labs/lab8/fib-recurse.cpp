@@ -17,7 +17,7 @@ int main()
 {
    int x;
  
-   x = fib(40);
+   x = fib(45);
 
    cout << x << endl;
  
