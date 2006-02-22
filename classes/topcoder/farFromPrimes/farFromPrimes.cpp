@@ -1,3 +1,11 @@
+// It wants the numbers that ARE NOT prime and don't have a prime within + or - 10 digits.
+// examples:
+// 3328-4100 returns 4  (eg. 3480, 3750, 3978, 4038)
+// 10-1000 returns 0
+// 19240-19710 returns 53
+// 23659-24065 returns 20
+// 97001-97691 returns 89
+
 #include <iostream>
 
 using namespace std;
@@ -29,7 +37,7 @@ int Primes::farFromPrimes(int A, int B) {
    for ( int i=A; i <= B; i++ ) {
       if ( isPrime(i) ) {
          if ( (i - previous) >= 10 && (previous - earlier) >= 10 ) {
-            //cout << previous << endl;
+            cout << previous << endl;
             farfrom++;
          }
          earlier = previous;
