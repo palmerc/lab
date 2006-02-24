@@ -2,6 +2,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+// Cameron L Palmer
+// CSCE 3600
+// Homework 5
+// Feb 23, 2006
+
 int main( int argc, char **argv ) {
    int arg, octy = 0;
    char* path = NULL;
