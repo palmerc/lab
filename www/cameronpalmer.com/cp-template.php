@@ -56,6 +56,7 @@ function do_header() {
     					<ul>
     						<li><a href=\"{$ptr}\">Home</a></li>
                      <li><a href=\"http://sudoku.cameronpalmer.com/\">Sudoku Help</a></li>
+                     <li><a href=\"http://ssh.cameronpalmer.com/\">SSH</a></li>
     						<li><a href=\"{$ptr}gallery/\">Photo Gallery</a></li>
     						<li><a href=\"http://trac.cameronpalmer.com/\">Trac Laboratory</a></li>
     						<li><a href=\"{$ptr}wiki/\">Course Wiki</a></li>
