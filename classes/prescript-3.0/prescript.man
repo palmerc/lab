@@ -1,0 +1,97 @@
+.TH PRESCRIPT 1 "18 January 1999" "Version 2.1"
+.\"======================================================================
+.if t .ds Ps P\s-2OST\s+2S\s-2CRIPT\s+2
+.if n .ds Ps PostScript
+.if t .ds Te T\\h'-0.1667m'\\v'0.20v'E\\v'-0.20v'\\h'-0.125m'X
+.if n .ds Te TeX
+.\"======================================================================
+.SH NAME
+prescript \- extract plain text or HTML from a PostScript file
+.\"======================================================================
+.SH SYNOPSIS
+.B prescript
+.IR arff | html | plain | txt
+.I \*(Ps\&-file
+.\"======================================================================
+.SH DESCRIPTION
+.B prescript
+extracts text from a \*(Ps\& file, storing it either as plain ASCII
+text, or as HTML, or as ARFF input, according to the mandatory first
+command-line argument.
+.I plain
+is a synonym for
+.IR txt .
+.PP
+If no input file extension is given,
+.IR .ps
+is supplied automatically.
+.PP
+The output file will be given the same base name as the input file,
+with its file extension set to one of
+.IR .arff ,
+.IR .html ,
+or
+.IR .txt ,
+according to the first command-line argument.
+.PP
+.B prescript
+uses a \*(Ps\& interpreter, normally
+.BR gs (1),
+to execute the \*(Ps\& program, so that even text that is generated
+programmatically, rather than being explicitly present in \*(Ps\&
+strings, can be extracted.  Particular attention is paid to heuristic
+recognition of word breaks (which \*(Ps\& sadly lacks any convention
+for marking), to reconstruction of words hyphenated at line breaks, to
+preservation of paragraph breaks, and to recognition of \*(Te\&
+ligatures.
+.PP
+.B prescript
+is believed to be superior to all previous utilities for this purpose
+(see the
+.B "SEE ALSO"
+section below).
+.PP
+.B prescript
+is a product of the
+.IR "New Zealand Digital Library Project" .
+It has been used to extract text from a 32GB archive of 32,000+
+computer science technical reports for use in a full-text indexing
+system.
+.\"======================================================================
+.SH "SEE ALSO"
+.BR gs (1),
+.BR ghostview (1),
+.BR gv (1),
+.BR ps2a.sh (1),
+.BR ps2ascii (1),
+.BR ps2ascii.pl (1),
+.BR ps2html (1),
+.BR ps2txt (1),
+.BR pstotext (1),
+.BR python (1).
+.\"======================================================================
+.SH BUGS
+There is no documentation here yet for the
+.I ARFF
+format.
+.\"======================================================================
+.SH "FURTHER READING"
+See
+.RS
+.nf
+Craig G. Nevill-Manning, Todd Reed, and Ian H. Witten
+.I "Extracting Text from \*(Ps\&"
+Software---Practice and Experience \fB28\fP(5), 481--491 (1998).
+.fi
+.RE
+.PP
+.RS
+.nf
+David J. Miller
+Prescript: Programme Structure and Functional Description
+New Zealand Digital Library Project Technical Report
+March 4, 1998
+WWW URL:\fChttp://www.nzdl.org/cgi-bin/gw?c=cstr&a=page&p=Prescript\fP
+.fi
+.RE
+.\"==============================[The End]==============================

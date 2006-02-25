@@ -1,0 +1,111 @@
+%    prescript.ps 0.1 -- A PostScript to text converter
+%    Copyright (C) 1996  Craig Neville-Manning, Todd Reed
+% 
+%    This program is free software; you can redistribute it and/or modify
+%    it under the terms of the GNU General Public License as published by
+%    the Free Software Foundation; either version 2 of the License, or
+%    (at your option) any later version.
+% 
+%    This program is distributed in the hope that it will be useful,
+%    but WITHOUT ANY WARRANTY; without even the implied warranty of
+%    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%    GNU General Public License for more details.
+% 
+%    You should have received a copy of the GNU General Public License
+%    along with this program; if not, write to the Free Software
+%    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%
+%
+%
+% This program spits out data about the text contained in a Postscript
+% file.
+% 
+% Output format:
+% 
+% S x0 y0 string ytop  ybot x1 y1
+% 
+%      (x0, y0) is the position of the current point before string is
+%      printed, and (x1, y1) is the position after.  These numbers are
+%      integers.  string is the text to be rendered.  Fields are separated by
+%      tab characters.  The character % is used as a control character to
+%      represent tabs, newlines and the % character itself inside string.
+%      The format is %xx, where xx is a hex number for the ASCII code.
+% 
+%      For unexplainable reasons, recursive calls to show may cause this line
+%      to be embedded in another.
+% 
+% P
+% 
+%      Indicates a showpage was executed.
+%
+% 
+% Run this program as
+% 
+% gs -q -dNODISPLAY -soutfile=<output> prescript.ps <psfile> quit.ps
+% 
+30 dict begin
+
+/psxFile outfile (w) file def
+/psxCharBuffer 1 string def
+/psxBuffer 1024 string def
+/psxPrint { psxFile exch writestring } bind def
+/psxPrintNumber { round cvi psxBuffer cvs psxFile exch writestring } bind def
+
+% This routine is for an experimental feature to extract embedded EPS
+% files in the Postscript file, render them a GIFS, and later embed them
+% in, for example, an HTML file.  The psxEPS command is introduced into a
+% PostScript file by xeps.
+% 
+/psxEPS { (E\t) psxPrint psxPrintNumber (\n) psxPrint } def
+
+/psxEncodedPrint {
+  {
+    dup 9 eq
+    1 index 10 eq or
+    1 index 37 eq or
+      { psxFile 37 write psxCharBuffer 0 3 -1 roll put psxFile psxCharBuffer writehexstring }
+      { psxFile exch write  } ifelse
+  } forall
+} bind def
+
+/psxShow {
+	(S\t) psxPrint
+
+	currentpoint exch
+	psxPrintNumber (\t) psxPrint psxPrintNumber
+
+	(\t) psxPrint
+	1 index psxEncodedPrint
+	(\t) psxPrint
+
+	gsave			
+	1 index true charpath
+	flattenpath
+	pathbbox
+	grestore
+
+	psxPrintNumber (\t) psxPrint
+	pop
+	psxPrintNumber (\t) psxPrint
+	pop
+
+	systemdict exch get exec
+	currentpoint exch
+	psxPrintNumber (\t) psxPrint psxPrintNumber
+
+	(\n) psxPrint	
+} def
+
+/show		{ /show psxShow } def
+/kshow		{ /kshow psxShow } def
+/widthshow	{ /widthshow psxShow } def
+/ashow		{ /ashow psxShow } def
+/awidthshow	{ /awidthshow psxShow } def
+
+/setpagedevice { pop } def
+/setcolor { pop } def
+/settransfer { pop } def
+/setgray { pop } def
+/setgraypattern { pop } def
+
+/showpage	{ psxFile (P\n) writestring } def
