@@ -164,8 +164,8 @@ class Line:
             self.rightedge = 3
    
    def reversePolarity(self):
-      if self.linespace!="?":
-         self.linespace=-self.linespace
+      if self.linespace != "?":
+         self.linespace =- self.linespace
     
    def __str__(self):
       def boolToStr(val):
@@ -208,7 +208,7 @@ class Line:
          self.prediction, \
          self.handclass)
 
-	return ("%s,"*len(output))[:-1] % output
+      return ("%s,"*len(output))[:-1] % output
 
 
 
@@ -239,7 +239,6 @@ class Page:
    def __getslice__(self,i,j):
       return self.lines[i,j]
 
-   # CHECK THIS FUNCTION
    def addLine(self, line):
       if len(self.lines) > 0:
          line.setLS( self.lines[-1] ) # set LS
@@ -267,7 +266,7 @@ class Page:
 
    def calcIndent(self, i, MOLS):
       global Yequalness, edgemargin
-	
+
       currentEdge=self.lines[i].getx0()
       if i != 0:
          prevEdge=self.lines[i-1].getx0()
@@ -275,9 +274,9 @@ class Page:
          prevEdge=currentEdge
          
       if i == len(self.lines)-1:
-         nextEdge=prevEdge# if last line of page
+         nextEdge = prevEdge# if last line of page
       else:
-         nextEdge=self.lines[i+1].getx0()
+         nextEdge = self.lines[i+1].getx0()
 
       # the following four lines adds a bias to each edge value if any of them are negative
       edges = [prevEdge,currentEdge,nextEdge]
@@ -285,13 +284,15 @@ class Page:
       
       if edges[0] < 0:
          bias = abs(edges[0])
-         prevEdge=prevEdge+bias
-         currentEdge=prevEdge+bias
-         nextEdge=prevEdge+bias
+         prevEdge = prevEdge + bias
+         currentEdge = prevEdge + bias
+         nextEdge = prevEdge + bias
 
       # if the adjacent two lines are aligned *AND* the current line is indented
-      if (self.lines[i].getLS() == "?" or misc.isEqual(prevEdge,nextEdge,Xequalness) or self.lines[i].getLS() > MOLS*10) and \
-         currentEdge > ((1+edgemargin)*nextEdge):
+      if (self.lines[i].getLS() == "?" \
+         or misc.isEqual(prevEdge,nextEdge,Xequalness) \
+         or self.lines[i].getLS() > MOLS*10) \
+         and currentEdge > ((1+edgemargin)*nextEdge):
          return abs(nextEdge-currentEdge) # Then the line is indented
       else:
          return 0 # otherwise not
@@ -324,156 +325,159 @@ class Page:
          for index in r:
             linespace=lines[index].getLS()
    
-         # check for stop condition
-         if linespace == "?" or abs(linespace) > abs(10 * MOLS) or lines[index].type != Line.Plain:  
-             if index in noskip:	continue
-             else:		break
+            # check for stop condition
+            if linespace == "?" or abs(linespace) > abs(10 * MOLS) or lines[index].type != Line.Plain:  
+               if index in noskip:
+                  continue
+               else:
+                  break
    
-         sum=sum+linespace
-         n=n+1
+            sum=sum+linespace
+            n=n+1
    
-         # This stop condition must be checked afterwards
-         if linespace == MOLS:   break
-          return sum,n
-   
-         # This is the beginning of AVLS version 1, which includes up to 5 lines
-         # starting from i
-         startidx = i
-         endidx = startidx+5
-         size = len(self.lines)
-         
-         if endidx > size:
-            endidx = size  # bounds checking
-   
-         sum,n = calcav( range(startidx,endidx), self.lines, MOLS, [], 0, 0)  # make calculation
-         if n == 1:
-            # We would like a better idea of what AVLS is than just LS(CL).
-            # Now we try to get an idea of AVLS by looking backward.
-          
-            # this constitutes AVLS version 2, which includes the previous two lines.
-            # (AVLS2 actually includes more after i, but we already know there aren't any)
-            startidx = i-2
-         if startidx < 0: startidx = 0
-            sum,n = calcav( range(i-1,startidx-1,-1), self.lines, MOLS, [], sum, n )
-      
+            # This stop condition must be checked afterwards
+            if linespace == MOLS:
+               break
          return sum,n
+   
+      # This is the beginning of AVLS version 1, which includes up to 5 lines
+      # starting from i
+      startidx = i
+      endidx = startidx+5
+      size = len(self.lines)
+      
+      if endidx > size:
+         endidx = size  # bounds checking
+   
+      sum,n = calcav( range(startidx,endidx), self.lines, MOLS, [], 0, 0)  # make calculation
+      if n == 1:
+         # We would like a better idea of what AVLS is than just LS(CL).
+         # Now we try to get an idea of AVLS by looking backward.
+       
+         # this constitutes AVLS version 2, which includes the previous two lines.
+         # (AVLS2 actually includes more after i, but we already know there aren't any)
+         startidx = i-2
+         if startidx < 0:
+            startidx = 0
+         sum,n = calcav( range(i-1,startidx-1,-1), self.lines, MOLS, [], sum, n )
+   
+      return sum,n
 
-         # set the remaining attributes 
-         def calcValues(self, MOLS, MOLEN, modeRightMargins, lastPageLastLine):
-            global Xequalness
-            global Yequalness
+   # set the remaining attributes 
+   def calcValues(self, MOLS, MOLEN, modeRightMargins, lastPageLastLine):
+      global Xequalness
+      global Yequalness
 
-            for i in range(len(self.lines)):
-               self.lines[i].setRightEdge(modeRightMargins)		
+      for i in range(len(self.lines)):
+         self.lines[i].setRightEdge(modeRightMargins)		
+   
+         AVLS_CL=self.lines[i].localAverage=self.calcLocalAverage(i,MOLS)
+         NL_AVLS=self.lines[i].getNumberLocalAverage() # NL_AVLS -- Number of lines in the local average calc
+         LS_CL=self.lines[i].getLS() # LS_CL -- linespace of the current line
+         if i < len(self.lines)-1:
+            LS_NL=self.lines[i+1].getLS()
+         else:
+            LS_NL=10*MOLS
+   
+         if LS_CL == '?':
+            self.lines[i].LS_CL_missing = YES
          
-               AVLS_CL=self.lines[i].localAverage=self.calcLocalAverage(i,MOLS)
-               NL_AVLS=self.lines[i].getNumberLocalAverage() # NL_AVLS -- Number of lines in the local average calc
-               LS_CL=self.lines[i].getLS() # LS_CL -- linespace of the current line
-               if i < len(self.lines)-1:
-                  LS_NL=self.lines[i+1].getLS()
-               else:
-                  LS_NL=10*MOLS
+            if lastPageLastLine != None:
+               if misc.isEqual(lastPageLastLine.getlength(),MOLEN,Xequalness): self.lines[i].lastpagelastline_eq_MOLEN = YES
+               if misc.isEqual(lastPageLastLine.getx1(),lastPageLastLine.getRTmargin(),Xequalness): self.lines[i].RTedge_lastpagelastline_eq_RTmargin = YES
+             
+         else:
+            # We are only interested in the absolute space between lines,
+            # and no longer direction, and it is important that we make sure,
+            # we do not have any negative values in the linespaces from now on.
+            LS_CL=abs(LS_CL)
+            LN_PL=self.lines[i-1].getlength() # LN_PL -- Length of the previous line
+            LN_CL=self.lines[i].getlength() # LN_CL -- Length of the previous line
+   
+            self.lines[i].diffLS_AVLS = LS_CL-AVLS_CL
+            self.lines[i].diffModeLineSpace = LS_CL-MOLS
+            self.lines[i].diffModeLength = LN_CL-MOLEN
          
-               if LS_CL == '?':
-                  self.lines[i].LS_CL_missing = YES
-               
-               if lastPageLastLine != None:
-                   if misc.isEqual(lastPageLastLine.getlength(),MOLEN,Xequalness): self.lines[i].lastpagelastline_eq_MOLEN = YES
-                   if misc.isEqual(lastPageLastLine.getx1(),lastPageLastLine.getRTmargin(),Xequalness): self.lines[i].RTedge_lastpagelastline_eq_RTmargin = YES
-                   
-               else:
-                  # We are only interested in the absolute space between lines,
-                  # and no longer direction, and it is important that we make sure,
-                  # we do not have any negative values in the linespaces from now on.
-                  LS_CL=abs(LS_CL)
-                  LN_PL=self.lines[i-1].getlength() # LN_PL -- Length of the previous line
-                  LN_CL=self.lines[i].getlength() # LN_CL -- Length of the previous line
-         
-                  self.lines[i].diffLS_AVLS = LS_CL-AVLS_CL
-                  self.lines[i].diffModeLineSpace = LS_CL-MOLS
-                  self.lines[i].diffModeLength = LN_CL-MOLEN
-               
-                  if self.calcIndent(i, MOLS) != 0:
-                     self.lines[i].isIndented = YES
-                  if i > 0:
-                     self.lines[i].lastindent = abs(self.lines[i].getx0()-self.lines[i-1].getx0())
-                  if i < len(self.lines)-1:
-                     self.lines[i].nextindent = abs(self.lines[i].getx0()-self.lines[i+1].getx0())
-         
-                  if misc.isEqual(LS_CL,MOLS,Yequalness):
-                     self.lines[i].LS_CL_eq_MOLS = YES
-                  if misc.isEqual(LS_CL,AVLS_CL,Yequalness):
-                     self.lines[i].LS_CL_eq_AVLS = YES
-                  if misc.isEqual(LS_CL,LS_NL,Yequalness):
-                     self.lines[i].LS_CL_eq_LS_NL = YES
-                  if LS_CL == AVLS_CL:
-                     self.lines[i].LS_CL_exactly_AVLS = YES
-                  if LS_CL < AVLS_CL:
-                     self.lines[i].LS_CL_lt_AVLS = YES
-                  if LS_CL > AVLS_CL:
-                     self.lines[i].LS_CL_gt_AVLS = YES
-                  if LS_CL > MOLS * 10:
-                     self.lines[i].isColumnbreak = YES
-                  if NL_AVLS == 1:
-                     self.lines[i].NL_AVLS_eq_1 = YES
-                  if misc.isEqual(LS_NL,MOLS,Yequalness):
-                     self.lines[i].LS_NL_eq_MOLS = YES
-                  if misc.isEqual(LN_PL,MOLEN,Xequalness):
-                     self.lines[i].LN_PL_eq_MOLEN = YES
-                  if misc.isEqual(LN_CL,MOLEN,Xequalness):
-                     self.lines[i].LN_CL_eq_MOLEN = YES
-                  if misc.isEqual(self.lines[i-1].getx1(),self.lines[i-1].getRTmargin(),Xequalness):
-                     self.lines[i].RTedge_PL_eq_RTmargin = YES
-                  if misc.isEqual(self.lines[i  ].getx1(),self.lines[i  ].getRTmargin(),Xequalness):
-                     self.lines[i].RTedge_CL_eq_RTmargin = YES
+            if self.calcIndent(i, MOLS) != 0:
+               self.lines[i].isIndented = YES
+            if i > 0:
+               self.lines[i].lastindent = abs(self.lines[i].getx0()-self.lines[i-1].getx0())
+            if i < len(self.lines)-1:
+               self.lines[i].nextindent = abs(self.lines[i].getx0()-self.lines[i+1].getx0())
+   
+            if misc.isEqual(LS_CL,MOLS,Yequalness):
+               self.lines[i].LS_CL_eq_MOLS = YES
+            if misc.isEqual(LS_CL,AVLS_CL,Yequalness):
+               self.lines[i].LS_CL_eq_AVLS = YES
+            if misc.isEqual(LS_CL,LS_NL,Yequalness):
+               self.lines[i].LS_CL_eq_LS_NL = YES
+            if LS_CL == AVLS_CL:
+               self.lines[i].LS_CL_exactly_AVLS = YES
+            if LS_CL < AVLS_CL:
+               self.lines[i].LS_CL_lt_AVLS = YES
+            if LS_CL > AVLS_CL:
+               self.lines[i].LS_CL_gt_AVLS = YES
+            if LS_CL > MOLS * 10:
+               self.lines[i].isColumnbreak = YES
+            if NL_AVLS == 1:
+               self.lines[i].NL_AVLS_eq_1 = YES
+            if misc.isEqual(LS_NL,MOLS,Yequalness):
+               self.lines[i].LS_NL_eq_MOLS = YES
+            if misc.isEqual(LN_PL,MOLEN,Xequalness):
+               self.lines[i].LN_PL_eq_MOLEN = YES
+            if misc.isEqual(LN_CL,MOLEN,Xequalness):
+               self.lines[i].LN_CL_eq_MOLEN = YES
+            if misc.isEqual(self.lines[i-1].getx1(),self.lines[i-1].getRTmargin(),Xequalness):
+               self.lines[i].RTedge_PL_eq_RTmargin = YES
+            if misc.isEqual(self.lines[i  ].getx1(),self.lines[i  ].getRTmargin(),Xequalness):
+               self.lines[i].RTedge_CL_eq_RTmargin = YES
 
 
    # markPageNumbers determines whether the first and last lines of the page contain page numbers,
    # marking them so as appropriate
    def markPageNumbers(self):
       lines = self.lines
-	
+
       if len(lines)<1:
          return # abort if no lines to work with
-	
+
       for line in [lines[0],lines[-1]]: # both first and last lines
          if self.pageNoPattern.search(line.string) >= 0:
             line.type = Line.PageNo
             rawpn = self.pageNoPattern.group('page')
             
-         if 0 < len( rawpn ) <=10:
-            line.pageNo = atoi(rawpn)
-         else:
-            line.pageNo = -1
+            if 0 < len( rawpn ) <=10:
+               line.pageNo = atoi(rawpn)
+            else:
+               line.pageNo = -1
 
       line = lines[0] # first line
       
       if self.headerPatternA.search(line.string) >= 0:
          line.type = Line.Header
          rawpn = self.headerPatternA.group('page')
-         
-      if 0 < len( rawpn ) <=10:
-         line.pageNo = atoi(rawpn)
-      else:
-         line.pageNo = -1
+         if 0 < len( rawpn ) <=10:
+            line.pageNo = atoi(rawpn)
+         else:
+            line.pageNo = -1
    
       if self.headerPatternB.search(line.string) >= 0:
          line.type = Line.Header
          rawpn = self.headerPatternB.group('page')
-      if 0 < len( rawpn ) <=10: line.pageNo = atoi(rawpn)
-      else:
-         line.pageNo = -1
+         if 0 < len( rawpn ) <=10:
+            line.pageNo = atoi(rawpn)
+         else:
+            line.pageNo = -1
       
       line = lines[-1]  # last line
       
       if self.footerPattern.search(line.string) >= 0:
          line.type = Line.Footer
-         rawpn = self.footerPattern.group('page')
-         
-      if 0 < len( rawpn ) <=10:
-         line.pageNo = atoi(rawpn)
-      else:
-         line.pageNo = -1
+         rawpn = self.footerPattern.group('page')         
+         if 0 < len( rawpn ) <=10:
+            line.pageNo = atoi(rawpn)
+         else:
+            line.pageNo = -1
 
    def getRTmargins(self):
       return self.rtMargins
@@ -492,7 +496,8 @@ class Page:
          # using the approximation that there will be at most, MaxColumns on one page.
          if line.getlength() > minLineLen or misc.isEqual(line.getlength(), minLineLen,Xequalness):
             x1list.append( (line.getx1(),line.gety()) )
-            ## x{0,1}list contain (x,y) pairs for each line on the page ##
+      
+      ## x{0,1}list contain (x,y) pairs for each line on the page ##
 
       # compress each list down to frequency,value pairs
       self.rtMargins = self.findFreq( x1list )
@@ -500,308 +505,338 @@ class Page:
 
       ## {rt,lt}Margins NOW contain (f,x-av,y-av,y-min,y-max)   ##
 
-	# We assume there will be no more than Maxcolumns (real) columns in the page.
-	# More can be apparent due to tables, non-text objects, etc, and this
-	# serves to eliminate some of these.
-	if len(self.rtMargins) > MaxColumns: del self.rtMargins[:-MaxColumns]	
+      # We assume there will be no more than Maxcolumns (real) columns in the page.
+      # More can be apparent due to tables, non-text objects, etc, and this
+      # serves to eliminate some of these.
+      if len(self.rtMargins) > MaxColumns:
+         del self.rtMargins[:-MaxColumns]	
+   
+      if len(self.rtMargins) == 0:
+         return # no columns were found, so can't apply them
+      # lines with no right margin set will be handled in Page.predict_para
+   
+      # all the extra information is there for historical reasons
+      # we need a copy of the margins to give to setRTmargin that doesn't have all that in it
+      tmpRTmargins = []
+      for m in self.rtMargins:
+         tmpRTmargins.append(m[1])
+   
+      # now each line must be set with its margin as appropriate
+      for l in self.lines:
+         l.setRTmargin( tmpRTmargins )
 
-	if len(self.rtMargins) == 0: return # no columns were found, so can't apply them
-	# lines with no right margin set will be handled in Page.predict_para
 
-	# all the extra information is there for historical reasons
-	# we need a copy of the margins to give to setRTmargin that doesn't have all that in it
-	tmpRTmargins = []
-	for m in self.rtMargins:    tmpRTmargins.append(m[1])
+   # findFreq:
+   #
+   # Finds the frequencies of each of the elements in the given list.
+   # Note, this method re-arranges the order list.
+   #
+   # This particular version of findFreq has been customised in the following
+   # ways:
+   #  - the input is expected to be a list of tuples of the form:
+   #    (x, y)
+   #  - the output is a list of tuples of the form:
+   #    (freq, x-av, y-av, y-min, y-max)
+   #  - comparisons are done loosely, ie two adjacent numbers +/- 2 are
+   #	 considered to be "equal"
+   #  - the x and y co-ordinates returned in the output list are averages
+   #  - findFreq also filters out values with CONSECUTIVE frequencies below
+   #    a certain limit.  This is supposed to help eliminate noise due to
+   #    pictures etc.
 
-	# now each line must be set with its margin as appropriate
-	for l in self.lines:        l.setRTmargin( tmpRTmargins )
+   def findFreq( self, list ):
+      if len(list) == 0:	# can't operate on nothing
+         msg( "findFreq: WARNING: called with an empty input list!!" )
+         return []
 
+      output = []		        # output list
+      f = 0			# frequency of val
+      val = list[0]		# start with the first element
+      valcum = (0,0)		# cumulation of vals
+      min = max = val[1]		# minimum and maximum y values
+   
+      # since val's aren't strictly the same, we'll average the val's to get a
+      # more accurate view of what val actually is
+   
+      for l in list:
+         if misc.isEqual(val[0],l[0],Xequalness):
+            f = f + 1	        # we've found another val
+            valcum = (valcum[0] + l[0], valcum[1] + l[1])
+            if l[1] < min:
+               min = l[1]
+            elif l[1] > max:
+               max = l[1]
+         else:
+            output.append( (f, round(valcum[0]/f,1),round(valcum[1]/f,1), min, max ) )
+            # reset
+            val = l		# next val
+            f = 1		# and we've already found one
+            valcum = l
+            min = max = val[1]
 
-    # findFreq:
-    #
-    #	Finds the frequencies of each of the elements in the given list.
-    # Note, this method re-arranges the order list.
-    #
-    # This particular version of findFreq has been customised in the following
-    # ways:
-    #	- the input is expected to be a list of tuples of the form:
-    #	      (x, y)
-    #	- the output is a list of tuples of the form:
-    #	      (freq, x-av, y-av, y-min, y-max)
-    #	- comparisons are done loosely, ie two adjacent numbers +/- 2 are
-    #	  considered to be "equal"
-    #	- the x and y co-ordinates returned in the output list are averages
-    #	- findFreq also filters out values with CONSECUTIVE frequencies below
-    #	  a certain limit.  This is supposed to help eliminate noise due to
-    #	  pictures etc.
+      output.append( (f, round(valcum[0]/f,1),round(valcum[1]/f,1), min, max) )
+      output.sort()	  # sort on frequency (pri) and x (sec) 
 
-    def findFreq( self, list ):
-	if len(list) == 0:	# can't operate on nothing
-	    msg( "findFreq: WARNING: called with an empty input list!!" )
-	    return []
+      # output now contains the list of consecutive frequencies.
+   
+      # I found the following few lines of code very difficult to comment,
+      # so please excuse the bad explanation.
+      #
+      # 'output contains a list of (consecutive frequency,value) pairs.  That
+      # means you can have several records that have the same value, but since
+      # they weren't consecutive in the input list, they were not combined.
+      #
+      # for example, [(1,10),(2,8),(1,10),(1,9),(5,10)]
+      #
+      # in that example, 10 is the value with a sufficiently high frequency,
+      # and so all values less than 10 must be deleted and all (x,10) records
+      # must be combined.
+   
+      # this code finds the first record whose f is >= MinConsecFreq
+      i = 0		  # where to cut
+      while i < len(output) and output[i][0] < MinConsecFreq:
+         i = i + 1	# find first i where output[i] >= MinConsecFreq
 
-	output = []		        # output list
-	f = 0			# frequency of val
-	val = list[0]		# start with the first element
-	valcum = (0,0)		# cumulation of vals
-	min = max = val[1]		# minimum and maximum y values
+      # if i points off the list, no eligible candidates were found.
+      # When this happens, we take the largest frequency found, which will
+      # be the last record in the list.
+      if i == len(output):
+         i = i - 1 
 
-	# since val's aren't strictly the same, we'll average the val's to get a
-	# more accurate view of what val actually is
+      # this code backtracks to ensure that any occurrances of the val
+      # associated with the i'th record also gets included.  Without this,
+      # the frequency reported for the val[i] might be too small because
+      # some small groups (less than MinConsecFreq) were discounted
+      # because their f's were too small.  Sort of.  Try and make sense
+      # of that.
+      j = 0
+      while j < i:
+         if misc.isEqual(output[j][1],output[i][1],Xequalness):
+            j = j + 1
+         else:
+            del output[j]
+         i = i - 1
 
-	for l in list:
-	    if misc.isEqual(val[0],l[0],Xequalness):
-		f = f + 1	        # we've found another val
-		valcum = (valcum[0] + l[0], valcum[1] + l[1])
-		if l[1] < min:
-		    min = l[1]
-		elif l[1] > max:
-		    max = l[1]
+      # output now contains only eligible frequencies which must now be combined
+      # ie, [(1,10),(2,10),(1,11)] ==> [(3,10),(1,11)]
+      #
+      output.sort( lambda a,b: int(a[1] - b[1]) ) # sort on x value 
+      i = 0
+      while i <= len(output) - 2:	# go from 0 to second to last index
+         if misc.isEqual( output[i][1], output[i+1][1],Xequalness ): #abs(output[i][1] - output[i+1][1]) <= 2:
+            output[i] = self.mergeRecords( output[i], output[i+1], lambda a,b: round((a+b)/2) )
+            del output[i+1]
+         else:
+            i = i + 1
 
-	    else:
-		output.append( (f, round(valcum[0]/f,1),round(valcum[1]/f,1), min, max ) )
-		# reset
-		val = l		# next val
-		f = 1		# and we've already found one
-		valcum = l
-		min = max = val[1]
+      return output
 
-	output.append( (f, round(valcum[0]/f,1),round(valcum[1]/f,1), min, max) )
-	output.sort()	  # sort on frequency (pri) and x (sec) 
+   # mergeRecords
+   #
+   # take two tuples and merge them together
+   #
+   # Input is a list of tuples of the form:
+   #	(f, x, y-av, y-min, y-max)
 
-	# output now contains the list of consecutive frequencies.
+   def mergeRecords( self, k, j, minmax ):
+      kf, kx, kav, kmin, kmax = k
+      jf, jx, jav, jmin, jmax = j
+      return kf+jf, minmax(kx,jx), round(((kav*kf)+(jav*jf))/(kf+jf),1), min([kmin,jmin]), max([kmax,jmax])
 
-	# I found the following few lines of code very difficult to comment,
-	# so please excuse the bad explanation.
-	#
-	# 'output contains a list of (consecutive frequency,value) pairs.  That
-	# means you can have several records that have the same value, but since
-	# they weren't consecutive in the input list, they were not combined.
-	#
-	# for example, [(1,10),(2,8),(1,10),(1,9),(5,10)]
-	#
-	# in that example, 10 is the value with a sufficiently high frequency,
-	# and so all values less than 10 must be deleted and all (x,10) records
-	# must be combined.
+   # getPageNum:
+   #
+   # Attempts to find a page number on the page.  If none found, None is returned.
+   #
+   # WARNING: getPageNum does not attempt to check the 'sanity' (ie, not
+   # greater than the total page count) of the fetched page number.  This may
+   # be a possible bug.  The reason for omitting this test is that the number
+   # of pages is not known at this stage, and to use that, a another pass
+   # would be required.  I haven't yet considered which is the best approach
+   # to take.  Sanity checking should be done later.
+   def getPageNum(self):
+      if len(self.lines) == 0:
+         return None
 
-	# this code finds the first record whose f is >= MinConsecFreq
-	i = 0		  # where to cut
-	while i < len(output) and output[i][0] < MinConsecFreq:	i = i + 1	# find first i where output[i] >= MinConsecFreq
+      top_no = bot_no = None
 
-	# if i points off the list, no eligible candidates were found.
-	# When this happens, we take the largest frequency found, which will
-	# be the last record in the list.
-	if i == len(output): i = i - 1 
+      # find top and bottom page numbers
+      tmp = [Line.PageNo, Line.Header, Line.Footer]
 
-	# this code backtracks to ensure that any occurrances of the val
-	# associated with the i'th record also gets included.  Without this,
-	# the frequency reported for the val[i] might be too small because
-	# some small groups (less than MinConsecFreq) were discounted
-	# because their f's were too small.  Sort of.  Try and make sense
-	# of that.
-	j = 0
-	while j < i:
-	    if misc.isEqual(output[j][1],output[i][1],Xequalness):
-		j = j + 1
-	    else:
-		del output[j]
-		i = i - 1
-	
-	# output now contains only eligible frequencies which must now be combined
-	# ie, [(1,10),(2,10),(1,11)] ==> [(3,10),(1,11)]
-	#
-	output.sort( lambda a,b: int(a[1] - b[1]) )		  # sort on x value 
-	i = 0
-	while i <= len(output) - 2:	# go from 0 to second to last index
-	    if misc.isEqual( output[i][1], output[i+1][1],Xequalness ):#abs(output[i][1] - output[i+1][1]) <= 2:
-		output[i] = self.mergeRecords( output[i], output[i+1], lambda a,b: round((a+b)/2) )
-		del output[i+1]
-	    else:
-		i = i + 1
+      if self.lines[0].type in tmp:
+         top_no = self.lines[0].pageNo
+      if self.lines[-1].type in tmp:
+         bot_no = self.lines[-1].pageNo
 
-	return output
+      # if one (but not both) proposed page numbers exists, return it
 
-    # mergeRecords
-    #
-    # take two tuples and merge them together
-    #
-    # Input is a list of tuples of the form:
-    #	(f, x, y-av, y-min, y-max)
+      if top_no and not bot_no:
+         return top_no
+      elif not top_no and bot_no:
+         return bot_no
+      else:
+         return None
 
-    def mergeRecords( self, k, j, minmax ):
-	kf, kx, kav, kmin, kmax = k
-	jf, jx, jav, jmin, jmax = j
-	return kf+jf, minmax(kx,jx), round(((kav*kf)+(jav*jf))/(kf+jf),1), min([kmin,jmin]), max([kmax,jmax])
+   # dehyphenateLine:
+   #
+   # joins words that have been 'hyphenated'.  This is where a word is split
+   # across two lines because the line was too long.  A line should be
+   # dehyphenated when:
+   #   - the linebreak is a linefeed
+   #   - the previous line matches '[a-z]-$'
+   #
+   # On dehyphenation:
+   #   - the previous line has trailing whitespace and hyphens removed
+   #   - the previous line has the first 'word' (which is really the second
+   #     half of the previous word) concatenated to the previous line.
+   #
+   # This means the previous line gets longer and the current line gets
+   # shorter.  IT IS IMPORTANT TO NOTE, this method must be called AFTER
+   # the linebreak has been predicted because it must only operate on 
+   # linefeeds.  Also, the act of this method does not change the line
+   # geometry, (ie, the length does not change.)
+   #
+   # Parameters:
+   #   i	Line number to dehyphenate (Int)
+   #	lpll	Reference to the last line of the last page (Line)
+   def dehyphenateLine(self, i, lpll):
+      if __main__.format == 'arff':
+         return
+      if i == 0:
+         pl = lpll
+      else:
+         pl = self.lines[i-1]
+      if pl == 'None':
+         return #nothing to do
+      cl = self.lines[i]
 
-    # getPageNum:
-    #
-    # Attempts to find a page number on the page.  If none found, None is returned.
-    #
-    # WARNING: getPageNum does not attempt to check the 'sanity' (ie, not
-    # greater than the total page count) of the fetched page number.  This may
-    # be a possible bug.  The reason for omitting this test is that the number
-    # of pages is not known at this stage, and to use that, a another pass
-    # would be required.  I haven't yet considered which is the best approach
-    # to take.  Sanity checking should be done later.
-    def getPageNum(self):
-	if len(self.lines) == 0: return None
-	
-	top_no = bot_no = None
+      if cl.prediction in ['linefeed','pagebreaklinefeed'] \
+         and self.hyphenHeadPattern.search(pl.string) >= 0 \
+         and self.hyphenTailPattern.search(cl.string) >= 0:
+         pl.string = pl.string[:-1]+self.hyphenTailPattern.group(1)
+         cl.string = cl.strip().sub(self.hyphenTailPattern, '', cl.string)
 
-	# find top and bottom page numbers
-	tmp = [Line.PageNo, Line.Header, Line.Footer]
-
-	if self.lines[0].type in tmp:  top_no = self.lines[0].pageNo
-	if self.lines[-1].type in tmp: bot_no = self.lines[-1].pageNo
-
-	# if one (but not both) proposed page numbers exists, return it
-	       
-	if   top_no and not bot_no: return top_no
-	elif not top_no and bot_no: return bot_no
-	else:			    return None
-
-    # dehyphenateLine:
-    #
-    # joins words that have been 'hyphenated'.  This is where a word is split
-    # across two lines because the line was too long.  A line should be
-    # dehyphenated when:
-    #   - the linebreak is a linefeed
-    #   - the previous line matches '[a-z]-$'
-    #
-    # On dehyphenation:
-    #   - the previous line has trailing whitespace and hyphens removed
-    #   - the previous line has the first 'word' (which is really the second
-    #     half of the previous word) concatenated to the previous line.
-    #
-    # This means the previous line gets longer and the current line gets
-    # shorter.  IT IS IMPORTANT TO NOTE, this method must be called AFTER
-    # the linebreak has been predicted because it must only operate on 
-    # linefeeds.  Also, the act of this method does not change the line
-    # geometry, (ie, the length does not change.)
-    #
-    # Parameters:
-    #   i	Line number to dehyphenate (Int)
-    #	lpll	Reference to the last line of the last page (Line)
-    def dehyphenateLine(self, i, lpll):
-	if __main__.format == 'arff': return
-	if i == 0:   pl = lpll
-	else:	     pl = self.lines[i-1]
-	if pl == 'None': return #nothing to do
-	cl = self.lines[i]
-
-	if cl.prediction in ['linefeed','pagebreaklinefeed'] \
-	   and self.hyphenHeadPattern.search(pl.string) >= 0 \
-	   and self.hyphenTailPattern.search(cl.string) >= 0:
-	    pl.string = pl.string[:-1]+self.hyphenTailPattern.group(1)
-	    cl.string = cl.strip().sub(self.hyphenTailPattern, '', cl.string)
-
-	# delete blank lines
-	if cl.string == '':
-	    del self.lines[i]
-	    return 1
-	return 0
+      # delete blank lines
+      if cl.string == '':
+         del self.lines[i]
+         return 1
+      return 0
 
 
 class Document:
-    def __init__(self):
-	self.pages=[] #Contains the array of pages that comprise each document
-	self.all_ls=[]
-	self.all_len=[]
-	self.modertmargins = []
-	self.pagenums = []
-	self.wasReversed = 0
+   def __init__(self):
+      self.pages=[] #Contains the array of pages that comprise each document
+      self.all_ls=[]
+      self.all_len=[]
+      self.modertmargins = []
+      self.pagenums = []
+      self.wasReversed = 0
 
-    def __len__(self): return len(self.pages)
-    def __getitem__(self,key): return self.pages[key]
-    def __getslice__(self,i,j): return self.pages[i,j]
+   def __len__(self):
+      return len(self.pages)
+      
+   def __getitem__(self,key):
+      return self.pages[key]
+      
+   def __getslice__(self,i,j):
+      return self.pages[i,j]
 
-    # Sometimes the sign of the linespacing is reversed - This method checks
-    # the sign of the majority of linespaces to determine wether they are 
-    # reversed or not
-    def checkPolarity(self):
-	positive=0
-	for ls in self.all_ls:
-	    if ls > 0: positive=positive+1
+   # Sometimes the sign of the linespacing is reversed - This method checks
+   # the sign of the majority of linespaces to determine wether they are 
+   # reversed or not
+   def checkPolarity(self):
+      positive=0
+      for ls in self.all_ls:
+         if ls > 0:
+            positive=positive+1
 
-	# if less than half of all LS values are +ve, then the origin was flipped
-	# and all LS values need negating
-	if positive < 0.5*len(self.all_ls): self.reversePolarity()
+      # if less than half of all LS values are +ve, then the origin was flipped
+      # and all LS values need negating
+      if positive < 0.5*len(self.all_ls):
+         self.reversePolarity()
 
-    def reversePolarity(self):
-	self.all_ls = []
-	for page in self.pages:
-	    page.reversePolarity()
-	    self.all_ls = self.all_ls+page.all_ls
+   def reversePolarity(self):
+      self.all_ls = []
+      for page in self.pages:
+         page.reversePolarity()
+         self.all_ls = self.all_ls+page.all_ls
 
-    def addPage(self, page):
-	if page.pageLength()==0: return  # don't add empty pages
+   def addPage(self, page):
+      if page.pageLength()==0:
+         return  # don't add empty pages
 
-	pn = page.getPageNum()
-	if pn != None: self.pagenums.append(pn)
-	self.all_ls = self.all_ls+page.all_ls
-	self.all_len = self.all_len+page.all_len
-	self.pages.append(page)
+      pn = page.getPageNum()
+      if pn != None:
+         self.pagenums.append(pn)
+      self.all_ls = self.all_ls+page.all_ls
+      self.all_len = self.all_len+page.all_len
+      self.pages.append(page)
 
-    def doneAddingPages(self):
-        # Makes a decision about page order.  Returns true if the sequence of
-        # page numbers in PAGENUMS looks like a decreasing sequence.
-        def pagesReversed(totalpages, pagenums):
-	    # If we don't have page numbers for most pages, don't force a
-	    # decision
-	    if len(pagenums)<.8*totalpages: return 0
+   def doneAddingPages(self):
+      # Makes a decision about page order.  Returns true if the sequence of
+      # page numbers in PAGENUMS looks like a decreasing sequence.
+      def pagesReversed(totalpages, pagenums):
+         # If we don't have page numbers for most pages, don't force a
+         # decision
+         if len(pagenums)<.8*totalpages:
+            return 0
+   
+         # Count the positive and negative changes in page numbers
+         dpos = dneg = 0 
+         for i in range(len(pagenums)-1):
+            if pagenums[i]>totalpages:
+               continue # sanity check
+            delta = pagenums[i+1]-pagenums[i]
+            if delta > 0:
+               dpos=dpos+1
+            elif delta < 0:
+               dneg=dneg+1
+   
+         # reverse pages only if there are twice as many negative going as
+         # there are positive going
+         return dneg > 2*dpos
+   
+      if pagesReversed(len(self.pages), self.pagenums):
+         self.wasReversed = 1
+         self.pages.reverse()
 
-	    # Count the positive and negative changes in page numbers
-	    dpos = dneg = 0 
-	    for i in range(len(pagenums)-1):
-		if pagenums[i]>totalpages: continue # sanity check
-		delta = pagenums[i+1]-pagenums[i]
-		if delta > 0: dpos=dpos+1
-		elif delta < 0: dneg=dneg+1
+   def calcMargins(self):
+      # calculate column margins
+      for page in self.pages:
+         page.calcMargins(self.MOLS,self.MOLEN)
+         rtm = page.getRTmargins()	# margins for this page
 
-	    # reverse pages only if there are twice as many negative going as
-	    # there are positive going
-	    return dneg > 2*dpos
+         for r in range(len(rtm)):
+            if len(self.modertmargins) <= r:
+               self.modertmargins.append([]) # ensure there's a list available
+   
+            # get the x value of the rth column and put it in the (document-wide) column-r list
+            self.modertmargins[r].append(rtm[r][1])
 
-        if pagesReversed(len(self.pages), self.pagenums):
-	    self.wasReversed = 1
-	    self.pages.reverse()
-	
-    def calcMargins(self):
-	# calculate column margins
-	for page in self.pages:
-	    page.calcMargins(self.MOLS,self.MOLEN)
-	    rtm = page.getRTmargins()	# margins for this page
+      # find the mode margin for each column, ie reduce the collection of right margin X
+      # values down to the most common X value.
+      for r in range(len(self.modertmargins)):
+         self.modertmargins[r] = statfunctions.Mode(self.modertmargins[r])
 
-	    for r in range(len(rtm)):
-		if len(self.modertmargins) <= r:
-		    self.modertmargins.append([])	# ensure there's a list available
-
-		# get the x value of the rth column and put it in the (document-wide) column-r list
-		self.modertmargins[r].append(rtm[r][1])
-
-	# find the mode margin for each column, ie reduce the collection of right margin X
-	# values down to the most common X value.
-	for r in range(len(self.modertmargins)):
-	    self.modertmargins[r] = statfunctions.Mode(self.modertmargins[r])
-
-    def preprocess(self):
-	self.checkPolarity()
-	
-	# calculate document wide mode values
-	self.MOLS=statfunctions.Mode(self.all_ls)
-        self.MOLEN=statfunctions.Mode(self.all_len)
-
-	msg( '\tMOLS='+`self.MOLS` )
-	msg( '\tMOLEN='+`self.MOLEN` )
-
-	self.calcMargins()
-	
-	lastPageLastLine = None
-	for i in range(len(self.pages)):
-	    self.pages[i].calcValues(self.MOLS,self.MOLEN,self.modertmargins, lastPageLastLine)
-	    if self.pages[i][-1].type == Line.Plain or len(self.pages[i]) < 2: n = -1
-	    else:	                                                       n = -2
-	    lastPageLastLine = self.pages[i].lines[n]
+   def preprocess(self):
+      self.checkPolarity()
+      
+      # calculate document wide mode values
+      self.MOLS=statfunctions.Mode(self.all_ls)
+      self.MOLEN=statfunctions.Mode(self.all_len)
+   
+      msg( '\tMOLS='+`self.MOLS` )
+      msg( '\tMOLEN='+`self.MOLEN` )
+   
+      self.calcMargins()
+      
+      lastPageLastLine = None
+      for i in range(len(self.pages)):
+         self.pages[i].calcValues(self.MOLS,self.MOLEN,self.modertmargins, lastPageLastLine)
+         if self.pages[i][-1].type == Line.Plain or len(self.pages[i]) < 2:
+            n = -1
+         else:
+            n = -2
+         lastPageLastLine = self.pages[i].lines[n]
 
 
 
@@ -815,87 +850,87 @@ class Document:
 
 
 class LineAssembler:
-    def __init__(self, charWidth, pageAssembler):
-	self.fragment = None
-	self.yList = []
-	
-	self.charWidth = charWidth
-	self.pa = pageAssembler
+   def __init__(self, charWidth, pageAssembler):
+      self.fragment = None
+      self.yList = []
 
-    # submit a fragment for line assembly
-    def submit(self, fragment):
-	if fragment == 'P':
-	    self._finishLine()
-	    self.pa.finishPage()
-	    
-	elif self.fragment is None:
-	    self.fragment = fragment
-	    # self._addY(fragment)
+      self.charWidth = charWidth
+      self.pa = pageAssembler
 
-	elif ((self.fragment.x1-fragment.x0) > (2*self.charWidth)) and \
-	     (fragment.y0 != self.fragment.y1) or \
-	     (abs(fragment.y0-self.fragment.y1) > (2*self.charWidth)):
+   # submit a fragment for line assembly
+   def submit(self, fragment):
+      if fragment == 'P':
+         self._finishLine()
+         self.pa.finishPage()
 
-	    # this (new) fragment starts a new line
-	    self._finishLine()
-	    self.fragment = fragment
-#	    self._addY(fragment)
+      elif self.fragment is None:
+         self.fragment = fragment
+         # self._addY(fragment)
 
-	else:
-	    # this (new) fragment continues this line
-	    self.fragment.concat(fragment)
-#	    self._addY(fragment)
+      elif ((self.fragment.x1-fragment.x0) > (2*self.charWidth)) \
+         and (fragment.y0 != self.fragment.y1) \
+         or (abs(fragment.y0-self.fragment.y1) > (2*self.charWidth)):
+         # this (new) fragment starts a new line
+         self._finishLine()
+         self.fragment = fragment
+         # self._addY(fragment)
 
-    def _addY(self, fragment):
-	self.yList.append(fragment.y0)
-	self.yList.append(fragment.y1)
-	
+      else:
+         # this (new) fragment continues this line
+         self.fragment.concat(fragment)
+         # self._addY(fragment)
 
-    def _finishLine(self):
-	# Translate some characters that are known ligatures (mostly for TeX sources)
-	def TranslateChars(string):
-	    string = string.replace('\013', 'ff')
-	    string = string.replace('\014', 'fi')
-	    string = string.replace('\015', 'fl')
-	    string = string.replace('\016', 'ffi')
-	    string = string.replace('\017', 'ffl')
-	    string = string.replace('\024', '<=')
-	    string = string.replace('\025', '>=')
-	    string = string.replace('\027A', 'AA')
-	    string = string.replace('\027a', 'aa')
-	    string = string.replace('\031', 'ss')
-	    string = string.replace('\032', 'ae')
-	    string = string.replace('\033', 'oe')
-	    string = string.replace('\034', 'o')
-	    string = string.replace('\035', 'AE')
-	    string = string.replace('\036', 'OE')
-	    string = string.replace('\037', 'O')
-	    string = string.replace('\256', 'fi')
+   def _addY(self, fragment):
+      self.yList.append(fragment.y0)
+      self.yList.append(fragment.y1)
 
-	    string = string.replace('\257', 'fl')
-	    string = string.replace('\366', 'fi')
-	    string = string.replace('\377', 'fl')
-	    string = string.replace('[\000-\037]', '?')
-	    string = string.replace('[\177-\377]', '?')
-	    return string
+   def _finishLine(self):
+      # Translate some characters that are known ligatures (mostly for TeX sources)
+      def TranslateChars(string):
+         string = string.replace('\013', 'ff')
+         string = string.replace('\014', 'fi')
+         string = string.replace('\015', 'fl')
+         string = string.replace('\016', 'ffi')
+         string = string.replace('\017', 'ffl')
+         string = string.replace('\024', '<=')
+         string = string.replace('\025', '>=')
+         string = string.replace('\027A', 'AA')
+         string = string.replace('\027a', 'aa')
+         string = string.replace('\031', 'ss')
+         string = string.replace('\032', 'ae')
+         string = string.replace('\033', 'oe')
+         string = string.replace('\034', 'o')
+         string = string.replace('\035', 'AE')
+         string = string.replace('\036', 'OE')
+         string = string.replace('\037', 'O')
+         string = string.replace('\256', 'fi')
 
-	if not self.fragment: return
+         string = string.replace('\257', 'fl')
+         string = string.replace('\366', 'fi')
+         string = string.replace('\377', 'fl')
+         string = string.replace('[\000-\037]', '?')
+         string = string.replace('[\177-\377]', '?')
+         return string
 
-	if type(self.fragment)==type(''):   print 'self.fragment='+`self.fragment`
-	self.fragment.string = TranslateChars(self.fragment.string)
+      if not self.fragment:
+         return
 
-#	self.yList.sort()
-#	y = self.yList[len(self.yList)/2]
-	
-	self.pa.submit( Line( self.fragment.x0, self.fragment.x1, self.fragment.y0, self.fragment.string ) )
+      if type(self.fragment)==type(''):
+         print 'self.fragment='+`self.fragment`
+      self.fragment.string = TranslateChars(self.fragment.string)
 
-	self.yList=[]
-	self.fragment = None
+      # self.yList.sort()
+      # y = self.yList[len(self.yList)/2]
 
-    # Must be called when no more fragments are left
-    def done(self):
-	self._finishLine()
-	self.pa.done()
+      self.pa.submit( Line( self.fragment.x0, self.fragment.x1, self.fragment.y0, self.fragment.string ) )
+
+      self.yList=[]
+      self.fragment = None
+
+   # Must be called when no more fragments are left
+   def done(self):
+      self._finishLine()
+      self.pa.done()
 
 
 #
@@ -917,37 +952,35 @@ class LineAssembler:
 
 
 class PageAssembler:
-    def __init__(self, docAssembler):
-	self.page = Page()
-	self.da = docAssembler
+   def __init__(self, docAssembler):
+      self.page = Page()
+      self.da = docAssembler
 
-    def submit(self, line):
-	self.page.addLine( line )
+   def submit(self, line):
+      self.page.addLine( line )
 
-    def finishPage(self):
-	self.page.doneAddingLines()
-	self.da.submit( self.page )
-        self.page = Page()
+   def finishPage(self):
+      self.page.doneAddingLines()
+      self.da.submit( self.page )
+      self.page = Page()
 
-    def done(self):
-	self.finishPage()
-	self.da.done()
+   def done(self):
+      self.finishPage()
+      self.da.done()
 
 
 class DocAssembler:
-    
-    def __init__(self):
-	self.doc = Document()
+   def __init__(self):
+      self.doc = Document()
 
-    def submit(self, page):
-	self.doc.addPage( page )
-	
-    def done(self):
-	self.doc.doneAddingPages()
+   def submit(self, page):
+      self.doc.addPage( page )
 
-    def getDocument(self):
-	return self.doc
+   def done(self):
+      self.doc.doneAddingPages()
 
+   def getDocument(self):
+      return self.doc
 
 
 
@@ -957,21 +990,21 @@ class DocAssembler:
 #
 
 def assembleDocument(frags):
-    msg( "Assembling document" )
+   msg( "Assembling document" )
 
-    docasm = DocAssembler()
-    pageasm = PageAssembler( docasm )
-    lineasm = LineAssembler(frags.modeCharWidth(), pageasm )
+   docasm = DocAssembler()
+   pageasm = PageAssembler( docasm )
+   lineasm = LineAssembler(frags.modeCharWidth(), pageasm )
     
-    for fragment in frags.getFragData():
-	lineasm.submit( fragment )
+   for fragment in frags.getFragData():
+      lineasm.submit( fragment )
 
-    lineasm.done()
+   lineasm.done()
     
-    return docasm.getDocument()
+   return docasm.getDocument()
 
 def preprocessDocument(document):
-    msg( "Preprocessing document" )
-    
-    document.preprocess()
+   msg( "Preprocessing document" )
+
+   document.preprocess()
 
