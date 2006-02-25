@@ -5,16 +5,16 @@
 import sys,math
 
 def Mean(dataArray):
-    sum=0.0
-    for i in xrange(len(dataArray)): sum=sum+dataArray[i]
-    return sum/len(dataArray)
+   sum=0.0
+   for i in xrange(len(dataArray)): sum=sum+dataArray[i]
+   return sum/len(dataArray)
 
 
 def record_data( fn, list ):
-    f = open( fn, 'w' )
-    list.sort()
-    f.write( `list` )
-    f.close()
+   f = open( fn, 'w' )
+   list.sort()
+   f.write( `list` )
+   f.close()
     
     
 # SD:
@@ -27,32 +27,32 @@ def record_data( fn, list ):
 # where this is appropriate.  A limit of 'None' means there is no limit in that direction
 def SD(list, x_bar, maxval=None, minval=None):
 
-    sum = 0
-    n = 0
-    newlist = []
-    
-    # Apply filter and calculate average
-    for i in xrange(len(list)):
-	item = list[i]
+   sum = 0
+   n = 0
+   newlist = []
+   
+   # Apply filter and calculate average
+   for i in xrange(len(list)):
+      item = list[i]
 
-	# only consider this item if it is in range
-	if (maxval == None or item <= maxval) and (minval == None or item >= minval):
-	    sum = sum + item
-	    n = n + 1
-	    newlist.append( item )
+      # only consider this item if it is in range
+      if (maxval == None or item <= maxval) and (minval == None or item >= minval):
+         sum = sum + item
+         n = n + 1
+         newlist.append( item )
 
-#    x_bar = float(sum)/n  # the average of newlist
-    sum = 0
-    for i in xrange(len(newlist)):
-	t = newlist[i]-x_bar
-	sum = sum + (t*t)
+   # x_bar = float(sum)/n  # the average of newlist
+   sum = 0
+   for i in xrange(len(newlist)):
+      t = newlist[i]-x_bar
+      sum = sum + (t*t)
 
-    return math.sqrt( sum/(len(newlist)-1) )
+   return math.sqrt( sum/(len(newlist)-1) )
 
 
 # Returns the statistical mode from a sorted list
 def Mode(dataArray):
-    return Mode2(dataArray)[0]  # legacy; return only the mode
+   return Mode2(dataArray)[0]  # legacy; return only the mode
 
 def Mode2(list):
     list.sort()
