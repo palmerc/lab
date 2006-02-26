@@ -20,7 +20,7 @@
 ## 
 import __main__
 
-import os, sys, misc, statfunctions, string
+import os, sys, misc, statfunctions, string, re
 from process import Line
 from string import split, atoi, find, strip
 from urllib import unquote
@@ -248,14 +248,25 @@ class HTMLFormatter:
         else:                                              self.out.write(self.HTMLQuote(l.string))
 
     def HTMLQuote(self,s):
-        quote_chars = '<>&"'
-        entities = ("&lt;", "&gt;", "&amp;", "&quot;")
-        res = ''
-        for c in s:
-            index = find(quote_chars, c)
-            if index >= 0:  res = res + entities[index]
-            else:           res = res + c
-        return res
+        """
+        Hopefully faster now, using a regular expression and no string concatenation
+        >>> h = HTMLFormatter(None)
+        >>> h.HTMLQuote("asd")
+        'asd'
+        >>> h.HTMLQuote("<a>&")
+        '&lt;a&gt;&amp;'
+        """
+        
+        subs = {
+            "<": "&lt;",
+            ">": "&gt;",
+            "&": "&amp;",
+            "\"": "&quot;"
+        }
+        def replacer(m):
+            return subs[m.group(1)]
+        r = re.compile("([%s])" % ("".join(subs.keys(),)))
+        return r.sub(replacer, s)
 
 
 # Render the provided Page instance with the given Formatter instance
@@ -309,3 +320,9 @@ def applyHandcheck(inputFilename, document):
                     msg( 'Unknown classification: '+`val` )
 
                     
+def _test():
+    from doctest import testmod
+    testmod()
+
+if __name__ == "__main__":
+    _test()
