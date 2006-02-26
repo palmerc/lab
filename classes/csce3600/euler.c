@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int factorial(int a) {
+long factorial(int a) {
    int i, factorial = 1;
 
    if (a == 0) {
@@ -14,14 +14,15 @@ int factorial(int a) {
 }
 
 int main() {
-   int i, facto;
+   int i;
+   long facto;
    double euler;
 
-   for (i=0; i < 20; i++) {
+   for (i=0; i < 50; i++) {
       facto = factorial(i);
       euler += (double) 1/facto;
+      printf("Euler is %.60f\n\n", euler);
    }
 
-   printf("Euler is %f\n\n", euler);
 
 }
