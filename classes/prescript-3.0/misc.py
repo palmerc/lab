@@ -38,20 +38,7 @@ def MakeFilename(sourceName, newExt):
    return root + newExt
 
 def short(string):
-   length=(len(string))
-   length=length-1
-   
-   position=0
-
-   if length!=0:
-      while length!=0:
-         if string[length]!=" ":
-            position=length
-            break
-         else:
-            length=length-1
-   
-   return string[:position+1]
+   return string.rstrip()
 
 def checkforBib(string):
    
@@ -65,13 +52,10 @@ def checkforBib(string):
 
 def findLastChar(string):
    def checkForParen(char):
-      if char==")" or char=="]" or char=="}" or char=="\"" or char=="\'":
-         return 1
-      else:
-         return 0
+      return char in [")", "]", "}", "\"", "\'"]
 
    def checkForPunc(char):
-      if char=="." or char=="!" or char=="?":
+      if char in [".", "!", "?"]:
          return "stop"
       elif char==":":
          return "colon"
@@ -134,7 +118,7 @@ def isEqual( a, b, Equalness=defEqualness ):
    # hack to handle b==0 case.  there is probably a better action
    # than this, but this will do
    # print "%s\t%s"%(type(a),type(b))
-   if b == 0:	return a <= Equalness
+   if b == 0:   return a <= Equalness
    return abs((float(a)/float(b))-1) <= Equalness
 
 
@@ -175,27 +159,42 @@ def nextline():
 # qsplit:
 #
 # like string.split() only quotes protect spaces
-# BE WARNED: I think this function is buggy
+# fixed, and should now work for strings without delimeter too
 def qsplit(i,delim=' '):
-   if i == None:
-      return None
-
-   i = string.split(i,'"')	# first find quotes
-
-   # resplit only unquoted words (which will be every other item in the list)
-   o = []
-   for x in range(len(i)): 
-      if x % 2:
-         o = o + [i[x]]	# odd indexes
+   r"""
+   >>> qsplit("a b c")
+   ['a', 'b', 'c']
+   >>> qsplit("a \"b c\" d")
+   ['a', 'b c', 'd']
+   >>> qsplit("  ")
+   ['', '', '']
+   >>> qsplit(" ")
+   ['', '']
+   >>> qsplit("")
+   []
+   """
+   if not i: return []
+   piece = re.compile(r'(|".+?"|[^"].*?)('+delim+'|$)')
+   if not piece.match(i):
+       raise Exception, "No delimeter found"
+   r = []
+   for m in piece.finditer(i):
+      g = m.group(1)
+      if g and g[0] == "\"":
+         r.append(g[1:-1])
       else:
-         # get rid of trailing or leading
-         # if i[x][:len(delim)] == delim: del i[x][:len(delim)] 
-         # if i[x][len(delim):] == delim: del i[x][len(delim):]
-         o = o + string.split(i[x],delim) # even indexes
-   return o
-	    
+        r.append(g)
+   #FIXME: this is because only non-empty nuggets cause a null event
+   if len(r) >= 2 and not r[-2]:
+       return r
+   return r[:-1]
+
 # msg:
 #
 # print the given message to the message device, ususally stderr
 def msg(msg,cr='\n'):
    sys.stderr.write(msg+cr)
+
+if __name__ == "__main__":
+   from doctest import testmod
+   testmod()

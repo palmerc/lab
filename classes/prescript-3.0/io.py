@@ -59,11 +59,11 @@ class Fragment:
        # if this new fragment starts a new word, insert enough space to reflect this
        avgCharWidth = min([self.averageCharWidth(), fragment.averageCharWidth()])
        if fragment.x0-self.x1 > 0.3*avgCharWidth:
-	   # append fragment's string component plus at most 10 spaces to preserve
-	   # some nature of the spacing between fragments
-	   if avgCharWidth == 0: wordspacing = 1
-	   else: wordspacing=min(max(int((fragment.x0-self.x1)/avgCharWidth + 0.5), 1), 10)
-	   self.string=self.string+' '*wordspacing
+           # append fragment's string component plus at most 10 spaces to preserve
+           # some nature of the spacing between fragments
+           if avgCharWidth == 0: wordspacing = 1
+           else: wordspacing=min(max(int((fragment.x0-self.x1)/avgCharWidth + 0.5), 1), 10)
+           self.string=self.string+' '*wordspacing
 
        self.x1 = fragment.x1
        self.y1 = fragment.y1
@@ -89,46 +89,46 @@ class Fragment:
 # The worker instance is the mechanism for storing and manipulating the
 # fragments of text.  It must have the following methods:
 #
-#	    newPage()	      Start a new page
-#	    textFragment()    Present new text fragment
-#	    done()	      Document read, cleanup code
+#           newPage()         Start a new page
+#           textFragment()    Present new text fragment
+#           done()            Document read, cleanup code
 #
 # The first page is assumed to have already been initialised.
 def readPostScriptDataFile(FH, worker):
     errs = 0
     while 1:
-	input = FH.readline()
-	if not input: break
+        input = FH.readline()
+        if not input: break
 
-	input = strip(input)
-	if len(input) == 0: continue
+        input = strip(input)
+        if len(input) == 0: continue
 
-	input = split(input, '\t')
-	if input[0][0] == "P":
-	    worker.newPage()
-	    
-	elif input[0][0] == "S" and len(input) == 8:
-	    [tag, x0, y0, string, ytop, ybot, x1, y1] = input
-	    
-	    # If x1 is 'S', then some funny recursive font stuff has happened.
-	    # Ignore the recursive stuff, and search for the rest of this line
-	    if x1 == "S":
-		while 1:
-		    input = FH.readline();
-		    if input[0] != "S": break
-		[x1, y1] = split(input[:-1], '\t')[:2]
-		
-	    string = unquote(string)  
-	    if len(string) > 0:
-		worker.textFragment( Fragment( atoi(x0), atoi(y0),
-					       string,
-					       atoi(x1), atoi(y1)))
-	else:
-	    msg( "Bad fragment line: "+`input`)
-	    errs = errs + 1
-	    if errs == maxBadLines:
-		msg( 'Error limit encounter, aborting.  Is this *really* a post script file?' )
-		sys.exit(1)
+        input = split(input, '\t')
+        if input[0][0] == "P":
+            worker.newPage()
+            
+        elif input[0][0] == "S" and len(input) == 8:
+            [tag, x0, y0, string, ytop, ybot, x1, y1] = input
+            
+            # If x1 is 'S', then some funny recursive font stuff has happened.
+            # Ignore the recursive stuff, and search for the rest of this line
+            if x1 == "S":
+                while 1:
+                    input = FH.readline();
+                    if input[0] != "S": break
+                [x1, y1] = split(input[:-1], '\t')[:2]
+                
+            string = unquote(string)  
+            if len(string) > 0:
+                worker.textFragment( Fragment( atoi(x0), atoi(y0),
+                                               string,
+                                               atoi(x1), atoi(y1)))
+        else:
+            msg( "Bad fragment line: "+`input`)
+            errs = errs + 1
+            if errs == maxBadLines:
+                msg( 'Error limit encounter, aborting.  Is this *really* a post script file?' )
+                sys.exit(1)
     worker.done()
 
 
@@ -187,16 +187,16 @@ def readFragments(psFilename):
 # Straight ASCII dump of document (minimal formatting)
 class PlainTextFormatter:
     def __init__(self, out):      self.out = out
-    def start(self, doc):	  pass
-    def end(self, doc):		  pass
+    def start(self, doc):         pass
+    def end(self, doc):           pass
     
-    def linefeed(self):		  self.out.write('\n')
-    def paragraph(self):	  self.out.write('\n\n')
+    def linefeed(self):           self.out.write('\n')
+    def paragraph(self):          self.out.write('\n\n')
     def pagebreaklinefeed(self):  self.linefeed()
     def pagebreakparagraph(self): self.paragraph()
     def explicitlinefeed(self):   self.out.write('\n')
-    def pagebreak(self):	  self.out.write('\n\n'+'-'*80+'\n')
-    def line(self, l):		  self.out.write(l.string)
+    def pagebreak(self):          self.out.write('\n\n'+'-'*80+'\n')
+    def line(self, l):            self.out.write(l.string)
 
 # Outputs compliant to the ARFF version 2 format to be used with ML appropriate
 # schemes 
@@ -210,59 +210,59 @@ class ARFFFormatter:
     
     def __init__(self, out):      self.out = out
     def start(self, doc):
-	try:
-	    ahdr = open( __main__.prescript_dir+'arff-header', 'r+' )
-	    self.out.writelines( ahdr.readlines() )
-	    ahdr.close()
-	except IOError:
-	    msg( 'WARNING: Header %s does not exist' % (__main__.prescript_dir+'arff-header') )
+        try:
+            ahdr = open( __main__.prescript_dir+'arff-header', 'r+' )
+            self.out.writelines( ahdr.readlines() )
+            ahdr.close()
+        except IOError:
+            msg( 'WARNING: Header %s does not exist' % (__main__.prescript_dir+'arff-header') )
     
-    def end(self, doc):		  pass
+    def end(self, doc):           pass
     
-    def linefeed(self):		  pass
-    def paragraph(self):	  pass
+    def linefeed(self):           pass
+    def paragraph(self):          pass
     def pagebreaklinefeed(self):  self.linefeed()
     def pagebreakparagraph(self): self.paragraph()
     def explicitlinefeed(self):   pass
-    def pagebreak(self):	  pass
+    def pagebreak(self):          pass
     def line(self, l):
-	if l.type in ARFFFormatter.ARFFtypes: self.out.write(str(l)+'\n')
+        if l.type in ARFFFormatter.ARFFtypes: self.out.write(str(l)+'\n')
 
 # Permits output in HTML format
 class HTMLFormatter:
     def __init__(self, out):      self.out = out
     def start(self, doc):
-	if doc.wasReversed: self.out.write( "<!--Pages Reversed-->\n" )
-    def end(self, doc):		  pass
+        if doc.wasReversed: self.out.write( "<!--Pages Reversed-->\n" )
+    def end(self, doc):           pass
     
-    def linefeed(self):		  self.out.write('\n')
-    def paragraph(self):	  self.out.write('\n<p>')
+    def linefeed(self):           self.out.write('\n')
+    def paragraph(self):          self.out.write('\n<p>')
     def pagebreaklinefeed(self):  self.linefeed()
     def pagebreakparagraph(self): self.paragraph()
     def explicitlinefeed(self):   self.out.write('<br>\n')
-    def pagebreak(self):	  self.out.write('\n\n<!--End Of Page--><p><hr><p>\n')
+    def pagebreak(self):          self.out.write('\n\n<!--End Of Page--><p><hr><p>\n')
     
     def line(self, l):
-	if l.type == Line.Header or l.type == Line.Footer: self.out.write("<p><i><center>%s</center></i><p>" % self.HTMLQuote(l.string) )
-	elif l.type == Line.PageNo:	                   self.out.write("<!--Page No--><p><b><center>%s</center></b><p>\n" % self.HTMLQuote(l.string) )
-	else:						   self.out.write(self.HTMLQuote(l.string))
+        if l.type == Line.Header or l.type == Line.Footer: self.out.write("<p><i><center>%s</center></i><p>" % self.HTMLQuote(l.string) )
+        elif l.type == Line.PageNo:                        self.out.write("<!--Page No--><p><b><center>%s</center></b><p>\n" % self.HTMLQuote(l.string) )
+        else:                                              self.out.write(self.HTMLQuote(l.string))
 
     def HTMLQuote(self,s):
-	quote_chars = '<>&"'
-	entities = ("&lt;", "&gt;", "&amp;", "&quot;")
-	res = ''
-	for c in s:
-	    index = find(quote_chars, c)
-	    if index >= 0:  res = res + entities[index]
-	    else:	    res = res + c
-	return res
+        quote_chars = '<>&"'
+        entities = ("&lt;", "&gt;", "&amp;", "&quot;")
+        res = ''
+        for c in s:
+            index = find(quote_chars, c)
+            if index >= 0:  res = res + entities[index]
+            else:           res = res + c
+        return res
 
 
 # Render the provided Page instance with the given Formatter instance
 def renderPage(formatter, page):
     for line in page:
-	eval( "formatter."+line.prediction+"()" )
-	formatter.line(line)
+        eval( "formatter."+line.prediction+"()" )
+        formatter.line(line)
     formatter.pagebreak()
 
 # Render the provided Document instance with the given Formatter instance
@@ -293,19 +293,19 @@ def applyHandcheck(inputFilename, document):
     hcstring={'0':'linefeed','1':'paragraph','2':'pagebreaklinefeed','3':'pagebreakparagraph','4':'explicitlinefeed','5':'picnoise'}
     handcheckFN = misc.MakeFilename(inputFilename,'.handclass')
     if os.path.exists( handcheckFN ):
-	msg( 'Found and applying handcheck file' )
-	hcf = open( handcheckFN )
+        msg( 'Found and applying handcheck file' )
+        hcf = open( handcheckFN )
 
-	for page in document:
-	    for line in page:
-		try:
-		    if line.type in ARFFFormatter.ARFFtypes:
-			line.handclass = hcstring[string.strip(hcf.readline())]
-		except KeyError, val:
-		    if val in [None,'']:  # cope with EOF
-			msg( 'ERROR: Handclass file ran out before the end of the document!' )
-			return
-		    # otherwise it's a bad keyword
-		    msg( 'Unknown classification: '+`val` )
+        for page in document:
+            for line in page:
+                try:
+                    if line.type in ARFFFormatter.ARFFtypes:
+                        line.handclass = hcstring[string.strip(hcf.readline())]
+                except KeyError, val:
+                    if val in [None,'']:  # cope with EOF
+                        msg( 'ERROR: Handclass file ran out before the end of the document!' )
+                        return
+                    # otherwise it's a bad keyword
+                    msg( 'Unknown classification: '+`val` )
 
-		    
+                    

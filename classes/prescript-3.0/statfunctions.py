@@ -5,9 +5,17 @@
 import sys,math
 
 def Mean(dataArray):
-   sum=0.0
-   for i in xrange(len(dataArray)): sum=sum+dataArray[i]
-   return sum/len(dataArray)
+   """
+   >>> Mean([4,5,6])
+   5
+   >>> Mean([])
+   Traceback (most recent call last):
+   ...
+   ValueError: dataArray must contain one or more values
+   """
+   if not dataArray:
+      raise ValueError, "dataArray must contain one or more values"
+   return sum(dataArray)/len(dataArray)
 
 
 def record_data( fn, list ):
@@ -63,11 +71,11 @@ def Mode2(list):
 
     # compress the input list down to frequency,value pairs
     for i in xrange(len(list)):
-	if list[i] == thisVal:  thisF = thisF + 1  # found another 'thisVal
-	else:
-	    histogram.append( (thisF,thisVal) )
-	    thisF = 1
-	    thisVal = list[i]
+        if list[i] == thisVal:  thisF = thisF + 1  # found another 'thisVal
+        else:
+            histogram.append( (thisF,thisVal) )
+            thisF = 1
+            thisVal = list[i]
     
     histogram.append( (thisF,thisVal) ) # the last pair will not have been written yet
     histogram.sort()  # sort on frequency
@@ -80,35 +88,35 @@ def Mode2(list):
 
     if len(histogram) == 1:  mode2 = mode
     else:
-	first = list.index(mode)  # first occurance of mode
-	for i in xrange(first, len(list)):
-	    if list[i] != mode:
-		last = i-1
-		break
-	else:   last = i
+        first = list.index(mode)  # first occurance of mode
+        for i in xrange(first, len(list)):
+            if list[i] != mode:
+                last = i-1
+                break
+        else:   last = i
 
-	# determine which end is closer
-	if first == 0: firstDiff= None
-	else: firstDiff = abs(list[first]-list[first-1])
+        # determine which end is closer
+        if first == 0: firstDiff= None
+        else: firstDiff = abs(list[first]-list[first-1])
 
-	if last == len(list)-1: lastDiff= None
-	else: lastDiff = abs(list[last+1]-list[last])
+        if last == len(list)-1: lastDiff= None
+        else: lastDiff = abs(list[last+1]-list[last])
 
-	# now return the closest end
+        # now return the closest end
 
-	if firstDiff == None or lastDiff == None:
-	    if firstDiff == None and lastDiff != None:
-		mode2 = list[last+1]
-	    elif firstDiff != None and lastDiff == None:
-		mode2 = list[first-1]
-	    else:
-		mode2 = mode
-	else:
-	    if first < lastDiff: mode2 = list[first-1]
-	    else: mode2 = list[last+1]
+        if firstDiff == None or lastDiff == None:
+            if firstDiff == None and lastDiff != None:
+                mode2 = list[last+1]
+            elif firstDiff != None and lastDiff == None:
+                mode2 = list[first-1]
+            else:
+                mode2 = mode
+        else:
+            if first < lastDiff: mode2 = list[first-1]
+            else: mode2 = list[last+1]
 
     return (mode,mode2)
-	    
+            
     
 
     
@@ -124,15 +132,15 @@ def oldMode(dataArray):
     
     for i in range(1,len(dataArray)):
 
-	if (current==dataArray[i]):
-	    count=count+1
-	else:
-	    histogram.append(count)
-	    h_index=h_index+2
-	    histogram.append(dataArray[i])
-	    count=1
+        if (current==dataArray[i]):
+            count=count+1
+        else:
+            histogram.append(count)
+            h_index=h_index+2
+            histogram.append(dataArray[i])
+            count=1
 
-	current=dataArray[i]
+        current=dataArray[i]
 
     histogram.append(count)
 
@@ -140,19 +148,19 @@ def oldMode(dataArray):
     mode=0
 
     for i in range(len(histogram)/2):
-	if (max < histogram[2*i+1]):
-	    max=histogram[2*i+1]
-	    mode=histogram[2*i]
+        if (max < histogram[2*i+1]):
+            max=histogram[2*i+1]
+            mode=histogram[2*i]
 
-	elif (max == histogram[2*i+1]):
-	    mode=(mode+histogram[2*i]) / 2
-	
+        elif (max == histogram[2*i+1]):
+            mode=(mode+histogram[2*i]) / 2
+        
     return mode
 
 
 #  modeXval:
 #
-#	Finds the value in the given sorted list which has the given frequency
+#       Finds the value in the given sorted list which has the given frequency
 #  This should actually return a list of elements since there is a one-to-many
 #  relationship between frequency and value.  
 #
@@ -169,24 +177,24 @@ def modeXval(mode, list):
        raise "StatsError", "Searching for value where mode = 0 yields an infinite list"
        return None
 
-    i = -1		# the iterator -- is negative because we traverse the list in reverse order
-    thismode = 0	# this is the mode of the current value
-    val	= list[i]	# this is the value for which the mode is being currently calculated
+    i = -1              # the iterator -- is negative because we traverse the list in reverse order
+    thismode = 0        # this is the mode of the current value
+    val = list[i]       # this is the value for which the mode is being currently calculated
 
     for i in range( -1, -len(list)-1, -1 ):  # examine each element of list
-	if list[i] == val:
-	   thismode = thismode + 1
-	else:
-	   if thismode == mode:  # have we reached our target yet?
-	      return [val]	      # if yes, return the target
+        if list[i] == val:
+           thismode = thismode + 1
+        else:
+           if thismode == mode:  # have we reached our target yet?
+              return [val]            # if yes, return the target
 
-	   val = list[i]
-	   thismode = 1
+           val = list[i]
+           thismode = 1
 
 
     # if we got down here, then the target (val) isn't in list.
     return []
-	
+        
 
 
 
@@ -194,13 +202,26 @@ def modeXval(mode, list):
 # Returns the statistical mean from a sorted list -- there are also probably
 # better ways of achieving this statistic..
 def Median(dataArray):
-   index=len(dataArray)/2
-   if math.fmod(index, 2)==0.0:
-       median=(dataArray[index]+dataArray[index+1])/2
+   """
+   >>> Median([1,2,3,4,5])
+   3
+   >>> Median([1,2,3])
+   2
+   >>> Median([1,2])
+   1.5
+   >>> Median([])
+   Traceback (most recent call last):
+   ...
+   ValueError: dataArray must contain one or more values
+   """
+   l = len(dataArray)
+   if not l:
+      raise ValueError, "dataArray must contain one or more values"
+   i = int(len(dataArray)/2)-1
+   if (l % 2) == 0:
+      return sum(dataArray[i:i+2]) / 2.0
    else:
-       median = dataArray[index]
-
-   return median
+      return dataArray[i+1]
 
 
 # This procedure returns the average of the next num values
@@ -209,16 +230,17 @@ def LocalAverage(dataArray, num, columnThreshold, modeLinespace):
     count=0
 
     for i in range(num-1):
-	if ((dataArray[i]=='?') or (dataArray >= columnThreshold) or (dataArray[i]==modeLinespace)):
-	    break
-	
-	sum=sum+dataArray[i]
-	count=count+1
+        if ((dataArray[i]=='?') or (dataArray >= columnThreshold) or (dataArray[i]==modeLinespace)):
+            break
+        
+        sum=sum+dataArray[i]
+        count=count+1
 
     if (sum !=0):
-	return (sum/count)
+        return (sum/count)
     else:
-	return 0.0
+        return 0.0
     
-
-    
+if __name__ == "__main__":
+   from doctest import testmod
+   testmod()

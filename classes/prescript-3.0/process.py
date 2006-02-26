@@ -188,9 +188,9 @@ class Line:
          boolToStr(self.LS_CL_gt_AVLS), \
          boolToStr(self.isColumnbreak), \
          boolToStr(self.LS_NL_eq_MOLS), \
-         boolToStr(self.NL_AVLS_eq_1),	\
-         boolToStr(self.RTedge_PL_eq_RTmargin),	\
-         boolToStr(self.RTedge_CL_eq_RTmargin),	\
+         boolToStr(self.NL_AVLS_eq_1),  \
+         boolToStr(self.RTedge_PL_eq_RTmargin), \
+         boolToStr(self.RTedge_CL_eq_RTmargin), \
          boolToStr(self.RTedge_lastpagelastline_eq_RTmargin), \
          self.linespace, \
          ## self.y, \
@@ -304,7 +304,7 @@ class Page:
       if (n !=0):
          return math.ceil(round(float(sum)/n,1))
       else:
-         return self.lines[i].getLS()	  # last resort
+         return self.lines[i].getLS()     # last resort
 
    def _do_calcLocalAverage(self, i, MOLS):
       # calcav:
@@ -369,7 +369,7 @@ class Page:
       global Yequalness
 
       for i in range(len(self.lines)):
-         self.lines[i].setRightEdge(modeRightMargins)		
+         self.lines[i].setRightEdge(modeRightMargins)           
    
          AVLS_CL=self.lines[i].localAverage=self.calcLocalAverage(i,MOLS)
          NL_AVLS=self.lines[i].getNumberLocalAverage() # NL_AVLS -- Number of lines in the local average calc
@@ -484,7 +484,7 @@ class Page:
     
    # calcMargins:
    #
-   #	This method establishes the number of columns and the margins of these
+   #    This method establishes the number of columns and the margins of these
    # columns on the page.  A list of these margins is placed in self.rtMargins
    def calcMargins(self, MOLS, MOLEN):
       # generate a list of x1,y1 pairs.  From this a frequency graph can be
@@ -501,7 +501,7 @@ class Page:
 
       # compress each list down to frequency,value pairs
       self.rtMargins = self.findFreq( x1list )
-      self.rtMargins.sort( lambda a,b: int(a[1]-b[1]) )		# just to be quite sure
+      self.rtMargins.sort( lambda a,b: int(a[1]-b[1]) )         # just to be quite sure
 
       ## {rt,lt}Margins NOW contain (f,x-av,y-av,y-min,y-max)   ##
 
@@ -509,7 +509,7 @@ class Page:
       # More can be apparent due to tables, non-text objects, etc, and this
       # serves to eliminate some of these.
       if len(self.rtMargins) > MaxColumns:
-         del self.rtMargins[:-MaxColumns]	
+         del self.rtMargins[:-MaxColumns]       
    
       if len(self.rtMargins) == 0:
          return # no columns were found, so can't apply them
@@ -538,29 +538,29 @@ class Page:
    #  - the output is a list of tuples of the form:
    #    (freq, x-av, y-av, y-min, y-max)
    #  - comparisons are done loosely, ie two adjacent numbers +/- 2 are
-   #	 considered to be "equal"
+   #     considered to be "equal"
    #  - the x and y co-ordinates returned in the output list are averages
    #  - findFreq also filters out values with CONSECUTIVE frequencies below
    #    a certain limit.  This is supposed to help eliminate noise due to
    #    pictures etc.
 
    def findFreq( self, list ):
-      if len(list) == 0:	# can't operate on nothing
+      if len(list) == 0:        # can't operate on nothing
          msg( "findFreq: WARNING: called with an empty input list!!" )
          return []
 
-      output = []		        # output list
-      f = 0			# frequency of val
-      val = list[0]		# start with the first element
-      valcum = (0,0)		# cumulation of vals
-      min = max = val[1]		# minimum and maximum y values
+      output = []                       # output list
+      f = 0                     # frequency of val
+      val = list[0]             # start with the first element
+      valcum = (0,0)            # cumulation of vals
+      min = max = val[1]                # minimum and maximum y values
    
       # since val's aren't strictly the same, we'll average the val's to get a
       # more accurate view of what val actually is
    
       for l in list:
          if misc.isEqual(val[0],l[0],Xequalness):
-            f = f + 1	        # we've found another val
+            f = f + 1           # we've found another val
             valcum = (valcum[0] + l[0], valcum[1] + l[1])
             if l[1] < min:
                min = l[1]
@@ -569,13 +569,13 @@ class Page:
          else:
             output.append( (f, round(valcum[0]/f,1),round(valcum[1]/f,1), min, max ) )
             # reset
-            val = l		# next val
-            f = 1		# and we've already found one
+            val = l             # next val
+            f = 1               # and we've already found one
             valcum = l
             min = max = val[1]
 
       output.append( (f, round(valcum[0]/f,1),round(valcum[1]/f,1), min, max) )
-      output.sort()	  # sort on frequency (pri) and x (sec) 
+      output.sort()       # sort on frequency (pri) and x (sec) 
 
       # output now contains the list of consecutive frequencies.
    
@@ -593,9 +593,9 @@ class Page:
       # must be combined.
    
       # this code finds the first record whose f is >= MinConsecFreq
-      i = 0		  # where to cut
+      i = 0               # where to cut
       while i < len(output) and output[i][0] < MinConsecFreq:
-         i = i + 1	# find first i where output[i] >= MinConsecFreq
+         i = i + 1      # find first i where output[i] >= MinConsecFreq
 
       # if i points off the list, no eligible candidates were found.
       # When this happens, we take the largest frequency found, which will
@@ -622,7 +622,7 @@ class Page:
       #
       output.sort( lambda a,b: int(a[1] - b[1]) ) # sort on x value 
       i = 0
-      while i <= len(output) - 2:	# go from 0 to second to last index
+      while i <= len(output) - 2:       # go from 0 to second to last index
          if misc.isEqual( output[i][1], output[i+1][1],Xequalness ): #abs(output[i][1] - output[i+1][1]) <= 2:
             output[i] = self.mergeRecords( output[i], output[i+1], lambda a,b: round((a+b)/2) )
             del output[i+1]
@@ -636,7 +636,7 @@ class Page:
    # take two tuples and merge them together
    #
    # Input is a list of tuples of the form:
-   #	(f, x, y-av, y-min, y-max)
+   #    (f, x, y-av, y-min, y-max)
 
    def mergeRecords( self, k, j, minmax ):
       kf, kx, kav, kmin, kmax = k
@@ -696,8 +696,8 @@ class Page:
    # geometry, (ie, the length does not change.)
    #
    # Parameters:
-   #   i	Line number to dehyphenate (Int)
-   #	lpll	Reference to the last line of the last page (Line)
+   #   i        Line number to dehyphenate (Int)
+   #    lpll    Reference to the last line of the last page (Line)
    def dehyphenateLine(self, i, lpll):
       if __main__.format == 'arff':
          return
@@ -803,7 +803,7 @@ class Document:
       # calculate column margins
       for page in self.pages:
          page.calcMargins(self.MOLS,self.MOLEN)
-         rtm = page.getRTmargins()	# margins for this page
+         rtm = page.getRTmargins()      # margins for this page
 
          for r in range(len(rtm)):
             if len(self.modertmargins) <= r:
@@ -943,9 +943,9 @@ class LineAssembler:
 #
 # The public methods of this class are:
 #
-#	newPage()	Called to create a new page
-#	textFragment()  Submit next fragment
-#	done()		Must be called after no more fragments are left
+#       newPage()       Called to create a new page
+#       textFragment()  Submit next fragment
+#       done()          Must be called after no more fragments are left
 #
 # The class is intialised with a fresh page.
 #
@@ -986,7 +986,7 @@ class DocAssembler:
 
 # Convert fragment data into a list of pages, where each page is a list of
 # Lines.  Note that the only attributes set are:
-#	  x0, x1, y, length, type, and string
+#         x0, x1, y, length, type, and string
 #
 
 def assembleDocument(frags):

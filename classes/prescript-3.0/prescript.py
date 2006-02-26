@@ -35,19 +35,13 @@ def setPrescriptDir():
    global prescript_dir
 
    # find where prescript is, and check the format of the string
-   if 'PRESCRIPT_DIR' in os.environ.keys():
+   try:
       prescript_dir = os.environ['PRESCRIPT_DIR']
-   else: 
-      prescript_dir = ''
-      
-   if prescript_dir == '': 
-      prescript_dir = os.path.split(sys.argv[0])[0]
-      
-   if prescript_dir == '':
-      prescript_dir = './'
-      
+   except KeyError:
+      prescript_dir = os.path.dirname(sys.argv[0]) or './'
+
    if prescript_dir[-1] != '/':
-      prescript_dir = prescript_dir + '/'
+      prescript_dir += '/'
 
 
 def makeFormatter(outFilename, format):
@@ -68,8 +62,8 @@ def checkParams(argv):
    inputFilename, format = argv[2],argv[1]
 
    # append the .ps if it was omitted
-   if re.search(r'\.ps$', inputFilename) == -1: 
-      inputFilename=inputFilename+'.ps'
+   if not inputFilename.endswith(".ps"):
+      inputFilename += '.ps'
       
    # plain is a more convenient word to use
    if format == 'plain': 
@@ -105,5 +99,5 @@ if __name__ == '__main__':
    process.preprocessDocument( document )
    predict.predictDocument( document )
    if format == 'arff': 
-      io.applyHandcheck(inputFilename, document )
+      io.applyHandcheck( inputFilename, document )
    io.renderDocument( makeFormatter(outFilename, format), document )

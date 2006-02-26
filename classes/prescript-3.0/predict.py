@@ -104,7 +104,7 @@ def predictDocument(document):
             # so we don't need to next i.
             i=i+1
       lpll = page[-1]
-	
-				
+        
+                                
 
-			  
+                          
