@@ -1,0 +1,29 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+# Find the sum of all the even terms in the 
+# Fibonacci sequence below one million.
+
+sub Fib {
+   my $i = shift @_;
+   if ($i < 2) {
+      return $i;
+   } else {
+      return Fib($i - 1) + Fib($i - 2);
+   }
+}
+
+my $i = 0;
+my $j = 0;
+my $sum = 0;
+$j = Fib($i);
+while ($j < 1000000) {
+   $j = Fib($i);
+   if (($j % 2) eq 0) {
+#      print $j . " ";
+      $sum += $j;
+   }
+   $i += 1;
+}
+print "\n Sum is $sum\n";

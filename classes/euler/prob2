@@ -1,0 +1,15 @@
+$i = 0;
+while ($i <= 100) {
+   $sum1 += $i * $i;
+   $i += 1;
+}
+
+$j = 0;
+while ($j <= 100) {
+   $sum2 += $j;
+   $j += 1;
+}
+$sum2 *= $sum2;
+
+$answer = $sum2 - $sum1;
+print "The difference is $answer\n";
