@@ -172,8 +172,12 @@ Step 27 - Shift Divisor Right
 1010 1101 0001 0000 0000 0000 0000 0010
 a) -1 391 460 350
 b) 2 903 506 946
-c) 
-d) 
+c) single precision floating-point
+-8.18545x10^-12
+ 
+d) mips machine instruction
+d.sw $s0, $t0(16) 
+sw $r16, $r8(2)
 
 3.35)
 2.85 x 10^3
@@ -189,8 +193,13 @@ d)
 1.01 x 10^5 with guard and round
 1.01 x 10^5 w/o guard and round
 
+3.37) 20
+single precision - 8 bit exponent, 23 bit significand, bias 127
+(-1)^sign x (1 + fraction) x 2^(exponent - bias)
+10100 = 1.0100 x 2^4
+0 | 1000 0011 | 0100 0000 0000 0000 0000 000
 
-3.37)
-single precision
+double precision - 11 bit exponent, 20 bit significand, bias 1023
+10100 = 1.0100 x 2^4
+0 |1000 0000 010 | 0 1000 0000 0000 0000 000 0000 0000 0000 0000 0000 0000 0000 0000
 
-double precision
