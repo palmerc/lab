@@ -2,11 +2,14 @@
 
 use strict;
 
-my ($dice, $sum);
+sub numerically { 
+   my ($a, $b) = @_;
+   return $a <=> $b;
+}
 
-srand();
+sub HighRoller {
+   my ($dice, $sum);
    
-for (my $i=0; $i < 200000; $i++) {
    $dice = int(rand(36));
    
    if ( $dice < 1 ) {
@@ -34,5 +37,25 @@ for (my $i=0; $i < 200000; $i++) {
    } else {
       print "Oops\n";
    }
-   print "Sum: $sum\n";
+   
+   return $sum;
+}
+
+my %diceRolls = ();
+my $sum = 0;
+my ($temp, $key);
+
+srand();
+   
+for (my $i=0; $i < 200000; $i++) {
+   $sum = HighRoller();
+   if ( exists($diceRolls{$sum}) ) {
+      $diceRolls{$sum} += 1;
+   } else {
+      $diceRolls{$sum} = 1;
+   }   
+}
+
+for ( my $i = 2; $i <= 12; $i++ ) {
+   print "$i: $diceRolls{$i}\n";
 }
