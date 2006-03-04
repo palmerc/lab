@@ -11,25 +11,25 @@ for (my $i=0; $i < 200000; $i++) {
    
    if ( $dice < 1 ) {
       $sum = 2;
-   } else if ( $dice < 3 ) {
+   } elsif ( $dice < 3 ) {
       $sum = 3;
-   } else if ( $dice < 6 ) {
+   } elsif ( $dice < 6 ) {
       $sum = 4;
-   } else if ( $dice < 10 ) {
+   } elsif ( $dice < 10 ) {
       $sum = 5;
-   } else if ( $dice < 15 ) {
+   } elsif ( $dice < 15 ) {
       $sum = 6;
-   } else if ( $dice < 21 ) {
+   } elsif ( $dice < 21 ) {
       $sum = 7;
-   } else if ( $dice < 26 ) {
+   } elsif ( $dice < 26 ) {
       $sum = 8;
-   } else if ( $dice < 30 ) {
+   } elsif ( $dice < 30 ) {
       $sum = 9;
-   } else if ( $dice < 33 ) {
+   } elsif ( $dice < 33 ) {
       $sum = 10;
-   } else if ( $dice < 35 ) {
+   } elsif ( $dice < 35 ) {
       $sum = 11;
-   } else if ( $dice == 35 ) {
+   } elsif ( $dice == 35 ) {
       $sum = 12;
    } else {
       print "Oops\n";
