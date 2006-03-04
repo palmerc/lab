@@ -7,8 +7,6 @@ $heads = 0;
 $tails = 0;
 
 srand();
-
-while (1) {
    
 for (my $i=0; $i < 100000; $i++) {
    $coin = int(rand(7));
