@@ -2,11 +2,6 @@
 
 use strict;
 
-sub numerically { 
-   my ($a, $b) = @_;
-   return $a <=> $b;
-}
-
 sub HighRoller {
    my ($dice, $sum);
    
