@@ -1,0 +1,321 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amsfonts}
+
+\begin{document}
+\section{Linear Dependence}
+
+Column's of B are linearly dependent $b_1^{\rightharpoonup},
+b_2^{\rightharpoonup}, ..., b_p^{\rightharpoonup}$.
+
+There are scalars $c_1, ..., c_p$ not all zero, such that
+$c_1b_1^{\rightharpoonup}+c_2b_2^{\rightharpoonup}+...+c_pb_p^{\rightharpoonup}
+=0^{\rightharpoonup}$
+
+\begin{proof}
+$A(BC)=(AB)C$
+
+\[ C=[c_1^{\rightharpoonup} ... c_p^{\rightharpoonup}] \]\\
+Then,\\
+\[ BC=[Bc_1 ... Bc_p] \]\\
+so,
+\begin{align*}
+A(BC) & =[ABc_1 ... ABc_p]\\
+& =[(AB)c_1^{\rightharpoonup} ... (AB)c_p^{\rightharpoonup}]\\
+& =ABC
+\end{align*}
+\end{proof}
+
+\begin{quote}
+In general, $AB\not=BA$.\\
+If $AB=AC$ it does generally not follow that $B=C$.\\
+If $AB=BA$ we say A and B commute. In the product $AB$, we say A is
+right-multiplied by B, and B is left-multiplied by A.
+\end{quote}
+
+
+\section{Powers of a Matrix if it is by Square or $m{\times}m$}
+By convention $A^0=I$
+
+\[ A^1=\left[
+       \begin{array}{cc}
+         1 & 1 \\
+         2 & 0 \\
+       \end{array}
+     \right]
+\]
+\[
+   A^2=\left[
+       \begin{array}{cc}
+         1 & 1 \\
+         2 & 0 \\
+       \end{array}
+     \right]
+     \cdot
+     \left[
+       \begin{array}{cc}
+         1 & 1 \\
+         2 & 0 \\
+       \end{array}
+     \right]
+     =
+     \left[
+       \begin{array}{cc}
+         (1+2) & 1 \\
+         (2+0) & 2 \\
+       \end{array}
+     \right]
+     \]
+     \[
+    A^3=\left[
+       \begin{array}{cc}
+         3 & 1 \\
+         2 & 2 \\
+       \end{array}
+     \right]
+     \cdot
+     \left[
+       \begin{array}{cc}
+         1 & 1 \\
+         2 & 0 \\
+       \end{array}
+     \right]
+     =
+     \left[
+       \begin{array}{cc}
+         5 & 3 \\
+         6 & 2 \\
+       \end{array}
+     \right]
+\]
+
+\section{The Transpose of a Matrix}
+If A is a $m{\times}n$ matrix, the transpose of A, denoted $A^T$ is
+the $n{\times}m$ matrix whose columns are the rows of A, in the same
+order.
+
+\emph{example} -
+\begin{enumerate}
+\item\[ A = \left[
+       \begin{array}{ccc}
+         1 & -1 & 5 \\
+         2 & 0 & 6 \\
+       \end{array}
+     \right]
+     \Rightarrow
+     \left[
+       \begin{array}{cc}
+         1 & 2 \\
+         -1 & 0 \\
+         5 & 6 \\
+       \end{array}
+     \right]
+\]
+
+\item\[ A=\left[
+          \begin{array}{cc}
+             a & b \\
+             c & d \\
+          \end{array}
+          \right]
+          \Rightarrow
+          A^T=
+          \left[
+          \begin{array}{cc}
+             a & c \\
+             b & d \\
+          \end{array}
+          \right]
+          \]
+\item\[ A=I_{12} \Rightarrow A^T = A \]
+
+\item\[ A=\left[
+          \begin{array}{ccc}
+             1 & 3 & 2 \\
+             3 & 4 & 3 \\
+             2 & 3 & 2 \\
+          \end{array}
+          \right]
+          {\Rightarrow}A^T=A \]
+          \emph{note} - Symmetric about the diagonal
+\end{enumerate}
+
+\emph{Properties}
+\begin{enumerate}
+  \item $(A^T)^T=A$
+  \item $(A+B)^T=A^T+B^T$
+  \item $(rA)^T=r(A^T)$
+  \item $(AB)^T=B^TA^T$
+\end{enumerate}
+
+\emph{Example} -
+\[ A=\left[ \begin{array}{cc}
+               1 & 3 \\
+               0 & 1 \\
+            \end{array}\right]
+   B=\left[ \begin{array}{cc}
+               -1 & 2 \\
+               1 & -3 \\
+            \end{array}\right]
+\]
+\[ AB=\left[ \begin{array}{cc}
+                2 & -7 \\
+                1 & -3 \\
+             \end{array} \right]
+\]
+\[ (AB)^T=\left[ \begin{array}{cc}
+                2 & 1 \\
+                -7 & -3 \\
+             \end{array} \right]
+\]
+\[ A^T=\left[ \begin{array}{cc}
+                1 & 0 \\
+                3 & 1 \\
+             \end{array} \right],
+   B^T=\left[ \begin{array}{cc}
+                -1 & 1 \\
+                2 & -3 \\
+             \end{array} \right]
+\]
+\[ A^TB^T=\left[ \begin{array}{cc}
+                -1 & 1 \\
+                -1 & 0 \\
+             \end{array} \right]
+             \not=(AB)^T
+\]
+\[ B^TA^T=\left[ \begin{array}{cc}
+                2 & 1 \\
+                -7 & 3 \\
+             \end{array} \right]
+             =(AB)^T
+\]
+
+\section{The Inverse of a Matrix}
+A $n{\times}n$ matrix A is invertible if there exists another
+$n{\times}n$ matrix C such that $AC=CA=I$.
+
+In this case, we call C the inverse of A, denoted $A^{-1}$.
+
+The inverse is unique:\\
+If B is an inverse of A, then $B=BI=B(AC)=(BA)C=IC=C$. So,
+$AA^{-1}=A^{-1}A=I$. A matrix that is not invertible is called
+singular; an invertible matrix is called non-singular.
+
+\emph{Example}
+\[ A=\left[ \begin{array}{cc}
+                -1 & 1 \\
+                5 & -4 \\
+             \end{array} \right],
+   C=\left[ \begin{array}{cc}
+                4 & 1 \\
+                5 & 1 \\
+             \end{array} \right]
+\]
+Show that $C=A^{-1}$ We must show that $AC=I$ and $CA=I$ A must be
+square to have an inverse.
+\[ A=\left[ \begin{array}{ccc}
+                1 & 0 & 2 \\
+                1 & 1 & 1 \\
+             \end{array} \right],
+   B^T=\left[ \begin{array}{cc}
+                3 & 2 \\
+                -2 & 0 \\
+                -1 & -1 \\
+             \end{array} \right]
+\]
+Then,
+\[ AC=\left[ \begin{array}{cc}
+                1 & 0 \\
+                1 & 1 \\
+             \end{array} \right], CA \not= I_3
+\]
+
+Inverse of a $2{\times}2$ matrix.
+Let \[ A=\left[ \begin{array}{cc}
+                a & b \\
+                c & d \\
+             \end{array} \right]
+\]
+\begin{itemize}
+\item If $ad-bc\not=0$ then A is invertible, and
+\[ A^{-1}=\frac{1}{ad-bc}\cdot
+\left[ \begin{array}{cc}
+                d & -b \\
+                -c & a \\
+       \end{array} \right]
+\]
+\item If $ad-bc=0$, then A is not invertible
+\[ A^{-1}=\frac{1}{ad-bc}\cdot
+\left[ \begin{array}{cc}
+                d & -b \\
+                -c & a \\
+       \end{array} \right]
+       =I
+\]
+Thus a $2{\times}2$ matrix A is invertible iff $detA\not=0$.
+\end{itemize}
+
+Let A be an invertible $n{\times}n$ matrix. For every $b^{\rightharpoonup}\epsilon\mathbb{R}^n$, the equation $Ax^{\rightharpoonup}=b^{\rightharpoonup}$ has a unique solution, $x^{\rightharpoonup}=A^{-1}b^{\rightharpoonup}$.
+
+\begin{proof}
+$x^{\rightharpoonup}=A^{-1}b^{\rightharpoonup}$ is a solution since $Ax^{\rightharpoonup}=A(A^{-1}b^{\rightharpoonup}=(AA^{-1})b^{\rightharpoonup}=Ib^{\rightharpoonup}=b^{\rightharpoonup}$.
+
+If $u^{\rightharpoonup}$ is a solution, then
+\begin{align*}
+Au^{\rightharpoonup} & =b^{\rightharpoonup}
+Then A^{-1}(Au^{\rightharpoonup}) & =A^{-1}b^{\rightharpoonup}
+(A^{-1}A)u^{\rightharpoonup} & =A^{-1}b^{\rightharpoonup}
+Iu^{\rightharpoonup} & = x^{\rightharpoonup}
+u^{\rightharpoonup} & =x^{\rightharpoonup}
+\end{align*}
+Thus the solution is unique
+\end{proof}
+
+\emph{example} -
+\[ A=\left[ \begin{array}{cc}
+                5 & 3 \\
+                2 & 1 \\
+       \end{array} \right]
+\]
+
+Use the inverse of A to solve the system
+\begin{align*}
+5x_1+3x_2 & =2\\
+2x_1+x_2 & =-6
+\end{align*}
+
+
+\[ A^{-1}=\frac{1}{5{\cdot}1-3{\cdot}2}\cdot\left[ \begin{array}{cc}
+                                                   1 & -3 \\
+                                                   -2 & 5 \\
+                                                   \end{array} \right]
+=-1\left[ \begin{array}{cc}
+          1 & -3 \\
+          -2 & 5 \\
+          \end{array} \right]
+=\left[ \begin{array}{cc}
+          -1 & 3 \\
+          2 & -5 \\
+          \end{array} \right] \]
+\[
+Then,
+x^{\rightharpoonup}=A^{-1}\cdot\left[ \begin{array}{c}
+                                     2 \\
+                                     -6 \\
+                                     \end{array}\right]
+=\left[ \begin{array}{cc}
+          -1 & 3 \\
+          2 & -5 \\
+          \end{array} \right]\cdot
+\left[ \begin{array}{c}
+       2 \\
+       -6 \\
+       \end{array}\right]
+=\left[ \begin{array}{c}
+       -20 \\
+       34 \\
+       \end{array}\right] \]
+\[ x_1=-20, x_2=34 \]
+\textbf{HOMEWORK}\\
+$\S2.1: 27,28,33\\
+\S2.2: 1,3,4,5,6,7,8,13$
+\end{document}
