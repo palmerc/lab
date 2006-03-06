@@ -1,0 +1,186 @@
+\documentclass{letter}
+\usepackage{geometry,amsmath,amsthm}
+\geometry{letterpaper}
+
+%%%%%%%%%% Start TeXmacs macros
+\newcommand{\tmop}[1]{\ensuremath{\operatorname{#1}}}
+\newcommand{\tmtextrm}[1]{{\rmfamily{#1}}}
+\newcommand{\tmtextsf}[1]{{\sffamily{#1}}}
+\newcommand{\tmtexttt}[1]{{\ttfamily{#1}}}
+\newenvironment{itemizeminus}{\begin{itemize} \renewcommand{\labelitemi}{$-$}\renewcommand{\labelitemii}{$-$}\renewcommand{\labelitemiii}{$-$}\renewcommand{\labelitemiv}{$-$}}{\end{itemize}}
+%%%%%%%%%% End TeXmacs macros
+
+\begin{document}
+
+\tmtexttt{\tmtextsf{\tmtextrm{}}}
+
+\textbf{Cumulative Distribution Function}
+
+For each of the following functions let's determine the values of k for which
+p is a probability mass function for a discrete variable.\newline
+(i) $p(x) = kx$, x=1,2,...,n\newline
+(ii) $p(x) = kx^2$, x=1,2,...,n\newline
+
+
+(i) p(x) is a probability function iff
+\begin{align*}
+1 & = \sum_{x_i} p (x_i)\\
+& = \sum^n_{x = 1} p (x)\\
+& = \sum_{x = 1}^n kx\\
+& = k \sum_{x = 1}^n x\\
+1 & = k \left( \frac{n (n + 1)}{2}\right) \\
+k & = \frac{2}{n (n + 1)}
+\end{align*}
+
+p(x) is a probability function iff the sum of the probabilities from 1 to n is
+equal to 1. The sum of all numbers from 1 to n is $\frac{n (n + 1)}{2}$ so for a
+probability function $k = \frac{2}{n (n + 1)}$.
+
+(ii)
+\begin{align*}
+1 & = \sum_{x_i} p(x_i)\\
+& = \sum_{x = 1}^n kx^2\\
+& = k \sum_{x = 1}^n x^2\\
+& = k\left(\frac{n (n + 1)(2 n + 1)}{6}\right)\\
+k & = \frac{6}{n (n + 1) (2 n + 1)}
+\end{align*}
+\pagebreak
+
+\textbf{Expected Value}
+
+\emph{definition} - X discrete random variable with values $\{x_1, x_2, x_3,
+\ldots\}$ and function p. Then the expected value (mathermatical expectation)
+is given by
+\[ E [X] = \sum_{x_i} p (x_i) \]
+
+
+\emph{example} - Toss a fair coin once. Let X be 0 if it comes out heads, 1 if tails.
+Calculate E[X].
+
+What are the possible values of X? X=\{0,1\}
+
+$P (X = 0) = P (X = 1) = \frac{1}{2}
+\Rightarrow P (0) = P (1) = \frac{1}{2}$
+\begin{align*}
+E [X] & = \sum_{x_i} x_i p (x_i)\\
+& = 0 \cdot \frac{1}{2} + 1 \cdot \frac{1}{2} = \frac{1}{2}
+\end{align*}
+
+\emph{example} - Suppose that we place the numbers 3, 5, 7, 9, 11, \& 13 on otherwise
+identical tickets. The tickets are placed in a hat and one ticket is selected
+at random. Let X be the number of the ticket drawn. Find E[X].
+
+\begin{align*}
+E [X] & = \sum_{x_i} p (x_i)\\
+& = 3\frac{1}{6}+5\frac{1}{6}+7\frac{1}{6}+9\frac{1}{6}+11\frac{1}{6}+13\frac{1}{6}\\
+& = \frac{1}{6}(3+5+7+9+11+13)\\
+& = \frac{48}{6}=8
+\end{align*}
+
+\emph{It can be considered a weighted average, although in this case it is evenly
+weighted.}
+\pagebreak
+
+\emph{example} - Six numbers are selected at random from the positive integers 1-49
+for a winning number.
+\begin{itemizeminus}
+  \item Match all 6 numbers and win a grand prize of 1,200,000 dollars.
+  \item Match 5 numbers and win a second prize of 800 dollars.
+  \item Match 5 number and win a third prize of 35 dollars.
+\end{itemizeminus}
+Find the expected number of dollars that a player wins in a single play.
+
+Let X be the dollar amount won by the player in a single play.
+Possible values of X=\{0, 35, 800, 1.2mil\}
+\begin{equation*}
+P (1200000) = P(X = 1200000) \\
+= \frac{1}{\binom{49}{6}} \approx 0.00000072
+\end{equation*}
+\begin{equation*}
+P (800) = P(X = 800) \\
+= \frac{\binom{6}{5} \binom{43}{1}}{\binom{49}{6}} \approx 0.000018
+\end{equation*}
+\begin{equation*}
+P (35) = P (X = 35) \\
+= \frac{\binom{6}{4} \binom{43}{2}}{\binom{49}{6}} \approx 0.00097
+\end{equation*}
+\begin{equation*}
+P(0) = P(X=0)
+= 1-(0.00000072 +0.000018+0.00097)
+= 0.999011928
+\end{equation*}
+\begin{equation*}
+E[X] = 1200000(0.00000072)+800(0.000018)+35(0.00097)+0 \approx 0.13
+\end{equation*}
+
+\newtheoremstyle{nonum}{}{}{\itshape}{}{\bfseries}{.}{ }{\thmname{#1}\thmnote{ (\mdseries #3)}}
+\theoremstyle{nonum}
+\newtheorem{threeone}{Theorem 3.1}
+\begin{threeone}
+Let X be a discrete random variable with possible values $\{x_1, x_2, x_3,\ldots\}$ and 
+probability function p. Let g be a real valued function whose domain contains $\{x_1, x_2, x_3,
+\ldots\}$. Then g(X) is a discrete random variable and
+\[ E[g(X)]=\sum_{x_i} g(x) p(x_i) \]
+\end{threeone}
+\emph{example} - The probability function p of a discrete random variable X is given below
+\[ p(x) = \left\{ 
+\begin{array}{l}
+\frac{x}{15}, x=1,2,3,4,5 \\
+0, otherwise
+\end{array} \right. \]
+
+
+Calculate the expected value of X(6-X). Let g(x)=x((6-x).
+\begin{align*}
+E[g(X)] & = \sum_{x_i} g(x_i) p(x_i)\\
+& = \sum_{x=1}^5 x(6-x) \frac{x}{15}\\
+& =5 \cdot \frac{1}{15}+8 \frac{2}{15}+9 \frac{3}{15}+8\frac{4}{15}+5\frac{5}{15}\\
+& =\frac{1}{15} (5+6+27+32+25) = \frac{105}{15} = \frac{21}{3} = 7
+\end{align*}
+
+\emph{definition} - Let X be a discrete random variable with possible values $\{x_1, x_2, \ldots \}$, probability function p, an expected value E[X]. Then the variance of X is defined by
+\[ var[X] = E[(X-E[X])^2] \]
+and the standard deviation of X
+\[ \sigma_{X} = \sqrt{var[X]} \]
+
+\emph{remark} - common in the literature to make the substitution $\mu = E[X]$.
+\begin{align*}
+var[X]&=E[(X- \mu)^2]\\
+\sigma_{X}&= \sqrt{E[(X- \mu)^2]}\\
+\end{align*}
+
+\emph{example} Calculate the variance of the random variable X, where X denotes the number of spots obtained in a single roll of a fair die.
+$\{ 1, 2, 3, 4, 5, 6 \}$ = possible values of X\newline
+\[ p(x) = \left\{ \begin{array}{l}
+\frac{1}{6}, x=1, 2, 3, 4, 5, 6 \\
+0, otherwise
+\end{array} \right. \]
+
+\[ E[X] = \frac{1}{6}(1+2+3+4+5+6) = \frac{21}{6} = \frac{7}{2} \]
+\begin{align*}
+var[X] & = E[(X-E[X])^2]\\
+& =E[(X- \frac{1}{2})^2]\\
+& =\sum_{x_i}( x_i- \frac{7}{2} )^2\ p(x_i) = \frac{1}{6} \left[ 2\frac{25}{4}+2\frac{9}{4}+2\frac{1}{4} \right] \\
+& =\frac{1}{12}[25+9+1]=\frac{35}{12}\\
+\end{align*}
+\pagebreak
+
+\theoremstyle{nonum}
+\newtheorem{threetwo}{Theorem 3.1}
+\begin{threetwo}
+Let X be a discrete random variable and a, b are constants. Then\\
+(i) $E[aX+b] = aE[X]+b$\\
+(ii) $var[aX+b] = a^2 var[X]$\\
+(iii) $\sigma a_X+b = |a| \sigma_{X}$\\
+\end{threetwo}
+\begin{proof}
+\begin{align*}
+E[aX+b] & = \sum_{x_i}(ax_i+b)p(x_i)\\
+& =\sum_{x_i}ax_i p(x_i)+\sum_{x_i}bp(x_i)\\
+& =a\sum_{x_i} x_i p(x_i) + b\sum_{x_i} p(x_i)\\
+& =aE[X]+b
+\end{align*}
+\end{proof}
+\textbf{HOMEWORK} - 3.4, 3.6, 3.7, 3.10*
+
+\end{document}
