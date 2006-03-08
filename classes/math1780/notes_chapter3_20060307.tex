@@ -1,0 +1,116 @@
+\documentclass[10pt,letterpaper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Cameron Palmer}
+\title{MATH 1780 Probability Notes}
+\begin{document}
+
+\begin{proof}
+\begin{align*}
+var[aX+b] & =E[((aX+b)-E[aX+b])^2]\\
+& =E[(aX+b-aE[X]-b)^2]\\
+& =E[(aX-aE[X])^2]\\
+& =E[a^2(X-E[X])^2]\\
+& =a^2E[(X-E[X])^2]\\
+& =a^2var[X]\\
+\end{align*}
+\end{proof}
+
+\newtheoremstyle{nonum}{}{}{\itshape}{}{\bfseries}{.}{ }{\thmname{#1}\thmnote{ (\mdseries #3)}}
+\theoremstyle{nonum}
+\newtheorem{theorem}{Theorem}
+\begin{theorem}
+For any random variable X
+\[var[X]=E[X^2]-(E[X])^2\]
+\begin{proof}
+\begin{align*}
+var[X] & =E[(X-E[X])^2]\\
+& =E[X^2-2E[X]X+(E[X])^2]\\
+& =E[X^2]-2E[X]E[X]+(E[X])^2\\
+& =E[X^2]-(E[X])^2\\
+\end{align*}
+\end{proof}
+\end{theorem}
+
+\emph{example} - Suppose that a box contains 10 disks with radii 1, 2, ..., and 10 respectively. One disk is selected at random.
+\begin{enumerate}
+\item Calculate the expected area of the disk
+\item Calculate the expected value for the circumference and the variance for the circumference of the disk.
+\end{enumerate}
+Let R bet the radius of the selected disk.
+\[ P_R(X)= \left\{ \begin{array}{l} \frac{1}{10}, x=1, 2, ..., 10\\ 0, otherwise\\ \end{array} \right. \]
+
+(i) Let A be the area of the disk $A={\pi}R^2$
+\begin{align*}
+E[A] & =E[{\pi}R^2]\\
+& =\pi E[R^2]\\
+& =\pi \left[\sum_r r^2 P_R(r)\right]\\
+& =\pi \left[\sum_{r=1}^{10} r^2\cdot \frac{1}{10}\right]\\
+& =\frac{\pi}{10}(1+4+9+16+25+36+49+64+81+100)\\
+& =38.5\pi\\
+\end{align*}
+(ii) Let C be the circumference $C=2{\pi}R$
+\begin{align*}
+E[C] & =E[2{\pi}R]\\
+& =2{\pi}E[R]\\
+& =2{\pi}\left(\sum_{r=1}^{10}r^2\cdot\frac{1}{10}\right)\\
+& =\frac{1}{5}(\pi(55))\\
+& =11\pi\\
+\end{align*}
+
+\begin{align*}
+var[C] & =E[C^2]-(E[C])^2\\
+& =E[4{\pi}^2 R^2]-(E[C])^2\\
+& =4\pi^2 E[R^2]-(11\pi)^2\\
+& =4\pi^2(38.5)-121\pi^2\\
+\end{align*}
+
+\newtheoremstyle{nonum}{}{}{\itshape}{}{\bfseries}{.}{ }{\thmname{#1}\thmnote{ (\mdseries #3)}}
+\theoremstyle{nonum}
+\newtheorem{threefour}{Theorem 3.4, Chebyshev's Inequality}
+\begin{threefour}
+Let X be a random variable with $E[X]=\mu$ and $\sigma=\sqrt{var[X]}$.
+\[ P(|X-{\mu}| < k\sigma)\geq 1-\frac{1}{k^2}, whenever k > 0 \]
+\[ |X-\mu| < k\sigma \Leftrightarrow -k\sigma < X - \mu < k\sigma \]
+\[ \Leftrightarrow \mu - k\sigma < X < \mu + k\sigma \]
+\end{threefour}
+\emph{note} - Confidence interval
+\[ P({\mu}-k \sigma < X < {\mu}+k\sigma) \geq 1-\frac{1}{k^2} \]
+If k=2,
+\[ P({\mu}-2\sigma < X < \mu+2\sigma) \geq 1-\frac{1}{4} \]
+\[ \Rightarrow P(\mu - 2\sigma < X < \mu + 2\sigma) \geq \frac{3}{4} \]
+X is 75\% likely to be within 2 standard deviations of its expected value.
+
+\emph{example} - Suppose that a small shipping company ships 2 metric tonnes on the average day with a standard deviation of 0.625 metric tonnes.
+\begin{enumerate}
+\item Estimate the percentage of days where the tonnage shipped is between 1.06259-2.4375.
+\item Find the smallest possible interval of shipping tonnage such that the tonnage shipped has a 95\% chance of being on that interval.
+\end{enumerate}
+(i) Let X be the tonnage shipped on a particular day
+\[ E[X] = 2 = \mu, \sigma=0.625 \]
+\begin{align*}
+\mu -1.5\sigma & = 2-(1.5\cdot 0.625)\\
+& =1.0625\\
+\end{align*}
+\begin{align*}
+\mu +1.50 = 2(1.5)(0.625) = 2.9375\\
+P(1.0625 < X < 2.9375)\\
+& =P(\mu - 1.5\sigma < X < \mu +1.5\sigma)\\
+& =k=1.5 \text{in Chebyshev's inequality}\\
+& \geq 1-\frac{1}{1.5^2}=1-\frac{1}{\frac{9}{4}}=\frac{5}{9}\approx 55.6\%\\
+\end{align*}
+(ii) Want $1-\frac{1}{k^2}=.95$
+\begin{align*}
+& \Leftrightarrow k^2=2\\
+& \Rightarrow k=2\sqrt{5} \approx 4.47\\
+\end{align*}
+\[ P(\mu -4.47\sigma < X < \mu +4.47\sigma) \geq .95 \]
+\[2-(4.47)(0.625)\approx -0.8\]
+\[2+(4.47)(0.625)\approx 4.795\]
+Interval (0, 4.79) because you can't ship negative tonnage.
+
+\textbf{HOMEWORK} 3.11, 3.15-3.18, 3.21
+\end{document}
