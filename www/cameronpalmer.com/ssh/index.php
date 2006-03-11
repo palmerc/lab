@@ -37,7 +37,6 @@ if ($_POST['applet']) {
       </form>
    
       <p>The client is <a href=\"http://www.appgate.com/mindterm\">MindTerm</a> 3.0.1, supporting SSH v1 and v2.</p>
-      <a href=\"http://www.java.com\"><img src=\"{$ptr}i/get_java_red_button.gif\" alt=\"Get Java Here\" /></a>
    </div>
           ";
 }
