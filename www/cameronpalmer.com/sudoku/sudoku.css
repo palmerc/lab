@@ -1,0 +1,124 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+h1 {
+	font: medium Georgia;
+	font-size: 200%;
+}
+h2 {
+	font: medium Georgia;
+	font-size: 150%;
+}
+h3 {
+	font: medium Georgia;
+	font-size: 110%;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+a:hover {
+	color: #555;
+	text-decoration: none;
+}
+li a {
+	color: #000;
+	text-decoration: none;
+}
+li a:hover {
+	color: #555;
+}
+
+#page {
+	margin: 1.4em;
+	width: 90%;
+	font: medium Arial;
+}
+
+#dateline {
+	float: left;
+	clear: left;
+	margin: .5em;
+}
+
+#assignment a {
+	float: right;
+	margin: .5em 0 0 0;
+	font: medium Arial;
+	min-width: 25%;
+}
+
+.leftside {
+	margin: 0;
+	padding: 0;
+	float: left;
+	clear: left;
+}
+
+.rightside {
+	float: right;
+	width: 50%;
+}
+
+#header {
+	float: left;
+	font: medium Georgia;
+	padding: 2em 0 2em 2em;
+	border: solid 1px;
+	border-color: #555;
+	background-color: #eed;
+	width: 100%;
+}
+
+#footer {
+	float: left;
+	font: medium Georgia;
+	padding: 1em;
+	border: solid 1px;
+	border-color: #555;
+	color: #000;
+	background-color: #eed;
+	width: 100%;
+}
+
+form.inputform {
+	float: left;
+	clear: left;
+	margin-left: 5em;
+}
+
+table.sudoku {
+	clear: left;
+	border: 3px Solid #000;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table.sudoku tr {
+}	
+
+table.sudoku tr.thickline {
+	border-style: Solid;
+	border-color: #000;
+	border-bottom: 2px;
+}
+
+table.sudoku td {
+	margin: 0;
+	padding: 0;
+	border: 0 Solid #000;
+	border-width: 0 1px 1px 0;
+}
+
+table.sudoku td.thickline {
+	border-style: Solid;
+	border-color: #000;
+	border-width: 0 1px 1px 3px;
+}
+
+table.sudoku input {
+	border: 0;
+	text-align: center;
+}
