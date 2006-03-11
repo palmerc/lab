@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for WriteFile Application -->
+<jnlp spec="1.0+"
+  codebase="http://cameronpalmer.com/ssh/"
+  href="http://cameronpalmer.com/ssh/mindterm_ws.jnlp">
+    <information>
+      <title>Java SSH Application</title>
+      <vendor>Appgate Network Security</vendor>
+      <homepage href="http://cameronpalmer.com" />
+      <description>Java SSH Application</description>
+      <description kind="one-line">A sophisticated Java SSH Terminal</description>
+      <icon href="http://cameronpalmer.com/i/ramblo.jpg" />
+      <offline-allowed />
+    </information>
+    <security>
+      <all-permissions />
+    </security>
+    <resources>
+      <j2se version="1.5 1.4" />
+      <jar href="http://cameronpalmer.com/ssh/mindterm-3.0.1.jar" />
+    </resources>
+      <application-desc main-class="com.mindbright.application.MindTerm" />
+</jnlp>
