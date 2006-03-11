@@ -1,4 +1,5 @@
 <?php
+header("Location: http://cameronpalmer.com/sudoku");
 // This program copyright 2006 Cameron Palmer
 
 // This program is free software; you can redistribute it and/or modify
