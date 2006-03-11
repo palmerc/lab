@@ -1,21 +1,21 @@
 <?php 
 	$title = "The Bitter Buffalo &raquo; R&eacute;sum&eacute;";
 	$section = "R&eacute;sum&eacute;";
-	require("cp-template.php");
+	require("../cp-template.php");
 ?>
     <h3>Cameron L Palmer</h3>     <p><span class="style2">email:</span> cameron DOT palmer AT gmail DOT com</p>
-    <p>I am currently studying Computer Science and Mathematics. I have been working in the Unix System Administration and Information Security field for more than five years but want to pursue a career in programming, and mathematics. I hope to combine my interest in both in whatever jobs I take.</p>
+    <p>I am currently studying Computer Science and Mathematics. I have been working in the Unix System Administration and Information Security field for more than five years but want to pursue a career in programming, and mathematics.</p>
     <h4>Education</h4>
     <table width="523" height="128" border="0">
       <tr align="left" valign="top">
 
         <td>
           <div align="left">
-                <p>Fall 2004 to Present</p>
+                <p>Expected Graduation<br /> May 2007</p>
           </div>                    </td>
         <td valign="top"><ul>
-          <strong>University of North Texas</strong>, Denton TX<br>
-          Major - Computer Science and Mathematics<br>
+          <strong>University of North Texas</strong>, Denton TX<br />
+          Major - Computer Science and Mathematics<br />
 
           GPA 4.0 - President's List 
         </ul>
