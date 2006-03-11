@@ -55,14 +55,14 @@ function do_header() {
         		<div id=\"sidebar\">
     					<ul>
     						<li><a href=\"{$ptr}\">Home</a></li>
-						<li><a href=\"http://sudoku.cameronpalmer.com/\">Sudoku Help</a></li>
-                                                <li><a href=\"{$ptr}ssh\">SSH</a></li>
+						<li><a href=\"{$ptr}sudoku/\">Sudoku</a></li>
+                                                <li><a href=\"{$ptr}ssh/\">SSH</a></li>
     						<li><a href=\"{$ptr}gallery/\">Photo Gallery</a></li>
     						<li><a href=\"http://trac.cameronpalmer.com/\">Trac Laboratory</a></li>
     						<li><a href=\"{$ptr}wiki/\">Course Wiki</a></li>
-     						<li><a href=\"{$ptr}resume.php\">R&eacute;sum&eacute;</a></li> 			    			    			    			
+     						<li><a href=\"{$ptr}resume/\">R&eacute;sum&eacute;</a></li> 			    			    			    			
      					</ul>
-              <div class=\"cleary\">&nbsp;</div>
+                                        <div class=\"cleary\">&nbsp;</div>
     				</div>
             <div id=\"content\">
                 <h2>{$section}</h2>

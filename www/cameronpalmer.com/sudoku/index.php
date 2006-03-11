@@ -15,12 +15,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-$title = "Sudoku Help";
-require 'sudoku-template.php';
+$section = "Sudoku";
+$alternate_css = "sudoku.css";
+require '../cp-template.php';
 
 function display_message() {
    echo"
-<div class=\"leftside\">
 <p>OBJECTIVE: So I want a web-based Sudoku solver, and maybe a generator. The idea is to solve
 the Permutation Bipartite Graph using a Pile and Chain Exclusion, from ideas 
 culled from Dr. Dobb's.</p>
@@ -34,12 +34,11 @@ only one possibility will fill it in.</p>
 
 <p>NOTE: If the format of this page is messed up, try Firefox. I only test in 
 Firefox and don't care if IE has problems.</p>
-</div>
       ";
 }
 
 function display_conflicts($conflict_values) {
-   echo '<div class="rightside"><ol>';
+   echo '<div id="rightconflicts"><ol>';
    for ($i = 0; $i < 9; $i++) { 
       for ($j = 0; $j < 9; $j++) {
          if (count($conflict_values[$i][$j]) == 0) continue;
@@ -56,7 +55,7 @@ function display_conflicts($conflict_values) {
 }
 
 function display_potentials($potential_values) {
-   echo '<div class="leftside"><ol>';
+   echo '<div id="leftpotentials"><ol>';
    for ($i = 0; $i < 9; $i++) { 
       for ($j = 0; $j < 9; $j++) {
          if (count($potential_values[$i][$j]) == 0) continue;
@@ -74,11 +73,11 @@ function display_potentials($potential_values) {
 
 function draw_sudoku($sudoku) { 
 ?>
-   <form class="inputform" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+   <form id="sudokuinput" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
       <p>Show potentials: <input type="checkbox" name="potentials" <?php if (isset($_POST['potentials'])) echo 'checked="checked" '?>/>
       Show conflicts: <input type="checkbox" name="conflicts" <?php if (isset($_POST['conflicts'])) echo 'checked="checked" '?>/></p>
   
-      <table class="sudoku">
+      <table id="sudoku">
    
       <?php
       for ($i = 0; $i < 9; $i++) {
