@@ -22,7 +22,7 @@ function display_message() {
    echo"
 <div class=\"leftside\">
 <p>OBJECTIVE: So I want a web-based Sudoku solver, and maybe a generator. The idea is to solve
-the Permuation Bipartite Graph using a Pile and Chain Exclusion, from ideas 
+the Permutation Bipartite Graph using a Pile and Chain Exclusion, from ideas 
 culled from Dr. Dobb's.</p>
 
 <p>CURRENT STATE: Got a decent looking CSS layout, and input works. The values are
