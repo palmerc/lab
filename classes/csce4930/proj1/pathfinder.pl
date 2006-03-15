@@ -38,6 +38,11 @@ my $end_col = 21;
 open(IN, "<terrain.csv");
 
 loadMap(\*IN, \@map_array);
+
+while (cur_row != end_row && cur_col != end_col) {
+    moveIt();
+}
+
 printPath(\@map_array);
 
 close(IN);
