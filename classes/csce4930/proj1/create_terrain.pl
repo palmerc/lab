@@ -4,7 +4,7 @@ use strict;
 
 open(OUT, ">terrain.csv");
 
-print OUT "x,y,difficulty\n";
+print OUT "row,column,difficulty\n";
 
 my $i = 0;
 while ($i < 18) {
