@@ -26,6 +26,18 @@ sub loadMap {
     }
 }
 
+sub getSurroundingPositions {
+    
+}
+
+sub moveIt {
+    my ($cur_row, $cur_col) = shift;
+    
+    
+    
+    return ($cur_row, $cur_col);
+}
+
 my $num_rows = 0;
 my $num_cols = 0;
 my @map_array;
@@ -34,13 +46,18 @@ my $start_row = 5;
 my $start_col = 1;
 my $end_row = 9;
 my $end_col = 21;
+my $cur_row = $start_row;
+my $cur_col = $start_col;
+my $move_count = 0;
 
 open(IN, "<terrain.csv");
 
 loadMap(\*IN, \@map_array);
 
-while (cur_row != end_row && cur_col != end_col) {
-    moveIt();
+while ($cur_row != $end_row && $cur_col != $end_col) {
+    getSurroundingPositions(\@map_array);
+    ($cur_row, $cur_col) = moveIt($cur_row, $cur_col);
+    $move_count++;
 }
 
 printPath(\@map_array);
