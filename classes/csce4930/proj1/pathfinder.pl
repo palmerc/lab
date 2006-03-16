@@ -21,6 +21,7 @@ sub printPath {
     my $num_rows = $#{$map_array};
     my $num_cols = $#{$map_array->[0]};
     for (my $row = 0; $row <= $num_rows; $row++) {
+        print "Row $row: ";
         for (my $col = 0; $col <= $num_cols; $col++) {
             print $map_array->[$row][$col] . " ";
         }
@@ -39,25 +40,25 @@ sub getSurroundingPositions {
     if ($cur_row > 0) {
         $north = $map_array->[$cur_row - 1][$cur_col];
     } else {
-        $north = 0;
+        $north = 0.0;
     }
     # Check that you can move east
-    if ($cur_col <= $num_cols) {
+    if ($cur_col < $num_cols) {
         $east = $map_array->[$cur_row][$cur_col + 1];
     } else {
-        $east = 0;
+        $east = 0.0;
     }
     # Check that you can move south
-    if ($cur_row <= $num_rows) {
+    if ($cur_row < $num_rows) {
         $south = $map_array->[$cur_row + 1][$cur_col];
     } else {
-        $south = 0;
+        $south = 0.0;
     }
     # Check that you can move west
     if ($cur_col > 0) {
         $west = $map_array->[$cur_row][$cur_col - 1];
     } else {
-        $west = 0;
+        $west = 0.0;
     }
     
     return ($north, $east, $south, $west);
@@ -101,7 +102,7 @@ open(IN, "<terrain.csv");
 loadMap(\*IN, \@map_array);
 
 
-while (($cur_row != $end_row) && ($cur_col != $end_col)) {
+while (($cur_row != $end_row) || ($cur_col != $end_col)) {
     print "Step $move_count: $cur_row, $cur_col\n";
 #    print "Stage 1: $cur_row, $cur_col, @map_array\n";
     my @surroundings = getSurroundingPositions($cur_row, $cur_col, \@map_array);
@@ -110,8 +111,8 @@ while (($cur_row != $end_row) && ($cur_col != $end_col)) {
 #    print "Stage 3: $cur_row, $cur_col\n";
     $move_count++;
 }
-
+print "Step $move_count: $cur_row, $cur_col\n\n";
 printPath(\@map_array);
-print "Move Count: $move_count\n";
+print "\nMove Count: $move_count\n";
 
 close(IN);
