@@ -22,7 +22,7 @@ sub printPath {
     my $num_cols = $#{$map_array->[0]};
     for (my $row = 0; $row <= $num_rows; $row++) {
         for (my $col = 0; $col <= $num_cols; $col++) {
-            print $map_array->[$row][$col];
+            print $map_array->[$row][$col] . " ";
         }
         print "\n";
     }
