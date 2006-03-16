@@ -65,19 +65,20 @@ sub getSurroundingPositions {
 }
 
 sub moveIt {
-    my ($cur_row, $cur_col, @surroundings) = @_;
+    my ($cur_row, $cur_col, $difficulty, $end_row, $end_col, @surroundings) = @_;
     my ($north, $east, $south, $west) = @surroundings;
     
-    my $direction = int(rand(4));
-    
+    ($difficulty * $north) + ($difficulty * $east) + ($difficulty * $south) + ($difficulty * $west);
+    my $direction = int(rand(2));
+ 
     if (($direction == 0) && ($north != 0)) {
         $cur_row--;
     } elsif (($direction == 1) && ($east != 0)) {
         $cur_col++;
-    } elsif (($direction == 2) && ($south != 0)) {
-        $cur_row++;
-    } elsif (($direction == 3) && ($west != 0)) {
-        $cur_col--;
+    #} elsif (($direction == 2) && ($south != 0)) {
+    #    $cur_row++;
+    #} elsif (($direction == 3) && ($west != 0)) {
+    #    $cur_col--;
     } else {
         print "Oops\n";
     }
@@ -105,9 +106,10 @@ loadMap(\*IN, \@map_array);
 while (($cur_row != $end_row) || ($cur_col != $end_col)) {
     print "Step $move_count: $cur_row, $cur_col\n";
 #    print "Stage 1: $cur_row, $cur_col, @map_array\n";
+    $difficulty = $map_array[$cur_row][$cur_col];
     my @surroundings = getSurroundingPositions($cur_row, $cur_col, \@map_array);
 #    print "Stage 2: $cur_row, $cur_col, @surroundings\n";
-    ($cur_row, $cur_col) = moveIt($cur_row, $cur_col, @surroundings);
+    ($cur_row, $cur_col) = moveIt($cur_row, $cur_col, $difficulty, $end_row, $end_col, \@map_array, @surroundings);
 #    print "Stage 3: $cur_row, $cur_col\n";
     $move_count++;
 }
