@@ -4,8 +4,6 @@ use strict;
 
 srand();
 
-sub getSurroundingPositions($, $, $);
-
 sub loadMap {
     my $fh = shift;
     my $map_array = shift;
@@ -104,6 +102,7 @@ loadMap(\*IN, \@map_array);
 
 
 while (($cur_row != $end_row) && ($cur_col != $end_col)) {
+    print "Step $move_count: $cur_row, $cur_col\n";
 #    print "Stage 1: $cur_row, $cur_col, @map_array\n";
     my @surroundings = getSurroundingPositions($cur_row, $cur_col, \@map_array);
 #    print "Stage 2: $cur_row, $cur_col, @surroundings\n";
