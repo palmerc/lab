@@ -4,7 +4,7 @@ use strict;
 
 srand();
 our @route;
-our $home_mult = 2;
+our $home_mult = 5;
 
 sub loadMap {
     my $fh = shift;
@@ -98,33 +98,38 @@ sub moveIt {
     if ($last_move eq 'W') { $west = 0; }
     
     $cur_dif = (6 - $cur_dif) * 10;
+    
     if ($north != 0) {
         $north = (6 - $north) * 10;
-        if (abs($end_row - ($cur_row - 1)) < abs($end_row - $cur_row)) { print "bias north\n"; $north *= $home_mult; }
+        $north *= $cur_dif;
+        if (abs($end_row - ($cur_row - 1)) < abs($end_row - $cur_row)) { $north *= $home_mult; }
     }
     if ($east != 0) {
-        $east = (6 - $east) * 10; 
-        if (abs($end_col - ($cur_col + 1)) < abs($end_col - $cur_col)) { print "bias east\n"; $east *= $home_mult; }
+        $east = (6 - $east) * 10;
+        $east *= $cur_dif; 
+        if (abs($end_col - ($cur_col + 1)) < abs($end_col - $cur_col)) { $east *= $home_mult; }
     }
     if ($south != 0) {
         $south = (6 - $south) * 10;
-        if (abs($end_row - ($cur_row + 1)) < abs($end_row - $cur_row)) { print "bias south\n"; $south *= $home_mult; }
+        $south *= $cur_dif;
+        if (abs($end_row - ($cur_row + 1)) < abs($end_row - $cur_row)) { $south *= $home_mult; }
     }
     if ($west != 0) {
         $west = (6 - $west) * 10;
-        if (abs($end_col - ($cur_col - 1)) < abs($end_col - $cur_col)) { print "bias west\n"; $west *= $home_mult; }
+        $west *= $cur_dif;
+        if (abs($end_col - ($cur_col - 1)) < abs($end_col - $cur_col)) { $west *= $home_mult; }
     }
     
-    print "probabilities: $north, $east, $south, $west\n";
+ #   print "probabilities: $north, $east, $south, $west\n";
     my $total_dif = $north + $east + $south + $west;
-    print "total: $total_dif\n";
+    #print "total: $total_dif\n";
     my $direction = int(rand($total_dif));
-    print "direction: $direction\n";
+    #print "direction: $direction\n";
     my $north_sec = $north;
     my $east_sec = $north_sec + $east;
     my $south_sec = $east_sec + $south;
     my $west_sec = $south_sec + $west;
-    print "sections: $north_sec $east_sec $south_sec $west_sec\n";
+    #print "sections: $north_sec $east_sec $south_sec $west_sec\n";
     if ($direction < $north_sec) {
         $last_move = 'N';
         $cur_row--;
@@ -146,9 +151,15 @@ sub moveIt {
 
 my $num_rows = 0;
 my $num_cols = 0;
+
 my @map_array;
 my @surroundings;
+my $counter = 0;
+my $move_sum = 0;
 
+while (1) {
+`sleep 1`;
+system "clear";
 my $start_row = 5;
 my $start_col = 1;
 my $end_row = 9;
@@ -160,10 +171,10 @@ my $move_count = 0;
 my $last_move = 'B';
 
 
-open(IN, "<terrain.csv");
 
+open(IN, "<terrain.csv");
 loadMap(\*IN, \@map_array);
-printMap(\@map_array);
+#printMap(\@map_array);
 
 while (($cur_row != $end_row) || ($cur_col != $end_col)) {
 #    print "Step $move_count: $cur_row, $cur_col\n";
@@ -179,6 +190,12 @@ while (($cur_row != $end_row) || ($cur_col != $end_col)) {
 #print "Step $move_count: $cur_row, $cur_col\n\n";
 #print "@route";
 printPath(\@map_array);
+$counter++;
+$move_sum += $move_count;
 print "\nMove Count: $move_count\n";
+print "Iteration: $counter\n";
+print "Average Moves: " . int($move_sum/$counter) . "\n";
+
 
 close(IN);
+}
