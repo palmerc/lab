@@ -4,7 +4,7 @@ use strict;
 
 srand();
 our @route;
-our $home_mult = 6;
+our $home_mult = 10;
 
 sub loadMap {
     my $fh = shift;
