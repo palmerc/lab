@@ -4,7 +4,40 @@
 // They are given their location and the location of the goal.
 // The default behavior is to return SOUTH.  This is nonsense.
 Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned long East, unsigned long South, unsigned long West) {
-	return SOUTH;
+    // Code that bubble sorts the directions and chooses the easiest path.
+    unsigned long directions[4];
+    unsigned long temp;
+    int i, j;
+    
+    directions[0] = North;
+    directions[1] = East;
+    directions[2] = South;
+    directions[3] = West;
+    cout << North << ' ' << East << ' ' << South << ' ' << West << endl;
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < (3 - i); j++) {
+            if (directions[j] > directions[j+1]) {
+                temp = directions[j];
+                directions[j] = directions[j+1];
+                directions[j+1] = temp;
+            }
+        }
+    }
+    cout << directions[0] << ' ' << directions[1] << ' ' << directions[2] << ' ' << directions[3] << endl;
+    
+    for (i = 0; i < 4; i++) {
+        if ( directions[i] == 0 )
+            continue;
+        cout << directions[i] << endl;
+        if ( (North == directions[i]) && (directions[i] != 0) )
+            return NORTH;
+        else if ( (East == directions[i]) && (directions[i] != 0) )
+            return EAST;
+        else if ( (South == directions[i]) && (directions[i] != 0) )
+            return SOUTH;
+        else if ( (West == directions[i]) && (directions[i] != 0) )
+            return WEST;
+    }
 }
 
 //
