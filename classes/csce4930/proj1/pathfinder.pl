@@ -4,7 +4,7 @@ use strict;
 
 srand();
 our @route;
-our $home_mult = 10;
+our $home_mult = 2;
 
 sub loadMap {
     my $fh = shift;
@@ -25,7 +25,7 @@ sub printPath {
     
     for (my $move = 0; $move < scalar(@route); $move++) {
         my ($cur_row, $cur_col) = @{$route[$move]};
-        print "$cur_row, $cur_col\n";
+        #print "$cur_row, $cur_col\n";
         $map_array->[$cur_row][$cur_col] = '...';
     }
     
@@ -87,29 +87,35 @@ sub getSurroundingPositions {
 }
 
 sub moveIt {
-    my ($cur_row, $cur_col, $cur_dif, $end_row, $end_col, $map_array, @surroundings) = @_;
+    my ($cur_row, $cur_col, $cur_dif, $last_move, $end_row, $end_col, $map_array, @surroundings) = @_;
     my ($north, $east, $south, $west) = @surroundings;
     my $num_rows = $#{$map_array};
     my $num_cols = $#{$map_array->[0]};
     
+    if ($last_move eq 'N') { $north = 0; }
+    if ($last_move eq 'E') { $east = 0; }
+    if ($last_move eq 'S') { $south = 0; }
+    if ($last_move eq 'W') { $west = 0; }
+    
     $cur_dif = (6 - $cur_dif) * 10;
     if ($north != 0) {
         $north = (6 - $north) * 10;
-        if (abs($end_row - ($cur_row - 1)) < abs($end_row - $cur_row)) { print "north\n"; $north *= $home_mult; }
+        if (abs($end_row - ($cur_row - 1)) < abs($end_row - $cur_row)) { print "bias north\n"; $north *= $home_mult; }
     }
     if ($east != 0) {
         $east = (6 - $east) * 10; 
-        if (abs($end_col - ($cur_col + 1)) < abs($end_col - $cur_col)) { print "east\n"; $east *= $home_mult; }
+        if (abs($end_col - ($cur_col + 1)) < abs($end_col - $cur_col)) { print "bias east\n"; $east *= $home_mult; }
     }
     if ($south != 0) {
         $south = (6 - $south) * 10;
-        if (abs($end_row - ($cur_row + 1)) < abs($end_row - $cur_row)) { print "south\n"; $south *= $home_mult; }
+        if (abs($end_row - ($cur_row + 1)) < abs($end_row - $cur_row)) { print "bias south\n"; $south *= $home_mult; }
     }
     if ($west != 0) {
         $west = (6 - $west) * 10;
-        if (abs($end_col - ($cur_col - 1)) < abs($end_col - $cur_col)) { print "west\n"; $west *= $home_mult; }
+        if (abs($end_col - ($cur_col - 1)) < abs($end_col - $cur_col)) { print "bias west\n"; $west *= $home_mult; }
     }
-    print "Probabilities: $north, $east, $south, $west\n";
+    
+    print "probabilities: $north, $east, $south, $west\n";
     my $total_dif = $north + $east + $south + $west;
     print "total: $total_dif\n";
     my $direction = int(rand($total_dif));
@@ -118,20 +124,24 @@ sub moveIt {
     my $east_sec = $north_sec + $east;
     my $south_sec = $east_sec + $south;
     my $west_sec = $south_sec + $west;
-    print "$north_sec $east_sec $south_sec $west_sec\n";
+    print "sections: $north_sec $east_sec $south_sec $west_sec\n";
     if ($direction < $north_sec) {
+        $last_move = 'N';
         $cur_row--;
     } elsif ($direction < $east_sec) {
+        $last_move = 'E';
         $cur_col++;
     } elsif ($direction < $south_sec) {
+        $last_move = 'S';
         $cur_row++;
     } elsif ($direction < $west_sec) {
+        $last_move = 'W';
         $cur_col--;
     } else {
         print "Oops\n";
     }
     
-    return ($cur_row, $cur_col);
+    return ($cur_row, $cur_col, $last_move);
 }
 
 my $num_rows = 0;
@@ -147,6 +157,7 @@ my $cur_row = $start_row;
 my $cur_col = $start_col;
 my $difficulty = 0.0;
 my $move_count = 0;
+my $last_move = 'B';
 
 
 open(IN, "<terrain.csv");
@@ -155,17 +166,17 @@ loadMap(\*IN, \@map_array);
 printMap(\@map_array);
 
 while (($cur_row != $end_row) || ($cur_col != $end_col)) {
-    print "Step $move_count: $cur_row, $cur_col\n";
+#    print "Step $move_count: $cur_row, $cur_col\n";
 #    print "Stage 1: $cur_row, $cur_col, @map_array\n";
     $difficulty = $map_array[$cur_row][$cur_col];
     @surroundings = getSurroundingPositions($cur_row, $cur_col, \@map_array);
 #    print "Stage 2: $cur_row, $cur_col, @surroundings\n";
-    ($cur_row, $cur_col) = moveIt($cur_row, $cur_col, $difficulty, $end_row, $end_col, \@map_array, @surroundings);
+    ($cur_row, $cur_col, $last_move) = moveIt($cur_row, $cur_col, $difficulty, $last_move, $end_row, $end_col, \@map_array, @surroundings);
     $route[$move_count] = [ ($cur_row, $cur_col) ];
 #    print "Stage 3: $cur_row, $cur_col\n";
     $move_count++;
 }
-print "Step $move_count: $cur_row, $cur_col\n\n";
+#print "Step $move_count: $cur_row, $cur_col\n\n";
 #print "@route";
 printPath(\@map_array);
 print "\nMove Count: $move_count\n";

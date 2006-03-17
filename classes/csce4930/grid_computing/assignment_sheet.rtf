@@ -1,0 +1,71 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf330
+{\fonttbl\f0\fswiss\fcharset77 Arial-BoldMT;\f1\fswiss\fcharset77 ArialMT;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\margb1800\margt1800\vieww9000\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\b\fs38\fsmilli19200 \cf0 \expnd0\expndtw0\kerning0
+CSCE 4930 Assignment\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f1\b0\fs24 \cf0 \expnd0\expndtw0\kerning0
+\
+Imagine yourself on a grid.  Each square of the grid has a positive integer value that tells you how many \'d2moves\'d3 it will take you to cross it.  You have a destination you have to reach and you know your current location.  You can see how difficult the terrain around you is (that is, the terrain immediately to the north, east, south, and west).  How do you get to your destination?\
+\
+It will be up to you to figure that out.  You will be responsible for filling in a function that is given the current location of the player, the location of the goal, and the terrain values associated with the four grid points that surround the player.  \
+\
+You will be provided with some source code.  This code should compile and run on any unix box.  The program essentially performs the following steps:\
+\
+1) Read in the contents of map.txt.\
+2) Start the player\'d5s character out at (0, 0).\
+3) Call the decide() function to figure out where to go next.\
+4) Repeat step 3 while the player is on the map and hasn\'d5t reached the goal.\
+\
+The piece that you will be responsible for is filling out the decide() function located at the top of the file \'d2demo.cpp\'d3.  Here is the function as it stands:\
+\
+Direction decide(	Position& me, 		Position& theGoal, \
+			unsigned long North,	unsigned long East,\
+			unsigned long South, 	unsigned long West) \{\
+        return SOUTH;\
+\} \
+\
+Currently it always picks south, but this is not the best method of guiding the character to the goal.  The statement \'d2return SOUTH;\'d3 is how the form your response is expected to take, but depending on what is around you you may want to pick a different direction each time.  Here is an example:\
+\
+Direction decide(	Position& me, 		Position& theGoal, \
+			unsigned long North,	unsigned long East,\
+			unsigned long South, 	unsigned long West) \{\
+\
+	// Check which way is easiest, North or South\
+	if(North < South) \{\
+		return NORTH;\
+	\} else \{\
+		return SOUTH;\
+	\}\
+\} \
+\
+The values of the terrain will be between 1 and 100 (inclusive) if the square is valid, and 0 if it is not valid (if it is off the map or otherwise impassable).  In this example it checks the value of the terrain to the north of our current position, and if that terrain is easier (i.e. has a lower value), it returns NORTH, and if not, returns SOUTH.  It is worth noting that this example does not take the goal into account, but your answer should in some way attempt to reach the goal.  \
+\
+Here are the valid directions you can return:\
+\
+NORTH\
+SOUTH\
+EAST\
+WEST\
+\
+These are not variables that you need to declare, and they do not need to be inside quotes of any kind.  Quite literally, \'d2return NORTH;\'d3 or \'d2return EAST;\'d3 will work.  \
+\
+The Position variables that are passed in (me, and theGoal) give you access to the current locations of the player and the objective.  You may find the following Position functions useful in your quest:\
+\
+void Position::print();\
+unsigned long Position::getx();\
+unsigned long Position::gety(); \
+\
+You can use them with either me or theGoal, for example:\
+\
+// Show my position:\
+me.print();\
+\
+// Find the x value of the goal:\
+int x = theGoal.getx();\
+\
+Once all the students have submitted their response, their solutions will be tested against each other during an in-class demonstration to see who has the best solution.  Good luck!}
