@@ -1,10 +1,6 @@
 #include "includes.h"
 
-// This is the function the students must fill out.
-// They are given their location and the location of the goal.
-// The default behavior is to return SOUTH.  This is nonsense.
-Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned long East, unsigned long South, unsigned long West) {
-    // Code that bubble sorts the directions and chooses the easiest path.
+Direction bubbleSort(unsigned long North, unsigned long East, unsigned long South, unsigned long West) {
     unsigned long directions[4];
     unsigned long temp;
     int i, j;
@@ -38,6 +34,14 @@ Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned 
         else if ( (West == directions[i]) && (directions[i] != 0) )
             return WEST;
     }
+}
+
+// This is the function the students must fill out.
+// They are given their location and the location of the goal.
+// The default behavior is to return SOUTH.  This is nonsense.
+Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned long East, unsigned long South, unsigned long West) {
+    // Code that bubble sorts the directions and chooses the easiest path.
+    return bubbleSort(North, East, South, West);
 }
 
 //
