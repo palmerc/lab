@@ -65,16 +65,47 @@ Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned 
     unsigned long goal_x = theGoal.getx();
     unsigned long goal_y = theGoal.gety();
     
-    // The easiest solution is move toward the goal each time without concern about
-    // distance. Of course this assumes that there are no zeros on the playing field.
+    // Code that bubble sorts the directions and chooses the easiest path.
+    unsigned long directions[4];
+    unsigned long temp;
+    int i, j;
+    
+    directions[0] = North;
+    directions[1] = East;
+    directions[2] = South;
+    directions[3] = West;
+    cout << North << ' ' << East << ' ' << South << ' ' << West << endl;
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < (3 - i); j++) {
+            if (directions[j] > directions[j+1]) {
+                temp = directions[j];
+                directions[j] = directions[j+1];
+                directions[j+1] = temp;
+            }
+        }
+    }
+    
+    
+    // Which is the first direction that is non-zero?
+    i = 0;
+    j = 0;
+    while ( j == 0 ) {
+        if ( directions[i] == 0 )
+            i++;
+        else
+            j = 1;
+    }
+    int first = i;
+    
+    // Which directions are toward the goal?
     if (goal_x > cur_x)
-        return EAST;
+        dir_x = East;
     if (goal_x < cur_x)
-        return WEST;
+        dir_x = West;
     if (goal_y > cur_y)
-        return SOUTH;
+        dir_y = South;
     if (goal_y < cur_y)
-        return NORTH;
+        dir_y = North;    
     
     me.print();
     theGoal.print();
