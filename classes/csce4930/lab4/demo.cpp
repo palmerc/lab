@@ -59,7 +59,7 @@ Direction directPath(Position& me, Position& theGoal) {
 // They are given their location and the location of the goal.
 // The default behavior is to return SOUTH.  This is nonsense.
 
-Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned long East, unsigned long South, unsigned long West) {    
+Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned long East, unsigned long South, unsigned long West) {
     unsigned long cur_x = me.getx();
     unsigned long cur_y = me.gety();
     unsigned long goal_x = theGoal.getx();
@@ -67,14 +67,14 @@ Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned 
     
     // Code that bubble sorts the directions and chooses the easiest path.
     unsigned long directions[4];
-    unsigned long temp;
+    unsigned long temp, dir_x, dir_y;
     int i, j;
     
     directions[0] = North;
     directions[1] = East;
     directions[2] = South;
     directions[3] = West;
-    cout << North << ' ' << East << ' ' << South << ' ' << West << endl;
+    //cout << North << ' ' << East << ' ' << South << ' ' << West << endl;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < (3 - i); j++) {
             if (directions[j] > directions[j+1]) {
@@ -84,8 +84,9 @@ Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned 
             }
         }
     }
-    
-    
+        
+    me.print();
+    theGoal.print();
     // Which is the first direction that is non-zero?
     i = 0;
     j = 0;
@@ -100,18 +101,70 @@ Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned 
     // Which directions are toward the goal?
     if (goal_x > cur_x)
         dir_x = East;
-    if (goal_x < cur_x)
+    else if (goal_x < cur_x)
         dir_x = West;
+    else
+        dir_x = 0;
+    cout << "dir_x: " << dir_x << endl;
     if (goal_y > cur_y)
         dir_y = South;
-    if (goal_y < cur_y)
-        dir_y = North;    
+    else if (goal_y < cur_y)
+        dir_y = North;
+    else
+        dir_y = 0;
+    cout << "dir_y: " << dir_y << endl;
     
-    me.print();
-    theGoal.print();
-    
-    //return directPath(me, theGoal);
-    //return bubbleSort(North, East, South, West);
+    if ( (dir_x <= dir_y) && (dir_x != 0) ) {
+        if ( East == dir_x ) {
+            cout << "Go EAST" << endl;
+            return EAST;
+        } else if ( West == dir_x ) {
+            cout << "Go WEST" << endl;
+            return WEST;
+        }
+    } else if ( (dir_y < dir_x) && (dir_y != 0) ) {
+        if ( North == dir_y ) {
+            cout << "Go NORTH" << endl;
+            return NORTH;
+        } else if ( South == dir_y ) {
+            cout << "Go SOUTH" << endl;
+            return SOUTH;
+        }
+    } else if ( (dir_x == 0 && dir_y > 0) || (dir_y == 0 && dir_x > 0) ) {
+        if (dir_x > 0) {
+            if ( East == dir_x ) {
+                cout << "Go EAST" << endl;
+                return EAST;
+            } else if ( West == dir_x ) {
+                cout << "Go WEST" << endl;
+                return WEST;
+            } else {
+                cout << "Go Non-X" << endl;
+            }
+        }
+        if (dir_y > 0) {
+            if ( North == dir_y ) {
+                cout << "Go NORTH" << endl;
+                return NORTH;
+            } else if ( South == dir_y ) {
+                cout << "Go SOUTH" << endl;
+                return SOUTH;
+            } else {
+                cout << "Go Non-Y" << endl;
+            }
+        }
+    } else { // Refer to lowest non-zero in bubble sort
+        if ( North == directions[first] )
+            return NORTH;
+        else if ( East == directions[first] )
+            return EAST;
+        else if ( South == directions[first] )
+            return SOUTH;
+        else if ( West == directions[first] )
+            return WEST;
+        else
+            cout << "Oops" << endl;
+    }
 }
 
 //
