@@ -1,59 +1,5 @@
 #include "includes.h"
-
-Direction bubbleSort(unsigned long North, unsigned long East, unsigned long South, unsigned long West) {
-    // Code that bubble sorts the directions and chooses the easiest path.
-    unsigned long directions[4];
-    unsigned long temp;
-    int i, j;
-    
-    directions[0] = North;
-    directions[1] = East;
-    directions[2] = South;
-    directions[3] = West;
-    cout << North << ' ' << East << ' ' << South << ' ' << West << endl;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < (3 - i); j++) {
-            if (directions[j] > directions[j+1]) {
-                temp = directions[j];
-                directions[j] = directions[j+1];
-                directions[j+1] = temp;
-            }
-        }
-    }
-    cout << directions[0] << ' ' << directions[1] << ' ' << directions[2] << ' ' << directions[3] << endl;
-    
-    for (i = 0; i < 4; i++) {
-        if ( directions[i] == 0 )
-            continue;
-        cout << directions[i] << endl;
-        if ( (North == directions[i]) && (directions[i] != 0) )
-            return NORTH;
-        else if ( (East == directions[i]) && (directions[i] != 0) )
-            return EAST;
-        else if ( (South == directions[i]) && (directions[i] != 0) )
-            return SOUTH;
-        else if ( (West == directions[i]) && (directions[i] != 0) )
-            return WEST;
-    }
-}
-
-Direction directPath(Position& me, Position& theGoal) {
-    unsigned long cur_x = me.getx();
-    unsigned long cur_y = me.gety();
-    unsigned long goal_x = theGoal.getx();
-    unsigned long goal_y = theGoal.gety();
-    
-    // The easiest solution is move toward the goal each time without concern about
-    // distance. Of course this assumes that there are no zeros on the playing field.
-    if (goal_x > cur_x)
-        return EAST;
-    if (goal_x < cur_x)
-        return WEST;
-    if (goal_y > cur_y)
-        return SOUTH;
-    if (goal_y < cur_y)
-        return NORTH;
-}
+#include "time.h"
 
 // This is the function the students must fill out.
 // They are given their location and the location of the goal.
@@ -64,107 +10,41 @@ Direction decide(Position& me, Position& theGoal, unsigned long North, unsigned 
     unsigned long cur_y = me.gety();
     unsigned long goal_x = theGoal.getx();
     unsigned long goal_y = theGoal.gety();
-    
-    // Code that bubble sorts the directions and chooses the easiest path.
-    unsigned long directions[4];
-    unsigned long temp, dir_x, dir_y;
-    int i, j;
-    
-    directions[0] = North;
-    directions[1] = East;
-    directions[2] = South;
-    directions[3] = West;
-    //cout << North << ' ' << East << ' ' << South << ' ' << West << endl;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < (3 - i); j++) {
-            if (directions[j] > directions[j+1]) {
-                temp = directions[j];
-                directions[j] = directions[j+1];
-                directions[j+1] = temp;
-            }
-        }
-    }
-        
+    unsigned long dir_x, dir_y;
     me.print();
     theGoal.print();
-    // Which is the first direction that is non-zero?
-    i = 0;
-    j = 0;
-    while ( j == 0 ) {
-        if ( directions[i] == 0 )
-            i++;
-        else
-            j = 1;
-    }
-    int first = i;
+    int seed;
+    double r;
+    long int M;
+    double x;
+    int y;
+    int z;
+    int count;
+    seed = (cur_x + cur_y + goal_x + goal_y + North + South + East + West) * 11;
+    srand(time(NULL));
     
-    // Which directions are toward the goal?
-    if (goal_x > cur_x)
-        dir_x = East;
-    else if (goal_x < cur_x)
-        dir_x = West;
-    else
-        dir_x = 0;
-    cout << "dir_x: " << dir_x << endl;
-    if (goal_y > cur_y)
-        dir_y = South;
-    else if (goal_y < cur_y)
-        dir_y = North;
-    else
-        dir_y = 0;
-    cout << "dir_y: " << dir_y << endl;
+    M = North + East + South + West;
+    r = ( (double)rand()/((double)(RAND_MAX)+(double)(1)) );
+    x = (r*M);
+    y = (int)x;
+    z = y + 1;
+    cout << z << endl;
     
-    if ( (dir_x <= dir_y) && (dir_x != 0) ) {
-        if ( East == dir_x ) {
-            cout << "Go EAST" << endl;
-            return EAST;
-        } else if ( West == dir_x ) {
-            cout << "Go WEST" << endl;
-            return WEST;
-        }
-    } else if ( (dir_y < dir_x) && (dir_y != 0) ) {
-        if ( North == dir_y ) {
-            cout << "Go NORTH" << endl;
-            return NORTH;
-        } else if ( South == dir_y ) {
-            cout << "Go SOUTH" << endl;
-            return SOUTH;
-        }
-    } else if ( (dir_x == 0 && dir_y > 0) || (dir_y == 0 && dir_x > 0) ) {
-        if (dir_x > 0) {
-            if ( East == dir_x ) {
-                cout << "Go EAST" << endl;
-                return EAST;
-            } else if ( West == dir_x ) {
-                cout << "Go WEST" << endl;
-                return WEST;
-            } else {
-                cout << "Go Non-X" << endl;
-            }
-        }
-        if (dir_y > 0) {
-            if ( North == dir_y ) {
-                cout << "Go NORTH" << endl;
-                return NORTH;
-            } else if ( South == dir_y ) {
-                cout << "Go SOUTH" << endl;
-                return SOUTH;
-            } else {
-                cout << "Go Non-Y" << endl;
-            }
-        }
-    } else { // Refer to lowest non-zero in bubble sort
-        if ( North == directions[first] )
-            return NORTH;
-        else if ( East == directions[first] )
-            return EAST;
-        else if ( South == directions[first] )
-            return SOUTH;
-        else if ( West == directions[first] )
-            return WEST;
-        else
-            cout << "Oops" << endl;
-    }
+    unsigned long north_sec = North;
+    unsigned long east_sec = East + north_sec;
+    unsigned long south_sec = South + east_sec;
+    unsigned long west_sec = West + south_sec;
+    cout << north_sec << " " << east_sec << " " << south_sec << " " << west_sec << endl;
+    if ( z <= north_sec )
+        return NORTH;
+    else if ( z <= east_sec )
+        return EAST;
+    else if ( z <= south_sec )
+        return SOUTH;
+    else if ( z <= west_sec )
+        return WEST;
+    else
+        cout << "Z is " << z << endl;
 }
 
 //
