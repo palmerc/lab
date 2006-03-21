@@ -97,26 +97,24 @@ sub moveIt {
     if ($last_move eq 'S') { $south = 0; }
     if ($last_move eq 'W') { $west = 0; }
     
-    $cur_dif = (6 - $cur_dif) * 10;
-    
+     
     if ($north != 0) {
-        $north = (6 - $north) * 10;
-        $north *= $cur_dif;
+        $north = (1/$north) * 100;
         if (abs($end_row - ($cur_row - 1)) < abs($end_row - $cur_row)) { $north *= $home_mult; }
     }
     if ($east != 0) {
-        $east = (6 - $east) * 10;
-        $east *= $cur_dif; 
+        $east = (1/$east) * 100;
+        
         if (abs($end_col - ($cur_col + 1)) < abs($end_col - $cur_col)) { $east *= $home_mult; }
     }
     if ($south != 0) {
-        $south = (6 - $south) * 10;
-        $south *= $cur_dif;
+        $south = (1/$south) * 100;
+        
         if (abs($end_row - ($cur_row + 1)) < abs($end_row - $cur_row)) { $south *= $home_mult; }
     }
     if ($west != 0) {
-        $west = (6 - $west) * 10;
-        $west *= $cur_dif;
+        $west = (1/$west) * 100;
+        
         if (abs($end_col - ($cur_col - 1)) < abs($end_col - $cur_col)) { $west *= $home_mult; }
     }
     
@@ -156,46 +154,60 @@ my @map_array;
 my @surroundings;
 my $counter = 0;
 my $move_sum = 0;
+my $low;
+my $highest = 0;
 
-while (1) {
-`sleep 1`;
-system "clear";
-my $start_row = 5;
-my $start_col = 1;
-my $end_row = 9;
-my $end_col = 21;
-my $cur_row = $start_row;
-my $cur_col = $start_col;
-my $difficulty = 0.0;
-my $move_count = 0;
-my $last_move = 'B';
+for (my $i=0; $i < 1000; $i++) {
+   #`sleep 1`;
+   #system "clear";
+   my $start_row = 5;
+   my $start_col = 1;
+   my $end_row = 9;
+   my $end_col = 21;
+   my $cur_row = $start_row;
+   my $cur_col = $start_col;
+   my $difficulty = 0.0;
+   my $move_count = 0;
+   my $last_move = 'B';
+   
+   
+   
+   open(IN, "<terrain.csv");
+   loadMap(\*IN, \@map_array);
+   #printMap(\@map_array);
 
+   while (($cur_row != $end_row) || ($cur_col != $end_col)) {
+   #    print "Step $move_count: $cur_row, $cur_col\n";
+   #    print "Stage 1: $cur_row, $cur_col, @map_array\n";
+       $difficulty = $map_array[$cur_row][$cur_col];
+       @surroundings = getSurroundingPositions($cur_row, $cur_col, \@map_array);
+   #    print "Stage 2: $cur_row, $cur_col, @surroundings\n";
+       ($cur_row, $cur_col, $last_move) = moveIt($cur_row, $cur_col, $difficulty, $last_move, $end_row, $end_col, \@map_array, @surroundings);
+       $route[$move_count] = [ ($cur_row, $cur_col) ];
+   #    print "Stage 3: $cur_row, $cur_col\n";
+       $move_count++;
+   }
 
+   if (!$low) {
+      $low = 1000;
+   }
+   if ($low > $move_count) {
+      $low = $move_count;
+   }
+   if ($highest < $move_count) {
+      $highest = $move_count;
+   }
 
-open(IN, "<terrain.csv");
-loadMap(\*IN, \@map_array);
-#printMap(\@map_array);
-
-while (($cur_row != $end_row) || ($cur_col != $end_col)) {
-#    print "Step $move_count: $cur_row, $cur_col\n";
-#    print "Stage 1: $cur_row, $cur_col, @map_array\n";
-    $difficulty = $map_array[$cur_row][$cur_col];
-    @surroundings = getSurroundingPositions($cur_row, $cur_col, \@map_array);
-#    print "Stage 2: $cur_row, $cur_col, @surroundings\n";
-    ($cur_row, $cur_col, $last_move) = moveIt($cur_row, $cur_col, $difficulty, $last_move, $end_row, $end_col, \@map_array, @surroundings);
-    $route[$move_count] = [ ($cur_row, $cur_col) ];
-#    print "Stage 3: $cur_row, $cur_col\n";
-    $move_count++;
+   #print "Step $move_count: $cur_row, $cur_col\n\n";
+   #print "@route";
+   #printPath(\@map_array);
+   $counter++;
+   $move_sum += $move_count;
+   
+   close(IN);
 }
-#print "Step $move_count: $cur_row, $cur_col\n\n";
-#print "@route";
-printPath(\@map_array);
-$counter++;
-$move_sum += $move_count;
-print "\nMove Count: $move_count\n";
+
+#print "Move Count: $move_count\n";
 print "Iteration: $counter\n";
 print "Average Moves: " . int($move_sum/$counter) . "\n";
-
-
-close(IN);
-}
+print "$low $highest\n";
