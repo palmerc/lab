@@ -1,0 +1,58 @@
+Cameron L Palmer
+CSCE 2610 - Homework 6
+March 22, 2006
+
+4.1)
+2.0/1.5 = M2 is 1.33x faster
+10.0/5.0 = M1 is 2x faster
+
+4.2)
+5x10^9/2 = 2.5 x 10^9 IPS
+6x10^9/1.5 = 4 x 10^9 IPS
+
+4.3)
+M2 costs 1.6 times M1
+since M2 is only 1.33x faster, M1 is the better value.
+
+4.6)
+Facts:
+3600 seconds in an hour
+M1 takes 2 seconds to execute P1
+M2 takes 1.5 seconds to execute P1
+
+To run P1 1600x on each machine will take:
+M1 - 3200 seconds leaving 400 seconds for P2
+M2 - 2400 seconds leaving 1200 seconds for P2
+
+So the two computers can run Program2:
+M1 - takes 5.0 seconds for a total of 80x.
+M2 - takes 10.0 seconds for a total of 120x.
+
+So M2 is faster for this workload.
+
+($500/(80 iterations per hour)) = $6.25 per iteration
+($800/(120 iterations per hour)) = $6.67 per iteration
+So M1 is more cost effective.
+
+4.7)
+Program that has 7.5x10^9 instructions
+5GHz machine
+CPI of 0.8
+
+7.5 x 5 x .8 = 1.2 seconds
+
+4.8)
+M1 - 4x10^9 / 1 = 4000 MIPS
+M2 - 6x10^9 / 2 = 3000 MIPS
+
+4.11)
+10^9 / 2 = 5x10^8 replacements
+
+4.12)
+20% cycles used for garbage collection
+hardware increases cycle time by 1.2
+new instructions halve the instructions but increases cycle time by 1.1
+hardware - 0.8 x 1.2 = .96
+instructions - (1.00 - (.20/2)) x 1.1 = .99
+
+So building garbage collection into hardware is better.

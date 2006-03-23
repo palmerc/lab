@@ -45,12 +45,12 @@ array: .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 set_array:
    # Accepts int num and stores in $s0
    # Save the $s0 and $ra registers on the stack
-   addi $sp, $sp, -16
-   sw $s2, 12($sp)
-   sw $s1, 8($sp)
-   sw $s0, 4($sp)
-   sw $ra, 0($sp)
-   
+   addi $sp, $sp, -52 # move stack pointer
+   sw $fp, 48($sp) # Save frame pointer
+   sw $ra, 44($sp) # Save return address
+   sw $a0, 40($sp) # Save parameter (num)
+   addi $fp, $sp, 48 # establish frame pointer
+      
    # Move the setup the loop
    addi $s1, $zero, 10
    add $s0, $zero, $zero # i variable
