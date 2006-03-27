@@ -1,0 +1,856 @@
+{VERSION 5 0 "SUN SPARC SOLARIS" "5.0" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 1 255 0 0 1 0 1 0 0 
+1 0 0 0 0 1 }{CSTYLE "2D Math" -1 2 "Times" 0 1 0 0 0 0 0 0 2 0 0 0 0 
+0 0 1 }{CSTYLE "Hyperlink" -1 17 "" 0 1 0 128 128 1 2 0 1 0 0 0 0 0 0 
+1 }{CSTYLE "2D Comment" 2 18 "" 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 }
+{CSTYLE "2D Input" 2 19 "" 0 1 255 0 0 1 0 0 0 0 0 0 0 0 0 1 }{CSTYLE 
+"2D Output" 2 20 "" 0 1 0 0 255 1 0 0 0 0 0 0 0 0 0 1 }{CSTYLE "" -1 
+256 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 257 "" 0 1 0 0 
+0 0 1 0 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 258 "" 0 1 0 0 0 0 0 1 0 0 0 0 
+0 0 0 0 }{CSTYLE "" -1 259 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }
+{CSTYLE "" -1 260 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 
+261 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 262 "" 0 1 0 0 
+0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 263 "" 0 1 0 0 0 0 0 1 0 0 0 0 
+0 0 0 0 }{CSTYLE "" -1 264 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }
+{CSTYLE "" -1 265 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 
+266 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 267 "" 0 1 0 0 
+0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 268 "" 0 1 0 0 0 0 0 1 0 0 0 0 
+0 0 0 0 }{CSTYLE "" -1 269 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }
+{CSTYLE "" -1 270 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 
+271 "" 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 272 "" 0 1 0 0 
+0 0 0 1 0 0 0 0 0 0 0 0 }{CSTYLE "" -1 273 "" 0 1 0 0 0 0 1 0 0 0 0 0 
+0 0 0 0 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 
+1 2 2 2 2 2 2 1 1 1 1 }1 1 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Heading 1
+" -1 3 1 {CSTYLE "" -1 -1 "Times" 1 18 0 0 0 1 2 1 2 2 2 2 1 1 1 1 }1 
+1 0 0 8 4 1 0 1 0 2 2 0 1 }{PSTYLE "Heading 2" -1 4 1 {CSTYLE "" -1 
+-1 "Times" 1 14 0 0 0 1 2 1 2 2 2 2 1 1 1 1 }1 1 0 0 8 2 1 0 1 0 2 2 
+0 1 }{PSTYLE "Heading 3" -1 5 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 
+1 1 2 2 2 2 1 1 1 1 }1 1 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Maple Outpu
+t" -1 11 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 2 2 1 1 1 1 }
+3 3 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "" 11 12 1 {CSTYLE "" -1 -1 "" 0 
+1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 }1 0 0 -1 -1 -1 0 0 0 0 0 0 -1 0 }
+{PSTYLE "Maple Plot" -1 13 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 
+2 2 2 2 2 1 1 1 1 }3 1 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Title" -1 18 
+1 {CSTYLE "" -1 -1 "Times" 1 18 0 0 0 1 2 1 1 2 2 2 1 1 1 1 }3 1 0 0 
+12 12 1 0 1 0 2 2 19 1 }{PSTYLE "Normal" -1 256 1 {CSTYLE "" -1 -1 "Ti
+mes" 1 12 0 0 0 1 2 2 2 2 2 2 1 1 1 1 }3 1 0 0 0 0 1 0 1 0 2 2 0 1 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 18 
+"" 0 "" {TEXT -1 49 "Case Study: Computer Grahics in Automotive Design
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 256 34 "Text Reference: Section 1.2,
+ p. 26" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "restart; interfac
+e( warnlevel=0 ):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "with( laylinal
+g ): with( plots ):" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 569 "Ren
+derData3d := proc( adjacency, data )\n  local i, j, pt, ptlist, optarg
+s;\n  if nargs>2 then\n    optargs := args[2..-1]\n  else\n    optargs
+ := NULL\n  end if;\n  ptlist := NULL;\n  for i from 1 to coldim(data)
+ do\n    for j from 1 to coldim(data) do\n      if adjacency[i,j]=1 th
+en\n        pt := map( convert, [ col(data,i), col(data,j) ], list );
+\n        ptlist := ptlist, pointplot3d( pt, connect=true, color=black
+ );\n      end if;\n    end do;\n  end do;\n  display( [ ptlist ], sca
+ling=constrained, axes=frame, labels=[`x`,`y`,`z`], orientation=[50,40
+], optargs );\nend proc:" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 515 "Render
+Data := proc( adjacency, data )\n  local i, j, pt, ptlist, optargs;\n \+
+ if nargs>2 then\n    optargs := args[2..-1]\n  else\n    optargs := N
+ULL\n  end if;\n  ptlist := NULL;\n  for i from 1 to coldim(data) do\n
+    for j from 1 to coldim(data) do\n      if adjacency[i,j]=1 then\n \+
+       pt := map( convert, [ col(data,i), col(data,j) ], list );\n    \+
+    ptlist := ptlist, pt;\n      end if;\n    end do;\n  end do;\n  pl
+ot( [ ptlist ], view=[-12..12,-12..12], color=black, axes=none, scalin
+g=constrained, optargs );\nend proc:" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 373 "This case st
+udy investigates how three-dimensional images are rendered effectively
+ in two dimensions. This type of operation is very important in automo
+tive design, for it allows engineers to experiment with images on a co
+mputer screen instead of using a three-dimensional model of the automo
+bile.  One way to render a three-dimensional image in two dimensions i
+s called a " }{TEXT 259 22 "perspective projection" }{TEXT -1 102 ", w
+hich is studied in this case study.  You should read Section 2.7 befor
+e attempting this case study." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 188 "The data for this case \+
+study was derived from measurements made on the author's 1983 Toyota C
+orolla; all coordinates are measured in feet.  The origin is placed at
+ the center of the car.  " }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 
+"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 305 "Data Points: (-6.5,-2,-2.5)
+, (-6.5,-2,2.5), (-6.5,.5,2.5), (-6.5,.5,-2.5), (-2.5,.5,-2.5), (-2.5,
+.5,2.5), \n                    (-.75,2,-2.5),   (-.75,2,2.5),  (3.25,2
+,-2.5), (3.25,2,2.5),    (4.5,.5,-2.5),   (4.5,.5,2.5), \n            \+
+        (6.5,.5,-2.5),   (6.5,.5,2.5),   (6.5,-2,2.5),   (6.5,-2,-2.5)
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 
+0 "" {TEXT -1 77 "These data points are collected in a data matrix D: \+
+each column contains the " }{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 2 ",
+ " }{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 6 ", and " }{XPPEDIT 18 0 "z
+" "6#%\"zG" }{TEXT -1 146 " coordinates of a particular data point.  A
+ fourth row containing all ones is attached to the matrix since homoge
+neous coordinates are being used." }}{PARA 256 "" 0 "" {TEXT -1 2 "  \+
+" }{XPPEDIT 18 0 "D = MATRIX([[-6.5, -6.5, -6.5, -6.5, -2.5, -2.5, -.7
+5, -.75, 3.25, 3.25, 4.5, 4.5, 6.5, 6.5, 6.5, 6.5], [-2, -2, .5, .5, .
+5, .5, 2, 2, 2, 2, .5, .5, .5, .5, -2, -2], [-2.5, 2.5, 2.5, -2.5, -2.
+5, 2.5, -2.5, 2.5, -2.5, 2.5, -2.5, 2.5, -2.5, 2.5, 2.5, -2.5], [1, 1,
+ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])" "6#/%\"DG-%'MATRIXG6#7&7
+2,$-%&FloatG6$\"#l!\"\"F/,$-F,6$F.F/F/,$-F,6$F.F/F/,$-F,6$F.F/F/,$-F,6
+$\"#DF/F/,$-F,6$F<F/F/,$-F,6$\"#v!\"#F/,$-F,6$FCFDF/-F,6$\"$D$FD-F,6$F
+JFD-F,6$\"#XF/-F,6$FOF/-F,6$F.F/-F,6$F.F/-F,6$F.F/-F,6$F.F/72,$\"\"#F/
+,$FfnF/-F,6$\"\"&F/-F,6$FjnF/-F,6$FjnF/-F,6$FjnF/FfnFfnFfnFfn-F,6$FjnF
+/-F,6$FjnF/-F,6$FjnF/-F,6$FjnF/,$FfnF/,$FfnF/72,$-F,6$F<F/F/-F,6$F<F/-
+F,6$F<F/,$-F,6$F<F/F/,$-F,6$F<F/F/-F,6$F<F/,$-F,6$F<F/F/-F,6$F<F/,$-F,
+6$F<F/F/-F,6$F<F/,$-F,6$F<F/F/-F,6$F<F/,$-F,6$F<F/F/-F,6$F<F/-F,6$F<F/
+,$-F,6$F<F/F/72\"\"\"FerFerFerFerFerFerFerFerFerFerFerFerFerFerFer" }
+{TEXT -1 2 "  " }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 59 "Here is a Maple command that defin
+es the matrix D. Because " }{TEXT 19 1 "D" }{TEXT -1 33 " is a protect
+ed name, lower case " }{TEXT 19 1 "d" }{TEXT -1 17 " is used instead.
+" }}{PARA 0 "" 0 "" {TEXT 19 399 "d := matrix(\n   [[-6.5, -6.5, -6.5,
+ -6.5, -2.5, -2.5, -.75, -.75, 3.25, 3.25, 4.5, 4.5, 6.5, 6.5, 6.5, 6.
+5],\n    [-2,   -2,     .5,   .5,   .5,   .5,    2,    2,    2,    2, \+
+ .5,  .5,  .5,  .5,  -2,  -2],\n    [-2.5,  2.5,  2.5, -2.5, -2.5,  2.
+5, -2.5,  2.5, -2.5,  2.5,-2.5, 2.5,-2.5, 2.5, 2.5,-2.5],\n    [    1,
+   1,    1,    1,    1,    1,    1,    1,    1,    1,   1,   1,   1,  \+
+ 1,   1,   1]] );" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 298 "In addition to the data points, h
+ow these data points are to be connected must be known.  A table listi
+ng which points connect to which others may be supplied.  Another way \+
+to record which points connect to which others is to use an adjacency \+
+matrix. This matrix consists only of 0's and 1's; the (" }{XPPEDIT 18 
+0 "i" "6#%\"iG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "j" "6#%\"jG" }{TEXT 
+-1 39 ") entry in the matrix is a 1 if points " }{XPPEDIT 18 0 "i" "6#
+%\"iG" }{TEXT -1 5 " and " }{XPPEDIT 18 0 "j" "6#%\"jG" }{TEXT -1 87 "
+ are connected.  Figure 1 shows both the table of connections and the \+
+adjacency matrix." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 399 "d := \+
+matrix(\n   [[-6.5, -6.5, -6.5, -6.5, -2.5, -2.5, -.75, -.75, 3.25, 3.
+25, 4.5, 4.5, 6.5, 6.5, 6.5, 6.5],\n    [-2,   -2,     .5,   .5,   .5,
+   .5,    2,    2,    2,    2,  .5,  .5,  .5,  .5,  -2,  -2],\n    [-2
+.5,  2.5,  2.5, -2.5, -2.5,  2.5, -2.5,  2.5, -2.5,  2.5,-2.5, 2.5,-2.
+5, 2.5, 2.5,-2.5],\n    [    1,   1,    1,    1,    1,    1,    1,    \+
+1,    1,    1,   1,   1,   1,   1,   1,   1]] ):" }}{PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 82 "extract := (M,c) -> op(convert( transpose(submatrix( \+
+d, 1..3, c..c )), listlist)):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 740 "F
+1a := matrix( 17, 3,\n [ [ `Pt`, `Coordinates`, `Connects to` ],\n   [
+    1, extract( d, 1 ), [ 2, 4,16] ],\n   [    2, extract( d, 2 ), [ 1
+, 3,15] ],\n   [    3, extract( d, 3 ), [ 2, 4, 6] ],\n   [    4, extr
+act( d, 4 ), [ 1, 3, 5] ],\n   [    5, extract( d, 5 ), [ 4, 6, 7] ],
+\n   [    6, extract( d, 6 ), [ 3, 5, 8] ],\n   [    7, extract( d, 7 \+
+), [ 5, 8, 9] ],\n   [    8, extract( d, 8 ), [ 6, 7,10] ],\n   [    9
+, extract( d, 9 ), [ 7,10,11] ],\n   [   10, extract( d,10 ), [ 8, 9,1
+2] ],\n   [   11, extract( d,11 ), [ 9,12,13] ],\n   [   12, extract( \+
+d,12 ), [10,11,14] ],\n   [   13, extract( d,13 ), [11,14,16] ],\n   [
+   14, extract( d,14 ), [12,13,15] ],\n   [   15, extract( d,15 ), [ 2
+,14,16] ],\n   [   16, extract( d,16 ), [ 1,13,15] ] ] ):" }}{PARA 0 "
+> " 0 "" {MPLTEXT 1 0 992 "A := matrix(\n         [ [0, 1, 0, 1, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],\n           [1, 0, 1, 0, 0, 0, 0, 0, 0
+, 0, 0, 0, 0, 0, 1, 0],\n           [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, \+
+0, 0, 0, 0, 0],\n           [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0],\n           [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+\n           [0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],\n      \+
+     [0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],\n           [0,
+ 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0],\n           [0, 0, 0, 0
+, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0],\n           [0, 0, 0, 0, 0, 0, \+
+0, 1, 1, 0, 0, 1, 0, 0, 0, 0],\n           [0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 0, 0, 1, 1, 0, 0, 0],\n           [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0
+, 0, 1, 0, 0],\n           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, \+
+0, 1],\n           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0],\n
+           [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],\n        \+
+   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0] ] ):" }}{PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 25 "evalm( F1a ), evalm( A );" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6$-%'MATRIXG6#737%%#PtG%,CoordinatesG%,Connects~toG7%\"
+\"\"7%$!#l!\"\"!\"#$!#DF07%\"\"#\"\"%\"#;7%F57%F.F1$\"#DF07%F,\"\"$\"#
+:7%F=7%F.$\"\"&F0F:7%F5F6\"\"'7%F67%F.FAF27%F,F=FB7%FB7%F2FAF27%F6FD\"
+\"(7%FD7%F2FAF:7%F=FB\"\")7%FK7%$!#vF1F5F27%FBFO\"\"*7%FO7%FRF5F:7%FDF
+K\"#57%FU7%$\"$D$F1F5F27%FKFY\"#67%FY7%FfnF5F:7%FOFU\"#77%Fin7%$\"#XF0
+FAF27%FUF]o\"#87%F]o7%F`oFAF:7%FYFin\"#97%Fco7%$\"#lF0FAF27%FinFgoF77%
+Fgo7%FjoFAF:7%F]oFcoF>7%F>7%FjoF1F:7%F5FgoF77%F77%FjoF1F27%F,FcoF>-F$6
+#7272\"\"!F,FjpF,FjpFjpFjpFjpFjpFjpFjpFjpFjpFjpFjpF,72F,FjpF,FjpFjpFjp
+FjpFjpFjpFjpFjpFjpFjpFjpF,Fjp72FjpF,FjpF,FjpF,FjpFjpFjpFjpFjpFjpFjpFjp
+FjpFjp72F,FjpF,FjpF,FjpFjpFjpFjpFjpFjpFjpFjpFjpFjpFjp72FjpFjpFjpF,FjpF
+,F,FjpFjpFjpFjpFjpFjpFjpFjpFjp72FjpFjpF,FjpF,FjpFjpF,FjpFjpFjpFjpFjpFj
+pFjpFjp72FjpFjpFjpFjpF,FjpFjpF,F,FjpFjpFjpFjpFjpFjpFjp72FjpFjpFjpFjpFj
+pF,F,FjpFjpF,FjpFjpFjpFjpFjpFjp72FjpFjpFjpFjpFjpFjpF,FjpFjpF,F,FjpFjpF
+jpFjpFjp72FjpFjpFjpFjpFjpFjpFjpF,F,FjpFjpF,FjpFjpFjpFjp72FjpFjpFjpFjpF
+jpFjpFjpFjpF,FjpFjpF,F,FjpFjpFjp72FjpFjpFjpFjpFjpFjpFjpFjpFjpF,F,FjpFj
+pF,FjpFjp72FjpFjpFjpFjpFjpFjpFjpFjpFjpFjpF,FjpFjpF,FjpF,72FjpFjpFjpFjp
+FjpFjpFjpFjpFjpFjpFjpF,F,FjpF,Fjp72FjpF,FjpFjpFjpFjpFjpFjpFjpFjpFjpFjp
+FjpF,FjpF,72F,FjpFjpFjpFjpFjpFjpFjpFjpFjpFjpFjpF,FjpF,Fjp" }}}{EXCHG 
+{PARA 256 "" 0 "" {TEXT -1 63 "Figure 1: Connection of Data Points: Ta
+ble and Adjacency Matrix" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 98 "The adjacency matrix will be used later in the lab. Here is a M
+aple command to create this matrix:" }}{PARA 0 "" 0 "" {TEXT 19 992 "A
+ := matrix(\n         [ [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \+
+1],\n           [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],\n   \+
+        [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\n           \+
+[1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\n           [0, 0, 0
+, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],\n           [0, 0, 1, 0, 1, \+
+0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],\n           [0, 0, 0, 0, 1, 0, 0, 1,
+ 1, 0, 0, 0, 0, 0, 0, 0],\n           [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0
+, 0, 0, 0, 0, 0],\n           [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, \+
+0, 0, 0],\n           [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0]
+,\n           [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0],\n     \+
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0],\n           [0
+, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1],\n           [0, 0, 0, \+
+0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0],\n           [0, 1, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],\n           [1, 0, 0, 0, 0, 0, 0, 0, 0
+, 0, 0, 0, 1, 0, 1, 0] ] );" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 
+0 "" 0 "" {TEXT -1 137 "Connecting the data points as given in Figure \+
+1, results in the picture in Figure 2, which Maple has rendered as a t
+wo-dimensional image." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 48 "Re
+nderData3d( A, submatrix( d, 1..3, 1..16 ) );\n" }}{PARA 13 "" 1 "" 
+{GLPLOT3D 457 457 457 {PLOTDATA 3 "6V-%'CURVESG6$7$7%$!#l!\"\"$!\"#\"
+\"!$!#DF*7%F(F+$\"#DF*-%'COLOURG6&%$RGBGF-F-F--F$6$7$F'7%F($\"\"&F*F.F
+3-F$6$7$F'7%$\"#lF*F+F.F3-F$6$7$F0F'F3-F$6$7$F07%F(F;F1F3-F$6$7$F07%FA
+F+F1F3-F$6$7$FIF0F3-F$6$7$FIF:F3-F$6$7$FI7%F.F;F1F3-F$6$7$F:F'F3-F$6$7
+$F:FIF3-F$6$7$F:7%F.F;F.F3-F$6$7$F[oF:F3-F$6$7$F[oFWF3-F$6$7$F[o7%$!#v
+F,$\"\"#F-F.F3-F$6$7$FWFIF3-F$6$7$FWF[oF3-F$6$7$FW7%FfoFhoF1F3-F$6$7$F
+eoF[oF3-F$6$7$FeoFcpF3-F$6$7$Feo7%$\"$D$F,FhoF.F3-F$6$7$FcpFWF3-F$6$7$
+FcpFeoF3-F$6$7$Fcp7%F^qFhoF1F3-F$6$7$F]qFeoF3-F$6$7$F]qFiqF3-F$6$7$F]q
+7%$\"#XF*F;F.F3-F$6$7$FiqFcpF3-F$6$7$FiqF]qF3-F$6$7$Fiq7%FdrF;F1F3-F$6
+$7$FcrF]qF3-F$6$7$FcrF_sF3-F$6$7$Fcr7%FAF;F.F3-F$6$7$F_sFiqF3-F$6$7$F_
+sFcrF3-F$6$7$F_s7%FAF;F1F3-F$6$7$FisFcrF3-F$6$7$FisFctF3-F$6$7$FisF@F3
+-F$6$7$FctF_sF3-F$6$7$FctFisF3-F$6$7$FctFMF3-F$6$7$FMF0F3-F$6$7$FMFctF
+3-F$6$7$FMF@F3-F$6$7$F@F'F3-F$6$7$F@FisF3-F$6$7$F@FMF3-%(SCALINGG6#%,C
+ONSTRAINEDG-%*AXESSTYLEG6#%&FRAMEG-%+AXESLABELSG6%%\"xG%\"yG%\"zG-%+PR
+OJECTIONG6%$\"#]F-$\"#SF-\"\"\"" 1 2 0 1 10 0 2 1 1 3 1 1.000000 
+40.000000 50.000000 1 0 "Curve 1" "Curve 2" "Curve 3" "Curve 4" "Curve
+ 5" "Curve 6" "Curve 7" "Curve 8" "Curve 9" "Curve 10" "Curve 11" "Cur
+ve 12" "Curve 13" "Curve 14" "Curve 15" "Curve 16" "Curve 17" "Curve 1
+8" "Curve 19" "Curve 20" "Curve 21" "Curve 22" "Curve 23" "Curve 24" "
+Curve 25" "Curve 26" "Curve 27" "Curve 28" "Curve 29" "Curve 30" "Curv
+e 31" "Curve 32" "Curve 33" "Curve 34" "Curve 35" "Curve 36" "Curve 37
+" "Curve 38" "Curve 39" "Curve 40" "Curve 41" "Curve 42" "Curve 43" "C
+urve 44" "Curve 45" "Curve 46" "Curve 47" "Curve 48" }}}{PARA 256 "" 
+0 "" {TEXT -1 42 "Figure 2: The Toyota data points connected" }}{PARA 
+0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" 
+}}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 62 "How has Maple rendered the pict
+ure in Figure 2?  The key is a " }{TEXT 260 22 "perspective projection
+" }{TEXT -1 121 ".  A form of this projection is studied in the text o
+n pages 163 and 164. In order to perform a perspective projection a " 
+}{TEXT 262 20 "center of projection" }{TEXT -1 2 " (" }{XPPEDIT 18 0 "
+b" "6#%\"bG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "c" "6#%\"cG" }{TEXT -1 1 
+"," }{XPPEDIT 18 0 "d" "6#%\"dG" }{TEXT -1 8 ") and a " }{TEXT 261 13 
+"viewing plane" }{TEXT -1 229 " must be identified.  The center of pro
+jection is the position of the viewer's eye; the viewing plane is the \+
+plane onto which the image is projected.  In the book, it is assumed t
+hat the center of projection has coordinates (0,0," }{XPPEDIT 18 0 "d
+" "6#%\"dG" }{TEXT -1 36 ") and that the viewing plane is the " }
+{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 1 "-" }{XPPEDIT 18 0 "y" "6#%\"y
+G" }{TEXT -1 74 " plane.  In what follows it is also assumed that the \+
+viewing plane is the " }{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 50 "-y p
+lane, but any choice of center of projection (" }{XPPEDIT 18 0 "b" "6#
+%\"bG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "c" "6#%\"cG" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "d" "6#%\"dG" }{TEXT -1 18 ") will be allowed." }}{PARA 
+0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 32 "Given the cente
+r of projection (" }{XPPEDIT 18 0 "b" "6#%\"bG" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "c" "6#%\"cG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "d" "6#%\"d
+G" }{TEXT -1 23 ") and some data point (" }{XPPEDIT 18 0 "x" "6#%\"xG
+" }{TEXT -1 1 "," }{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "z" "6#%\"zG" }{TEXT -1 14 "), the point (" }{XPPEDIT 
+18 0 "`x*`" "6#%#x*G" }{TEXT -1 1 "," }{XPPEDIT 18 0 "`y*`" "6#%#y*G" 
+}{TEXT -1 11 ",0) in the " }{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 1 "-
+" }{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 39 " plane which lies on the \+
+same line as (" }{XPPEDIT 18 0 "b" "6#%\"bG" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "c" "6#%\"cG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "d" "6#%\"d
+G" }{TEXT -1 7 ") and (" }{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 1 "," 
+}{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "z" "6#%\"
+zG" }{TEXT -1 68 ") must be found; see Figure 6 on page 163 for a pict
+ure. The point (" }{XPPEDIT 18 0 "`x*`" "6#%#x*G" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "`y*`" "6#%#y*G" }{TEXT -1 69 ") in two-dimensional spac
+e is then plotted.  To find the coordinates " }{XPPEDIT 18 0 "`x*`" "6
+#%#x*G" }{TEXT -1 5 " and " }{XPPEDIT 18 0 "`y*`" "6#%#y*G" }{TEXT -1 
+36 ", the equation of the line through (" }{XPPEDIT 18 0 "b" "6#%\"bG
+" }{TEXT -1 1 "," }{XPPEDIT 18 0 "c" "6#%\"cG" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "d" "6#%\"dG" }{TEXT -1 7 ") and (" }{XPPEDIT 18 0 "x" "
+6#%\"xG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 1 "," 
+}{XPPEDIT 18 0 "z" "6#%\"zG" }{TEXT -1 74 ") must be calculated.  As i
+s done on page 53 of the text, let the vectors " }{TEXT 263 1 "p" }
+{TEXT -1 5 " and " }{TEXT 264 1 "v" }{TEXT -1 23 " be defined as follo
+ws:" }}{PARA 256 "" 0 "" {TEXT -1 2 "  " }{TEXT 265 1 "p" }{TEXT -1 3 
+" = " }{XPPEDIT 18 0 "MATRIX( [[b],[c],[d]] )" "6#-%'MATRIXG6#7%7#%\"b
+G7#%\"cG7#%\"dG" }{TEXT -1 6 " and  " }{TEXT 266 1 "v" }{TEXT -1 3 " =
+ " }{XPPEDIT 18 0 "MATRIX( [[x],[y],[z]] ) - MATRIX( [[b],[c],[d]] ) =
+ MATRIX( [[x-b],[y-c],[z-d]] )" "6#/,&-%'MATRIXG6#7%7#%\"xG7#%\"yG7#%
+\"zG\"\"\"-F&6#7%7#%\"bG7#%\"cG7#%\"dG!\"\"-F&6#7%7#,&F*F/F4F97#,&F,F/
+F6F97#,&F.F/F8F9" }{TEXT -1 2 "  " }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}
+{PARA 0 "" 0 "" {TEXT -1 17 "The line through " }{TEXT 267 1 "p" }
+{TEXT -1 13 " parallel to " }{TEXT 268 1 "v" }{TEXT -1 43 " is needed.
+ Its equation may be written as " }}{PARA 256 "" 0 "" {TEXT -1 2 "  " 
+}{TEXT 269 1 "x" }{TEXT -1 3 " = " }{TEXT 270 1 "p" }{TEXT -1 4 " + t
+" }{TEXT 271 1 "v" }{TEXT -1 3 " = " }{XPPEDIT 18 0 "MATRIX( [[b],[c],
+[d]] ) + t*MATRIX( [[x-b],[y-c],[z-d]] ) = MATRIX( [[b+t*(x-b)],[c+t*(
+y-c)],[d+t*(z-d)]] )" "6#/,&-%'MATRIXG6#7%7#%\"bG7#%\"cG7#%\"dG\"\"\"*
+&%\"tGF/-F&6#7%7#,&%\"xGF/F*!\"\"7#,&%\"yGF/F,F87#,&%\"zGF/F.F8F/F/-F&
+6#7%7#,&F*F/*&F1F/,&F7F/F*F8F/F/7#,&F,F/*&F1F/,&F;F/F,F8F/F/7#,&F.F/*&
+F1F/,&F>F/F.F8F/F/" }{TEXT -1 2 "  " }}{PARA 0 "" 0 "" {TEXT -1 6 "whe
+re " }{TEXT 272 1 "x" }{TEXT -1 28 " is a point on the line and " }
+{XPPEDIT 18 0 "t" "6#%\"tG" }{TEXT -1 98 " is a parameter which varies
+ over all real numbers.  Since the point of interest on this line is (
+" }{XPPEDIT 18 0 "`x*`" "6#%#x*G" }{TEXT -1 1 "," }{XPPEDIT 18 0 "`y*`
+" "6#%#y*G" }{TEXT -1 5 ",0), " }{XPPEDIT 18 0 "d+t*(z-d)=0" "6#/,&%\"
+dG\"\"\"*&%\"tGF&,&%\"zGF&F%!\"\"F&F&\"\"!" }{TEXT -1 5 ", or " }
+{XPPEDIT 18 0 "t=d/(d-z)" "6#/%\"tG*&%\"dG\"\"\",&F&F'%\"zG!\"\"F*" }
+{TEXT -1 14 ".  The values " }{XPPEDIT 18 0 "`x*`" "6#%#x*G" }{TEXT 
+-1 5 " and " }{XPPEDIT 18 0 "`y*`" "6#%#y*G" }{TEXT -1 44 " may be fou
+nd by substituting this value of " }{XPPEDIT 18 0 "t" "6#%\"tG" }
+{TEXT -1 33 " into their respective equations:" }}{PARA 256 "" 0 "" 
+{TEXT -1 2 "  " }{XPPEDIT 18 0 "`x*` = b + t*(x-b)" "6#/%#x*G,&%\"bG\"
+\"\"*&%\"tGF',&%\"xGF'F&!\"\"F'F'" }{TEXT -1 3 " = " }{XPPEDIT 18 0 "b
++d*(x-b)/(d-z) = (d*x-b*z)/(d-z)" "6#/,&%\"bG\"\"\"*(%\"dGF&,&%\"xGF&F
+%!\"\"F&,&F(F&%\"zGF+F+F&*&,&*&F(F&F*F&F&*&F%F&F-F&F+F&,&F(F&F-F+F+" }
+{TEXT -1 2 "  " }}{PARA 256 "" 0 "" {TEXT -1 2 "  " }{XPPEDIT 18 0 "`y
+*` = c + t*(y-c)" "6#/%#y*G,&%\"cG\"\"\"*&%\"tGF',&%\"yGF'F&!\"\"F'F'
+" }{TEXT -1 3 " = " }{XPPEDIT 18 0 "c+d*(y-c)/(d-z) = (d*y-c*z)/(d-z)
+" "6#/,&%\"cG\"\"\"*(%\"dGF&,&%\"yGF&F%!\"\"F&,&F(F&%\"zGF+F+F&*&,&*&F
+(F&F*F&F&*&F%F&F-F&F+F&,&F(F&F-F+F+" }{TEXT -1 1 " " }}{PARA 0 "" 0 "
+" {TEXT -1 63 "Dividing the numerators and denominators of these fract
+ions by " }{XPPEDIT 18 0 "d" "6#%\"dG" }{TEXT -1 2 ", " }}{PARA 256 "
+" 0 "" {TEXT -1 2 "  " }{XPPEDIT 18 0 "`x*` = (x - b/d*z)/(1-z/d)" "6#
+/%#x*G*&,&%\"xG\"\"\"*(%\"bGF(%\"dG!\"\"%\"zGF(F,F(,&F(F(*&F-F(F+F,F,F
+," }{TEXT -1 7 "  and  " }{XPPEDIT 18 0 "`y*` = (y - c/d*z)/(1-z/d)" "
+6#/%#y*G*&,&%\"yG\"\"\"*(%\"cGF(%\"dG!\"\"%\"zGF(F,F(,&F(F(*&F-F(F+F,F
+,F," }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 156 "A
+s in the text, the perspective projection will be represented by a mat
+rix P, and homogeneous coordinates will be used to represent the point
+s.  The point (" }{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "z" "6#%\"z
+G" }{TEXT -1 27 ",1) must map to the point (" }{XPPEDIT 18 0 "`x*`" "6
+#%#x*G" }{TEXT -1 1 "," }{XPPEDIT 18 0 "`y*`" "6#%#y*G" }{TEXT -1 57 "
+,0,1), but these coordinates may be scaled by the factor " }{XPPEDIT 
+18 0 "1-z/d" "6#,&\"\"\"F$*&%\"zGF$%\"dG!\"\"F(" }{TEXT -1 29 ", and i
+nstead map the point (" }{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 1 "," }{XPPEDIT 18 0 "z" "6#%\"z
+G" }{TEXT -1 19 ",1) to the point  (" }{XPPEDIT 18 0 "x-b/d*z" "6#,&%
+\"xG\"\"\"*(%\"bGF%%\"dG!\"\"%\"zGF%F)" }{TEXT -1 2 ", " }{XPPEDIT 18 
+0 "y-c/d*z;" "6#,&%\"yG\"\"\"*(%\"cGF%%\"dG!\"\"%\"zGF%F)" }{TEXT -1 
+5 ", 0, " }{XPPEDIT 18 0 "1-z/d" "6#,&\"\"\"F$*&%\"zGF$%\"dG!\"\"F(" }
+{TEXT -1 43 ").  Now it is relatively easy to display P:" }}{PARA 256 
+"" 0 "" {TEXT -1 4 "  P " }{XPPEDIT 18 0 "MATRIX( [[x],[y],[z],[1]] )
+" "6#-%'MATRIXG6#7&7#%\"xG7#%\"yG7#%\"zG7#\"\"\"" }{TEXT -1 3 " = " }
+{XPPEDIT 18 0 "MATRIX( [[1,0,-b/d,0],   [0,1,-c/d,0], [0,0,0,0], [0,0,
+-1/d,1]] ) * MATRIX( [[x],[y],[z],[1]] ) = MATRIX( [[\nx-b/d*z],[y-c/d
+*z],[0],[1-z/d]] )" "6#/*&-%'MATRIXG6#7&7&\"\"\"\"\"!,$*&%\"bGF*%\"dG!
+\"\"F0F+7&F+F*,$*&%\"cGF*F/F0F0F+7&F+F+F+F+7&F+F+,$*&F*F*F/F0F0F*F*-F&
+6#7&7#%\"xG7#%\"yG7#%\"zG7#F*F*-F&6#7&7#,&F=F**(F.F*F/F0FAF*F07#,&F?F*
+*(F4F*F/F0FAF*F07#F+7#,&F*F**&FAF*F/F0F0" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "
+" 0 "" {TEXT -1 90 "To illustrate, here is the perspective projection \+
+of the Toyota from two different points:" }}}{SECT 0 {PARA 3 "" 0 "" 
+{TEXT -1 29 "Example 1: (b,c,d) = (0,0,10)" }}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 62 "P1 := matrix( [[1,0,0,0],[0,1,0,0],[0,0,0,0],[0,0,-
+1/10,1]] ):" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 49 "This is the situat
+ion computed in the text.  Then" }}{PARA 256 "" 0 "" {TEXT -1 2 "  " }
+{XPPEDIT 18 0 "P = MATRIX([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0], [
+0, 0, -1/10, 1]])" "6#/%\"PG-%'MATRIXG6#7&7&\"\"\"\"\"!F+F+7&F+F*F+F+7
+&F+F+F+F+7&F+F+,$*&F*F*\"#5!\"\"F2F*" }{TEXT -1 2 "  " }}{PARA 0 "" 0 
+"" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 32 "The Maple command to c
+reate P is" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 62 "P1 := matr
+ix( [[1,0,0,0],[0,1,0,0],[0,0,0,0],[0,0,-1/10,1]] );" }{TEXT -1 2 "  \+
+" }}{PARA 0 "" 0 "" {TEXT -1 62 "so the data matrix D is converted to \+
+PD, which is labelled as " }{TEXT 19 4 "newd" }{TEXT -1 25 ", with the
+ Maple command:" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 25 "newd \+
+:= evalm( P1 &* d );" }{TEXT -1 2 "  " }}{PARA 0 "" 0 "" {TEXT -1 0 "
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 25 "newd := evalm( P1 &* d \+
+);" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>%%newdG-%'MATRIXG6#7&72$!#l!\"
+\"F*F*F*$!#DF,F-$!#v!\"#F/$\"$D$F1F2$\"#XF,F4$\"#lF,F6F6F672$F1\"\"!F9
+$\"\"&F,F;F;F;$\"\"#F:F=F=F=F;F;F;F;F9F972$F:F:F@F@F@F@F@F@F@F@F@F@F@F
+@F@F@F@72$\"++++]7!\"*$\"+++++v!#5FEFBFBFEFBFEFBFEFBFEFBFEFEFB" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 25 "To obtain coordinates in " }{XPPEDIT 18 0 "R^2" "6#*$%\"R
+G\"\"#" }{TEXT -1 151 " divide the top three entries in each column by
+ the corresponding entry in the fourth row, then discard the fourth ro
+w.  One can then plot the points (" }{XPPEDIT 18 0 "`x*`" "6#%#x*G" }
+{TEXT -1 1 "," }{XPPEDIT 18 0 "`y*`" "6#%#y*G" }{TEXT -1 344 ") given \+
+in the first two rows of this matrix and connect them using the connec
+tion data in Figure 1. One can use Maple to find and plot these points
+ in the following manner.  First notice that the third row of the matr
+ix will always contain only zeros and need not be changed.  The top tw
+o entries in each column of PD (which we have stored as " }{TEXT 19 4 
+"newd" }{TEXT -1 67 ") may be divided by the entries in the fourth row
+ using the command" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 60 "M1
+ := matrix( 2, coldim(newd), (i,j)->newd[i,j]/newd[4,j] );" }{TEXT -1 
+2 "  " }}{PARA 0 "" 0 "" {TEXT -1 11 "with result" }}{PARA 0 "" 0 "" 
+{TEXT -1 2 "  " }{XPPEDIT 18 0 "M1 := MATRIX([[-5.200000000, -8.666666
+667, -8.666666667, -5.200000000, -2.000000000, -3.333333333, -.6000000
+000, -1.000000000, 2.600000000, 4.333333333, 3.600000000, 6.000000000,
+ 5.200000000, 8.666666667, 8.666666667, 5.200000000], [-1.600000000, -
+2.666666667, .6666666667, .4000000000, .4000000000, .6666666667, 1.600
+000000, 2.666666667, 1.600000000, 2.666666667, .4000000000, .666666666
+7, .4000000000, .6666666667, -2.666666667, -1.600000000]]);" "6#>%#M1G
+-%'MATRIXG6#7$72,$-%&FloatG6$\"+++++_!\"*!\"\",$-F,6$\"+nmmm')F/F0,$-F
+,6$\"+nmmm')F/F0,$-F,6$\"+++++_F/F0,$-F,6$\"+++++?F/F0,$-F,6$\"+LLLLLF
+/F0,$-F,6$\"+++++g!#5F0,$-F,6$\"+++++5F/F0-F,6$\"+++++EF/-F,6$\"+LLLLV
+F/-F,6$\"+++++OF/-F,6$\"+++++gF/-F,6$\"+++++_F/-F,6$\"+nmmm')F/-F,6$\"
++nmmm')F/-F,6$\"+++++_F/72,$-F,6$\"+++++;F/F0,$-F,6$\"+nmmmEF/F0-F,6$
+\"+nmmmmFI-F,6$\"+++++SFI-F,6$\"+++++SFI-F,6$\"+nmmmmFI-F,6$\"+++++;F/
+-F,6$\"+nmmmEF/-F,6$\"+++++;F/-F,6$\"+nmmmEF/-F,6$\"+++++SFI-F,6$\"+nm
+mmmFI-F,6$\"+++++SFI-F,6$\"+nmmmmFI,$-F,6$\"+nmmmEF/F0,$-F,6$\"+++++;F
+/F0" }{TEXT -1 2 "  " }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 60 "M1 \+
+:= matrix( 2, coldim(newd), (i,j)->newd[i,j]/newd[4,j] ):" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 4 "The " }{TEXT 19 10 "RenderData" }{TEXT -1 
+251 " procedure included at the end of this assignment will use the da
+ta in this matrix and the adjacency matrix given above to plot the pic
+ture. In this case, the adjacency matrix is A and the data matrix is M
+, so the Maple command to produce Figure 3 is:" }}{PARA 0 "" 0 "" 
+{TEXT -1 2 "  " }{TEXT 19 28 "fig3 := RenderData( A, M1 );" }{TEXT -1 
+2 "  " }}{PARA 0 "" 0 "" {TEXT -1 51 "The output of this command can b
+e seen in Figure 3." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "Rend
+erData( A, M1 );" }}{PARA 13 "" 1 "" {GLPLOT2D 446 446 446 {PLOTDATA 
+2 "6W-%'CURVESG6#7$7$$!3;+++++++_!#<$!33+++++++;F*7$$!3W*****pmmmm)F*$
+!3))*****pmmmm#F*-F$6#7$F'7$F($\"3A+++++++S!#=-F$6#7$F'7$$\"3;+++++++_
+F*F+-F$6#7$F-F'-F$6#7$F-7$F.$\"3m*****pmmmm'F8-F$6#7$F-7$$\"3W*****pmm
+mm)F*F0-F$6#7$FEF--F$6#7$FEF5-F$6#7$FE7$$!37+++LLLLLF*FF-F$6#7$F5F'-F$
+6#7$F5FE-F$6#7$F57$$!\"#\"\"!F6-F$6#7$F]oF5-F$6#7$F]oFW-F$6#7$F]o7$$!3
+w**************fF8$\"33+++++++;F*-F$6#7$FWFE-F$6#7$FWF]o-F$6#7$FW7$$!
+\"\"F`o$\"3))*****pmmmm#F*-F$6#7$FjoF]o-F$6#7$FjoFhp-F$6#7$Fjo7$$\"33+
+++++++EF*F]p-F$6#7$FhpFW-F$6#7$FhpFjo-F$6#7$Fhp7$$\"3n*****HLLLL%F*F[q
+-F$6#7$FfqFjo-F$6#7$FfqFbr-F$6#7$Ffq7$$\"33+++++++OF*F6-F$6#7$FbrFhp-F
+$6#7$FbrFfq-F$6#7$Fbr7$$\"\"'F`oFF-F$6#7$F^sFfq-F$6#7$F^sFjs-F$6#7$F^s
+7$F=F6-F$6#7$FjsFbr-F$6#7$FjsF^s-F$6#7$Fjs7$FLFF-F$6#7$FftF^s-F$6#7$Ff
+tF`u-F$6#7$FftF<-F$6#7$F`uFjs-F$6#7$F`uFft-F$6#7$F`uFK-F$6#7$FKF--F$6#
+7$FKF`u-F$6#7$FKF<-F$6#7$F<F'-F$6#7$F<Fft-F$6#7$F<FK-%(SCALINGG6#%,CON
+STRAINEDG-%*AXESSTYLEG6#%%NONEG-%'COLOURG6&%$RGBGF`oF`oF`o-%+AXESLABEL
+SG6$Q!6\"Fdx-%%VIEWG6$;$!#7F`o$\"#7F`oFix" 1 2 0 1 10 0 2 6 1 1 1 
+1.000000 45.000000 45.000000 0 0 "Curve 1" "Curve 2" "Curve 3" "Curve \+
+4" "Curve 5" "Curve 6" "Curve 7" "Curve 8" "Curve 9" "Curve 10" "Curve
+ 11" "Curve 12" "Curve 13" "Curve 14" "Curve 15" "Curve 16" "Curve 17
+" "Curve 18" "Curve 19" "Curve 20" "Curve 21" "Curve 22" "Curve 23" "C
+urve 24" "Curve 25" "Curve 26" "Curve 27" "Curve 28" "Curve 29" "Curve
+ 30" "Curve 31" "Curve 32" "Curve 33" "Curve 34" "Curve 35" "Curve 36
+" "Curve 37" "Curve 38" "Curve 39" "Curve 40" "Curve 41" "Curve 42" "C
+urve 43" "Curve 44" "Curve 45" "Curve 46" "Curve 47" "Curve 48" }}}
+{PARA 256 "" 0 "" {TEXT -1 44 "Figure 3: The Toyota from point ( 0, 10
+, 0 )" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 3 "" 0 "" {TEXT -1 30 "Example 2: \+
+(b,c,d) = (10,5,10)" }}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 69 "P2 :=
+ matrix( [[1,0,-1,0], [0,1,-1/2,0], [0,0,0,0], [0,0,-1/10,1]] ):" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 12 "In this case" }}{PARA 256 "" 0 "" 
+{TEXT -1 2 "  " }{XPPEDIT 18 0 "P = MATRIX([[1, 0, -1, 0], [0, 1, -1/2
+, 0], [0, 0, 0, 0], [0, 0, -1/10, 1]])" "6#/%\"PG-%'MATRIXG6#7&7&\"\"
+\"\"\"!,$F*!\"\"F+7&F+F*,$*&F*F*\"\"#F-F-F+7&F+F+F+F+7&F+F+,$*&F*F*\"#
+5F-F-F*" }{TEXT -1 2 "  " }}{PARA 0 "" 0 "" {TEXT -1 40 "A Maple comma
+nd to create this matrix is" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 
+19 69 "P2 := matrix( [[1,0,-1,0], [0,1,-1/2,0], [0,0,0,0], [0,0,-1/10,
+1]] );" }}{PARA 0 "" 0 "" {TEXT -1 44 "so the data matrix D is convert
+ed to PD with" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 25 "newd :=
+ evalm( P2 &* d );" }{TEXT -1 2 "  " }}{PARA 0 "" 0 "" {TEXT -1 13 "Th
+e result is" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{XPPEDIT 18 0 "newd :=
+ MATRIX([[-4.0, -9.0, -9.0, -4.0, 0., -5.0, 1.75, -3.25, 5.75, .75, 7.
+0, 2.0, 9.0, 4.0, 4.0, 9.0], [-.750000000, -3.250000000, -.750000000, \+
+1.750000000, 1.750000000, -.750000000, 3.250000000, .750000000, 3.2500
+00000, .750000000, 1.750000000, -.750000000, 1.750000000, -.750000000,
+ -3.250000000, -.750000000], [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., \+
+0., 0., 0., 0., 0., 0.], [1.250000000, .7500000000, .7500000000, 1.250
+000000, 1.250000000, .7500000000, 1.250000000, .7500000000, 1.25000000
+0, .7500000000, 1.250000000, .7500000000, 1.250000000, .7500000000, .7
+500000000, 1.250000000]]);" "6#>%%newdG-%'MATRIXG6#7&72,$-%&FloatG6$\"
+#S!\"\"F/,$-F,6$\"#!*F/F/,$-F,6$F3F/F/,$-F,6$F.F/F/-F,6$\"\"!F<,$-F,6$
+\"#]F/F/-F,6$\"$v\"!\"#,$-F,6$\"$D$FDF/-F,6$\"$v&FD-F,6$\"#vFD-F,6$\"#
+qF/-F,6$\"#?F/-F,6$F3F/-F,6$F.F/-F,6$F.F/-F,6$F3F/72,$-F,6$\"*+++](!\"
+*F/,$-F,6$\"++++]KF\\oF/,$-F,6$F[oF\\oF/-F,6$\"++++]<F\\o-F,6$\"++++]<
+F\\o,$-F,6$F[oF\\oF/-F,6$\"++++]KF\\o-F,6$F[oF\\o-F,6$\"++++]KF\\o-F,6
+$F[oF\\o-F,6$\"++++]<F\\o,$-F,6$F[oF\\oF/-F,6$\"++++]<F\\o,$-F,6$F[oF
+\\oF/,$-F,6$\"++++]KF\\oF/,$-F,6$F[oF\\oF/72-F,6$F<F<-F,6$F<F<-F,6$F<F
+<-F,6$F<F<-F,6$F<F<-F,6$F<F<-F,6$F<F<-F,6$F<F<-F,6$F<F<-F,6$F<F<-F,6$F
+<F<-F,6$F<F<-F,6$F<F<-F,6$F<F<-F,6$F<F<-F,6$F<F<72-F,6$\"++++]7F\\o-F,
+6$\"+++++v!#5-F,6$\"+++++vFbt-F,6$\"++++]7F\\o-F,6$\"++++]7F\\o-F,6$\"
++++++vFbt-F,6$\"++++]7F\\o-F,6$\"+++++vFbt-F,6$\"++++]7F\\o-F,6$\"++++
++vFbt-F,6$\"++++]7F\\o-F,6$\"+++++vFbt-F,6$\"++++]7F\\o-F,6$\"+++++vFb
+t-F,6$\"+++++vFbt-F,6$\"++++]7F\\o" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 25 "newd := evalm( P2 &* d );" }}}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 65 "The Maple c
+ommand to rescale by the elements in the fourth row is" }}{PARA 0 "" 
+0 "" {TEXT -1 2 "  " }{TEXT 19 60 "M2 := matrix( 2, coldim(newd), (i,j
+)->newd[i,j]/newd[4,j] );" }{TEXT -1 2 "  " }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 76 "The columns of the matrix produced by this command are th
+e coordinates for (" }{XPPEDIT 18 0 "`x*`" "6#%#x*G" }{TEXT -1 1 "," }
+{XPPEDIT 18 0 "`y*`" "6#%#y*G" }{TEXT -1 2 "):" }}{PARA 0 "" 0 "" 
+{TEXT -1 2 "  " }{XPPEDIT 18 0 "M2 := MATRIX([[-3.200000000, -12.00000
+000, -12.00000000, -3.200000000, 0., -6.666666667, 1.400000000, -4.333
+333333, 4.600000000, 1.000000000, 5.600000000, 2.666666667, 7.20000000
+0, 5.333333333, 5.333333333, 7.200000000], [-.6000000000, -4.333333333
+, -1.000000000, 1.400000000, 1.400000000, -1.000000000, 2.600000000, 1
+.000000000, 2.600000000, 1.000000000, 1.400000000, -1.000000000, 1.400
+000000, -1.000000000, -4.333333333, -.6000000000]]);" "6#>%#M2G-%'MATR
+IXG6#7$72,$-%&FloatG6$\"+++++K!\"*!\"\",$-F,6$\"+++++7!\")F0,$-F,6$\"+
+++++7F5F0,$-F,6$\"+++++KF/F0-F,6$\"\"!F@,$-F,6$\"+nmmmmF/F0-F,6$\"++++
++9F/,$-F,6$\"+LLLLVF/F0-F,6$\"+++++YF/-F,6$\"+++++5F/-F,6$\"+++++cF/-F
+,6$\"+nmmmEF/-F,6$\"+++++sF/-F,6$\"+LLLL`F/-F,6$\"+LLLL`F/-F,6$\"+++++
+sF/72,$-F,6$\"+++++g!#5F0,$-F,6$\"+LLLLVF/F0,$-F,6$FQF/F0-F,6$\"+++++9
+F/-F,6$\"+++++9F/,$-F,6$FQF/F0-F,6$\"+++++EF/-F,6$FQF/-F,6$\"+++++EF/-
+F,6$FQF/-F,6$\"+++++9F/,$-F,6$FQF/F0-F,6$\"+++++9F/,$-F,6$FQF/F0,$-F,6
+$\"+LLLLVF/F0,$-F,6$\"+++++gFcoF0" }{TEXT -1 2 "  " }}{PARA 0 "" 0 "" 
+{TEXT -1 0 "" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 
+"" 0 "" {TEXT -1 12 "Again using " }{TEXT 19 10 "RenderData" }{TEXT 
+-1 21 " to plot the points (" }{XPPEDIT 18 0 "`x*`" "6#%#x*G" }{TEXT 
+-1 1 "," }{XPPEDIT 18 0 "`y*`" "6#%#y*G" }{TEXT -1 84 ") and connectin
+g them using the adjacency matrix A, the picture in Figure 4 results.
+" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 20 "RenderData( A, M2 );
+" }{TEXT -1 2 "  " }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "Render
+Data( A, M2 );" }}{PARA 13 "" 1 "" {GLPLOT2D 446 446 446 {PLOTDATA 2 "
+6W-%'CURVESG6#7$7$$!3;+++++++K!#<$!3w**************f!#=7$$!#7\"\"!$!3n
+*****HLLLL%F*-F$6#7$F'7$F($\"3!**************R\"F*-F$6#7$F'7$$\"3;++++
++++sF*F+-F$6#7$F.F'-F$6#7$F.7$F/$!\"\"F1-F$6#7$F.7$$\"3n*****HLLLL&F*F
+2-F$6#7$FFF.-F$6#7$FFF7-F$6#7$FF7$$!3K+++nmmmmF*FG-F$6#7$F7F'-F$6#7$F7
+FF-F$6#7$F77$$F1F1F8-F$6#7$F^oF7-F$6#7$F^oFX-F$6#7$F^o7$F8$\"33+++++++
+EF*-F$6#7$FXFF-F$6#7$FXF^o-F$6#7$FX7$F2$\"\"\"F1-F$6#7$FioF^o-F$6#7$Fi
+oFep-F$6#7$Fio7$$\"3k*************f%F*Fjo-F$6#7$FepFX-F$6#7$FepFio-F$6
+#7$Fep7$FfpFfp-F$6#7$FaqFio-F$6#7$FaqF]r-F$6#7$Faq7$$\"3k*************
+f&F*F8-F$6#7$F]rFep-F$6#7$F]rFaq-F$6#7$F]r7$$\"3))*****pmmmm#F*FG-F$6#
+7$FgrFaq-F$6#7$FgrFcs-F$6#7$Fgr7$F>F8-F$6#7$FcsF]r-F$6#7$FcsFgr-F$6#7$
+Fcs7$FMFG-F$6#7$F_tFgr-F$6#7$F_tFit-F$6#7$F_tF=-F$6#7$FitFcs-F$6#7$Fit
+F_t-F$6#7$FitFL-F$6#7$FLF.-F$6#7$FLFit-F$6#7$FLF=-F$6#7$F=F'-F$6#7$F=F
+_t-F$6#7$F=FL-%(SCALINGG6#%,CONSTRAINEDG-%*AXESSTYLEG6#%%NONEG-%'COLOU
+RG6&%$RGBGF1F1F1-%+AXESLABELSG6$Q!6\"F]x-%%VIEWG6$;F/$\"#7F1Fbx" 1 2 
+0 1 10 0 2 6 1 1 1 1.000000 45.000000 45.000000 0 0 "Curve 1" "Curve 2
+" "Curve 3" "Curve 4" "Curve 5" "Curve 6" "Curve 7" "Curve 8" "Curve 9
+" "Curve 10" "Curve 11" "Curve 12" "Curve 13" "Curve 14" "Curve 15" "C
+urve 16" "Curve 17" "Curve 18" "Curve 19" "Curve 20" "Curve 21" "Curve
+ 22" "Curve 23" "Curve 24" "Curve 25" "Curve 26" "Curve 27" "Curve 28
+" "Curve 29" "Curve 30" "Curve 31" "Curve 32" "Curve 33" "Curve 34" "C
+urve 35" "Curve 36" "Curve 37" "Curve 38" "Curve 39" "Curve 40" "Curve
+ 41" "Curve 42" "Curve 43" "Curve 44" "Curve 45" "Curve 46" "Curve 47
+" "Curve 48" }}}{PARA 256 "" 0 "" {TEXT -1 39 "Figure 4: The Toyota fr
+om ( 10, 5, 10 )" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 0 "" }}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 
+"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 
+210 "To give the effect of moving around while viewing the Toyota, a s
+equence of pictures from a varying set of centers of projection could \+
+be constructed.  For example, consider moving along the line with cons
+tant " }{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 27 "-coordinate 0 and co
+nstant " }{XPPEDIT 18 0 "z" "6#%\"zG" }{TEXT -1 53 "-coordinate 10.  P
+oints on this line have the form ( " }{XPPEDIT 18 0 "b" "6#%\"bG" }
+{TEXT -1 20 ", 0, 10), where the " }{XPPEDIT 18 0 "x" "6#%\"xG" }
+{TEXT -1 12 "-coordinate " }{XPPEDIT 18 0 "b" "6#%\"bG" }{TEXT -1 199 
+" varies over some interval.  Since this line runs parallel to the dri
+ver's side of the Toyota, moving along this line should produce a set \+
+of images one would see while moving beside the car.  Since " }
+{XPPEDIT 18 0 "b" "6#%\"bG" }{TEXT -1 51 " is variable, the projection
+ matrix in this case is" }}{PARA 256 "" 0 "" {TEXT -1 2 "  " }
+{XPPEDIT 18 0 "P = MATRIX([[1, 0, -1/10*b, 0], [0, 1, 0, 0], [0, 0, 0,
+ 0], [0, 0, -1/10, 1]])" "6#/%\"PG-%'MATRIXG6#7&7&\"\"\"\"\"!,$*(F*F*
+\"#5!\"\"%\"bGF*F/F+7&F+F*F+F+7&F+F+F+F+7&F+F+,$*&F*F*F.F/F/F*" }
+{TEXT -1 2 "  " }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" 
+{TEXT -1 110 "A sequence of pictures will be generated from a set of c
+enters of projection along this line by using Maple's " }{HYPERLNK 17 
+"repetition" 2 "repetition" "" }{TEXT -1 2 " (" }{HYPERLNK 17 "do" 2 "
+repetition" "" }{TEXT -1 45 ") command.  In the following Maple loop, \+
+the " }{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 12 "-coordinate " }
+{XPPEDIT 18 0 "b" "6#%\"bG" }{TEXT -1 46 " will go from -10 to 10 by i
+ncrements of 1/10." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 333 "anim
+1 := NULL:\nfor b from -10 to 10 by 1/10 do\n  P := matrix( [ [ 1, 0, \+
+-b/10, 0 ],\n                 [ 0, 1,     0, 0 ],\n                 [ \+
+0, 0,     0, 0 ],\n                 [ 0, 0, -1/10, 1 ] ] );\n  newd :=
+ evalm( P &* d );\n  M := matrix( 2, coldim(newd), (i,j)->newd[i,j]/ne
+wd[4,j] );\n  anim1 := anim1, RenderData( A, M );\nend do:" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 57 "Maple can animate the individual frames w
+ith the command." }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 36 "disp
+lay( [anim1], insequence=true );" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}
+{PARA 0 "" 0 "" {TEXT -1 49 "Note that it is necessary to execute the \+
+command " }{TEXT 19 14 "with( plots ):" }{TEXT -1 27 " to load the plo
+ts package " }{TEXT 273 5 "prior" }{TEXT -1 14 " to using the " }
+{HYPERLNK 17 "display" 2 "plots[display]" "" }{TEXT -1 21 " command. T
+o see the " }{HYPERLNK 17 "animation" 2 "worksheet,plotinterface,anima
+te" "" }{TEXT -1 164 ", click anywhere in the Maple graph and use the \+
+VCR-like controls at the top of the Maple GUI. When the pictures are a
+nimated they will simulate passing the Toyota." }{MPLTEXT 1 0 1 " " }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{SECT 0 {PARA 3 "" 0 "
+" {TEXT -1 9 "Rotations" }}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 190 "
+Ay := phi -> matrix( 4, 4,\n        [ [ cos(phi), 0, sin(phi), 0 ],\n \+
+         [        0, 1,        0, 0 ],\n          [-sin[phi], 0, cos[p
+hi], 0 ],\n          [        0, 0,        0, 1 ] ] ):" }}{PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 194 "Ax := phi -> matrix( 4, 4,\n        [ [ 1,   \+
+     0,         0, 0 ],\n          [ 0, cos(phi), -sin(phi), 0 ],\n   \+
+       [ 0, sin(phi),  cos(phi), 0 ],\n          [ 0,        0,       \+
+  0, 1 ] ] ):" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 194 "Az := phi -> matr
+ix( 4, 4,\n        [ [ cos(phi), -sin(phi), 0, 0 ],\n          [ sin(p
+hi),  cos(phi), 0, 0 ],\n          [        0,         0, 1, 0 ],\n   \+
+       [        0,         0, 0, 1 ] ] ):" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 49 "To rotate the three-dimensional object about the " }
+{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 18 "-axis by an angle " }
+{XPPEDIT 18 0 "phi" "6#%$phiG" }{TEXT -1 294 ", the following calculat
+ions are done. By convention, a positive angle is the counterclockwise
+ direction when looking toward the origin from the positive half of th
+e axis of rotation. As in the text, it may be  shown that the rotation
+ matrix using homogeneous coordinates for such a rotation is" }}{PARA 
+256 "" 0 "" {TEXT -1 2 "  " }{XPPEDIT 18 0 "A[y] = matrix([[cos(phi), \+
+0, sin(phi), 0], [0, 1, 0, 0], [-sin[phi], 0, cos[phi], 0], [0, 0, 0, \+
+1]]);" "6#/&%\"AG6#%\"yG-%'matrixG6#7&7&-%$cosG6#%$phiG\"\"!-%$sinG6#F
+0F17&F1\"\"\"F1F17&,$&F36#F0!\"\"F1&F.6#F0F17&F1F1F1F6" }{TEXT -1 2 " \+
+ " }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 47 "and can be entered in Maple \+
+with the command\n  " }{TEXT 19 190 "Ay := phi -> matrix( 4, 4,\n     \+
+   [ [ cos(phi), 0, sin(phi), 0 ],\n          [        0, 1,        0,
+ 0 ],\n          [-sin[phi], 0, cos[phi], 0 ],\n          [        0, \+
+0,        0, 1 ] ] );" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 76 "Likewise
+ the matrices using homogeneous coordinates for rotations about the " 
+}{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 5 " and " }{XPPEDIT 18 0 "z" "6
+#%\"zG" }{TEXT -1 6 " axes," }}{PARA 256 "" 0 "" {TEXT -1 2 "  " }
+{XPPEDIT 18 0 "A[x] = matrix([[1, 0, 0, 0], [0, cos(phi), -sin(phi), 0
+], [0, sin(phi), cos(phi), 0], [0, 0, 0, 1]]);" "6#/&%\"AG6#%\"xG-%'ma
+trixG6#7&7&\"\"\"\"\"!F.F.7&F.-%$cosG6#%$phiG,$-%$sinG6#F3!\"\"F.7&F.-
+F66#F3-F16#F3F.7&F.F.F.F-" }{TEXT -1 7 "  and  " }{XPPEDIT 18 0 "A[z] \+
+:= matrix([[cos(phi), -sin(phi), 0, 0], [sin(phi), cos(phi), 0, 0], [0
+, 0, 1, 0], [0, 0, 0, 1]]);" "6#>&%\"AG6#%\"zG-%'matrixG6#7&7&-%$cosG6
+#%$phiG,$-%$sinG6#F0!\"\"\"\"!F67&-F36#F0-F.6#F0F6F67&F6F6\"\"\"F67&F6
+F6F6F=" }{TEXT -1 3 "  ," }}{PARA 0 "" 0 "" {TEXT -1 39 "can be create
+d with the Maple commands:" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 
+19 194 "Ax := phi -> matrix( 4, 4,\n        [ [ 1,        0,         0
+, 0 ],\n          [ 0, cos(phi), -sin(phi), 0 ],\n          [ 0, sin(p
+hi),  cos(phi), 0 ],\n          [ 0,        0,         0, 1 ] ] );" }}
+{PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }
+{TEXT 19 194 "Az := phi -> matrix( 4, 4,\n        [ [ cos(phi), -sin(p
+hi), 0, 0 ],\n          [ sin(phi),  cos(phi), 0, 0 ],\n          [   \+
+     0,         0, 1, 0 ],\n          [        0,         0, 0, 1 ] ] \+
+);" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 32 "To rotate the
+ Toyota by 45\260 (or " }{XPPEDIT 18 0 "Pi/4" "6#*&%#PiG\"\"\"\"\"%!\"
+\"" }{TEXT -1 20 " radians) about the " }{XPPEDIT 18 0 "x" "6#%\"xG" }
+{TEXT -1 23 "-axis the Maple command" }}{PARA 0 "" 0 "" {TEXT -1 2 "  \+
+" }{TEXT 19 11 "Ax( Pi/4 );" }{TEXT -1 2 "  " }}{PARA 0 "" 0 "" {TEXT 
+-1 32 "shows the rotation matrix  to be" }}{PARA 256 "" 0 "" {TEXT -1 
+2 "  " }{XPPEDIT 18 0 "A[x] = matrix([[1, 0, 0, 0], [0, 1/2*2^(1/2), -
+1/2*2^(1/2), 0], [0, 1/2*2^(1/2), 1/2*2^(1/2), 0], [0, 0, 0, 1]]);" "6
+#/&%\"AG6#%\"xG-%'matrixG6#7&7&\"\"\"\"\"!F.F.7&F.*(F-F-\"\"#!\"\")F1*
+&F-F-F1F2F-,$*(F-F-F1F2)F1*&F-F-F1F2F-F2F.7&F.*(F-F-F1F2)F1*&F-F-F1F2F
+-*(F-F-F1F2)F1*&F-F-F1F2F-F.7&F.F.F.F-" }{TEXT -1 2 "  " }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 49 "Then, apply this matrix to the data D, yi
+elding A" }{XPPEDIT 18 0 "``[x]" "6#&%!G6#%\"xG" }{TEXT -1 25 " D with
+ the Maple command" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 25 "ev
+alm( Ax( Pi/4 ) &* d ):" }}{PARA 0 "" 0 "" {TEXT -1 97 "The output fro
+m this command is not displayed because the result of this command is \+
+too unwieldy." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" 
+{TEXT -1 127 "A perspective projection is now applied to this set of d
+ata. If the center of projection is (0,0,10) as in the first example, \+
+P" }{XPPEDIT 18 0 "``[1]" "6#&%!G6#\"\"\"" }{TEXT -1 2 " A" }{XPPEDIT 
+18 0 "``[x]" "6#&%!G6#%\"xG" }{TEXT -1 42 " D may be computed (re-defi
+ne the matrix P" }{XPPEDIT 18 0 "``[1]" "6#&%!G6#\"\"\"" }{TEXT -1 31 
+" if necessary) with the command" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }
+{TEXT 19 39 "newd := evalm( P1 &* Ax( Pi/4 ) &* d ):" }}{PARA 0 "" 0 "
+" {TEXT -1 62 "then divided by the fourth row to obtain the coordinate
+s for (" }{XPPEDIT 18 0 "`x*`" "6#%#x*G" }{TEXT -1 1 "," }{XPPEDIT 18 
+0 "`y*`" "6#%#y*G" }{TEXT -1 30 ") as the columns of the matrix" }}
+{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 72 "M3 := evalf[3]( matrix( \+
+2, coldim(newd), (i,j)->newd[i,j]/newd[4,j] ) );" }{TEXT -1 53 "\nThe \+
+final result of these computations is the matrix" }}}{EXCHG {PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 39 "newd := evalm( P1 &* Ax( Pi/4 ) &* d ):" }}
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 73 "M3 := evalf[3]( matrix( 2, coldim(n
+ewd), (i,j)->newd[i,j]/newd[4,j] ) );\n" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#>%#M3G-%'MATRIXG6#7$72$!$$\\!\"#$!$w'F,$!$E)F,$!$q&F,$!$>#F,$!$=
+$F,$!$A(!\"$$!$5\"F,$\"$8$F,$\"$u%F,$\"$&RF,$\"$s&F,$\"$q&F,$\"$E)F,$
+\"$w'F,$\"$$\\F,72$\"$o#F9$!$G$F,$!$z\"F,$\"$'=F,FSFQ$\"$1$F,$!$:&F9FU
+FWFSFQFSFQFOFM" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "RenderDat
+a( A, M3 );" }}{PARA 13 "" 1 "" {GLPLOT2D 352 352 352 {PLOTDATA 2 "6W-
+%'CURVESG6#7$7$$!3r************H\\!#<$\"3;++++++!o#!#=7$$!3!)*********
+***fnF*$!3!)************zKF*-F$6#7$F'7$$!3;+++++++dF*$\"35++++++g=F*-F
+$6#7$F'7$$\"3r************H\\F*F+-F$6#7$F.F'-F$6#7$F.7$$!3!)**********
+**f#)F*$!3/++++++!z\"F*-F$6#7$F.7$$\"3!)************fnF*F1-F$6#7$FGF.-
+F$6#7$FGF6-F$6#7$FG7$$!3;++++++!=$F*FJ-F$6#7$F6F'-F$6#7$F6FG-F$6#7$F67
+$$!3%**************=#F*F9-F$6#7$FaoF6-F$6#7$FaoFen-F$6#7$Fao7$$!3v****
+********>sF-$\"31++++++gIF*-F$6#7$FenFG-F$6#7$FenFao-F$6#7$Fen7$$!33++
++++++6F*$!39++++++]^F--F$6#7$F]pFao-F$6#7$F]pF[q-F$6#7$F]p7$$\"3!*****
+********HJF*F`p-F$6#7$F[qFen-F$6#7$F[qF]p-F$6#7$F[q7$$\"3A++++++SZF*F^
+q-F$6#7$FiqF]p-F$6#7$FiqFer-F$6#7$Fiq7$$\"3=++++++]RF*F9-F$6#7$FerF[q-
+F$6#7$FerFiq-F$6#7$Fer7$$\"3v************>dF*FJ-F$6#7$FasFiq-F$6#7$Fas
+F]t-F$6#7$Fas7$$\"3;+++++++dF*F9-F$6#7$F]tFer-F$6#7$F]tFas-F$6#7$F]t7$
+$\"3!)************f#)F*FJ-F$6#7$FitFas-F$6#7$FitFeu-F$6#7$FitF>-F$6#7$
+FeuF]t-F$6#7$FeuFit-F$6#7$FeuFO-F$6#7$FOF.-F$6#7$FOFeu-F$6#7$FOF>-F$6#
+7$F>F'-F$6#7$F>Fit-F$6#7$F>FO-%(SCALINGG6#%,CONSTRAINEDG-%*AXESSTYLEG6
+#%%NONEG-%'COLOURG6&%$RGBG\"\"!FhxFhx-%+AXESLABELSG6$Q!6\"F\\y-%%VIEWG
+6$;$!#7Fhx$\"#7FhxFay" 1 2 0 1 10 0 2 6 1 1 1 1.000000 45.000000 
+45.000000 0 0 "Curve 1" "Curve 2" "Curve 3" "Curve 4" "Curve 5" "Curve
+ 6" "Curve 7" "Curve 8" "Curve 9" "Curve 10" "Curve 11" "Curve 12" "Cu
+rve 13" "Curve 14" "Curve 15" "Curve 16" "Curve 17" "Curve 18" "Curve \+
+19" "Curve 20" "Curve 21" "Curve 22" "Curve 23" "Curve 24" "Curve 25" 
+"Curve 26" "Curve 27" "Curve 28" "Curve 29" "Curve 30" "Curve 31" "Cur
+ve 32" "Curve 33" "Curve 34" "Curve 35" "Curve 36" "Curve 37" "Curve 3
+8" "Curve 39" "Curve 40" "Curve 41" "Curve 42" "Curve 43" "Curve 44" "
+Curve 45" "Curve 46" "Curve 47" "Curve 48" }}}}{EXCHG {PARA 256 "" 0 "
+" {TEXT -1 28 "Figure 5: The rotated Toyota" }}}{EXCHG {PARA 0 "> " 0 
+"" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 191 "A sequenc
+e of pictures can be generated which show the effects of rotating vari
+ous amounts.  For example, the following code can be used to simulate \+
+one full rotation of the Toyota about the " }{XPPEDIT 18 0 "z" "6#%\"z
+G" }{TEXT -1 41 "-axis, as viewed from the point (0,0,10)." }}{PARA 0 
+"" 0 "" {TEXT 19 199 "anim2 := NULL:\n  for i from 0 to 200 do\n    ne
+wd := evalm( P1 &* Az(i*Pi/100) &* d );\n    M := matrix( 2, coldim(ne
+wd), (i,j)->newd[i,j]/newd[4,j] );\n    anim2 := anim2, RenderData( A,
+ M );\n  end do:" }}{PARA 0 "" 0 "" {TEXT -1 45 "To animate these fram
+es use the Maple command" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 
+36 "display( [anim2], insequence=true );" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 3 "" 0 "" {TEXT -1 9 "\"Zooming\"
+" }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 377 "Imaging software packages off
+er the ability to zoom in (or out) from a picture. Usually 100% zoom i
+ndicates the original size of the graphics image. A zoom percentage of
+ 200% would be double that of the original, while a percentage of 50% \+
+would be half the size of the original. To make this into a transforma
+tion, note that this is a special case of scaling where each of the " 
+}{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 2 ", " }{XPPEDIT 18 0 "y" "6#%
+\"yG" }{TEXT -1 5 " and " }{XPPEDIT 18 0 "z" "6#%\"zG" }{TEXT -1 35 " \+
+axes is scaled by the same factor " }{XPPEDIT 18 0 "p" "6#%\"pG" }
+{TEXT -1 20 ".  For a 200% zoom, " }{XPPEDIT 18 0 "p=2" "6#/%\"pG\"\"#
+" }{TEXT -1 18 "; for a 50% zoom, " }{XPPEDIT 18 0 "p=.5" "6#/%\"pG-%&
+FloatG6$\"\"&!\"\"" }{TEXT -1 97 ".  As is shown on page 160, the matr
+ix which performs this scaling in homogeneous coordinates is " }}
+{PARA 256 "" 0 "" {TEXT -1 2 "  " }{XPPEDIT 18 0 "B = MATRIX([[p, 0, 0
+, 0], [0, p, 0, 0], [0, 0, p, 0], [0, 0, 0, 1]])" "6#/%\"BG-%'MATRIXG6
+#7&7&%\"pG\"\"!F+F+7&F+F*F+F+7&F+F+F*F+7&F+F+F+\"\"\"" }{TEXT -1 2 "  \+
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 86 "For example, to zoom in by 20
+0% on the image of the Toyota, one could first find that " }}{PARA 
+256 "" 0 "" {TEXT -1 2 "  " }{XPPEDIT 18 0 "B = MATRIX([[2, 0, 0, 0], \+
+[0, 2, 0, 0], [0, 0, 2, 0], [0, 0, 0, 1]])" "6#/%\"BG-%'MATRIXG6#7&7&
+\"\"#\"\"!F+F+7&F+F*F+F+7&F+F+F*F+7&F+F+F+\"\"\"" }{TEXT -1 2 "  " }}
+{PARA 0 "" 0 "" {TEXT -1 26 "and thus the Maple command" }}{PARA 0 "" 
+0 "" {TEXT -1 2 "  " }{TEXT 19 16 "evalm( B &* d );" }{TEXT -1 2 "  " 
+}}{PARA 0 "" 0 "" {TEXT -1 31 "produces the matrix product BD:" }}
+{PARA 256 "" 0 "" {TEXT -1 3 "\n  " }{XPPEDIT 18 0 "MATRIX([[-13.0, -1
+3.0, -13.0, -13.0, -5.0, -5.0, -1.50, -1.50, 6.50, 6.50, 9.0, 9.0, 13.
+0, 13.0, 13.0, 13.0], [-4., -4., 1.0, 1.0, 1.0, 1.0, 4., 4., 4., 4., 1
+.0, 1.0, 1.0, 1.0, -4., -4.], [-5.0, 5.0, 5.0, -5.0, -5.0, 5.0, -5.0, \+
+5.0, -5.0, 5.0, -5.0, 5.0, -5.0, 5.0, 5.0, -5.0], [1., 1., 1., 1., 1.,
+ 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]])" "6#-%'MATRIXG6#7&72,$-
+%&FloatG6$\"$I\"!\"\"F-,$-F*6$F,F-F-,$-F*6$F,F-F-,$-F*6$F,F-F-,$-F*6$
+\"#]F-F-,$-F*6$F:F-F-,$-F*6$\"$]\"!\"#F-,$-F*6$FAFBF--F*6$\"$]'FB-F*6$
+FHFB-F*6$\"#!*F--F*6$FMF--F*6$F,F--F*6$F,F--F*6$F,F--F*6$F,F-72,$-F*6$
+\"\"%\"\"!F-,$-F*6$FfnFgnF--F*6$\"#5F--F*6$F]oF--F*6$F]oF--F*6$F]oF--F
+*6$FfnFgn-F*6$FfnFgn-F*6$FfnFgn-F*6$FfnFgn-F*6$F]oF--F*6$F]oF--F*6$F]o
+F--F*6$F]oF-,$-F*6$FfnFgnF-,$-F*6$FfnFgnF-72,$-F*6$F:F-F--F*6$F:F--F*6
+$F:F-,$-F*6$F:F-F-,$-F*6$F:F-F--F*6$F:F-,$-F*6$F:F-F--F*6$F:F-,$-F*6$F
+:F-F--F*6$F:F-,$-F*6$F:F-F--F*6$F:F-,$-F*6$F:F-F--F*6$F:F--F*6$F:F-,$-
+F*6$F:F-F-72-F*6$\"\"\"Fgn-F*6$FfsFgn-F*6$FfsFgn-F*6$FfsFgn-F*6$FfsFgn
+-F*6$FfsFgn-F*6$FfsFgn-F*6$FfsFgn-F*6$FfsFgn-F*6$FfsFgn-F*6$FfsFgn-F*6
+$FfsFgn-F*6$FfsFgn-F*6$FfsFgn-F*6$FfsFgn-F*6$FfsFgn" }{TEXT -1 2 "  " 
+}}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 138 "The matrix PBD (assuming the c
+enter of projection is (0,0,10)) may now be computed, then divided by \+
+its fourth row with the Maple commands" }}{PARA 0 "" 0 "" {TEXT -1 2 "
+  " }{TEXT 19 30 "newd := evalm( P1 &* B &* d ):" }}{PARA 0 "" 0 "" 
+{TEXT 19 75 "  M4 := evalf[3]( matrix( 2, coldim(newd), (i,j)->newd[i,
+j]/newd[4,j] ) ); " }{TEXT -1 1 " " }}{PARA 0 "" 0 "" {TEXT -1 19 "to \+
+yield the matrix" }}{PARA 256 "" 0 "" {TEXT -1 2 "  " }{XPPEDIT 18 0 "
+M4 = MATRIX([[-8.67, -26.0, -26.0, -8.67, -3.33, -10.0, -1.00, -3.00, \+
+4.33, 13.0, 6.00, 18.0, 8.67, 26.0, 26.0, 8.67], [-2.67, -8.00, 2.00, \+
+.667, .667, 2.00, 2.67, 8.00, 2.67, 8.00, .667, 2.00, .667, 2.00, -8.0
+0, -2.67]]);" "6#/%#M4G-%'MATRIXG6#7$72,$-%&FloatG6$\"$n)!\"#!\"\",$-F
+,6$\"$g#F0F0,$-F,6$F4F0F0,$-F,6$F.F/F0,$-F,6$\"$L$F/F0,$-F,6$\"$+\"F0F
+0,$-F,6$FBF/F0,$-F,6$\"$+$F/F0-F,6$\"$L%F/-F,6$\"$I\"F0-F,6$\"$+'F/-F,
+6$\"$!=F0-F,6$F.F/-F,6$F4F0-F,6$F4F0-F,6$F.F/72,$-F,6$\"$n#F/F0,$-F,6$
+\"$+)F/F0-F,6$\"$+#F/-F,6$\"$n'!\"$-F,6$FfoFgo-F,6$FcoF/-F,6$F\\oF/-F,
+6$F`oF/-F,6$F\\oF/-F,6$F`oF/-F,6$FfoFgo-F,6$FcoF/-F,6$FfoFgo-F,6$FcoF/
+,$-F,6$F`oF/F0,$-F,6$F\\oF/F0" }{TEXT -1 2 "  " }}{PARA 0 "" 0 "" 
+{TEXT -1 64 "The rendering of these points is produced with the Maple \+
+command" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 20 "RenderData( A
+, M4 );" }}{PARA 0 "" 0 "" {TEXT -1 85 "and is shown in Figure 6. Comp
+are this figure to the original rendering, in Figure 3." }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "RenderData( A, M4 );" }}{PARA 13 "
+" 1 "" {GLPLOT2D 447 447 447 {PLOTDATA 2 "6W-%'CURVESG6#7$7$$!3#******
+*******p')!#<$!3#*************pEF*7$$!#E\"\"!$!\")F0-F$6#7$F'7$F($\"3P
+++++++qm!#=-F$6#7$F'7$$\"3#*************p')F*F+-F$6#7$F-F'-F$6#7$F-7$F
+.$\"\"#F0-F$6#7$F-7$$\"#EF0F1-F$6#7$FFF--F$6#7$FFF6-F$6#7$FF7$$!#5F0FG
+-F$6#7$F6F'-F$6#7$F6FF-F$6#7$F67$$!32++++++ILF*F7-F$6#7$F^oF6-F$6#7$F^
+oFX-F$6#7$F^o7$$!\"\"F0$\"3#*************pEF*-F$6#7$FXFF-F$6#7$FXF^o-F
+$6#7$FX7$$!\"$F0$\"\")F0-F$6#7$FjoF^o-F$6#7$FjoFhp-F$6#7$Fjo7$$\"32+++
++++IVF*F]p-F$6#7$FhpFX-F$6#7$FhpFjo-F$6#7$Fhp7$$\"#8F0F[q-F$6#7$FfqFjo
+-F$6#7$FfqFbr-F$6#7$Ffq7$$\"\"'F0F7-F$6#7$FbrFhp-F$6#7$FbrFfq-F$6#7$Fb
+r7$$\"#=F0FG-F$6#7$F^sFfq-F$6#7$F^sFjs-F$6#7$F^s7$F>F7-F$6#7$FjsFbr-F$
+6#7$FjsF^s-F$6#7$Fjs7$FMFG-F$6#7$FftF^s-F$6#7$FftF`u-F$6#7$FftF=-F$6#7
+$F`uFjs-F$6#7$F`uFft-F$6#7$F`uFL-F$6#7$FLF--F$6#7$FLF`u-F$6#7$FLF=-F$6
+#7$F=F'-F$6#7$F=Fft-F$6#7$F=FL-%*AXESSTYLEG6#%%NONEG-%(SCALINGG6#%,CON
+STRAINEDG-%'COLOURG6&%$RGBGF0F0F0-%+AXESLABELSG6$Q!6\"Fdx-%%VIEWG6$;$!
+#7F0$\"#7F0Fix" 1 2 0 1 10 0 2 6 1 1 1 1.000000 45.000000 45.000000 0 
+0 "Curve 1" "Curve 2" "Curve 3" "Curve 4" "Curve 5" "Curve 6" "Curve 7
+" "Curve 8" "Curve 9" "Curve 10" "Curve 11" "Curve 12" "Curve 13" "Cur
+ve 14" "Curve 15" "Curve 16" "Curve 17" "Curve 18" "Curve 19" "Curve 2
+0" "Curve 21" "Curve 22" "Curve 23" "Curve 24" "Curve 25" "Curve 26" "
+Curve 27" "Curve 28" "Curve 29" "Curve 30" "Curve 31" "Curve 32" "Curv
+e 33" "Curve 34" "Curve 35" "Curve 36" "Curve 37" "Curve 38" "Curve 39
+" "Curve 40" "Curve 41" "Curve 42" "Curve 43" "Curve 44" "Curve 45" "C
+urve 46" "Curve 47" "Curve 48" }}}}{EXCHG {PARA 256 "" 0 "" {TEXT -1 
+22 "Figure 6: Zoom of 200%" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 
+0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 231 "A sequence of pictures ca
+n be generated to show the effects of zooming various amounts. For exa
+mple, the following code can be used to simulate zooming in from 50% t
+o 150% with an increment of 1%, as viewed from the point (0,0,10)." }}
+{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 228 "anim3 := NULL:\n  for p
+ from 0.50 to 1.50 by 0.01 do\n    B := diag(p, p, p, 1 );\n    newd :
+= evalm( P1 &* B &* d );\n    M := matrix( 2, coldim(newd), (i,j)->new
+d[i,j]/newd[4,j] );\n    anim3 := anim3, RenderData( A, M );\n  end do
+:" }}{PARA 0 "" 0 "" {TEXT -1 45 "To animate these frames use the Mapl
+e command" }}{PARA 0 "" 0 "" {TEXT -1 2 "  " }{TEXT 19 36 "display( [a
+nim3], insequence=true );" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 
+"" }}}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "
+" 0 "" {TEXT -1 18 "Since the program " }{TEXT 19 10 "RenderData" }
+{TEXT -1 30 " only graphs a portion of the " }{XPPEDIT 18 0 "x" "6#%\"
+xG" }{TEXT -1 1 "-" }{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 505 " plane
+, only a part of the zoomed picture is shown. Maple can be programmed \+
+to automatically scale its pictures, but then there would not be much \+
+difference between Figures 3 and 6. Notice that the parts of the zoome
+d picture don't have quite the same relationships to each other that t
+hey had in the original picture; this has happened because each image \+
+is viewed from the same point, and near objects are \"magnified\" more
+ by the perspective transformation.  The scaling transformation could \+
+be applied " }{TEXT 258 5 "after" }{TEXT -1 110 " the perspective proj
+ection. Of course, this will seem to change the center of projection o
+f the zoomed image." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}
+{SECT 0 {PARA 3 "" 0 "" {TEXT -1 10 "Questions:" }}{SECT 0 {PARA 4 "" 
+0 "" {TEXT -1 2 "1." }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 149 "Find the p
+erspective projection using the Toyota data in matrix D using the foll
+owing points as centers of projection. Sketch the result using Maple.
+" }}}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 3 "(a)" }}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 3 " ( " }{XPPEDIT 18 0 "b" "6#%\"bG" }{TEXT -1 2 ", " }
+{XPPEDIT 18 0 "c" "6#%\"cG" }{TEXT -1 2 ", " }{XPPEDIT 18 0 "d" "6#%\"
+dG" }{TEXT -1 19 " ) = ( -5, 10, 10 )" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 5 "" 0 "" {TEXT -1 3 "(b)" }}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 3 " ( " }{XPPEDIT 18 0 "b" "6#%\"bG" }
+{TEXT -1 2 ", " }{XPPEDIT 18 0 "c" "6#%\"cG" }{TEXT -1 2 ", " }
+{XPPEDIT 18 0 "d" "6#%\"dG" }{TEXT -1 18 " ) = ( 0, 10, 25 )" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 2 "2." }}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 98 "Produce Maple code which would sho
+w motion relative to the Toyota along a line which has constant " }
+{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 25 "-coordinate  0, constant " }
+{XPPEDIT 18 0 "z" "6#%\"zG" }{TEXT -1 22 "-coordinate 10, and a " }
+{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 33 "-coordinate varying from -5 \+
+to 5." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 
+{PARA 4 "" 0 "" {TEXT -1 2 "3." }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 213 
+"How might one develop Maple code which would show motion relative to \+
+the Toyota along a line which is not parallel to any of the coordinate
+ axes?  Produce a plan for doing this or actually produce the code its
+elf." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 
+4 "" 0 "" {TEXT -1 2 "4." }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 32 "Rotate
+ the Toyota 30\260 about the " }{XPPEDIT 18 0 "y" "6#%\"yG" }{TEXT -1 
+171 "-axis, then perform the perspective projection with center of pro
+jection (0,10,25). Sketch the result using Maple.  How does this sketc
+h compare with that in Question 1b? " }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 2 "5." }}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 32 "Rotate the Toyota 45\260 about the
+ " }{XPPEDIT 18 0 "z" "6#%\"zG" }{TEXT -1 170 "-axis, then perform the
+ perspective projection with center of projection (0,10,25). Sketch th
+e result using Maple.  How does this sketch compare with that in Quest
+ion 1b?" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 
+{PARA 4 "" 0 "" {TEXT -1 2 "6." }}{EXCHG {PARA 0 "" 0 "" {TEXT -1 74 "
+ Produce Maple code which would show motion the Toyota rotating about \+
+the " }{XPPEDIT 18 0 "x" "6#%\"xG" }{TEXT -1 5 " and " }{XPPEDIT 18 0 
+"y" "6#%\"yG" }{TEXT -1 63 " axes.  Experiment with rotating about two
+ axes simultaneously." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }
+}}}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 2 "7." }}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 213 "Zoom in on the Toyota with a zoom factor of 150%, then p
+erform the perspective projection with center of projection (0,10,25).
+ Sketch the result using Maple.  How does this sketch compare with tha
+t in Question 1b?" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}
+{SECT 0 {PARA 4 "" 0 "" {TEXT -1 2 "8." }}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 60 "Produce Maple code which shows a \"zooming effect\" along
+ the " }{XPPEDIT 18 0 "z" "6#%\"zG" }{TEXT -1 97 "-axis as the zoom pa
+rameter varies.  Compare this approach to changing the centers of proj
+ection." }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 3 "" 0 "" {TEXT 
+-1 10 "References" }}{SECT 0 {PARA 4 "" 0 "" {TEXT -1 2 "1." }}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 73 " Foley, James D., Andries van Dam, Steven
+ K. Feiner, and John F. Hughes. " }{TEXT 257 42 "Computer Graphics: Pr
+inciples and Practice" }{TEXT -1 162 ".  Second Edition. Reading: Addi
+son-Wesley, 1996.\n\nChapters 5 and 6 contain a wealth of information \+
+about transformations and viewing in two and three dimensions." }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{SECT 0 {PARA 4 "" 0 "
+" {TEXT -1 2 "2." }}{EXCHG {PARA 0 "" 0 "" {TEXT 19 415 "RenderData :=
+ proc( adjacency, data )\n  local i, j, pt, ptlist;\n  ptlist := NULL;
+\n  for i from 1 to coldim(data) do\n    for j from 1 to coldim(data) \+
+do\n      if adjacency[i,j]=1 then\n        pt := map( convert, [ col(
+data,i), col(data,j) ], list );\n        ptlist := ptlist, pt;\n      \+
+end if;\n    end do;\n  end do;\n  plot( [ ptlist ], view=[-12..12,-12
+..12], color=black, axes=none, scaling=constrained );\nend proc:" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{EXCHG {PARA 0 "> " 0 "
+" {MPLTEXT 1 0 0 "" }}}}}{MARK "1 0 0" 0 }{VIEWOPTS 0 0 0 1 1 1803 1 
+0 1 1 }{PAGENUMBERS 0 1 2 33 1 1 }
