@@ -1,0 +1,36 @@
+Cameron L Palmer
+CSCE 2610 - Homework 7
+March 31, 2006
+
+5.2)
+RegWrite - All R-type instructions will not work, and lw will not work. This is because
+they will be unable to write the results to the registers.
+
+ALUop0 - It will be unable to perform additions necessary for loads and stores
+
+ALUop1 - It will be unable to perform subtractions for beq
+
+Branch - Branch will not work
+
+MemRead - You will not be able to load data in memory into a register
+
+MemWrite - You will not be able to write date into memory
+
+5.8)
+See attached drawing.
+
+5.11) 
+l_inc instruction truth values
+We will need a new control line, and the additional circuity to increment the address
+index by 4.
+
+RegDst = 0
+ALUSrc = 1
+MemtoReg = 1
+RegWrite = 1
+MemRead = 1
+MemWrite = 0
+Branch = 0
+ALUOp1 = 0
+ALUOp2 = 0
+Write2 = 1
