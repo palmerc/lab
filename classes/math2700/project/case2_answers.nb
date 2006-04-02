@@ -1,0 +1,154 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      5370,        118]*)
+(*NotebookOutlinePosition[      6018,        140]*)
+(*  CellTagsIndexPosition[      5974,        136]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(\(d = {{\(-6.5\), \(-6.5\), \(-6.5\), \(-6.5\), \(-2.5\), \(-2.5\), \(- \
+.75\), \(- .75\), 3.25, 3.25, 4.5, 4.5, 6.5, 6.5, 6.5, 
+            6.5}, {\(-2\), \(-2\),  .5,  .5,  .5,  .5, 2, 2, 2, 
+            2,  .5,  .5,  .5,  .5, \(-2\), \(-2\)}, {\(-2.5\), 2.5, 
+            2.5, \(-2.5\), \(-2.5\), 2.5, \(-2.5\), 2.5, \(-2.5\), 
+            2.5, \(-2.5\), 2.5, \(-2.5\)\ , 2.5, 2.5, \(-2.5\)}, {1, 1, 1, 1, 
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(\(A = {{0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 
+            0, 0, 0, 1}, \[IndentingNewLine]\ \ \ \ \ {1, 0, 1, 0, 0, 0, 0, 
+            0, 0, 0, 0, 0, 0, 0, 1, 0}, \[IndentingNewLine]\ \ \ \ \ {0, 1, 
+            0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+            0}, \[IndentingNewLine]\ \ \ \ \ {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 
+            0, 0, 0, 0, 0, 0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 1, 0, 
+            1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 
+            0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 
+            0, 0, 0, 0, 0, 0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 0, 1, 
+            0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 
+            0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 
+            0, 0, 0, 0, 0, 0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 0, 0, 
+            0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 
+            0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 
+            0, 1, 0, 0, 0, 0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 0, 0, 
+            0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 
+            0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
+            1, 0, 0, 1, 0, 0}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 0, 0, 
+            0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 
+            1}, \[IndentingNewLine]\ \ \ \ \ {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+            0, 1, 1, 0, 1, 0}, \[IndentingNewLine]\ \ \ \ \ {0, 1, 0, 0, 0, 
+            0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
+            1}, \[IndentingNewLine]\ \ \ \ \ {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+            0, 0, 1, 0, 1, 0}};\)\(\[IndentingNewLine]\)
+    \)\)\)], "Input"],
+
+Cell[BoxData[GridBox[{
+        {\(\(P = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, \(-1\)/10, 
+                  1}};\)\[IndentingNewLine]
+          \(newd\  = \ P . d;\)\[IndentingNewLine]
+          
+          M = Table[
+              newd[\([i, j]\)]/newd[\([4, j]\)], {i, 2}, {j, 
+                16}]\[IndentingNewLine]
+          \(fig3 = RenderData[A, M];\)\[IndentingNewLine]
+          \)},
+        {\(RenderData[adjacency_, \ 
+              data_] := \((ptlist = {}; \[IndentingNewLine]For[i = 1, 
+                i \[LessEqual] 16, \(i++\), \[IndentingNewLine]For[j = i, 
+                  j \[LessEqual] 16, \(j++\), \[IndentingNewLine]If[
+                    adjacency[\([i, j]\)] \[Equal] 
+                      1, {pt = {}, \[IndentingNewLine]AppendTo[
+                        pt, \(Transpose[
+                            data]\)[\([i]\)]], \[IndentingNewLine]AppendTo[
+                        pt, \(Transpose[
+                            data]\)[\([j]\)]], \[IndentingNewLine]AppendTo[
+                        ptlist, 
+                        pt]}]]]; \[IndentingNewLine]g = {}; \
+\[IndentingNewLine]For[i = 1, 
+                i \[LessEqual] 
+                  Length[ptlist], \(i++\), \[IndentingNewLine]AppendTo[g, 
+                  Line[ptlist[\([i]\)]]]]; \[IndentingNewLine]Show[
+                Graphics[g], PlotRange -> {{\(-12\), 12}, {\(-12\), 12}}, 
+                AspectRatio \[Rule] 1])\)\)},
+        {"\[Placeholder]"}
+        }]], "Input"]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1600}, {0, 1127}},
+WindowSize->{496, 740},
+WindowMargins->{{Automatic, 115}, {Automatic, 146}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 495, 7, 130, "Input"],
+Cell[2252, 60, 1635, 25, 370, "Input"],
+Cell[3890, 87, 1476, 29, 349, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
