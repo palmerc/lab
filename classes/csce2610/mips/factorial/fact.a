@@ -15,9 +15,11 @@ main:
    jal fact
 
 fact:
-   addi $sp, $sp, -8
+   addi $sp, $sp, -12
+   sw $fp, 8($sp) # Store the frame pointer
    sw $ra, 4($sp) # Store the return address
    sw $a0, 0($sp) # Store the argument passed in $a0
+   addi $fp, $sp, 12 # establish frame pointer
    
    # if (n < 1)
    slti $t0, $a0, 1
