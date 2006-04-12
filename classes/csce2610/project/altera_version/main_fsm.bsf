@@ -20,9 +20,9 @@ applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 112 240)
+	(rect 16 16 112 304)
 	(text "main_fsm" (rect 5 0 59 14)(font "Arial" (font_size 8)))
-	(text "inst" (rect 8 208 25 220)(font "Arial" ))
+	(text "inst" (rect 8 272 25 284)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -156,7 +156,35 @@ applicable agreement for further details.
 		(text "S10" (rect 53 187 75 201)(font "Arial" (font_size 8)))
 		(line (pt 96 192)(pt 80 192)(line_width 1))
 	)
+	(port
+		(pt 96 208)
+		(output)
+		(text "D" (rect 0 0 8 14)(font "Arial" (font_size 8)))
+		(text "D" (rect 67 203 75 217)(font "Arial" (font_size 8)))
+		(line (pt 96 208)(pt 80 208)(line_width 1))
+	)
+	(port
+		(pt 96 224)
+		(output)
+		(text "WIN" (rect 0 0 22 14)(font "Arial" (font_size 8)))
+		(text "WIN" (rect 53 219 75 233)(font "Arial" (font_size 8)))
+		(line (pt 96 224)(pt 80 224)(line_width 1))
+	)
+	(port
+		(pt 96 240)
+		(output)
+		(text "PW" (rect 0 0 18 14)(font "Arial" (font_size 8)))
+		(text "PW" (rect 57 235 75 249)(font "Arial" (font_size 8)))
+		(line (pt 96 240)(pt 80 240)(line_width 1))
+	)
+	(port
+		(pt 96 256)
+		(output)
+		(text "SW" (rect 0 0 20 14)(font "Arial" (font_size 8)))
+		(text "SW" (rect 55 251 75 265)(font "Arial" (font_size 8)))
+		(line (pt 96 256)(pt 80 256)(line_width 1))
+	)
 	(drawing
-		(rectangle (rect 16 16 80 208)(line_width 1))
+		(rectangle (rect 16 16 80 272)(line_width 1))
 	)
 )

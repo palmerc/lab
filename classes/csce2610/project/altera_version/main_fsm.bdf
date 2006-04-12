@@ -323,6 +323,70 @@ applicable agreement for further details.
 		(line (pt 78 12)(pt 82 8)(line_width 1))
 	)
 )
+(pin
+	(output)
+	(rect 744 528 920 544)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "D" (rect 90 0 98 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8)(line_width 1))
+		(line (pt 52 4)(pt 78 4)(line_width 1))
+		(line (pt 52 12)(pt 78 12)(line_width 1))
+		(line (pt 52 12)(pt 52 4)(line_width 1))
+		(line (pt 78 4)(pt 82 8)(line_width 1))
+		(line (pt 82 8)(pt 78 12)(line_width 1))
+		(line (pt 78 12)(pt 82 8)(line_width 1))
+	)
+)
+(pin
+	(output)
+	(rect 744 552 920 568)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "WIN" (rect 90 0 112 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8)(line_width 1))
+		(line (pt 52 4)(pt 78 4)(line_width 1))
+		(line (pt 52 12)(pt 78 12)(line_width 1))
+		(line (pt 52 12)(pt 52 4)(line_width 1))
+		(line (pt 78 4)(pt 82 8)(line_width 1))
+		(line (pt 82 8)(pt 78 12)(line_width 1))
+		(line (pt 78 12)(pt 82 8)(line_width 1))
+	)
+)
+(pin
+	(output)
+	(rect 744 576 920 592)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "PW" (rect 90 0 107 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8)(line_width 1))
+		(line (pt 52 4)(pt 78 4)(line_width 1))
+		(line (pt 52 12)(pt 78 12)(line_width 1))
+		(line (pt 52 12)(pt 52 4)(line_width 1))
+		(line (pt 78 4)(pt 82 8)(line_width 1))
+		(line (pt 82 8)(pt 78 12)(line_width 1))
+		(line (pt 78 12)(pt 82 8)(line_width 1))
+	)
+)
+(pin
+	(output)
+	(rect 744 600 920 616)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "SW" (rect 90 0 107 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8)(line_width 1))
+		(line (pt 52 4)(pt 78 4)(line_width 1))
+		(line (pt 52 12)(pt 78 12)(line_width 1))
+		(line (pt 52 12)(pt 52 4)(line_width 1))
+		(line (pt 78 4)(pt 82 8)(line_width 1))
+		(line (pt 82 8)(pt 78 12)(line_width 1))
+		(line (pt 78 12)(pt 82 8)(line_width 1))
+	)
+)
 (symbol
 	(rect 656 272 720 480)
 	(text "BAND12" (rect 1 0 36 10)(font "Arial" (font_size 6)))
@@ -1704,10 +1768,6 @@ applicable agreement for further details.
 	(pt 552 320)
 )
 (connector
-	(pt 552 320)
-	(pt 552 744)
-)
-(connector
 	(pt 240 72)
 	(pt 240 544)
 )
@@ -1786,14 +1846,6 @@ applicable agreement for further details.
 (connector
 	(pt 208 824)
 	(pt 208 1056)
-)
-(connector
-	(pt 560 96)
-	(pt 560 336)
-)
-(connector
-	(pt 560 336)
-	(pt 560 944)
 )
 (connector
 	(pt 360 1072)
@@ -2092,10 +2144,6 @@ applicable agreement for further details.
 	(pt 592 400)
 )
 (connector
-	(pt 592 400)
-	(pt 592 1776)
-)
-(connector
 	(pt 280 192)
 	(pt 280 1608)
 )
@@ -2228,10 +2276,6 @@ applicable agreement for further details.
 	(pt 608 432)
 )
 (connector
-	(pt 608 432)
-	(pt 608 2112)
-)
-(connector
 	(pt 296 240)
 	(pt 296 320)
 )
@@ -2254,10 +2298,6 @@ applicable agreement for further details.
 (connector
 	(pt 288 2280)
 	(pt 360 2280)
-)
-(connector
-	(pt 616 448)
-	(pt 616 2280)
 )
 (connector
 	(pt 288 216)
@@ -2322,6 +2362,62 @@ applicable agreement for further details.
 (connector
 	(pt 616 264)
 	(pt 616 448)
+)
+(connector
+	(pt 744 560)
+	(pt 616 560)
+)
+(connector
+	(pt 616 448)
+	(pt 616 560)
+)
+(connector
+	(pt 616 560)
+	(pt 616 2280)
+)
+(connector
+	(pt 744 536)
+	(pt 608 536)
+)
+(connector
+	(pt 608 432)
+	(pt 608 536)
+)
+(connector
+	(pt 608 536)
+	(pt 608 2112)
+)
+(connector
+	(pt 560 96)
+	(pt 560 336)
+)
+(connector
+	(pt 560 336)
+	(pt 560 944)
+)
+(connector
+	(pt 744 584)
+	(pt 552 584)
+)
+(connector
+	(pt 552 320)
+	(pt 552 584)
+)
+(connector
+	(pt 552 584)
+	(pt 552 744)
+)
+(connector
+	(pt 744 608)
+	(pt 592 608)
+)
+(connector
+	(pt 592 400)
+	(pt 592 608)
+)
+(connector
+	(pt 592 608)
+	(pt 592 1776)
 )
 (junction (pt 552 72))
 (junction (pt 560 96))
@@ -2416,6 +2512,10 @@ applicable agreement for further details.
 (junction (pt 152 2176))
 (junction (pt 176 2192))
 (junction (pt 616 264))
+(junction (pt 616 560))
+(junction (pt 608 536))
+(junction (pt 552 584))
+(junction (pt 592 608))
 (text "Cameron Palmer and Matthew Quick" (rect 64 -88 269 -74)(font "Arial" (font_size 8)))
 (text "April 2006" (rect 64 -72 121 -58)(font "Arial" (font_size 8)))
 (text "CSCE 2610 - Adventure Game" (rect 64 -104 236 -90)(font "Arial" (font_size 8)))
