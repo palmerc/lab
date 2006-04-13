@@ -349,31 +349,6 @@ applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 392 264 440 296)
-	(text "NOT" (rect 1 0 21 10)(font "Arial" (font_size 6)))
-	(text "inst9" (rect 3 21 26 33)(font "Arial" ))
-	(port
-		(pt 0 16)
-		(input)
-		(text "IN" (rect 2 7 13 19)(font "Courier New" (bold))(invisible))
-		(text "IN" (rect 2 7 13 19)(font "Courier New" (bold))(invisible))
-		(line (pt 0 16)(pt 13 16)(line_width 1))
-	)
-	(port
-		(pt 48 16)
-		(output)
-		(text "OUT" (rect 32 7 49 19)(font "Courier New" (bold))(invisible))
-		(text "OUT" (rect 32 7 49 19)(font "Courier New" (bold))(invisible))
-		(line (pt 39 16)(pt 48 16)(line_width 1))
-	)
-	(drawing
-		(line (pt 13 25)(pt 13 7)(line_width 1))
-		(line (pt 13 7)(pt 31 16)(line_width 1))
-		(line (pt 13 25)(pt 31 16)(line_width 1))
-		(circle (rect 31 12 39 20)(line_width 1))
-	)
-)
-(symbol
 	(rect 960 552 992 568)
 	(text "VCC" (rect 7 0 27 10)(font "Arial" (font_size 6)))
 	(text "inst10" (rect 3 5 32 17)(font "Arial" )(invisible))
@@ -478,6 +453,31 @@ applicable agreement for further details.
 		(arc (pt 31 37)(pt 30 12)(rect 18 12 43 37)(line_width 1))
 	)
 )
+(symbol
+	(rect 400 544 448 576)
+	(text "NOT" (rect 1 0 21 10)(font "Arial" (font_size 6)))
+	(text "inst12" (rect 3 21 32 33)(font "Arial" ))
+	(port
+		(pt 0 16)
+		(input)
+		(text "IN" (rect 2 7 13 19)(font "Courier New" (bold))(invisible))
+		(text "IN" (rect 2 7 13 19)(font "Courier New" (bold))(invisible))
+		(line (pt 0 16)(pt 13 16)(line_width 1))
+	)
+	(port
+		(pt 48 16)
+		(output)
+		(text "OUT" (rect 32 7 49 19)(font "Courier New" (bold))(invisible))
+		(text "OUT" (rect 32 7 49 19)(font "Courier New" (bold))(invisible))
+		(line (pt 39 16)(pt 48 16)(line_width 1))
+	)
+	(drawing
+		(line (pt 13 25)(pt 13 7)(line_width 1))
+		(line (pt 13 7)(pt 31 16)(line_width 1))
+		(line (pt 13 25)(pt 31 16)(line_width 1))
+		(circle (rect 31 12 39 20)(line_width 1))
+	)
+)
 (connector
 	(pt 224 192)
 	(pt 240 192)
@@ -527,10 +527,6 @@ applicable agreement for further details.
 	(pt 528 544)
 )
 (connector
-	(pt 344 560)
-	(pt 528 560)
-)
-(connector
 	(pt 344 352)
 	(pt 344 560)
 )
@@ -543,16 +539,8 @@ applicable agreement for further details.
 	(pt 248 424)
 )
 (connector
-	(pt 448 280)
-	(pt 440 280)
-)
-(connector
 	(pt 448 512)
 	(pt 448 280)
-)
-(connector
-	(pt 224 280)
-	(pt 392 280)
 )
 (connector
 	(pt 328 320)
@@ -670,9 +658,21 @@ applicable agreement for further details.
 	(pt 224 640)
 	(pt 392 640)
 )
+(connector
+	(pt 344 560)
+	(pt 400 560)
+)
+(connector
+	(pt 448 560)
+	(pt 528 560)
+)
+(connector
+	(pt 224 280)
+	(pt 448 280)
+)
 (junction (pt 456 440))
 (junction (pt 944 592))
-(text "Cameron Palmer and Matthew Quick" (rect 288 208 493 222)(font "Arial" (font_size 8)))
 (text "April 2006" (rect 288 224 345 238)(font "Arial" (font_size 8)))
 (text "CSCE 2610 - Adventure Game" (rect 288 192 460 206)(font "Arial" (font_size 8)))
 (text "State Two Diagram" (rect 288 176 396 190)(font "Arial" (font_size 8)))
+(text "Cameron Palmer, Michael Gallaty and Matthew Quick" (rect 288 208 585 222)(font "Arial" (font_size 8)))

@@ -525,42 +525,6 @@ applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 656 344 752 440)
-	(text "potion_fsm" (rect 5 0 67 14)(font "Arial" (font_size 8)))
-	(text "inst7" (rect 8 80 31 92)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "CLK" (rect 0 0 23 14)(font "Arial" (font_size 8)))
-		(text "CLK" (rect 21 27 44 41)(font "Arial" (font_size 8)))
-		(line (pt 0 32)(pt 16 32)(line_width 1))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "R" (rect 0 0 8 14)(font "Arial" (font_size 8)))
-		(text "R" (rect 21 43 29 57)(font "Arial" (font_size 8)))
-		(line (pt 0 48)(pt 16 48)(line_width 1))
-	)
-	(port
-		(pt 0 64)
-		(input)
-		(text "PW" (rect 0 0 18 14)(font "Arial" (font_size 8)))
-		(text "PW" (rect 21 59 39 73)(font "Arial" (font_size 8)))
-		(line (pt 0 64)(pt 16 64)(line_width 1))
-	)
-	(port
-		(pt 96 32)
-		(output)
-		(text "P" (rect 0 0 7 14)(font "Arial" (font_size 8)))
-		(text "P" (rect 68 27 75 41)(font "Arial" (font_size 8)))
-		(line (pt 96 32)(pt 80 32)(line_width 1))
-	)
-	(drawing
-		(rectangle (rect 16 16 80 80)(line_width 1))
-	)
-)
-(symbol
 	(rect 656 472 752 568)
 	(text "sword_fsm" (rect 5 0 71 14)(font "Arial" (font_size 8)))
 	(text "inst8" (rect 8 80 31 92)(font "Arial" ))
@@ -594,6 +558,49 @@ applicable agreement for further details.
 	)
 	(drawing
 		(rectangle (rect 16 16 80 80)(line_width 1))
+	)
+)
+(symbol
+	(rect 656 320 752 448)
+	(text "potion_fsm" (rect 5 0 67 14)(font "Arial" (font_size 8)))
+	(text "inst7" (rect 8 112 31 124)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "S9" (rect 0 0 15 14)(font "Arial" (font_size 8)))
+		(text "S9" (rect 21 27 36 41)(font "Arial" (font_size 8)))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "R" (rect 0 0 8 14)(font "Arial" (font_size 8)))
+		(text "R" (rect 21 43 29 57)(font "Arial" (font_size 8)))
+		(line (pt 0 48)(pt 16 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "PW" (rect 0 0 18 14)(font "Arial" (font_size 8)))
+		(text "PW" (rect 21 59 39 73)(font "Arial" (font_size 8)))
+		(line (pt 0 64)(pt 16 64)(line_width 1))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "CLK" (rect 0 0 23 14)(font "Arial" (font_size 8)))
+		(text "CLK" (rect 21 75 44 89)(font "Arial" (font_size 8)))
+		(line (pt 0 80)(pt 16 80)(line_width 1))
+	)
+	(port
+		(pt 96 32)
+		(output)
+		(text "P" (rect 0 0 7 14)(font "Arial" (font_size 8)))
+		(text "P" (rect 68 27 75 41)(font "Arial" (font_size 8)))
+		(line (pt 96 32)(pt 80 32)(line_width 1))
+	)
+	(drawing
+		(rectangle (rect 16 16 80 112)(line_width 1))
 	)
 )
 (connector
@@ -777,10 +784,6 @@ applicable agreement for further details.
 	(pt 840 752)
 )
 (connector
-	(pt 840 392)
-	(pt 840 752)
-)
-(connector
 	(pt 944 416)
 	(pt 832 416)
 )
@@ -841,34 +844,6 @@ applicable agreement for further details.
 	(pt 576 520)
 )
 (connector
-	(pt 552 376)
-	(pt 656 376)
-)
-(connector
-	(pt 576 392)
-	(pt 656 392)
-)
-(connector
-	(pt 760 376)
-	(pt 752 376)
-)
-(connector
-	(pt 760 336)
-	(pt 760 376)
-)
-(connector
-	(pt 656 408)
-	(pt 648 408)
-)
-(connector
-	(pt 648 408)
-	(pt 648 328)
-)
-(connector
-	(pt 648 328)
-	(pt 808 328)
-)
-(connector
 	(pt 752 504)
 	(pt 760 504)
 )
@@ -889,36 +864,12 @@ applicable agreement for further details.
 	(pt 800 456)
 )
 (connector
-	(pt 552 272)
-	(pt 552 376)
-)
-(connector
-	(pt 552 376)
-	(pt 552 504)
-)
-(connector
 	(pt 552 504)
 	(pt 552 672)
 )
 (connector
-	(pt 576 344)
-	(pt 576 392)
-)
-(connector
-	(pt 576 392)
-	(pt 576 520)
-)
-(connector
 	(pt 576 520)
 	(pt 576 720)
-)
-(connector
-	(pt 808 328)
-	(pt 808 488)
-)
-(connector
-	(pt 808 488)
-	(pt 808 816)
 )
 (connector
 	(pt 800 456)
@@ -945,20 +896,93 @@ applicable agreement for further details.
 	(pt 560 464)
 )
 (connector
-	(pt 568 704)
-	(pt 568 336)
+	(pt 648 304)
+	(pt 808 304)
 )
 (connector
-	(pt 568 336)
-	(pt 760 336)
+	(pt 808 304)
+	(pt 808 488)
+)
+(connector
+	(pt 808 488)
+	(pt 808 816)
+)
+(connector
+	(pt 568 704)
+	(pt 568 312)
+)
+(connector
+	(pt 568 312)
+	(pt 760 312)
+)
+(connector
+	(pt 576 368)
+	(pt 656 368)
+)
+(connector
+	(pt 760 352)
+	(pt 752 352)
+)
+(connector
+	(pt 648 384)
+	(pt 656 384)
+)
+(connector
+	(pt 760 312)
+	(pt 760 352)
+)
+(connector
+	(pt 576 344)
+	(pt 576 368)
+)
+(connector
+	(pt 576 368)
+	(pt 576 520)
+)
+(connector
+	(pt 656 400)
+	(pt 552 400)
+)
+(connector
+	(pt 552 272)
+	(pt 552 400)
+)
+(connector
+	(pt 552 400)
+	(pt 552 504)
+)
+(connector
+	(pt 648 304)
+	(pt 648 384)
+)
+(connector
+	(pt 840 296)
+	(pt 840 392)
+)
+(connector
+	(pt 840 392)
+	(pt 840 752)
+)
+(connector
+	(pt 840 296)
+	(pt 640 296)
+)
+(connector
+	(pt 656 352)
+	(pt 640 352)
+)
+(connector
+	(pt 640 296)
+	(pt 640 352)
 )
 (junction (pt 552 504))
 (junction (pt 576 520))
-(junction (pt 552 376))
-(junction (pt 576 392))
 (junction (pt 808 488))
 (junction (pt 800 512))
-(text "Cameron Palmer and Matthew Quick" (rect 632 224 837 238)(font "Arial" (font_size 8)))
+(junction (pt 576 368))
+(junction (pt 552 400))
+(junction (pt 840 392))
 (text "April 2006" (rect 632 240 689 254)(font "Arial" (font_size 8)))
 (text "CSCE 2610 - Adventure Game" (rect 632 208 804 222)(font "Arial" (font_size 8)))
 (text "Main Diagram" (rect 632 192 707 206)(font "Arial" (font_size 8)))
+(text "Cameron Palmer, Michael Gallaty and Matthew Quick" (rect 632 224 929 238)(font "Arial" (font_size 8)))
