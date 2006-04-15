@@ -37,13 +37,13 @@ StateZero:
     addi $t1, $zero, 1
     bne $t0, $t1, ExitZero
     addi $v0, $zero, 3
-    add $t0, $zero, $v0
-    add $t1, $zero, $a0
-    li $v0, 1
-    move $a0, $v0
-    syscall
-    add $v0, $zero, $t0
-    add $a0, $zero, $t1
+#    add $t0, $zero, $v0
+#    add $t1, $zero, $a0
+#    li $v0, 1
+#    move $a0, $v0
+#    syscall
+#    add $v0, $zero, $t0
+#    add $a0, $zero, $t1
 
     j ExitZero
     
