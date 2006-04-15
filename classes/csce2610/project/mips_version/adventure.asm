@@ -9,8 +9,11 @@
         sword: .word 0
         win: .word 0
         dead: .word 0
+        current_state: .asciiz "Current state: "
+        current_move: .asciiz "Current move: "
+        line_feed: .asciiz "\n"
+        state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly like the sight, grim.  There is only one way to go from here...east.\n"
     .text
-
 ###
 ### function StateZero
 ### accepts: $a0, current state, $a1, direction to move
@@ -19,6 +22,15 @@
 StateZero:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    
+#    add $t0, $zero, $v0
+#    add $t1, $zero, $a0
+#    li $v0, 4
+#    la $a0, state0_descrip
+#    syscall
+#    add $v0, $zero, $t0
+#    add $a0, $zero, $t1
+
     addi $v0, $zero, 0
     add $t0, $zero, $a1
     # if StateZero and Direction East Goto StateOne
@@ -323,14 +335,43 @@ main:
     
     #while there are moves available loop
 while:
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, current_state
+    syscall
+    li $v0, 1
+    move $a0, $s0
+    syscall
+    li $v0, 4
+    la $a0, line_feed
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+    
     la $t0, moves
     add $t1, $zero, $s1
     sll $t1, $t1, 2
     add $t0, $t0, $t1
     lw $a1, 0($t0)          # Move the current move into $a1
+
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, current_move
+    syscall
+    li $v0, 1
+    move $a0, $a1
+    syscall
+    li $v0, 4
+    la $a0, line_feed
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+    
+    add $a0, $zero, $s0         # move the current state into $a0
     
 ifZero:
-    add $a0, $zero, $s0         # move the current state into $a0
     bne $s0, $zero, ifOne   # if state != 0
     jal StateZero
 ifOne:
@@ -379,3 +420,5 @@ ifTen:
     beq $s1, $zero, exit
     j while
 exit:
+    li $v0, 10
+    syscall
