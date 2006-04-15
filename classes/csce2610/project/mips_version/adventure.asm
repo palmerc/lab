@@ -3,7 +3,6 @@
 # April 2006
 
     .data
-        buffer: .char
         potion: .word 0
         sword: .word 0
         win: .word 0
@@ -26,7 +25,7 @@
         state8_nosword: .asciiz "The dragon moves around to the entrance blocking it.  You would notice that\nthere is another light, but unfortunately, you're running around like a\nover-caffeinated ferret.  Moments later, you find yourself looking at your own,\ncrispy, char-grilled, well-done, quite dead, body.  Welcome to the after-life.\n"
         state9_withpot: .asciiz "\nThe potion next to your body cracks, and liquid begins to seep onto your body.\nYou regain consciousness, enough to engulf the rest of the potion.  You see a\npath to a cave, so you begin to follow it.  You end up where you started...\nSo that's what that smell was...\n"
         state9_descrip: .asciiz "You're body gets thrown into a pile of other, decaying, and foul-smelling\nbodies.  But you really don't notice the smell, because the dead don't smell.\nCongratulations your incompetence has landed you in the Grievous Graveyard.\n"
-        state10_descrip: .asciiz "As you proceed along the wall, the light turns from a shade of white, to a shade of yellow.  You find yourself in a room filled with gold, women, treasure, goblets, and wine.  Ok, no women...or wine...but you do have gold, and gold gets women...and wine.  But women too...\n"
+        state10_descrip: .asciiz "As you proceed along the wall, the light turns from a shade of white, to a shade\nof yellow.  You find yourself in a room filled with gold, women, treasure,\ngoblets, and wine.  Ok, no women...or wine...but you do have gold, and gold gets\nwomen...and wine.  But women too...\n"
     .text
 
 ###
@@ -35,8 +34,7 @@
 ### returns: $v0, the move
 ###
 GetMove:
-    addi $sp, $sp, -12
-    sw $a1, 8($sp)
+    addi $sp, $sp, -8
     sw $a0, 4($sp)
     sw $ra, 0($sp)
     
@@ -44,15 +42,12 @@ GetMove:
     li $v0, 4
     la $a0, next_move
     syscall
-    li $v0, 8
-    li $a1, 1
-    la $a0, buffer
+    li $v0, 5               # Read in the move using System Call
     syscall
 
-    lw $a1, 8($sp)
     lw $a0, 4($sp)
     lw $ra, 0($sp)
-    addi $sp, $sp, 12
+    addi $sp, $sp, 8
     jr $ra
 
 ###
