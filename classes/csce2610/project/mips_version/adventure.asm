@@ -458,6 +458,7 @@ HasPotion:
     add $v0, $zero, $zero
     la $t0, potion
     sw $zero, 0($t0)
+    j ExitNine
     
 NoPotion:
     la $t0, exit_value
