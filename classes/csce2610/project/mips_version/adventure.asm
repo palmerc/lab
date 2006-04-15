@@ -152,7 +152,6 @@ StateTwo:
     add $v0, $zero, $t0
     add $a0, $zero, $t1
     
-    addi $v0, $zero, 2          # Establish state two as the current state    
     # Assert Potion
     addi $t0, $zero, 1
     la $t1, potion
@@ -161,6 +160,7 @@ StateTwo:
     jal GetMove
     move $t0, $v0
 
+    addi $v0, $zero, 2          # Establish state two as the current state    
     # if StateTwo and Direction South Goto StateOne
 SouthTwo:
     addi $t1, $zero, 2
@@ -361,8 +361,6 @@ StateSeven:
     add $v0, $zero, $t0
     add $a0, $zero, $t1
 
-    
-    addi $v0, $zero, 7
     # Assert Sword
     addi $t0, $zero, 1
     la $t1, sword
@@ -370,7 +368,8 @@ StateSeven:
     
     jal GetMove
     move $t0, $v0
-
+    
+    addi $v0, $zero, 7
     # if StateSeven and Direction East Goto StateSix
 EastSeven:
     addi $t1, $zero, 1
