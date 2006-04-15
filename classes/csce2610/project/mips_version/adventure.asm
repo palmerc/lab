@@ -7,6 +7,8 @@
         moves_size: .word 5
         potion: .word 0
         sword: .word 0
+        win: .word 0
+        dead: .word 0
     .text
 
 main:
@@ -75,7 +77,7 @@ ifTen:
 StateZero:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    
+    addi $v0, $zero, 0
     add $t0, $zero, $a1
     # if StateZero and Direction East Goto StateOne
     addi $t1, $zero, 1
@@ -96,7 +98,7 @@ ExitZero:
 StateOne:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-
+    addi $v0, $zero, 1
     add $t0, $zero, $a1
     # if StateOne and Direction North Goto StateTwo
 NorthOne:    
@@ -134,6 +136,7 @@ ExitOne:
 StateTwo:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    addi $v0, $zero, 2
     # Assert Potion
     addi $t0, $zero, 1
     la $t1, potion
@@ -160,7 +163,7 @@ ExitTwo:
 StateThree:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    
+    addi $v0, $zero, 3
     add $t0, $zero, $a1
     # if StateThree and Direction North Goto StateFour
 NorthThree:
@@ -193,7 +196,7 @@ ExitThree:
 StateFour:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    
+    addi $v0, $zero, 4
     add $t0, $zero, $a1
     # if StateFour and Direction East Goto StateFive
 EastFour:
@@ -221,16 +224,21 @@ ExitFour:
 StateFive:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    addi $v0, $zero, 5
     add $t0, $zero, $a1
     # if StateFive and Direction South Goto StateThree
 SouthFive:
     addi $t1, $zero, 2
-    
+    bne $t0, $t1, WestFive
+    addi $v0, $zero, 3
+    j ExitFive
     # if StateFive and Direction West Goto StateFour
 WestFive:
     addi $t1, $zero, 3
+    bne $t0, $t1, ExitFive
+    addi $v0, $zero, 4
+    j ExitFive
     
-
 ExitFive:
     lw $ra, 0($sp)
     addi $sp, $sp, 4
@@ -244,9 +252,20 @@ ExitFive:
 StateSix:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    addi $v0, $zero, 6
     add $t0, $zero, $a1
-    # if StateSix and Direction West Goto StateSeven
     # if StateSix and Direction East Goto StateEight
+EastSix:
+    addi $t1, $zero, 1
+    bne $t0, $t1, WestSix
+    addi $v0, $zero, 8
+    j ExitSix
+    # if StateSix and Direction West Goto StateSeven
+WestSix:
+    addi $t1, $zero, 3
+    bne $t0, $t1, ExitSix
+    addi $v0, $zero, 7
+    j ExitSix
 ExitSix:
     lw $ra, 0($sp)
     addi $sp, $sp, 4
@@ -260,6 +279,7 @@ ExitSix:
 StateSeven:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    addi $v0, $zero, 7
     # Assert Sword
     addi $t0, $zero, 1
     la $t1, sword
@@ -267,6 +287,11 @@ StateSeven:
     
     add $t0, $zero, $a1
     # if StateSeven and Direction East Goto StateSix
+EastSeven:
+    addi $t1, $zero, 1
+    bne $t0, $t1, ExitSeven
+    addi $v0, $zero, 6
+    j ExitSeven
 ExitSeven:
     lw $ra, 0($sp)
     addi $sp, $sp, 4
@@ -280,9 +305,18 @@ ExitSeven:
 StateEight:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    add $t0, $zero, $a1
+    
+    lw $t0, sword
     # if StateEight and Sword Goto StateTen
+HasSword:
+    addi $t1, $zero, 1
+    bne $t0, $t1, NoSword
+    addi $v0, $zero, 10
+    j ExitEight
     # if StateEight and No Sword Goto StateNine
+NoSword:
+    addi, $v0, $zero, 9
+    
 ExitEight:
     lw $ra, 0($sp)
     addi $sp, $sp, 4
@@ -296,8 +330,22 @@ ExitEight:
 StateNine:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    add $t0, $zero, $a1
+    lw $t0, potion
+    
+    la $t0, dead
+    addi $t1, $zero, 1
+    sw $t1, 0($t0)
+    
     # if StateNine and Potion Goto StateZero and Deassert potion
+HasPotion:
+    addi $t1, $zero, 1
+    bne $t0, $t1, NoPotion
+    add $v0, $zero, $zero
+    la $t0, potion
+    sw $zero, 0($t0)
+NoPotion:
+    addi $v0, $zero, 9
+    
 ExitNine:
     lw $ra, 0($sp)
     addi $sp, $sp, 4
@@ -313,6 +361,11 @@ StateTen:
     sw $ra, 0($sp)
     add $t0, $zero, $a1
     # if StateTen Assert WIN
+    la $t0, win
+    addi $t1, $zero, 1
+    sw $t1, 0($t0)
+    
+    addi $v0, $zero, 10
 ExitTen:
     lw $ra, 0($sp)
     addi $sp, $sp, 4
