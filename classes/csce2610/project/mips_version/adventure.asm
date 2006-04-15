@@ -3,8 +3,6 @@
 # April 2006
 
     .data
-        moves: .word 1,2,3,1,1
-        moves_size: .word 5
         potion: .word 0
         sword: .word 0
         win: .word 0
@@ -13,20 +11,20 @@
         current_state: .asciiz "\nCurrent state: "
         next_move: .asciiz "\nEnter a direction: "
         line_feed: .asciiz "\n"
-        welcome: .asciiz "Welcome to the text-based adventure game.  At any time, type 'help' to get a\nlist of commands.\n\n"
+        welcome: .asciiz "\n\nWelcome to the text-based adventure game.\n\n"
         state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly\nlike the sight, grim.  There is only one way to go from here...east.\n"
-        state1_descrip: .asciiz "You proceed through a twisty tunnel, and alas, you find a light at the end of the tunnel.  No, you aren't dead, but you do find yourself being able to go to one of four places.\n\nTo the north you see a building.  To the south, you hear water.\n\nTo the west you go back through the tunnel.To the east, you see what looks to be a maze.\n"
-        state2_descrip: .asciiz "You enter the building.  The door opens easily to a small hut that looks as if it had been abandoned for years.  Lined on the walls are many POTION bottles.  I don't think the owner, or former owner, would find on missing if you took one...\n\nThere is no other way to go but the way you came, South.\n"
-        state3_descrip: .asciiz "You seem to be caught into a maze.  North South East or West??\n"
-        state4_descrip: .asciiz "You seem to be caught into a maze.  North South East or West??\n"
-        state5_descrip: .asciiz "You seem to be caught into a maze.  North South East or West??\n"
-        state6_descrip: .asciiz "You encounter upon a rapid river.  You see two caves, one of which is easily accessed to the east.  The other on the west side...well... you have to cross the river...and its about a 1/2 mile wide...\n"
-        state7_descrip: .asciiz "You enter the cave.  Has you proceed in, the level of light grows dimmer.  And dimmer...and dimmer.  You begin to feel around to find your way.  You stop when you feel a prick on your hand and smell blood.  You finally see a reflection of what little light there is, its a SWORD.\n"
-        state8_descrip: .asciiz "You enter the cave.  Has you proceed in, the level of light grows dimmer.  And suddenly, a flash of fire appears revealing a dragon fully ready to bite you in two.\n"
-        state8_withsword: .asciiz "In a flash of panicked brilliance you reach for your sword.  You swing left, you swing right, but to no avail.  The dragon lunges at you and you point your sword in fear.  As luck would have it, you hit your mark.  The dragon limps over, and a light at the end of the cave can be seen to the East.\n"
-        state8_nosword: .asciiz "The dragon moves around to the entrance blocking it.  You would notice that there is another light, but unfortunately, you're running around like a caffinated ferrit.  Moments later, you find yourself looking at your own, crispy, fire-grilled, well-done dead body.  Welcome to the afterlife bud.\n"
+        state1_descrip: .asciiz "You proceed through a Twisty Tunnel, and alas, you find a light at the end of\nthe tunnel.  No, you aren't dead, but you do find yourself being able to go\nto one of four places.\n\nTo the north you see a Parlor.  To the south, you hear water.\n\nTo the west you go back through the tunnel.  To the east, you see what looks to\nbe a maze.\n"
+        state2_descrip: .asciiz "You enter the Potion Parlor.  The door opens easily to a small hut that looks as\nif it had been abandoned for years.  Lining the walls are many bottles labeled\nPOTION.  I don't think the owner, or former owner, would notice one missing if\nyou took one...\n\nThere is no other way to out so you should leave the way you came, South.\n"
+        state3_descrip: .asciiz "You seem to be caught in a Lengthy Labyrinth.  North South East or West??\n"
+        state4_descrip: .asciiz "You seem to be caught in a Mini-Maze.  North South East or West??\n"
+        state5_descrip: .asciiz "You seem to be caught in a Hall of Mirrors.  North South East or West??\n"
+        state6_descrip: .asciiz "You happen upon a Rapid River.  You see two caves, one of which is easily\naccessed to the east.  The other on the west side...well... you have to cross\nthe river...and its about a 1/2 mile wide...\n"
+        state7_descrip: .asciiz "You enter the cave.  As you proceed, the level of light grows dimmer.  And\ndimmer...and dimmer.  You begin to grope around to find your way.  You stop when\nyou feel a cut on your hand and smell blood.  You finally see a reflection in\nwhat little light there is, its a SWORD.\n"
+        state8_descrip: .asciiz "You enter the cave.  As you proceed, the level of light grows dimmer.  And\nsuddenly, a flash of fire appears revealing a dragon fully ready to bite you in\ntwo. You realize that you have stumbled into the Dragon's Den.\n\n"
+        state8_withsword: .asciiz "In a flash of panicked brilliance you reach for your sword.  You swing left, you\nswing right, but to no avail.  The dragon lunges at you and you point your sword\nin fear.  As luck would have it, you hit your mark.  The dragon limps over, and\na light at the end of the cave can be seen to the East.\n"
+        state8_nosword: .asciiz "The dragon moves around to the entrance blocking it.  You would notice that\nthere is another light, but unfortunately, you're running around like a\nover-caffeinated ferret.  Moments later, you find yourself looking at your own,\ncrispy, char-grilled, well-done, quite dead, body.  Welcome to the after-life.\n"
         state9_withpot: .asciiz "The potion next to your body cracks, and liquid begins to seep onto your body.  You regain consciousness, enough to engluf the rest of the potion.  You see a path to a cave, so you begin to follow it.  You end up where you started...so that's what that smell was...\n"
-        state9_descrip: .asciiz "You're body gets thrown into a pile of other, decaying, and foul-smelling bodies.  But you really don't notice the smell, because the dead don't smell.\n"
+        state9_descrip: .asciiz "You're body gets thrown into a pile of other, decaying, and foul-smelling\nbodies.  But you really don't notice the smell, because the dead don't smell.\nCongratulations your incompetence has landed you in the Grievous Graveyard.\n"
         state10_descrip: .asciiz "As you proceed along the wall, the light turns from a shade of white, to a shade of yellow.  You find yourself in a room filled with gold, women, treasure, goblets, and wine.  Ok, no women...or wine...but you do have gold, and gold gets women...and wine.  But women too...\n"
     .text
 
@@ -100,8 +98,6 @@ StateOne:
     add $t1, $zero, $a0
     li $v0, 4
     la $a0, state1_descrip
-    syscall
-    la $a0, next_move
     syscall
     add $v0, $zero, $t0
     add $a0, $zero, $t1
@@ -403,11 +399,28 @@ StateEight:
 HasSword:
     addi $t1, $zero, 1
     bne $t0, $t1, NoSword
-    addi $v0, $zero, 10     
+    
+    # Display sword message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state8_withsword
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+    
+    addi $v0, $zero, 10     # Set next state to 10
     j ExitEight
     # if StateEight and No Sword Goto StateNine
 NoSword:
-    addi, $v0, $zero, 9
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state8_nosword
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+    addi, $v0, $zero, 9     # Set next state to 9
     
 ExitEight:
     lw $ra, 0($sp)
@@ -445,8 +458,13 @@ HasPotion:
     add $v0, $zero, $zero
     la $t0, potion
     sw $zero, 0($t0)
+    
 NoPotion:
-    addi $v0, $zero, 9
+    la $t0, exit_value
+    addi $t1, $zero, 1
+    sw $t1, 0($t0)
+    
+    addi $v0, $zero, 9      # Set state to 9
     
 ExitNine:
     lw $ra, 0($sp)
@@ -499,6 +517,20 @@ main:
     syscall
 
     add $s0, $zero, $zero   # Set the initial state to zero
+    # Display current state
+    add $t0, $zero, $v0     # Since the syscall functions use $a0 and $v0 save off
+    add $t1, $zero, $a0     # the values into $t0 and $t1 and restore them later
+    li $v0, 4
+    la $a0, current_state
+    syscall
+    li $v0, 1
+    move $a0, $s0
+    syscall
+    li $v0, 4
+    la $a0, line_feed
+    syscall
+    add $v0, $zero, $t0     # Restore the orignal $v0
+    add $a0, $zero, $t1
   
 while:        # while 1
     
