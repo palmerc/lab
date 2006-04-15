@@ -3,6 +3,7 @@
 # April 2006
 
     .data
+        buffer: .char
         potion: .word 0
         sword: .word 0
         win: .word 0
@@ -34,7 +35,8 @@
 ### returns: $v0, the move
 ###
 GetMove:
-    addi $sp, $sp, -8
+    addi $sp, $sp, -12
+    sw $a1, 8($sp)
     sw $a0, 4($sp)
     sw $ra, 0($sp)
     
@@ -42,12 +44,15 @@ GetMove:
     li $v0, 4
     la $a0, next_move
     syscall
-    li $v0, 5               # Read in the move using System Call
+    li $v0, 8
+    li $a1, 1
+    la $a0, buffer
     syscall
 
+    lw $a1, 8($sp)
     lw $a0, 4($sp)
     lw $ra, 0($sp)
-    addi $sp, $sp, 8
+    addi $sp, $sp, 12
     jr $ra
 
 ###
