@@ -37,6 +37,14 @@ StateZero:
     addi $t1, $zero, 1
     bne $t0, $t1, ExitZero
     addi $v0, $zero, 3
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 1
+    move $a0, $v0
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
     j ExitZero
     
 ExitZero:
@@ -374,50 +382,62 @@ while:
 ifZero:
     bne $s0, $zero, ifOne   # if state != 0
     jal StateZero
+    j Next
 ifOne:
     addi $t0, $zero, 1
     bne $s0, $t0, ifTwo    # if state != 1
     jal StateOne
+    j Next
 ifTwo:
     addi $t0, $zero, 2
     bne $s0, $t0, ifThree    # if state != 2
     jal StateTwo
+    j Next
 ifThree:
     addi $t0, $zero, 3
     bne $s0, $t0, ifFour  # if state != 3
     jal StateThree
+    j Next
 ifFour:
     addi $t0, $zero, 4
     bne $s0, $t0, ifFive   # if state != 4
     jal StateFour
+    j Next
 ifFive:
     addi $t0, $zero, 5
     bne $s0, $t0, ifSix   # if state != 5
     jal StateFive
+    j Next
 ifSix:
     addi $t0, $zero, 6
     bne $s0, $t0, ifSeven    # if state != 6
     jal StateSix
+    j Next
 ifSeven:
     addi $t0, $zero, 7
     bne $s0, $t0, ifEight  # if state != 7
     jal StateSeven
+    j Next
 ifEight:
     addi $t0, $zero, 8
     bne $s0, $t0, ifNine  # if state != 8
     jal StateEight
+    j Next
 ifNine:
     addi $t0, $zero, 9
     bne $s0, $t0, ifTen   # if state != 9
     jal StateNine
+    j Next
 ifTen:    
     addi $t0, $zero, 10
     bne $s0, $t0, ifZero    # if state != 10
     jal StateTen
     
+Next:
     add $s0, $zero, $v0     # The state change should be moved into the current state
     addi $s1, $s1, 1
-    add $t0, $zero, moves_size
+    lw $t1, moves_size
+    add $t0, $zero, $t1
     beq $s1, $t0, exit
     j while
 exit:
