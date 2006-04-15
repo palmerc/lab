@@ -9,7 +9,7 @@
         dead: .word 0
         exit_value: .word 0
         current_state: .asciiz "\nCurrent state: "
-        next_move: .asciiz "\nEnter a direction: "
+        next_move: .asciiz "\nEnter a direction (N=0, E=1, S=2, W=3): "
         line_feed: .asciiz "\n"
         welcome: .asciiz "\n\nWelcome to the text-based adventure game.\n\n"
         state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly\nlike the sight: grim.  There is only one way to go from here... east.\n"
