@@ -320,6 +320,12 @@ StateSix:
     move $t0, $v0
 
     addi $v0, $zero, 6
+    # if StateSix and Direction North Goto StateOne
+NorthSix:
+    addi $t1, $zero, 0
+    bne $t0, $t1, EastSix
+    addi $v0, $zero, 1
+    j ExitSix
     # if StateSix and Direction East Goto StateEight
 EastSix:
     addi $t1, $zero, 1
