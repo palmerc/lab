@@ -12,7 +12,20 @@
         current_state: .asciiz "Current state: "
         current_move: .asciiz "Current move: "
         line_feed: .asciiz "\n"
-        state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly like the sight, grim.  There is only one way to go from here...east.\n"
+        state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly like the sight\n, grim.  There is only one way to go from here...east.\n"
+        state1_descrip: .asciiz "You proceed through a twisty tunnel, and alas, you find a light at the end of the tunnel.  No, you aren't dead, but you do find yourself being able to go to one of four places.\n\nTo the north you see a building.  To the south, you hear water.\n\nTo the west you go back through the tunnel.\n\nTo the east, you see what looks to be a maze.\n"
+        state2_descrip: .asciiz "You enter the building.  The door opens easily to a small hut that looks as if it had been abandoned for years.  Lined on the walls are many POTION bottles.  I don't think the owner, or former owner, would find on missing if you took one...\n\nThere is no other way to go but the way you came, South.\n"
+        state3_descrip: .asciiz "You seem to be caught into a maze.  North South East or West??\n"
+        state4_descrip: .asciiz "You seem to be caught into a maze.  North South East or West??\n"
+        state5_descrip: .asciiz "You seem to be caught into a maze.  North South East or West??\n"
+        state6_descrip: .asciiz "You encounter upon a rapid river.  You see two caves, one of which is easily accessed to the east.  The other on the west side...well... you have to cross the river...and its about a 1/2 mile wide...\n"
+        state7_descrip: .asciiz "You enter the cave.  Has you proceed in, the level of light grows dimmer.  And dimmer...and dimmer.  You begin to feel around to find your way.  You stop when you feel a prick on your hand and smell blood.  You finally see a reflection of what little light there is, its a SWORD.\n"
+        state8_descrip: .asciiz "You enter the cave.  Has you proceed in, the level of light grows dimmer.  And suddenly, a flash of fire appears revealing a dragon fully ready to bite you in two.\n"
+        state8_withsword: .asciiz "In a flash of panicked brilliance you reach for your sword.  You swing left, you swing right, but to no avail.  The dragon lunges at you and you point your sword in fear.  As luck would have it, you hit your mark.  The dragon limps over, and a light at the end of the cave can be seen to the East.\n"
+        state8_nosword: .asciiz "The dragon moves around to the entrance blocking it.  You would notice that there is another light, but unfortunately, you're running around like a caffinated ferrit.  Moments later, you find yourself looking at your own, crispy, fire-grilled, well-done dead body.  Welcome to the afterlife bud.\n"
+        state9_withpot: .asciiz "The potion next to your body cracks, and liquid begins to seep onto your body.  You regain consciousness, enough to engluf the rest of the potion.  You see a path to a cave, so you begin to follow it.  You end up where you started...so that's what that smell was...\n"
+        state9_descrip: .asciiz "You're body gets thrown into a pile of other, decaying, and foul-smelling bodies.  But you really don't notice the smell, because the dead don't smell.\n"
+        state10_descrip: .asciiz "As you proceed along the wall, the light turns from a shade a white, to a shade of yellow.  You find yourself in a room filled with gold, women, treasure, goblets, and wine.  Ok, no women...or wine...but you do have gold, and gold gets women...and wine.  But women too...\n"
     .text
 ###
 ### function StateZero
@@ -328,6 +341,14 @@ StateTen:
     addi $t1, $zero, 1
     sw $t1, 0($t0)
     
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state10_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+   
     addi $v0, $zero, 10
 ExitTen:
     lw $ra, 0($sp)
