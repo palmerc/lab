@@ -331,7 +331,7 @@ ExitTen:
 ###
 main:
     add $s0, $zero, $zero   # Set the initial state to zero
-    lw $s1, moves_size
+    add $s1, $zero, $zero
     
     #while there are moves available loop
 while:
@@ -352,8 +352,8 @@ while:
     la $t0, moves
     add $t1, $zero, $s1
     sll $t1, $t1, 2
-    add $t0, $t0, $t1
-    lw $a1, 0($t0)          # Move the current move into $a1
+    add $t1, $t0, $t1
+    lw $a1, 0($t1)          # Move the current move into $a1
 
     add $t0, $zero, $v0
     add $t1, $zero, $a0
@@ -416,8 +416,9 @@ ifTen:
     jal StateTen
     
     add $s0, $zero, $v0     # The state change should be moved into the current state
-    addi $s1, $s1, -1
-    beq $s1, $zero, exit
+    addi $s1, $s1, 1
+    add $t0, $zero, moves_size
+    beq $s1, $t0, exit
     j while
 exit:
     li $v0, 10
