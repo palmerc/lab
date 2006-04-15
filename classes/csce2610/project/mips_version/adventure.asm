@@ -12,7 +12,7 @@
         next_move: .asciiz "\nEnter a direction: "
         line_feed: .asciiz "\n"
         welcome: .asciiz "\n\nWelcome to the text-based adventure game.\n\n"
-        state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly\nlike the sight, grim.  There is only one way to go from here...east.\n"
+        state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly\nlike the sight: grim.  There is only one way to go from here... east.\n"
         state1_descrip: .asciiz "You proceed through a Twisty Tunnel, and alas, you find a light at the end of\nthe tunnel.  No, you aren't dead, but you do find yourself being able to go\nto one of four places.\n\nTo the north you see a Parlor.  To the south, you hear water.\n\nTo the west you go back through the tunnel.  To the east, you see what looks to\nbe a maze.\n"
         state2_descrip: .asciiz "You enter the Potion Parlor.  The door opens easily to a small hut that looks as\nif it had been abandoned for years.  Lining the walls are many bottles labeled\nPOTION.  I don't think the owner, or former owner, would notice one missing if\nyou took one...\n\nThere is no other way to out so you should leave the way you came, South.\n"
         state3_descrip: .asciiz "You seem to be caught in a Lengthy Labyrinth.  North South East or West??\n"
@@ -23,7 +23,7 @@
         state8_descrip: .asciiz "You enter the cave.  As you proceed, the level of light grows dimmer.  And\nsuddenly, a flash of fire appears revealing a dragon fully ready to bite you in\ntwo. You realize that you have stumbled into the Dragon's Den.\n\n"
         state8_withsword: .asciiz "In a flash of panicked brilliance you reach for your sword.  You swing left, you\nswing right, but to no avail.  The dragon lunges at you and you point your sword\nin fear.  As luck would have it, you hit your mark.  The dragon limps over, and\na light at the end of the cave can be seen to the East.\n"
         state8_nosword: .asciiz "The dragon moves around to the entrance blocking it.  You would notice that\nthere is another light, but unfortunately, you're running around like a\nover-caffeinated ferret.  Moments later, you find yourself looking at your own,\ncrispy, char-grilled, well-done, quite dead, body.  Welcome to the after-life.\n"
-        state9_withpot: .asciiz "The potion next to your body cracks, and liquid begins to seep onto your body.  You regain consciousness, enough to engluf the rest of the potion.  You see a path to a cave, so you begin to follow it.  You end up where you started...so that's what that smell was...\n"
+        state9_withpot: .asciiz "\nThe potion next to your body cracks, and liquid begins to seep onto your body.\nYou regain consciousness, enough to engulf the rest of the potion.  You see a\npath to a cave, so you begin to follow it.  You end up where you started...\nSo that's what that smell was...\n"
         state9_descrip: .asciiz "You're body gets thrown into a pile of other, decaying, and foul-smelling\nbodies.  But you really don't notice the smell, because the dead don't smell.\nCongratulations your incompetence has landed you in the Grievous Graveyard.\n"
         state10_descrip: .asciiz "As you proceed along the wall, the light turns from a shade of white, to a shade of yellow.  You find yourself in a room filled with gold, women, treasure, goblets, and wine.  Ok, no women...or wine...but you do have gold, and gold gets women...and wine.  But women too...\n"
     .text
@@ -151,8 +151,8 @@ StateTwo:
     syscall
     add $v0, $zero, $t0
     add $a0, $zero, $t1
-
-    addi $v0, $zero, 2          # Establish state two as the current state
+    
+    addi $v0, $zero, 2          # Establish state two as the current state    
     # Assert Potion
     addi $t0, $zero, 1
     la $t1, potion
@@ -413,6 +413,7 @@ HasSword:
     j ExitEight
     # if StateEight and No Sword Goto StateNine
 NoSword:
+    # Display the lack of sword message
     add $t0, $zero, $v0
     add $t1, $zero, $a0
     li $v0, 4
@@ -444,20 +445,33 @@ StateNine:
     syscall
     add $v0, $zero, $t0
     add $a0, $zero, $t1
-    
-    lw $t0, potion
-    
+      
     la $t0, dead
     addi $t1, $zero, 1
     sw $t1, 0($t0)
+    
+    lw $t0, potion
     
     # if StateNine and Potion Goto StateZero and Deassert potion
 HasPotion:
     addi $t1, $zero, 1
     bne $t0, $t1, NoPotion
+    # Display potion message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state9_withpot
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
     add $v0, $zero, $zero
     la $t0, potion
     sw $zero, 0($t0)
+    
+    la $t0, dead
+    add $t1, $zero, $zero
+    sw $t1, 0($t0)
     j ExitNine
     
 NoPotion:
