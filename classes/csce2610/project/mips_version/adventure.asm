@@ -43,7 +43,17 @@ while:
     jne $s1, $zero, while
 
 StateZero:
+    addi $sp, $sp, -8
+    sw $fp, 0($sp)
+    sw $ra, 4($sp)
+    addi $fp, $sp, 8
+    
     # if StateZero and Direction East Goto StateOne
+    
+    lw $ra, 4($sp)
+    lw $fp, 0($sp)
+    addi $sp, $sp, 8
+    jr $ra
 
 StateOne:
     # if StateOne and Direction North Goto StateTwo
