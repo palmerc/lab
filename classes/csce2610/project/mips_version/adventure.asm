@@ -9,6 +9,7 @@
         sword: .word 0
         win: .word 0
         dead: .word 0
+        exit_value: .word 0
         current_state: .asciiz "Current state: "
         current_move: .asciiz "Current move: "
         line_feed: .asciiz "\n"
@@ -287,7 +288,7 @@ StateEight:
 HasSword:
     addi $t1, $zero, 1
     bne $t0, $t1, NoSword
-    addi $v0, $zero, 10
+    addi $v0, $zero, 10     
     j ExitEight
     # if StateEight and No Sword Goto StateNine
 NoSword:
@@ -335,6 +336,8 @@ ExitNine:
 StateTen:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    addi $v0, $zero, 10
+    
     add $t0, $zero, $a1
     # if StateTen Assert WIN
     la $t0, win
@@ -348,8 +351,11 @@ StateTen:
     syscall
     add $v0, $zero, $t0
     add $a0, $zero, $t1
+    
+    la $t0, exit_value
+    addi $t1, $zero, 1
+    sw $t1, 0($t0)
    
-    addi $v0, $zero, 10
 ExitTen:
     lw $ra, 0($sp)
     addi $sp, $sp, 4
@@ -458,9 +464,10 @@ ifTen:
 Next:
     add $s0, $zero, $v0     # The state change should be moved into the current state
     addi $s1, $s1, 1
-    lw $t1, moves_size
-    add $t0, $zero, $t1
-    beq $s1, $t0, exit
+    
+    lw $t0, exit_value
+    addi $t1, $zero, 1
+    beq $t0, $t1, exit
     j while
 exit:
     li $v0, 10
