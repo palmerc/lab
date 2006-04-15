@@ -11,64 +11,6 @@
         dead: .word 0
     .text
 
-main:
-    add $s0, $zero, $zero   # Set the initial state to zero
-    lw $s1, moves_size
-    
-    #while there are moves available loop
-while:
-    la $t0, moves
-    lw $a1, $s1(moves)          # Move the current move into $a1
-    
-ifZero
-    add $a0, $zero, $s0         # move the current state into $a0
-    bne $s0, $zero, ifOne   # if state != 0
-    jal StateZero
-ifOne:
-    addi $t0, $zero, 1
-    bne $s0, $t0, ifTwo    # if state != 1
-    jal StateOne
-ifTwo:
-    addi $t0, $zero, 2
-    bne $s0, $t0, ifThree    # if state != 2
-    jal StateTwo
-ifThree:
-    addi $t0, $zero, 3
-    bne $s0, $t0, ifFour  # if state != 3
-    jal StateThree
-ifFour:
-    addi $t0, $zero, 4
-    bne $s0, $t0, ifFive   # if state != 4
-    jal StateFour
-ifFive:
-    addi $t0, $zero, 5
-    bne $s0, $t0, ifSix   # if state != 5
-    jal StateFive
-ifSix:
-    addi $t0, $zero, 6
-    bne $s0, $t0, ifSeven    # if state != 6
-    jal StateSix
-ifSeven:
-    addi $t0, $zero, 7
-    bne $s0, $t0, ifEight  # if state != 7
-    jal StateSeven
-ifEight:
-    addi $t0, $zero, 8
-    bne $s0, $t0, ifNine  # if state != 8
-    jal StateEight
-ifNine:
-    addi $t0, $zero, 9
-    bne $s0, $t0, ifTen   # if state != 9
-    jal StateNine
-ifTen:    
-    addi $t0, $zero, 10
-    bne $s0, $t0, ifZero    # if state != 10
-    jal StateTen
-    
-    add $s0, $zero, $v0     # The state change should be moved into the current state
-    addi $s1, $s1, -1
-    jne $s1, $zero, while
-
 ###
 ### function StateZero
 ### accepts: $a0, current state, $a1, direction to move
@@ -83,7 +25,7 @@ StateZero:
     addi $t1, $zero, 1
     bne $t0, $t1, ExitZero
     addi $v0, $zero, 3
-    j ExitZero:
+    j ExitZero
     
 ExitZero:
     lw $ra, 0($sp)
@@ -370,3 +312,70 @@ ExitTen:
     lw $ra, 0($sp)
     addi $sp, $sp, 4
     jr $ra
+    
+###
+### Main Function
+###
+###
+main:
+    add $s0, $zero, $zero   # Set the initial state to zero
+    lw $s1, moves_size
+    
+    #while there are moves available loop
+while:
+    la $t0, moves
+    add $t1, $zero, $s1
+    sll $t1, $t1, 2
+    add $t0, $t0, $t1
+    lw $a1, 0($t0)          # Move the current move into $a1
+    
+ifZero:
+    add $a0, $zero, $s0         # move the current state into $a0
+    bne $s0, $zero, ifOne   # if state != 0
+    jal StateZero
+ifOne:
+    addi $t0, $zero, 1
+    bne $s0, $t0, ifTwo    # if state != 1
+    jal StateOne
+ifTwo:
+    addi $t0, $zero, 2
+    bne $s0, $t0, ifThree    # if state != 2
+    jal StateTwo
+ifThree:
+    addi $t0, $zero, 3
+    bne $s0, $t0, ifFour  # if state != 3
+    jal StateThree
+ifFour:
+    addi $t0, $zero, 4
+    bne $s0, $t0, ifFive   # if state != 4
+    jal StateFour
+ifFive:
+    addi $t0, $zero, 5
+    bne $s0, $t0, ifSix   # if state != 5
+    jal StateFive
+ifSix:
+    addi $t0, $zero, 6
+    bne $s0, $t0, ifSeven    # if state != 6
+    jal StateSix
+ifSeven:
+    addi $t0, $zero, 7
+    bne $s0, $t0, ifEight  # if state != 7
+    jal StateSeven
+ifEight:
+    addi $t0, $zero, 8
+    bne $s0, $t0, ifNine  # if state != 8
+    jal StateEight
+ifNine:
+    addi $t0, $zero, 9
+    bne $s0, $t0, ifTen   # if state != 9
+    jal StateNine
+ifTen:    
+    addi $t0, $zero, 10
+    bne $s0, $t0, ifZero    # if state != 10
+    jal StateTen
+    
+    add $s0, $zero, $v0     # The state change should be moved into the current state
+    addi $s1, $s1, -1
+    beq $s1, $zero, exit
+    j while
+exit:
