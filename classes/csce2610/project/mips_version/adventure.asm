@@ -36,7 +36,7 @@ StateZero:
     # if StateZero and Direction East Goto StateOne
     addi $t1, $zero, 1
     bne $t0, $t1, ExitZero
-    addi $v0, $zero, 3
+    addi $v0, $zero, 1      # State changes to one
 #    add $t0, $zero, $v0
 #    add $t1, $zero, $a0
 #    li $v0, 1
@@ -60,7 +60,8 @@ ExitZero:
 StateOne:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    addi $v0, $zero, 1
+    
+    addi $v0, $zero, 1      # State defaults to one
     add $t0, $zero, $a1
     # if StateOne and Direction North Goto StateTwo
 NorthOne:    
