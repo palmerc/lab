@@ -10,11 +10,12 @@
         win: .word 0
         dead: .word 0
         exit_value: .word 0
-        current_state: .asciiz "Current state: "
-        current_move: .asciiz "Current move: "
+        current_state: .asciiz "\nCurrent state: "
+        next_move: .asciiz "\nEnter a direction: "
         line_feed: .asciiz "\n"
-        state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly like the sight\n, grim.  There is only one way to go from here...east.\n"
-        state1_descrip: .asciiz "You proceed through a twisty tunnel, and alas, you find a light at the end of the tunnel.  No, you aren't dead, but you do find yourself being able to go to one of four places.\n\nTo the north you see a building.  To the south, you hear water.\n\nTo the west you go back through the tunnel.\n\nTo the east, you see what looks to be a maze.\n"
+        welcome: .asciiz "Welcome to the text-based adventure game.  At any time, type 'help' to get a\nlist of commands.\n\n"
+        state0_descrip: .asciiz "You are in the Cave of Cacophony.  The sounds, the smells are almost exactly\nlike the sight, grim.  There is only one way to go from here...east.\n"
+        state1_descrip: .asciiz "You proceed through a twisty tunnel, and alas, you find a light at the end of the tunnel.  No, you aren't dead, but you do find yourself being able to go to one of four places.\n\nTo the north you see a building.  To the south, you hear water.\n\nTo the west you go back through the tunnel.To the east, you see what looks to be a maze.\n"
         state2_descrip: .asciiz "You enter the building.  The door opens easily to a small hut that looks as if it had been abandoned for years.  Lined on the walls are many POTION bottles.  I don't think the owner, or former owner, would find on missing if you took one...\n\nThere is no other way to go but the way you came, South.\n"
         state3_descrip: .asciiz "You seem to be caught into a maze.  North South East or West??\n"
         state4_descrip: .asciiz "You seem to be caught into a maze.  North South East or West??\n"
@@ -26,8 +27,31 @@
         state8_nosword: .asciiz "The dragon moves around to the entrance blocking it.  You would notice that there is another light, but unfortunately, you're running around like a caffinated ferrit.  Moments later, you find yourself looking at your own, crispy, fire-grilled, well-done dead body.  Welcome to the afterlife bud.\n"
         state9_withpot: .asciiz "The potion next to your body cracks, and liquid begins to seep onto your body.  You regain consciousness, enough to engluf the rest of the potion.  You see a path to a cave, so you begin to follow it.  You end up where you started...so that's what that smell was...\n"
         state9_descrip: .asciiz "You're body gets thrown into a pile of other, decaying, and foul-smelling bodies.  But you really don't notice the smell, because the dead don't smell.\n"
-        state10_descrip: .asciiz "As you proceed along the wall, the light turns from a shade a white, to a shade of yellow.  You find yourself in a room filled with gold, women, treasure, goblets, and wine.  Ok, no women...or wine...but you do have gold, and gold gets women...and wine.  But women too...\n"
+        state10_descrip: .asciiz "As you proceed along the wall, the light turns from a shade of white, to a shade of yellow.  You find yourself in a room filled with gold, women, treasure, goblets, and wine.  Ok, no women...or wine...but you do have gold, and gold gets women...and wine.  But women too...\n"
     .text
+
+###
+### function GetMove
+### accepts: nothing
+### returns: $v0, the move
+###
+GetMove:
+    addi $sp, $sp, -8
+    sw $a0, 4($sp)
+    sw $ra, 0($sp)
+    
+    # Make your move, creep. - robocop
+    li $v0, 4
+    la $a0, next_move
+    syscall
+    li $v0, 5               # Read in the move using System Call
+    syscall
+
+    lw $a0, 4($sp)
+    lw $ra, 0($sp)
+    addi $sp, $sp, 8
+    jr $ra
+
 ###
 ### function StateZero
 ### accepts: $a0, current state, $a1, direction to move
@@ -37,27 +61,23 @@ StateZero:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
     
-#    add $t0, $zero, $v0
-#    add $t1, $zero, $a0
-#    li $v0, 4
-#    la $a0, state0_descrip
-#    syscall
-#    add $v0, $zero, $t0
-#    add $a0, $zero, $t1
-
-    addi $v0, $zero, 0
-    add $t0, $zero, $a1
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state0_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+    
+    jal GetMove
+    move $t0, $v0
+    
+    addi $v0, $zero, 0      # State defaults to zero
     # if StateZero and Direction East Goto StateOne
     addi $t1, $zero, 1
     bne $t0, $t1, ExitZero
     addi $v0, $zero, 1      # State changes to one
-#    add $t0, $zero, $v0
-#    add $t1, $zero, $a0
-#    li $v0, 1
-#    move $a0, $v0
-#    syscall
-#    add $v0, $zero, $t0
-#    add $a0, $zero, $t1
 
     j ExitZero
     
@@ -74,9 +94,22 @@ ExitZero:
 StateOne:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    
+
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state1_descrip
+    syscall
+    la $a0, next_move
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
+    jal GetMove
+    move $t0, $v0
+
     addi $v0, $zero, 1      # State defaults to one
-    add $t0, $zero, $a1
     # if StateOne and Direction North Goto StateTwo
 NorthOne:    
     bne $t0, $zero, EastOne
@@ -113,18 +146,30 @@ ExitOne:
 StateTwo:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    addi $v0, $zero, 2
+
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state2_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
+    addi $v0, $zero, 2          # Establish state two as the current state
     # Assert Potion
     addi $t0, $zero, 1
     la $t1, potion
     sw $t0, 0($t1)
-        
-    add $t0, $zero, $a1
+
+    jal GetMove
+    move $t0, $v0
+
     # if StateTwo and Direction South Goto StateOne
 SouthTwo:
     addi $t1, $zero, 2
     bne $t0, $t1, ExitTwo
-    addi $v0, $zero, 6
+    addi $v0, $zero, 1
     j ExitTwo
 
 ExitTwo:
@@ -140,8 +185,20 @@ ExitTwo:
 StateThree:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state3_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
+    jal GetMove
+    move $t0, $v0
+
     addi $v0, $zero, 3
-    add $t0, $zero, $a1
     # if StateThree and Direction North Goto StateFour
 NorthThree:
     bne $t0, $zero, EastThree
@@ -173,8 +230,20 @@ ExitThree:
 StateFour:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state4_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+    
+    jal GetMove
+    move $t0, $v0
+
     addi $v0, $zero, 4
-    add $t0, $zero, $a1
     # if StateFour and Direction East Goto StateFive
 EastFour:
     addi $t1, $zero, 1
@@ -201,8 +270,20 @@ ExitFour:
 StateFive:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state5_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
+    jal GetMove
+    move $t0, $v0
+
     addi $v0, $zero, 5
-    add $t0, $zero, $a1
     # if StateFive and Direction South Goto StateThree
 SouthFive:
     addi $t1, $zero, 2
@@ -229,8 +310,20 @@ ExitFive:
 StateSix:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state6_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
+    jal GetMove
+    move $t0, $v0
+
     addi $v0, $zero, 6
-    add $t0, $zero, $a1
     # if StateSix and Direction East Goto StateEight
 EastSix:
     addi $t1, $zero, 1
@@ -256,13 +349,26 @@ ExitSix:
 StateSeven:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+    
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state7_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
+    
     addi $v0, $zero, 7
     # Assert Sword
     addi $t0, $zero, 1
     la $t1, sword
     sw $t0, 0($t1)
     
-    add $t0, $zero, $a1
+    jal GetMove
+    move $t0, $v0
+
     # if StateSeven and Direction East Goto StateSix
 EastSeven:
     addi $t1, $zero, 1
@@ -282,7 +388,16 @@ ExitSeven:
 StateEight:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    
+
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state8_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+
     lw $t0, sword
     # if StateEight and Sword Goto StateTen
 HasSword:
@@ -307,6 +422,16 @@ ExitEight:
 StateNine:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
+
+    # Display state message
+    add $t0, $zero, $v0
+    add $t1, $zero, $a0
+    li $v0, 4
+    la $a0, state9_descrip
+    syscall
+    add $v0, $zero, $t0
+    add $a0, $zero, $t1
+    
     lw $t0, potion
     
     la $t0, dead
@@ -336,14 +461,8 @@ ExitNine:
 StateTen:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
-    addi $v0, $zero, 10
-    
-    add $t0, $zero, $a1
-    # if StateTen Assert WIN
-    la $t0, win
-    addi $t1, $zero, 1
-    sw $t1, 0($t0)
-    
+
+    # Display state message
     add $t0, $zero, $v0
     add $t1, $zero, $a0
     li $v0, 4
@@ -351,7 +470,15 @@ StateTen:
     syscall
     add $v0, $zero, $t0
     add $a0, $zero, $t1
+
+    addi $v0, $zero, 10
     
+    add $t0, $zero, $a1
+    # if StateTen Assert WIN
+    la $t0, win
+    addi $t1, $zero, 1
+    sw $t1, 0($t0)
+       
     la $t0, exit_value
     addi $t1, $zero, 1
     sw $t1, 0($t0)
@@ -366,44 +493,14 @@ ExitTen:
 ###
 ###
 main:
-    add $s0, $zero, $zero   # Set the initial state to zero
-    add $s1, $zero, $zero
-    
-    #while there are moves available loop
-while:
-    add $t0, $zero, $v0
-    add $t1, $zero, $a0
+    # Display welcome message
     li $v0, 4
-    la $a0, current_state
+    la $a0, welcome
     syscall
-    li $v0, 1
-    move $a0, $s0
-    syscall
-    li $v0, 4
-    la $a0, line_feed
-    syscall
-    add $v0, $zero, $t0
-    add $a0, $zero, $t1
-    
-    la $t0, moves
-    add $t1, $zero, $s1
-    sll $t1, $t1, 2
-    add $t1, $t0, $t1
-    lw $a1, 0($t1)          # Move the current move into $a1
 
-    add $t0, $zero, $v0
-    add $t1, $zero, $a0
-    li $v0, 4
-    la $a0, current_move
-    syscall
-    li $v0, 1
-    move $a0, $a1
-    syscall
-    li $v0, 4
-    la $a0, line_feed
-    syscall
-    add $v0, $zero, $t0
-    add $a0, $zero, $t1
+    add $s0, $zero, $zero   # Set the initial state to zero
+  
+while:        # while 1
     
     add $a0, $zero, $s0         # move the current state into $a0
     
@@ -464,11 +561,28 @@ ifTen:
 Next:
     add $s0, $zero, $v0     # The state change should be moved into the current state
     addi $s1, $s1, 1
+
+    # Display current state
+    add $t0, $zero, $v0     # Since the syscall functions use $a0 and $v0 save off
+    add $t1, $zero, $a0     # the values into $t0 and $t1 and restore them later
+    li $v0, 4
+    la $a0, current_state
+    syscall
+    li $v0, 1
+    move $a0, $s0
+    syscall
+    li $v0, 4
+    la $a0, line_feed
+    syscall
+    add $v0, $zero, $t0     # Restore the orignal $v0
+    add $a0, $zero, $t1
     
+    # Let us see if the exit value has been set
     lw $t0, exit_value
     addi $t1, $zero, 1
     beq $t0, $t1, exit
+    # Back to the top of the loop
     j while
 exit:
-    li $v0, 10
+    li $v0, 10              # Exit system call
     syscall
