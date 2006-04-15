@@ -141,6 +141,7 @@ StateTwo:
         
     add $t0, $zero, $a1
     # if StateTwo and Direction South Goto StateOne
+SouthTwo:
     addi $t1, $zero, 2
     bne $t0, $t1, ExitTwo
     addi $v0, $zero, 6
@@ -195,6 +196,7 @@ StateFour:
     
     add $t0, $zero, $a1
     # if StateFour and Direction East Goto StateFive
+EastFour:
     addi $t1, $zero, 1
     bne $t0, $t1, SouthFour
     addi $v0, $zero, 5
@@ -220,8 +222,14 @@ StateFive:
     addi $sp, $sp, -4
     sw $ra, 0($sp)
     add $t0, $zero, $a1
-    # if StateFive and Direction West Goto StateFour
     # if StateFive and Direction South Goto StateThree
+SouthFive:
+    addi $t1, $zero, 2
+    
+    # if StateFive and Direction West Goto StateFour
+WestFive:
+    addi $t1, $zero, 3
+    
 
 ExitFive:
     lw $ra, 0($sp)
