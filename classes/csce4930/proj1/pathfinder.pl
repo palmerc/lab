@@ -4,7 +4,7 @@ use strict;
 
 srand();
 our @route;
-our $home_mult = 5;
+our $home_mult = 10;
 
 sub loadMap {
     my $fh = shift;
@@ -158,8 +158,8 @@ my $low;
 my $highest = 0;
 
 for (my $i=0; $i < 1000; $i++) {
-   #`sleep 1`;
-   #system "clear";
+   `sleep 1`;
+   system "clear";
    my $start_row = 5;
    my $start_col = 1;
    my $end_row = 9;
@@ -198,16 +198,16 @@ for (my $i=0; $i < 1000; $i++) {
       $highest = $move_count;
    }
 
-   #print "Step $move_count: $cur_row, $cur_col\n\n";
+   print "Step $move_count: $cur_row, $cur_col\n\n";
    #print "@route";
-   #printPath(\@map_array);
+   printPath(\@map_array);
    $counter++;
    $move_sum += $move_count;
    
+print "Iteration: $counter\n";
+print "Average Moves: " . int($move_sum/$counter) . "\n";
    close(IN);
 }
 
 #print "Move Count: $move_count\n";
-print "Iteration: $counter\n";
-print "Average Moves: " . int($move_sum/$counter) . "\n";
 print "$low $highest\n";
