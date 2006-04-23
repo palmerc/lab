@@ -291,6 +291,7 @@ sub grid_dialog {
             print "Size changed to $x $y\n";
             $xMax = $x;
             $yMax = $y;
+            gridDraw();
         }
     }
 }
