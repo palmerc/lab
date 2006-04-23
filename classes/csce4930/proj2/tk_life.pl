@@ -145,7 +145,9 @@ sub run {
 }
 
 sub stop {
-    $repeat->cancel();
+    if ($repeat) {
+        $repeat->cancel();
+    }
 }
 
 sub step {
@@ -231,14 +233,14 @@ sub drawGUI {
                 -activebackground=>'grey',
                 -command=> \&about_txt);
                 
-        $help_mb->command(-label=>'Help',
-                -activebackground=>'grey',
-                -command=>\&help_txt);
     gridDraw();
 
 }
 
 sub gridDraw {
+    if ($canvas) {
+        $canvas->destroy();
+    }
     $canvas = $main->Canvas(-bg => 'grey',
          -width  => $yMax * $size,
          -height => $xMax * $size,
@@ -288,9 +290,10 @@ sub grid_dialog {
         my $x = $ent0->get();
         my $y = $ent1->get();
         if ($x > 10 and $y > 10) {
-            print "Size changed to $x $y\n";
             $xMax = $x;
             $yMax = $y;
+            initializeArray();
+            copyShapeInto(@gosper);
             gridDraw();
         }
     }
