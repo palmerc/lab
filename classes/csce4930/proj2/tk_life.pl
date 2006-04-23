@@ -2,54 +2,69 @@
 use English;
 use strict;
 require Tk;
-require Tk::Table;
+require Tk::DialogBox;
 use Tk;
-use Tk::Table;
 
 # Conway's Game of Life
 
+# Glider
+my @block = ( [1,1],
+              [1,1] );
+
+my @boat = ( [1,1,0],
+             [1,0,1],
+             [0,1,0] );
+             
+my @blinker = ( [1,1,1] );
+
+my @toad = ( [0,1,1,1],
+             [1,1,1,0] );
+             
+my @glider = ( [0,1,0],
+               [0,0,1],
+               [1,1,1] );
+
+my @lwss = ( [1,0,0,1,0],
+             [0,0,0,0,1],
+             [1,0,0,0,1],
+             [0,1,1,1,1] );
+             
+my @diehard = ( [0,0,0,0,0,0,1,0],
+                [1,1,0,0,0,0,0,0],
+                [0,1,0,0,0,1,1,1] );
+
+my @acorn = ( [0,1,0,0,0,0,0],
+              [0,0,0,1,0,0,0],
+              [1,1,0,0,1,1,1] );
+
 # Gosper Glider Gun
-my @current = ( [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-                [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-                [1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] );
+my @gosper = ( [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
+               [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+               [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+               [1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+               [1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
+               [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+               [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+               [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] );
+
+
+my @cameron = ( [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                [1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1],
+                [1,0,0,0,0,0,0,0,1,0,1,0,0,0,1,1,0,1,1],
+                [1,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,1,0,1],
+                [1,0,0,0,0,0,1,1,1,1,1,1,1,0,1,0,0,0,1],
+                [1,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,1],
+                [1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1] );
+
+
+my @current;
 my @next;
-my ($xMax, $yMax) = (36, 36);
+my ($xMax, $yMax) = (60, 60);
 my $size = 15;
 my $canvas;
-use vars qw/$repeat/;
+my $repeat;
+my $main;
 
 # Rules to Conway's Game of Life
 # Survivals - Every counter with two or three neighbors survives for the next 
@@ -123,12 +138,52 @@ sub calculateNG {
     @current = @next;
 }
 
-sub drawGUI {
+
+
+sub run {
+    $repeat = $canvas->repeat(200, \&step);
+}
+
+sub stop {
+    $repeat->cancel();
+}
+
+sub step {
+    unfill();
+    calculateNG();
+    fill();
     
-    my ($xMax, $yMax) = ($xMax, $yMax);
+    $canvas->update();
+}
+
+sub initializeArray {
+    # Initialize the default array
+    for (my $x = 0; $x < $xMax; $x++) {
+        for (my $y = 0; $y < $yMax; $y++) {
+            $current[$x][$y] = 0;
+        }
+    }    
+}
+
+sub copyShapeInto {
+    my (@array) = @_;
+    my $rows = $#{$array[0]} + 1;
+    my $cols = $#array + 1;
+    
+    my $centerx = ($xMax - $cols) / 2;
+    my $centery = ($yMax - $rows) / 2;
+    
+    for (my $x = 0; $x < $cols; $x++) {
+        for (my $y = 0; $y < $rows; $y++) {
+            $current[$x+$centerx][$y+$centery] = $array[$x][$y];
+        }
+    }    
+}
+
+sub drawGUI {
     my $Version="1.0";
-    my $main = new MainWindow;
-        
+    
+    $main = new MainWindow;    
     $main->title("Conway's Game of Life");
 
     my $menu_bar=$main->Frame(-relief=>'groove',
@@ -161,9 +216,10 @@ sub drawGUI {
                 -activebackground=>'grey',
                 -foreground=>'Black',
                 )->pack(-side=>'left');
-        $edit_mb->command(-label=>'Pre-defined Organisms',
+        $edit_mb->command(-label=>'Grid Size',
                 -activebackground=>'grey',
-                -command=>\&run);
+                -command=> \&grid_dialog);
+
 
     my $help_mb=$menu_bar->Menubutton(-text=>'Help',
                 -background=>'grey',
@@ -173,17 +229,20 @@ sub drawGUI {
                         
         $help_mb->command(-label=>'About',
                 -activebackground=>'grey',
-                -command=>\&about_txt);
+                -command=> \&about_txt);
+                
         $help_mb->command(-label=>'Help',
                 -activebackground=>'grey',
                 -command=>\&help_txt);
+    gridDraw();
 
+}
+
+sub gridDraw {
     $canvas = $main->Canvas(-bg => 'grey',
          -width  => $yMax * $size,
          -height => $xMax * $size,
-        )-> pack(qw/-side top/);
-
-    $main-> bind('<Any-Enter>', sub { $canvas->Tk::focus });
+        )->pack(qw/-side top -fill both/);
 
     # Draw the grid.
     for my $i (0 .. $xMax) {
@@ -199,16 +258,41 @@ sub drawGUI {
 		       -fill =>  'white',
 		      );
     }
-
-    my $frame = $main->Frame->pack(qw/-side top -expand 1
-				 -fill both -padx 10 -pady 10/);
                  
-
-    my $life_table=$main->Table(-columns => 36,
-                                -rows => 36
-                                )->pack(qw/-expand 0 -fill x -padx 1/);
     # Fill in the starting pattern.
-    fill($canvas);
+    fill($canvas);    
+}
+
+sub about_txt {
+  my $popup=$main->DialogBox(-title=>"About",
+  -buttons=>["OK"],);
+  $popup->add("Label", -text=>"Conway's Game of Life\nCameron Palmer, Mitra Mahadavian, and Kristina Ratliff\nCSCE 4930\nApril 2006\n")->pack;
+  $popup->Show;
+}
+
+sub grid_dialog {
+  my $popup=$main->DialogBox(-title=>"Grid Size", -background => 'grey',
+  -buttons=>["OK", "Cancel"],);
+  
+    my $right1 = $popup->Frame(-background => 'grey')->pack(-side => 'left', -pady => 2, -padx => 2);
+    my $des1 = $right1->Label(-text => 'X Size', -background => 'grey', -pady => 4)->pack();
+    my $des2 = $right1->Label(-text => 'Y Size', -background => 'grey', -pady => 4)->pack();
+    my $right2 = $popup->Frame(-background => 'grey')->pack(-side => 'left', -pady => 2, -padx => 2);
+    my $ent0 = $right2->Entry(-width => 5)->pack(-anchor=>'n',-fill=>'x');
+    my $ent1 = $right2->Entry(-width => 5)->pack(-anchor=>'n',-fill=>'x');
+    $ent0->insert('end',$xMax);
+    $ent1->insert('end',$yMax);
+    my $button = $popup->Show;
+  
+    if ($button eq "OK") {
+        my $x = $ent0->get();
+        my $y = $ent1->get();
+        if ($x > 10 and $y > 10) {
+            print "Size changed to $x $y\n";
+            $xMax = $x;
+            $yMax = $y;
+        }
+    }
 }
 
 sub fill {
@@ -236,28 +320,11 @@ sub unfill {
     }
 }
 
-sub run {
-    $repeat = $canvas->repeat(200, \&step);
-}
+####
+#### Main
+####
 
-sub stop {
-    $repeat->cancel();
-}
-
-sub step {
-    unfill();
-    calculateNG();
-    fill();
-    
-    $canvas->update();
-}
-
+initializeArray();
+copyShapeInto(@gosper);
 drawGUI();
 MainLoop();
-#while (1) {
-    #system("clear");
-    #calculateNG();
-    #printGeneration(@current)
-
-    #sleep 1;
-#}
