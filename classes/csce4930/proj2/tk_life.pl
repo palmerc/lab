@@ -65,6 +65,7 @@ my $size = 15;
 my $canvas;
 my $repeat;
 my $main;
+my $generation_counter;
 
 # Rules to Conway's Game of Life
 # Survivals - Every counter with two or three neighbors survives for the next 
@@ -152,6 +153,7 @@ sub stop {
 
 sub step {
     unfill();
+    generation_counter++;
     calculateNG();
     fill();
     
@@ -159,6 +161,7 @@ sub step {
 }
 
 sub initializeArray {
+    generation_counter = 0;
     # Initialize the default array
     for (my $x = 0; $x < $xMax; $x++) {
         for (my $y = 0; $y < $yMax; $y++) {
@@ -240,7 +243,6 @@ sub drawGUI {
                 -command=> \&about_txt);
                 
     gridDraw();
-
 }
 
 sub gridDraw {
@@ -270,6 +272,8 @@ sub gridDraw {
                  
     # Fill in the starting pattern.
     fill($canvas);
+    my $status_bar = $main->Label(-background => 'grey')->pack();
+    $status_bar->configure(-text => "Generation: $generation_counter");
 }
 
 sub shape_dialog {
