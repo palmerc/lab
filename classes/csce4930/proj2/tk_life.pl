@@ -60,12 +60,13 @@ my @cameron = ( [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 
 my @current;
 my @next;
-my ($xMax, $yMax) = (60, 60);
+my ($colsMax, $rowsMax) = (60, 60);
 my $size = 15;
 my $canvas;
 my $repeat;
 my $main;
 my $generation_counter;
+my $status_bar;
 
 # Rules to Conway's Game of Life
 # Survivals - Every counter with two or three neighbors survives for the next 
@@ -79,60 +80,60 @@ my $generation_counter;
 
 sub calculateNG {
     @next = ();
-    for (my $x = 0; $x < $xMax; $x++) {
-        for (my $y = 0; $y < $yMax; $y++) {
+    for (my $rows = 0; $rows < $rowsMax; $rows++) {
+        for (my $cols = 0; $cols < $colsMax; $cols++) {
             # Who are the people in your neighborhood?
             my $neighbors = 0;
-            my $cell = $current[$x][$y];
-            # print "X->$x, Y->$y\n";
+            my $cell = $current[$cols][$rows];
+            #print "X->$cols, Y->$rows\n";
             # North -> y-1
-            if (($y-1 >= 0) && ($current[$x][$y-1] == 1)) {
+            if (($rows-1 >= 0) && ($current[$cols][$rows-1] == 1)) {
                 $neighbors++;
             }
             # Northeast -> x+1, y-1
-            if (($x+1 < $xMax) && ($y-1 >= 0) && ($current[$x+1][$y-1] == 1)) {
+            if (($cols+1 < $colsMax) && ($rows-1 >= 0) && ($current[$cols+1][$rows-1] == 1)) {
                 $neighbors++;
             }
             # East -> x+1
-            if (($x+1 < $xMax) && ($current[$x+1][$y] == 1)) {
+            if (($cols+1 < $colsMax) && ($current[$cols+1][$rows] == 1)) {
                 $neighbors++;
             }
             # Southeast -> x+1, y+1
-            if (($x+1 < $xMax) && ($y+1 < $yMax) && ($current[$x+1][$y+1] == 1)) {
+            if (($cols+1 < $colsMax) && ($rows+1 < $rowsMax) && ($current[$cols+1][$rows+1] == 1)) {
                 $neighbors++;
             }
             # South -> y+1
-            if (($y+1 < $yMax) && ($current[$x][$y+1] == 1)) {
+            if (($rows+1 < $rowsMax) && ($current[$cols][$rows+1] == 1)) {
                 $neighbors++;
             }
             # Southwest -> x-1, y+1
-            if (($x-1 >= 0) && ($y+1 < $yMax) && ($current[$x-1][$y+1] == 1)) {
+            if (($cols-1 >= 0) && ($rows+1 < $rowsMax) && ($current[$cols-1][$rows+1] == 1)) {
                 $neighbors++;
             }
             # West -> x-1
-            if (($x-1 >= 0) && $current[$x-1][$y] == 1) {
+            if (($cols-1 >= 0) && $current[$cols-1][$rows] == 1) {
                 $neighbors++;
             }
             # Northwest -> x-1, y-1
-            if (($x-1 >= 0) && ($y-1 >= 0) && $current[$x-1][$y-1] == 1 ) {
+            if (($cols-1 >= 0) && ($rows-1 >= 0) && $current[$cols-1][$rows-1] == 1 ) {
                 $neighbors++;
             }
             
             
             # Surviors
             if ($cell == 1 && ($neighbors == 2 || $neighbors == 3)) {
-                $next[$x][$y] = 1;
+                $next[$cols][$rows] = 1;
             }
             # Babies
             elsif ($cell == 0 && $neighbors == 3) {
-                $next[$x][$y] = 1;
+                $next[$cols][$rows] = 1;
             }
             # Dirt
             elsif ($cell == 1 && ($neighbors <= 1 || $neighbors >= 4)) {
-                $next[$x][$y] = 0;
+                $next[$cols][$rows] = 0;
             }
             else {
-                $next[$x][$y] = 0;
+                $next[$cols][$rows] = 0;
             }
         }
     }
@@ -152,35 +153,36 @@ sub stop {
 }
 
 sub step {
+    $generation_counter++;
+    counterUpdate();
     unfill();
-    generation_counter++;
     calculateNG();
     fill();
-    
     $canvas->update();
+    $status_bar->update();
 }
 
-sub initializeArray {
-    generation_counter = 0;
+sub initializeArrays {
+    $generation_counter = 0;
     # Initialize the default array
-    for (my $x = 0; $x < $xMax; $x++) {
-        for (my $y = 0; $y < $yMax; $y++) {
-            $current[$x][$y] = 0;
+    for (my $rows = 0; $rows < $rowsMax; $rows++) {
+        for (my $cols = 0; $cols < $colsMax; $cols++) {
+            $current[$cols][$rows] = 0;
         }
     }    
 }
 
 sub copyShapeInto {
     my (@array) = @_;
-    my $rows = $#{$array[0]} + 1;
-    my $cols = $#array + 1;
+    my $y = $#array + 1;
+    my $x = $#{$array[0]} + 1;
     
-    my $centerx = ($xMax - $cols) / 2;
-    my $centery = ($yMax - $rows) / 2;
+    my $centerx = ($colsMax - $x) / 2;
+    my $centery = ($rowsMax - $y) / 2;
     
-    for (my $x = 0; $x < $cols; $x++) {
-        for (my $y = 0; $y < $rows; $y++) {
-            $current[$x+$centerx][$y+$centery] = $array[$x][$y];
+    for (my $rows = 0; $rows < $y; $rows++) {
+        for (my $cols = 0; $cols < $x; $cols++) {
+            $current[$cols+$centerx][$rows+$centery] = $array[$rows][$cols];
         }
     }    
 }
@@ -188,7 +190,8 @@ sub copyShapeInto {
 sub drawGUI {
     my $Version="1.0";
     
-    $main = new MainWindow;    
+    $main = new MainWindow;
+    #$main->resizable(0, 0);
     $main->title("Conway's Game of Life");
 
     my $menu_bar=$main->Frame(-relief=>'groove',
@@ -202,13 +205,13 @@ sub drawGUI {
                 -foreground=>'Black',
                 )->pack(-side=>'left');
 
-        $file_mb->command(-label=>'Run',
+        $file_mb->command(-label=>'Open',
                 -activebackground=>'grey',
-                -command=>\&run);
+                -command=>\&open_file);
         
-        $file_mb->command(-label=>'Stop',
+        $file_mb->command(-label=>'Save',
                 -activebackground=>'grey',
-                -command=>\&stop);
+                -command=>\&save_file);
         
         $file_mb->command(-label=>'To PostScript',
                 -activebackground=>'grey',
@@ -231,6 +234,25 @@ sub drawGUI {
         $edit_mb->command(-label=>'Shape',
                 -activebackground=>'grey',
                 -command=> \&shape_dialog);
+        $edit_mb->command(-label=>'Clear Screen',
+                -activebackground=>'grey',
+                -command=> \&clr_screen);
+    
+    my $run_mb=$menu_bar->Menubutton(-text=>'Run',
+                -background=>'grey',
+                -activebackground=>'grey',
+                -foreground=>'Black',
+                )->pack(-side=>'left');
+        
+        $run_mb->command(-label=>'Start',
+                -activebackground=>'grey',
+                -command=>\&run);
+        
+        $run_mb->command(-label=>'Stop',
+                -activebackground=>'grey',
+                -command=>\&stop);
+
+
 
     my $help_mb=$menu_bar->Menubutton(-text=>'Help',
                 -background=>'grey',
@@ -243,6 +265,8 @@ sub drawGUI {
                 -command=> \&about_txt);
                 
     gridDraw();
+    $status_bar = $main->Label()->pack(-side => 'bottom', -anchor => 'w');
+    counterUpdate();
 }
 
 sub gridDraw {
@@ -251,28 +275,52 @@ sub gridDraw {
     }
     
     $canvas = $main->Canvas(-bg => 'grey',
-         -width  => $yMax * $size,
-         -height => $xMax * $size,
+         -width  => $colsMax * $size,
+         -height => $rowsMax * $size,
         )->pack(qw/-side top -fill both/);
+    
+    $canvas->CanvasBind("<1>"=> sub {
+        my ($x, $y) = ($Tk::event->x, $Tk::event->y);
+        #print "loc $x-$y\n";
+        my $cols = int($x / $size);
+        my $rows = int($y / $size);
+        
+        if ($current[$cols][$rows] == 0) {
+            #print "create $cols-$rows\n";
+            $canvas->createRectangle($cols * $size, $rows * $size,
+                    ($cols + 1) * $size, ($rows + 1) * $size,
+                    -tags => "$cols-$rows",
+                    -fill => 'red');
+            $current[$cols][$rows] = 1;
+        } elsif ($current[$cols][$rows] == 1) {
+            #print "DELETE $cols-$rows\n";
+            $canvas->delete("$cols-$rows");
+            $canvas->update();
+            $current[$cols][$rows] = 0;
+        }    
+        #print "array value $current[$cols][$rows]\n";
+    });
 
     # Draw the grid.
-    for my $i (0 .. $xMax) {
+    for my $i (0 .. $colsMax) {
         $canvas-> createLine(0, $i * $size,
-		       $yMax * $size, $i * $size,
+		       $rowsMax * $size, $i * $size,
 		       -fill =>  'white',
 		      );
     }
 
-    for my $i (0 .. $yMax) {
+    for my $i (0 .. $rowsMax) {
         $canvas->createLine($i * $size, 0,
-		       $i * $size, $xMax * $size,
+		       $i * $size, $colsMax * $size,
 		       -fill =>  'white',
 		      );
     }
                  
     # Fill in the starting pattern.
     fill($canvas);
-    my $status_bar = $main->Label(-background => 'grey')->pack();
+}
+
+sub counterUpdate {       
     $status_bar->configure(-text => "Generation: $generation_counter");
 }
 
@@ -297,7 +345,7 @@ sub shape_dialog {
     my $button = $popup->Show();
     
     if ($button eq "OK") {
-        initializeArray();
+        initializeArrays();
         if ($shape eq "cameron") {
             copyShapeInto(@cameron);
         } elsif ($shape eq "gosper") {
@@ -313,6 +361,7 @@ sub shape_dialog {
         }
             
         gridDraw();
+        counterUpdate();
     }
 }
 
@@ -333,6 +382,68 @@ sub postit {
     }
 }
 
+sub open_file {
+    initializeArrays();
+    my @pixels;
+    
+    my $popup=$main->DialogBox(-title=>"Open Game", -background => 'grey',
+            -buttons=>["OK", "Cancel"],);
+    my $right1 = $popup->Frame(-background => 'grey')->pack(-side => 'left', -pady => 2, -padx => 2);
+    my $des1 = $right1->Label(-text => 'File name', -background => 'grey', -pady => 4)->pack();
+    my $right2 = $popup->Frame(-background => 'grey')->pack(-side => 'left', -pady => 2, -padx => 2);
+    my $ent0 = $right2->Entry(-width => 15)->pack(-anchor=>'n',-fill=>'x');
+    
+    my $button = $popup->Show();
+    
+    if ($button eq "OK") {
+        my ($rows, $cols);
+        my $file = $ent0->get();
+        
+        open(FH, "<$file");
+        my $line_number = 0;
+        foreach my $line (<FH>) {
+            @pixels = split ',', $line;
+            my $pixel_number = 0;
+            foreach my $el (@pixels) {
+                $current[$pixel_number][$line_number] = $el;
+                $pixel_number++;
+            }
+            $line_number++;
+        }
+        close FH;
+    }
+    gridDraw();
+}
+
+sub save_file {
+    my $popup=$main->DialogBox(-title=>"Save Game", -background => 'grey',
+            -buttons=>["OK", "Cancel"],);
+    my $right1 = $popup->Frame(-background => 'grey')->pack(-side => 'left', -pady => 2, -padx => 2);
+    my $des1 = $right1->Label(-text => 'File name', -background => 'grey', -pady => 4)->pack();
+    my $right2 = $popup->Frame(-background => 'grey')->pack(-side => 'left', -pady => 2, -padx => 2);
+    my $ent0 = $right2->Entry(-width => 15)->pack(-anchor=>'n',-fill=>'x');
+    
+    my $button = $popup->Show();
+    
+    if ($button eq "OK") {
+        my ($rows, $cols);
+        my $file = $ent0->get();
+        
+        open(FH, ">$file");
+        for ($rows = 0; $rows < $rowsMax; $rows++) {
+            for ($cols = 0; $cols < $colsMax; $cols++) {
+                if (($cols + 1) == $colsMax) {
+                    print FH "$current[$cols][$rows]\n";
+                } else {
+                    print FH "$current[$cols][$rows],";
+                }
+                
+            }
+        }
+        close FH;
+    }
+}
+
 sub about_txt {
   my $popup=$main->DialogBox(-title=>"About",
             -buttons=>["OK"],);
@@ -350,51 +461,56 @@ sub grid_dialog {
     my $right2 = $popup->Frame(-background => 'grey')->pack(-side => 'left', -pady => 2, -padx => 2);
     my $ent0 = $right2->Entry(-width => 5)->pack(-anchor=>'n',-fill=>'x');
     my $ent1 = $right2->Entry(-width => 5)->pack(-anchor=>'n',-fill=>'x');
-    $ent0->insert('end',$xMax);
-    $ent1->insert('end',$yMax);
+    $ent0->insert('end',$colsMax);
+    $ent1->insert('end',$rowsMax);
     my $button = $popup->Show;
   
     if ($button eq "OK") {
-        my $x = $ent0->get();
-        my $y = $ent1->get();
-        if ($x > 10 and $y > 10) {
-            $xMax = $x;
-            $yMax = $y;
-            initializeArray();
+        my $cols = $ent0->get();
+        my $rows = $ent1->get();
+        if ($cols > 10 and $rows > 10) {
+            $colsMax = $cols;
+            $rowsMax = $rows;
+            initializeArrays();
             gridDraw();
         }
     }
 }
 
+sub clr_screen {
+    initializeArrays();
+    gridDraw();
+}
+
 sub fill {
-    for (my $x = 0; $x < $xMax; $x++) {
-        for (my $y = 0; $y < $yMax; $y++) {
-            if ($current[$x][$y] == 1) {
+    for (my $rows = 0; $rows < $rowsMax; $rows++) {
+        for (my $cols = 0; $cols < $colsMax; $cols++) {
+            if ($current[$cols][$rows] == 1) {
                 $canvas->createRectangle(
-                    $y * $size, $x * $size,
-                    ($y + 1) * $size, ($x + 1) * $size,
+                    $cols * $size, $rows * $size,
+                    ($cols + 1) * $size, ($rows + 1) * $size,
                     -fill => 'red',
-                    -tags => "$x-$y",
-                    );
+                    -tags => "$cols-$rows",
+                );
             }
         }
     }
 }
 
 sub unfill {
-    for (my $x = 0; $x < $xMax; $x++) {
-        for (my $y = 0; $y < $yMax; $y++) {
-            if ($current[$x][$y] == 1) {
-                $canvas->delete("$x-$y");
+    for (my $rows = 0; $rows < $rowsMax; $rows++) {
+        for (my $cols = 0; $cols < $colsMax; $cols++) {
+            if ($current[$cols][$rows] == 1) {
+                $canvas->delete("$cols-$rows");
             }
         }
     }
 }
 
 ####
-#### Main
+#### Main Program
 ####
 
-initializeArray();
+initializeArrays();
 drawGUI();
 MainLoop();
