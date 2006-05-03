@@ -8,7 +8,6 @@
 
 const MAX_LINE = 256;
 char c = '\0'; /* Null Terminator */
-char *line;
 char *prompt;
 char *search_path;
 
@@ -20,25 +19,25 @@ void handle_signal(int sig)
 
 void substr(char *string, int start, int stop) {
     char *temp = malloc(sizeof(char) * (strlen(string) + 1));
-    int i = 0;
+          
+    printf("substr start=>%s<=\n", string);
     
     strncpy(temp, "\0", 1);
-    //printf("I was given ->%s\n", string);
-    
     if (strlen(string) < stop) {
         stop = strlen(string);
     }
     
-    //printf("Chars before stop %d\n", stop);
-    int j = 0;
+    int i = 0; /* The position of the start of the slice */
+    int j = 0; /* The position in the new string */
     for (i = start; i <= stop; i++) {
-        //printf("%c", string[i]);
         temp[j] = string[i];
         j++;
     }
-    bzero(string, strlen(string)+1);
-    strncpy(string, temp, stop);
-    //printf("Length of string %d\n", strlen(string));
+    strncpy(string, "\0", strlen(string) + 1);
+    strncpy(string, temp, (stop - start));
+    
+    printf("substr end=>%s<=\n", string);
+    
     free(temp);
 }
 
@@ -93,18 +92,57 @@ int profile_importer(char *prompt) {
     return 0;   
 }
 
+void parse_cl(char *line, char *env_argv) {
+    char *copy = line;
+    char temp[MAX_LINE + 1];
+    int start = 0;
+    int i = 0;
+    int j = 0;
+
+    strncpy(temp, line, strlen(copy));
+    //printf("parse_cl start=>%s\n", copy);
+    while (copy[i] != '\0') {
+        //printf("parse_cl loop =>%d\n", i);
+        if (copy[i] == ' ') {
+            //printf("parse_cl space =>%d\n", j);
+            substr(temp, start, i);
+            //strncat(temp, '\0', 1);
+            //strncpy(&env_argv[j], temp, strlen(temp));
+            
+            //printf("parse_cl argv =>%s<=\n", &env_argv[j]);
+            start = i + 1;
+            j++;
+        }
+        bzero(temp, strlen(copy));
+        strncpy(temp, copy, strlen(copy));
+        i++;
+    }
+    //printf("parse_cl final\n", j);
+    substr((char *)temp, start, i);
+    //strncat(temp, '\0', 1);
+    strncpy(&env_argv[j], temp, strlen(temp));
+    for (i=0; i < sizeof(&env_argv); i++)
+        printf("parse_cl argv[%d] =>%s<=\n", i, &env_argv[i]);
+    //printf("parse_cl end=>%s\n", temp);
+    //strncpy(&env_argv[j++], NULL, 1);   
+}
+
 int main()
 {
+    char line[MAX_LINE];
+    //char *line;
     char *tmp_path;
     prompt = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     search_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     tmp_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
 	signal(SIGINT, SIG_IGN);
 	signal(SIGINT, handle_signal);
-    line = (char *)malloc(sizeof(char) * (MAX_LINE + 1));    
+    //line = (char *)malloc(sizeof(char) * (MAX_LINE + 1));    
     pid_t pid, child_pid;
     int stat_val;
-    char *env_argv[]={ "ls", "-l", "-a", 0 };
+    //char env_argv[MAX_LINE];
+    char env_argv[100];
+    //env_argv = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     
     profile_importer(prompt);
     
@@ -121,32 +159,32 @@ int main()
     printf("%s", prompt);
     
     /* The main loop terminates on Ctrl-D */
-	while(c != EOF) {
-        c = getchar();
-        /* We need to store the characters until we receive a return */
-        switch (c) {
-            case '\n':
-                pid = fork();
-                switch(pid) {
-                    case -1:
-                        perror("fork() error");
-                        break;
-                    case 0:
-                        execvp(env_argv[0], env_argv);
-                        //printf("Exec Failure\n");
-                        exit(0);
-                        break;
-                    default:
-                        child_pid = wait(&stat_val);
-                        printf("%s", prompt);
-                        bzero(line, strlen(line));
-                        break;
-                }
-            default:
-                strncat(line, &c, 1);
-                break;
-        }
+	while(fgets(line, MAX_LINE, stdin) != NULL) {
+        char env_argv[MAX_LINE];
+        if (line[strlen(line) - 1] == '\n')
+            line[strlen(line) - 1] = '\0';
         
+        pid = fork();
+        switch(pid) {
+            case -1:
+                perror("fork() error");
+                break;
+            case 0:
+                bzero(env_argv, 100);
+                parse_cl(line, env_argv);
+                int i = 0;
+                //for (i=0; i < sizeof(env_argv); i++)
+                //    printf("parse_cl argv[%d] =>%s<=\n", i, env_argv[i]);
+                execlp(env_argv, env_argv, NULL);
+                //printf("Exec Failure\n");
+                exit(0);
+                break;
+            default:
+                if ((pid = waitpid(pid, &stat_val, 0)) < 0)
+                    perror("waitpid error");
+                printf("%s", prompt);
+                break;
+        }       
 	}
 	printf("\n");
     free(prompt);
