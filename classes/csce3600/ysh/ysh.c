@@ -6,7 +6,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-const MAX_LINE = 256;
+const size_t MAX_LINE = 256;
+pid_t waitpid(pid_t pid, int *status, int options);
 char c = '\0'; /* Null Terminator */
 char *prompt;
 char *search_path;
@@ -129,9 +130,10 @@ int main()
     prompt = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     search_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     tmp_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
-    pid_t pid, child_pid;
+    pid_t pid;
     int stat_val;
-    char *env_argv[100];
+    char **env_argv;
+    env_argv = (char**) malloc(sizeof(char *) * 100);
     size_t env_argv_len;
     
     signal(SIGINT, SIG_IGN);
@@ -151,7 +153,6 @@ int main()
     
     /* The main loop terminates on Ctrl-D */
 	while(fgets(line, MAX_LINE, stdin) != NULL) {
-        char env_argv[MAX_LINE];
         if (line[strlen(line) - 1] == '\n')
             line[strlen(line) - 1] = '\0';
         
@@ -163,8 +164,7 @@ int main()
                 perror("fork() error");
                 break;
             case 0:
-                int i = 0;
-                execlp(env_argv, env_argv, NULL);
+                execv(env_argv[0], env_argv);
                 exit(0);
                 break;
             default:
