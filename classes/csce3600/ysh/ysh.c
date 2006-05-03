@@ -19,31 +19,26 @@ void handle_signal(int sig)
 }
 
 void substr(char *string, int start, int stop) {
+    char *string_ptr = string;
     char *buf = malloc(sizeof(char) * (strlen(string) + 1));
     char *temp = buf;
           
     printf("substr start=>%s<=\n", string);
     
-    //strncpy(temp, "\0", 1);
-    bzero(temp, strlen(string) + 1);
-    //if (strlen(string) < stop) {
-    //    stop = strlen(string);
-    //}
-    
-    //int i = 0; /* The position of the start of the slice */
-    //int j = 0; /* The position in the new string */
-    //for (i = start; i <= stop; i++) {
-    string += start;
-    while ((*string != '\0') && (string < (string + stop)))
-        *temp++ = *string++;
-        //j++;
-    
-    strncat(temp, "\0", 1);
-    strncpy(string, temp, (stop - start));
+    bzero(buf, strlen(string) + 1);
+    string_ptr += start;
+    while ((*string_ptr != '\0') && (string < (string + stop)))
+        *buf++ = *string_ptr++;
+
+    *buf = '\0';
+    bzero(string, strlen(temp));
+    printf("length of temp %d\n", strlen(temp));
+    printf("string is %s\n", string);
+    strncpy(string, temp, strlen(temp));
     
     printf("substr end=>%s<=\n", string);
     
-    free(buf);
+    free(temp);
 }
 
 int profile_importer(char *prompt) {
@@ -51,7 +46,7 @@ int profile_importer(char *prompt) {
     char file_line[MAX_LINE+1];
     char delims[] = "=";
     char *result = NULL;
-    char single_quote[] = "\'";
+    char single_quote[] = { "\'" };
 
     /* fopen returns NULL if unable to open */
     in = fopen(".ysh_profile", "r");
@@ -72,17 +67,28 @@ int profile_importer(char *prompt) {
                 
                 start = strcspn(result, single_quote) + 1;
                 stop = strlen(result);
+                //printf("profile_importer result_in=>%s<=", result);
                 substr(result, start, stop);
+                //printf("profile_importer result_out=>%s<=", result);
+                
+                //printf("profile_importer stop %d\n", stop);
+                //printf("profile_importer result_in=>%s<=", result);
+
+                //printf("profile_importer result_out=>%s<=", result);
+                //printf("profile_importer=>%s<=\n", result);
                 
                 start = 0;
                 stop = strcspn(result, single_quote);
+                printf("quote found at position %d",stop);
+                printf("profile_importer result_in=>%s<=", result);
                 substr(result, start, stop);
+                printf("profile_importer result_out=>%s<=", result);
                 
-                strncpy(prompt, result, MAX_LINE);
+                strncpy(prompt, result, strlen(result));
             }
             if (strcmp(result, "PATH") == 0) {
                 result = strtok(NULL, delims);
-                strncpy(search_path, result, MAX_LINE);
+                strncpy(search_path, result, strlen(result));
             }
             result = strtok(NULL, delims);
         }
