@@ -23,18 +23,21 @@ void substr(char *string, int start, int stop) {
           
     printf("substr start=>%s<=\n", string);
     
-    strncpy(temp, "\0", 1);
-    if (strlen(string) < stop) {
-        stop = strlen(string);
-    }
+    //strncpy(temp, "\0", 1);
+    bzero(temp, strlen(string) + 1);
+    //if (strlen(string) < stop) {
+    //    stop = strlen(string);
+    //}
     
-    int i = 0; /* The position of the start of the slice */
-    int j = 0; /* The position in the new string */
-    for (i = start; i <= stop; i++) {
-        temp[j] = string[i];
-        j++;
-    }
-    strncpy(string, "\0", strlen(string) + 1);
+    //int i = 0; /* The position of the start of the slice */
+    //int j = 0; /* The position in the new string */
+    //for (i = start; i <= stop; i++) {
+    string += start;
+    while ((*string != '\0') && (string < (string + stop)))
+        *temp++ = *string++;
+        //j++;
+    
+    strncat(temp, "\0", 1);
     strncpy(string, temp, (stop - start));
     
     printf("substr end=>%s<=\n", string);
