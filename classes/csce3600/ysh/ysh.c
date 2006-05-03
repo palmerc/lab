@@ -118,7 +118,8 @@ void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
     strncpy(arg, temp, strlen(temp));
     env_argv[j] = arg;
     
-    for (i=0; i < sizeof(env_argv); i++)
+    *env_argv_len = j;
+    for (i=0; i < *env_argv_len; i++)
         printf("parse_cl argv[%d] =>%s<=\n", i, env_argv[i]);
 }
 
