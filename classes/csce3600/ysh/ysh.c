@@ -19,7 +19,8 @@ void handle_signal(int sig)
 }
 
 void substr(char *string, int start, int stop) {
-    char *temp = malloc(sizeof(char) * (strlen(string) + 1));
+    char *buf = malloc(sizeof(char) * (strlen(string) + 1));
+    char *temp = buf;
           
     printf("substr start=>%s<=\n", string);
     
@@ -42,7 +43,7 @@ void substr(char *string, int start, int stop) {
     
     printf("substr end=>%s<=\n", string);
     
-    free(temp);
+    free(buf);
 }
 
 int profile_importer(char *prompt) {
