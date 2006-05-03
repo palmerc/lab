@@ -126,19 +126,16 @@ int main()
     char line[MAX_LINE];
     //char *line;
     char *tmp_path;
-
     prompt = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     search_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     tmp_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
-
-	signal(SIGINT, SIG_IGN);
-	signal(SIGINT, handle_signal);
-
     pid_t pid, child_pid;
     int stat_val;
-
     char *env_argv[100];
     size_t env_argv_len;
+    
+    signal(SIGINT, SIG_IGN);
+	signal(SIGINT, handle_signal);
     
     profile_importer(prompt);
     char *env_envp[2];
