@@ -92,22 +92,27 @@ int profile_importer(char *prompt) {
     return 0;   
 }
 
-void parse_cl(char *line, char *env_argv) {
+void parse_cl(char *line, char **env_argv) {
     char *copy = line;
     char temp[MAX_LINE + 1];
+    char *temp_ptr = temp;
+    char *arg;
     int start = 0;
     int i = 0;
     int j = 0;
 
+    bzero(temp, MAX_LINE + 1);
     strncpy(temp, line, strlen(copy));
     //printf("parse_cl start=>%s\n", copy);
     while (copy[i] != '\0') {
         //printf("parse_cl loop =>%d\n", i);
         if (copy[i] == ' ') {
             //printf("parse_cl space =>%d\n", j);
-            substr(temp, start, i);
+            substr(temp_ptr, start, i);
             //strncat(temp, '\0', 1);
-            //strncpy(&env_argv[j], temp, strlen(temp));
+            arg = (char *)malloc(sizeof(char) * strlen(temp));
+            strncpy(arg, temp, strlen(temp));
+            env_argv[j] = arg;
             
             //printf("parse_cl argv =>%s<=\n", &env_argv[j]);
             start = i + 1;
@@ -118,9 +123,12 @@ void parse_cl(char *line, char *env_argv) {
         i++;
     }
     //printf("parse_cl final\n", j);
-    substr((char *)temp, start, i);
-    //strncat(temp, '\0', 1);
-    strncpy(&env_argv[j], temp, strlen(temp));
+    substr(temp_ptr, start, strlen(copy));
+    arg = (char *)malloc(sizeof(char) * strlen(temp));
+    strncpy(arg, temp, strlen(temp));
+    env_argv[j] = arg;
+    
+    //strncpy(&env_argv[j], temp_ptr, strlen(temp));
     for (i=0; i < sizeof(&env_argv); i++)
         printf("parse_cl argv[%d] =>%s<=\n", i, &env_argv[i]);
     //printf("parse_cl end=>%s\n", temp);
@@ -141,7 +149,7 @@ int main()
     pid_t pid, child_pid;
     int stat_val;
     //char env_argv[MAX_LINE];
-    char env_argv[100];
+    char *env_argv[100];
     //env_argv = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     
     profile_importer(prompt);
