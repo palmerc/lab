@@ -14,8 +14,8 @@ char *search_path;
 
 void handle_signal(int sig)
 {
-	printf("\nCaught signal %d\n%s", sig, prompt);
-	fflush(stdout);
+	//printf("\nCaught signal %d\n%s", sig, prompt);
+	//fflush(stdout);
 }
 
 void substr(char *string, int start, int stop) {
@@ -23,7 +23,6 @@ void substr(char *string, int start, int stop) {
     char *buf = malloc(sizeof(char) * (strlen(string) + 1));
     char *buf_temp = buf;
           
-    //bzero(buf, strlen(string) + 1);
     string += start;
     while ((*string != '\0') && (string <= (string_ptr + stop)))
         *buf++ = *string++;
@@ -81,39 +80,39 @@ int profile_importer(char *prompt) {
 }
 
 void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
-    char *copy = line;
-    char temp[MAX_LINE + 1];
-    char *temp_ptr = temp;
+    char buf[MAX_LINE + 1];
     char *arg;
-    int start = 0;
+
+    strncpy(buf, line, strlen(line));
+
     int i = 0;
     int j = 0;
-
-    bzero(temp, MAX_LINE + 1);
-    strncpy(temp, line, strlen(copy));
-
-    while (copy[i] != '\0') {
-        if (copy[i] == ' ') {
-            substr(temp_ptr, start, i);
-            arg = (char *)malloc(sizeof(char) * strlen(temp));
-            strncpy(arg, temp, strlen(temp));
-            env_argv[j] = arg;
-            
-            start = i + 1;
-            j++;
+    int start = 0;
+    while (buf[i] != '\0') {
+        if (buf[i] == ' ') {
+            substr(buf, start, i-1);
+            if (strlen(buf) > 0) {
+                arg = (char *)malloc(sizeof(char) * strlen(buf)+1);
+                strncpy(arg, buf, strlen(buf));
+                env_argv[j] = arg;
+                j++;
+            }
+            start = i+1;
         }
-        bzero(temp, strlen(copy));
-        strncpy(temp, copy, strlen(copy));
+        strncpy(buf, line, strlen(line));
         i++;
     }
-    substr(temp_ptr, start, strlen(copy));
-    arg = (char *)malloc(sizeof(char) * strlen(temp));
-    strncpy(arg, temp, strlen(temp));
-    env_argv[j] = arg;
-    
+    //printf("start %d\n", start);
+    substr(buf, start, strlen(line)-1);
+    //printf("buf %s\n", buf);
+    if (strlen(buf) > 0) {
+        arg = (char *)malloc(sizeof(char) * strlen(buf)+1);
+        strncpy(arg, buf, strlen(buf));
+        env_argv[j] = arg;
+        j++;
+    }
+    //printf("variables %d\n", j);
     *env_argv_len = j;
-    for (i=0; i < *env_argv_len; i++)
-        printf("parse_cl argv[%d] =>%s<=\n", i, env_argv[i]);
 }
 
 int main()
