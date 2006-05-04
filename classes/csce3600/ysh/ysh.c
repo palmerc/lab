@@ -21,24 +21,18 @@ void handle_signal(int sig)
 void substr(char *string, int start, int stop) {
     char *string_ptr = string;
     char *buf = malloc(sizeof(char) * (strlen(string) + 1));
-    char *temp = buf;
+    char *buf_temp = buf;
           
-    printf("substr start=>%s<=\n", string);
-    
-    bzero(buf, strlen(string) + 1);
-    string_ptr += start;
-    while ((*string_ptr != '\0') && (string < (string + stop)))
-        *buf++ = *string_ptr++;
+    //bzero(buf, strlen(string) + 1);
+    string += start;
+    while ((*string != '\0') && (string <= (string_ptr + stop)))
+        *buf++ = *string++;
 
     *buf = '\0';
-    bzero(string, strlen(temp));
-    printf("length of temp %d\n", strlen(temp));
-    printf("string is %s\n", string);
-    strncpy(string, temp, strlen(temp));
-    
-    printf("substr end=>%s<=\n", string);
-    
-    free(temp);
+    bzero(string_ptr, strlen(buf_temp) + 1);
+    strncpy(string_ptr, buf_temp, strlen(buf_temp));
+       
+    free(buf_temp);
 }
 
 int profile_importer(char *prompt) {
@@ -67,23 +61,12 @@ int profile_importer(char *prompt) {
                 
                 start = strcspn(result, single_quote) + 1;
                 stop = strlen(result);
-                //printf("profile_importer result_in=>%s<=", result);
                 substr(result, start, stop);
-                //printf("profile_importer result_out=>%s<=", result);
-                
-                //printf("profile_importer stop %d\n", stop);
-                //printf("profile_importer result_in=>%s<=", result);
-
-                //printf("profile_importer result_out=>%s<=", result);
-                //printf("profile_importer=>%s<=\n", result);
-                
+               
                 start = 0;
-                stop = strcspn(result, single_quote);
-                printf("quote found at position %d",stop);
-                printf("profile_importer result_in=>%s<=", result);
+                stop = strcspn(result, single_quote) - 1;
                 substr(result, start, stop);
-                printf("profile_importer result_out=>%s<=", result);
-                
+               
                 strncpy(prompt, result, strlen(result));
             }
             if (strcmp(result, "PATH") == 0) {
