@@ -3,6 +3,9 @@
 #include <unistd.h>
 #include <string.h>
 
+/* This function wants to provide string slices */
+/* Coded by Cameron L Palmer, student */
+/* Based in part on a conversation with Dr. Phil Sweany, UNT */
 void substr(char *string, int start, int stop) {
     char *string_ptr = string;
     char *buf = malloc(sizeof(char) * (strlen(string) + 1));
@@ -21,6 +24,7 @@ void substr(char *string, int start, int stop) {
 }
 
 int main() {
+    /* Yes these are pointers */
     char string1[] = {"0123456789"};
     char string2[] = {"0123456789"};
     char string3[] = {"0123456789"};
