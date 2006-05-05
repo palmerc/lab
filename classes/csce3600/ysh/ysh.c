@@ -11,6 +11,7 @@ const size_t MAX_LINE = 256;
 char *prompt;
 char *search_path;
 
+/* function prototype */
 pid_t waitpid(pid_t pid, int *status, int options);
 void substr(char *string, int start, int stop);
 
@@ -21,7 +22,7 @@ void handle_signal(int sig)
 	//fflush(stdout);
 }
 
-int profile_importer(char *prompt) {
+int profile_importer(char *prompt, char *search_path) {
     FILE *in;
     char file_line[MAX_LINE+1];
     char delims[] = "=";
@@ -38,6 +39,9 @@ int profile_importer(char *prompt) {
     
     /* fgets returns a null pointer when it encounters EOF */
     while ((fgets(file_line, MAX_LINE, in)) != NULL) {
+        if (file_line[strlen(file_line) - 1] == '\n')
+            file_line[strlen(file_line) - 1] = '\0';
+        
         result = strtok(file_line, delims);
         while (result != NULL) {
             int start = 0;
@@ -53,11 +57,13 @@ int profile_importer(char *prompt) {
                 stop = strcspn(result, single_quote) - 1;
                 substr(result, start, stop);
                
-                strncpy(prompt, result, strlen(result));
+                prompt = (char *)malloc(sizeof(char) * (strlen(result) + 1));
+                strcpy(prompt, result);
             }
             if (strcmp(result, "PATH") == 0) {
                 result = strtok(NULL, delims);
-                strncpy(search_path, result, strlen(result));
+                search_path = (char *)malloc(sizeof(char) * (strlen(result) + 1));
+                strcpy(search_path, result);
             }
             result = strtok(NULL, delims);
         }
@@ -83,7 +89,6 @@ void substr(char *string, int start, int stop) {
 
 void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
     char *buf = malloc(sizeof(char) * (strlen(line) + 1));
-    
     char *arg;
 
     strcpy(buf, line);
@@ -117,16 +122,19 @@ void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
     free(buf);
 }
 
-void path_finder(char *prog_name) {
-    stat(
+void path_finder(char *search_path, char *prog_name) {
+    struct stat buf;
+    //char *ptr;
+    
+    printf("%s\n", search_path);
+    stat(prog_name, &buf);
+    if (S_ISREG(buf.st_mode))
+        printf("%s\n", (char *)buf.st_mode);
+        //return pathname;
 }
 
 int main()
 {
-    char *tmp_path;
-    prompt = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
-    search_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
-    tmp_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     pid_t pid;
     int stat_val;
     
@@ -136,18 +144,8 @@ int main()
     char **env_argv;
     env_argv = (char**) malloc(sizeof(char *) * MAX_LINE);
     
-	signal(SIGINT, handle_signal);
+    profile_importer(prompt, search_path);
     
-    profile_importer(prompt);
-    char *env_envp[2];
-    bzero(env_envp, sizeof(char) * 2);
-    
-    strcat(tmp_path, "PATH=");
-    strcat(tmp_path, search_path);
-    strcat(search_path, tmp_path);
-    free(tmp_path);
-    env_envp[0] = search_path;
-    env_envp[1] = 0;
     printf("%s", prompt);
     
     /* The main loop terminates on Ctrl-D */
@@ -163,7 +161,7 @@ int main()
                 perror("fork() error");
                 break;
             case 0:
-                path_finder(env_argv[0]);
+                path_finder(search_path, env_argv[0]);
                 execv(env_argv[0], env_argv);
                 int arg_index;
                 for (arg_index=0; arg_index < env_argv_len; arg_index++)
@@ -179,5 +177,6 @@ int main()
 	}
 	printf("\n");
     free(prompt);
+    free(search_path);
 	return 0;
 }
