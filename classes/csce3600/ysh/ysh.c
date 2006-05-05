@@ -5,33 +5,20 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <wait.h>
 
 const size_t MAX_LINE = 256;
-pid_t waitpid(pid_t pid, int *status, int options);
-char c = '\0'; /* Null Terminator */
 char *prompt;
 char *search_path;
+
+pid_t waitpid(pid_t pid, int *status, int options);
+void substr(char *string, int start, int stop);
+
 
 void handle_signal(int sig)
 {
 	//printf("\nCaught signal %d\n%s", sig, prompt);
 	//fflush(stdout);
-}
-
-void substr(char *string, int start, int stop) {
-    char *string_ptr = string;
-    char *buf = malloc(sizeof(char) * (strlen(string) + 1));
-    char *buf_temp = buf;
-          
-    string += start;
-    while ((*string != '\0') && (string <= (string_ptr + stop)))
-        *buf++ = *string++;
-
-    *buf = '\0';
-    bzero(string_ptr, strlen(buf_temp) + 1);
-    strncpy(string_ptr, buf_temp, strlen(buf_temp));
-       
-    free(buf_temp);
 }
 
 int profile_importer(char *prompt) {
@@ -79,12 +66,28 @@ int profile_importer(char *prompt) {
     return 0;   
 }
 
+void substr(char *string, int start, int stop) {
+    char *string_ptr = string;
+    char *buf = malloc(sizeof(char) * (strlen(string) + 1));
+    char *buf_temp = buf;
+          
+    string += start;
+    while ((*string != '\0') && (string <= (string_ptr + stop)))
+        *buf++ = *string++;
+
+    *buf = '\0';
+    strcpy(string_ptr, buf_temp);
+       
+    free(buf_temp);
+}
+
 void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
-    char buf[MAX_LINE + 1];
+    char *buf = malloc(sizeof(char) * (strlen(line) + 1));
+    
     char *arg;
 
-    strncpy(buf, line, strlen(line));
-
+    strcpy(buf, line);
+    
     int i = 0;
     int j = 0;
     int start = 0;
@@ -93,43 +96,46 @@ void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
             substr(buf, start, i-1);
             if (strlen(buf) > 0) {
                 arg = (char *)malloc(sizeof(char) * strlen(buf)+1);
-                strncpy(arg, buf, strlen(buf));
+                strcpy(arg, buf);
                 env_argv[j] = arg;
                 j++;
             }
             start = i+1;
         }
-        strncpy(buf, line, strlen(line));
+        strcpy(buf, line);
         i++;
     }
-    //printf("start %d\n", start);
     substr(buf, start, strlen(line)-1);
-    //printf("buf %s\n", buf);
     if (strlen(buf) > 0) {
         arg = (char *)malloc(sizeof(char) * strlen(buf)+1);
-        strncpy(arg, buf, strlen(buf));
+        strcpy(arg, buf);
         env_argv[j] = arg;
         j++;
     }
-    //printf("variables %d\n", j);
+    env_argv[j] = NULL;
     *env_argv_len = j;
+    free(buf);
+}
+
+void path_finder(char *prog_name) {
+    stat(
 }
 
 int main()
 {
-    char line[MAX_LINE];
-    //char *line;
     char *tmp_path;
     prompt = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     search_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     tmp_path = (char *)malloc(sizeof(char) * (MAX_LINE + 1));
     pid_t pid;
     int stat_val;
-    char **env_argv;
-    env_argv = (char**) malloc(sizeof(char *) * 100);
-    size_t env_argv_len;
     
-    signal(SIGINT, SIG_IGN);
+    char line[MAX_LINE];
+
+    size_t env_argv_len;
+    char **env_argv;
+    env_argv = (char**) malloc(sizeof(char *) * MAX_LINE);
+    
 	signal(SIGINT, handle_signal);
     
     profile_importer(prompt);
@@ -157,7 +163,11 @@ int main()
                 perror("fork() error");
                 break;
             case 0:
+                path_finder(env_argv[0]);
                 execv(env_argv[0], env_argv);
+                int arg_index;
+                for (arg_index=0; arg_index < env_argv_len; arg_index++)
+                    free(env_argv[arg_index]);
                 exit(0);
                 break;
             default:

@@ -21,9 +21,11 @@ void substr(char *string, int start, int stop) {
 }
 
 void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
-    char buf[MAX_LINE + 1];
+    char *buf = malloc(sizeof(char) * (strlen(line) + 1));
+    
     char *arg;
 
+    //bzero(buf, MAX_LINE+1);
     strncpy(buf, line, strlen(line));
 
     int i = 0;
@@ -34,13 +36,13 @@ void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
             substr(buf, start, i-1);
             if (strlen(buf) > 0) {
                 arg = (char *)malloc(sizeof(char) * strlen(buf)+1);
-                strncpy(arg, buf, strlen(buf));
+                strncpy(arg, buf, strlen(buf)+1);
                 env_argv[j] = arg;
                 j++;
             }
             start = i+1;
+            strncpy(buf, line, strlen(line));
         }
-        strncpy(buf, line, strlen(line));
         i++;
     }
     //printf("start %d\n", start);
@@ -54,6 +56,7 @@ void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
     }
     //printf("variables %d\n", j);
     *env_argv_len = j;
+    free(buf);
 }
 
 int main() {
@@ -61,10 +64,13 @@ int main() {
     char **env_argv;
     env_argv = (char**) malloc(sizeof(char *) * MAX_LINE);
     
-    char string1[] = {"ls -la cameron.c"};
-    char string2[] = {"0 1 2 3 4 5 6 7 8 9\n"};
-    char string3[] = {"0 1 2 3 4 5 6 7 8 9 "};
-    char string4[] = {" 0 1 2 3 4 5 6 7 8 9"};
+    char string3[] = {"ls -la cameron.c\n\0"};
+    char string4[] = {"1 2 cameron is here today and would like this to break again\n"};
+    //char string2[] = {"0 1 2 3 4 5 6 7 8 9\n"};
+    char string1[] = {"/bin/gzcat\n"};
+    //char string3[] = {"0 1 2 3 4 5 6 7 8 9 "};
+    //char string4[] = {" 0 1 2 3 4 5 6 7 8 9"};
+    char string2[] = {"/bin/zcat ysh.tar.gz"};
     char string5[] = {"I  double  space   triple single cameronpalmer"};
     
     int i;
