@@ -13,7 +13,7 @@ const size_t MAX_LINE = 256;
 pid_t waitpid(pid_t pid, int *status, int options);
 void substr(char *string, int start, int stop);
 
-int profile_importer(char *prompt, char *search_path) {
+int profile_importer(char **prompt, char *search_path) {
     FILE *in;
     char file_line[MAX_LINE+1];
     char *result = NULL;
@@ -48,8 +48,8 @@ int profile_importer(char *prompt, char *search_path) {
                 stop = strcspn(result, single_quote) - 1;
                 substr(result, start, stop);
                
-                prompt = (char *)malloc(sizeof(char) * (strlen(result) + 1));
-                strcpy(prompt, result);
+                *prompt = (char *)malloc(sizeof(char) * (strlen(result) + 1));
+                strcpy(*prompt, result);
             }
             if (strcmp(result, "PATH") == 0) {
                 result = strtok(NULL, delims);
@@ -137,7 +137,7 @@ int main()
     char **env_argv;
     env_argv = (char**) malloc(sizeof(char *) * MAX_LINE);
     
-    profile_importer(prompt, search_path);
+    profile_importer(&prompt, search_path);
     
     printf("%s", prompt);
     
