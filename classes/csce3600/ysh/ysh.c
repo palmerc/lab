@@ -8,19 +8,10 @@
 #include <wait.h>
 
 const size_t MAX_LINE = 256;
-char *prompt;
-char *search_path;
 
 /* function prototype */
 pid_t waitpid(pid_t pid, int *status, int options);
 void substr(char *string, int start, int stop);
-
-
-void handle_signal(int sig)
-{
-	//printf("\nCaught signal %d\n%s", sig, prompt);
-	//fflush(stdout);
-}
 
 int profile_importer(char *prompt, char *search_path) {
     FILE *in;
@@ -135,6 +126,8 @@ void path_finder(char *search_path, char *prog_name) {
 
 int main()
 {
+    char *prompt;
+    char *search_path;
     pid_t pid;
     int stat_val;
     
