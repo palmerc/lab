@@ -115,13 +115,25 @@ void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
 
 void path_finder(char *search_path, char *prog_name) {
     struct stat buf;
-    //char *ptr;
-    
-    printf("%s\n", search_path);
-    stat(prog_name, &buf);
-    //if (S_ISREG(buf.st_mode))
-        //printf("%s\n", (char *)buf.st_mode);
-        //return pathname;
+    char delims[] = { ":" };
+    char *prefix = NULL;
+    char temp[MAX_LINE];
+     
+    if ((prog_name[0] != '/') && (prog_name[0] != '.')) {
+        prefix = strtok(search_path, delims);
+        while (prefix != NULL) {
+            strcpy(temp, prefix);
+            strcat(temp, "/");
+            strcat(temp, prog_name);
+            stat(temp, &buf);    
+            if (S_ISREG(buf.st_mode)) {
+                realloc(prog_name, strlen(temp)+1);
+                strcpy(prog_name, temp);
+                break;
+            }
+            prefix = strtok(NULL, delims);     
+        }
+    }
 }
 
 int main()
