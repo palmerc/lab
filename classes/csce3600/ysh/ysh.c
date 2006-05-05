@@ -16,8 +16,8 @@ void substr(char *string, int start, int stop);
 int profile_importer(char *prompt, char *search_path) {
     FILE *in;
     char file_line[MAX_LINE+1];
-    char delims[] = "=";
     char *result = NULL;
+    char delims[] = { "=" };
     char single_quote[] = { "\'" };
 
     /* fopen returns NULL if unable to open */
