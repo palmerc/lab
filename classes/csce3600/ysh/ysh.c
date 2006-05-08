@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <wait.h>
+#include <sys/param.h>
 
 const size_t MAX_LINE = 256;
 
@@ -81,7 +82,8 @@ void substr(char *string, int start, int stop) {
 void parse_cl(char *line, char **env_argv, size_t *env_argv_len) {
     char *buf = malloc(sizeof(char) * (strlen(line) + 1));
     char *arg;
-
+    *env_argv_len = 0;
+    
     strcpy(buf, line);
     
     int i = 0;
@@ -149,6 +151,8 @@ int main()
     char **env_argv;
     env_argv = (char**) malloc(sizeof(char *) * MAX_LINE);
     
+    /* Ignore Ctrl-C */
+    signal(SIGINT, SIG_IGN);
     profile_importer(&prompt, &search_path);
     
     printf("%s", prompt);
