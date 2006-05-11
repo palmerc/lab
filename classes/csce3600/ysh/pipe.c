@@ -48,7 +48,7 @@ int main() {
                 perror("dup2 error to stdin");
             close(fd[0]);
         }
-        while((n=read(fd[0], line, MAXLINE)) > 0)
+        while((n=read(STDIN_FILENO, line, MAXLINE)) > 0)
             write(STDOUT_FILENO, line, n);
         execl("/bin/wc","wc","-l",(char *)0);
         
