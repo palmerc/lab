@@ -7,7 +7,7 @@
 const int MAXLINE = 4096;
 
 /* This program handles pipes and redirection */
-
+/* You may need to adjust the paths for ps and wc */
 int main() {
     //int n;
     int fd[2];
@@ -55,7 +55,7 @@ int main() {
         }
         //while((n=read(STDIN_FILENO, line, MAXLINE)) > 0)
         //    write(STDOUT_FILENO, line, n);
-        execl("/bin/wc","wc","-l",(char *)0);
+        execl("/usr/bin/wc","wc","-l",(char *)0);
         
         exit(0);
     }
