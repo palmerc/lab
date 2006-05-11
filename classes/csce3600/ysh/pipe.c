@@ -9,11 +9,11 @@ const int MAXLINE = 4096;
 /* This program handles pipes and redirection */
 
 int main() {
-    int n;
+    //int n;
     int fd[2];
     int stat_val;
     pid_t pid;
-    char line[MAXLINE];
+    //char line[MAXLINE];
     
     /* Before calling fork we create the pipe */
     if (pipe(fd) < 0)
@@ -33,7 +33,12 @@ int main() {
     
     if (pid == 0) {
         close(fd[0]); /* Close the read end */
+        //if (fd[1] != STDOUT_FILENO) {
+        if (dup2(fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+            perror("dup2 error to stdout");
         dup2(fd[1], STDOUT_FILENO);
+        close(fd[1]);
+        //}
         execl("/bin/ps","ps","auxw",(char *)0);
         exit(0);
     }
@@ -48,8 +53,8 @@ int main() {
                 perror("dup2 error to stdin");
             close(fd[0]);
         }
-        while((n=read(STDIN_FILENO, line, MAXLINE)) > 0)
-            write(STDOUT_FILENO, line, n);
+        //while((n=read(STDIN_FILENO, line, MAXLINE)) > 0)
+        //    write(STDOUT_FILENO, line, n);
         execl("/bin/wc","wc","-l",(char *)0);
         
         exit(0);
