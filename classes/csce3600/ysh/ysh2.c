@@ -108,7 +108,7 @@ void parse_cl(char *line, str_t **env_argv, size_t *env_argv_len) {
     }
     substr(buf, start, strlen(line)-1);
     if (strlen(buf) > 0) {
-        arg = (char *)malloc(sizeof(char) * strlen(buf)+1);
+        arg = (char *)malloc(sizeof(char) * (strlen(buf)+1));
         strcpy(arg, buf);
         pipe_argv[j] = arg;
         j++;
