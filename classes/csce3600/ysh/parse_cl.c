@@ -14,8 +14,8 @@ void substr(char *string, int start, int stop) {
         *buf++ = *string++;
 
     *buf = '\0';
-    bzero(string_ptr, strlen(buf_temp) + 1);
-    strncpy(string_ptr, buf_temp, strlen(buf_temp));
+    //bzero(string_ptr, strlen(buf_temp) + 1);
+    strncpy(string_ptr, buf_temp, strlen(buf_temp)+1);
        
     free(buf_temp);
 }
