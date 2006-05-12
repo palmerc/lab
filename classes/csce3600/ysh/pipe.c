@@ -27,22 +27,23 @@ int main() {
     fcntl(fd[0], F_SETFD, readflags);
     fcntl(fd[1], F_SETFD, writeflags);
     
-    /* We fork the child */
+    /* We fork the sender child */
     if ((pid=fork()) < 0)
         perror("fork error");
     
     if (pid == 0) {
         close(fd[0]); /* Close the read end */
-        //if (fd[1] != STDOUT_FILENO) {
+        if (fd[1] != STDOUT_FILENO) {
         if (dup2(fd[1], STDOUT_FILENO) != STDOUT_FILENO)
             perror("dup2 error to stdout");
         dup2(fd[1], STDOUT_FILENO);
         close(fd[1]);
-        //}
+        }
         execl("/bin/ps","ps","auxw",(char *)0);
         exit(0);
     }
     
+    /* We fork the receiver child */
     if ((pid=fork()) < 0)
         perror("fork error");
         
@@ -60,7 +61,7 @@ int main() {
         exit(0);
     }
     
-    wait(&stat_val);
+    //wait(&stat_val);
     
     //execl("/bin/ps","ps","-p",,(char *)0); 
     return 0;
