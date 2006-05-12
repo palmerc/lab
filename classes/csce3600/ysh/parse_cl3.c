@@ -37,7 +37,7 @@ parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
     int i = 0; /* position in the string */
     int start = 0;
     int end = 0;
-    *command_list[pipe_count].argv = (char **)malloc(sizeof(char *)*256);
+    command_list[pipe_count].argv = (char **)malloc(sizeof(char *)*256);
     while (buf[i] != '\0') {
         if (buf[i] == ' ' || buf[i] == '\t' || buf[i] == '\n') {
             printf("Space\n");
@@ -47,7 +47,7 @@ parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
             if (strlen(buf) > 0) {
                 arg = (char *)malloc(sizeof(char) * (strlen(buf)+1));
                 strncpy(arg, buf, strlen(buf)+1);
-                *command_list[pipe_count].argv[arg_count] = arg;
+                command_list[pipe_count].argv[arg_count] = arg;
                 arg_count++;
             }
             start = i+1;
@@ -77,10 +77,10 @@ parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
             printf("Pipe\n");
             /* Connect stdout of the previous app to the stdin of the next */
             /* Close out the previous string before moving to the new one */
-            *command_list[pipe_count].argv[arg_count] = NULL;
+            command_list[pipe_count].argv[arg_count] = NULL;
             arg_count = 0;
             pipe_count++;
-            *command_list[pipe_count].argv = (char **)malloc(sizeof(char *)*256);
+            command_list[pipe_count].argv = (char **)malloc(sizeof(char *)*256);
         } else if (buf[i] == '>') {
             printf("Stdout\n");
             /* Connect stdout to whatever follows */
@@ -90,7 +90,7 @@ parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
         } else if (buf[i] == '/' 
                 || isdigit(buf[i]) 
                 || isalpha(buf[i])) {
-            printf("Character\n");
+            printf("Character: %c\n", buf[i]);
             /* A regular character */
         } else {
             printf("error parsing");
@@ -98,7 +98,7 @@ parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
         i++;
     }
     /* Close the last item */
-    *command_list[pipe_count].argv[arg_count] = NULL;
+    command_list[pipe_count].argv[arg_count] = NULL;
     *command_list_len = pipe_count;
 }
 
@@ -116,12 +116,52 @@ int main() {
     
     printf("String1\n");
     parse_cl(string1, command_list, &command_list_len);
+    int i, j;
+    for (i = 0; i <= command_list_len; i++) {
+        j = 0;
+        while (command_list[i].argv[j] != NULL) {
+            printf("%d %d>%s<=", i, j, command_list[i].argv[j]);
+            j++;
+        }
+        i++;
+    }
+    printf("\n");
+    
     printf("String2\n");
     parse_cl(string2, command_list, &command_list_len);
+    for (i = 0; i <= command_list_len; i++) {
+        j = 0;
+        while (command_list[i].argv[j] != NULL) {
+            printf("%d %d>%s<=", i, j, command_list[i].argv[j]);
+            j++;
+        }
+        i++;
+    }
+    printf("\n");
+    
     printf("String3\n");
     parse_cl(string3, command_list, &command_list_len);
+    for (i = 0; i <= command_list_len; i++) {
+        j = 0;
+        while (command_list[i].argv[j] != NULL) {
+            printf("%d %d>%s<=", i, j, command_list[i].argv[j]);
+            j++;
+        }
+        i++;
+    }
+    printf("\n");
+    
     printf("String4\n");
     parse_cl(string4, command_list, &command_list_len);
+        for (i = 0; i <= command_list_len; i++) {
+        j = 0;
+        while (command_list[i].argv[j] != NULL) {
+            printf("%d %d>%s<=", i, j, command_list[i].argv[j]);
+            j++;
+        }
+        i++;
+    }
+    printf("\n");
         
     return 0;
 }
