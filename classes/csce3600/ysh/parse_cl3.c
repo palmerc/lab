@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef struct {
     char* cmd;
@@ -24,7 +25,7 @@ void substr(char *string, int start, int stop) {
     free(buf_temp);
 }
 
-parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
+void parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
     char *buf;
     buf = (char *)malloc(sizeof(char) * (strlen(line)+1));
     char *arg;
@@ -36,7 +37,7 @@ parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
     int arg_count = 0; /* number of arguments */
     int i = 0; /* position in the string */
     int start = 0;
-    int end = 0;
+    //int end = 0;
     command_list[pipe_count].argv = (char **)malloc(sizeof(char *)*256);
     while (buf[i] != '\0') {
         if (buf[i] == ' ' || buf[i] == '\t' || buf[i] == '\n') {
@@ -46,57 +47,81 @@ parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
             if (strlen(buf) > 0) {
                 arg = (char *)malloc(sizeof(char) * (strlen(buf)+1));
                 strncpy(arg, buf, strlen(buf)+1);
+                printf("space: %s\n", arg);
                 command_list[pipe_count].argv[arg_count] = arg;
                 arg_count++;
             }
             start = i+1;
-            strncpy(buf, line, strlen(line)+1);
+            //printf("%s\n", buf);
+            strncpy(buf, line, strlen(buf)+1);
         } else if (buf[i] == '.') {
-            printf("Dot\n");
+            //printf("Dot\n");
             /* If I find a dot should mean the current directory */
             
         } else if (buf[i] == '-') {
-            printf("Minus\n");
+            //printf("Minus\n");
             /* This means an option to a command */
         } else if (buf[i] == '*') {
-            printf("Asterisk\n");
+            //printf("Asterisk\n");
             /* This is a wildcard and should be expanded */
         } else if (buf[i] == '?') {
-            printf("Question\n");
+            //printf("Question\n");
             /* This is a single character wildcard and should be expanded */
         } else if (buf[i] == '~') {
-            printf("Tilde\n");
+            //printf("Tilde\n");
             /* This means the users home directory */
         } else if (buf[i] == '&') {
-            printf("Ampersand\n");
+            //printf("Ampersand\n");
             /* This indicates a background process
                or if following a > (eg. 2>&1 tie stdout to stderr) */
             bg_process = 1;
         } else if (buf[i] == '|') {
-            printf("Pipe\n");
+            //printf("Pipe\n");
             /* Connect stdout of the previous app to the stdin of the next */
             /* Close out the previous string before moving to the new one */
+            substr(buf, start, i-1);
+            if (strlen(buf) > 0) {
+                arg = (char *)malloc(sizeof(char *) * (strlen(buf)+1));
+                strncpy(arg, buf, strlen(buf)+1);
+                printf("pipe: %s\n", arg);
+                command_list[pipe_count].argv[arg_count] = arg;
+                arg_count++;
+            }
+            start = i+1;
+            //printf("%s\n", buf);
+            strncpy(buf, line, strlen(buf)+1);
+            /* Close out the previous one */
+            printf("Pipecount %d Argcount %d\n", pipe_count, arg_count);
             command_list[pipe_count].argv[arg_count] = NULL;
+            
             arg_count = 0;
-            pipe_count++;
-            command_list[pipe_count].argv = (char **)malloc(sizeof(char *)*256);
+            command_list[++pipe_count].argv = (char **)malloc(sizeof(char *)*256);
         } else if (buf[i] == '>') {
-            printf("Stdout\n");
+            //printf("Stdout\n");
             /* Connect stdout to whatever follows */
         } else if (buf[i] == '<') {
-            printf("Stdin\n");
+            //printf("Stdin\n");
             /* Connect stdin to whatever follows */
         } else if (buf[i] == '/' 
                 || isdigit(buf[i]) 
                 || isalpha(buf[i])) {
-            printf("Character: %c\n", buf[i]);
+            //printf("Character: %c\n", buf[i]);
             /* A regular character */
         } else {
             printf("error parsing");
         }
         i++;
     }
+    /* Null was encountered so grab the last thing on the line */
+    substr(buf, start, i-1);
+    if (strlen(buf) > 0) {
+        arg = (char *)malloc(sizeof(char) * (strlen(buf)+1));
+        strncpy(arg, buf, strlen(buf)+1);
+        command_list[pipe_count].argv[arg_count] = arg;
+        arg_count++;
+    }
     /* Close the last item */
+    printf("Lastcount %d Argcount %d\n", pipe_count, arg_count);
     command_list[pipe_count].argv[arg_count] = NULL;
     *command_list_len = pipe_count;
 }
@@ -109,7 +134,7 @@ int main() {
     
     /* Yes these are pointers */
     char string1[] = {"ls -la | wc -l"};
-    char string2[] = {"ls -la | grep malloc | wc -l > file"};
+    char string2[] = {"ls -la | grep -r malloc | wc -l > file"};
     char string3[] = {"ls -la | wc -l > file"};
     char string4[] = {"find . -name * > file &"};
     
@@ -119,7 +144,7 @@ int main() {
     for (i = 0; i <= command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
-            printf("%d %d {%s}", i, j, command_list[i].argv[j]);
+            printf("%d %d {%s}\n", i, j, command_list[i].argv[j]);
             j++;
         }
         i++;
@@ -131,7 +156,7 @@ int main() {
     for (i = 0; i <= command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
-            printf("%d %d {%s}", i, j, command_list[i].argv[j]);
+            printf("%d %d {%s}\n", i, j, command_list[i].argv[j]);
             j++;
         }
         i++;
@@ -143,7 +168,7 @@ int main() {
     for (i = 0; i <= command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
-            printf("%d %d {%s}", i, j, command_list[i].argv[j]);
+            printf("%d %d {%s}\n", i, j, command_list[i].argv[j]);
             j++;
         }
         i++;
@@ -155,7 +180,7 @@ int main() {
         for (i = 0; i <= command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
-            printf("%d %d {%s}", i, j, command_list[i].argv[j]);
+            printf("%d %d {%s}\n", i, j, command_list[i].argv[j]);
             j++;
         }
         i++;
