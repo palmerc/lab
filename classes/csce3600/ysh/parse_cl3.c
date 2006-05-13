@@ -40,7 +40,6 @@ parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
     command_list[pipe_count].argv = (char **)malloc(sizeof(char *)*256);
     while (buf[i] != '\0') {
         if (buf[i] == ' ' || buf[i] == '\t' || buf[i] == '\n') {
-            printf("Space\n");
             /* This means this is a seperate thing */
             /* Turn the argument into a little string and add it to the array */
             substr(buf, start, i-1);
