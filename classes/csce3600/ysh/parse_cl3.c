@@ -120,7 +120,7 @@ int main() {
     for (i = 0; i <= command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
-            printf("%d %d>%s<=", i, j, command_list[i].argv[j]);
+            printf("%d %d {%s}", i, j, command_list[i].argv[j]);
             j++;
         }
         i++;
@@ -132,7 +132,7 @@ int main() {
     for (i = 0; i <= command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
-            printf("%d %d>%s<=", i, j, command_list[i].argv[j]);
+            printf("%d %d {%s}", i, j, command_list[i].argv[j]);
             j++;
         }
         i++;
@@ -144,7 +144,7 @@ int main() {
     for (i = 0; i <= command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
-            printf("%d %d>%s<=", i, j, command_list[i].argv[j]);
+            printf("%d %d {%s}", i, j, command_list[i].argv[j]);
             j++;
         }
         i++;
@@ -156,7 +156,7 @@ int main() {
         for (i = 0; i <= command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
-            printf("%d %d>%s<=", i, j, command_list[i].argv[j]);
+            printf("%d %d {%s}", i, j, command_list[i].argv[j]);
             j++;
         }
         i++;
