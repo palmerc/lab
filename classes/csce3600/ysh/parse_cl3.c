@@ -5,9 +5,10 @@
 #include <ctype.h>
 
 typedef struct {
-    char* cmd;
-    char* cmd_loc;
-    char** argv;
+    char *cmd;
+    char *cmd_loc;
+    char **argv;
+    int *argv_count;
 } command_t;
 
 void substr(char *string, int start, int stop) {
@@ -47,7 +48,7 @@ void parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
             if (strlen(buf) > 0) {
                 arg = (char *)malloc(sizeof(char) * (strlen(buf)+1));
                 strncpy(arg, buf, strlen(buf)+1);
-                printf("space: %s\n", arg);
+                //printf("space: %s\n", arg);
                 command_list[pipe_count].argv[arg_count] = arg;
                 arg_count++;
             }
@@ -56,7 +57,7 @@ void parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
             strncpy(buf, line, strlen(buf)+1);
         } else if (buf[i] == '.') {
             //printf("Dot\n");
-            /* If I find a dot should mean the current directory */
+            /* If I find a dot, should mean the current directory */
             
         } else if (buf[i] == '-') {
             //printf("Minus\n");
@@ -91,8 +92,8 @@ void parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
             //printf("%s\n", buf);
             strncpy(buf, line, strlen(buf)+1);
             /* Close out the previous one */
-            printf("Pipecount %d Argcount %d\n", pipe_count, arg_count);
-            command_list[pipe_count].argv[arg_count] = NULL;
+            //printf("Pipecount %d Argcount %d\n", pipe_count, arg_count);
+            //command_list[pipe_count].argv[arg_count] = NULL;
             
             arg_count = 0;
             command_list[++pipe_count].argv = (char **)malloc(sizeof(char *)*256);
@@ -121,9 +122,9 @@ void parse_cl(char *line, command_t *command_list, size_t *command_list_len) {
         arg_count++;
     }
     /* Close the last item */
-    printf("Lastcount %d Argcount %d\n", pipe_count, arg_count);
-    command_list[pipe_count].argv[arg_count] = NULL;
-    *command_list_len = pipe_count;
+    //printf("Lastcount %d Argcount %d\n", pipe_count, arg_count);
+    //command_list[pipe_count].argv[arg_count] = NULL;
+    *command_list_len = pipe_count + 1;
 }
 
 
@@ -133,7 +134,7 @@ int main() {
     command_list = (command_t*)malloc(sizeof(command_t)*256);
     
     /* Yes these are pointers */
-    char string1[] = {"ls -la | wc -l"};
+    char string1[] = {"ls -la | grep -r malloc | wc -l"};
     char string2[] = {"ls -la | grep -r malloc | wc -l > file"};
     char string3[] = {"ls -la | wc -l > file"};
     char string4[] = {"find . -name * > file &"};
@@ -141,49 +142,46 @@ int main() {
     printf("String1\n");
     parse_cl(string1, command_list, &command_list_len);
     int i, j;
-    for (i = 0; i <= command_list_len; i++) {
+    //printf("%s %s %s\n", command_list[1].argv[0], command_list[1].argv[1], command_list[1].argv[2]);
+    for (i = 0; i < command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
             printf("%d %d {%s}\n", i, j, command_list[i].argv[j]);
             j++;
         }
-        i++;
     }
     printf("\n");
     
     printf("String2\n");
     parse_cl(string2, command_list, &command_list_len);
-    for (i = 0; i <= command_list_len; i++) {
+    for (i = 0; i < command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
             printf("%d %d {%s}\n", i, j, command_list[i].argv[j]);
             j++;
         }
-        i++;
     }
     printf("\n");
     
     printf("String3\n");
     parse_cl(string3, command_list, &command_list_len);
-    for (i = 0; i <= command_list_len; i++) {
+    for (i = 0; i < command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
             printf("%d %d {%s}\n", i, j, command_list[i].argv[j]);
             j++;
         }
-        i++;
     }
     printf("\n");
     
     printf("String4\n");
     parse_cl(string4, command_list, &command_list_len);
-        for (i = 0; i <= command_list_len; i++) {
+        for (i = 0; i < command_list_len; i++) {
         j = 0;
         while (command_list[i].argv[j] != NULL) {
             printf("%d %d {%s}\n", i, j, command_list[i].argv[j]);
             j++;
         }
-        i++;
     }
     printf("\n");
         
