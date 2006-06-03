@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <wait.h>
 #include <fcntl.h>
 
 const int MAXLINE = 4096;
@@ -11,7 +10,6 @@ const int MAXLINE = 4096;
 int main() {
     //int n;
     int fd[2];
-    int stat_val;
     pid_t pid;
     //char line[MAXLINE];
     
@@ -27,22 +25,6 @@ int main() {
     fcntl(fd[0], F_SETFD, readflags);
     fcntl(fd[1], F_SETFD, writeflags);
     
-    /* We fork the sender child */
-    if ((pid=fork()) < 0)
-        perror("fork error");
-    
-    if (pid == 0) {
-        close(fd[0]); /* Close the read end */
-        if (fd[1] != STDOUT_FILENO) {
-        if (dup2(fd[1], STDOUT_FILENO) != STDOUT_FILENO)
-            perror("dup2 error to stdout");
-        dup2(fd[1], STDOUT_FILENO);
-        close(fd[1]);
-        }
-        execl("/bin/ps","ps","auxw",(char *)0);
-        exit(0);
-    }
-    
     /* We fork the receiver child */
     if ((pid=fork()) < 0)
         perror("fork error");
@@ -54,10 +36,24 @@ int main() {
                 perror("dup2 error to stdin");
             close(fd[0]);
         }
-        //while((n=read(STDIN_FILENO, line, MAXLINE)) > 0)
-        //    write(STDOUT_FILENO, line, n);
+
+        /* We fork the sender child */
+        pid_t pid_two;
+        if ((pid_two=fork()) < 0)
+            perror("fork error");
+    
+        if (pid_two == 0) {
+            close(fd[0]); /* Close the read end */
+            if (fd[1] != STDOUT_FILENO) {
+                if (dup2(fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+                    perror("dup2 error to stdout");
+                dup2(fd[1], STDOUT_FILENO);
+                close(fd[1]);
+            }
+            execl("/bin/ps","ps","auxw",(char *)0);
+            exit(0);
+        }
         execl("/usr/bin/wc","wc","-l",(char *)0);
-        
         exit(0);
     }
     
