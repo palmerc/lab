@@ -35,6 +35,7 @@ function do_header() {
     echo'
         <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
         <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
+        <meta name="verify-v1" content="cFzlCLLQcxEzzO7l942x6zerGHKWsB+clywkUg3HijI=" />
 	
 	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
 	</script>
@@ -44,107 +45,6 @@ function do_header() {
 	</script>
         ';
 ?>
-    <script type="text/javascript">
-        var hasIE_phone_home = 0;
-
-        function hasIE_hasIE() {
-          var ua = navigator.userAgent.toLowerCase();
-          return ((ua.indexOf('msie') != -1) && (ua.indexOf('opera') == -1) && 
-                  (ua.indexOf('webtv') == -1) &&
-                  (location.href.indexOf('seenIEPage') == -1));
-        }
-
-        function hasIE_showOnlyLayer(whichLayer)
-        {
-          if (document.getElementById)
-            {
-              var style2 = document.getElementById(whichLayer);
-            }
-          else if (document.all)
-            {
-              var style2 = document.all[whichLayer];
-            }
-          else if (document.layers)
-            {
-              var style2 = document.layers[whichLayer];
-            }
-          var body = document.getElementsByTagName('body');
-          body[0].innerHTML = style2.innerHTML;
-        }
-
-        function hasIE_showLayer(whichLayer)
-        {
-          if (document.getElementById)
-            {
-              var style2 = document.getElementById(whichLayer).style;
-              style2.display = "block";
-            }
-          else if (document.all)
-            {
-              var style2 = document.all[whichLayer].style;
-              style2.display = "block";
-            }
-          else if (document.layers)
-            {
-              var style2 = document.layers[whichLayer].style;
-              style2.display = "block";
-            }
-        }
-
-        function hasIE_moveAd(adid) {
-          if (document.getElementById)
-            {
-              var ad = document.getElementById('hasIE_ad');
-              var adloc = document.getElementById(adid);
-            }
-          else if (document.all)
-            {
-              var ad = document.all['hasIE_ad'];
-              var adloc = document.all[adid];
-            }
-          else if (document.layers)
-            {
-              var ad = document.layers['hasIE_ad'];
-              var adloc = document.layers[adid];
-            }
-          adloc.innerHTML = ad.innerHTML;
-        }
-
-        function hasIE_hideAndShow() {
-          if (hasIE_hasIE()) {
-            hasIE_showLayer("hasIE_level1");
-                  if (hasIE_phone_home == 1)
-                    hasIE_phoneHome('getIE_pingimage1');
-          } else {
-            if (hasIE_phone_home == 1)
-              hasIE_phoneHome('getIE_pingimage0');
-          }
-        }
-
-        function hasIE_phoneHome(image) {
-          if (document.getElementById)
-            {
-              var img = document.getElementById(image);
-            }
-          else if (document.all)
-            {
-              var img = document.all[image];
-            }
-          else if (document.layers)
-            {
-              var img = document.layers[image];
-            }
-          img.setAttribute('src','http://getunder50.com/ping.php?host='+location.host);
-
-        }
-
-        function hasIE_ContinueWithoutFF() {
-            if (location.href.indexOf('?') != -1)
-                location.href += '&seenIEPage=1';
-            else
-                location.href += '?seenIEPage=1';
-        }
-    </script>
     <script type="text/javascript"><!--
         google_ad_client = "pub-2386209491833952";
         google_ad_width = 728;
@@ -181,7 +81,7 @@ function do_header() {
                 google_ad_width = 125;
                 google_ad_height = 125;
                 google_ad_format = "125x125_as_rimg";
-                google_cpa_choice = "CAAQo-aZzgEaCM3CU97Siy5UKK2293M";
+                google_cpa_choice = "CAAQweaZzgEaCA2ZyYC_NXeAKK2293M";
                 //--></script>
                 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
                 </script>
@@ -241,6 +141,17 @@ function do_footer($buf) {
             <div id="footer">
                 Copyright &copy; 2005 Cameron Palmer<br />
                 cameron DOT palmer AT gmail DOT com
+                <div style="float: right;">
+                    <script type="text/javascript"><!--
+                    google_ad_client = "pub-2386209491833952";
+                    google_ad_width = 180;
+                    google_ad_height = 60;
+                    google_ad_format = "180x60_as_rimg";
+                    google_cpa_choice = "CAAQhan8zwEaCFDy0q47oTV9KMu293M";
+                    //--></script>
+                    <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                    </script>
+                </div>
             </div>
         </div>
     </body>
