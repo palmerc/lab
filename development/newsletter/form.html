@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<head>
+   <title>IBM Academic Initiative Proving Ground</title>
+   <link rel="stylesheet" type="text/css" href="//www.ibm.com/common/v14/main.css" />
+   <link rel="stylesheet" type="text/css" media="all" href="//www.ibm.com/common/v14/screen.css" />
+   <link rel="stylesheet" type="text/css" media="screen,print" href="//www.ibm.com/common/v14/table.css" />
+   <link rel="stylesheet" type="text/css" media="print" href="//www.ibm.com/common/v14/print.css" />
+   <script type="text/javascript">
+      function toggle() {
+         if (document.getElementById("language").value=="japanese") {
+            document.getElementById("news_text").disabled=true;
+            document.getElementById("news_html").checked=true;
+         } else {
+            document.getElementById("news_text").disabled=false;
+         }
+      }
+   </script>
+
+</head>
+
+<body>
+   <table cellspacing="0" cellpadding="0" border="0" width="150">
+      <tr>
+         <td class="v14-header-3-small">Newsletter</td>
+      </tr>
+   </table>
+   <table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border" width="150">
+      <tr>
+
+         <td colspan="3"><img alt="" height="5" src="//www.ibm.com/i/c.gif" width="1" /></td>
+      </tr>
+      <tr><td width="150" valign="middle">
+   <form action="NewsletterSignup.do" method="post" target="New_Window">
+      
+      <input type="hidden" name="lists" value="ibmscholars@ibm.email-publisher.com" />
+      <table cellpadding="0" cellspacing="0" border="0" >
+         <tr>
+            <td>Subscribe<br />
+
+               <label for="thetext"></label>
+               <input type="text" id="thetext" size="15" name="email" value="enter e-mail"  class="iform" onblur="if (this.value == '') this.value='e-mail address';" onfocus="if (this.value == 'e-mail address') this.value=''"/>
+            </td> 
+         </tr>
+         <tr>
+            <td>Language<br />
+               <select name="language" id="language" onChange="toggle()">
+                  <option value="english">English</option>
+
+                  <option value="japanese">Japanese</option>
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <td class="no-padding">
+               <table cellpadding="0" cellspacing="0">
+      	    <tr>
+
+      	       <td><input type="radio" name="type" id="news_html" value="HTML" checked="checked" />HTML</td>
+               <td><input type="radio" name="type" id="news_text" value="TEXT" /><label for="text">Text</label></td>
+               <td><label for="go">&nbsp;</label><input type="image" id="go" value="submit" src="//www.ibm.com/i/v14/buttons/go.gif" border="0" width="21" height="21" alt="Go" /></td>
+       	    </tr>
+      	 </table>
+            </td>
+         </tr>
+         <tr>
+
+            <td><img src="//www.ibm.com/i/c.gif" width="1" alt="" height="4" border="0" /></td>
+         </tr>
+         <tr>
+            <td>View <a href="/jct09002c/us/en/university/scholars/newsletter/index.html" class="w">current</a> issue.</td>
+         </tr>
+         <tr>
+            <td><img src="//www.ibm.com/i/c.gif" width="1" alt="" height="6" border="0" /></td>
+
+         </tr>
+      </table> 
+   </form>
+   </td></tr>
+</table>
+</body>
+</html>
