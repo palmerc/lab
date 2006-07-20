@@ -1,0 +1,16 @@
+How I setup the MySQL database for the test news system:
+
+CREATE DATABASE news;
+USE news;
+CREATE TABLE news (newsid INT AUTO_INCREMENT PRIMARY KEY, publish_date DATE, start_date DATE, end_date DATE, publish BOOL, link VARCHAR(100), headline VARCHAR(100), summary VARCHAR(2000), story VARCHAR(10000));
+
+INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'Start preparing for xQuery in your curriculum.', 'DB2 9 for Linux, UNIX and Windows (formerly code-named Viper) has a planned availability date of July 28, 2006. This next generation hybrid data server is unrivaled in its ability to serve both pure relational and pureXML™ data. Get a head start with new technical articles and tutorials.', 'The rest of the story');
+INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'Let the games begin with CodeInvaders Challenge.', 'This Java™-based, real-time programming game, based on the Eclipse platform, gives players the opportunity to pit their Java programming skills against other players in a battle of space conquest.', 'The rest of the story');
+INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'IBM Contributes Ajax technology to open source community.', 'The IBM technology contributions will extend the code already available in the Dojo Toolkit enabling internationalization of applications and making them fully accessible to persons with disabilities.', 'The rest of the story');
+INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'Listen and learn with WebSphere podcasts.', 'Keep up-to-date on the latest trends in technology with this new WebSphere developer resource. Tune in regularly for the newest podcasts discussions or subscribe to the RSS feeds and the new podcasts will come to you.', 'The rest of the story');
+INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'Welcome China Academic Initiative web site.', 'Our Academic Initiative web site has been translated into several languages: Portuguese, Italian, German, and now Chinese! Please visit Academic Initiative - China and welcome our Asian colleagues.', 'The rest of the story');
+INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'New process for requesting license keys for Rational products.', 'Effective May 12, 2006, IBM Academic Initiative is using a new process to generate license keys for Rational products. Follow the link above to view detailed instructions for the new process.', 'The rest of the story');
+INSERT INTO news VALUES (null, '2006-01-01', '2006-07-01', '2006-12-25', true, 'http://www.ibm.com/university/', 'Cameron seeks Sunils approval.', 'IBM is bringing to bear the immense resources and brain trust to defeat the terrible threat posed by a fire breathing dinosaur like creature that is currently terrorizing the inhabitants of Tokyo.', 'The rest of the story');
+
+DESCRIBE news;
+SELECT * FROM news;
