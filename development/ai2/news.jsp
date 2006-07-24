@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<sql:query var="rs" dataSource="jdbc/TestDB">
+<sql:query var="rs" dataSource="jdbc/IBMDB">
 SELECT newsid, publish_date, start_date, end_date, publish, headline, summary, story FROM news
 </sql:query>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
