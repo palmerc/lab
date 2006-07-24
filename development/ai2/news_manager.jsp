@@ -8,7 +8,8 @@
         </title>
     </head>
     <body>
-        <form action="" >
+        <h1>New News</h1>
+        <form action="store.jsp" method="post">
             Status  
             <select name="publish">
                 <option value="true">Published</option>
