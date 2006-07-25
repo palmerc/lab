@@ -32,7 +32,7 @@
             <c:if test="${!empty rs.rows}">
             <table>
                 <tr>
-                    <th>Publish Date</th>
+                    <th>Date</th>
                     <th>Headline</th>
                     <th>Status</th>
                     <th>Start Date</th>
@@ -41,7 +41,7 @@
             <c:forEach var="row" items="${rs.rows}">
                 <tr>
                     <td>${row.publish_date}</td>
-                    <td><a href="store.jsp?type=edit&newsid=${row.newsid}">${row.headline}</a></td>
+                    <td><a href="store.jsp?type=edit&amp;newsid=${row.newsid}">${row.headline}</a></td>
                     <td>
                         <select name="${row.newsid}">
                             <option selected>active</option>
@@ -66,7 +66,7 @@
             <c:if test="${!empty rs.rows}">
             <table>
                 <tr>
-                    <th>Publish Date</th>
+                    <th>Date</th>
                     <th>Headline</th>
                     <th>Status</th>
                     <th>Start Date</th>
@@ -75,7 +75,7 @@
             <c:forEach var="row" items="${rs.rows}">
                 <tr>
                     <td>${row.publish_date}</td>
-                    <td><a href="store.jsp?type=edit&newsid=${row.newsid}">${row.headline}</a></td>
+                    <td><a href="store.jsp?type=edit&amp;newsid=${row.newsid}">${row.headline}</a></td>
                     <td>
                         <select name="${row.newsid}">
                             <option>active</option>

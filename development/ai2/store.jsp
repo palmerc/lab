@@ -104,7 +104,7 @@
                         </tr>
                     <table>
                     <input type="submit" value="Submit" />
-                    <input type="submit" value="Cancel" />
+                    <input type="button" value="Cancel" />
                 </form>
             </body>
         </html>
@@ -131,6 +131,7 @@
             <body>
                 <form action="store.jsp" method="post">
                     <input type="hidden" name="type" value="update" />
+                    <input type="hidden" name="newsid" value="${row.newsid}" />
                     <table>
                         <tr>
                             <td>
@@ -147,8 +148,8 @@
                             </td>
                             <td>
                                 <select name="publish">
-                                    <option value="true" <c:if test="${row.publish == true}">selected</c:if>>Active</option>
-                                    <option value="false" <c:if test="${row.publish == false}">selected</c:if>>Archive</option>
+                                    <option value="1" <c:if test="${row.publish == true}">selected</c:if>>Active</option>
+                                    <option value="0" <c:if test="${row.publish == false}">selected</c:if>>Archive</option>
                                 </select>
                             </td>
                         </tr>
@@ -210,14 +211,14 @@
                         </tr>
                     <table>
                     <input type="submit" value="Submit" />
-                    <input type="submit" value="Cancel" />
+                    <input type="button" value="Cancel" />
                 </form>
             </body>
         </html>
         </c:forEach>
     </c:when>
 
-    <c:when test="${param.type == 'insert'}">
+    <c:when test="${param.type == 'insert'}">        
         <sql:update dataSource="jdbc/IBMDB">
            INSERT INTO news
            (newsid, publish_date, start_date, end_date, publish, link, headline, summary, story)
@@ -237,34 +238,29 @@
     </c:when>
 
     <c:when test="${param.type == 'update'}">
-        <c:if test="${param.publish == true}">
-            <c:set var="parsedPublishBool" value="true" />
-        </c:if>
-        <c:if test="${param.publish == false}">
-            <c:set var="parsedPublishBool" value="false" />
-        </c:if>
-        <sql:update dataSource="jdbc/IBMDB">
-           UPDATE news
-           SET publish_date = ?,
-           start_date = ?,
-           end_date = ?,
-           publish = ?,
-           link = ?,
-           headline = ?,
-           summary = ?,
-           story = ?
-           WHERE newsid = ?
+        <sql:update var="updateCount" dataSource="jdbc/IBMDB">
+            UPDATE news SET 
+                publish_date = ?, 
+                start_date = ?, 
+                end_date = ?,
+                publish = ?,
+                link = ?,
+                headline = ?,
+                summary = ?,
+                story = ?
+            WHERE newsid = ?
                
-           <sql:param value="${param.newsid}" />
            <sql:dateParam value="${now}" />
            <sql:dateParam value="${parsedStartDate}" type="date" />
            <sql:dateParam value="${parsedEndDate}" type="date" />
-           <sql:param value="${parsedPublishBool}" />
+           <sql:param value="${param.publish}" />
            <sql:param value="${param.link}" />
            <sql:param value="${param.news_headline}" />
            <sql:param value="${param.news_summary}" />
            <sql:param value="${param.news_story}" />
+           <sql:param value="${param.newsid}" />
         </sql:update>
+        <c:out value="${updateCount} rows updated." />
         <c:redirect url="news_admin.jsp" />
     </c:when>
 </c:choose>
