@@ -9,9 +9,95 @@
         <title>
             IBM Academic Initiative News Admin
         </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!-- ibm.com V14 OneX css -->
+        <link rel="stylesheet" type="text/css" href="//www.ibm.com/common/v14/main.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="//www.ibm.com/common/v14/screen.css" />
+        <link rel="stylesheet" type="text/css" media="screen,print" href="//www.ibm.com/common/v14/table.css" />
+        <link rel="stylesheet" type="text/css" media="print" href="//www.ibm.com/common/v14/print.css" />
     </head>
     <body>
         <h1>IBM Academic Initiative News Admin</h1>
-        News
+        <form action="store.jsp" method="post">
+            <input type="hidden" name="type" value="create" />
+            <input type="submit" value="New Story" />
+        </form>
+        <form action="" method="post">
+            <input type="submit" value="Change Status" />
+            <hr />
+            <h2>Active News Stories</h2>
+            <sql:query var="rs" dataSource="jdbc/IBMDB">
+            SELECT * FROM news WHERE publish IS TRUE
+            </sql:query>
+            <c:if test="${!empty rs.rows}">
+            <table>
+                <tr>
+                    <th>Publish Date</th>
+                    <th>Headline</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+            <c:forEach var="row" items="${rs.rows}">
+                <tr>
+                    <td>${row.publish_date}</td>
+                    <td><a href="store.jsp?type=edit&newsid=${row.newsid}">${row.headline}</a></td>
+                    <td>
+                        <select name="${row.newsid}">
+                            <option selected>active</option>
+                            <option>archive</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" size="10" value="${row.start_date}" />
+                    </td>
+                    <td>
+                        <input type="text" size="10" value="${row.end_date}" />
+                    </td>
+                </tr>
+            </c:forEach>
+            </table>
+            </c:if>
+            <hr />
+            <h2>Archived News Stories</h2>
+            <sql:query var="rs" dataSource="jdbc/IBMDB">
+            SELECT * FROM news WHERE publish IS FALSE
+            </sql:query>
+            <c:if test="${!empty rs.rows}">
+            <table>
+                <tr>
+                    <th>Publish Date</th>
+                    <th>Headline</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+            <c:forEach var="row" items="${rs.rows}">
+                <tr>
+                    <td>${row.publish_date}</td>
+                    <td><a href="store.jsp?type=edit&newsid=${row.newsid}">${row.headline}</a></td>
+                    <td>
+                        <select name="${row.newsid}">
+                            <option>active</option>
+                            <option selected>archive</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" size="10" value="${row.start_date}" />
+                    </td>
+                    <td>
+                        <input type="text" size="10" value="${row.end_date}" />
+                    </td>
+                </tr>
+            </c:forEach>
+            </table>
+            </c:if>
+            <input type="submit" value="Change Status" />
+        </form>
+        <form action="store.jsp" method="post">
+            <input type="hidden" name="type" value="create" />
+            <input type="submit" value="New Story" />
+        </form>
+
     </body>
 </html>

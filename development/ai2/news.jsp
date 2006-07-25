@@ -2,7 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <sql:query var="rs" dataSource="jdbc/IBMDB">
-SELECT newsid, publish_date, start_date, end_date, publish, headline, summary, story FROM news
+SELECT * FROM news
+    WHERE (publish IS TRUE) AND (start_date <= CURDATE()) AND (end_date >= CURDATE())
 </sql:query>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -10,15 +11,13 @@ SELECT newsid, publish_date, start_date, end_date, publish, headline, summary, s
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title>IBM Academic Initiative News</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!-- ibm.com V14 OneX css -->
         <link rel="stylesheet" type="text/css" href="//www.ibm.com/common/v14/main.css" />
         <link rel="stylesheet" type="text/css" media="all" href="//www.ibm.com/common/v14/screen.css" />
         <link rel="stylesheet" type="text/css" media="screen,print" href="//www.ibm.com/common/v14/table.css" />
         <link rel="stylesheet" type="text/css" media="print" href="//www.ibm.com/common/v14/print.css" />
-        <link rel="alternate" title="IBM Academic Initiative RSS" href="ibm_ai_rss.jsp" type="application/rss+xml">
-
-        <script type="text/javascript" language="JavaScript" src="//www.ibm.com/common/v14/detection.js"></script>
+        <link rel="alternate" title="IBM Academic Initiative RSS" href="ibm_ai_rss.jsp" type="application/rss+xml" />
 
         <!-- legacy pwd css -->
         <link rel="stylesheet" type="text/css" href="/jct09002c/applet/css/pwd.css" />

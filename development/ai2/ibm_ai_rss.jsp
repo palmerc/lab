@@ -17,7 +17,7 @@
         <managingEditor>editor@ibm.com</managingEditor>
         <webMaster>webmaster@ibm.com</webMaster>
 
-<sql:query var="rs" dataSource="jdbc/TestDB">
+<sql:query var="rs" dataSource="jdbc/IBMDB">
 SELECT newsid, publish_date, start_date, end_date, publish, link, headline, summary, story FROM news
 </sql:query>        
 <c:forEach var="row" items="${rs.rows}">

@@ -17,8 +17,8 @@
             </select>
             Start Date
             <input type="text" name="start_date" /><br />
-            Stop Date
-            <input type="text" name="stop_date" /><br />
+            End Date
+            <input type="text" name="end_date" /><br />
             Publish Date
             <input type="text" name="publish_date" /><br />
             Headline
