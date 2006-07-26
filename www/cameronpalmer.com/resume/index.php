@@ -38,6 +38,16 @@
 
     <table width="545" height="110" border="0">
       <tr>
+        <td width="73">Jun 2006 to Present </td>
+        <td width="462">Software Developer, <strong>IBM</strong>, Dallas TX </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+
+        <td><p>Internship that involves the development of Java based tools and pages for the Academic Initiative group within IBM.</p>
+        </td>
+      </tr>
+      <tr>
         <td width="73">Jan 2000 to Aug 2004 </td>
         <td width="462">Internet Firewall Engineer, <strong>Seagate Technology</strong>, San Jose CA </td>
       </tr>
