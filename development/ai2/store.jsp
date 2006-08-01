@@ -102,7 +102,7 @@
                                 <textarea name="news_story" cols="40" rows="20"></textarea>
                             </td>
                         </tr>
-                    <table>
+                    </table>
                     <input type="submit" value="Submit" />
                     <input type="button" value="Cancel" />
                 </form>
@@ -209,7 +209,7 @@
                                 <textarea name="news_story" cols="40" rows="20">${row.story}</textarea>
                             </td>
                         </tr>
-                    <table>
+                    </table>
                     <input type="submit" value="Submit" />
                     <input type="button" value="Cancel" />
                 </form>
