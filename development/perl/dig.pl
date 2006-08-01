@@ -108,8 +108,8 @@ print <<END_OF_HTML;
 <HR noshade>
 <A HREF="/">Return to GFO web page</A><BR>
 <TABLE align=left border=0 cellpadding=0 cellspacing=0>
-<TR><TD>Version 1.0&nbsp;</TD><TD>&nbsp;-&nbsp;</TD><TD>Written by</TD><TD>&nbsp;<A href="mailto:palmerc\@seagate.com">Cameron Palmer</A>&nbsp;</TD><TD>&nbsp;-&nbsp;</TD><TD>&nbsp;June 2002</TD></TR>
-<TR><TD>Version 1.1</TD><TD>&nbsp;-&nbsp;</TD><TD>Modified by</TD><TD>&nbsp;<A href="mailto:lanning\@seagate.com">Robert Lanning</A>&nbsp;</TD><TD>&nbsp;-&nbsp;</TD><TD>&nbsp;June 2002</TD></TR>
+<TR><TD>Version 1.0&nbsp;</TD><TD>&nbsp;-&nbsp;</TD><TD>Written by</TD><TD>&nbsp;<A href="mailto:user\@example.com">Cameron Palmer</A>&nbsp;</TD><TD>&nbsp;-&nbsp;</TD><TD>&nbsp;June 2002</TD></TR>
+<TR><TD>Version 1.1</TD><TD>&nbsp;-&nbsp;</TD><TD>Modified by</TD><TD>&nbsp;<A href="mailto:user\@example.com">Robert Lanning</A>&nbsp;</TD><TD>&nbsp;-&nbsp;</TD><TD>&nbsp;June 2002</TD></TR>
 </TABLE>
 </BODY>
 </HTML>
