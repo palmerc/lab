@@ -1,9 +1,8 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title>IBM Academic Initiative</title>
@@ -369,9 +368,16 @@
                                 <!-- END Top Stories -->
                                 <br />
 
+                                <sql:query var="rs" dataSource="jdbc/IBMDB">
+                                    SELECT * FROM marketing
+                                        WHERE (publish IS TRUE) ORDER BY RAND() limit 1
+                                </sql:query>
+                                
+                                <c:forEach var="row" items="${rs.rows}">
                                 <div style="border: solid; border-width: 1px; border-color: #ccc;">
                                     <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">What is...</div>
                                     <div style="padding: .60em;">
+                                        
                                         <h1>Rational Application Developer</h1>
                                         <a href="http://www.ibm.com/software/awdtools/developer/application/" class="smallplainlink">
                                         <img src="i/rational_logo.gif" border="0" width="137" height="21" alt="Rational Software" align="middle"  /></a>
@@ -398,6 +404,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                </c:forEach>
                                 <br style="clear: both;" />                                
                             </td>
                             <td width="7">
