@@ -369,10 +369,8 @@
                                 <br />
 
                                 <sql:query var="rs" dataSource="jdbc/IBMDB">
-                                    SELECT * FROM marketing, brands
-                                        LEFT JOIN brands
-                                        ON marketing.brandid=brands.id
-                                        WHERE (publish IS TRUE) ORDER BY RAND() limit 1
+                                    SELECT UNIQUE marketing.prod_name, marketing.prod_desc, marketing.cwlink, marketing.swlink, brands.name FROM marketing, brands
+                                        WHERE (marketing.brandsid=brands.id) AND (marketing.publish IS TRUE) ORDER BY RAND() limit 1
                                 </sql:query>
                                 
                                 
@@ -381,16 +379,16 @@
                                     <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">What is...</div>
                                     <div style="padding: .60em;">
                                         
-                                        <h1>${row.prod_name}</h1>
-                                        <a href="" class="smallplainlink">
-                                            <img src="" border="0" width="137" height="21" alt="" align="middle"  />
+                                        <h1>${row.marketing.prod_name}</h1>
+                                        <a href="${row.brands.link}" class="smallplainlink">
+                                            <img src="${row.brands.logo}" border="0" width="137" height="21" alt="${row.brands.name}" align="middle"  />
                                         </a>
-                                        <p>${row.prod_desc}</p>
+                                        <p>${row.marketing.prod_desc}</p>
                                         <div style="padding-left: 3em;">
-                                            <a href="${row.cwlink}" style="text-decoration: none; color: #3e6186;">
+                                            <a href="${row.marketing.cwlink}" style="text-decoration: none; color: #3e6186;">
                                             <img border="0" alt="Courseware Download" style="text-decoration: none" src="i/download.gif" width="21" height="21" />
                                             Courseware download</a>
-                                            <a href="${row.swlink}" style="text-decoration: none; color: #3e6186;">
+                                            <a href="${row.marketing.swlink}" style="text-decoration: none; color: #3e6186;">
                                             <img border="0" alt="Software Download" style="text-decoration: none; padding-left: 1.5em;" src="i/download.gif" width="21" height="21" />
                                             Software download</a>
                                         </div>
