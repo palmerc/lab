@@ -378,27 +378,15 @@
                                     <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">What is...</div>
                                     <div style="padding: .60em;">
                                         
-                                        <h1>Rational Application Developer</h1>
-                                        <a href="http://www.ibm.com/software/awdtools/developer/application/" class="smallplainlink">
-                                        <img src="i/rational_logo.gif" border="0" width="137" height="21" alt="Rational Software" align="middle"  /></a>
-                                        <p>
-                                        IBM® Rational® Application Developer for WebSphere® Software helps developers 
-                                        to quickly design, develop, analyze, test, profile and deploy high-quality Web, 
-                                        Service-oriented Architecture (SOA), Java, J2EE and portal applications. For an 
-                                        on demand world in which software development is a key business process, this 
-                                        tool helps you increase productivity, minimize your learning curve and shorten 
-                                        the development and test cycles. It includes full support for the J2EE 
-                                        programming model, integrated portal development features, Unified Modeling 
-                                        Language™ (UML™) visual editing capabilities, code analysis functions and 
-                                        automated test and deployment tools. This powerful tool is optimized for IBM 
-                                        WebSphere software and provides capabilities for deploying to other runtime 
-                                        platforms as well.
-                                        </p>
+                                        <h1>${row.prod_name}</h1>
+                                        <a href="" class="smallplainlink">
+                                        <img src="" border="0" width="137" height="21" alt="" align="middle"  /></a>
+                                        <p>${row.prod_desc}</p>
                                         <div style="padding-left: 3em;">
-                                            <a href="#" style="text-decoration: none; color: #3e6186;">
+                                            <a href="${row.cwlink}" style="text-decoration: none; color: #3e6186;">
                                             <img border="0" alt="Courseware Download" style="text-decoration: none" src="i/download.gif" width="21" height="21" />
                                             Courseware download</a>
-                                            <a href="#" style="text-decoration: none; color: #3e6186;">
+                                            <a href="${row.swlink}" style="text-decoration: none; color: #3e6186;">
                                             <img border="0" alt="Software Download" style="text-decoration: none; padding-left: 1.5em;" src="i/download.gif" width="21" height="21" />
                                             Software download</a>
                                         </div>
