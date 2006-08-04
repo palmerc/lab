@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" media="screen,print" href="c/table.css" />
         <link rel="stylesheet" type="text/css" media="print" href="c/print.css" />
         <link rel="shortcut icon" href="i/favicon.ico" type="image/x-icon" />
+        <link rel="alternate" title="IBM Academic Initiative RSS" href="ibm_ai_rss.jsp" type="application/rss+xml" />
     </head>
     
     <body>
@@ -346,19 +347,20 @@
                                 <br />
                                 
                                 <!-- BEGIN Top Stories -->
+                                <sql:query var="rs" dataSource="jdbc/IBMDB">
+                                    SELECT * FROM news
+                                        WHERE (publish IS TRUE) AND (start_date <= CURDATE()) AND (end_date >= CURDATE())
+                                </sql:query>
+
                                 <table border="0" cellpadding="0" cellspacing="0" width="443">
                                     <tr>
                                         <td>
                                             <div style="border: solid; border-width: 1px; border-color: #ccc;">
                                                 <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">Top Stories</div>
                                                 <ul style="padding: .6em .6em .6em 2.5em; list-style-image: url(i/fw_bold.gif);">
-                                                    <li style="padding-bottom: .3em; list-style-image: url(i/pdf.gif);"><b><a class="fbox" href="/jct09002c/university/scholars/PDF/CurriculumMappingFinal_072506.pdf">IBM/ACM Curriculum Mapping Guide</a></b>.</li>
-                                                    <li style="padding-bottom: .3em;"><b><a class="fbox" href="http://www-304.ibm.com/jct09002c/university/scholars/courseware/systemi.html">New System i courseware available</a></b>.</li>
-                                                    <li style="padding-bottom: .3em;"><b><a class="fbox" href="https://www-304.ibm.com/jct09002c/isv/spc/events/cbea.html">Worldwide workshops for Cell Broadband Engine Architecture</a></b>.</li>
-                                                    <li style="padding-bottom: .3em;"><b><a class="fbox" href="http://www.computerworld.com.au/index.php/id;479313895;fp;2;fpid;1">IBM initiates Series i Tafe course</a></b>.</li>
-                                                    <li style="padding-bottom: .3em;"><b><a class="fbox" href="http://www.ibm.com/developerworks/podcast/websphere/">Podcast and DVD: Service orientation on Linux</a></b>.</li>
-                                                    <li style="padding-bottom: .3em;"><b><a class="fbox" href="http://www.ibm.com/software/data/db2/v9/">Start preparing for xQuery in your curriculum</a></b>.</li>
-                                                    <li style="padding-bottom: .3em;"><b><a class="fbox" href="/jct09002c/university/scholars/members/faq.html#question3.8">New process for requesting license keys for Rational products</a></b>.</li>
+                                                <c:forEach var="row" items="${rs.rows}">
+                                                    <li style="padding-bottom: .3em;"><b><a class="fbox" href="${row.link}">${row.headline}</a></b>.</li>
+                                                </c:forEach>
                                                 </ul>
                                             </div>
                                         </td>
