@@ -369,9 +369,12 @@
                                 <br />
 
                                 <sql:query var="rs" dataSource="jdbc/IBMDB">
-                                    SELECT * FROM marketing
+                                    SELECT * FROM marketing, brands
+                                        LEFT JOIN brands
+                                        ON marketing.brandid=brands.id
                                         WHERE (publish IS TRUE) ORDER BY RAND() limit 1
                                 </sql:query>
+                                
                                 
                                 <c:forEach var="row" items="${rs.rows}">
                                 <div style="border: solid; border-width: 1px; border-color: #ccc;">
@@ -380,7 +383,8 @@
                                         
                                         <h1>${row.prod_name}</h1>
                                         <a href="" class="smallplainlink">
-                                        <img src="" border="0" width="137" height="21" alt="" align="middle"  /></a>
+                                            <img src="" border="0" width="137" height="21" alt="" align="middle"  />
+                                        </a>
                                         <p>${row.prod_desc}</p>
                                         <div style="padding-left: 3em;">
                                             <a href="${row.cwlink}" style="text-decoration: none; color: #3e6186;">
