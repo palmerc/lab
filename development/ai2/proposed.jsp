@@ -369,26 +369,33 @@
                                 <br />
 
                                 <sql:query var="rs" dataSource="jdbc/IBMDB">
-                                    SELECT UNIQUE marketing.prod_name, marketing.prod_desc, marketing.cwlink, marketing.swlink, brands.name FROM marketing, brands
-                                        WHERE (marketing.brandid=brands.id) AND (marketing.publish IS TRUE) ORDER BY RAND() limit 1
+                                SELECT marketing.introductionMarketing,
+                                    marketing.productNameMarketing,
+                                    marketing.productDescriptionMarketing,
+                                    marketing.cwLinkMarketing,
+                                    marketing.swLinkMarketing,
+                                    brands.nameBrands,
+                                    brands.linkBrands,
+                                    brands.logoBrands
+                                FROM marketing, brands 
+                                WHERE (marketing.idBrands=brands.idBrands)
+                                    AND (marketing.publishMarketing IS TRUE) ORDER BY RAND() limit 1
                                 </sql:query>
-                                
-                                
+                                                                
                                 <c:forEach var="row" items="${rs.rows}">
                                 <div style="border: solid; border-width: 1px; border-color: #ccc;">
-                                    <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">What is...</div>
+                                    <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">${row.marketing.introductionMarketing}</div>
                                     <div style="padding: .60em;">
-                                        
-                                        <h1>${row.marketing.prod_name}</h1>
-                                        <a href="${row.brands.link}" class="smallplainlink">
-                                            <img src="${row.brands.logo}" border="0" width="137" height="21" alt="${row.brands.name}" align="middle"  />
+                                        <h1>${row.productNameMarketing}</h1>
+                                        <a href="${row.linkBrands}" class="smallplainlink">
+                                            <img src="${row.logoBrands}" border="0" alt="${row.nameBrands}" align="middle"  />
                                         </a>
-                                        <p>${row.marketing.prod_desc}</p>
+                                        <p>${row.productDescriptionMarketing}</p>
                                         <div style="padding-left: 3em;">
-                                            <a href="${row.marketing.cwlink}" style="text-decoration: none; color: #3e6186;">
+                                            <a href="${row.cwLinkMarketing}" style="text-decoration: none; color: #3e6186;">
                                             <img border="0" alt="Courseware Download" style="text-decoration: none" src="i/download.gif" width="21" height="21" />
                                             Courseware download</a>
-                                            <a href="${row.marketing.swlink}" style="text-decoration: none; color: #3e6186;">
+                                            <a href="${row.swLinkMarketing}" style="text-decoration: none; color: #3e6186;">
                                             <img border="0" alt="Software Download" style="text-decoration: none; padding-left: 1.5em;" src="i/download.gif" width="21" height="21" />
                                             Software download</a>
                                         </div>
