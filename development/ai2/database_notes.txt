@@ -11,14 +11,15 @@ INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, '
 INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'Listen and learn with WebSphere podcasts.', 'Keep up-to-date on the latest trends in technology with this new WebSphere developer resource. Tune in regularly for the newest podcasts discussions or subscribe to the RSS feeds and the new podcasts will come to you.', 'The rest of the story');
 INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'Welcome China Academic Initiative web site.', 'Our Academic Initiative web site has been translated into several languages: Portuguese, Italian, German, and now Chinese! Please visit Academic Initiative - China and welcome our Asian colleagues.', 'The rest of the story');
 INSERT INTO news VALUES (null, '2006-01-01', '2006-01-01', '2006-01-01', true, 'http://www.ibm.com/university/', 'New process for requesting license keys for Rational products.', 'Effective May 12, 2006, IBM Academic Initiative is using a new process to generate license keys for Rational products. Follow the link above to view detailed instructions for the new process.', 'The rest of the story');
-INSERT INTO news VALUES (null, '2006-01-01', '2006-07-01', '2006-12-25', true, 'http://www.ibm.com/university/', 'Cameron seeks Sunils approval.', 'IBM is bringing to bear the immense resources and brain trust to defeat the terrible threat posed by a fire breathing dinosaur like creature that is currently terrorizing the inhabitants of Tokyo.', 'The rest of the story');
-INSERT INTO news VALUES (null, '2006-01-01', '2006-07-01', '2006-12-25', false, 'http://www.ibm.com/university/', 'Cameron seeks Sunils approval.', 'IBM is bringing to bear the immense resources and brain trust to defeat the terrible threat posed by a fire breathing dinosaur like creature that is currently terrorizing the inhabitants of Tokyo.', 'The rest of the story');
+INSERT INTO news VALUES (null, '2006-01-01', '2006-07-01', '2006-12-25', true, 'http://www.ibm.com/university/', 'Godzilla hits the harbor.', 'IBM is bringing to bear the immense resources and brain trust to defeat the terrible threat posed by a fire breathing dinosaur like creature that is currently terrorizing the inhabitants of Tokyo.', 'The rest of the story');
+
 DESCRIBE news;
 SELECT * FROM news;
 
 CREATE TABLE marketing (id INT AUTO_INCREMENT PRIMARY KEY, publish_date DATE, publish BOOL, brandid INT, swlink VARCHAR(100), cwlink VARCHAR(100), prod_name VARCHAR(100), prod_desc VARCHAR(10000));
 CREATE TABLE brands (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), link VARCHAR(100), logo VARCHAR(100));
 
+INSERT INTO brands VALUES (null, 'Academic Initiative', 'http://www.ibm.com/university', 'i/logo.gif');
 INSERT INTO brands VALUES (null, 'Rational', 'http://www.ibm.com/rational', 'http://www-304.ibm.com/jct09002c/university/scholars/products/data/images/rational_logo.gif');
 INSERT INTO brands VALUES (null, 'WebSphere', 'http://www.ibm.com/websphere', 'http://www-304.ibm.com/jct09002c/university/scholars/products/data/images/websphere_logo.gif');
 INSERT INTO brands VALUES (null, 'DB2', 'http://www.ibm.com/db2', 'http://www-304.ibm.com/jct09002c/university/scholars/products/data/images/db2_markhome.gif');
