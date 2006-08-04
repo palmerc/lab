@@ -370,7 +370,7 @@
 
                                 <sql:query var="rs" dataSource="jdbc/IBMDB">
                                     SELECT UNIQUE marketing.prod_name, marketing.prod_desc, marketing.cwlink, marketing.swlink, brands.name FROM marketing, brands
-                                        WHERE (marketing.brandsid=brands.id) AND (marketing.publish IS TRUE) ORDER BY RAND() limit 1
+                                        WHERE (marketing.brandid=brands.id) AND (marketing.publish IS TRUE) ORDER BY RAND() limit 1
                                 </sql:query>
                                 
                                 
