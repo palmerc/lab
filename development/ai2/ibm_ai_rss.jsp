@@ -18,7 +18,8 @@
         <webMaster>webmaster@ibm.com</webMaster>
 
 <sql:query var="rs" dataSource="jdbc/IBMDB">
-SELECT newsid, publish_date, start_date, end_date, publish, link, headline, summary, story FROM news
+    SELECT newsid, publish_date, start_date, end_date, publish, link, headline, summary, story FROM news
+        WHERE (publish IS TRUE) AND (start_date <= CURDATE()) AND (end_date >= CURDATE())
 </sql:query>        
 <c:forEach var="row" items="${rs.rows}">
         <item>
