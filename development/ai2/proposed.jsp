@@ -8,9 +8,11 @@
         <title>IBM Academic Initiative</title>
         <!-- ibm.com V14 OneX css -->
         <link rel="stylesheet" type="text/css" href="c/main.css" />
+        <link rel="stylesheet" type="text/css" href="c/ai.css" />
         <link rel="stylesheet" type="text/css" media="all" href="c/screen.css" />
         <link rel="stylesheet" type="text/css" media="screen,print" href="c/table.css" />
         <link rel="stylesheet" type="text/css" media="print" href="c/print.css" />
+        
         <link rel="shortcut icon" href="i/favicon.ico" type="image/x-icon" />
         <link rel="alternate" title="IBM Academic Initiative RSS" href="ibm_ai_rss.jsp" type="application/rss+xml" />
     </head>
@@ -334,10 +336,13 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <div style="background-image: url(i/image_text2.jpg); background-repeat: no-repeat; height: 100px; width: 443px;">
-                                                <div style="font-size: 200%; padding: 1em 0 0 1em; color: #fff; width: 60%; float: left;">Testimonials</div>
-                                                <div style="padding: 1em 1em 0 0; color: #fff; width: 30%; float: right;">Find out why Chase Bank thinks that 
-                                                IBM course materials are so beneficial to students and faculty. <a href="#">Flash Video</a> <a href="#">Transcript</a></div>
+                                            <div id="testimonials">
+                                                <div id="testimonials_title">Testimonials</div>
+                                                <div id="testimonials_body">
+                                                    Find out why Chase Bank thinks that IBM course 
+                                                    materials are so beneficial to students and faculty.
+                                                    <a href="#">Flash Video</a> <a href="#">Transcript</a>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -354,11 +359,11 @@
                                 <table border="0" cellpadding="0" cellspacing="0" width="443">
                                     <tr>
                                         <td>
-                                            <div style="border: solid; border-width: 1px; border-color: #ccc;">
-                                                <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">Top Stories</div>
-                                                <ul style="padding: .6em .6em .6em 2.5em; list-style-image: url(i/fw_bold.gif);">
+                                            <div id="stories">
+                                                <div id="stories_title">Top Stories</div>
+                                                <ul>
                                                 <c:forEach var="row" items="${rs.rows}">
-                                                    <li style="padding-bottom: .3em;"><b><a class="fbox" href="${row.link}">${row.headline}</a></b>.</li>
+                                                    <li><b><a class="fbox" href="${row.link}">${row.headline}</a></b></li>
                                                 </c:forEach>
                                                 </ul>
                                             </div>
@@ -383,26 +388,26 @@
                                 </sql:query>
                                                                 
                                 <c:forEach var="row" items="${rs.rows}">
-                                <div style="border: solid; border-width: 1px; border-color: #ccc;">
-                                    <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">${row.introductionMarketing}</div>
-                                    <div style="padding: .60em;">
+                                <div id="whatis">
+                                    <div id="whatis_title">${row.introductionMarketing}</div>
+                                    <div id="whatis_body">
                                         <h1>${row.productNameMarketing}</h1>
                                         <a href="${row.linkBrands}" class="smallplainlink">
                                             <img src="${row.logoBrands}" border="0" alt="${row.nameBrands}" align="middle"  />
                                         </a>
                                         <p>${row.productDescriptionMarketing}</p>
-                                        <div style="padding-left: 3em;">
-                                            <a href="${row.cwLinkMarketing}" style="text-decoration: none; color: #3e6186;">
-                                            <img border="0" alt="Courseware Download" style="text-decoration: none" src="i/download.gif" width="21" height="21" />
+                                        <div id="whatis_link">
+                                            <a href="${row.cwLinkMarketing}">
+                                            <img border="0" alt="Courseware Download" src="i/download.gif" width="21" height="21" />
                                             Courseware download</a>
-                                            <a href="${row.swLinkMarketing}" style="text-decoration: none; color: #3e6186;">
-                                            <img border="0" alt="Software Download" style="text-decoration: none; padding-left: 1.5em;" src="i/download.gif" width="21" height="21" />
+                                            <a href="${row.swLinkMarketing}">
+                                            <img border="0" alt="Software Download" src="i/download.gif" width="21" height="21" />
                                             Software download</a>
                                         </div>
                                     </div>
                                 </div>
                                 </c:forEach>
-                                <br style="clear: both;" />                                
+                                <br class="cleary" />                                
                             </td>
                             <td width="7">
                                 <img src="i/c.gif" width="7" height="1" alt="" border="0" />
@@ -414,12 +419,12 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div style="border: solid; border-width: 1px; border-color: #ccc;">
-                                            <ul style="padding: .6em .6em .6em 2.5em; list-style-image: url(i/fw.gif);">
-                                                <li style="padding-bottom: .3em;"><a class="w"  href="/jct09002c/university/scholars/members/spm/redirector.htm">Sign in</a></li>
-                                                <li style="padding-bottom: .3em;"><a class="w"  href="/jct09002c/us/en/university/scholars/members/registration.html">Apply now</a> to become a member at no charge.</li>
-                                                <li style="padding-bottom: .3em;"><a class="w" href="https://www.ibm.com/account/profile/us?page=forgot">Reset</a> your password or <a class="w" href="https://www.ibm.com/account/profile/us">update</a> your profile.</li>
-                                            </ul>
+                                            <div id="membership">
+                                                <ul>
+                                                    <li><a class="w"  href="/jct09002c/university/scholars/members/spm/redirector.htm">Sign in</a></li>
+                                                    <li><a class="w"  href="/jct09002c/us/en/university/scholars/members/registration.html">Apply now</a> to become a member at no charge.</li>
+                                                    <li><a class="w" href="https://www.ibm.com/account/profile/us?page=forgot">Reset</a> your password or <a class="w" href="https://www.ibm.com/account/profile/us">update</a> your profile.</li>
+                                                </ul>
                                             </div>
                                         </td>
                                     </tr>
@@ -433,15 +438,15 @@
                                     </tr>
                                     <tr>
                                         <td class="no-padding">
-                                            <div style="border: solid; border-width: 0 1px 1px 1px; border-color: #ccc;">
-                                            <ul style="padding: .6em .6em .6em 2.5em; list-style-image: url(i/fw.gif)">
-                                                <li style="padding-bottom: .3em;"><a class="smallplainlink" href="/jct09002c/university/scholars/selfhelp/index.html">Self help</a></li>
-                                                <li style="padding-bottom: .3em;"><a class="smallplainlink" href="/jct09002c/us/en/university/scholars/downloads/software.html">Download software</a></li>
-                                                <li style="padding-bottom: .3em;"><a class="smallplainlink" href="/jct09002c/us/en/university/scholars/courseware/">Download courseware</a></li>
-                                                <li style="padding-bottom: .3em;"><a class="smallplainlink" href="https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=acadisdc">Give students access to software</a></li>
-                                                <li style="padding-bottom: .3em;"><a class="smallplainlink" href="//jct09002c/us/en/university/students/opptysystem/index.html">Student Opportunity System</a></li>
-                                                <li style="padding-bottom: .3em;"><a class="smallplainlink" href="http://www.ibm.com/developerworks/offers/techbriefings/">developerWorks! Live Technical Briefings</a></li>
-                                                <li style="padding-bottom: .3em;"><a class="smallplainlink" href="//jct09002c/university/scholars/highschool/index.html">Resources for High School Students</a></li>
+                                            <div id="quicklinks">
+                                            <ul>
+                                                <li><a class="smallplainlink" href="/jct09002c/university/scholars/selfhelp/index.html">Self help</a></li>
+                                                <li><a class="smallplainlink" href="/jct09002c/us/en/university/scholars/downloads/software.html">Download software</a></li>
+                                                <li><a class="smallplainlink" href="/jct09002c/us/en/university/scholars/courseware/">Download courseware</a></li>
+                                                <li><a class="smallplainlink" href="https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=acadisdc">Give students access to software</a></li>
+                                                <li><a class="smallplainlink" href="//jct09002c/us/en/university/students/opptysystem/index.html">Student Opportunity System</a></li>
+                                                <li><a class="smallplainlink" href="http://www.ibm.com/developerworks/offers/techbriefings/">developerWorks! Live Technical Briefings</a></li>
+                                                <li><a class="smallplainlink" href="//jct09002c/university/scholars/highschool/index.html">Resources for High School Students</a></li>
                                             </ul>
                                             </div>
                                         </td>
