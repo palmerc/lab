@@ -384,7 +384,7 @@
                                                                 
                                 <c:forEach var="row" items="${rs.rows}">
                                 <div style="border: solid; border-width: 1px; border-color: #ccc;">
-                                    <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">${row.marketing.introductionMarketing}</div>
+                                    <div style="color:#fff; font-weight: bold; background:#3c5f84; padding: .30em 0 .30em .5em;">${row.introductionMarketing}</div>
                                     <div style="padding: .60em;">
                                         <h1>${row.productNameMarketing}</h1>
                                         <a href="${row.linkBrands}" class="smallplainlink">
@@ -496,7 +496,7 @@
         <!-- END Page Footer -->
         
         <!-- BEGIN surfaid code include -->
-        <script type="text/javascript" language="JavaScript1.2" src="//www.ibm.com/common/stats/stats.js"></script>
+        <!-- <script type="text/javascript" language="JavaScript1.2" src="//www.ibm.com/common/stats/stats.js"></script> -->
         <!-- END surfaid code include -->
     </body>
 </html>
