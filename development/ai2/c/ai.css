@@ -1,8 +1,15 @@
+ul {
+	position: relative;
+	/* begin IE Hack \*/
+	margin-left: 0;
+	/* end IE Hack */
+}
+
 #testimonials {
 	background-image: url(/ai2/i/image_text2.jpg);
 	background-repeat: no-repeat;
 	height: 100px;
-	width: 443px;"
+	width: 443px;
 }
 
 #testimonials_title {
@@ -11,13 +18,6 @@
 	color: #fff;
 	width: 60%;
 	float: left;
-}
-
-#testimonials_body {
-	padding: 1em 1em 0 0;
-	color: #fff;
-	width: 30%;
-	float: right;
 }
 
 #testimonials_body {
@@ -42,8 +42,7 @@
 
 #stories ul {
 	padding: .6em .6em .6em 2.5em;
-	list-style-image: url(/ai2/i/fw_bold.gif);
-	list-style-type: disc;
+	list-style: disc url(/ai2/i/fw_bold.gif) outside;
 }
 
 #stories ul li {
@@ -91,8 +90,7 @@
 
 #membership ul {
 	padding: .6em .6em .6em 2.5em;
-	list-style-image: url(/ai2/i/fw.gif);
-	list-style-type: disc;
+	list-style: disc url(/ai2/i/fw.gif) outside;
 }
 
 #membership ul li {
@@ -107,7 +105,7 @@
 
 #quicklinks ul {
 	padding: .6em .6em .6em 2.5em;
-	list-style-image: url(/ai2/i/fw.gif)
+	list-style: disc url(/ai2/i/fw.gif) outside;
 }
 
 #quicklinks ul li {
