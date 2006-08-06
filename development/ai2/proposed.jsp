@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title>IBM Academic Initiative</title>
@@ -15,6 +16,7 @@
         
         <link rel="shortcut icon" href="i/favicon.ico" type="image/x-icon" />
         <link rel="alternate" title="IBM Academic Initiative RSS" href="ibm_ai_rss.jsp" type="application/rss+xml" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     
     <body>
@@ -372,7 +374,7 @@
                                 </table>
                                 <!-- END Top Stories -->
                                 <br />
-
+                                <!-- BEGIN What is... Marketing -->
                                 <sql:query var="rs" dataSource="jdbc/IBMDB">
                                 SELECT marketing.introductionMarketing,
                                     marketing.productNameMarketing,
@@ -395,7 +397,7 @@
                                         <a href="${row.linkBrands}" class="smallplainlink">
                                             <img src="${row.logoBrands}" border="0" alt="${row.nameBrands}" align="middle"  />
                                         </a>
-                                        <p>${row.productDescriptionMarketing}</p>
+                                        ${row.productDescriptionMarketing}
                                         <div id="whatis_link">
                                             <a href="${row.cwLinkMarketing}">
                                             <img border="0" alt="Courseware Download" src="i/download.gif" width="21" height="21" />
@@ -407,7 +409,8 @@
                                     </div>
                                 </div>
                                 </c:forEach>
-                                <br class="cleary" />                                
+                                <br class="cleary" />
+                                <!-- END What is... Marketing -->
                             </td>
                             <td width="7">
                                 <img src="i/c.gif" width="7" height="1" alt="" border="0" />
