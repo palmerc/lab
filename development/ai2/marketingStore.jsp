@@ -219,21 +219,27 @@
 
     <c:when test="${param.type == 'insert'}">        
         <sql:update dataSource="jdbc/IBMDB">
-           INSERT INTO news
-           (newsid, publish_date, start_date, end_date, publish, link, headline, summary, story)
-           VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+           INSERT INTO marketing
+                (idMarketing,
+                dateMarketing,
+                publishMarketing,
+                productNameMarketing,
+                swLinkMarketing,
+                cwLinkMarketing,
+                introductionMarketing,
+                productDescriptionMarketing)
+           VALUES(?, ?, ?, ?, ?, ?, ?, ?)
                
            <sql:param value="${null}" />
-           <sql:dateParam value="${now}" />
-           <sql:dateParam value="${parsedStartDate}" type="date" />
-           <sql:dateParam value="${parsedEndDate}" type="date" />
-           <sql:param value="${param.publish}" />
-           <sql:param value="${param.link}" />
-           <sql:param value="${param.news_headline}" />
-           <sql:param value="${param.news_summary}" />
-           <sql:param value="${param.news_story}" />
+           <sql:dateParam value="${parseDateMarketing}" type="date" />
+           <sql:param value="${param.publishMarketing}" />
+           <sql:param value="${param.productNameMarketing}" />
+           <sql:param value="${param.swLinkMarketing}" />
+           <sql:param value="${param.cwLinkMarketing}" />
+           <sql:param value="${param.introductionMarketing}" />
+           <sql:param value="${param.productDescriptionMarketing}" />
         </sql:update>
-        <c:redirect url="news_admin.jsp" />
+        <c:redirect url="marketingAdmin.jsp" />
     </c:when>
 
     <c:when test="${param.type == 'update'}">
