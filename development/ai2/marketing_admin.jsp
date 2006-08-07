@@ -19,68 +19,84 @@
         <link rel="stylesheet" type="text/css" media="print" href="//www.ibm.com/common/v14/print.css" />
     </head>
     <body>
-        <h1>IBM Academic Initiative News Admin</h1>
+        <h1>IBM Academic Initiative Marketing Admin</h1>
         <form action="store.jsp" method="post">
             <input type="hidden" name="type" value="create" />
-            <input type="submit" value="New Story" />
+            <input type="submit" value="New Marketing" />
         </form>
             <hr />
-            <h2>Active News Stories</h2>
+            <h2>Active Marketing</h2>
             <sql:query var="rs" dataSource="jdbc/IBMDB">
-            SELECT * FROM news WHERE publish IS TRUE
+            SELECT marketing.idMarketing,
+                marketing.dateMarketing,
+                marketing.introductionMarketing,
+                marketing.productNameMarketing,
+                marketing.productDescriptionMarketing,
+                marketing.cwLinkMarketing,
+                marketing.swLinkMarketing,
+                brands.nameBrands,
+                brands.linkBrands,
+                brands.logoBrands
+            FROM marketing, brands 
+            WHERE (marketing.idBrands=brands.idBrands)
+                AND (marketing.publishMarketing IS TRUE)
             </sql:query>
             <c:if test="${!empty rs.rows}">
             <table>
                 <tr>
                     <th>Date</th>
-                    <th>Headline</th>
+                    <th>Product Name</th>
                     <th>Status</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    <th>Brand</th>
                 </tr>
             <c:forEach var="row" items="${rs.rows}">
                 <tr>
-                    <td>${row.publish_date}</td>
-                    <td><a href="store.jsp?type=edit&amp;newsid=${row.newsid}">${row.headline}</a></td>
+                    <td>${row.dateMarketing}</td>
+                    <td><a href="store.jsp?type=edit&amp;idMarketing=${row.idMarketing}">${row.productNameMarketing}</a></td>
                     <td>
                         active
                     </td>
                     <td>
-                        ${row.start_date}
-                    </td>
-                    <td>
-                        ${row.end_date}
+                        ${row.nameBrands}
                     </td>
                 </tr>
             </c:forEach>
             </table>
             </c:if>
             <hr />
-            <h2>Archived News Stories</h2>
+            <h2>Archived Marketing</h2>
             <sql:query var="rs" dataSource="jdbc/IBMDB">
-            SELECT * FROM news WHERE publish IS FALSE
+            SELECT marketing.idMarketing,
+                marketing.dateMarketing,
+                marketing.introductionMarketing,
+                marketing.productNameMarketing,
+                marketing.productDescriptionMarketing,
+                marketing.cwLinkMarketing,
+                marketing.swLinkMarketing,
+                brands.nameBrands,
+                brands.linkBrands,
+                brands.logoBrands
+            FROM marketing, brands 
+            WHERE (marketing.idBrands=brands.idBrands)
+                AND (marketing.publishMarketing IS FALSE)
             </sql:query>
             <c:if test="${!empty rs.rows}">
             <table>
                 <tr>
                     <th>Date</th>
-                    <th>Headline</th>
+                    <th>Product Name</th>
                     <th>Status</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    <th>Brand</th>
                 </tr>
             <c:forEach var="row" items="${rs.rows}">
                 <tr>
-                    <td>${row.publish_date}</td>
-                    <td><a href="store.jsp?type=edit&amp;newsid=${row.newsid}">${row.headline}</a></td>
+                    <td>${row.dateMarketing}</td>
+                    <td><a href="store.jsp?type=edit&amp;idMarketing=${row.idMarketing}">${row.productNameMarketing}</a></td>
                     <td>
-                        archive
+                        archived
                     </td>
                     <td>
-                        ${row.start_date}
-                    </td>
-                    <td>
-                        ${row.end_date}
+                        ${row.nameBrands}
                     </td>
                 </tr>
             </c:forEach>
@@ -88,7 +104,7 @@
             </c:if>
         <form action="store.jsp" method="post">
             <input type="hidden" name="type" value="create" />
-            <input type="submit" value="New Story" />
+            <input type="submit" value="New Marketing" />
         </form>
 
     </body>

@@ -362,12 +362,14 @@
                                     <tr>
                                         <td>
                                             <div id="stories">
-                                                <div id="stories_title">Top Stories</div>
-                                                <ul>
-                                                <c:forEach var="row" items="${rs.rows}">
-                                                    <li><b><a class="fbox" href="${row.link}">${row.headline}</a></b></li>
-                                                </c:forEach>
-                                                </ul>
+                                                <div id="stories_title"><div>Top Stories<div> <a href="ibm_ai_rss.jsp"><img src="i/xml.gif" alt="RSS" /></a></div>
+                                                <div id="stories_body">
+                                                    <ul>
+                                                    <c:forEach var="row" items="${rs.rows}">
+                                                        <li><b><a class="fbox" href="${row.link}">${row.headline}</a></b></li>
+                                                    </c:forEach>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
