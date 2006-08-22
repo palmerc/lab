@@ -1,0 +1,709 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <script type="text/javascript">
+        function toggle() {
+         if (document.getElementById("language").value=="japanese") {
+            document.getElementById("news_html").disabled=true;
+            document.getElementById("news_text").checked=true;
+         } else {
+            document.getElementById("news_html").disabled=false;
+         }
+        }
+
+        function emailCheck (emailStr) {
+
+        /* The following variable tells the rest of the function whether or not
+        to verify that the address ends in a two-letter country or well-known
+        TLD.  1 means check it, 0 means don't. */
+
+        var checkTLD=1;
+
+        /* The following is the list of known TLDs that an e-mail address must end with. */
+
+        var knownDomsPat=/^(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum)$/;
+
+        /* The following pattern is used to check if the entered e-mail address
+        fits the user@domain format.  It also is used to separate the username
+        from the domain. */
+
+        var emailPat=/^(.+)@(.+)$/;
+
+        /* The following string represents the pattern for matching all special
+        characters.  We don't want to allow special characters in the address. 
+        These characters include ( ) < > @ , ; : \ " . [ ] */
+
+        var specialChars="\\(\\)><@,;:\\\\\\\"\\.\\[\\]";
+
+        /* The following string represents the range of characters allowed in a 
+        username or domainname.  It really states which chars aren't allowed.*/
+
+        var validChars="\[^\\s" + specialChars + "\]";
+
+        /* The following pattern applies if the "user" is a quoted string (in
+        which case, there are no rules about which characters are allowed
+        and which aren't; anything goes).  E.g. "jiminy cricket"@disney.com
+        is a legal e-mail address. */
+
+        var quotedUser="(\"[^\"]*\")";
+
+        /* The following pattern applies for domains that are IP addresses,
+        rather than symbolic names.  E.g. joe@[123.124.233.4] is a legal
+        e-mail address. NOTE: The square brackets are required. */
+
+        var ipDomainPat=/^\[(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\]$/;
+
+        /* The following string represents an atom (basically a series of non-special characters.) */
+
+        var atom=validChars + '+';
+
+        /* The following string represents one word in the typical username.
+        For example, in john.doe@somewhere.com, john and doe are words.
+        Basically, a word is either an atom or quoted string. */
+
+        var word="(" + atom + "|" + quotedUser + ")";
+
+        // The following pattern describes the structure of the user
+
+        var userPat=new RegExp("^" + word + "(\\." + word + ")*$");
+
+        /* The following pattern describes the structure of a normal symbolic
+        domain, as opposed to ipDomainPat, shown above. */
+
+        var domainPat=new RegExp("^" + atom + "(\\." + atom +")*$");
+
+        /* Finally, let's start trying to figure out if the supplied address is valid. */
+
+        /* Begin with the coarse pattern to simply break up user@domain into
+        different pieces that are easy to analyze. */
+
+        var matchArray=emailStr.match(emailPat);
+
+        if (matchArray==null) {
+
+        /* Too many/few @'s or something; basically, this address doesn't
+        even fit the general mould of a valid e-mail address. */
+
+        alert("Your email address is missing or has an incorrect format.");
+        return false;
+        }
+        var user=matchArray[1];
+        var domain=matchArray[2];
+
+        // Start by checking that only basic ASCII characters are in the strings (0-127).
+
+        for (i=0; i<user.length; i++) {
+        if (user.charCodeAt(i)>127) {
+        alert("Ths username contains invalid characters.");
+        return false;
+           }
+        }
+        for (i=0; i<domain.length; i++) {
+        if (domain.charCodeAt(i)>127) {
+        alert("Ths domain name contains invalid characters.");
+        return false;
+           }
+        }
+
+        // See if "user" is valid 
+
+        if (user.match(userPat)==null) {
+
+        // user is not valid
+
+        alert("The username doesn't seem to be valid.");
+        return false;
+        }
+
+        /* if the e-mail address is at an IP address (as opposed to a symbolic
+        host name) make sure the IP address is valid. */
+
+        var IPArray=domain.match(ipDomainPat);
+        if (IPArray!=null) {
+
+        // this is an IP address
+
+        for (var i=1;i<=4;i++) {
+        if (IPArray[i]>255) {
+        alert("Destination IP address is invalid!");
+        return false;
+           }
+        }
+        return true;
+        }
+
+        // Domain is symbolic name.  Check if it's valid.
+         
+        var atomPat=new RegExp("^" + atom + "$");
+        var domArr=domain.split(".");
+        var len=domArr.length;
+        for (i=0;i<len;i++) {
+        if (domArr[i].search(atomPat)==-1) {
+        alert("The domain name does not seem to be valid.");
+        return false;
+           }
+        }
+
+        /* domain name seems valid, but now make sure that it ends in a
+        known top-level domain (like com, edu, gov) or a two-letter word,
+        representing country (uk, nl), and that there's a hostname preceding 
+        the domain or country. */
+
+        if (checkTLD && domArr[domArr.length-1].length!=2 && 
+        domArr[domArr.length-1].search(knownDomsPat)==-1) {
+        alert("The address must end in a well-known domain or two letter " + "country.");
+        return false;
+        }
+
+        // Make sure there's a host name preceding the domain.
+
+        if (len<2) {
+        alert("This address is missing a hostname!");
+        return false;
+        }
+
+        // If we've gotten this far, everything's valid!
+        return true;
+        }
+        
+   </script>
+
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="/us/en/university/scholars/js/browser2.js">
+</script>
+<!-- begin surfaid script -->
+<script type="text/javascript" language="JavaScript1.2" src="//www.ibm.com/common/stats/stats.js"></script>
+<noscript><img src="//stats.www.ibm.com/rc/images/uc.GIF?R=noscript" width="1" height="1" alt="" border="0" /></noscript>
+<!-- end surfaid script -->
+
+<a name="main"></a>
+<table width="610" cellpadding="0" cellspacing="0" border="0" id="content-table">
+<tr valign="top">
+<td width="10"> </td>
+<td width="443"> <img alt="" height="6" src="//www.ibm.com/i/c.gif" width="1" />
+<!--page title-->
+<h1>IBM Academic Initiative</h1>
+<p id="subtitle"><em>Open standards, open source and IBM resources for academia</em></p>
+<!-- end page title-->
+</td>
+<td width="7"> </td>
+<td width="150"> </td>
+</tr>
+<tr>
+<td width="10"> </td>
+<td valign="top" width="443" id="content">
+	<table width="443" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+	<td colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="4" alt="" border="0"/></td>
+	</tr>
+	<tr>
+	<td colspan="2" align="right"><span class="small">Updated 21 August 2006</span></td>
+	</tr>
+	<tr>
+	<td colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="4" alt="" border="0"/></td>
+	</tr>
+	<tr>
+	<td colspan="2">
+	<img src="/university/scholars/images/image_text2.jpg" width="443" height="160" alt="IBM Academic Initiative" border="0" /></td>
+	</tr>
+	<tr>
+	<td colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="4" alt="" border="0"/></td>
+	</tr>
+	<tr>
+	<td colspan="2"><img src="//www.ibm.com/i/v14/rules/dblue_rule.gif" width="443" height="4" alt="" border="0" /></td>
+	</tr>
+	<tr>
+	<td>
+		<table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border">
+		<tr> 
+		<td width="443">
+		<p>Would you like to...</p>
+		<ul>
+		<li>Stay on top of the leading technologies?</li>
+		<li>Enjoy the benefits of the open source community?</li>
+		<li>Prepare your students to land the best jobs in the hottest fields?</li>
+		<li>And, get valuable resources to help reach these goals, at no charge?</li>
+		</ul>
+		<p>The IBM Academic Initiative offers all this and more.  Become a member and gain access to software, 
+		hardware, courseware, training, tools, books, and lots of discounts.  What are you waiting for?
+		<a href="/university/scholars/members/"> Start here.</a>
+		</td> 
+		</tr> 
+		</table>
+	</td> 
+	</tr>
+	</table>
+	<br />
+	<table border="0" cellpadding="0" cellspacing="0" width="443">
+	<tr>
+	<td class="v14-header-1">Top stories</td>
+	</tr>
+	<tr>
+	<td>
+		<table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border">
+		<tr>
+		<td width="443">
+			<table border="0" cellpadding="0" cellspacing="0" width="430">
+			<tr valign="top">
+			<td align="right" width="18" class="ipt"><img alt="" height="16" src="//www.ibm.com/i/v14/icons/fw_bold.gif" width="16"/></td>
+			<td class="nlbp"><p><b><a class="fbox" href="/university/scholars/members/faq.html#question3.8">
+			Have your Rational license keys expired?</a></b> IBM Academic Initiative is using a new process 
+			to generate Rational license keys that do not expire. Renew your keys with this one-time, simplified process.
+			</p>
+			</td>
+			</tr>
+			<tr valign="top">
+			<td align="right" width="18" class="ipt"><img alt="" height="16" src="//www.ibm.com/i/v14/icons/fw_bold.gif" width="16"/></td>
+			<td class="nlbp"><p><b><a class="fbox" href="/university/scholars/courseware/systemp.html">
+			New System p courseware available</a></b>. This course introduces students to a UNIX operating system 
+			running on RISC architecture. Members can download it right now!</p>
+			</td>
+			</tr>				
+			<tr valign="top">
+			<td align="right" width="18" class="ipt"><img alt="" height="16" src="//www.ibm.com/i/v14/icons/fw_bold.gif" width="16"/></td>
+			<td class="nlbp"><p><b><a class="fbox" href="http://www.ibm.com/able/contest/">
+			Accessibility contest for students</a></b>. Students in Canada, China, Japan, and the US can put their 
+			coding skills to the test and potentially change the way people use and interact with technology. 
+			Prizes include t-shirts, iPods, and ThinkPads.</p>
+			</td>
+			</tr>	
+			<tr valign="top">
+			<td align="right" width="18" class="ipt"><img alt="" height="16" src="//www.ibm.com/i/v14/icons/fw_bold.gif" width="16"/></td>
+			<td class="nlbp"><p><b><a class="fbox" href="http://www.gridtoday.com/grid/800945.html">
+			IBM supercharges SURAgrid</a></b>. IBM UNIX-based systems will unite resources from 27 institutions in 15 states, 
+			to dramatically increase SURAgrid's research capabilities.</p>
+			</td>
+			</tr>	
+			<tr valign="top">
+			<td align="right" width="18" class="ipt"><img alt="" height="16" src="//www.ibm.com/i/v14/icons/fw_bold.gif" width="16"/></td>
+			<td class="nlbp"><p><b><a class="fbox" href="http://news.moneycentral.msn.com/ticker/article.asp?Feed=MW&Date=20060810&ID=5937872&Symbol=US:IBM">
+			IBM teams with Pace University to bolster technology talent pool</a></b>. New initiative aims to
+			accelerate information technology skills among students and spur innovation in the local economy.</p>
+			</td>
+			</tr>										
+			<tr>
+			<td colspan="2"><img src="//www.ibm.com/i/c.gif" border="0" height="10" width="1" alt=""/></td>
+			</tr>
+			</table>
+		</td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+	<br />
+
+	<table border="0" cellpadding="0" cellspacing="0" width="443">
+	<tr>
+	<td width="218" valign="top">
+	<img alt="" height="1" src="//www.ibm.com/i/v14/rules/gray_rule.gif" width="218" /><br />
+	<table border="0" cellpadding="0" cellspacing="0" width="218" class="v14-gray-table-border"> 
+	<tr><td width="1" colspan="3"><img src="//www.ibm.com/i/c.gif" width="1" height="3" alt="" border="0" /></td></tr>
+	<tr> 
+	<td width="3" valign="top"><img src="//www.ibm.com/i/c.gif" width="3" height="1" alt="" border="0" /></td>
+	<td width="50" valign="top"><img src="/us/en/university/scholars/images/AI_portlet_openstandard.jpg" alt="Open standards" width="50" height="100" /></td>
+	<td width="165" height="120" valign="top"><p><b><a href="/us/en/university/scholars/openstandards/">Open standards</a> </b><br />
+	  Here, we've gathered an extensive list of the best resources on our sites for learning about open-standards computing.</p>
+	 </td>
+	</tr>
+	</table>
+</td>
+
+	<td width="7"><br /></td>
+	<td width="218" valign="top">
+	<img alt="" height="1" src="//www.ibm.com/i/v14/rules/gray_rule.gif" width="218" /><br />
+		<table border="0" cellpadding="0" cellspacing="0" width="218" class="v14-gray-table-border"> 
+		<tr><td width="1" colspan="3"><img src="//www.ibm.com/i/c.gif" width="1" height="3" alt="" border="0" /></td></tr>
+		<tr> 
+		<td width="3" valign="top"><img src="//www.ibm.com/i/c.gif" width="3" height="1" alt="" border="0" /></td>
+		<td width="50" valign="top"><img src="/us/en/university/scholars/images/AI_portlet_studentopp.jpg" alt="Student Opportunity System" width="50" height="100" /></td>
+		<td width="165" height="120" valign="top"><p><b><a href="/us/en/university/students/opptysystem/index.html">IBM Academic Initiative Student Opportunity System</a> </b><br />
+		Let your students know about our new resume database!</p> </td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+	<br />
+
+	<table border="0" cellpadding="0" cellspacing="0" width="443">
+	<tr> 
+	<td width="218" valign="top">
+	<img alt="" height="1" src="//www.ibm.com/i/v14/rules/gray_rule.gif" width="218" /><br />
+		<table border="0" cellpadding="0" cellspacing="0" width="218" class="v14-gray-table-border"> 
+		<tr>
+		<td width="1" colspan="3"><img src="//www.ibm.com/i/c.gif" width="1" height="3" alt="" border="0" /></td>
+		</tr>
+		<tr> 
+		<td width="3" valign="top"><img src="//www.ibm.com/i/c.gif" width="3" height="1" alt="" border="0" /></td>
+		<td width="50" valign="top"><img src="/university/scholars/images/getstarted.jpg" alt="Getting Started" width="50" height="100" /></td>
+		<td width="165" height="120" valign="top"><p><b><a href="/us/en/university/scholars/products/">Getting started</a> </b><br />
+		If you're new to the IBM Academic Initiative, we've developed some resources to help you get started quickly.</p>
+		</td>
+		</tr>
+		</table>
+	</td>
+
+	<td width="7"><br /></td>
+	<td width="218" valign="top">
+	<img alt="" height="1" src="//www.ibm.com/i/v14/rules/gray_rule.gif" width="218" /><br />
+		<table border="0" cellpadding="0" cellspacing="0" width="218" class="v14-gray-table-border"> 
+		<tr><td width="1" colspan="3"><img src="//www.ibm.com/i/c.gif" width="1" height="3" alt="" border="0" /></td></tr>
+		<tr>
+		<td width="3" valign="top"><img src="//www.ibm.com/i/c.gif" width="3" height="1" alt="" border="0" /></td>
+		<td width="50" valign="top"><img src="/university/scholars/images/HighSchool_50x100.jpg" alt="Resources for high schools." width="50" height="100" /></td>
+		<td width="165" height="120" valign="top"><p><b><a href="/university/scholars/highschool/index.html">Resources for high schools</a> 
+		</b><br />
+		The IBM Academic Initiative has resources for high schools too!</p> </td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+	<br />
+	<table border="0" cellpadding="0" cellspacing="0" width="443">
+	<tr> 
+	<td width="218" valign="top">
+	<img alt="" height="1" src="//www.ibm.com/i/v14/rules/gray_rule.gif" width="218" /><br />
+		<table border="0" cellpadding="0" cellspacing="0" width="218" class="v14-gray-table-border"> 
+		<tr><td width="1" colspan="3"><img src="//www.ibm.com/i/c.gif" width="1" height="3" alt="" border="0" /></td></tr>
+		<tr> 
+		<td width="3" valign="top"><img src="//www.ibm.com/i/c.gif" width="3" height="1" alt="" border="0" /></td>
+		<td width="50" valign="top"><img src="/university/scholars/images/devworks.jpg" alt="Developer Works" width="50" height="100" /></td>
+		<td width="165" height="120" valign="top"><p><b><a href="http://www.ibm.com/developerworks/offers/techbriefings/">
+		developerWorks Live! technical briefings</a></b><br />
+		Attend these no-charge technical demonstrations and enjoy direct contact with leading technology experts.</p>
+		</td>
+		</tr>
+		</table>
+	</td>
+
+	<td width="7"><br /></td>
+	<td width="218" valign="top">
+	<img alt="" height="1" src="//www.ibm.com/i/v14/rules/gray_rule.gif" width="218" /><br />
+		<table border="0" cellpadding="0" cellspacing="0" width="218" class="v14-gray-table-border"> 
+		<tr><td width="1" colspan="3"><img src="//www.ibm.com/i/c.gif" width="1" height="3" alt="" border="0" /></td></tr>
+		<tr> 
+		<td width="3" valign="top"><img src="//www.ibm.com/i/c.gif" width="3" height="1" alt="" border="0" /></td>
+		<td width="50" valign="top"><img src="/university/scholars/images/certification.jpg" alt="Certification" width="50" height="100" /></td>
+		<td width="165" height="120" valign="top"><p><b><a href="/us/en/university/scholars/certification/#b">Certification test discounts</a></b><br />
+		Faculty members and their students can receive a 50% discount on certification tests at Thompson Prometric Centers.
+		</p>
+		</td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+
+	<img alt="" height="40" src="//www.ibm.com/i/c.gif" width="1" /> </td>
+    <td width="7"><img src="//www.ibm.com/i/c.gif" width="7" height="1" alt="" border="0" /></td>
+ 	<td width="150" valign="top" id="right-nav">
+       <table cellspacing="0" cellpadding="0" border="0" width="150">
+        <tr>
+          <td class="v14-header-1-small">Membership</td>
+        </tr>
+      </table>
+	  
+	<table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border" width="150">
+	<tr>
+	<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+	<td  class="npl"><p class="small"><a class="w"  href="/university/scholars/members/spm/redirector.htm">Sign in</a></p></td>
+	</tr>
+	<tr>
+	<td colspan="4" class="dotted"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+	</tr>
+	<tr>
+	<td  valign="top" class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+	<td  class="npl"><p class="small"><a class="w"  href="/us/en/university/scholars/members/registration.html">
+	Apply now</a> to become a member at no charge or <a href="https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=ursparww">renew</a> your membership.</p></td>
+	</tr>
+	<tr>
+	<td colspan="3" class="dotted"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+	</tr>
+	<tr>
+	<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+	<td  class="npl"><p class="small"><a class="w" href="https://www.ibm.com/account/profile/us?page=forgot">Reset</a> your password or <a class="w" href="https://www.ibm.com/account/profile/us">update</a> your profile.</p></td>
+	</tr>
+	</table>
+	<br />
+
+	<table border="0" cellpadding="0" cellspacing="0" width="150"> 
+	<tr> 
+	<td class="v14-header-4-small">Quick links</td>
+	</tr>
+	<tr>
+	<td class="no-padding">
+		<table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border" width="150"> 
+		<tr>
+		<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+		<td  class="npl"><p><a class="smallplainlink" href="/university/scholars/members/faq.html#question3.8">Need to renew your Rational license key?</a></p></td>		
+		</tr>
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr>
+		<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+		<td  class="npl"><p><a class="smallplainlink" href="/university/scholars/selfhelp/index.html">Self help</a></p></td>		
+		</tr>
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+		<td  class="npl"><p><a class="smallplainlink" href="/us/en/university/scholars/downloads/software.html">Download software</a></p></td>		
+		</tr>
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr>
+		<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+		<td  class="npl"><p><a class="smallplainlink" href="/us/en/university/scholars/courseware/">Download courseware</a></p></td>		
+		</tr>
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr>
+		<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+		<td  class="npl"><p><a class="smallplainlink" href="https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=acadisdc">
+		Give students access <br>to software</a></p></td>		
+		</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+	<br />
+	<table border="0" cellpadding="0" cellspacing="0" width="150">
+	<tr>
+	<td class="v14-header-4-small">Latin American (LA) Grid</td>
+	</tr>
+	<tr>
+	<td>
+		<table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border">
+		<tr>
+		<td width="150"><img src="//www.ibm.com/grid/i/lagridbusinessplan_callout.gif" height="70" width="148" alt=""/></td>
+		</tr>
+		<tr>
+		<td><p class="small">Hispanic Innovation and Leadership Today</p></td>
+		</tr>
+		<tr>
+		<td class="dotted"><img src="//www.ibm.com/i/c.gif" height="1" width="1" alt=""/></td>
+		</tr>
+		<tr>
+		<td class="no-padding">
+		<table border="0" cellpadding="0" cellspacing="0" width="143">
+		<tr valign="top">
+		<td align="right" width="18" class="ipt"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+		<td width="125" class="npl"><p><a class="smallplainlink" href="http://www.ibm.com/grid/lagrid.shtml?ca=grid&me=w&met=lagrid&p_site=gridhp">Learn more</a></p></td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	<br />
+
+	<table border="0" cellpadding="0" cellspacing="0" width="150">
+	<tr> 
+	<td class="v14-header-4-small">Products & technologies</td> 
+	</tr> 
+	<tr>
+	<td> 
+		<table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border"> 
+		<tr> 
+		<td width="150"><p><a href="/us/en/university/scholars/products/data/" class="smallplainlink">
+		<img src="/us/en/university/scholars/products/data/images/db2_markhome.gif" border="0" alt="DB2 Information Management Software" align="left" width="140" height="21" /></a></p></td>
+		</tr> 
+		<tr> 
+		<td colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="4" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td width="150"><p><a href="/us/en/university/scholars/products/iseries/index.html" class="smallplainlink">
+		<img src="/us/en/university/scholars/products/data/images/Systemi_60x14.jpg" border="0" alt="System i" align="bottom"/></a></p></td> 
+		</tr> 
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td width="150"><p><a href="/us/en/university/scholars/products/zseries/" class="smallplainlink">
+		<img src="/us/en/university/scholars/products/data/images/Systemz_60x14.jpg" border="0" alt="System z" align="bottom" /></a></p></td> 
+		</tr> 	
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td width="150"><p><a href="/us/en/university/scholars/products/ondemand/index.html" class="smallplainlink">
+		<img src="/us/en/university/scholars/products/data/images/Cert_OD_Mark_Home.gif" width="140" height="21" border="0" alt="Certified for IBM On Demand Business" align="middle"  /></a></p></td> 
+		</tr> 
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td width="150"><p><a href="http://www.ibm.com/software/lotus/" class="smallplainlink">
+		<img src="/us/en/university/scholars/products/data/images/lotus_logo.gif" border="0" width="118" height="21" alt="Lotus Software" align="middle"  /></a></p></td> 
+		</tr> 
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td width="150"><p><a href="/us/en/university/scholars/products/rational/" class="smallplainlink">
+		<img src="/university/scholars/products/data/images/rational_logo.gif" border="0" width="137" height="21" alt="Rational Software" align="middle"  /></a></p></td> 
+		</tr> 
+		<tr> 
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td width="150"><p><a href="http://www.ibm.com/software/tivoli/" class="smallplainlink">
+		<img src="/university/scholars/products/data/images/tivoli_logo.gif" border="0" width="127" height="21" alt="Tivoli Software" align="middle" /></a></p></td> 
+		</tr> 
+		<tr>
+		<td class="dotted" colspan="2"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr> 
+		<td width="150"><p><a href="/us/en/university/scholars/products/websphere/" class="smallplainlink"><img src="/university/scholars/products/data/images/websphere_logo.gif" border="0" width="113" height="21" alt="WebSphere Software" align="middle" /></a></p></td> </tr> 
+		</table> 
+	</td>
+	</tr>
+	</table> 
+	<br />
+    <!-- Begin Newsletter Signup Section -->
+   <table cellspacing="0" cellpadding="0" border="0" width="150">
+      <tr>
+         <td class="v14-header-3-small">Newsletter</td>
+      </tr>
+   </table>
+   <table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border" width="150">
+      <tr>
+
+         <td colspan="3"><img alt="" height="5" src="//www.ibm.com/i/c.gif" width="1" /></td>
+      </tr>
+      <tr><td width="150" valign="middle">
+   <form action="NewsletterSignup.jsp" onSubmit="return emailCheck(this.email.value)" method="post" target="New_Window">
+      
+      <input type="hidden" name="lists" value="ibmscholars@ibm.email-publisher.com" />
+      <table cellpadding="0" cellspacing="0" border="0" >
+         <tr>
+            <td>Subscribe<br />
+
+               <label for="thetext"></label>
+               <input type="text" id="thetext" size="15" name="email" value="enter e-mail"  class="iform" onBlur="if (this.value == '') this.value='e-mail address';" onFocus="if (this.value == 'e-mail address') this.value=''"/>
+            </td> 
+         </tr>
+         <tr>
+            <td>Language<br />
+               <select name="language" id="language" onChange="toggle()">
+                  <option value="english">English</option>
+
+                  <option value="japanese">Japanese</option>
+               </select>
+            </td>
+         </tr>
+         <tr>
+            <td class="no-padding">
+               <table cellpadding="0" cellspacing="0">
+      	    <tr>
+
+      	       <td><input type="radio" name="type" id="news_html" value="HTML" checked="checked" />HTML</td>
+               <td><input type="radio" name="type" id="news_text" value="TEXT" /><label for="text">Text</label></td>
+               <td><label for="go">&nbsp;</label><input type="image" id="go" value="submit" src="//www.ibm.com/i/v14/buttons/go.gif" border="0" width="21" height="21" alt="Go" /></td>
+       	    </tr>
+      	 </table>
+            </td>
+         </tr>
+         <tr>
+
+            <td><img src="//www.ibm.com/i/c.gif" width="1" alt="" height="4" border="0" /></td>
+         </tr>
+         <tr>
+            <td>View <a href="/university/scholars/newsletter/" class="w">current</a> issue.</td>
+         </tr>
+         <tr>
+            <td><img src="//www.ibm.com/i/c.gif" width="1" alt="" height="6" border="0" /></td>
+
+         </tr>
+      </table> 
+   </form>
+   </td></tr>
+</table>
+    <!-- End Newsletter Signup Section -->
+    <br />
+
+	<table border="0" cellpadding="0" cellspacing="0" width="150"> 
+	<tr>
+	<td class="v14-header-3-small">Resources</td>
+	</tr>
+	<tr>
+	<td>
+		<table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border" width="150"> 
+		<tr>
+		<td class="no-padding">
+			<table border="0" cellpadding="0" cellspacing="0" width="143">
+			<tr valign="top"> 
+			<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+			<td width="125" class="npl"><p><a class="smallplainlink" href="/university/scholars/facultyawards/index.html">Faculty Awards</a></p></td>
+			</tr>
+			</table>
+		</td>
+		</tr>
+		<tr>
+		<td class="dotted"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr>
+		<td class="no-padding">
+			<table border="0" cellpadding="0" cellspacing="0" width="143">
+			<tr valign="top"> 
+			<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+			<td width="125" class="npl"><p><a class="smallplainlink" href="/us/en/university/scholars/fellowship/phd/">Ph. D. Fellowships</a></p></td>
+			</tr>
+			</table>
+		</td>
+		</tr>
+		<tr>
+		<td class="dotted"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt=""/></td> 
+		</tr>
+		<tr>
+		<td class="no-padding">
+			<table border="0" cellpadding="0" cellspacing="0" width="143">
+			<tr valign="top"> 
+			<td  valign="top"  class="ipt" width="17"><img src="//www.ibm.com/i/v14/icons/fw.gif" height="16" width="16" alt=""/></td>
+			<td width="125" class="npl"><p><a class="smallplainlink" href="/us/en/university/scholars/sur/">Shared University Research</a></p></td>
+			</tr>
+			</table>
+		</td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+	</table> 	 
+	<br />
+	<!-- removed the grid to keep right column from exceeding center column 
+	<table border="0" cellpadding="0" cellspacing="0" width="150">
+	<tr>
+	<td class="v14-header-3-small">Help defeat cancer.<br />
+	  Join now!</td>
+	</tr>
+	<tr>
+	<td>	
+		<table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border">
+		<tr>
+		<td width="150" align="center"><a class="smallplainlink" href="http://www.ibm.com/ibm/ibmgives/news/help_defeat_cancer.shtml">
+		<img alt="World Community Grid" width="144" height="96" hspace="0" vspace="0" border="0" 
+			 src="http://www.ibm.com/ibm/ibmgives/images/thumbs/wcg.gif" /></a></td>										
+		</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+	<br />  -->	
+<!-- removed link-back rotational offers -->
+</td>
+</tr>
+</table>
+</body>
+</html>
