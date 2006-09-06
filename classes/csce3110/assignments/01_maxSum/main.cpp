@@ -22,7 +22,7 @@ int maxSubsequence(vector<int> a) {
 int main () {
     clock_t start, finish;
     double time;
-	char* iFileName;
+	string iFileName;
 	int number;
 	vector<int> a;
 	
@@ -31,7 +31,7 @@ int main () {
 	
 	ifstream inFile;
 	ofstream outFile;
-	inFile.open(iFileName, ios::in);
+	inFile.open(iFileName.c_str(), ios::in);
 	outFile.open("output.txt", ios::out);
 
 	while (inFile >> number)
