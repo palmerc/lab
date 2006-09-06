@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <ctime>
 using namespace std;
 
 int maxSubsequence(vector<int> a) {
@@ -19,6 +20,8 @@ int maxSubsequence(vector<int> a) {
 }
 
 int main () {
+    clock_t start, finish;
+    double time;
 	char* iFileName;
 	int number;
 	vector<int> a;
@@ -34,10 +37,15 @@ int main () {
 	while (inFile >> number)
 		a.push_back( (int)number );
 	
+    start = clock();
 	int max = maxSubsequence( a );
+    finish = clock();
+    time = (double(finish)-double(start))/CLOCKS_PER_SEC;
 	cout << "The maximum subsequence is " << max << endl;
+    cout << "The time it took to execute " << time << endl;
 	outFile << "The maximum subsequence is " << max << endl;
-	 
+	outFile << "The time it took to execute " << time << endl;
+    
 	inFile.close();
 	outFile.close();
     return 0;
