@@ -18,7 +18,7 @@ int maxSubsequence(vector<int> a) {
 	return max;
 }
 
-int main (int argc, char * const argv[]) {
+int main () {
 	char* iFileName;
 	int number;
 	vector<int> a;
@@ -27,18 +27,18 @@ int main (int argc, char * const argv[]) {
 	cin >> iFileName;
 	
 	ifstream inFile;
-	//ofstream outFile("output.txt", ios::out);
+	ofstream outFile;
 	inFile.open(iFileName, ios::in);
-	//outFile.open("output.txt", ios::out);
+	outFile.open("output.txt", ios::out);
 
 	while (inFile >> number)
 		a.push_back( (int)number );
 	
 	int max = maxSubsequence( a );
 	cout << "The maximum subsequence is " << max << endl;
-	//outFile << "The maximum subsequence is " << max << endl;
+	outFile << "The maximum subsequence is " << max << endl;
 	 
 	inFile.close();
-	//outFile.close();
+	outFile.close();
     return 0;
 }
