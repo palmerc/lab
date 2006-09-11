@@ -1,0 +1,55 @@
+#include <iostream> 
+#include "list.h"
+
+using namespace std;
+
+bool Search(char[5][5], int, int);
+void Display(char[5][5]);
+
+bool Search(char room[5][5], int x, int y)
+{
+   Display(room);
+   if (room[x][y] == 'E')
+      return true;
+   if (x < 0 || x > 4 || y < 0 || y > 4)
+      return false;
+   if (room[x][y] == '#' || room[x][y] == 'V')
+      return false;
+   room[x][y] = 'V';
+   
+   if (Search(room, x, y-1))
+      return true;
+   if (Search(room, x, y+1))
+      return true;
+   if (Search(room, x+1, y))
+      return true;
+   if (Search(room, x-1, y))
+      return true;
+   room[x][y] = ' ';
+}
+
+void Display(char room[5][5])
+{
+   for (int i=0; i < 5; i++)
+   {   
+      for (int j=0; j < 5; j++)
+         cout << room[i][j]; 
+      cout << endl;
+   }
+}
+
+int main ()
+{
+   char room[5][5] = {{' ',' ',' ',' ','#'},
+                     {'#','#','#',' ',' '},
+                     {'E','#',' ',' ','#'},
+                     {' ',' ',' ',' ','#'},
+                     {'#','#','#',' ',' '}};
+
+   Display(room);
+   Search(room,0,0);
+   Display(room);
+
+
+   return 0;
+}
