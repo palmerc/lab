@@ -3,7 +3,7 @@
 	$section = "Familiarity Assignment 2";
 	require("../../dev-template.php");
 ?>
-<div>
+<div class="form">
    Enter name (Last, First, Middle): <input type="text" name="name" /><br />
    Enter email address: <input type="text" name="email" /><br />
    Enter your sex: Male <input type="radio" name="sex" /> Female <input type="radio" name="sex" /> Age: <input type="text" name="age" /><br />
