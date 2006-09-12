@@ -4,5 +4,8 @@
 	require("../../dev-template.php");
 ?>
 <div>
-
+   Enter name (Last, First, Middle): <input type="text" name="name" />
+   Enter email address: <input type="text" name="email" />
+   Enter your sex: Male <input type="radio" name="sex" /> Female <input type="radio" name="sex" /> Age: <input type="text" name="age" />
+   <input type="button" name="Reset" /> <input type="button" name="Press here to submit your information" />
 </div>
