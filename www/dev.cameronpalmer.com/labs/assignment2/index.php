@@ -21,9 +21,9 @@
    </form>
    <?php
       if (!$email)
-         echo "Error: Failed to enter email address. <br />";
+         echo "Error: Failed to enter email address.<br />";
       if (!$name)
-         echo "Error: Failed to enter name. <br />";
+         echo "Error: Failed to enter name.<br />";
       if ($age >= 1 && $age <= 21)
          echo"Too young to respond to this offer.<br />";
       else if ($age >= 22 && $age <= 29)

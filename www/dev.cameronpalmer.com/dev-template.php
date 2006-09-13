@@ -41,7 +41,9 @@ echo'
 		</div>
         ";
 
-    echo'<div id="dateline">This file was last updated: ' . date ('F d Y H:i:s.', getlastmod());
+    echo'
+      <div id="maintext">
+      <div id="dateline">This file was last updated: ' . date ('F d Y H:i:s.', getlastmod());
 	echo'</div>';
     if ($section != "Welcome") {
         echo"
@@ -67,6 +69,7 @@ function do_content($buf) {
 
 function do_footer($buf) {
     return $buf.'
+      </div>
 		<div id="footer">
 		   Copyright &copy; 2006 Cameron Palmer<br />
 		   cameron DOT palmer AT gmail DOT com
