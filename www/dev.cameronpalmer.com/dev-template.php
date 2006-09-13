@@ -36,28 +36,24 @@ echo'
     ';
     echo"
    <div id=\"page\">
-    <div id=\"header\">
+      <div id=\"header\">
 			<h1>{$title}</h1>
 		</div>
         ";
 
     echo'
       <div id="maintext">
-      <div id="dateline">This file was last updated: ' . date ('F d Y H:i:s.', getlastmod());
-	echo'</div>';
+         <div id="dateline">This file was last updated: ' . date ('F d Y H:i:s.', getlastmod()) . '</div>';
     if ($section != "Welcome") {
         echo"
-        		<div id=\"assignment\">
- 	 	        	<h2>{$section}</h2>
-  	        	<a href=\"{$ptr}\">Return Home</a>
-  	        </div>
+        	<div id=\"assignment\"><h2>{$section}</h2><a href=\"{$ptr}\">Return Home</a></div>
         ";
     } else {
         echo"
-        		<div id=\"assignment\">
-        			<h2>{$section}</h2>
-        		</div>
-        		";
+         <div id=\"assignment\">
+            <h2>{$section}</h2>
+         </div>
+            ";
     }
 }
 
@@ -71,11 +67,13 @@ function do_footer($buf) {
     return $buf.'
       </div>
 		<div id="footer">
-		   Copyright &copy; 2006 Cameron Palmer<br />
-		   cameron DOT palmer AT gmail DOT com
-		   <br style="clear: left;" />
+         <div id="footer_text">
+            Copyright &copy; 2006 Cameron Palmer<br />
+            cameron DOT palmer AT gmail DOT com
+            <br style="clear: left;" />
+         </div>
 		</div>
-        <br style="clear: left;" />
+      <br style="clear: left;" />
 	</div>
 </body>
 </html>

@@ -3,22 +3,6 @@ body {
    font: small Times;
    background-color: #b2bbcb;
 }
-table {
-	margin: 0 0 0 50px;
-}
-th {
-	border: solid 1px;
-	border-color: #000;
-	padding: .5em 1em .5em .5em;
-	text-align: left;
-	background-color: #eed;
-}
-td {
-	padding: 5px;
-	border: solid 1px;
-	border-color: #000;
-	text-align: right;
-}
 #page {
    width: 770px;
    text-align: left;
@@ -28,99 +12,16 @@ td {
    border-width: 1px;
    border-color: #888;
 }
-#frontpage {
-	margin: .5em;
-}
-
-#frontpage h2, p {
-	float: left;
-	clear: left;
-}
-#frontpage p {
-	margin: 0 0 1em .5em;
-}
-#programlist {
-	float: left;
-	margin: 0 1em 1em 0em;
-}
-#programlist h3 {
-	float: left;
-	clear: left;
-	margin: 0 0 0 .5em;
-}
-#programlist ul {
-	float: left;
-	clear: left;
-	margin-left: 2em;
-	padding: 0;
-	list-style: square;
-}
-
-.leftside {
-	margin: 0;
-	padding: 0;
-	float: left;
-	clear: left;
-}
-
-.rightside {
-	float: right;
-	width: 20%;
-}
-
-.phototable {
-	margin: 2em;
-	float: left;
-	clear: left;	
-}
-
-.phototable tr {
-	float: left;
-}
-
-.phototable td {
-	text-align: left;
-}
-
-.progtable {
-	margin: 2em;
-	float: left;
-	clear: left;
-}
-
-.progtable td:hover {
-	background-color: #ff9;
-}
-
-.warning {
-	color: #f00;
-}
-
 #header {
 	float: left;
-	font-family: Georgia;
-        size: 200%;
+	font: medium Georgia;
 	border: solid 1px;
 	border-color: #555;
 	background-color: #eed;
 	width: 100%;
 }
-#footer {
-	float: left;
-	font-family: Georgia;
-	border: solid 1px;
-	border-color: #555;
-	color: #000;
-	background-color: #eed;
-	width: 100%;
-}
-#srcode {
-	float: left;
-	width: 90%;
+#header h1 {
 	margin: 1em;
-	padding: .5em;
-	background-color: #ccf;
-	border: 1px dashed #000;
 }
 #dateline {
 	float: left;
@@ -140,7 +41,95 @@ td {
 }
 #assignment a {
 	float: right;
-	margin: .5em 0 0 0;
+	margin: .5em 1em 0 0;
 	font: medium Arial;
 	min-width: 25%;
+	text-decoration: none;
+}
+#frontpage {
+	margin: .5em;
+}
+
+#frontpage p {
+	margin: 0 0 1em .5em;
+}
+#frontpage table {
+	margin: 0 0 0 50px;
+}
+#frontpage th {
+	border: solid 1px;
+	border-color: #000;
+	padding: .5em 1em .5em .5em;
+	text-align: left;
+	background-color: #eed;
+}
+#frontpage td {
+	padding: 5px;
+	border: solid 1px;
+	border-color: #000;
+	text-align: right;
+}
+#programlist {
+	float: left;
+	clear: left;
+	margin: 0 1em 1em 0em;
+}
+#programlist h3 {
+	margin: 0 0 0 .5em;
+}
+#programlist ul {
+	margin-left: 2em;
+	padding: 0;
+	list-style: none;
+}
+#programlist a {
+	text-decoration: none;
+}
+.form {
+	float: left;
+	clear: left;
+	margin: 1em 0 1em 1em;
+}
+.leftside {
+	margin: 0;
+	padding: 0;
+	float: left;
+	clear: left;
+}
+.rightside {
+	float: right;
+	width: 20%;
+}
+.progtable {
+	margin: 2em;
+	float: left;
+	clear: left;
+}
+
+.progtable td:hover {
+	background-color: #ff9;
+}
+
+.warning {
+	color: #f00;
+}
+#srcode {
+	float: left;
+	width: 90%;
+	margin: 1em;
+	padding: .5em;
+	background-color: #ccf;
+	border: 1px dashed #000;
+}
+#footer {
+	float: left;
+	font: medium Georgia;
+	border: solid 1px;
+	border-color: #555;
+	color: #000;
+	background-color: #eed;
+	width: 100%;
+}
+#footer #footer_text {
+	margin: 1em;
 }
