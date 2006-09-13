@@ -20,12 +20,20 @@
       <input type="submit" name="submit" value="Press here to submit your information" size="3" /><br />
    </form>
    <?php
-      if ($age < 1 || $age > 100)
-         echo "Error: Age out of range (1-100)<br />";
       if (!$email)
          echo "Error: Failed to enter email address. <br />";
       if (!$name)
          echo "Error: Failed to enter name. <br />";
+      if ($age >= 1 && $age <= 21)
+         echo"Too young to respond to this offer.<br />";
+      else if ($age >= 22 && $age <= 29)
+         echo"You are ideal for the information. We will get into the mail our full-color brochure as soon as the next mail truck arrives at our offices.<br />";
+      else if ($age >= 30 && $age <= 45)
+         echo"We have a senior's package that will be more suited to your needs and sedintary lifestyle. We will send further information to you as soon as we can.<br />";
+      else if ($age >= 46)
+         echo"Due to various state and national laws and statutes, we are not allowed to send you information about our new, innovative products. Sorry.<br />";
+      else
+         echo "Error: Age out of range (1-100)<br />";
          
       echo"
          <h3>Submitted values:</h3>
