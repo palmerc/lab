@@ -3,12 +3,14 @@
 #include <cassert> // for assert()
 
    // Constructor
-   List::List(): size(0), head(NULL)
+   template<typename LISTITEMTYPE>
+   List<LISTITEMTYPE>::List(): size(0), head(NULL)
    {
    }
 
    // Copy Constructor
-   List::List(const List& aList): size(aList.size)
+   template<typename LISTITEMTYPE>
+   List<LISTITEMTYPE>::List(const List& aList): size(aList.size)
    {
       // Check to see if the list is empty
       if (aList.head == NULL)
@@ -33,23 +35,27 @@
    }
    
    // Destructor
-   List::~List()
+   template<typename LISTITEMTYPE>
+   List<LISTITEMTYPE>::~List()
    {
       while(!isEmpty())
          remove(1);
    }
    
-   bool List::isEmpty() const
+   template<typename LISTITEMTYPE>
+   bool List<LISTITEMTYPE>::isEmpty() const
    {
       return size == 0;
    }
    
-   int List::getLength() const
+   template<typename LISTITEMTYPE>
+   int List<LISTITEMTYPE>::getLength() const
    {
       return size;
    }
    
-   List::ListNode *List::find(int index) const
+   template<typename LISTITEMTYPE>
+   List<LISTITEMTYPE>::ListNode *List::find(int index) const
    {
       // Is the request sane? Before the beginning or after the end?
       if ( (index < 1) || (index > getLength()) )
@@ -63,7 +69,8 @@
       }
    }
    
-   void List::insert(int index, ListItemType newItem)
+   template<typename LISTITEMTYPE>
+   void List<LISTITEMTYPE>::insert(int index, Object newItem)
       throw(ListIndexOutOfRangeException, ListException)
    {      
       // In a nutshell
@@ -101,7 +108,8 @@
       }   
    }
    
-   void List::remove(int index)
+   template<typename LISTITEMTYPE>
+   void List<LISTITEMTYPE>::remove(int index)
       throw(ListIndexOutOfRangeException)
    {
       ListNode *cur;
@@ -130,7 +138,8 @@
             
    }
    
-   void List::retrieve(int index, ListItemType &dataItem) const
+   template<typename LISTITEMTYPE>
+   void List<LISTITEMTYPE>::retrieve(int index, Object &dataItem) const
       throw(ListIndexOutOfRangeException)
    {
       if ( (index < 1) || (index > getLength()) )

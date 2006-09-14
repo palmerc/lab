@@ -1,8 +1,7 @@
 #include "ListException.h"
 #include "ListIndexOutOfRangeException.h"
 
-typedef int ListItemType;
-
+template <typename LISTITEMTYPE>
 class List
 {
  public:
@@ -12,17 +11,17 @@ class List
 
    bool isEmpty() const;
    int getLength() const;
-   void insert(int index, ListItemType newItem)
+   void insert(int index, LISTITEMTYPE newItem)
       throw(ListIndexOutOfRangeException, ListException);
    void remove(int index)
       throw(ListIndexOutOfRangeException);
-   void retrieve(int index, ListItemType &dataItem) const
+   void retrieve(int index, LISTITEMTYPE &dataItem) const
       throw(ListIndexOutOfRangeException);
       
  private:
-   struct ListNode
+   template <LISTITEMTYPE> struct ListNode
    {
-      ListItemType item;
+      LISTITEMTYPE item;
       ListNode *next;
    };
    

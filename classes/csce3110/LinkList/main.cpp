@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-   List L;
+   List<int> L;
    int value;
  
    for (int index=1; index <= 50; index++)
