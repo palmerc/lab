@@ -14,7 +14,7 @@
 					<th>Picture</th><td><img src="i/ninja_cam.jpg" alt="Ninja Cameron" width="128" /></td>
 				</tr>
 				<tr>
-					<th>Email</th><td><a href="mailto:cameron.palmer@gmail.com">cameron.palmer@gmail.com</a></td>
+					<th>Email</th><td>cameron DOT palmer AT gmail DOT com</td>
 				</tr>
 			</table>
 		</div>
