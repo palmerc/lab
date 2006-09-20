@@ -5,6 +5,7 @@
 using namespace std;
 
 unsigned long int recurse(unsigned long int a) {
+   cout << "The function was given " << a << endl;
    if (a == 0)
       return 0;
    else if (a == 1)
