@@ -17,7 +17,7 @@ int main()
    cout << "swap" << endl;
    for (int i=1; i < 10; i++)
    {
-      K.swap(i,i+1);
+      K.swap(i,10-i);
    }
    
    K.printList();
