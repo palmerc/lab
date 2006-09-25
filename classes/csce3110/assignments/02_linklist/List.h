@@ -1,9 +1,9 @@
 // List.h
-// Linked-list template class
+// Linked-list template typename
 // To-Do
 // throwing and trying errors and values
 // iterator function
-// find item
+
 #ifndef LIST_H
 #define LIST_H
 
@@ -11,6 +11,7 @@
 #include<string>
 
 using namespace std;
+typedef int T;
 
 class ListIndexOutOfRangeException: public out_of_range
 {
@@ -20,11 +21,10 @@ class ListIndexOutOfRangeException: public out_of_range
       {}
 };
 
-template <class T>
 class List {
    public:
       List(); // Constructor
-      List(List const& original); // Copy constructor
+      List(List const &original); // Copy constructor
       ~List(); // Destructor
    
       void insert(int index, T item)
@@ -35,7 +35,9 @@ class List {
          throw(ListIndexOutOfRangeException);
       void erase(int start, int end) // Erase a range of items
          throw(ListIndexOutOfRangeException);
-   
+      T retrieve(int index) const
+         throw(ListIndexOutOfRangeException);
+      void printList() const;
       // Tail operation
       void push(T item);
       T pop();
@@ -56,33 +58,36 @@ class List {
       };
       
       void init();
-      void find(int index, Node *cur) const;
+      Node *find(int index) const;
       Node *head;
       Node *tail;
       int size;
 };
 
-template <class T>
-List<T>::List() // Constructor
+List::List() // Constructor
 {
    init();
 }
 
-template <class T>
-List<T>::List(List const& original)
+List::List(List const &original)
 {
+   List copy;
+   Node *cur = original.head;
+   for (int i=1; i < getSize(); i++) 
+   {
+      cur = cur->next;
+      copy.insert(i, cur->item);
+   }
 }
 
-template <class T>
-List<T>::~List() // Destructor
+List::~List() // Destructor
 {
    erase();
    delete head;
    delete tail;
 }
 
-template <class T>
-void List<T>::init()
+void List::init()
 {
    size = 0;
    head = new Node;
@@ -91,8 +96,7 @@ void List<T>::init()
    tail->prev = head;
 }
 
-template <class T> 
-void List<T>::insert(int index, T item)
+void List::insert(int index, T item)
    throw(ListIndexOutOfRangeException)
 {
    int newSize = getSize() + 1;
@@ -101,26 +105,23 @@ void List<T>::insert(int index, T item)
       throw ListIndexOutOfRangeException("ListIndexOutOfRangeException: insert failed, index out of range");
    else
    {
+      //cout << endl << "A new node" << endl;
       Node *n = new Node;
       size = newSize;
       n->item = item;
-      cout << "head-> " << head->prev << " " << head << " " << head->next << endl;
-      cout << "tail-> " << tail->prev << " " << tail << " " << tail->next << endl;
+      //cout << "head-> " << head->prev << " " << head << " " << head->next << endl;
+      //cout << "tail-> " << tail->prev << " " << tail << " " << tail->next << endl;
       
       Node *rhs = NULL, *lhs = NULL;
-      find(index, rhs);
-      cout << "rhs-> " << rhs->prev << " " << rhs << endl;
-      cout << "Test" << endl;
+      rhs = find(index);
+      //cout << "rhs-> " << rhs->prev << " " << rhs << endl;
       lhs = n->prev = rhs->prev;
-      cout << "Test" << endl;
       n->next = rhs;
-      cout << "Test" << endl;
       lhs->next = rhs->prev = n;
    }        
 }
 
-template <class T>
-void List<T>::erase() // Erase entire list
+void List::erase() // Erase entire list
    throw(ListIndexOutOfRangeException)
 {
    while (!isEmpty())
@@ -129,67 +130,85 @@ void List<T>::erase() // Erase entire list
    }
 }
 
-template <class T>
-void List<T>::erase(int index) // Erase one item at index
+void List::erase(int index) // Erase one item at index
    throw(ListIndexOutOfRangeException)
 {
    Node *listItem;
-   find(index, listItem);
+   listItem = find(index);
+   listItem->prev->next = listItem->next;
+   listItem->next->prev = listItem->prev;
    delete listItem;
    size--;
 }
 
-template <class T>
-void List<T>::erase(int start, int end) // Erase a range of items
+void List::erase(int start, int end) // Erase a range of items
    throw(ListIndexOutOfRangeException)
 {
 }
 
-// Tail operation
-template <class T>
-void List<T>::push(T item)
+T List::retrieve(int index) const
+  throw(ListIndexOutOfRangeException)
 {
+   if (index < 1 || index > getSize())
+      throw ListIndexOutOfRangeException("ListIndexOutOfRangeException: retrieve failed, index out of range");
+   else
+      return find(index)->item;
 }
 
-template <class T>
-T List<T>::pop()
+// Tail operation
+void List::push(T item)
 {
+   insert(getSize()+1, item);
+}
+
+T List::pop()
+{
+   T cur = retrieve(getSize());
+   erase(getSize());
+   return cur;
 }
 
 // Head operation
-template <class T>
-void List<T>::shift(T item)
+void List::shift(T item)
 {
+   insert(1, item);
 }
 
-template <class T>
-T List<T>::unshift()
+T List::unshift()
 {
+   T cur = retrieve(1);
+   erase(1);
+   return cur;
 }
 
 // Return value options
-template <class T>
-bool List<T>::isEmpty() const
+bool List::isEmpty() const
 {
    return size == 0;
 }
 
-template <class T>
-int List<T>::getSize() const
+int List::getSize() const
 {
    return size;
 }
 
-template <class T>
-void List<T>::find(int index, Node *cur) const
+void List::printList() const
 {
-   cout << "cur-> " << cur << endl;
+   for (int i=1; i <= getSize(); i++)
+      cout << find(i)->item << endl;
+}
+
+List::Node *List::find(int index) const
+{
+   Node *cur;
+   //cout << "cur-> " << cur << endl;
    cur = head;
    for (int i=1; i <= index; ++i)
    {
       cur = cur->next;
-      cout << "cur-> " << cur->prev << " " << cur << " " << cur->next << endl;
+      //cout << "cur-> " << cur->prev << " " << cur << " " << cur->next << endl;
    }
-   cout << "find-> " << cur->prev << " " << cur << " " << cur->next << endl;
+   //cout << "find-> " << cur->prev << " " << cur << " " << cur->next << endl;
+   return cur;
 }
 #endif
