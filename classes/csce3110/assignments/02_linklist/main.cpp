@@ -5,24 +5,46 @@ int main()
 {
    List L;
        
-   cout << "push" << endl;
+   cout << "push test" << endl;
    for (int i=1; i <= 10; i++)
    {
       L.push(i);
    }
    
-   cout << "copy" << endl;
+   L.printList();
+   cout << "copy constructor test" << endl;
    List K(L);
 
-   cout << "swap" << endl;
-   for (int i=1; i < 10; i++)
+   cout << "swap test" << endl;
+   for (int i=1; i < 10; i+=2)
    {
-      K.swap(i,10-i);
+      K.swap(i,i+1);
    }
    
    K.printList();
-   cout << "erase" << endl;
-   K.erase();
+   
+   cout << "K Start list size " << K.getSize() << endl;
+   for (int i=1; i <= 10; i++)
+   {
+      cout << "K.pop() " << K.pop() << endl;
+   }
+   cout << "K End list size " << K.getSize() << endl;
+   
+   cout << "shift test" << endl;
+   
+   for (int i=1; i <= 10; i++)
+   {
+      L.shift(10-i);
+   }
+   L.printList();
+   
+   cout << "unshift test" << endl;
+   for (int i=1; i <= 10; i++)
+   {
+      L.unshift();
+   }
+   L.printList();
+   
    //cout << "Done loading list" << endl;
    cout << "Start list size " << L.getSize() << endl;
    
