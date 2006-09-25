@@ -17,7 +17,6 @@ int main()
    cout << "pop" << endl;
    for (int i=1; i <= 10; i++) {
       L.erase();
-      cout << "Value " << K.pop() << endl;
       cout << i << endl;
    }
    

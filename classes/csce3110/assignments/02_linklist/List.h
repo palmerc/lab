@@ -1,7 +1,7 @@
 // List.h
 // Linked-list template typename
 // To-Do
-// throwing and trying errors and values
+// Make it a template class
 // iterator function
 
 #ifndef LIST_H
@@ -71,13 +71,13 @@ List::List() // Constructor
 
 List::List(List const &original)
 {
+   init();
    Node *cur = original.head;
    //cout << "Point A" << endl;
    for (int i=1; i <= original.getSize(); ++i) 
    {
       cur = cur->next;
       this->insert(i, cur->item);
-      cout << i << endl;
    }
 }
 
