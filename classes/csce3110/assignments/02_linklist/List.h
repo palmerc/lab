@@ -37,6 +37,8 @@ class List {
          throw(ListIndexOutOfRangeException);
       T retrieve(int index) const
          throw(ListIndexOutOfRangeException);
+      void swap(int index1, int index2)
+         throw(ListIndexOutOfRangeException);
       void printList() const;
       // Tail operation
       void push(T item);
@@ -167,6 +169,24 @@ T List::pop()
    T cur = retrieve(getSize());
    erase(getSize());
    return cur;
+}
+
+void List::swap(int index1, int index2)
+   throw(ListIndexOutOfRangeException)
+{
+   if (index1 < 1 || 
+      index2 < 1 || 
+      index1 > getSize() ||
+      index2 > getSize())
+      throw ListIndexOutOfRangeException("ListIndexOutOfRangeException: swap failed, index out of range");
+   else
+   {
+      Node *leftNode = find(index1);
+      Node *rightNode = find(index2);
+      T leftItem = leftNode->item;
+      leftNode->item = rightNode->item;
+      rightNode->item = leftItem;
+   }
 }
 
 // Head operation
