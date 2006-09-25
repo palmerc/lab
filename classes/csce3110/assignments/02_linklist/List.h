@@ -71,12 +71,13 @@ List::List() // Constructor
 
 List::List(List const &original)
 {
-   List copy;
    Node *cur = original.head;
-   for (int i=1; i < getSize(); i++) 
+   //cout << "Point A" << endl;
+   for (int i=1; i <= original.getSize(); ++i) 
    {
       cur = cur->next;
-      copy.insert(i, cur->item);
+      this->insert(i, cur->item);
+      cout << i << endl;
    }
 }
 
