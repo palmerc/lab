@@ -56,23 +56,32 @@ See attached
 lower
 
 4)
-An algorithm takes .5ms for input size 100. How long for input size 500 if the 
-running time is the following (assume low order terms are negligible)?
+An algorithm takes .5ms for input size 100. How large a problem can be solved in
+1 min if the running time is the following (assume low order terms are negligible)?
 a. 12 million
-b. 
-c. 
-d. 
+b. 6 million
+c. 3 million
+d. 1.5 million
 
 5)
-Prime checker
+Prime checker - see attached program
+b. The program will run in O(sqrt(N)) time.
+c. ceil(log_2(N))
+d. O(log_2(sqrt(N)))
+e. The are the same on the tested computer. 0 seconds. BTW I had to use an opteron
+server to test it with a 40-bit number.
+f. N is more reasonable. B is typically harder to calculate and a lot larger.
 
 6)
-Infix Calculator - see attached
+Infix Calculator - see attached program
 
 7)
-Self adjusting list
+Self adjusting list - see attached programs
+c) It is reasonable that more popular items will stay towards the front since
+popular items will be refreshed to the front as they are accessed and items that
+receive few accesses will sink to the bottom.
 
-Problem 8) Fibonacci iterative and recursive versions
+Problem 8) Fibonacci iterative and recursive versions - see attached programs
 I provide two shell scripts that automatically call the program with the
 required values. 1, 2, 4, 8, 16, 32, 64
 
@@ -98,6 +107,8 @@ Since each call to the recursive function will require 2^n the calls, the
 program will not complete when given 64 as an input.
 
 9)
-See attached
+Doubly linked list - See attached program
 
 10)
+a. Sum N = n(n+1) / 2
+b. 
