@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>STCDesign1</title>
+<style type="text/css">
+	body {
+		background-color: #EEECE6;
+		font-family: Geneva, Arial, Helvetica, sans-serif;
+		font-size:12px;
+		text-align: center;
+		}
+		
+	#container {
+		width: 770px;
+		text-align: left;
+		margin: 0 auto;
+		height: 100%;
+		}
+		
+	h1 {
+		font-family: Geneva, Arial, Helvetica, sans-serif;
+		font-size: 14px;
+		color: #2F3680;
+		font-style: none;
+		font-weight: normal;
+		}
+		
+	#top {
+		position: relative;
+		height: 115px;
+		width: 744px;
+		background-color: #FFFFFF;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #2F3680;
+		margin: 1em 0 0 1em;
+		}
+	
+	#leftbar {
+		float: left;
+		clear: left;
+		width: 164px;
+		height: 100%;
+		background-color: #FFFFFF;
+		margin-left: 1em;
+		}
+		
+	#leftbar ul {
+		list-style-type: none;
+		padding: 1.5em
+		}
+		
+	#leftbar li {
+		padding: 0.5em;
+		color: #2F3680;
+		font-size: 14px;
+		}
+		
+	#rightbar {
+		position: relative;
+		float: left;
+		width: 69%;
+		height: 100%;
+		padding: 2em;
+		margin-right: 5px;
+		background-color: #FFFFFF;
+		border-left-width: 1px;
+		border-left-style: solid;
+		border-left-color: #2F3680;
+	}
+</style>
+</head>
+
+<body>
+	<div id="container">
+		<div id="top">
+			<img src="topbarforwebwithline.jpg" alt="topbar" width="744" height="115"/>		</div> 
+		<!--closing top-->
+		
+		<div id="leftbar">
+			<ul>
+				<li>Go Home</li>
+				<li>Create a Report</li>
+				<li>Vote</li>
+				<li>Archive</li>
+				<li>Contact Us</li>
+			</ul>
+		</div> <!--closing leftbar-->
+	
+		<div id="rightbar">
+			<h1>Vote or Die!</h1>
+			<form action="$php-self" method="post">
+			<hidden name="user" value="mari"/>
+			<ul>
+				<input type="radio" name="vote" value="yes"/><li>Yes</li>
+				<input type="radio" name="vote" value="no"/><li>No</li>
+			</ul>
+			<input type="submit" value="vote"/>
+			</form>
+
+		</div> <!-- closing rightbar-->
+	</div> <!-- closing container -->
+</body>
+
+</html>
+
