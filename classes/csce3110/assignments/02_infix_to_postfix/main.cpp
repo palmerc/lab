@@ -41,6 +41,22 @@ int main()
             break;
          case('*'):
          case('/'):
+            if (L.showTail() == '^')
+               {
+               temp = L.pop();
+               while (!L.isEmpty() && 
+                     (L.showTail() != '(') &&
+                     (L.showTail() != ')') &&
+                     (temp != '*' || temp != '/'))
+               {
+                  cout << temp;
+                  temp = L.pop();
+               }
+               cout << temp;
+            }
+            L.push(input[i]);
+            break;
+         case('^'):
             L.push(input[i]);
             break;
          default:
