@@ -3,7 +3,7 @@
 // September 24, 2006
 
 1)
-2/N, 37, N^(1/2), N log log N, N, N log N, N log^2 N, N log(N^2), 
+37, 2/N, N^(1/2), N log log N, N, N log N, N log^2 N, N log(N^2), 
 2^(N/2), N^(1.5), N^2 log N, N^2, N^3, 2^N
 
 Grow at the same rate:
@@ -75,7 +75,7 @@ c. sqrt(12)*10^4 or 34641
 d. 4932
 
 5)
-Prime checker - see attached program
+Prime checker - see attached program in folder 02_prime/
 b. The program will run in O(sqrt(N)) time.
 c. ceil(log_2(N))
 d. O(log_2(sqrt(N)))
@@ -84,15 +84,20 @@ server to test it with a 40-bit number.
 f. N is more reasonable. B is typically harder to calculate and a lot larger.
 
 6)
-Infix Calculator - see attached program
+Infix Calculator - see attached programs
+02_infix_to_postfix/
+02_postfix_to_infix/
 
 7)
 Self adjusting list - see attached programs
+02_array_adjusting_list/
+02_adjusting_list/
 c) It is reasonable that more popular items will stay towards the front since
 popular items will be refreshed to the front as they are accessed and items that
 receive few accesses will sink to the bottom.
 
 Problem 8) Fibonacci iterative and recursive versions - see attached programs
+02_fibonacci/
 I provide two shell scripts that automatically call the program with the
 required values. 1, 2, 4, 8, 16, 32, 64
 
@@ -119,6 +124,7 @@ program will not complete when given 64 as an input.
 
 9)
 Doubly linked list - See attached program
+02_linklist/
 
 10)
 a. Sum N = n(n+1) / 2
