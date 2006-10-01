@@ -18,6 +18,8 @@ public class PathFinder {
    private int gridSize = 20;
    private int Xmax = gridSize * nodeSize;
    private int Ymax = gridSize * nodeSize;
+   private boolean drawGridLines = false;
+   
    private int[][] nodeList = {
 			  { 1, 2, 1 },
 			  { 4, 9, 0 },
@@ -28,7 +30,9 @@ public class PathFinder {
 			  { 11, 2, 2},
 			  { 17, 18, 0 },
 			  { 8, 16, 0 },
-			  { 2, 10, 2 }
+			  { 2, 10, 2 },
+			  { 3, 18, 0 },
+			  { 7, 12, 0 }
 			  
 	  };
    
@@ -41,7 +45,9 @@ public class PathFinder {
 		   { 4, 6, 3 },
 		   { 5, 7, 2 },
 		   { 7, 8, 4 },
-		   { 8, 9, 10 }
+		   { 8, 9, 10 },
+		   { 8, 10, 5 },
+		   { 8, 11, 3 }
 		  
    };
 
@@ -88,28 +94,26 @@ public class PathFinder {
       //Make sure we have nice window decorations.
       JFrame.setDefaultLookAndFeelDecorated(true);
 
-	  //nodeList = new int[gridSize][3];
-	  //pathList = new int[2][3];
-
       JFrame f = new JFrame("PathFinder");
       Canvas canvas = new Canvas() {
          public void paint(Graphics g) {
 
    			//Draw grid lines
-            g.setColor(Color.lightGray);
-            for (int i=0; i < Ymax+1; i+=nodeSize) {
-               g.drawLine(0, i, Xmax, i);
-            }
-            for (int i=0; i < Xmax+1; i+=nodeSize) {
-               g.drawLine(i, 0, i, Ymax);
-            }
+        	if (drawGridLines == true) {
+	            g.setColor(Color.lightGray);
+	            for (int i=0; i < Ymax+1; i+=nodeSize) {
+	               g.drawLine(0, i, Xmax, i);
+	            }
+	            for (int i=0; i < Xmax+1; i+=nodeSize) {
+	               g.drawLine(i, 0, i, Ymax);
+	            }
+        	}
 
 			//Draw paths
-        	g.setColor(Color.black);
             for (int i=0; i < pathList.length; i++) {
+            	g.setColor(Color.black);
             	int n1 = pathList[i][0];
             	int n2 = pathList[i][1];
-            	int weight = pathList[i][2];
             	int x1 = nodeList[n1][0] * nodeSize + nodeSize/2;
             	int y1 = nodeList[n1][1] * nodeSize + nodeSize/2;
             	int x2 = nodeList[n2][0] * nodeSize + nodeSize/2;
@@ -117,6 +121,7 @@ public class PathFinder {
             	g.drawLine(x1, y1, x2, y2);
 
             	//Draw weights
+            	g.setColor(Color.red);
             	g.drawString("" + pathList[i][2], (x1+x2)/2, (y1+y2)/2 );
             }
             
@@ -134,10 +139,16 @@ public class PathFinder {
             	}
             	g.fillOval(nodeList[i][0]*nodeSize, nodeList[i][1]*nodeSize, nodeSize, nodeSize);
             	g.setColor(Color.black);
-            	g.drawOval(nodeList[i][0]*nodeSize, nodeList[i][1]*nodeSize, nodeSize, nodeSize);
+            	g.drawOval(nodeList[i][0]*nodeSize, nodeList[i][1]*nodeSize, nodeSize-1, nodeSize-1);
+            	
+            	//Draw node labels
             	g.setColor(Color.white);
-            	g.drawString(""+i, 
-            			nodeList[i][0]*nodeSize + 7, nodeList[i][1]*nodeSize + 14);
+            	if (i < 10) {
+	            	g.drawString(""+i, nodeList[i][0]*nodeSize + 7, nodeList[i][1]*nodeSize + 14);
+            	} else {
+	            	g.drawString(""+i, nodeList[i][0]*nodeSize + 3, nodeList[i][1]*nodeSize + 14);            		
+            	}
+            	
             }
 
 
@@ -147,8 +158,8 @@ public class PathFinder {
       canvas.setBackground(Color.white);
       f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-      f.add(canvas, BorderLayout.CENTER);
-      f.add(canvas);
+      f.getContentPane().add(canvas, BorderLayout.CENTER);
+      //f.pack();
       f.setSize(Xmax+10,Ymax+34);
 
       //Display the window.
