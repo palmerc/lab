@@ -11,11 +11,11 @@ USE gradebook;
 
 // Create the students table. Likely you will delete and recreate this a few times
 // until you get it the way you want. So it is good to have this handy dandy cheat sheet.
-CREATE TABLE students (voteid INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(100), vote_date DATE, vote_value BOOL);
+CREATE TABLE students (studentid INT AUTO_INCREMENT PRIMARY KEY, lastname VARCHAR(100));
 
 
 // To insert a student into the table
-INSERT INTO students VALUES (null, 'smith, john', '2006-01-01', true);
+INSERT INTO students VALUES (null, 'Palmer');
 
 // Reporting of sorts, and sanity checking
 DESCRIBE students;  // This means show what the table looks like.
