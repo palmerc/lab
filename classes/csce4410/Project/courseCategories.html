@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <title>The Gradebook - Course category management</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+   <link rel="stylesheet" type="text/css" href="c/main.css" />
+   <link rel="icon" href="i/favicon.ico" type="image/vnd.microsoft.icon" />
+</head>
+
+<body>
+   <h2>CSCE 1120 - Course category management</h2>
+   <h3>Create a new category</h3>
+   <form action="?" method="post">
+   <table>
+   <tr>
+   <th>Name</th><th>Percentage</th><th>Rank</th>
+   </tr>
+   <tr>
+      <td><input type="text" name="catNew" value="Assignments" /></td>
+      <td><input type="text" name="catNewPercent" size="3" value="10" /></td>
+      <td>
+         <select name="catNewRank">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option selected>7</option>
+         </select>
+      </td>
+   </tr>
+   </table> 
+   <input type="submit" value="Submit" />
+   </form>
+   <h3>Edit or rearrage categories</h3>
+   <form action="" method="post">
+   <table>
+   <tr>
+   <th>Name</th><th>Percentage</th><th>Rank</th>
+   </tr>
+   <tr>
+      <td>Homework:</td>
+      <td><input type="text" name="catHomework" size="3" value="10" /></td>
+      <td>
+         <select name="catHomeworkRank">
+            <option selected>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+         </select>
+      </td>
+   </tr>
+   <tr>
+      <td>Quizzes:</td>
+      <td><input type="text" name="catQuizzes" size="3" value="10" /></td>
+      <td>
+         <select name="catQuizzesRank">
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+         </select>
+      </td>
+   </tr>
+   <tr>
+      <td>Exam I:</td>
+      <td><input type="text" name="catExam_I" size="3" value="20" /></td>
+      <td>
+         <select name="catExam_IRank">
+            <option>1</option>
+            <option>2</option>
+            <option selected>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+         </select>
+      </td>
+   </tr>
+   <tr>
+      <td>Exam II:</td>
+      <td><input type="text" name="catExam_II" size="3" value="20" /></td>
+      <td>
+         <select name="catExam_IIRank">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option selected>4</option>
+            <option>5</option>
+            <option>6</option>
+         </select>
+      </td>
+   </tr>
+   <tr>
+      <td>Final Exam:</td>
+      <td><input type="text" name="catFinal_Exam" size="3" value="20" /></td>
+      <td>
+         <select name="catFinal_ExamRank">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option selected>5</option>
+            <option>6</option>
+         </select>
+      </td>
+   </tr>
+   <tr>
+      <td>Term Project:</td>
+      <td><input type="text" name="catTerm_Project" size="3" value="20" /></td>
+      <td>
+         <select name="catTerm_ProjectRank">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option selected>6</option>
+         </select>
+      </td>
+   </tr>
+   <tr>
+      <td>Total:</td>
+      <td>100%</td>
+      <td></td>
+   </tr>
+   </table>
+   <input type="submit" value="Submit" /><br />
+   </form>
+</body>
+</html>
