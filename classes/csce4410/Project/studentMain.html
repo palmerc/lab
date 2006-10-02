@@ -5,10 +5,55 @@
    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
    <link rel="stylesheet" type="text/css" href="c/main.css" />
    <link rel="icon" href="i/favicon.ico" type="image/vnd.microsoft.icon" />
+   <style type="text/css">
+   body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100%;
+      background-color: #ddd;
+   }
+   #container {
+      margin-left: .25em;
+      text-align: left;
+   }
+   #page {
+      float: left;
+      clear: left;
+      padding: .5em;
+      border: #000 1px solid;
+   }
+   #page input {
+      margin: .25em;
+   }
+   #header {
+      float:left;
+   }
+   #submit {
+      margin: 1em;
+   }
+   #cutoff input {
+      text-align: right;
+   }
+   .indent {
+      margin-left: .5em;
+   }
+   th {
+      text-align: center;
+      padding-right: 1em;
+   }
+   td {
+      padding-right: 1em;
+   }
+   </style>
 </head>
 
 <body>
+   <div id="container">
+   <div id="header">
    <h2>Student management</h2>
+   </div>
+   <div id="page">
    <h3>Student managment options</h3>
    <ul>
       <li><a href="studentCreate.html">Add a student</a></li>
@@ -19,7 +64,7 @@
    <h3>Edit students</h3>
    <table>
       <tr>
-      <th>Name</th><th>Course</th><th>EmplID</th><th>Comments</th>
+      <th>Name</th><th>Course</th><th>EmployeeID</th><th>Comments</th>
       </tr>
       <tr>
       <td><a href="?">Blaydes, John</a></td><td></td><td></td><td></td>
@@ -37,5 +82,7 @@
       <td><a href="?">Turkdill, Justin</a></td><td></td><td></td><td></td>
       </tr>
    </table>
+   </div>
+   </div>
 </body>
 </html>
