@@ -5,10 +5,48 @@
    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
    <link rel="stylesheet" type="text/css" href="c/main.css" />
    <link rel="icon" href="i/favicon.ico" type="image/vnd.microsoft.icon" />
+   <style type="text/css">
+   body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100%;
+      background-color: #ddd;
+   }
+   #container {
+      margin-left: .25em;
+      text-align: left;
+   }
+   #page {
+      float: left;
+      clear: left;
+      padding: .5em;
+      border: #000 1px solid;
+   }
+   #page input {
+      margin: .25em;
+   }
+   #header {
+      float:left;
+   }
+   #submit {
+      margin: 1em;
+   }
+   #cutoff input {
+      text-align: right;
+   }
+   .indent {
+      margin-left: .5em;
+   }
+   </style>
 </head>
 
 <body>
+   <div id="container">
+   <div id="header">
    <h2>CSCE 4410 - Course category management</h2>
+   </div>
+   <div id="page">
    <h3>Create a new category</h3>
    <form action="?" method="post">
    <table>
@@ -131,5 +169,7 @@
    </table>
    <input type="submit" value="Submit" /><br />
    </form>
+   </div>
+   </div>
 </body>
 </html>
