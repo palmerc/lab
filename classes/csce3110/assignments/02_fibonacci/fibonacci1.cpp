@@ -1,7 +1,19 @@
+/*
+Cameron L Palmer
+Iterative Fibonacci
+
+Instructions:
+To compile: g++ -g -o fib1 fibonacci1.cpp
+To run automatically: sh fib1.sh
+or
+./fib1 16
+*/
+
 // fibonacci1.cpp
 // The iterative version
 #include<iostream>
-#include <ctime>
+#include<ctime>
+#include<stdlib.h>
 
 using namespace std;
 

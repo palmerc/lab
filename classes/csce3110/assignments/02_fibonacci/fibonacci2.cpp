@@ -1,6 +1,18 @@
+/*
+Cameron L Palmer
+Recursive Fibonacci
+
+Instructions:
+To compile: g++ -g -o fib2 fibonacci2.cpp
+To run automatically: sh fib2.sh
+or
+./fib2 16
+*/
+
 // fib.cpp
 #include<iostream>
-#include <ctime>
+#include<ctime>
+#include<stdlib.h>
 
 using namespace std;
 
