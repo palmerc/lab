@@ -22,14 +22,23 @@ public class PathFinder {
    private static int gridSize = 20;
    private static int Xmax = gridSize * nodeSize;
    private static int Ymax = gridSize * nodeSize;
-   private static boolean drawGridLines = false;
+   private static boolean drawGridLines = true;
    private static int nodeCount = 0;  // Line number of count 
    private static int pathCount = 0;
    private static int[][] nodeList = new int[gridSize^2][3];
    private static int[][] pathList = new int[gridSize^4][3];
+   //private static int[] shortList = new int[gridSize^2][3];
+ private static int[][] shortList = {
+   { 1, 3 },
+   { 3, 6 },
+   { 6, 5 },
+   { 6, 7 }
+};
 
    public PathFinder() {
 
+
+	   
       String lookAndFeel = null;
 
       if (LOOKANDFEEL != null) {
@@ -97,13 +106,24 @@ public class PathFinder {
 	            	int x2 = nodeList[n2][0] * nodeSize + nodeSize/2;
 	            	int y2 = nodeList[n2][1] * nodeSize + nodeSize/2;
 	            	g.drawLine(x1, y1, x2, y2);
-	
-	            	//Draw weights
-	            	g.setColor(Color.red);
-	            	g.drawString("" + pathList[i][2], (x1+x2)/2, (y1+y2)/2 );
             	}
             }
             
+            //Draw shortPath
+        	g.setColor(Color.blue);
+            for (int i=0; i < shortList.length; i++) {
+            	if (shortList[i][0] != -1) {
+	            	int n1 = shortList[i][0];
+	            	int n2 = shortList[i][1];
+	            	int x1 = nodeList[n1][0] * nodeSize + nodeSize/2 + 1;
+	            	int y1 = nodeList[n1][1] * nodeSize + nodeSize/2 + 1;
+	            	int x2 = nodeList[n2][0] * nodeSize + nodeSize/2 + 1;
+	            	int y2 = nodeList[n2][1] * nodeSize + nodeSize/2 + 1;
+	            	g.drawLine(x1, y1, x2, y2);
+
+            	}
+            }
+                        
             //Draw nodes
             for (int i=0; i < nodeList.length; i++) {
             	if (nodeList[i][0] != -1) {
@@ -131,8 +151,30 @@ public class PathFinder {
             	}
             	
             }
+           
+            //Draw weights
+            for (int i=0; i < pathList.length; i++) {
+            	if (pathList[i][0] != -1) {
+	            	int n1 = pathList[i][0];
+	            	int n2 = pathList[i][1];
+	            	int x1 = nodeList[n1][0] * nodeSize + nodeSize/2;
+	            	int y1 = nodeList[n1][1] * nodeSize + nodeSize/2;
+	            	int x2 = nodeList[n2][0] * nodeSize + nodeSize/2;
+	            	int y2 = nodeList[n2][1] * nodeSize + nodeSize/2;
 
-
+	            	g.setColor(Color.white);
+	            	g.fillOval( (x1+x2)/2-3, (y1+y2)/2-11, 13, 13 );
+	            	
+	            	g.setColor(Color.black);
+	            	g.drawOval( (x1+x2)/2-3, (y1+y2)/2-11, 12, 12 );
+	            	
+	            	g.setColor(Color.red);
+	            	g.drawString("" + pathList[i][2], (x1+x2)/2, (y1+y2)/2 );
+	            	
+	            	
+            	}
+            }
+            
          }
       };
 
