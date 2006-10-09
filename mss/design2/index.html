@@ -4,21 +4,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Lone Star Community</title>
 
-<style type="text/css"> 
-	body {
-		font-family: Geneva, Arial, Helvetica, sans-serif;
-      background: #333  url(i/graygradient.jpg) repeat-x top left;
-		text-align: center;
+<style type="text/css">
+   html, body {
       height: 100%;
-	}
+   }
    /* The entire page container */
 	#container {
 		width: 770px;
+      height: 100%;
 		font-size: 11px;
 		color: #555;
 		text-align: left;
 		margin: 0 auto;
    }
+   html>body #container {
+      height: auto;
+      min-height: 100%;
+   }
+	body {
+		font-family: Geneva, Arial, Helvetica, sans-serif;
+      background: #333  url(i/graygradient.jpg) repeat-x top left;
+		text-align: center;
+	}
    /* Header contains topbanner and topnav */
 	#header {
 		float:left;
@@ -45,16 +52,15 @@
    }
 	#main {
       float: left;
-		width: 100%;
    }
    /* Leftbar Calendar */
 	#leftbar {
 		float: left;
-		margin-left: 0%;
+      margin: 0;
 		padding: 0;
-      width: 20%;
-      height: 100%;
-		background: #ccc url(http://images.apple.com/quicktime/images/body_bg.gif) repeat bottom left; 
+      width: 170px;
+      height: 500px;
+		background-color: #DDD; 
    }
 	#leftbar h1 {
       margin: 1em;
@@ -72,12 +78,17 @@
 	#rightbar {
 		float: right;
 		padding: 2em;
-      width: 74%;
-		background-color:#FFFFFF;
+      width: 556px;
+      height: 456px;
+		background-color:#FFF;
    }
 	#rightbar h1 {
 		font-size: 120%;
-		color: #555555;
+		color: #555;
+   }
+   #footer {
+      float: left;
+      clear: both;
    }
 </style>
 </head>
@@ -123,6 +134,9 @@
             <h1>Survey Results</h1>
             <p>Lone Star community's survey results from 2005</p>
          </div>
+      </div>
+      <div id="footer">
+      &nbsp;
       </div>
    </div>
 </body>
