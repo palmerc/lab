@@ -1,3 +1,14 @@
+/*
+Cameron L Palmer
+Problem 3
+
+Instructions:
+To compile: g++ -g -o num2 number2.cpp
+To run: ./num2
+*/
+
+// number2.cpp
+
 #include<iostream>
 using namespace std;
 int main()

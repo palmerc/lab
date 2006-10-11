@@ -1,6 +1,17 @@
+/*
+Cameron L Palmer
+Prime Number program
+
+Instructions:
+To compile: g++ -g -o prime prime.cpp
+To run: ./prime <number>
+*/
+
+// prime.cpp
 #include<iostream>
 #include<cmath>
-#include <ctime>
+#include<ctime>
+#include<stdlib.h>
 
 using namespace std;
 

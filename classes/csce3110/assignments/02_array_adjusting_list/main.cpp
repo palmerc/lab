@@ -1,3 +1,12 @@
+/*
+Cameron L Palmer
+Problem 7 - Self Adjusting List - Using an Array
+
+Instructions:
+To compile: g++ -g -o main main.cpp
+To run: ./main
+*/
+
 #include<iostream>
 #include "AAList.h"
 using namespace std;

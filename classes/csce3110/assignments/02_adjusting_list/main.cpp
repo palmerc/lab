@@ -1,3 +1,14 @@
+/*
+Cameron L Palmer
+Problem 7 - Self Adjusting List - Using List Class
+
+Instructions:
+To compile: g++ -g -o main main.cpp
+To run: ./main
+*/
+
+// main.cpp
+
 #include<iostream>
 #include "AList.h"
 

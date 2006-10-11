@@ -1,3 +1,14 @@
+/*
+Cameron L Palmer
+Problem 6 - Postfix to Infix Calculator
+
+Instructions:
+To compile: g++ -g -o p2i main.cpp
+To run: ./p2i
+*/
+
+// main.cpp
+
 #include<iostream>
 #include<string>
 #include "List.h"

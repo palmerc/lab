@@ -1,3 +1,12 @@
+/*
+Cameron L Palmer
+Problem 9 - Linked List Class
+
+Instructions:
+To compile: g++ -g -o main main.cpp
+To run: ./main
+*/
+
 #include<iostream>
 #include "List.h"
 

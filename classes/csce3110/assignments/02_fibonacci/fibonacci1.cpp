@@ -6,7 +6,7 @@ Instructions:
 To compile: g++ -g -o fib1 fibonacci1.cpp
 To run automatically: sh fib1.sh
 or
-./fib1 16
+./fib1 <number>
 */
 
 // fibonacci1.cpp
