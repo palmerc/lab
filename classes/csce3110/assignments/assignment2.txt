@@ -3,12 +3,11 @@
 // September 24, 2006
 
 1)
-37, 2/N, N^(1/2), N log log N, N, N log N, N log^2 N, N log(N^2), 
-2^(N/2), N^(1.5), N^2 log N, N^2, N^3, 2^N
+2/N, 37, N^(1/2), N, N log log N, N log N, N log(N^2), N log^2 N,
+N^(1.5), N^2, N^2 log N, N^3, 2^(N/2), 2^N
 
 Grow at the same rate:
-N^2 log N and N^2
-N log N and N log^2 N
+N log N and N log N^2
 
 2)
 N^((1+e)/(log N)^(1/2))
@@ -43,7 +42,7 @@ See attached
 much lower
 
 3.5.a)
-O(N^4)
+O(N^5)
 3.5.b)
 See attached
 3.5.c)
@@ -60,28 +59,17 @@ lower
 An algorithm takes .5ms for input size 100. How large a problem can be solved in
 1 min if the running time is the following (assume low order terms are negligible)?
 a. 12 million
-b. 3656808
-
-(I used python to get the result)
-from math import log10
-n=1
-x=0
-while x <= 24000000
-   n=n+1
-   x=n*log10(n)
-print n
-
+b. N log(N)=log(100) * 12000000
 c. sqrt(12)*10^4 or 34641
 d. 4932
 
 5)
 Prime checker - see attached program in folder 02_prime/
 b. The program will run in O(sqrt(N)) time.
-c. ceil(log_2(N))
-d. O(log_2(sqrt(N)))
-e. The are the same on the tested computer. 0 seconds. BTW I had to use an opteron
-server to test it with a 40-bit number.
-f. N is more reasonable. B is typically harder to calculate and a lot larger.
+c. B=O(log N)
+d. O(2^(B/2))
+e. 20 bit in time T, and a 40 bit number would take time T^2
+f. B is the better measure, it more accurately represents the input size.
 
 6)
 Infix Calculator - see attached programs
@@ -127,5 +115,5 @@ Doubly linked list - See attached program
 02_linklist/
 
 10)
-a. Sum N = n(n+1) / 2
-b. n^2(1+(1/2)+(1/4)+...) or 2n^2
+a. O(n^2)
+b. O(n^2)
