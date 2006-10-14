@@ -1,0 +1,28 @@
+How I setup the MySQL database for the voting system:
+
+// One time setup command
+GRANT ALL PRIVILEGES ON *.* TO stcdb@localhost IDENTIFIED BY 'stcdbpw' WITH GRANT OPTION;
+
+// Create the database called stc
+CREATE DATABASE stc;
+
+// Tell mysql that you are going to edit that database you just created.
+USE stc;
+
+// Create the votes table. Likely you will delete and recreate this a few times
+// until you get it the way you want. So it is good to have this handy dandy cheat sheet.
+CREATE TABLE votes (voteid INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(100), vote_date DATE, vote_value BOOL);
+
+
+// To insert a vote into the table
+
+// Reporting of sorts, and sanity checking
+DESCRIBE votes;  // This means show what the table looks like.
+SELECT * FROM votes;  // This mean show all the values in the votes table AKA show me the vote entries. Hello, Diebold.
+
+// Administrative commands
+DROP votes;  // Deletes the votes table so you can recreate it. Medium Danger.
+
+DROP stc;  // Deletes the whole stc database. DANGER! Not what you probably want to do.
+
+
