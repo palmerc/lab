@@ -1,0 +1,85 @@
+html, body {
+   height: 100%;
+}
+/* The entire page container */
+#container {
+   width: 770px;
+   height: 100%;
+   font-size: 11px;
+   color: #555;
+   text-align: left;
+   margin: 0 auto;
+}
+html>body #container {
+   height: auto;
+   min-height: 100%;
+}
+body {
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   background: #333  url(../i/graygradient.jpg) repeat-x top left;
+   text-align: center;
+}
+/* Header contains topbanner and topnav */
+#header {
+   float:left;
+   clear: left;
+   margin: 0;
+   padding: 0;
+   width: 100%;
+}
+#topbanner {
+   float: left;
+}
+#topnav {
+   float:left;
+   background: #ccc  url(../i/graybutton.jpg) repeat-x top left;
+   width: 100%;
+}
+#topnav ul {
+   list-style: none;
+}
+#topnav li {
+   float: left;
+   color: #000;
+   padding: 1em;
+}
+#main {
+   float: left;
+}
+/* Leftbar Calendar */
+#leftbar {
+   float: left;
+   margin: 0;
+   padding: 0;
+   width: 170px;
+   height: 500px;
+   background-color: #DDD; 
+}
+#leftbar h1 {
+   margin: 1em;
+   font-size: 120%;
+   color: #555555;
+}
+#leftbar ul {
+   padding-left: 1em;
+   list-style: none;
+}
+#leftbar li {
+   padding: 0.5em;
+}
+/* Rightbar Text */
+#rightbar {
+   float: right;
+   padding: 2em;
+   width: 556px;
+   height: 456px;
+   background-color:#FFF;
+}
+#rightbar h1 {
+   font-size: 120%;
+   color: #555;
+}
+#footer {
+   float: left;
+   clear: both;
+}
