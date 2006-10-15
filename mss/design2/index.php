@@ -1,35 +1,45 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-   <title>Lone Star Community</title>
-   <link rel="stylesheet" type="text/css" href="c/main.css" />
-</head>
+<?php
+$authorized = FALSE;  // Initialize a variable.
 
+// Check for authentication submission.
+if ( (isset($_SERVER['PHP_AUTH_USER']) AND isset($_SERVER['PHP_AUTH_PW'])) ) {
+
+	// Set the database access information as constants.
+	define ('DB_USER', 'stcdb');
+	define ('DB_PASSWORD', 'stcdbpw');
+	define ('DB_HOST', 'localhost');
+	define ('DB_NAME', 'stc');
+	
+	// Make the connnection and then select the database.
+	$dbc = @mysql_connect (DB_HOST, DB_USER, DB_PASSWORD) OR die ('Could not connect to MySQL: ' . mysql_error() );
+	mysql_select_db (DB_NAME) OR die ('Could not select the database: ' . mysql_error() );
+	
+	// Query the database.
+	$query = "SELECT first_name FROM users WHERE email='{$_SERVER['PHP_AUTH_USER']}' and password='{$_SERVER['PHP_AUTH_PW']}'";
+	$result = mysql_query ($query);
+	$row = @mysql_fetch_array ($result);
+	if ($row) { // If a record was returned...
+		$authorized = TRUE;
+	}	
+} 
+
+// If they haven't been authorized, create the pop-up window.
+if (!$authorized) {
+	header('WWW-Authenticate: Basic realm="STC"');
+	header('HTTP/1.0 401 Unauthorized'); // For cancellations.
+} else {
+
+?>
+
+<?php
+   include('includes/header.html');
+?>
 <body>
 	<div id="container">
 		<div id="header">
          <div id="topbanner">
             <img src="i/orangetopwtext2.gif" alt="The Lone Star Community" />
          </div>
-<?php
-//      $mysql_link = mysql_connect("localhost", "mysql_username", "mysql_password");
-//      mysql_select_db($db, $mysql_link);
-   if (($_POST['username'] == 'user') AND ($_POST['password'] == 'test')) {
-        // you should inspect these variables before passing off to mySQL
-//         $query = "SELECT user, pass FROM login ";
-//         $query .= "WHERE user='$username' AND pass='$password'";
-//         $result = mysql_query($query, $mysql_link);
-//           if(mysql_num_rows($result)) {
-//             // we have at least one result, so update the logged in datetime
-//             $query = "UPDATE from login SET logged=SYSDATE()";
-//             $query .= "WHERE user='$username' AND pass='$password' ";
-//            mysql_query($query,$mysql_link);
-//           } else {
-//             print("Sorry, this login is invalid.");
-//             exit;
-//           }
-?>
          <div id="topnav">
             <ul id="topbar">
                <li>Go Home</li>
@@ -52,6 +62,7 @@
 				</ul>
 			</div>
 			<div id="rightbar">
+            <p>Welcome, <a href="edit.php"><?php echo $row[0]; ?></a></p>
             <h1>Lone Star Community Home</h1>
 				<p>The Society for Technical Communication (STC) is the world's largest professional organization for people involved in technical communication. The Lone Star community (LSC) is one of the largest communities in the U.S., drawing members from all over the Dallas- Fort Worth Metroplex area.</p>
    			<p> We are writers, editors, graphic artists, web content managers, as well as usability experts, consultants, information managers, educators and students. We work in many industries including telecommunications, software, semiconductor, financial, medical, and transportation. The community provides leadership and direction for more than 350 members and promotes professional growth through meetings, workshops, seminars, conferences, mentoring, and networking.</p> 
@@ -66,39 +77,7 @@
             <p>Lone Star community's survey results from 2005</p>
          </div>
       </div>
-   <?php 
-   } 
-   else
-   {
-      echo'
-      </div>
-      <div id="main">
-			<div id="leftbar">
-			</div>
-
-         <div id="rightbar"><pre>
-         ';
-         print_r($_POST);
-         echo "</pre><form action=\"{$_SERVER['PHP_SELF']}\" method=\"post\">";
-         echo'
-         <table>
-            <tr>
-               <td>User:</td><td><input type="text" name="username" /></td>
-            </tr>
-            <tr>
-               <td>Password:</td><td><input type="password" name="password" /><td>
-            </tr>
-         </table>
-         <input type="submit" value="Submit" />
-         </form>
-         ';
-      }
-   ?>
-         </div>
-      </div>
-      <div id="footer">
-      &nbsp;
-      </div>
-   </div>   
-</body>
-</html>
+<?php
+   include('includes/footer.html');
+   }
+?>
