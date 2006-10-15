@@ -1,12 +1,10 @@
 <?php
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
 	define ('DB_USER', 'stcdb');
 	define ('DB_PASSWORD', 'stcdbpw');
 	define ('DB_HOST', 'localhost');
 	define ('DB_NAME', 'stc');
-   print_r($_POST);
    $email = $_POST['email'];
    $first_name = $_POST['first_name'];
    $last_name = $_POST['last_name'];
@@ -14,8 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
    
    $dbc = @mysql_connect (DB_HOST, DB_USER, DB_PASSWORD) OR die ('Could not connect to MySQL: ' . mysql_error() );
    mysql_select_db (DB_NAME) OR die ('Could not select the database: ' . mysql_error() );
-   $query = "UPDATE users SET first_name='{$first_name}', last_name='{$last_name}', password=SHA('{$password}') WHERE email='{$email}' LIMIT 1";
-   echo $query . "\n";
+   if (!$password) {
+      $query = "UPDATE users SET first_name='{$first_name}', last_name='{$last_name}' WHERE email='{$email}' LIMIT 1";
+   } else {
+      $pw_query = "UPDATE users SET first_name='{$first_name}', last_name='{$last_name}', password=SHA('{$password}') WHERE email='{$email}' LIMIT 1";
+   }
+   echo $query . "\n"; // DIAGNOSTIC
    $result = mysql_query($query);
    echo $result;
    echo mysql_affected_rows();
@@ -24,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 // Check for authentication submission.
 if ( (isset($_SERVER['PHP_AUTH_USER']) AND isset($_SERVER['PHP_AUTH_PW'])) ) {
-
 	// Set the database access information as constants.
 	define ('DB_USER', 'stcdb');
 	define ('DB_PASSWORD', 'stcdbpw');
@@ -36,13 +37,12 @@ if ( (isset($_SERVER['PHP_AUTH_USER']) AND isset($_SERVER['PHP_AUTH_PW'])) ) {
 	mysql_select_db (DB_NAME) OR die ('Could not select the database: ' . mysql_error() );
 	
 	// Query the database.
-	$query = "SELECT email, first_name, last_name, password FROM users WHERE email='{$_SERVER['PHP_AUTH_USER']}' and password=SHA('{$_SERVER['PHP_AUTH_PW']}')";
+	$query = "SELECT email, first_name, last_name FROM users WHERE email='{$_SERVER['PHP_AUTH_USER']}' and password=SHA('{$_SERVER['PHP_AUTH_PW']}')";
 	$result = mysql_query ($query);
 	$row = @mysql_fetch_array ($result);
    $email = $row[0];
    $first_name = $row[1];
    $last_name = $row[2];
-   $password = $row[3];
    mysql_close();
 } 
 
@@ -59,7 +59,7 @@ if ( (isset($_SERVER['PHP_AUTH_USER']) AND isset($_SERVER['PHP_AUTH_PW'])) ) {
          </div>
          <div id="topnav">
             <ul id="topbar">
-               <li>Go Home</li>
+               <li><a href="index.php">Go Home</a></li>
                <li>Rock the Vote</li>
                <li>Create a Report</li>
                <li>View Calendar</li>
@@ -83,7 +83,7 @@ if ( (isset($_SERVER['PHP_AUTH_USER']) AND isset($_SERVER['PHP_AUTH_PW'])) ) {
             <td>Email:</td><td><input type="text" name="email" value="<?php echo $email; ?>" /></td>
             </tr>
             <tr>
-            <td>Password:</td><td><input type="text" name="password" value="<?php echo $password; ?>" /></td>
+            <td>Password:</td><td><input type="text" name="password" value="" /></td>
             </tr>
             </table>
             <input type="submit" value="Submit" />
