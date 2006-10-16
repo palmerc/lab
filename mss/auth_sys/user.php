@@ -8,12 +8,12 @@
 // Requires email address and password
 // Returns true on success, false otherwise
 function auth_user($email, $password)
-{
-   $query = "SELECT email, first_name, last_name FROM users WHERE email='{$_SERVER['PHP_AUTH_USER']}' and password=SHA('{$_SERVER['PHP_AUTH_PW']}')";
+{  
+   $query = "SELECT email, first_name, last_name FROM users WHERE email='{$email}' AND password=SHA('{$password}')";
    $result = mysql_query($query);
    $row = @mysql_fetch_array ($result);
 	if ($row) { // If a record was returned...
-		return true;
+		return $row;
 	}
    return false;
 }
@@ -21,17 +21,18 @@ function auth_user($email, $password)
 // Insert a new user into the table
 // Requires an email address
 // Returns true on success, false otherwise
-function create_user($email, $first_name, $last_name, $password)
+function create_user($email, $first_name, $last_name, $password, $admin)
 {
    if ($email != NULL)
    {
-      $query = "INSERT INTO users VALUES ('{$email}','{$first_name}','{$last_name}',SHA('{$password}'))";
+      $query = "INSERT INTO users VALUES('{$email}','{$first_name}','{$last_name}',SHA('{$password}'),'{$admin}')";
       $result = mysql_query($query);
       if (mysql_affected_rows() == 1) {
          return true;
       } 
       else
       {
+         echo '<p>Create user failed!</p>';
          return false; // Query failed
       }
    }
@@ -60,12 +61,12 @@ function delete_user($email)
 // Modify a user in the table
 // Requires an email address
 // Returns true on success, false otherwise
-function modify_user($user_id, $email, $first_name, $last_name, $password)
+function modify_user($user_id, $email, $first_name, $last_name, $password, $admin)
 {
    if ($user_id) {     
       if ($email != $user_id)
       {
-         $query = "SELECT first_name, last_name, password FROM users WHERE email='{$email}'";
+         $query = "SELECT first_name, last_name, password, admin FROM users WHERE email='{$email}'";
          $result = mysql_query($query);
          
          if (!first_name)
@@ -74,7 +75,9 @@ function modify_user($user_id, $email, $first_name, $last_name, $password)
             $last_name = $result['last_name'];
          if (!$password)
             $password = $result['password'];
-         if (create_user($email, $first_name, $last_name, $password))
+         if (!$admin)
+            $admin = $result['admin'];
+         if (create_user($email, $first_name, $last_name, $password, $admin))
             delete_user($user_id);
          else
             return false;         
@@ -85,6 +88,7 @@ function modify_user($user_id, $email, $first_name, $last_name, $password)
       if ($first_name) $parameters++;
       if ($last_name) $parameters++;
       if ($password) $parameters++;
+      if ($admin) $parameters++;
       
       if ($first_name)
       {
@@ -101,6 +105,12 @@ function modify_user($user_id, $email, $first_name, $last_name, $password)
       if ($password)
       {
          $updates.="password=SHA('{$password}')";
+         if ($parameters > 1) $updates.=',';
+         $parameters--;
+      }
+      if ($admin)
+      {
+         $updates.="admin='{$admin}'";
          if ($parameters > 1) $updates.=',';
          $parameters--;
       }
@@ -126,7 +136,7 @@ function modify_user($user_id, $email, $first_name, $last_name, $password)
 function retrieve_user($email)
 {
    if ($email) {
-      $query = "SELECT first_name, last_name FROM users WHERE email='{$email}'";
+      $query = "SELECT first_name, last_name, admin FROM users WHERE email='{$email}'";
       $result = mysql_query($query);
       while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
       {
@@ -142,7 +152,7 @@ function retrieve_user($email)
 // Returns an array of all users
 function retrieve_all_users()
 {
-   $query = "SELECT email, first_name, last_name FROM users";
+   $query = "SELECT email, first_name, last_name, admin FROM users";
    $result = mysql_query($query);
    while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
    {
