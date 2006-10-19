@@ -10,7 +10,7 @@ database_disconnect();
 if ($result[0]['admin'] == 1)
 {
 ?>
-   <a href="create.php">Create User</a>
+   <a href="index.php">Home</a> <a href="create.php">Create User</a>
    <table>
       <tr>
          <th>Email</th><th>First</th><th>Last</th><th>Admin</th><th>Delete</th>
@@ -23,16 +23,20 @@ if ($result[0]['admin'] == 1)
       $email = $row['email'];
       $first = $row['first_name'];
       $last = $row['last_name'];
-      ($row['admin'])?$admin = 'yes':$admin = 'no';
+      $admin = $row['admin'] == 1 ? 'yes': 'no';
       echo"
       <tr>
          <td><a href=\"edit.php?email={$email}\">{$email}</a></td>
          <td>{$first}</td>
          <td>{$last}</td>
          <td>{$admin}</td>
-         <td><a href=\"delete.php?email={$email}\">Delete</a></td>
-      </tr>
          ";
+?>
+         <td>
+         <?php if ($user_id != $email) echo "<a href=\"delete.php?email={$email}\">Delete</a>"; ?>
+         </td>
+      </tr>
+<?php
    }
    database_disconnect();
 ?>
