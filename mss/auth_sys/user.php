@@ -61,12 +61,12 @@ function delete_user($email)
 // Modify a user in the table
 // Requires an email address
 // Returns true on success, false otherwise
-function modify_user($user_id, $email, $first_name, $last_name, $password, $admin)
+function modify_user($user_id, $email, $first_name, $last_name, $admin, $password)
 {
    if ($user_id) {     
       if ($email != $user_id)
       {
-         $query = "SELECT first_name, last_name, password, admin FROM users WHERE email='{$email}'";
+         $query = "SELECT first_name, last_name, password, admin FROM users WHERE email='{$user_id}'";
          $result = mysql_query($query);
          
          if (!first_name)
@@ -87,8 +87,8 @@ function modify_user($user_id, $email, $first_name, $last_name, $password, $admi
       $parameters = 0;
       if ($first_name) $parameters++;
       if ($last_name) $parameters++;
-      if ($password) $parameters++;
       if ($admin) $parameters++;
+      if ($password) $parameters++;
       
       if ($first_name)
       {
@@ -114,7 +114,7 @@ function modify_user($user_id, $email, $first_name, $last_name, $password, $admi
          if ($parameters > 1) $updates.=',';
          $parameters--;
       }
-      $query = "UPDATE users SET {$updates} WHERE email='{$email}' LIMIT 1";
+      $query = "UPDATE users SET {$updates} WHERE email='{$user_id}' LIMIT 1";
       $result = mysql_query($query);
       if (mysql_affected_rows() == 1) {
          return true;

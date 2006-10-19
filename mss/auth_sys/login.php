@@ -15,21 +15,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $first = $row[1];
       $_SESSION['first_name'] = $first;
       $_SESSION['agent'] = md5($_SERVER['HTTP_USER_AGENT']);
-      session_write_close();
       header('location:index.php');
+   }
+   else
+   {
+      $error = "Username or password incorrect";
    }
    database_disconnect();
 }
 ?>
+<? if ($error) echo '<p>'.$error.'</p>'; ?>
    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-      <table>
+      <table>        
          <tr>
             <td>Email:</td>
             <td><input type="text" name="email" value="" /></td>
          </tr>
          <tr>
             <td>Password:</td>
-            <td><input type="text" name="password" value="" /></td>
+            <td><input type="password" name="password" value="" /></td>
          </tr>
       </table>
       <input type="submit" value="Submit" />
