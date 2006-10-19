@@ -9,10 +9,12 @@ CREATE DATABASE stc;
 // Tell mysql that you are going to edit that database you just created.
 USE stc;
 
+// To create a user table.
+CREATE TABLE users (email VARCHAR(100) PRIMARY KEY, first_name VARCHAR(25), last_name VARCHAR(25), password VARCHAR(50));
+
 // Create the votes table. Likely you will delete and recreate this a few times
 // until you get it the way you want. So it is good to have this handy dandy cheat sheet.
 CREATE TABLE votes (voteid INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(100), vote_date DATE, vote_value BOOL);
-
 
 // To insert a vote into the table
 

@@ -38,7 +38,7 @@ if (!$authorized) {
 	<div id="container">
 		<div id="header">
          <div id="topbanner">
-            <img src="i/orangetopwtext2.gif" alt="The Lone Star Community" />
+            <img src="i/orangetop3slim.gif" alt="The Lone Star Community" />
          </div>
          <div id="topnav">
             <ul id="topbar">
