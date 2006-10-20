@@ -21,7 +21,7 @@ function auth_user($email, $password)
 // Insert a new user into the table
 // Requires an email address
 // Returns true on success, false otherwise
-function create_user($email, $first_name, $last_name, $password, $admin)
+function create_user($email, $first_name, $last_name, $admin, $password)
 {
    if ($email != NULL)
    {
@@ -63,57 +63,21 @@ function delete_user($email)
 // Returns true on success, false otherwise
 function modify_user($user_id, $email, $first_name, $last_name, $admin, $password)
 {
-   if ($user_id) {     
+   if ($user_id && $email) {
       if ($email != $user_id)
-      {
-         $query = "SELECT first_name, last_name, password, admin FROM users WHERE email='{$user_id}'";
-         $result = mysql_query($query);
-         
-         if (!first_name)
-            $first_name = $result['first_name'];
-         if (!last_name)
-            $last_name = $result['last_name'];
-         if (!$password)
-            $password = $result['password'];
-         if (!$admin)
-            $admin = $result['admin'];
-         if (create_user($email, $first_name, $last_name, $password, $admin))
+      {       
+         if (create_user($email, $first_name, $last_name, $admin, $password))
             delete_user($user_id);
          else
             return false;         
          return true;
       }
-      
-      $parameters = 0;
-      if ($first_name) $parameters++;
-      if ($last_name) $parameters++;
-      if ($admin) $parameters++;
-      if ($password) $parameters++;
-      
-      if ($first_name)
-      {
-         $updates.="first_name='{$first_name}'";
-         if ($parameters > 1) $updates.=',';
-         $parameters--;
-      }
-      if ($last_name)
-      {
-         $updates.="last_name='{$last_name}'";
-         if ($parameters > 1) $updates.=',';
-         $parameters--;
-      }
-      if ($password)
-      {
-         $updates.="password=SHA('{$password}')";
-         if ($parameters > 1) $updates.=',';
-         $parameters--;
-      }
-      if ($admin)
-      {
-         $updates.="admin='{$admin}'";
-         if ($parameters > 1) $updates.=',';
-         $parameters--;
-      }
+          
+      $updates.="first_name='{$first_name}'";
+      $updates.="last_name='{$last_name}'";
+      $updates.="admin='{$admin}'";
+      if ($password != "")
+      $updates.="password=SHA('{$password}')";
       $query = "UPDATE users SET {$updates} WHERE email='{$user_id}' LIMIT 1";
       $result = mysql_query($query);
       if (mysql_affected_rows() == 1) {
