@@ -20,7 +20,7 @@ if ($result[0]['admin'] == 1)
       if ($password1 == $password2)
       {
          database_connect();
-         $result = create_user($email, $first, $last, $password, $admin);
+         $result = create_user($email, $first, $last, $admin, $password);
          database_disconnect();
          header('location:manage.php');
       }

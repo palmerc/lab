@@ -9,12 +9,11 @@
 // Returns true on success, false otherwise
 function auth_user($email, $password)
 {  
-   $query = "SELECT email, first_name, last_name FROM users WHERE email='{$email}' AND password=SHA('{$password}')";
+   $query = "SELECT email, first_name, last_name, admin FROM users WHERE email='{$email}' AND password=SHA('{$password}')";
+   //$query = "SELECT email FROM users WHERE email='{$email}'";
    $result = mysql_query($query);
    $row = @mysql_fetch_array ($result);
-	if ($row) { // If a record was returned...
-		return $row;
-	}
+	if ($row) return true;
    return false;
 }
 
@@ -59,38 +58,30 @@ function delete_user($email)
 }
 
 // Modify a user in the table
-// Requires an email address
+// Requires all fields except password to be filled out
 // Returns true on success, false otherwise
 function modify_user($user_id, $email, $first_name, $last_name, $admin, $password)
 {
-   if ($user_id && $email) {
-      if ($email != $user_id)
-      {       
-         if (create_user($email, $first_name, $last_name, $admin, $password))
-            delete_user($user_id);
-         else
-            return false;         
-         return true;
-      }
-          
-      $updates.="first_name='{$first_name}'";
-      $updates.="last_name='{$last_name}'";
-      $updates.="admin='{$admin}'";
-      if ($password != "")
-      $updates.="password=SHA('{$password}')";
-      $query = "UPDATE users SET {$updates} WHERE email='{$user_id}' LIMIT 1";
-      $result = mysql_query($query);
-      if (mysql_affected_rows() == 1) {
-         return true;
-      } 
+   if ($email != $user_id)
+   {
+      if (create_user($email, $first_name, $last_name, $admin, $password))
+         delete_user($user_id);
       else
-      {
-         return false; // Query failed
-      }
+         return false;         
+      return true;
    }
    else
    {
-      return false;
+      $updates.="first_name='{$first_name}',";
+      $updates.="last_name='{$last_name}',";
+      if ($password) $updates.="password=SHA('{$password}'),";
+      $updates.="admin='{$admin}'";
+      $query = "UPDATE users SET {$updates} WHERE email='{$user_id}' LIMIT 1";
+      $result = mysql_query($query);
+      if (mysql_affected_rows() == 1)
+         return true; 
+      else 
+         return false; // Update failed
    }
 }
 

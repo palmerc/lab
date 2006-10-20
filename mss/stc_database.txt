@@ -10,7 +10,9 @@ CREATE DATABASE stc;
 USE stc;
 
 // To create a user table.
-CREATE TABLE users (email VARCHAR(100) PRIMARY KEY, first_name VARCHAR(25), last_name VARCHAR(25), password VARCHAR(50));
+CREATE TABLE users (email VARCHAR(100) PRIMARY KEY, first_name VARCHAR(25), last_name VARCHAR(25), password VARCHAR(50), admin TINYINT(1));
+// Create the basic admin called 'root' password 'test'
+INSERT INTO `users` (`email` ,`first_name`,`last_name`,`password`,`admin`) VALUES ('root','Super','User','a94a8fe5ccb19ba61c4c0873d391e987982fbbd3','1');
 
 // Create the votes table. Likely you will delete and recreate this a few times
 // until you get it the way you want. So it is good to have this handy dandy cheat sheet.

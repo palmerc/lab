@@ -8,11 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $password = $_POST['password'];
 
    database_connect();
-   if ($row = auth_user($email, $password)) 
+   if (auth_user($email, $password)) 
    {
+      $row = retrieve_user($email);
       session_start();
       $_SESSION['email'] = $email;
-      $first = $row[1];
+      $first = $row[0]['first_name'];
       $_SESSION['first_name'] = $first;
       $_SESSION['agent'] = md5($_SERVER['HTTP_USER_AGENT']);
       header('location:index.php');
