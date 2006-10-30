@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 long factorial(int a) {
    int i, factorial = 1;
@@ -23,6 +24,6 @@ int main() {
       euler += (double) 1/facto;
       printf("Euler is %.60f\n\n", euler);
    }
-
-
+   return 0;
 }
+
