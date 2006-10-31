@@ -56,14 +56,54 @@ require('student.php');
       var first_name = studentData.getElementsByTagName("firstName")[0].firstChild.data;
       var last_name = studentData.getElementsByTagName("lastName")[0].firstChild.data;
       var empl_id = studentData.getElementsByTagName("emplId")[0].firstChild.data;
-      var row, row3;
+      var euid = studentData.getElementsByTagName("euid")[0].firstChild.data;
+      var email = studentData.getElementsByTagName("email")[0].firstChild.data;
+      var web = studentData.getElementsByTagName("web")[0].firstChild.data;
+      var phone = studentData.getElementsByTagName("phone")[0].firstChild.data;
+      var comments = studentData.getElementsByTagName("comments")[0].firstChild.data;
+      var photo = studentData.getElementsByTagName("photo")[0].firstChild.data;
+      var row, row2, row3, row4, row5, row6, row7, row8;
       var nameData = "Name: " + first_name + " " + last_name;
-      var emplIdData = "EmplID: " + empl_id;
+      var emplIdData = "emplid: " + empl_id;
+      var euidData = "euid: " + euid;
+      var emailData = "email: " + email;
+      var webData = "Website: " + web;
+      var phoneData = "Phone: " + phone;
+      var commentsData = "Comments: " + comments;
+      var photoData = photo;
       row = createRow(nameData);
       row2 = createRow(emplIdData);
-      
+      row3 = createRow(euidData);
+      row4 = createRow(emailData);
+      row5 = createRow(webData);
+      row6 = createRow(phoneData);
+      row7 = createRow(commentsData);
+      row8 = createImageRow(photoData);
+            
       dataTableBody.appendChild(row);
       dataTableBody.appendChild(row2);
+      dataTableBody.appendChild(row3);
+      dataTableBody.appendChild(row4);
+      dataTableBody.appendChild(row5);
+      dataTableBody.appendChild(row6);
+      dataTableBody.appendChild(row7);
+      dataTableBody.appendChild(row8);
+   }
+
+   function createImageRow(data) {
+      var row, cell, txtNode;
+      row = document.createElement("tr");
+      cell = document.createElement("td");
+
+      cell.setAttribute("bgcolor", "#FFFAFA");
+      cell.setAttribute("border", "0");
+
+      imgNode = document.createElement("img");
+      imgNode.setAttribute("src",data)
+      cell.appendChild(imgNode);
+      row.appendChild(cell);
+     
+      return row;
    }
 
    function createRow(data) {
