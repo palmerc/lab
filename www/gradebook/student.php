@@ -4,41 +4,19 @@
 // It assumes that the table with users is called users
 // It assumes that the user record has 4 parameters email(key), first, last, password
 
-// Authenticate user
-// Requires email address and password
-// Returns true on success, false otherwise
-function auth_user($email, $password)
-{  
-   $query = "SELECT email, first_name, last_name, admin FROM users WHERE email='{$email}' AND password=SHA('{$password}')";
-   //$query = "SELECT email FROM users WHERE email='{$email}'";
-   $result = mysql_query($query);
-   $row = @mysql_fetch_array ($result);
-	if ($row) return true;
-   return false;
-}
-
 // Insert a new user into the table
 // Requires an email address
 // Returns true on success, false otherwise
-function create_user($email, $first_name, $last_name, $admin, $password)
+function student_create($empl_id, $first_name, $last_name, $email, $phone, $euid, $web_addr, $comments, $is_active)
 {
-   if ($email != NULL)
-   {
-      $query = "INSERT INTO users VALUES('{$email}','{$first_name}','{$last_name}',SHA('{$password}'),'{$admin}')";
-      $result = mysql_query($query);
-      if (mysql_affected_rows() == 1) {
-         return true;
-      } 
-      else
-      {
-         echo '<p>Create user failed!</p>';
-         return false; // Query failed
-      }
-   }
-   else
-   {
-      return false; // Cannot allow users to be created without email addresses
-   }
+   // Query string should contain properly formatted SQL
+   // student_key INT PRIMARY KEY, empl_id INT, first_name VARCHAR(), last_name VARCHAR(), email VARCHAR(), phone VARCHAR(), euid VARCHAR(), photo MEDIUMBLOB, comments TEXT, is_active TINYINT
+   $query = "INSERT INTO student VALUES(null,'{$empl_id}','{$first_name}','{$last_name}','{$email}','{$phone}','{$euid}',null,'{$web_addr}','{$comments}','{$is_active}')";
+   //echo $query;
+   $result = mysql_query($query);
+   if (!$result)
+      return false;
+   return true;
 }
 
 // Delete a user from the table
@@ -57,51 +35,35 @@ function delete_user($email)
    }
 }
 
-// Modify a user in the table
+// Modify a student in the table
 // Requires all fields except password to be filled out
 // Returns true on success, false otherwise
-function modify_user($user_id, $email, $first_name, $last_name, $admin, $password)
+function student_edit($student_key, $empl_id, $first_name, $last_name, $email, $phone, $euid, $web_addr, $comments, $is_active)
 {
-   if ($email != $user_id)
-   {
-      if (create_user($email, $first_name, $last_name, $admin, $password))
-         delete_user($user_id);
-      else
-         return false;         
-      return true;
-   }
-   else
-   {
-      $updates.="first_name='{$first_name}',";
-      $updates.="last_name='{$last_name}',";
-      if ($password) $updates.="password=SHA('{$password}'),";
-      $updates.="admin='{$admin}'";
-      $query = "UPDATE users SET {$updates} WHERE email='{$user_id}' LIMIT 1";
-      $result = mysql_query($query);
-      if (mysql_affected_rows() == 1)
-         return true; 
-      else 
-         return false; // Update failed
-   }
+   $updates = "empl_id='{$empl_id}',first_name='{$first_name}',email='{$email}',phone='{$phone}',euid='{$euid}',web_addr='{$web_addr}',comments='{$comments}',is_active='{$is_active}'";
+   $query = "UPDATE student SET {$updates} WHERE student_key='{$student_key}'";
+   $result = mysql_query($query);
+   if (mysql_affected_rows() == 1)
+      return true; 
+   else 
+      return false; // Update failed
 }
 
-// Get the details about a user
-// Requires an email address
-// Returns array of users first and last name
-function retrieve_user($email)
+// Get the details about a student
+// Requires an empl_id
+// Returns array
+function student_get($student_key)
 {
-   if ($email) {
-      $query = "SELECT first_name, last_name, admin FROM users WHERE email='{$email}'";
-      $result = mysql_query($query);
-      while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
-      {
-         $results[] = $row;
-      }
-      return $results;
+   // Query string should contain properly formatted SQL
+   $query = "SELECT * FROM student WHERE student_key='{$student_key}'";
+   $result = mysql_query($query);
+   
+   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
    }
-   return false;
+   return $results;
 }
-
 // Retrieve all students
 // Take no parameters
 // Returns an array of all users
@@ -116,14 +78,39 @@ function student_get_all()
    return $results;
 }
 
-// Check if the user is in the database
-// Requires an email address
+// Check if the student is in the database
+// Requires an empl_id address
 // Returns boolean true if the user already exists
-function user_exists($email)
+function student_exists($student_key)
 {
-   $query = "SELECT $email FROM users";
-   $result = mysql_query($query);
-   return mysql_num_rows($result);
+   $result = student_get($student_key);
+   if ($result)
+      return true;
+   else
+      return false;
+}
+
+function student_upload_image($student_key, $file) {
+   $tmp_name = $file['tmp_name'];
+   $file_info = getimagesize($tmp_name);
+   $mime_type = $file_info['mime'];
+   if ($mime_type == 'image/jpeg' or $mime_type == 'image/gif' or $mime_type == 'image/png') {
+      $fp = fopen($tmp_name, 'r');
+      $photo = fread($fp, filesize($tmp_name));
+      $photo = addslashes($photo);
+      fclose($fp);
+      $updates = "photo='$photo}'";
+      $query = "UPDATE student SET {$updates} WHERE student_key='{$student_key}'";
+      $result = mysql_query($query);
+      //echo $query;
+      if (!$result)
+         return false; 
+      return true;
+   } 
+   else
+   {
+      return false;
+   }
 }
 
 ?>
