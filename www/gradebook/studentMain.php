@@ -9,147 +9,9 @@ require('student.php');
    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
    <link rel="stylesheet" type="text/css" href="c/main.css" />
    <link rel="icon" href="i/favicon.ico" type="image/vnd.microsoft.icon" />
-   
-   <script type="text/javascript">
-   var xmlHttp;
-   var dataDiv;
-   var dataTable;
-   var dataTableBody;
-   var offsetEl;
-
-   function createXMLHttpRequest() {
-      if (window.ActiveXObject) {
-          xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-      }
-      else if (window.XMLHttpRequest) {
-          xmlHttp = new XMLHttpRequest();
-      }
-   }
-   
-   function initVars() {
-      dataTableBody = document.getElementById("studentDataBody");
-      dataTable = document.getElementById("studentData");
-      dataDiv = document.getElementById("popup");
-   }
-
-   function getStudentData(element) {
-      initVars();
-      createXMLHttpRequest();
-      offsetEl = element;
-      var url = "getStudent.php?student_key=" + escape(element.id);
-      xmlHttp.open("GET", url, true);
-      xmlHttp.onreadystatechange = callback;
-      xmlHttp.send(null);
-   }
-
-   function callback() {
-      if (xmlHttp.readyState == 4) {
-          if (xmlHttp.status == 200) {
-              setData(xmlHttp.responseXML);
-          }
-      }
-   }
-     
-   function setData(studentData) {
-      clearData();
-      setOffsets();
-      var first_name = studentData.getElementsByTagName("firstName")[0].firstChild.data;
-      var last_name = studentData.getElementsByTagName("lastName")[0].firstChild.data;
-      var empl_id = studentData.getElementsByTagName("emplId")[0].firstChild.data;
-      var euid = studentData.getElementsByTagName("euid")[0].firstChild.data;
-      var email = studentData.getElementsByTagName("email")[0].firstChild.data;
-      var web = studentData.getElementsByTagName("web")[0].firstChild.data;
-      var phone = studentData.getElementsByTagName("phone")[0].firstChild.data;
-      var comments = studentData.getElementsByTagName("comments")[0].firstChild.data;
-      var photo = studentData.getElementsByTagName("photo")[0].firstChild.data;
-      var row, row2, row3, row4, row5, row6, row7, row8;
-      var nameData = "Name: " + first_name + " " + last_name;
-      var emplIdData = "emplid: " + empl_id;
-      var euidData = "euid: " + euid;
-      var emailData = "email: " + email;
-      var webData = "Website: " + web;
-      var phoneData = "Phone: " + phone;
-      var commentsData = "Comments: " + comments;
-      var photoData = photo;
-      row = createRow(nameData);
-      row2 = createRow(emplIdData);
-      row3 = createRow(euidData);
-      row4 = createRow(emailData);
-      row5 = createRow(webData);
-      row6 = createRow(phoneData);
-      row7 = createRow(commentsData);
-      row8 = createImageRow(photoData);
-            
-      dataTableBody.appendChild(row);
-      dataTableBody.appendChild(row2);
-      dataTableBody.appendChild(row3);
-      dataTableBody.appendChild(row4);
-      dataTableBody.appendChild(row5);
-      dataTableBody.appendChild(row6);
-      dataTableBody.appendChild(row7);
-      dataTableBody.appendChild(row8);
-   }
-
-   function createImageRow(data) {
-      var row, cell, txtNode;
-      row = document.createElement("tr");
-      cell = document.createElement("td");
-
-      cell.setAttribute("bgcolor", "#FFFAFA");
-      cell.setAttribute("border", "0");
-
-      imgNode = document.createElement("img");
-      imgNode.setAttribute("src",data)
-      cell.appendChild(imgNode);
-      row.appendChild(cell);
-     
-      return row;
-   }
-
-   function createRow(data) {
-      var row, cell, txtNode;
-      row = document.createElement("tr");
-      cell = document.createElement("td");
-
-      cell.setAttribute("bgcolor", "#FFFAFA");
-      cell.setAttribute("border", "0");
-
-      txtNode = document.createTextNode(data);
-      cell.appendChild(txtNode);
-      row.appendChild(cell);
-     
-      return row;
-   }
-
-   function setOffsets() {
-      var end = offsetEl.offsetWidth;
-      var top = calculateOffsetTop(offsetEl);
-      dataDiv.style.border = "black 1px solid";
-      dataDiv.style.left = end + 15 + "px";
-      dataDiv.style.top = top + "px";
-   }
-   
-   function calculateOffsetTop(field) {
-      return calculateOffset(field, "offsetTop");
-   }
-
-   function calculateOffset(field, attr) {
-      var offset = 0;
-      while(field) {
-         offset += field[attr];
-         field = field.offsetParent;
-      }
-      return offset;
-   }
-
-   function clearData() {
-      var ind = dataTableBody.childNodes.length;
-      for (var i = ind - 1; i >= 0 ; i--) {
-         dataTableBody.removeChild(dataTableBody.childNodes[i]);
-      }
-      dataDiv.style.border = "none";
-   }        
-   </script>
+   <script type="text/javascript" src="js/ajax-tooltip.js" />
+   <script type="text/javascript" src="js/ajax-dynamic-content.js" />
+   <script type="text/javascript" src="js/ajax.js" />
 </head>
 
 <body>
@@ -188,8 +50,9 @@ require('student.php');
 ?>
       <tr>
       <td>
-         <a id="<? echo $student_key ?>" onmouseover="javascript:getStudentData(this);" 
-            onmouseout="clearData();"
+         <!--<a id="s<? echo $student_key ?>" onmouseover="javascript:getStudentData(this);" -->
+         <a id="s<? echo $student_key ?>" onmouseover="ajax_showTooltip('<? echo "getStudent.php?student_key={$student_key}" ?>',this);"
+            onmouseout="ajax_hideTooltip();"
             href="studentEdit.php?student_key=<? echo $student_key ?>">
             <? echo $last_name ?>, <? echo $first_name ?></a>
       </td>
@@ -208,8 +71,8 @@ require('student.php');
    <input type="submit" value="Submit" />
    </form>
    <div style="position:absolute;" id="popup">
-      <table id="studentData" bgcolor="#FFFAFA" border="0" cellspacing="2" cellpadding="2"/>
-         <tbody id="studentDataBody"></tbody>
+      <table id="sData" class="studentDetail" border="0" cellspacing="2" cellpadding="2">
+         <tbody id="sDataBody"></tbody>
       </table>
    </div>
    </div>
