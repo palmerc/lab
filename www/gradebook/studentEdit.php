@@ -18,7 +18,7 @@
       //echo '<pre>';
       //print_r($_FILES['photo']);
       //echo '</pre>';
-      student_edit($student_key,$empl_id,$first_name,$last_name,$email,$phone,$euid,$web_addr,$comments,$is_active=1);
+      student_edit($student_key,$first_name,$last_name,$empl_id,$email,$phone,$euid,$web_addr,$comments,$is_active=1);
       if ($_FILES['photo']) student_upload_image($student_key,$_FILES['photo']);
       // If all goes well take them back to the studentMain page
       header('location:studentMain.php');

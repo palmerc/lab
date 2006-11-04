@@ -7,7 +7,7 @@
 // Insert a new user into the table
 // Requires an email address
 // Returns true on success, false otherwise
-function student_create($empl_id, $first_name, $last_name, $email, $phone, $euid, $web_addr, $comments, $is_active)
+function student_create($first_name, $last_name, $empl_id, $email, $phone, $euid, $web_addr, $comments, $is_active)
 {
    // Query string should contain properly formatted SQL
    // student_key INT PRIMARY KEY, empl_id INT, first_name VARCHAR(), last_name VARCHAR(), email VARCHAR(), phone VARCHAR(), euid VARCHAR(), photo MEDIUMBLOB, comments TEXT, is_active TINYINT
@@ -38,7 +38,7 @@ function delete_user($email)
 // Modify a student in the table
 // Requires all fields except password to be filled out
 // Returns true on success, false otherwise
-function student_edit($student_key, $empl_id, $first_name, $last_name, $email, $phone, $euid, $web_addr, $comments, $is_active)
+function student_edit($student_key, $first_name, $last_name,  $empl_id, $email, $phone, $euid, $web_addr, $comments, $is_active)
 {
    $updates = "empl_id='{$empl_id}',first_name='{$first_name}',email='{$email}',phone='{$phone}',euid='{$euid}',web_addr='{$web_addr}',comments='{$comments}',is_active='{$is_active}'";
    $query = "UPDATE student SET {$updates} WHERE student_key='{$student_key}'";

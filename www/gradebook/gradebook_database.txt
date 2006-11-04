@@ -3,16 +3,22 @@ How I setup the MySQL database for the gradebook system:
 // One time setup command
 GRANT ALL PRIVILEGES ON *.* TO gradedb@localhost IDENTIFIED BY 'gradedbpw' WITH GRANT OPTION;
 
-// Create the database called stc
+// Create the database called gradebook
 CREATE DATABASE gradebook;
 
 // Tell mysql that you are going to edit that database you just created.
 USE gradebook;
 
 // To create a student table.
-CREATE TABLE student (student_key INT AUTO_INCREMENT PRIMARY KEY, empl_id INT(), first_name VARCHAR(25), last_name VARCHAR(25), email VARCHAR(50), phone VARCHAR(), euid VARCHAR(), photo MEDIUMBLOB(), comments TEXT(), is_active TINYINT());
+CREATE TABLE student (student_key INT AUTO_INCREMENT PRIMARY KEY, empl_id INT, first_name VARCHAR(25), last_name VARCHAR(25), email VARCHAR(50), phone VARCHAR(), euid VARCHAR(10), photo MEDIUMBLOB, web_addr VARCHAR(50), comments TEXT, is_active TINYINT);
 // Create the basic admin called 'root' password 'test'
-INSERT INTO student (student_key,empl_id,first_name,last_name,email,phone,euid,comments,is_active) VALUES (null,'10436511','Cameron','Palmer','cameron.palmer@gmail.com','9724952097','clp0147',null,'1');
+INSERT INTO student (student_key,empl_id,first_name,last_name,email,phone,euid,comments,is_active) VALUES (null,'10436511','Cameron','Palmer','cameron.palmer@gmail.com','9724952097','clp0147',null,'http://cameronpalmer.com','','1');
+
+// To create classes.
+CREATE TABLE dept (dept_key VARCHAR(10) PRIMARY KEY, dept_title VARCHAR(50));
+CREATE TABLE course (course_key INT AUTO_INCREMENT PRIMARY KEY, dept_key CHAR(10), course_no INT, title VARCHAR(100));
+CREATE TABLE term	(term_key INT PRIMARY KEY, semester VARCHAR(10), year INT);
+CREATE TABLE class (class_key INT AUTO_INCREMENT PRIMARY KEY, course_key INT, section INT, term_key INT, cutoffs VARCHAR(25), categories VARCHAR(200), is_active TINYINT);
 
 // Create the votes table. Likely you will delete and recreate this a few times
 // until you get it the way you want. So it is good to have this handy dandy cheat sheet.

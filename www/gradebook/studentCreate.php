@@ -5,15 +5,16 @@
    {
       database_connect();
       // Validate submission
-      $empl_id = $_REQUEST['empl_id'];
+      //print_r($_REQUEST);
       $first_name = $_REQUEST['first_name'];
       $last_name = $_REQUEST['last_name'];
-      $email = $_REQUEST['email'];
-      $phone = $_REQUEST['phone'];
-      $web_addr = $_REQUEST['web_addr'];
-      $euid = $_REQUEST['euid'];
-      $comments = $_REQUEST['comments'];
-      if (student_create($empl_id, $first_name, $last_name, $email, $phone, $euid, $web_addr, $comments, $is_active=1))
+      $empl_id = $_REQUEST['empl_id'] != null ? $_REQUEST['empl_id'] : '';
+      $email = $_REQUEST['email'] != null ? $_REQUEST['email'] : '';
+      $phone = $_REQUEST['phone'] != null ? $_REQUEST['phone'] : '';
+      $euid = $_REQUEST['euid'] != null ? $_REQUEST['euid'] : '';
+      $web_addr = $_REQUEST['web_addr'] != null ? $_REQUEST['web_addr'] : '';
+      $comments = $_REQUEST['comments'] != null ? $_REQUEST['comments'] : '';
+      if (student_create($first_name, $last_name, $empl_id, $email, $phone, $euid, $web_addr, $comments, $is_active=1))
       // If all goes well take them back to the studentMain page
          header('location:studentMain.php');
       
