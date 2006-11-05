@@ -1,65 +1,85 @@
 <?php
-bool course_create(course_id, dept_id, course_no, title)
+function course_create($dept_key, $course_no, $title)
 {
-  if (!course_exists(course_id))
-    // Query string should contain properly formatted SQL
-    query := 'INSERT course_id={course_id}, dept_id={dept_id}, course_no={course_no}, title={title} INTO course'
-    result := mysql(query)
-    if (result != success)
-      return failure
-    return success
-  else
-    return failure
+   $query = "SELECT * FROM course WHERE dept_key='{$dept_key}' AND course_no='{$course_no}'";
+   $result = mysql_query($query);
+   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
+   }
+   if (!$results)   
+   {
+      // Query string should contain properly formatted SQL
+      $query = "INSERT INTO course VALUES('{$course_key}','{$dept_key}','{$course_no}','{$title}')";
+      $result = mysql_query($query);
+      if (!$result)
+         return false;
+      return true;
+   }
+   else
+      return false;
 }
-bool course_edit(course_id, dept_id, course_no, title)
+
+function course_edit($course_key, $dept_key, $course_no, $title)
 {
-  if (course_exists(course_id))
-    // Query string should contain properly formatted SQL, will want to update     
-    // only changed information
-    query := 'UPDATE course SET dept_id={dept_id}, course_no={course_no}, title={title} WHERE course_id={course_id}'
-    result := mysql(query)
-    if (result != success)
-      return failure
-    return success
-  else
-    return failure  
+   if (course_exists($course_key))
+   {
+      // Query string should contain properly formatted SQL, will want to update     
+      // only changed information
+      $query = "UPDATE course SET dept_key='{$dept_key}', course_no='{$course_no}', title='{$title}' WHERE course_key={$course_key}";
+      $result = mysql_query($query);
+      if (!$result)
+         return false;
+      return true;
+   }
+   else
+      return false;
 }
-bool course_delete(course_id)
+
+function course_delete($course_key)
 {
-  if (course_exists(course_id))
-    // Query string should contain properly formatted SQL
-    query := 'DELETE FROM course WHERE course_id={course_id}'
-    result := mysql(query)
-    if (result != success)
-      return failure
-    return success
-  else
-    return failure
+   if (course_exists($course_key))
+   {
+      // Query string should contain properly formatted SQL
+      $query = "DELETE FROM course WHERE course_key={$course_key}";
+      $result = mysql_query($query);
+      if (result != true)
+         return false;
+      return true;
+   }
+   else
+      return false;
 }
-array course_get(course_id)
+
+function course_get($course_key)
 {
-  if (course_exists(course_id))
-    // Query string should contain properly formatted SQL
-    query := 'SELECT * FROM course WHERE course_id={course_id}'
-    result := mysql(query)
-    if (result != success)
-      return failure
-    return result
-  else
-    return failure
+   // Query string should contain properly formatted SQL
+   $query = "SELECT * FROM course WHERE course_key={$course_key}";
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
+   }
+   return $results;
 }
-array course_get_all()
+
+function course_get_all()
 {
-  query := 'SELECT * FROM course'
-  results := mysql(query)
-  return results
+   $query = "SELECT * FROM course";
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
+   }
+   return $results;
 }
-bool course_exists(course_id)
+
+function course_exists($course_key)
 {
-  result := course_get(course_id)
-  if (result != 0)
-    return success
-  else
-    return failure
+   $result = course_get($course_key);
+   if ($result)
+      return true;
+   else
+      return false;
 }
 ?>

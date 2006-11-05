@@ -5,13 +5,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    database_connect();
    // Validate submission
-   print_r($_REQUEST);
+   //print_r($_REQUEST);
    $term_key = $_REQUEST['term_key'];
    $semester = $_REQUEST['semester'] != null ? $_REQUEST['semester'] : '';
    $year = $_REQUEST['year'] != null ? $_REQUEST['year'] : '';
    if (term_create($term_key, $semester, $year))
       // If all goes well take them back to the studentMain page
-      header('location:studentMain.php');
+      header('location:classMain.php');
    database_disconnect();
 }
 ?>

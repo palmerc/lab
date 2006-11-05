@@ -51,7 +51,7 @@ function term_get($term_key)
    // Query string should contain properly formatted SQL
    $query = "SELECT * FROM term WHERE term_key={$term_key}";
    $result = mysql_query($query);
-   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    {
       $results[] = $row;
    }
@@ -61,8 +61,8 @@ function term_get($term_key)
 function term_get_all()
 {
    $query = 'SELECT * FROM term';
-   $results = mysql_query($query);
-   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    {
       $results[] = $row;
    }

@@ -16,9 +16,14 @@ INSERT INTO student (student_key,empl_id,first_name,last_name,email,phone,euid,c
 
 // To create classes.
 CREATE TABLE dept (dept_key VARCHAR(10) PRIMARY KEY, dept_title VARCHAR(50));
-CREATE TABLE course (course_key INT AUTO_INCREMENT PRIMARY KEY, dept_key CHAR(10), course_no INT, title VARCHAR(100));
+CREATE TABLE course (course_key INT AUTO_INCREMENT PRIMARY KEY, dept_key VARCHAR(10), course_no INT, title VARCHAR(100));
 CREATE TABLE term	(term_key INT PRIMARY KEY, semester VARCHAR(10), year INT);
 CREATE TABLE class (class_key INT AUTO_INCREMENT PRIMARY KEY, course_key INT, section INT, term_key INT, cutoffs VARCHAR(25), categories VARCHAR(200), is_active TINYINT);
+CREATE TABLE assignment (assignment_key INT AUTO_INCREMENT PRIMARY KEY, class_key INT, title VARCHAR(50), category_key VARCHAR(50), max_points INT, due_date DATE, rank INT);
+CREATE TABLE grades (grade_key INT AUTO_INCREMENT PRIMARY KEY, assignment_key INT, student_key INT, grade INT);
+CREATE TABLE student_class (class_key INT, student_key INT);
+CREATE TABLE category (category_key INT AUTO_INCREMENT PRIMARY KEY, class_key INT, title VARCHAR(50), percentage INT);
+CREATE TABLE cutoffs (class_key INT, letter_grade CHAR(1), percentage FLOAT);
 
 // Create the votes table. Likely you will delete and recreate this a few times
 // until you get it the way you want. So it is good to have this handy dandy cheat sheet.

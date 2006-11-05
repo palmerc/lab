@@ -56,7 +56,30 @@ require('student.php');
             href="studentEdit.php?student_key=<? echo $student_key ?>">
             <? echo $last_name ?>, <? echo $first_name ?></a>
       </td>
-      <td>CSCE xxxx.xxx</td>
+<?php
+   $results = null;
+   $query = "SELECT course.dept_key, course.course_no, class.section 
+            FROM student_class, class, course
+            WHERE student_class.class_key=class.class_key 
+               AND class.course_key=course.course_key
+               AND student_class.student_key={$student_key}";
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
+   }
+   //echo "<pre>";
+   //print_r($results);
+   //echo "</pre>";
+?>
+      <td>
+<? 
+   if ($results)
+      foreach ($results as $row)
+         printf("%s %d.%03d<br />",$row['dept_key'],$row['course_no'],$row['section']); 
+
+?>
+      </td>
       <td><?echo $empl_id ?></td>
       <td></td>
       <td><input type="checkbox" name="studentDelete"/></td>

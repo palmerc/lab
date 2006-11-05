@@ -21,7 +21,7 @@ function dept_edit($dept_key, $title)
    {
       // Query string should contain properly formatted SQL, will want to update     
       // only changed information
-      $query = 'UPDATE dept SET title={$title} WHERE dept_key={$dept_key}';
+      $query = "UPDATE dept SET title={$title} WHERE dept_key={$dept_key}";
       $result = mysql_query($query);
       if (result != true)
          return false;
@@ -36,7 +36,7 @@ function dept_delete($dept_key)
    if (dept_exists($dept_key))
    {
       // Query string should contain properly formatted SQL
-      $query = 'DELETE FROM dept WHERE dept_key={$dept_key}';
+      $query = "DELETE FROM dept WHERE dept_key={$dept_key}";
       $result = mysql_query($query);
       if ($result != true)
          return false;
@@ -49,9 +49,9 @@ function dept_delete($dept_key)
 function dept_get($dept_key)
 {
    // Query string should contain properly formatted SQL
-   $query = 'SELECT * FROM dept WHERE dept_key={$dept_key}';
+   $query = "SELECT * FROM dept WHERE dept_key={$dept_key}";
    $result = mysql_query($query);
-   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    {
       $results[] = $row;
    }
@@ -60,8 +60,8 @@ function dept_get($dept_key)
 
 function dept_get_all()
 {
-   $query = 'SELECT * FROM dept';
-   $results = mysql_query($query);
+   $query = "SELECT * FROM dept";
+   $result = mysql_query($query);
    while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
    {
       $results[] = $row;
