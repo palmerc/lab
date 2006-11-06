@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $title = $_REQUEST['title'] != null ? $_REQUEST['title'] : '';
    if (course_create($dept_key, $course_no, $title))
       // If all goes well take them back to the studentMain page
-      header('location:courseMain.php');
+      header('location:classMain.php');
    database_disconnect();
 }
 ?>

@@ -20,9 +20,11 @@ require('class.php');
    <h3>Class managment options</h3>
    <ul>
       <li><a href="termCreate.php">Add a Term</a></li>
-      <li><a href="courseCreate.php">Add a Course</a></li>
       <li><a href="deptCreate.php">Add a Department</a></li>
+      <li><a href="courseCreate.php">Add a Course</a></li>
       <li><a href="classCreate.php">Add a Class</a></li>
+      <li><a href="categoryCreate.php">Go to Category</a></li>
+      <li><a href="assignmentMain.php">Go to Assignments</a></li>
       <li><a href="?">Undelete a Class</a></li>
    </ul>
    <h3>Edit classes</h3>

@@ -6,7 +6,7 @@ function term_create($term_key, $semester, $year)
       // Query string should contain properly formatted SQL
       $query = "INSERT INTO term VALUES('{$term_key}','{$semester}','{$year}')";
       $result = mysql_query($query);
-      print_r($result);
+      //print_r($result);
       if (!$result)
          return false;
       return true;

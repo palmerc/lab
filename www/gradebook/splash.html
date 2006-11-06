@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+
+<script type="text/javascript" language="Javascript">
+
+function createXMLHttpRequest() {
+
+var ua;
+
+if(window.XMLHttpRequest) {
+    try {
+      ua = new XMLHttpRequest();
+    } catch(e) {
+      ua = false;
+    }
+  } else if(window.ActiveXObject) {
+    try {
+      ua = new ActiveXObject("Microsoft.XMLHTTP");
+    } catch(e) {
+      ua = false;
+    }
+  }
+  return ua;
+}
+
+var req = createXMLHttpRequest();
+
+function sendRequest(id) {
+  req.open('get', 'func.php?student_key=' + id);
+  req.onreadystatechange = handleResponse;
+  req.send(null);
+}
+
+function handleResponse() {
+
+  if(req.readyState == 4){
+    var response = req.responseText;
+    var update = new Array();
+
+    if(response.indexOf('||' != -1)) {
+      update = response.split('||');
+      document.getElementById(update[0]).innerHTML = update[1];
+    }
+  }
+}
+</script>
+
+</head>
+
+<body>
+
+<a onMouseOver="javascript:sendRequest('1')" href="?" >Hover me.</a>
+
+<span id="showDiv">
+
+</span>
+
+</body>
+
+</html>

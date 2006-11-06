@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
    $term_key = $_REQUEST['term_key'];
    if (classy_create($course_key, $section, $term_key))
       // If all goes well take them back to the studentMain page
-      header('location:studentMain.php');
+      header('location:classMain.php');
    database_disconnect();
 }
 ?>
