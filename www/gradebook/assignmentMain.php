@@ -15,6 +15,14 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
 }
 $class_title = $results[0];
 
+$query = "SELECT category_key, title
+         FROM category
+         WHERE class_key={$class_key}";
+$result = mysql_query($query);
+while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+{
+   $categories[] = $row;
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -34,33 +42,37 @@ $class_title = $results[0];
    <div id="page">
    <h3>Assignment managment options</h3>
    <ul>
-      <li><a href="">Add an Assignment</a></li>
+      <li><a href="?">Add an Assignment</a></li>
       <li><a href="?">Undelete an Assignment</a></li>
-      <li><a href="?">Go to gradebook</a></li>
+      <li><a href="gradebook.php?class_key=<? echo $class_key ?>">Go to gradebook</a></li>
    </ul>
    <h3>Edit <? printf("%s %d.%03d", $class_title['dept_key'], $class_title['course_no'], $class_title['section']); ?> assignments</h3>
    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
    <input type="hidden" name="class_key" value="<? echo $class_key ?>" />
 <?php
-   $category_key = $row['category_key'];
-   <h4><? echo $category_key ?></h4>
-   
-   $query = "SELECT assignment_key, title, category_key, max_points, due_date, rank
-      FROM assignment WHERE class_key={$class_key} AND category_key={$category_key}";
-   $result = mysql_query($query);
-   $results = null;
-   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+   foreach ($categories as $category)
    {
-      $results[] = $row;
-   }
-   //print_r($results);
-   foreach ($results as $row)
-   {
-      $assignment_key = $row['assingment_key'];
-      $title = $row['title'];
-      $max_points = $row['max_points'];
-      $due_date = $row['due_date'];
-      $rank = $row['rank'];
+      $category_key = $category['category_key'];
+      $category_title = $category['title'];
+      echo"
+   <h4>{$category_title}</h4>
+         ";
+      $query = "SELECT assignment_key, title, category_key, max_points, due_date, rank
+               FROM assignment WHERE class_key={$class_key} AND category_key={$category_key}";
+      $result = mysql_query($query);
+      $results = null;
+      while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+      {
+         $results[] = $row;
+      }
+      //print_r($results);
+      foreach ($results as $row)
+      {
+         $assignment_key = $row['assignment_key'];
+         $title = $row['title'];
+         $max_points = $row['max_points'];
+         $due_date = $row['due_date'];
+         $rank = $row['rank'];
 ?>
    <table id="students">
       <tr>
@@ -76,6 +88,7 @@ $class_title = $results[0];
       <td><input type="checkbox" name="studentDelete"/></td>
       </tr>
 <?php
+      }
    }
    database_disconnect();
 ?>
