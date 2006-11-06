@@ -1,5 +1,5 @@
 RewriteEngine On
 # This next line may not be technically required, but it was
 # when running from a userdir.  Comment or edit at your own risk.
-RewriteBase /~tim/lab/princesscraft/aliner/quote/
+RewriteBase /princesscraft.com/aliner/quote/
 RewriteRule ^customize/(.+)$ options.php?model=$1 [L]

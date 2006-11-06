@@ -1,3 +1,3 @@
 <?php
-    $ptr="/cameron/princesscraft/";
+    $ptr="/princesscraft.com/";
 ?>

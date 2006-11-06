@@ -2,6 +2,12 @@
 require('database.php');
 //require('grades.php');
 $class_key = $_REQUEST['class_key'];
+
+// If no class_key is provided default to somewhere else
+
+if ($class_key == null)
+   header('location:assignmentMain.php');
+   
 database_connect();
 $query = "SELECT course.dept_key, course.course_no, class.section
          FROM class, course

@@ -1,7 +1,7 @@
 <?php
 require('database.php');
-//require('assignment.php');
-$class_key = isset($_REQUEST['class_key']) ? $_REQUEST['class_key'] : 3;
+require('assignment.php');
+
 database_connect();
 $query = "SELECT course.dept_key, course.course_no, class.section
          FROM class, course, assignment
@@ -10,9 +10,7 @@ $query = "SELECT course.dept_key, course.course_no, class.section
             AND assignment.class_key={$class_key}";
 $result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-{
    $results[] = $row;
-}
 $class_title = $results[0];
 
 $query = "SELECT category_key, title
@@ -20,9 +18,7 @@ $query = "SELECT category_key, title
          WHERE class_key={$class_key}";
 $result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-{
    $categories[] = $row;
-}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -42,7 +38,7 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    <div id="page">
    <h3>Assignment managment options</h3>
    <ul>
-      <li><a href="?">Add an Assignment</a></li>
+      <li><a href="assignmentCreate.php">Add an Assignment</a></li>
       <li><a href="?">Undelete an Assignment</a></li>
       <li><a href="gradebook.php?class_key=<? echo $class_key ?>">Go to gradebook</a></li>
    </ul>
