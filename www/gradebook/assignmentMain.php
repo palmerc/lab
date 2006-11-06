@@ -56,9 +56,6 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    {
       $category_key = $category['category_key'];
       $category_title = $category['title'];
-      echo"
-   <h4>{$category_title}</h4>
-         ";
       // This is supposed to fetch the assignments under a given category type
       $query = "SELECT assignment_key, title, category_key, max_points, due_date, rank
                FROM assignment WHERE class_key={$class_key} AND category_key={$category_key}";
@@ -70,7 +67,7 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
       if ($results)
       {
 ?>
-      
+      <h4><? echo $category_title ?></h4>
       <table id="students">
       <tr>
       <th>Assignment</th><th>Max Points</th><th>Due Date</th><th>Delete</th>
@@ -95,6 +92,9 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
       </tr>
 <?php
          }
+         echo"
+      </table>
+            ";
       }
       else
       {
@@ -103,7 +103,6 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    }
    database_disconnect();
 ?>
-   </table>
    <input type="submit" value="Submit" />
    </form>
    <div style="position:absolute;" id="popup">
