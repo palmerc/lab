@@ -1,0 +1,231 @@
+html,body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font: medium "Lucida Grande", sans-serif;
+	background-image: url(../i/bg-tile.gif);
+	text-align: center;
+	color: #333;
+}
+/* Container item that instead is named page because... i can't think of a good reason */
+#page {
+	text-align: left;
+	width: 800px;
+	height: 100%;
+	margin: 0 auto;
+	background-color: #fff;
+}
+/* Banner bit at the top of the page */
+#header {
+	float: left;
+	clear: left;
+	margin: 0;
+	padding: 0;
+	border-left: #333 1px solid;
+	border-right: #333 1px solid;
+}
+#header h1 {
+	margin: 5px 1em;
+	padding: 0;
+}
+/* Top navigation bar */
+#nav {
+	margin: 0;
+	float: left;
+	width: 100%;
+	padding: 0;
+	background: #36485c url(../i/nav_bg.gif) repeat-x bottom left;
+	border-left: #888 1px solid;
+	border-right: #888 1px solid;
+	list-style: none;
+	}
+#nav li {
+	float: left;
+	margin: 5px 0 0 2px;
+	padding: 0;
+	font-size: 85%;
+	font-weight: bold;
+	}
+#nav a {
+	float: left;
+	display: block;
+	margin: 0 1px 0 0;
+	padding: 4px 8px;
+	color: #fff;
+	text-decoration: none;
+	border: 1px solid #9B8748;
+	border-bottom: none;
+	background: #5F7994 url(../i/off_bg.gif) repeat-x top left;
+	}
+#nav a:hover, div#navbar .t a {
+	color: #333;
+	padding-bottom: 5px;
+	border-color: #727377;
+	background: #fff url(../img/on_bg.gif) repeat-x top left;
+	}
+/* Main page */
+#main {
+	float:left;
+	width: 100%;
+	min-height: 800px;
+	background-color: #fff;
+	border-left: #888 1px solid;
+	border-right: #888 1px solid;
+	border-bottom: #888 1px solid;
+}
+#text {
+	float:left;
+	margin: 0;
+	padding: 0;
+	width: 73%;
+}
+#text h3 {
+	margin: .5em 0 0 0;
+	padding: 0;
+}
+#text h4 {
+	margin: .5em 0 0 0;
+	padding: 0;
+}
+#text p {
+	margin: .5em 0 1em 0;
+}
+#textheader {
+	padding: 0 1.5em;
+	/* BEGIN IE/Win Hack */
+	_padding-top: 1em;
+	/* END IE/Win Hack */
+	font-size: 80%;
+}
+#textpage {
+	padding: 0 1.5em 0 1.5em;
+	font-size: 80%;
+}
+#textpage img {
+   margin: 0 1em;
+   float: right;
+   border-left: #888 1px solid;
+   border-right: #333 1px solid;
+   border-top: #333 1px solid;
+   border-bottom: #888 1px solid;
+}
+#textpage table th {
+	padding-right: 1em;
+	vertical-align: top;
+}
+/* Home page navigation */
+#navtable {
+	margin: 0;
+	padding: 0;
+	width: 95%;
+}
+#navtable tr,td {
+	margin: 0;
+	padding: 0;
+}
+#navtable a {
+	margin: 0;
+	text-decoration: none;
+	color: #000;
+}
+#navtable a:hover {
+	text-decoration: underline;
+}
+#navtable hr {
+	margin: 0;
+	padding: 0;
+	border: 3px solid #5F7994;
+}
+#navtable h3 {
+	margin: .25em 0 0 0;
+	color: #000;
+}
+.navtext p {
+	margin: 0;
+	float: left;
+	padding: 0 .25em;
+	width: 80%;
+}
+#navtable img {
+	margin: 0 .25em .25em 0;
+	float: right;
+	border: 1px solid #ccc;
+}
+
+/* investor page news */
+.newsitem {
+	clear: left;
+	padding: 0;
+}
+.newsitemreduced {
+	float: left;
+	width: 60%;
+	_width: 60%;
+}
+.newsitemimg {
+	margin-top: 1em;
+	float: right;
+	width: 150px;
+}
+/* Rightbar section */
+#rightbar {
+	float: right;
+	clear: right;
+	width: 25%;
+	height: 100%;
+	font-size: 90%;
+}
+#rightbar ul {
+   margin: 0;
+   padding: .1em .3em;
+	list-style: none;
+}
+#rightbar ul li:before {
+	content: "\00BB \0020";
+}
+#rightbar a {
+	text-decoration: none;
+}
+#rightbar a:hover {
+	text-decoration: underline;
+}
+#searchbar {
+	margin-bottom: 1em;
+	background-color: #C1C933;
+	padding: 1em;
+	border: 1px solid #ccc;
+}
+#searchbar input[type=text] {
+	width: 70%;
+}
+#searchbar input[type=submit] {
+	color: #fff;
+	background-color: #E76F00;
+}
+#searchbar .searchtitle {
+	padding: 0 0 .2em 0;
+	font-weight: bold;
+}
+#shortcuts {
+	padding: 1em;
+	background: #DDE6EC url() repeat-x left bottom;
+	border: 1px solid #ccc;
+}
+#shortcuts .navtitle {
+   font-weight: bold;
+}
+#stockquote {
+	margin-top: 1em;
+	padding: 1em;
+	background: # url() repeat-x left bottom;
+	border: 1px solid #ccc;
+}
+#stockquote h3,h4 {
+	margin: 0;
+}
+#stockquote table {
+	margin-top: .5em;
+}
+#stockquote td {
+	text-align: right;
+}

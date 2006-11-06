@@ -1,0 +1,102 @@
+/*** The contents of this file were (ostensibly) written by Owen Briggs
+@ www.thenoodleincident.com, and any Copyright rests with him. No
+credit for the work that has gone into researching the use of font
+sizes and styles rests with ClevaTreva Designs. 100% Kudos to Owen.
+This is an EDITED version of the original! You will want to play with
+these settings to make your own style for fonts and color other
+bits. ***/
+
+body {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size:100.1%; /*** Don't change this setting. Make all other
+font-sizes in % (preferred) or ems ***/
+	color:#000000;
+	}
+a {
+	text-decoration: none;
+	font-weight: bold;
+	outline: none;
+	}
+a:visited {
+	}
+a:active {
+	}
+a:hover {
+	text-decoration: underline;
+	}
+strong, b {
+	font-weight: bold;
+	}
+hr {
+	margin: 0px; /* fixes xhtml N6 bug where the hr sits to the left*/
+	color: #ccc; /* for ie */
+	background-color: #ccc; /* for everyone else */
+	height: 1px;
+	}
+p {
+	font-size: 90%;
+	line-height: 1.1em;
+	margin-top: 1.5em;
+	margin-bottom: 1.5em; 
+	}
+li {
+	font-size: 90%;
+	line-height: 1.1em;
+	margin-top: 0.3em;
+	margin-bottom: 0.2em; 
+	}
+ul {
+	margin-top: 1.0em;
+	margin-bottom: 1.0em; 
+	}
+td {
+	font-size: 90%;
+	}
+hr {
+	margin-top: 2.0em;
+	margin-bottom: 2.0em;
+	}
+img {
+	border: 0;
+	}
+/*** the following styles and notes are (c) Copyright
+Big John @ www.positioniseverything.net ***/
+div,p{margin:0}
+
+.italics-test, .italics-test-side {
+font-style: italic; 
+text-align: justify; 
+}
+
+/***
+The following fixes prevent justified italic text
+from destroying the layout in IE/win. The problem
+is that those properties together make IE force the
+container wider, which in this type of floated layout
+causes a float drop.
+Pre-IE6 gets "width: 100%" and "overflow: hidden",
+while IE6 gets "width: auto" and "overflow: visible,
+which is the default, but explicitly stating it seems
+to keep IE6 happy. IE6 also needs to see the
+"height: 1%" to give it some kind of box dimension.
+Browser coddling we call it. Finally, Bruno Fassino
+found that "word-wrap: break-word;" disarranged the
+justified text in IE5.5 and 6, so it is defaulted to
+"normal" for this text.
+If you don't need justified and italicized text then
+forget all these fixes.
+Although, ClevaTreva adds, I have seen some odd
+behavior with normal justified text in IE, so
+this may be worth remembering.
+***/
+
+/* \*/
+* html .italics-test, * html .italics-test-side {
+overflow: hidden;
+width: 100%;
+o\verflow: visible;
+w\idth: auto;
+he\ight: 1px;
+word-wrap: normal;
+}
+/* */
