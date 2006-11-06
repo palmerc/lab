@@ -167,7 +167,9 @@ database_disconnect();
       </tr>
       <tr>
          <th scope="col">Category Averages </th>
+         <td>avg</td>
       </tr>
+      
       </table>
          <input type="submit" id="submit" value="Submit Grades" />
          <input type="button" id="reset" value="Undo Changes" />
