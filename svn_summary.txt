@@ -1,0 +1,40 @@
+Subversion Commands
+
+***svn ci -> Check in***
+Send all changes made to files under subversion control
+svn ci -m "comments related to changes"
+
+***svn co -> Check out***
+Grab something from the subversion repository for the first time.
+svn co http://svn.cameronpalmer.com/lab/mss
+This will download to a folder locally called mss
+
+***svn up -> Update***
+Grab changes from the server, always a good idea before starting work
+From within the folder to update:
+svn up
+This is a recursive command and will grab all changes below the current position in
+the filesystem.
+
+***svn add -> Add***
+When adding a file:
+svn add filename
+
+When adding a directory and all its contents (recursive):
+svn add directory/
+
+When adding a directory but not its contents (non-recursive):
+svn add -N directory/
+
+***svn rm -> Remove***
+Deletes a file and removes it from subversion on the next check in
+
+
+***svn mkdir -> Make Directory***
+Creates a directory and adds it
+svn mkdir directory/
+
+***svn revert***
+This special command is how you can bring back the previous version of a file
+Simplest case:
+svn revert filename
