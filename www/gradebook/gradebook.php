@@ -4,35 +4,64 @@ require('database.php');
 $class_key = $_REQUEST['class_key'];
 
 // If no class_key is provided default to somewhere else
-
 if ($class_key == null)
-   header('location:assignmentMain.php');
-   
+   header("location:assignmentMain.php");
+
+// Before we can layout the gradebook we need to know the following:
+//   The number and names of the categories
+//   The number and names of assignments under each category
+//   The number and names of the students
+//   The grade fields need to be tied to the student and assignment
+//   Don't show a hidden category
+//   Phase One - Create the header
+
 database_connect();
+
+// This query gets the class DEPT NUM.SEC information
 $query = "SELECT course.dept_key, course.course_no, class.section
          FROM class, course
          WHERE class.course_key=course.course_key
             AND class.class_key={$class_key}";
 $result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-{
    $results[] = $row;
-}
 $results = $results[0];
 $dept_key = $results['dept_key'];
 $course_no = $results['course_no'];
 $section = $results['section'];
-//print_r($results);
-$query = "SELECT assignment_key
-         FROM assignment
-         WHERE class_key={$class_key}";
-$result = mysql_query($query);
 $results = null;
+
+// Query to select all assignments in a given class
+$query = "SELECT assignment.categoryKey, 
+            category.categoryTitle, 
+            category.categoryRank, 
+            assignment.assignmentKey, 
+            assignment.assignmentTitle, 
+            assignment.assignmentRank
+         FROM category, assignment
+         WHERE category.categoryKey=assignment.categoryKey 
+            AND assignment.classKey={$class_key}
+         ORDER BY category.categoryRank, 
+            assignment.categoryKey, 
+            assignment.assignmentRank, 
+            assignment.assignmentKey";
+$result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-{
    $results[] = $row;
+$assignment_total = sizeof($results);
+
+foreach ($results as $key => $value)
+{
+
 }
-$assignments_total = sizeof($results);
+
+echo "<pre>";
+print_r($results);
+print_r($b);
+echo "</pre>";
+
+//$assignments_rows = sizeof($results); // This is the total number of assignments
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -95,9 +124,9 @@ foreach ($categories as $category)
       $assignments[] = $row;
    }
    $assignment_size = sizeof($assignments);
-   echo "<pre>";
-   print_r($assignments);
-   echo "</pre>";
+//   echo "<pre>";
+//   print_r($assignments);
+//   echo "</pre>";
 
 ?>
    <tr>
