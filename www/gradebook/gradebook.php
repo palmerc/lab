@@ -33,31 +33,66 @@ $results = null;
 
 // Query to select all assignments in a given class
 $query = "SELECT assignment.categoryKey, 
-            category.categoryTitle, 
-            category.categoryRank, 
-            assignment.assignmentKey, 
-            assignment.assignmentTitle, 
+            category.categoryTitle,
+            category.classKey,
+            category.categoryPercentage,
+            category.categoryRank,
+            assignment.assignmentKey,
+            assignment.assignmentTitle,
+            assignment.assignmentMaxPoints,
+            assignment.assignmentDueDate,
             assignment.assignmentRank
          FROM category, assignment
-         WHERE category.categoryKey=assignment.categoryKey 
+         WHERE category.categoryKey=assignment.categoryKey
             AND assignment.classKey={$class_key}
-         ORDER BY category.categoryRank, 
-            assignment.categoryKey, 
-            assignment.assignmentRank, 
+         ORDER BY category.categoryRank,
+            assignment.categoryKey,
+            assignment.assignmentRank,
             assignment.assignmentKey";
 $result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    $results[] = $row;
 $assignment_total = sizeof($results);
 
-foreach ($results as $key => $value)
-{
-
-}
-
 echo "<pre>";
+foreach ($results as $record)
+{
+   /*if (array_key_exists($record['categoryKey'], $assignment_array))
+   {
+      //echo "HERE";
+      $assignment_array[$record['categoryKey']]['assignments'] =
+         array(
+         $record['assignmentKey'] =>
+            array(
+            'assignmentTitle' => $record['assignmentTitle'],
+            'assignmentMaxPoints' => $record['assignmentMaxPoints'],
+            'assignmentDueDate' => $record['assignmentDueDate'],
+            'assignmentRank' => $record['assignmentRank']
+            )
+         );
+   }
+   else
+   {*/
+   $assignment_array[$record['categoryKey']] = 
+      array(
+      'categoryTitle' => $record['categoryTitle'],
+      'categoryPercentage' => $record['categoryPercentage'],
+      'categoryRank' => $record['categoryRank'],
+      'assignments' =>
+         array(
+         $record['assignmentKey'] =>
+            array(
+            'assignmentTitle' => $record['assignmentTitle'],
+            'assignmentMaxPoints' => $record['assignmentMaxPoints'],
+            'assignmentDueDate' => $record['assignmentDueDate'],
+            'assignmentRank' => $record['assignmentRank']
+            )
+         )
+      );
+   //}
+}
 print_r($results);
-print_r($b);
+print_r($assignment_array);
 echo "</pre>";
 
 //$assignments_rows = sizeof($results); // This is the total number of assignments
@@ -131,7 +166,7 @@ foreach ($categories as $category)
 ?>
    <tr>
       <!-- colspan should equal the number of assignments -->
-      <th colspan="<? echo $assignment_size ?>"><? echo $category_title ?><input type="checkbox" alt="hide" checked="checked" /></th>
+      <th colspan="<? echo $assignment_total ?>"><? echo $category_title ?><input type="checkbox" alt="hide" checked="checked" /></th>
       <!-- if colspan=1 then rowspan=2 -->
    </tr>
    <tr>
