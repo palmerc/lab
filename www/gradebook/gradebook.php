@@ -52,48 +52,38 @@ $query = "SELECT assignment.categoryKey,
 $result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    $results[] = $row;
-$assignment_total = sizeof($results);
-
-echo "<pre>";
+$assignment_array = array();
+//echo "<pre>";
 foreach ($results as $record)
 {
-   /*if (array_key_exists($record['categoryKey'], $assignment_array))
+   if (!array_key_exists($record['categoryKey'], $assignment_array))
    {
-      //echo "HERE";
-      $assignment_array[$record['categoryKey']]['assignments'] =
-         array(
-         $record['assignmentKey'] =>
-            array(
-            'assignmentTitle' => $record['assignmentTitle'],
-            'assignmentMaxPoints' => $record['assignmentMaxPoints'],
-            'assignmentDueDate' => $record['assignmentDueDate'],
-            'assignmentRank' => $record['assignmentRank']
-            )
-         );
-   }
-   else
-   {*/
-   $assignment_array[$record['categoryKey']] = 
+      $assignment_array[$record['categoryKey']] = 
       array(
       'categoryTitle' => $record['categoryTitle'],
       'categoryPercentage' => $record['categoryPercentage'],
       'categoryRank' => $record['categoryRank'],
-      'assignments' =>
-         array(
-         $record['assignmentKey'] =>
-            array(
-            'assignmentTitle' => $record['assignmentTitle'],
-            'assignmentMaxPoints' => $record['assignmentMaxPoints'],
-            'assignmentDueDate' => $record['assignmentDueDate'],
-            'assignmentRank' => $record['assignmentRank']
-            )
-         )
+      'assignments' => array()
       );
-   //}
+   }
+
+   $assignment_array[$record['categoryKey']]['assignments'][$record['assignmentKey']] = 
+      array(
+      'assignmentTitle' => $record['assignmentTitle'],
+      'assignmentMaxPoints' => $record['assignmentMaxPoints'],
+      'assignmentDueDate' => $record['assignmentDueDate'],
+      'assignmentRank' => $record['assignmentRank']
+      );
 }
-print_r($results);
-print_r($assignment_array);
-echo "</pre>";
+//print_r($results);
+$assignment_count = sizeof($results);
+$category_count = sizeof($assignment_array);
+//print_r($assignment_array);
+//echo"
+//   Number of categories: {$category_count}
+//   Number of assignments: {$assignment_count}
+//   ";
+//echo "</pre>";
 
 //$assignments_rows = sizeof($results); // This is the total number of assignments
 
@@ -123,66 +113,41 @@ echo "</pre>";
          <!-- equal the the categories rows -->
          <th rowspan="3" scope="col">Student</th>
          <!-- categories colspan=number of assignments -->
-         <th colspan="<? echo $assignments_total ?>" scope="col">Categories</th>
+         <th colspan="<? echo $assignment_count ?>" scope="col">Categories</th>
          <!-- equal the the categories rows -->
          <th rowspan="3" scope="col">Student Average</th>
       </tr>
-
+      <tr>
 <?
-//To draw the table header:
-// We need to pull all the categories for a class which we then determine the rowspan=2 if no assignments
-// colspan should be equal to the number of assignments
-$query = "SELECT category_key, title
-         FROM category
-         WHERE class_key={$class_key}";
-$result = mysql_query($query);
-while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-{
-   $categories[] = $row;
-}
-$cat_size = sizeof($categories);
-//echo "<pre>";
-//print_r($categories);
-//echo "</pre>";
-
 // Create the header section
-foreach ($categories as $category)
+foreach ($assignment_array as $category)
 {
-   $category_key = $category['category_key'];
-   $category_title = $category['title'];
-   $query = "SELECT title
-            FROM assignment
-            WHERE category_key={$category_key} AND class_key={$class_key}";
-   $result = mysql_query($query);
-   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-   {
-      $assignments[] = $row;
-   }
-   $assignment_size = sizeof($assignments);
-//   echo "<pre>";
-//   print_r($assignments);
-//   echo "</pre>";
-
+   $category_title = $category['categoryTitle'];
+   $category_assignment_count = sizeof($category['assignments']);
 ?>
-   <tr>
       <!-- colspan should equal the number of assignments -->
-      <th colspan="<? echo $assignment_total ?>"><? echo $category_title ?><input type="checkbox" alt="hide" checked="checked" /></th>
+      <th colspan="<? echo $category_assignment_count ?>"><? echo $category_title ?><input type="checkbox" alt="hide" checked="checked" /></th>
       <!-- if colspan=1 then rowspan=2 -->
+<?php
+}
+?>
    </tr>
    <tr>
 <?
-   foreach ($assignments as $assignment)
+foreach ($assignment_array as $category)
+{
+   foreach ($category['assignments'] as $assignment)
    {
-      $assignment_title = $assignment['title'];
+      $assignment_title = $assignment['assignmentTitle'];
       echo"
       <th>{$assignment_title}</th>
          ";
    }
+}
 ?>
    </tr>
    
 <?php
-}
 
 $query="SELECT student_class.student_key, student.first_name, student.last_name
       FROM student, student_class
@@ -192,9 +157,7 @@ $query="SELECT student_class.student_key, student.first_name, student.last_name
 $result = mysql_query($query);
 $results = null;
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-{
    $results[] = $row;
-}
 $students = $results;
 
 //echo "<pre>";
@@ -210,7 +173,7 @@ foreach ($students as $student)
      <tr class="student">
          <th scope="col"><? echo "{$last_name}, {$first_name}" ?></th>
 <?php
-      for ($i = 0; $i < $assignments_total; $i++)
+      for ($i = 0; $i < $assignment_count; $i++)
          echo "<td><input type=\"text\" size=\"3\" value=\"\" /></td>";
 ?>
          <td>avg</td>
@@ -220,17 +183,29 @@ foreach ($students as $student)
 database_disconnect();
 ?>      
       <tr>
-         <th scope="col"><p>Subcategory Averages </p>
-         </th>
+         <th scope="col"><p>Subcategory Averages</p></th>
 <?php
-      for ($i = 0; $i < $assignments_total; $i++)
-         echo "<td>avg</td>";
+for ($i = 0; $i < $assignment_count; $i++)
+{
+   echo "<td>avg</td>";
+}
 ?>
          <td>avg</td>
       </tr>
       </tr>
       <tr>
          <th scope="col">Category Averages </th>
+<?php
+foreach ($assignment_array as $category)
+{
+   $category_assignment_count = sizeof($category['assignments']);
+?>
+      <!-- colspan should equal the number of assignments -->
+      <td colspan="<? echo $category_assignment_count ?>">avg</td>
+      <!-- if colspan=1 then rowspan=2 -->
+<?php
+}
+?>
          <td>avg</td>
       </tr>
       
