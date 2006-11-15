@@ -185,20 +185,29 @@ class Calendar {
                 $shortday = strtolower(substr($day, 4, 3));
                 $date = strtolower(substr($day, 8, 2));
                 $this->daysArray[] = $longday;
-                
+                $query = "SELECT title FROM tbl_news WHERE date={$longday}";
+                $result = mysql_query($query);
+                $results = null;
+                while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+                  $results[] = $row;
+                if ($results)
+                  $event = $results[0]['title'];
+                else
+                  $event = null;
+               
                 if ($this->today == $longday) {
                     //Print the calendar day.
                     echo <<< DAY
                 <td class="{$shortmonth} {$shortday}" id="{$shortmonth}{$date}">
                     <div class="date" id="today">{$date}</div>
-                    <div class="event"></div>
+                    <div class="event">{$event}</div>
                 </td>
 DAY;
                 } else {
                     echo <<< DAY
                 <td class="{$shortmonth} {$shortday}" id="{$shortmonth}{$date}">
                     <div class="date">{$date}</div>
-                    <div class="event"></div>
+                    <div class="event">{$event}</div>
                 </td>
 DAY;
                 }

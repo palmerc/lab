@@ -17,16 +17,6 @@ $alternate_css = "{$ptr}c/calendar.css";
 $calendar = 1;
 require(strtolower(dirname(__FILE__)).'/Calendar.php');
 
-function getEvents($Ymd) {
-    $sql = "SELECT * FROM tbl_news WHERE calstart <='{$Ymd}' AND calend >='{$Ymd}' AND status='Publish' AND calshow='1'";
-    $r = mysql_query($sql) or die("Can't update record {$longday}<br />".mysql_error());
-
-    while($p = mysql_fetch_array($r)) {
-        $events[] = array("$Ymd" => array($p['title'], $p['body'], mklink($p) ) );
-    }
-    print_r($events);
-}
-
 if ($_GET) {
    require("../stc-template.php");
     $date = $_SERVER['QUERY_STRING'];
@@ -35,7 +25,6 @@ if ($_GET) {
             
     $cal = new Calendar($month, $year);
     $today = $cal->getToday();
-    $events = getEvents($cal->year.$cal->month.$cal->day);
     $cal->htmlCalendar();
     
 } else {
