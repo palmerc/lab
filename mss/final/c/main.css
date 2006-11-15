@@ -1,0 +1,134 @@
+html, body {
+   height: 100%;
+}
+/* The entire page container */
+#container {
+   width: 770px;
+   height: 100%;
+   font-size: 11px;
+   color: #333;
+   text-align: left;
+   margin: 0 auto;
+}
+html>body #container {
+   height: auto;
+   min-height: 100%;
+}
+body {
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   background: #669  url(../i/graygradient2.jpg) repeat-x top left;
+   text-align: center;
+}
+/* Header contains topbanner and topnav */
+#header {
+   float:left;
+   clear: left;
+   margin: 0;
+   padding: 0;
+      width: 100%; 
+}
+#topbanner {
+   float: left;
+  border-bottom-style: solid;
+  border-bottom-color:#FFCC00;
+  border-bottom-width: thin; 
+}
+#topbar a {
+     text-decoration: none;
+  color: #333333;
+  }
+#topnav {
+   float:left;
+   background: #ffff66  url(../i/graybuttoncopy.jpg) repeat-x top left;
+   width: 100%;
+  border-top-color: #FFCC00;
+  border-top-style: solid;
+  border-top-width: medium;
+}
+#topnav ul {
+   list-style: none;
+}
+#topnav li {
+   float: left;
+   padding: 0 2em 0.5em 1em;
+   color: #332266;
+   
+}
+#main {
+   float: left;
+}
+/* Leftbar Calendar */
+#leftbar {
+float: left;
+   margin: 0;
+  padding: 0;
+   width: 168px;
+   height: 600px;
+  background-color: #DDD;
+  border-color: #FFCC00;
+  border-style: solid;
+  border-width: thin;
+  border-right: none;
+
+  
+}
+#leftbar h1 {
+   margin: 2em 0 1em .75em;
+   font-size: 120%;
+   color: #332266;
+}
+#leftbar dl {
+   padding:  0;
+margin: 0;
+color: #CC0000;
+}
+#leftbar dt {
+   padding: 0 0 0 1em;
+   margin: 0;
+   clear: none;
+   } 
+#leftbar dd {
+float: left;
+padding: 0;
+margin: 0;
+}
+#leftbar ul li {
+   padding: 0 0.5em 0.3em 0;
+   margin: 0;
+   list-style-image:url(../i/triangle.gif);
+   color: #333;
+   }
+#leftbar a {
+   color: #333;
+   }
+/* Rightbar Text */ 
+#rightbar {
+   float: right;
+   padding: 2em;
+   width: 556px;
+   height: 556px;
+   background-color:#FFF;
+   border-color: #FFCC00;
+  border-style: solid;
+  border-width: thin;
+  border-left: none;
+
+}
+#rightbar h1 {
+   font-size: 120%;
+   color: #332266;
+}
+#footer {
+   float: left;
+   clear: both;
+    background: #003  url(../i/purplebottom.jpg) repeat-x top left;
+   border-top-color:#FFCC00;
+   border-top-width: medium;
+   border-top-style: solid;
+  height: 40px;
+  width: 100%;
+  color: #FFCC00;
+}
+#footer p {
+      padding-left: 2em;
+}
