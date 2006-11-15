@@ -57,7 +57,7 @@ function do_header() {
    }
    else
    {
-      echo '<div id="calendar">';
+      echo '<div id="fullbar">';
    }
 }
 
