@@ -39,7 +39,7 @@ function do_header() {
             <ul id="topbar">
                <li><a href="<? echo $ptr; ?>">Home</a></li>
                <li><a href="<? echo $ptr; ?>vote/">Vote</a></li>
-               <li>Create a Report</li>
+               <li><a href="http://students.csci.unt.edu/~wng0001/Website/lonestarwebsiteform1.html">Create a Report</a></li>
                <li><a href="<? echo $ptr; ?>calendar/">View Calendar</a></li>
                <li><a href="<? echo $ptr; ?>edit.php?email=<?php echo $user_id; ?>">Update Personal Information</a></li>
                <li>Contact Us</li>
