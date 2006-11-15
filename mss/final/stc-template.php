@@ -38,7 +38,7 @@ function do_header() {
          <div id="topnav">
             <ul id="topbar">
                <li><a href="<? echo $ptr; ?>">Home</a></li>
-               <li><a href="<? echo $ptr; ?>vote.php">Vote</a></li>
+               <li><a href="<? echo $ptr; ?>vote/">Vote</a></li>
                <li>Create a Report</li>
                <li><a href="<? echo $ptr; ?>calendar/">View Calendar</a></li>
                <li><a href="<? echo $ptr; ?>edit.php?email=<?php echo $user_id; ?>">Update Personal Information</a></li>

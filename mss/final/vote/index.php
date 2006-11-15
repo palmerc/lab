@@ -1,4 +1,17 @@
 <?php
+require('../database.php');
+require('../user.php');
+session_start();
+if (!$_SESSION['email']) 
+   header('location:login.php');
+$user_id = $_SESSION['email'];
+$first = $_SESSION['first_name'];
+
+database_connect();
+$result = retrieve_user($user_id);
+$admin = $result[0]['admin'];
+database_disconnect();
+
    $title = "Lone Star Community - Vote";
    require('../stc-template.php');
 ?>
