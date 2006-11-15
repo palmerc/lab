@@ -10,7 +10,7 @@ ob_start("do_footer");
 ob_start("do_content");
 
 function do_header() {
-   global $title, $section, $sectionicon, $leftbar, $alternate_css, $ptr, $user_id, $admin;
+   global $title, $calendar, $leftbar, $alternate_css, $ptr, $user_id, $admin;
    echo'
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -33,14 +33,14 @@ function do_header() {
 	<div id="container">
 		<div id="header"> 
          <div id="topbanner">
-			<img src="i/purpletopwtextslim.gif" alt="The Lone Star Community" width="770" height="90"/>
+			<img src="<?php echo "{$ptr}i/purpletopwtextslim.gif"?>" alt="The Lone Star Community" width="770" height="90"/>
          </div>
          <div id="topnav">
             <ul id="topbar">
                <li><a href="<? echo $ptr; ?>">Home</a></li>
                <li><a href="vote.php">Vote</a></li>
                <li>Create a Report</li>
-               <li><a href="eventscalendar.php">View Calendar</a></li>
+               <li><a href="calendar/">View Calendar</a></li>
                <li><a href="edit.php?email=<?php echo $user_id; ?>">Update Personal Information</a></li>
                <li>Contact Us</li>
                <?if ($admin == 1) echo '<li><a href="manage.php">Manage Users</a></li>'; ?>
@@ -48,11 +48,17 @@ function do_header() {
          </div>
       </div>
 		<div id="main">
+<? if (!$calendar) { ?>
          <div id="leftbar">
 <?php if (file_exists("{$leftbar}")) require("{$leftbar}"); ?>
          </div>
          <div id="rightbar">
 <?php
+   }
+   else
+   {
+      echo '<div id="calendar">';
+   }
 }
 
 function do_content($buf) {
