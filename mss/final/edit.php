@@ -45,6 +45,8 @@ database_disconnect();
             header('location:logout.php');
       }
    }
+   $title = "Lone Star Community - Update Personal Information";
+   $leftbar = "leftbar.php";
    require('stc-template.php');
    database_connect();
    $result = retrieve_user($user_id);

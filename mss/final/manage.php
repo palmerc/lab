@@ -11,7 +11,8 @@ database_connect();
 $result = retrieve_user($user_id);
 $admin = $result[0]['admin'];
 database_disconnect();
-
+$title = "Lone Star Community - Manage Users";
+$leftbar = "leftbar.php";
 require('stc-template.php');
 if ($result[0]['admin'] == 1)
 {

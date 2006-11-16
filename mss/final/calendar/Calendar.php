@@ -129,9 +129,10 @@ class Calendar {
     
     function htmlCalendar()
     {
+      global $admin;
         //
         // Start the calendar table display
-        echo'
+         echo'
         <table style="float: left;" cellspacing="0" width="100%" id="calendar">
             ';
         
@@ -223,6 +224,10 @@ DAY;
         <br style="clear: left;" />
         <br />
             ';
+         if ($admin)
+            echo'
+            <a style="padding: 1em; text-decoration:none;" href="manage.php">Manage Events</a>
+               ';
     } // END display_month()
 
 } // END class Calendar
