@@ -12,8 +12,14 @@ $result = retrieve_user($user_id);
 $admin = $result[0]['admin'];
 database_disconnect();
 
-   $title = "Lone Star Community - Vote";
-   require('../stc-template.php');
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+   $vote_date = date("Y-m-d");   
+   $vote_value = $_REQUEST['vote_value'];
+}
+
+$title = "Lone Star Community - Vote";
+require('../stc-template.php');
 ?>
 
 <h1>Cast Your Vote</h1>

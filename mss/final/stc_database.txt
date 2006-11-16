@@ -14,15 +14,11 @@ CREATE TABLE users (email VARCHAR(100) PRIMARY KEY, first_name VARCHAR(25), last
 // Create the basic admin called 'root' password 'test'
 INSERT INTO `users` (`email` ,`first_name`,`last_name`,`password`,`admin`) VALUES ('root','Super','User','a94a8fe5ccb19ba61c4c0873d391e987982fbbd3','1');
 
-CREATE TABLE tbl_news (
-  calid int(11) primary key auto_increment,
-  date date,
-  title varchar(50)
-);
+CREATE TABLE tbl_news (calid int(11) primary key auto_increment, date date, title varchar(50));
 
 // Create the votes table. Likely you will delete and recreate this a few times
 // until you get it the way you want. So it is good to have this handy dandy cheat sheet.
-CREATE TABLE votes (voteid INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(100), vote_date DATE, vote_value BOOL);
+CREATE TABLE votes (voteid INT AUTO_INCREMENT PRIMARY KEY, user VARCHAR(100), vote_date DATE, vote_value TINYINT);
 
 // To insert a vote into the table
 

@@ -4,7 +4,7 @@ require('../user.php');
 
 session_start();
 if (!$_SESSION['email']) 
-   header('location:login.php');
+   header("location:{$ptr}login.php");
 $user_id = $_SESSION['email'];
 $first = $_SESSION['first_name'];
 
