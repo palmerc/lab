@@ -1,6 +1,6 @@
    <h1>Calendar</h1>
    <dt>Nov 7</dt>
-   <dd><ul><li><a href="http://www.coba.unt.edu/programs/masters/infosession.php">STC meeting in Atalanta, GA</a></li>
+   <dd><ul><li><div class="event">{$event}</div></li>
    <li><a href="/news/view.php?/2006/11/02/logistics-student-association-%28logsa%29-meeting">Students for Semicolons meeting</a></li>
    </ul></dd>
    <dt>Nov 9 - Nov 10</dt>
