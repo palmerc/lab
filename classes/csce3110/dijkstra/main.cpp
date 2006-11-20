@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
 #include <ostream>
 #include <fstream>
@@ -21,8 +21,8 @@ struct AdjNode
 
 typedef map<int, list<AdjNode>*> mappy;
 
-ostream& operator<< (ostream& LHS, AdjNode const& RHS) 
-{ 
+ostream& operator<< (ostream& LHS, AdjNode const& RHS)
+{
    LHS << "Node " << RHS.node << " distance " << RHS.distance << endl;
    return LHS;
 }
@@ -34,7 +34,7 @@ void dijkstra(mappy G, int start)
    list<int> S;
    list<int> Q;
    S.push_back(start);
-   for (mappy::const_iterator i = G.begin(); i != G.end(); ++i) 
+   for (mappy::const_iterator i = G.begin(); i != G.end(); ++i)
    {
       int vertex = i->first;
       if (vertex != start)
@@ -47,14 +47,15 @@ void dijkstra(mappy G, int start)
    // iterate throught the S and see which is the shortest undiscovered path
    for (list<int>::iterator i = S.begin(); i != S.end(); ++i)
    {
-      for (list<AdjNode>::iterator j = G[*i]->begin(); i != G[*i]->end(); ++i)
-         cout << "HMMM " << j << endl;
+      // PETE I know this is wrong
+      for (list<AdjNode>::iterator j = G[*i]->begin(); j != G[*i]->end(); ++j)
+         cout << j->distance;
    }
 }
 
 int main(int argc, char* argv[])
 {
-   ifstream in; 
+   ifstream in;
    in.open(argv[1]);
    boost::regex re_start("^\\s*s\\s+(\\d+)\\s*$", boost::regex::perl);
    boost::regex re_vertex("^\\s*v\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
@@ -62,7 +63,7 @@ int main(int argc, char* argv[])
    mappy AdjList;
    int start;
    string str;
-   
+
    getline(in, str);
    while ( in )
    {
@@ -82,12 +83,12 @@ int main(int argc, char* argv[])
       getline(in, str);
    }
    in.close();
-   
+
    dijkstra(AdjList, start);
-   
-   for (mappy::iterator i = AdjList.begin(); 1 ; ++i) 
+
+   for (mappy::iterator i = AdjList.begin(); i != AdjList.end() ; ++i)
       delete i->second;
    AdjList.clear();
-   
+
    return 0;
 }
