@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <vector>
 #include <boost/regex.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -12,52 +13,79 @@ using namespace std;
 
 struct AdjNode
 {
-   AdjNode() : node(0), weight(0) {}
-   AdjNode(int _node, int _weight) : node(_node), weight(_weight) {}
+   AdjNode() : node(0), distance(0) {}
+   AdjNode(int _node, int _distance) : node(_node), distance(_distance) {}
    int node;
-   int weight;
+   int distance;
 };
+
+typedef map<int, list<AdjNode>*> mappy;
+
 ostream& operator<< (ostream& LHS, AdjNode const& RHS) 
 { 
-   LHS << "Node " << RHS.node << " Weight " << RHS.weight << endl;
+   LHS << "Node " << RHS.node << " distance " << RHS.distance << endl;
    return LHS;
+}
+
+void dijkstra(mappy G, int start)
+{
+   cout << "START " << start << endl;
+
+   list<int> S;
+   list<int> Q;
+   S.push_back(start);
+   for (mappy::const_iterator i = G.begin(); i != G.end(); ++i) 
+   {
+      int vertex = i->first;
+      if (vertex != start)
+         Q.push_back(vertex);
+      cout << "VERTEX " << vertex << endl;
+      copy(i->second->begin(), i->second->end(), ostream_iterator<AdjNode>(cout));
+   }
+   // We are going to run through the items in the discovered queue and
+   // find the shortest path, then move it to the discovered queue
+   // iterate throught the S and see which is the shortest undiscovered path
+   for (list<int>::iterator i = S.begin(); i != S.end(); ++i)
+   {
+      for (list<AdjNode>::iterator j = G[*i]->begin(); i != G[*i]->end(); ++i)
+         cout << "HMMM " << j << endl;
+   }
 }
 
 int main(int argc, char* argv[])
 {
    ifstream in; 
    in.open(argv[1]);
-    
-   boost::regex re("^\\s*v\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_start("^\\s*s\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_vertex("^\\s*v\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
    boost::cmatch matches;
-   map<int, list<AdjNode>*> AdjList;
+   mappy AdjList;
+   int start;
    string str;
    
    getline(in, str);
    while ( in )
    {
-      if (boost::regex_match(str.c_str(), matches, re))
+      if (boost::regex_match(str.c_str(), matches, re_start))
+         start = boost::lexical_cast<int>(matches[1]);
+      else if (boost::regex_match(str.c_str(), matches, re_vertex))
       {
          int vertex = boost::lexical_cast<int>(matches[1]);
          int node = boost::lexical_cast<int>(matches[2]);
-         int weight = boost::lexical_cast<int>(matches[3]);
+         int distance = boost::lexical_cast<int>(matches[3]);
          // if node doesn't exist, create a linked list and attach the next item
          if (AdjList.find(vertex) == AdjList.end()) // key doesn't exist
             AdjList[vertex] = new list<AdjNode>;
-         // if it does exist just add the next item and weight to the appropriate node
-         AdjList[vertex]->push_back(AdjNode(node, weight));
+         // if it does exist just add the next item and distance to the appropriate node
+         AdjList[vertex]->push_back(AdjNode(node, distance));
       }
       getline(in, str);
    }
    in.close();
    
-   for (map<int, list<AdjNode>*>::const_iterator i = AdjList.begin(); i != AdjList.end(); ++i) 
-   {
-      cout << "VERTEX " << i->first << endl;
-      copy(i->second->begin(), i->second->end(), ostream_iterator<AdjNode>(cout));
-   }
-    
-   for (map<int, list<AdjNode>*>::iterator i = AdjList.begin(); i != AdjList.end(); ++i) 
+   dijkstra(AdjList, start);
+   
+   for (mappy::iterator i = AdjList.begin(); 1 ; ++i) 
       delete i->second;
    AdjList.clear();
    
