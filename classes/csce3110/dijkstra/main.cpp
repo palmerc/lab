@@ -51,18 +51,19 @@ void print_out (VertexList S)
 
 int extract_min(AdjList G, VertexList S, VertexList Q)
 {
-   cout << "Extract Min Status of S and Q" << endl;
-   cout << "The S" << endl;
-   print_out(S);
-   cout << "The Q" << endl;
-   print_out(Q);
-   cout << endl;
+//   cout << "Extract Min Status of S and Q" << endl;
+//   cout << "The S" << endl;
+//   print_out(S);
+//   cout << "The Q" << endl;
+//   print_out(Q);
+//   cout << endl;
    int minmin = INT_MAX;
    // Run through the list of known vertices in S
 
    cout << "The processing loop" << endl;
    int u, index, spe;
-   for (VertexList::iterator i = S.begin(); i != S.end(); ++i)
+   cout << "Size of S " << S.size() << endl;
+   for (VertexList::const_iterator i = S.begin(); i != S.end(); ++i)
    {
       //cout << "minmin " << minmin << endl;
       //cout << "i " << i->first << " SPE " << i->second.spe << " PI " << i->second.pi << endl;
@@ -72,12 +73,17 @@ int extract_min(AdjList G, VertexList S, VertexList Q)
       // Run through the adjacency list of the vertices in S
       for (list<AdjNode>::iterator j = G[index]->begin(); j != G[index]->end(); ++j)
       {
+         cout << "Size of S " << S.size() << endl;
          //cout << "u" << index << " v" << j->node << " weight " << j->weight << endl;
          int total = j->weight + spe; // total is the edge weight + u's spe
-         cout << "total "<< total << " < " << S[j->node].spe << endl;
+         cout << "total "<< total << " < " << Q[j->node].spe << endl;
          // if edge weight + u's spe < v's current spe
-         if (total < S[j->node].spe)
+         if (total < Q[j->node].spe)
          {
+            // update v's spe and pi with new values
+            Q[j->node].spe = total;
+            Q[j->node].pi = index;
+            cout << "updating edge " << j->node << " spe " << total << " pi " << index << endl;
             // We want to return the lowest edge who's v isn't in S
             if ((total < minmin) && (S.find(j->node) == S.end()))
             //if (total < minmin)
@@ -86,10 +92,6 @@ int extract_min(AdjList G, VertexList S, VertexList Q)
                minmin = total;
                u = j->node;
             }               
-            // update v's spe and pi with new values
-            S[j->node].spe = total;
-            S[j->node].pi = index;
-            cout << "updating edge " << j->node << " spe " << total << " pi " << index << endl;
          }
       }
    }
