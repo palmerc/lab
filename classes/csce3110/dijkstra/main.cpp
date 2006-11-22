@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <climits>
 #include <iostream>
 #include <ostream>
 #include <fstream>
@@ -6,6 +7,7 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <queue>
 #include <boost/regex.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -13,44 +15,59 @@ using namespace std;
 
 struct AdjNode
 {
-   AdjNode() : node(0), distance(0) {}
-   AdjNode(int _node, int _distance) : node(_node), distance(_distance) {}
+   AdjNode() : node(0), weight(0) {}
+   AdjNode(int _node, int _weight) : 
+      node(_node), weight(_weight) {}
    int node;
-   int distance;
+   int weight;
+};
+
+struct Vertex
+{
+   Vertex() : spe(INT_MAX), pi(0) {}
+   Vertex(int _spe, int _pi) :
+      spe(_spe), pi(_pi) {}
+   int spe;
+   int pi;
 };
 
 typedef map<int, list<AdjNode>*> mappy;
 
-ostream& operator<< (ostream& LHS, AdjNode const& RHS)
+ostream& operator<< (ostream& LHS, Vertex const& RHS)
 {
-   LHS << "Node " << RHS.node << " distance " << RHS.distance << endl;
+   LHS << "spe " << RHS.spe << " pi " << RHS.pi << endl;
    return LHS;
+}
+
+void print_out (map<int, Vertex> S)
+{
+   // print out
+   cout << endl << "Running through S list" << endl;
+   for (map<int, Vertex>::iterator i = S.begin(); i != S.end(); ++i)
+   {
+      cout << endl;
+   }
 }
 
 void dijkstra(mappy G, int start)
 {
-   cout << "START " << start << endl;
-
-   list<int> S;
-   list<int> Q;
-   S.push_back(start);
-   for (mappy::const_iterator i = G.begin(); i != G.end(); ++i)
+   map<int, Vertex> S; // Discovered shortest paths
+   map<int, Vertex> Q; // Pool of unknown vertices
+   
+   for(mappy::iterator i = G.begin(); i != G.end(); ++i)
+      if (i->first != start)
+         Q[i->first] = Vertex(INT_MAX, 0);
+   S[start] = Vertex(0, 0);
+   
+   int i=2;
+   while (!Q.empty())
    {
-      int vertex = i->first;
-      if (vertex != start)
-         Q.push_back(vertex);
-      cout << "VERTEX " << vertex << endl;
-      copy(i->second->begin(), i->second->end(), ostream_iterator<AdjNode>(cout));
+      S[i] = Q[i];
+      cout << Q[i].spe << endl;
+      Q.erase(i);
+      ++i;
    }
-   // We are going to run through the items in the discovered queue and
-   // find the shortest path, then move it to the discovered queue
-   // iterate throught the S and see which is the shortest undiscovered path
-   for (list<int>::iterator i = S.begin(); i != S.end(); ++i)
-   {
-      // PETE I know this is wrong
-      for (list<AdjNode>::iterator j = G[*i]->begin(); j != G[*i]->end(); ++j)
-         cout << j->distance;
-   }
+   print_out(S);
 }
 
 int main(int argc, char* argv[])
@@ -73,19 +90,19 @@ int main(int argc, char* argv[])
       {
          int vertex = boost::lexical_cast<int>(matches[1]);
          int node = boost::lexical_cast<int>(matches[2]);
-         int distance = boost::lexical_cast<int>(matches[3]);
+         int weight = boost::lexical_cast<int>(matches[3]);
          // if node doesn't exist, create a linked list and attach the next item
          if (AdjList.find(vertex) == AdjList.end()) // key doesn't exist
             AdjList[vertex] = new list<AdjNode>;
          // if it does exist just add the next item and distance to the appropriate node
-         AdjList[vertex]->push_back(AdjNode(node, distance));
+         AdjList[vertex]->push_back(AdjNode(node, weight));
       }
       getline(in, str);
    }
    in.close();
 
    dijkstra(AdjList, start);
-
+   
    for (mappy::iterator i = AdjList.begin(); i != AdjList.end() ; ++i)
       delete i->second;
    AdjList.clear();
