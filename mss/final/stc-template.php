@@ -43,7 +43,7 @@ function do_header() {
                <li><a href="<? echo $ptr; ?>calendar/">View Calendar</a></li>
                <li><a href="<? echo $ptr; ?>edit.php?email=<?php echo $user_id; ?>">Update Personal Information</a></li>
                <?if ($admin == 1) echo "<li><a href=\"{$ptr}manage.php\">Manage Users</a></li>"; ?>
-            
+               <li><a href="logout.php">Log Out</a></li>
             </ul>
          </div>
       </div>

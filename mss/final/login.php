@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                </table>
                <input type="submit" value="Submit" />
             </form>
+            <p>To request an account, please contact the Webmaster at webmaster@stc-dfw.org</p>
          </div>
       </div>
       <div id="footer">
