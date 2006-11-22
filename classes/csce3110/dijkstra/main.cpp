@@ -31,7 +31,8 @@ struct Vertex
    int pi;
 };
 
-typedef map<int, list<AdjNode>*> mappy;
+typedef map<int, list<AdjNode>*> AdjList;
+typedef map<int, Vertex> VertexList;
 
 ostream& operator<< (ostream& LHS, Vertex const& RHS)
 {
@@ -43,29 +44,58 @@ void print_out (map<int, Vertex> S)
 {
    // print out
    cout << endl << "Running through S list" << endl;
-   for (map<int, Vertex>::iterator i = S.begin(); i != S.end(); ++i)
+   for (VertexList::iterator i = S.begin(); i != S.end(); ++i)
    {
-      cout << endl;
+      cout << i->first << " spe:" << i->second.spe << " pi:" << i->second.pi << endl;
    }
 }
 
-void dijkstra(mappy G, int start)
+int extract_min(AdjList G, VertexList S, VertexList Q)
 {
-   map<int, Vertex> S; // Discovered shortest paths
-   map<int, Vertex> Q; // Pool of unknown vertices
+   int u;
+   int minmin = INT_MAX;
+   // Run through the list of known vertices in S
+   for (VertexList::iterator i = S.begin(); i != S.end(); ++i)
+   {
+      int index = i->first; // index represents the u of an edge
+      int spe = i->second.spe;
+      // Run through the adjacency list of the vertices in S
+      for (list<AdjNode>::iterator j = G[index]->begin(); j != G[index]->end(); ++j)
+      {
+         int total = j->weight + spe; // total is the edge weight + u's spe
+         // if edge weight + u's spe < v's current spe
+         if (total < S[j->node].spe)
+         {
+            // We want to return the lowest edge who's v isn't in S
+            if ((total < minmin) && (S.find(j->node) == S.end()))
+            {
+               minmin = total;
+               u = j->node;
+            }               
+            // update v's spe and pi with new values
+            S[j->node].spe = total;
+            S[j->node].pi = index;
+         }
+      }
+   }
+   return u;
+}
+
+void dijkstra(AdjList G, int start)
+{
+   VertexList S; // Discovered shortest paths
+   VertexList Q; // Pool of unknown vertices
    
-   for(mappy::iterator i = G.begin(); i != G.end(); ++i)
+   for(AdjList::iterator i = G.begin(); i != G.end(); ++i)
       if (i->first != start)
          Q[i->first] = Vertex(INT_MAX, 0);
    S[start] = Vertex(0, 0);
    
-   int i=2;
    while (!Q.empty())
    {
-      S[i] = Q[i];
-      cout << Q[i].spe << endl;
-      Q.erase(i);
-      ++i;
+      int u = extract_min(G, S, Q);
+      S[u] = Q[u];
+      Q.erase(u);
    }
    print_out(S);
 }
@@ -77,7 +107,7 @@ int main(int argc, char* argv[])
    boost::regex re_start("^\\s*s\\s+(\\d+)\\s*$", boost::regex::perl);
    boost::regex re_vertex("^\\s*v\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
    boost::cmatch matches;
-   mappy AdjList;
+   AdjList G;
    int start;
    string str;
 
@@ -92,20 +122,20 @@ int main(int argc, char* argv[])
          int node = boost::lexical_cast<int>(matches[2]);
          int weight = boost::lexical_cast<int>(matches[3]);
          // if node doesn't exist, create a linked list and attach the next item
-         if (AdjList.find(vertex) == AdjList.end()) // key doesn't exist
-            AdjList[vertex] = new list<AdjNode>;
+         if (G.find(vertex) == G.end()) // key doesn't exist
+            G[vertex] = new list<AdjNode>;
          // if it does exist just add the next item and distance to the appropriate node
-         AdjList[vertex]->push_back(AdjNode(node, weight));
+         G[vertex]->push_back(AdjNode(node, weight));
       }
       getline(in, str);
    }
    in.close();
 
-   dijkstra(AdjList, start);
+   dijkstra(G, start);
    
-   for (mappy::iterator i = AdjList.begin(); i != AdjList.end() ; ++i)
+   for (AdjList::iterator i = G.begin(); i != G.end() ; ++i)
       delete i->second;
-   AdjList.clear();
+   G.clear();
 
    return 0;
 }
