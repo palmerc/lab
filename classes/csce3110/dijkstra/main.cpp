@@ -31,7 +31,7 @@ struct Vertex
    int pi;
    int known;
 };
-
+int loop = 0;
 typedef map<int, list<AdjNode>*> AdjList;
 typedef map<int, Vertex> VertexList;
 
@@ -50,7 +50,7 @@ void print_out (VertexList V)
    }
 }
 
-int extract_min(AdjList &G, VertexList &V, list<int> S, list<int> Q)
+int extract_min(AdjList &G, VertexList &V, list<int> const &S)
 {
 //   cout << "Extract Min Status of S and Q" << endl;
 //   cout << "The S" << endl;
@@ -73,22 +73,23 @@ int extract_min(AdjList &G, VertexList &V, list<int> S, list<int> Q)
       // Run through the adjacency list of the vertices in S
       for (list<AdjNode>::iterator j = G[*i]->begin(); j != G[*i]->end(); ++j)
       {
+         ++loop;
          int node = j->node;
          //cout << "Size of S " << S.size() << endl;
          int total = j->weight + spe; // total is the edge weight + u's spe
          //cout << "u" << *i << " v" << node << " weight " << total << endl;
 
-         //cout << "total "<< total << " < " << V[node].spe << endl;
+         //cout << V[node].known << " From " << *i << " to " << node << " total "<< total << " < " << V[node].spe << endl;
          // if edge weight + u's spe < v's current spe
          if (total < V[node].spe || (V[node].known == 0))
          {
             // update v's spe and pi with new values
             V[node].spe = total;
             V[node].pi = *i;
-            //cout << "updating edge " << node << " spe " << total << " pi " << *i << endl;
+            //cout << "updated " << *i << " edge to " << node << " spe " << total << " pi " << *i << endl;
             // We want to return the lowest edge who's v isn't in S
             //if ((total < minmin) && (V[node].known != 1))
-            if (total < minmin)
+            if (total < minmin && (V[node].known == 0))
             {
                minmin = total;
                u = node;
@@ -116,7 +117,7 @@ void dijkstra(AdjList &G, int start)
    cout << "Shortest path discovered " << start << endl;
    while (!Q.empty())
    {
-      int u = extract_min(G, V, S, Q);
+      int u = extract_min(G, V, S);
       cout << "Shortest path discovered " << u << endl;
       V[u].known = 1;
       S.push_back(u);
@@ -157,7 +158,7 @@ int main(int argc, char* argv[])
    in.close();
 
    dijkstra(G, start);
-   
+   cout << "Loops " << loop << endl;
    for (AdjList::iterator i = G.begin(); i != G.end() ; ++i)
       delete i->second;
    G.clear();
