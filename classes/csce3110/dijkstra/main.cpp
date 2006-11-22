@@ -24,11 +24,12 @@ struct AdjNode
 
 struct Vertex
 {
-   Vertex() : spe(INT_MAX), pi(0) {}
-   Vertex(int _spe, int _pi) :
-      spe(_spe), pi(_pi) {}
+   Vertex() : spe(INT_MAX), pi(0), known(0) {}
+   Vertex(int _spe, int _pi, int _known) :
+      spe(_spe), pi(_pi), known(_known) {}
    int spe;
    int pi;
+   int known;
 };
 
 typedef map<int, list<AdjNode>*> AdjList;
@@ -40,16 +41,16 @@ ostream& operator<< (ostream& LHS, Vertex const& RHS)
    return LHS;
 }
 
-void print_out (VertexList S)
+void print_out (VertexList V)
 {
    // print out
-   for (VertexList::iterator i = S.begin(); i != S.end(); ++i)
+   for (VertexList::iterator i = V.begin(); i != V.end(); ++i)
    {
       cout << i->first << " spe:" << i->second.spe << " pi:" << i->second.pi << endl;
    }
 }
 
-int extract_min(AdjList G, VertexList &S, VertexList &Q)
+int extract_min(AdjList &G, VertexList &V, list<int> S, list<int> Q)
 {
 //   cout << "Extract Min Status of S and Q" << endl;
 //   cout << "The S" << endl;
@@ -60,63 +61,68 @@ int extract_min(AdjList G, VertexList &S, VertexList &Q)
    int minmin = INT_MAX;
    // Run through the list of known vertices in S
 
-   cout << "The processing loop" << endl;
-   int u, index, spe;
-   cout << "Size of S " << S.size() << endl;
-   for (VertexList::const_iterator i = S.begin(); i != S.end(); ++i)
+   //cout << "The processing loop" << endl;
+   int u, spe;
+   for (list<int>::const_iterator i = S.begin(); i != S.end(); ++i)
    {
       //cout << "minmin " << minmin << endl;
       //cout << "i " << i->first << " SPE " << i->second.spe << " PI " << i->second.pi << endl;
-      index = i->first; // index represents the u of an edge
-      cout << "Vertex " << index <<endl;
-      spe = i->second.spe;
+      // i represents the u of an edge
+      //cout << "Vertex " << *i <<endl;
+      spe = V[*i].spe;
       // Run through the adjacency list of the vertices in S
-      for (list<AdjNode>::iterator j = G[index]->begin(); j != G[index]->end(); ++j)
+      for (list<AdjNode>::iterator j = G[*i]->begin(); j != G[*i]->end(); ++j)
       {
-         cout << "Size of S " << S.size() << endl;
-         //cout << "u" << index << " v" << j->node << " weight " << j->weight << endl;
+         int node = j->node;
+         //cout << "Size of S " << S.size() << endl;
          int total = j->weight + spe; // total is the edge weight + u's spe
-         cout << "total "<< total << " < " << Q[j->node].spe << endl;
+         //cout << "u" << *i << " v" << node << " weight " << total << endl;
+
+         //cout << "total "<< total << " < " << V[node].spe << endl;
          // if edge weight + u's spe < v's current spe
-         if (total < Q[j->node].spe)
+         if (total < V[node].spe || (V[node].known == 0))
          {
             // update v's spe and pi with new values
-            Q[j->node].spe = total;
-            Q[j->node].pi = index;
-            cout << "updating edge " << j->node << " spe " << total << " pi " << index << endl;
+            V[node].spe = total;
+            V[node].pi = *i;
+            //cout << "updating edge " << node << " spe " << total << " pi " << *i << endl;
             // We want to return the lowest edge who's v isn't in S
-            if ((total < minmin) && (S.find(j->node) == S.end()))
-            //if (total < minmin)
+            //if ((total < minmin) && (V[node].known != 1))
+            if (total < minmin)
             {
-               cout << "BEFORE MINMIN " << minmin << endl;
                minmin = total;
-               u = j->node;
+               u = node;
             }               
          }
       }
    }
-   
-   cout << "Extract min is returning " << u << endl;
    return u;
 }
 
-void dijkstra(AdjList G, int start)
+void dijkstra(AdjList &G, int start)
 {
-   VertexList S; // Discovered shortest paths
-   VertexList Q; // Pool of unknown vertices
+   VertexList V;
+   list<int> S; // Discovered shortest paths
+   list<int> Q; // Pool of unknown vertices
    
-   S[start] = Vertex(0, 0);
+   V[start] = Vertex(0, 0, 1);
+   S.push_back(start);
    for(AdjList::iterator i = G.begin(); i != G.end(); ++i)
       if (i->first != start)
-         Q[i->first] = Vertex(INT_MAX, 0);
+      {
+         V[i->first] = Vertex(INT_MAX, 0, 0);
+         Q.push_back(i->first);
+      }
+   cout << "Shortest path discovered " << start << endl;
    while (!Q.empty())
    {
-      cout << "******** TOP OF LOOP" << endl;
-      int u = extract_min(G, S, Q);
-      S[u] = Q[u];
-      Q.erase(u);
+      int u = extract_min(G, V, S, Q);
+      cout << "Shortest path discovered " << u << endl;
+      V[u].known = 1;
+      S.push_back(u);
+      Q.remove(u);
    }
-   print_out(S);
+   print_out(V);
 }
 
 int main(int argc, char* argv[])
