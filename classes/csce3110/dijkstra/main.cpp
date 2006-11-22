@@ -40,10 +40,9 @@ ostream& operator<< (ostream& LHS, Vertex const& RHS)
    return LHS;
 }
 
-void print_out (map<int, Vertex> S)
+void print_out (VertexList S)
 {
    // print out
-   cout << endl << "Running through S list" << endl;
    for (VertexList::iterator i = S.begin(); i != S.end(); ++i)
    {
       cout << i->first << " spe:" << i->second.spe << " pi:" << i->second.pi << endl;
@@ -52,32 +51,50 @@ void print_out (map<int, Vertex> S)
 
 int extract_min(AdjList G, VertexList S, VertexList Q)
 {
-   int u;
+   cout << "Extract Min Status of S and Q" << endl;
+   cout << "The S" << endl;
+   print_out(S);
+   cout << "The Q" << endl;
+   print_out(Q);
+   cout << endl;
    int minmin = INT_MAX;
    // Run through the list of known vertices in S
+
+   cout << "The processing loop" << endl;
+   int u, index, spe;
    for (VertexList::iterator i = S.begin(); i != S.end(); ++i)
    {
-      int index = i->first; // index represents the u of an edge
-      int spe = i->second.spe;
+      //cout << "minmin " << minmin << endl;
+      //cout << "i " << i->first << " SPE " << i->second.spe << " PI " << i->second.pi << endl;
+      index = i->first; // index represents the u of an edge
+      cout << "Vertex " << index <<endl;
+      spe = i->second.spe;
       // Run through the adjacency list of the vertices in S
       for (list<AdjNode>::iterator j = G[index]->begin(); j != G[index]->end(); ++j)
       {
+         //cout << "u" << index << " v" << j->node << " weight " << j->weight << endl;
          int total = j->weight + spe; // total is the edge weight + u's spe
+         cout << "total "<< total << " < " << S[j->node].spe << endl;
          // if edge weight + u's spe < v's current spe
          if (total < S[j->node].spe)
          {
             // We want to return the lowest edge who's v isn't in S
             if ((total < minmin) && (S.find(j->node) == S.end()))
+            //if (total < minmin)
             {
+               cout << "BEFORE MINMIN " << minmin << endl;
                minmin = total;
                u = j->node;
             }               
             // update v's spe and pi with new values
             S[j->node].spe = total;
             S[j->node].pi = index;
+            cout << "updating edge " << j->node << " spe " << total << " pi " << index << endl;
          }
       }
    }
+   
+   cout << "Extract min is returning " << u << endl;
    return u;
 }
 
@@ -86,13 +103,13 @@ void dijkstra(AdjList G, int start)
    VertexList S; // Discovered shortest paths
    VertexList Q; // Pool of unknown vertices
    
+   S[start] = Vertex(0, 0);
    for(AdjList::iterator i = G.begin(); i != G.end(); ++i)
       if (i->first != start)
          Q[i->first] = Vertex(INT_MAX, 0);
-   S[start] = Vertex(0, 0);
-   
    while (!Q.empty())
    {
+      cout << "******** TOP OF LOOP" << endl;
       int u = extract_min(G, S, Q);
       S[u] = Q[u];
       Q.erase(u);
