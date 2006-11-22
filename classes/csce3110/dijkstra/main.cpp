@@ -49,7 +49,7 @@ void print_out (VertexList S)
    }
 }
 
-int extract_min(AdjList G, VertexList S, VertexList Q)
+int extract_min(AdjList G, VertexList &S, VertexList &Q)
 {
 //   cout << "Extract Min Status of S and Q" << endl;
 //   cout << "The S" << endl;
