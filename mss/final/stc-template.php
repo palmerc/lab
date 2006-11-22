@@ -42,8 +42,8 @@ function do_header() {
                <li><a href="http://students.csci.unt.edu/~wng0001/Website/lonestarwebsiteform1.html">Create a Report</a></li>
                <li><a href="<? echo $ptr; ?>calendar/">View Calendar</a></li>
                <li><a href="<? echo $ptr; ?>edit.php?email=<?php echo $user_id; ?>">Update Personal Information</a></li>
-               <li>Contact Us</li>
                <?if ($admin == 1) echo "<li><a href=\"{$ptr}manage.php\">Manage Users</a></li>"; ?>
+            
             </ul>
          </div>
       </div>

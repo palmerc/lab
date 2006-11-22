@@ -1,4 +1,5 @@
 <?php
+
 class Calendar {
     var $month, $year, $today, $dayHeadings, $numofweeks, $daysArray;
 
@@ -220,14 +221,16 @@ DAY;
             ';
         }
         echo'
+            <br style="clear: left;" />
+            <br /> 
+            <a style="padding: 1.5em; font-size: 120%; text-decoration:none;" href="manage.php">Manage Events</a>
+              ';
+        echo'
         </table>
         <br style="clear: left;" />
         <br />
             ';
-         if ($admin)
-            echo'
-            <a style="padding: 1em; text-decoration:none;" href="manage.php">Manage Events</a>
-               ';
+            
     } // END display_month()
 
 } // END class Calendar

@@ -24,6 +24,8 @@ database_disconnect();
 $title = "Lone Star Community - Vote";
 $leftbar = "../leftbar.php";
 require('../stc-template.php');
+if ($admin)
+   echo "<p><a href=\"results.php\">Results</a></p>";
 ?>
 
 <h1>Cast Your Vote</h1>
