@@ -18,27 +18,28 @@ struct BinaryNode {
    }
 };
 
-void insert(BinaryNode *&root, BinaryNode *&parent, pType newPayload)
+BinaryNode* insert(BinaryNode *&root, BinaryNode *parent, pType newPayload)
 {
+   if (parent == NULL)
+      cout << newPayload << " parent is NULL" << endl;
    if (root == NULL)
    {
       root = new BinaryNode(newPayload);
-      if (parent != NULL)
-         root->parent = parent;
-      return;
+      return root;
    }
    else if (newPayload < root->payload)
    {
-      insert(root->leftChild, root, newPayload);
+      insert(root->leftChild, parent, newPayload);
    }
    else
    {
-      insert(root->rightChild, root, newPayload);
+      insert(root->rightChild, parent, newPayload);
    }
 }
 
-BinaryNode *find(BinaryNode *&root, pType payload)
+BinaryNode *find(BinaryNode *root, pType payload)
 {
+   cout << "found " << root->payload << endl;
    if (root->payload == payload)
    {
       return root;
@@ -54,8 +55,22 @@ BinaryNode *find(BinaryNode *&root, pType payload)
 
 void remove(BinaryNode *&root)
 {
+   cout << "removing " << root->payload << endl;
    BinaryNode *temp = root;
-   if (root->leftChild == NULL)
+   // CASES
+   // No children
+   // Right Child
+   // Left Child
+   // Left and Right Child
+   if (root->leftChild == NULL && root->rightChild == NULL)
+   {
+      if (root->parent->leftChild == root)
+         root->parent->leftChild = NULL;
+      else
+         root->parent->rightChild = NULL;
+      delete root;
+   }
+   else if (root->leftChild == NULL)
    {
       root = root->rightChild;
       delete temp;
@@ -71,6 +86,8 @@ void remove(BinaryNode *&root)
       while (temp->rightChild != NULL)
          temp = temp->rightChild;
       root->payload = temp->payload;
+      temp->parent->rightChild = NULL;
+      temp->parent = root->parent;
       remove(temp);
    }
 }
@@ -121,23 +138,33 @@ void printLevel(BinaryNode *root)
 
 int main()
 {
-   BinaryNode *root;
+   int elements[7] = { 50, 40, 46, 65, 67, 54, 33 };
+   BinaryNode *root, *temp;
    root = NULL;
+   temp = NULL;
    BinaryNode *parent;
    parent = NULL;
    
-   for (int i = 0; i < 50; ++i)
+   cout << "****** Insertion" << endl;
+   for (int i = 0; i < 7; ++i)
    {
-      if (i % 2 == 0)
-         insert(root, parent, 50 - i);
-      else 
-         insert(root, parent, 50 + i);
+      cout << elements[i] << endl;
+      parent = insert(root, parent, elements[i]);
    }
-   cout << "****** INSERT" << endl;
+   cout << "****** Pre Order" << endl;
+   preOrderPrint(root);   
+   cout << "****** In Order" << endl;
    inOrderPrint(root);
-   root = find(root, 50);
-   remove( root );
+   cout << "****** Post Order" << endl;
+   postOrderPrint(root);
+   temp = find(root, 50);
+   remove( temp );
+   cout << " 50 Removed " << endl;
+   temp = find(root, 33);
+   cout << "Weird " << temp->payload;
+   remove( temp );
+   cout << " 33 Removed " << endl;
    cout << "****** REMOVE" << endl;
-   inOrderPrint(root);
+   preOrderPrint(root);
    return 0;
 }
