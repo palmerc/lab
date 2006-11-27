@@ -1,48 +1,32 @@
 #include <boost/config.hpp>
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 
 using namespace boost;
+using namespace std;
 
-int
-main(int, char *[])
+typedef adjacency_list < listS, vecS, directedS, no_property, property < edge_weight_t, int > > graph_t;
+typedef graph_traits < graph_t >::vertex_descriptor vertex_descriptor;
+typedef graph_traits < graph_t >::edge_descriptor edge_descriptor;
+typedef pair<int, int> Edge;
+
+void output_dot(string filename, graph_t g, vector<int> d, vector<vertex_descriptor> p, property_map<graph_t, edge_weight_t>::type weightmap, char name[])
 {
-  typedef adjacency_list < listS, vecS, directedS,
-    no_property, property < edge_weight_t, int > > graph_t;
-  typedef graph_traits < graph_t >::vertex_descriptor vertex_descriptor;
-  typedef graph_traits < graph_t >::edge_descriptor edge_descriptor;
-  typedef std::pair<int, int> Edge;
 
-  const int num_nodes = 5;
-  enum nodes { A, B, C, D, E, F, G };
-  char name[] = "ABCDEFG";
-  Edge edge_array[] = { Edge(A, B), Edge(A, C), Edge(A, D), Edge(B, C),
-    Edge(B, E), Edge(C, F), Edge(D, F), Edge(D, G), Edge(E, F), Edge(F, G)
-  };
-  int weights[] = { 6, 2, 1, 3, 1, 1, 3, 3, 3, 2 };
-  int num_arcs = sizeof(edge_array) / sizeof(Edge);
-  graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
-  property_map<graph_t, edge_weight_t>::type weightmap = get(edge_weight, g);
-  std::vector<vertex_descriptor> p(num_vertices(g));
-  std::vector<int> d(num_vertices(g));
-  vertex_descriptor s = vertex(A, g);
-
-  dijkstra_shortest_paths(g, s, predecessor_map(&p[0]).distance_map(&d[0]));
-
-  std::cout << "distances and parents:" << std::endl;
+  cout << "distances and parents:" << endl;
   graph_traits < graph_t >::vertex_iterator vi, vend;
   for (tie(vi, vend) = vertices(g); vi != vend; ++vi) {
-    std::cout << "distance(" << name[*vi] << ") = " << d[*vi] << ", ";
-    std::cout << "parent(" << name[*vi] << ") = " << name[p[*vi]] << std::
-      endl;
+    cout << "distance(" << name[*vi] << ") = " << d[*vi] << ", ";
+    cout << "parent(" << name[*vi] << ") = " << name[p[*vi]] << endl;
   }
-  std::cout << std::endl;
+  cout << endl;
 
-  std::ofstream dot_file("figs/kmb.dot");
+  ofstream dot_file(filename.c_str());
 
   dot_file << "digraph D {\n"
     << "  rankdir=LR\n"
@@ -63,6 +47,40 @@ main(int, char *[])
       dot_file << ", color=\"grey\"";
     dot_file << "]";
   }
-  dot_file << "}";
+  dot_file << "}";  
+}
+
+int main(int, char *[])
+{
+  const int num_nodes = 5;
+  enum nodes { A, B, C, D, E, F, G };
+  char name[] = "ABCDEFG";
+  Edge edge_array[] = { Edge(A, B), Edge(B, A), Edge(A, C), Edge(C, A), 
+     Edge(A, D), Edge(D, A), Edge(B, C), Edge(C, B), Edge(B, E), Edge(E, B),
+     Edge(C, F), Edge(F, C), Edge(D, F), Edge(F, D), Edge(D, G), Edge(G, D),
+     Edge(E, F), Edge(F, E), Edge(F, G), Edge(G, F)
+  };
+  int weights[] = { 6, 6, 2, 2, 1, 1, 3, 3, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2 };
+  
+  int num_arcs = sizeof(edge_array) / sizeof(Edge);
+  
+  graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
+  
+  property_map<graph_t, edge_weight_t>::type weightmap = get(edge_weight, g);
+  
+  vector<vertex_descriptor> p(num_vertices(g));
+  vector<int> d(num_vertices(g));
+
+  // Is this the start? Let's find out
+  vertex_descriptor s = vertex(A, g);
+  dijkstra_shortest_paths(g, s, predecessor_map(&p[0]).distance_map(&d[0]));
+  output_dot("figs/kmb1.dot", g, d, p, weightmap, name);
+  vertex_descriptor t = vertex(E, g);
+  dijkstra_shortest_paths(g, t, predecessor_map(&p[0]).distance_map(&d[0]));
+  output_dot("figs/kmb2.dot", g, d, p, weightmap, name);
+  vertex_descriptor u = vertex(G, g);
+  dijkstra_shortest_paths(g, u, predecessor_map(&p[0]).distance_map(&d[0]));
+  output_dot("figs/kmb3.dot", g, d, p, weightmap, name);
+  
   return EXIT_SUCCESS;
 }

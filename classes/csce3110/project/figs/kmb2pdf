@@ -1,0 +1,7 @@
+#!/bin/sh
+for file in kmb*.dot
+do
+dot -Tps $file > $file.ps
+ps2pdf $file.ps
+rm $file.ps
+done
