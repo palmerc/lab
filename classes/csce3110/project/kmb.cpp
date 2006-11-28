@@ -95,7 +95,8 @@ int main(int, char *[])
   cout << " to E " << d[4] << endl;
   output_dot("figs/kmb3.dot", g, d, p, weightmap, name);
   
-  // Calculate the MST 
+  
+  // Construct the new graph
   const int mst_num_nodes = 3;
   Edge mst_edge_array[] = { Edge(A, E), Edge(A, G), Edge(E, G)
   };
@@ -105,6 +106,7 @@ int main(int, char *[])
   property_map < graph_t, edge_weight_t >::type weight = get(edge_weight, mst_g);
   vector < edge_descriptor > spanning_tree;
 
+  // Calculate the MST
   kruskal_minimum_spanning_tree(mst_g, back_inserter(spanning_tree));
   
   // MST Printing begins here
