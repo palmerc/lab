@@ -1,0 +1,14 @@
+graph G
+{
+  node [ shape = circle ];
+  A -- B [label="6"]
+  A -- C [label="2"]
+  A -- D [label="1"]
+  B -- C [label="3"]
+  B -- E [label="1"]
+  C -- F [label="1"]
+  D -- F [label="3"]
+  D -- G [label="3"]
+  E -- F [label="3"]
+  F -- G [label="2"]
+}
