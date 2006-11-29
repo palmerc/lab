@@ -1,7 +1,7 @@
 all: kmb
 
 %: %.cpp
-	gcc -lboost_regex -o $@ $< -g -Wall
+	c++ -o $@ $< -g -Wall -ansi -pedantic
 
 clean:
 	rm -f *.o kmb
