@@ -40,7 +40,8 @@ function do_header() {
                <li><a href="<? echo $ptr; ?>">Home</a></li>
                <li><a href="<? echo $ptr; ?>vote/">Vote</a></li>
                <li><a href="http://students.csci.unt.edu/~wng0001/Website/lonestarwebsiteform1.html">Create a Report</a></li>
-               <li><a href="<? echo $ptr; ?>calendar/">View Calendar</a></li>
+               <li><a href="<? echo $ptr; ?>calendar/">Calendar</a></li>
+               <li><a href="<? echo $ptr; ?>repository.php">Repository</a></li>
                <li><a href="<? echo $ptr; ?>edit.php?email=<?php echo $user_id; ?>">Update Personal Information</a></li>
                <?if ($admin == 1) echo "<li><a href=\"{$ptr}manage.php\">Manage Users</a></li>"; ?>
                <li><a href="logout.php">Log Out</a></li>
