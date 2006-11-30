@@ -1,6 +1,21 @@
 <?php
+require('database.php');
+require('user.php');
+session_start();
+if (!$_SESSION['email']) 
+   header('location:login.php');
+$user_id = $_SESSION['email'];
+$first = $_SESSION['first_name'];
+
+database_connect();
+$result = retrieve_user($user_id);
+$admin = $result[0]['admin'];
+database_disconnect();
+
 $title = "2006-07 Monthly Committee Report";
+$leftbar = "leftbar.php";
 require('stc-template.php');
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
@@ -55,18 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 ?>
 
-<h1>2006-07 Monthly Committee Report</h1>
+<h1>Monthly Committee Report</h1>
 <p>You must complete and submit at least the first four items on this sheet every month.</p>
 
 <form id="form1" action="<?echo $_SERVER['PHP_SELF'] ?>" method="post">
-   <label>Your name:
-   <select name="select">
-      <option value="NULL">Select Your Name</option>
-      <option value="Name 1">Name 1</option>
-      <option value="Name 2">Name 2</option>
-      <option value="Name 3">Name 3</option>
-   </select>
-   </label>
    
    <p>
    <label>Your committee:

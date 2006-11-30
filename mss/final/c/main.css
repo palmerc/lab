@@ -1,135 +1,114 @@
-html, body {
-   height: 100%;
-}
-/* The entire page container */
-#container {
-   width: 770px;
-   height: 100%;
-   font-size: 11px;
-   color: #333;
-   text-align: left;
-   margin: 0 auto;
-}
-html>body #container {
-   height: auto;
-   min-height: 100%;
+body,
+html {
+	margin: 2px 0;
+	padding:0;
+	color:#000;
+	background: #669 url(../i/graygradient2.jpg) repeat-x top left;
 }
 body {
-   font-family: Geneva, Arial, Helvetica, sans-serif;
-   background: #669  url(../i/graygradient2.jpg) repeat-x top left;
-   text-align: center;
+	min-width:770px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 1em;
 }
-/* Header contains topbanner and topnav */
+#container {
+	background:#ddd;
+	margin:0 auto;
+	width:770px;
+}
 #header {
-   float:left;
-   clear: left;
-   margin: 0;
-   padding: 0;
-      width: 100%; 
+	background:#ddd;
+}
+#header h1 {
+	padding:5px;
+	margin:0;
+}
+#topnav {
+	background: #ccc  url(../i/graybuttoncopy.jpg) repeat-x top left;
+	padding:5px;
 }
 #topbanner {
-   float: left;
-  border-bottom-style: solid;
-  border-bottom-color:#FFCC00;
-  border-bottom-width: thin; 
+	border-bottom-style: solid;
+	border-bottom-color: #ffcc00;
+	border-bottom-width: 3px; 
 }
-#topbar a {
-     text-decoration: none;
-  color: #333333;
-  }
-#topnav {
-   float:left;
-   background: #CCC  url(../i/graybuttoncopy.jpg) repeat-x top left;
-   width: 100%;
-  border-top-color: #FFCC00;
-  border-top-style: solid;
-  border-top-width: medium;
+#topnav ul{
+	margin:0;
+	padding:0 0 0 2em;
+	list-style:none;
 }
-#topnav ul {
-   list-style: none;
+#topnav li{
+	display:inline;
+	margin:0;
+	padding: 0 1em 0.5em 1em;
+	color: #332266;
 }
-#topnav li {
-   float: left;
-   padding: 0 1em 0.5em 1em;
-   color: #332266;
-   
+#topnav a {
+	text-decoration: none;
+	color: #333;
 }
-#main {
-   float: left;
-}
-/* Leftbar Calendar */
-#leftbar {
-float: left;
-   margin: 0;
-  padding: 0;
-   width: 168px;
-   height: 600px;
-  background-color: #DDD;
-  border-color: #FFCC00;
-  border-style: solid;
-  border-width: thin;
-  border-right: none;
-
-  
-}
-#leftbar h1 {
-   margin: 2em 0 1em .75em;
-   font-size: 120%;
-   color: #332266;
-}
-#leftbar dl {
-   padding:  0;
-margin: 0;
-color: #CC0000;
-}
-#leftbar dt {
-   padding: 0 0 0 1em;
-   margin: 0;
-   clear: none;
-   } 
-#leftbar dd {
-float: left;
-padding: 0;
-margin: 0;
-}
-#leftbar ul li {
-   padding: 0 0.5em 0.3em 0;
-   margin: 0;
-   list-style-image:url(../i/triangle.gif);
-   color: #333;
-   }
-#leftbar a {
-   color: #333;
-   }
-/* Rightbar Text */ 
 #rightbar {
-   float: right;
-   padding: 2em;
-   width: 556px;
-   _width: 554px;
-   height: 556px;
-   background-color:#FFF;
-   border-color: #FFCC00;
-  border-style: solid;
-  border-width: thin;
-  border-left: none;
-
+	background:#fff;
+	float:right;
+	width:600px;
+	min-height: 700px;
+	border-color: #ffcc00;
+	border-style: solid;
+	border-width: 1px 0 0 0;
+}
+#rightbar h1, #rightbar h2, #rightbar p {
+	padding:0 10px;
 }
 #rightbar h1 {
    font-size: 120%;
    color: #332266;
 }
+#leftbar {
+	background:#ddd;
+	float:left;
+	width:168px;
+	border-color: #ffcc00;
+	border-style: solid;
+	border-width: 1px 0 0 0;
+}
+#leftbar dl {
+	padding: 1em 0 0 0;
+	margin: 0;
+}
+#leftbar dt {
+	padding: 1em 0 0 1em;
+	margin: 0;
+	clear: none;
+} 
+#leftbar dd {
+	padding:0;
+	margin: 0;
+}
+#leftbar ul {
+	margin-bottom:0;
+}
+#leftbar ul li {
+   padding: 0 0.5em 0.3em 0;
+   margin: 0;
+   list-style-image: url(../i/triangle.gif);
+   color: #333;
+}
+#leftbar a {
+   color: #333;
+}
+#leftbar h3, #leftbar p {
+	padding:0 10px 0 0;
+}
 #footer {
-   float: left;
-   clear: both;
-    background: #003  url(../i/purplebottom.jpg) repeat-x top left;
-   border-top-color:#FFCC00;
-   border-top-width: medium;
-   border-top-style: solid;
-  height: 40px;
-  width: 100%;
-  color: #FFCC00;
+	color: #ffcc00;
+	background: #003 url(../i/purplebottom.jpg) repeat-x top left;
+	clear:both;
+	border-color: #ffcc00;
+	border-style: solid;
+	border-width: 3px 0 0 0;
 }
 #footer p {
-      padding-left: 2em;
+	margin: 0;
+	padding: 1em 0 1em 2em;
+}
 }

@@ -10,12 +10,10 @@ $first = $_SESSION['first_name'];
 
 database_connect();
 $result = retrieve_user($user_id);
-$admin = $result[0]['admin'];
 database_disconnect();
 
 require('../stc-template.php');
-if ($result[0]['admin'] == 1)
-{
+
 ?>
    <a href="create.php">Create Event</a>
    <table>
@@ -45,9 +43,3 @@ if ($result[0]['admin'] == 1)
    database_disconnect();
 ?>
    </table>
-<?php
-}
-else
-{
-echo '<p>Access Denied</p>';
-}

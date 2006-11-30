@@ -30,30 +30,29 @@ function do_header() {
       <link rel="icon" href="<?php echo "{$ptr}i/favicon.ico"; ?>" type="image/vnd.microsoft.icon" />
    </head>
    <body>
-	<div id="container">
-		<div id="header"> 
-         <div id="topbanner">
-			<img src="<?php echo "{$ptr}i/purpletopwtextslim.gif"?>" alt="The Lone Star Community" width="770" height="90"/>
-         </div>
-         <div id="topnav">
+      <div id="container">
+	<div id="header"> 
+           <div id="topbanner">
+         <img src="<?php echo "{$ptr}i/purpletopwtextslim.gif"?>" alt="The Lone Star Community" width="770" height="90"/>
+           </div>
+           <div id="topnav">
             <ul id="topbar">
                <li><a href="<? echo $ptr; ?>">Home</a></li>
                <li><a href="<? echo $ptr; ?>vote/">Vote</a></li>
-               <li><a href="http://students.csci.unt.edu/~wng0001/Website/lonestarwebsiteform1.html">Create a Report</a></li>
+               <li><a href="<? echo $ptr; ?>report.php">Create a Report</a></li>
                <li><a href="<? echo $ptr; ?>calendar/">Calendar</a></li>
                <li><a href="<? echo $ptr; ?>repository.php">Repository</a></li>
                <li><a href="<? echo $ptr; ?>edit.php?email=<?php echo $user_id; ?>">Update Personal Information</a></li>
                <?if ($admin == 1) echo "<li><a href=\"{$ptr}manage.php\">Manage Users</a></li>"; ?>
-               <li><a href="logout.php">Log Out</a></li>
+               <li><a href="<? echo $ptr; ?>logout.php">Log Out</a></li>
             </ul>
+           </div>
          </div>
-      </div>
-		<div id="main">
 <? if (!$calendar) { ?>
-         <div id="leftbar">
+           <div id="leftbar">
 <?php if (file_exists("{$leftbar}")) require("{$leftbar}"); ?>
-         </div>
-         <div id="rightbar">
+           </div>
+           <div id="rightbar">
 <?php
    }
    else
@@ -71,7 +70,6 @@ function do_footer($buf)
 {
    return $buf.'
          </div>
-      </div>
       <div id="footer">
 	  	<p>Lone Star Community, lonestar@stc.org</p>
       </div>

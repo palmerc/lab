@@ -14,6 +14,7 @@ $admin = $result[0]['admin'];
 $results = vote_results();
 database_disconnect();
 $title = "Lone Star Community - Vote Tally";
+$leftbar = "../leftbar.php";
 require('../stc-template.php');
 ?>
 <h1>Vote Tally</h1>
@@ -25,15 +26,17 @@ require('../stc-template.php');
 if ($admin)
 {
    foreach ($results as $v)
+   {
       if ($v['vote_value'] == 0)
          $voted = "Yes";
       else
          $voted = "No";
-   echo "
-   <tr>
-      <td>{$v['user']}</td><td>{$v['vote_date']}</td><td>{$voted}</td>
-   </tr>
-   ";
+      echo "
+      <tr>
+         <td>{$v['user']}</td><td>{$v['vote_date']}</td><td>{$voted}</td>
+      </tr>
+      ";
+   }
 }
 ?>
 </table>

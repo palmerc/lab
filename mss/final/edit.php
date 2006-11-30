@@ -9,7 +9,6 @@ $first = $_SESSION['first_name'];
 
 database_connect();
 $result = retrieve_user($user_id);
-$admin = $result[0]['admin'];
 database_disconnect();
 
    if ($_SERVER['REQUEST_METHOD'] == "POST")

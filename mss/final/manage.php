@@ -17,7 +17,9 @@ require('stc-template.php');
 if ($result[0]['admin'] == 1)
 {
 ?>
+<p>
    <a href="create.php">Create User</a>
+</p>
    <table>
       <tr>
          <th>Email</th><th>First</th><th>Last</th><th>Admin</th><th>Delete</th>
