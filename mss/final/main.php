@@ -16,7 +16,7 @@ database_disconnect();
    $leftbar = "leftbar.php";
    require("stc-template.php");
 ?>
-<p>Hello, <?php echo $first; ?>! </p>
+<p>Hello, <?php echo $first; ?>!</p>
 
 <h1>Lone Star Community Home</h1>
 <p>The Society for Technical Communication (STC) is the world's largest 
