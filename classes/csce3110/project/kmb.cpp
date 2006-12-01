@@ -102,12 +102,12 @@ int main(int, char *[])
             Vertex v = cur;
 
             // PETE Here is a core dump!!
-            if (path_map.find([E(u, v)]) == path_map.end())
-               path_map[E(u, v)] = new list<Vertex>;
             while (!path_stack.empty())
             {
                v = path_stack.top();
                cout << v << " ";
+               if (path_map.find(E(u, v)) == path_map.end())
+                  path_map[E(u, v)] = new list<Vertex>;
                path_map[E(u, v)]->push_back(Vertex(v));
                path_stack.pop();
             }
@@ -153,7 +153,7 @@ int main(int, char *[])
    {
       int u = source(*ei, mst_g);
       int v = target(*ei, mst_g);
-      int distance = weight[*ei]
+      int distance = weight[*ei];
       // Construct a graph using these to / from points and grab the paths out
       // of path_map 
       //for final_path[E(u,v)]
