@@ -1,0 +1,79 @@
+\documentclass[12pt]{article}
+\usepackage[pdftex]{graphicx}
+\title{Data Structures Final Project}
+\author{Cameron Lowell Palmer \and Kristina Ratliff \and Tyler Chamberlain \and Brian Stair}
+%\date{}
+
+\begin{document}
+\maketitle
+\pagebreak
+\begin{raggedright}
+
+\section*{Introduction}
+The problem we were presented with in this project is a difficult one. In fact it
+is characterized as a Steiner tree problem and they are NP-Complete. We discovered
+in a paper called A Fast Algorithm for Steiner Trees\cite{ks:kmb} a solution that
+was implementable and uses algorithms that we studied in the Data Structures course. 
+The algorithm is called the KMB algorithm after the initials of the authors. KMB
+requires an undirected graph but remains highly useful in solving multicasting 
+problems in a reasoable period of time.\\*[1Em]
+
+\section*{Running Time}
+KMB is a heuristic algorithm for finding Steiner trees with a worst case time
+complexity of $O(|S||V|^{2})$. It is guaranteed to yield a tree that spans $S$ with a
+total distance on its edges no more than $2(1 - \frac{1}{l})$ times that of the optimal
+tree, where $l$ is the number of leaves in the optimal tree. The paper Multicasting
+for High-Bandwidth Delay-Sensitive Multimedia Applications\cite{ks:kpp} put the
+running time at $O(n^{3})$ to find the the shortest paths, and $O(n^{2} \log n)$ for
+determining the tree where $n$ is the number of nodes in the graph.\\*[1Em]
+
+\section*{KMB Algorithm Steps}
+The algorithm can be broken down into the following steps:
+\begin{enumerate}
+\item Perform Dijkstra's shortest path algorithm on each of the nodes to the other nodes.
+\item Using the shortest path information between the starting and ending points create a new graph with just these points and the distance between them.
+\item Perform a MST (Kruskal's is used in our implementation) reduction on the graph generated in step two.
+\item Reduce the original graph to just the links left by step three.
+\item Reduce the graph by MST again to arbitrarily eliminate duplicate links.
+\item Construct a steiner tree by deleting any left over links (not Steiner points).
+\end{enumerate}
+\includegraphics{kmb.png}
+
+\section*{Implementation}
+We implemented the program using the Boost (http://www.boost.org/) C++ graph 
+libraries which are currently on a path to be included in the C++ STL. The Boost
+libraries are of high quality and highly regarded in the C++ community. The KMB 
+algorithm is not implemented in the Boost libraries but Dijkstra's and many 
+others are implemented in a very general way. So rather than use our own 
+implementations of Kruskal's algorithm and Dijkstra's shortest path algorithm 
+these guarantee a reasoable running time. Our KMB implementation may take a 
+little longer than necessary because we could do a better job of determining 
+when Dijkstra's is finished. Currently if there are $n$ start and destination 
+nodes we run Dijkstra's $n$ times. In the case of our basic graph this includes
+one extra run, so larger graphs will have unnecessary computations.\\*[1Em]
+
+The Boost C++ libraries input and output Graphviz natively which is portable 
+across platforms and can easily be converted to PDF. Our output is in PDF form.\\*[1Em]
+
+The exciting thing about this algorithm is how it reduces the graph to a managable
+size. The hardest part of determining a shortest path to several nodes is avoiding
+looking at every node in the graph. In this algorithm the combination of two well
+known algorithms yields a good result. We had initially considered several of 
+algorithms of our own devising but we always ran into the same problem of high
+running times because we were brute forcing the graph. We spent a lot of time
+considering how to reduce the graph in an efficient manner.\\*[1Em]
+
+\section*{Conclusion}
+The beauty of the KMB graph is its ability to reduce a tough problem using two
+well know algorithms, to achieve a close approximation of a Steiner tree. This 
+project really expanded our knowledge of C++ and graph algorithms and we hope our
+implementation is usable to further explore the KMB algorithm with any undirected
+graph.
+
+\end{raggedright}
+\nocite{ks:pzh}
+\bibliography{report}
+\bibliographystyle{plain}
+\end{document}
+
+
