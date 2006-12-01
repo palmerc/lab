@@ -1,3 +1,12 @@
+/*
+Cameron L Palmer
+Dijkstra's algorithm
+
+Instructions:
+To compile: g++ -g -o main main.cpp
+To run: ./main <orig.graph>
+*/
+
 #include <cstdlib>
 #include <climits>
 #include <iostream>
