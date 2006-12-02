@@ -4,51 +4,65 @@ using namespace std;
 
 typedef int pType;
 
-struct BinaryNode {
-   BinaryNode *parent;
-   BinaryNode *leftChild;
-   BinaryNode *rightChild;
-   pType payload;
-   BinaryNode(pType item = 0) 
-   {
-      parent = NULL;
-      leftChild = NULL;
-      rightChild = NULL;
-      payload = item;
-   }
+class BinaryTree
+{
+   public:
+      BinaryTree();
+      insert(ptype);
+   
+   private:
+      BinaryNode *root;
+   
+      struct BinaryNode 
+      {
+         BinaryNode *parent;
+         BinaryNode *leftChild;
+         BinaryNode *rightChild;
+         pType data;
+            
+         BinaryNode(pType item = 0) 
+         {
+            parent = NULL;
+            leftChild = NULL;
+            rightChild = NULL;
+            data = item;
+         }
+      }
 };
 
-void insert(BinaryNode *&root, BinaryNode *&parent, pType newPayload)
+void BinaryTree::insert(pType newData)
 {
-   if (root == NULL)
+   BinaryNode *x = root;
+   y = NULL;
+   while (x != NULL)
    {
-      root = new BinaryNode(newPayload);
-      if (parent != NULL)
-         root->parent = parent;
-      return;
+      y = x;
+      if (newData < x->data)
+         x = x->left;
+      else
+         x = x->right;
    }
-   else if (newPayload < root->payload)
-   {
-      insert(root->leftChild, root, newPayload);
-   }
+   z->parent = y;
+   if (y == NULL)
+      root = new BinaryNode(newData);
+   else if (newData < y->data)
+      y->left = z;
    else
-   {
-      insert(root->rightChild, root, newPayload);
-   }
+      y->right = z;      
 }
 
-BinaryNode *find(BinaryNode *&root, pType payload)
+BinaryNode *find(BinaryNode *&root, pType data)
 {
-   if (root->payload == payload)
+   if (root->data == data)
    {
       return root;
    }
    else
    {
-      if (root->payload < payload)
-         find(root->rightChild, payload);
-      else if (root->payload > payload)
-         find(root->leftChild, payload);
+      if (root->data < data)
+         find(root->rightChild, data);
+      else if (root->data > data)
+         find(root->leftChild, data);
    }
 }
 
@@ -70,7 +84,7 @@ void remove(BinaryNode *&root)
       temp = root->leftChild;
       while (temp->rightChild != NULL)
          temp = temp->rightChild;
-      root->payload = temp->payload;
+      root->data = temp->data;
       remove(temp);
    }
 }
@@ -81,7 +95,7 @@ void inOrderPrint(BinaryNode *root)
       cout << "This tree is empty" << endl;
    if (root->leftChild != NULL)
       inOrderPrint(root->leftChild);
-   cout << root->payload << endl;
+   cout << root->data << endl;
    if (root->rightChild != NULL)
       inOrderPrint(root->rightChild);
 }
@@ -89,7 +103,7 @@ void inOrderPrint(BinaryNode *root)
 void preOrderPrint(BinaryNode *root)
 {
    if (root != NULL)
-      cout << root->payload << endl;
+      cout << root->data << endl;
    else
       cout << "This tree is empty" << endl;
    if (root->leftChild != NULL)
@@ -106,14 +120,14 @@ void postOrderPrint(BinaryNode *root)
       postOrderPrint(root->leftChild);
    if (root->rightChild != NULL)
       postOrderPrint(root->rightChild);
-   cout << root->payload << endl;
+   cout << root->data << endl;
 }
 
 void printLevel(BinaryNode *root)
 {
    if (root != NULL)
    {
-      cout << root->payload << " ";
+      cout << root->data << " ";
       printLevel(root->leftChild);
       printLevel(root->rightChild);
    }
