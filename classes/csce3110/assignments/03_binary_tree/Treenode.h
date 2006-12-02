@@ -13,11 +13,11 @@ class TreeNode
    friend class Tree< NODETYPE >;
 public:
    // constructor
-   TreeNode( TreeNode< NODETYPE > **parent, const NODETYPE &d )
-   :     parentPtr( parent ), // pointer to left subtree
-         leftPtr( 0 ), // pointer to left subtree
-         data( d ), // tree node data
-         rightPtr( 0 ) // pointer to right substree
+   TreeNode( TreeNode< NODETYPE > *parent, const NODETYPE &d )
+      : parentPtr ( parent ),
+        leftPtr( 0 ), // pointer to left subtree
+        data( d ), // tree node data
+        rightPtr( 0 ) // pointer to right substree
    { 
       // empty body 
    } // end TreeNode constructor
@@ -28,7 +28,7 @@ public:
       return data; 
    } // end getData function
 private:
-   TreeNode< NODETYPE > *parentPtr; // pointer to left subtree
+   TreeNode< NODETYPE > *parentPtr; // pointer to parent of subtree
    TreeNode< NODETYPE > *leftPtr; // pointer to left subtree
    NODETYPE data;
    TreeNode< NODETYPE > *rightPtr; // pointer to right subtree
