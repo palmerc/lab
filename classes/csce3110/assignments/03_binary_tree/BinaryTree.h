@@ -8,6 +8,7 @@ class BinaryTree
 {
    public:
       BinaryTree();
+      ~BinaryTree();
       void insert(pType);
       void remove(pType);
       void preOrder();
@@ -32,6 +33,7 @@ class BinaryTree
       };
       
       BinaryNode *rootPtr;
+      int nodeCount;
       
       void treeInsert(BinaryNode*);
       BinaryNode* treeDelete(BinaryNode*);
@@ -49,10 +51,16 @@ BinaryTree::BinaryTree()
 {
    rootPtr = 0;
 }
+BinaryTree::~BinaryTree()
+{
+   while (nodeCount > 0)
+      remove(rootPtr->data);
+}
 void BinaryTree::insert(pType data)
 {
    BinaryNode* z = new BinaryNode(data);
    treeInsert(z);
+   nodeCount++;
 }
 void BinaryTree::treeInsert(BinaryNode* z)
 {
@@ -78,10 +86,14 @@ void BinaryTree::remove(pType k)
 {
    BinaryNode* x = treeSearch(rootPtr, k);
    if (x != 0)
-      treeDelete(x);
+      x = treeDelete(x);
+   delete x;
+   nodeCount--;
 }
-BinaryNode* BinaryTree::treeDelete(BinaryNode *z)
+BinaryTree::BinaryNode* BinaryTree::treeDelete(BinaryNode* z)
 {
+   BinaryNode* x = 0;
+   BinaryNode* y = 0;
    if (z->left == 0 || z->right == 0)
       y = z;
    else
@@ -104,10 +116,9 @@ BinaryNode* BinaryTree::treeDelete(BinaryNode *z)
    
    if (y != z)
       z->data = y->data;
-   
    return y;
 }
-BinaryNode* BinaryTree::treeSuccessor(BinaryNode* x)
+BinaryTree::BinaryNode* BinaryTree::treeSuccessor(BinaryNode* x)
 {
    if (x->right != 0)
       return treeMin(x->right);
@@ -120,19 +131,19 @@ BinaryNode* BinaryTree::treeSuccessor(BinaryNode* x)
    }
    return y;
 }
-BinaryNode* BinaryTree::treeMin(BinaryNode* x)
+BinaryTree::BinaryNode* BinaryTree::treeMin(BinaryNode* x)
 {
    while (x->left != 0)
       x = x->left;
    return x;
 }
-BinaryNode* BinaryTree::treeMax(BinaryNode* x)
+BinaryTree::BinaryNode* BinaryTree::treeMax(BinaryNode* x)
 {
    while (x->right != 0)
       x = x->right;
    return x;
 }
-BinaryNode* BinaryTree::treeSearch(BinaryNode *x, pType k)
+BinaryTree::BinaryNode* BinaryTree::treeSearch(BinaryNode *x, pType k)
 {
    if (x == 0 || k == x->data)
       return x;
@@ -141,7 +152,7 @@ BinaryNode* BinaryTree::treeSearch(BinaryNode *x, pType k)
    else
       return treeSearch(x->right, k);
 }
-BinaryNode* BinaryTree::iterTreeSearch(BinaryNode *x, pType k)
+BinaryTree::BinaryNode* BinaryTree::iterTreeSearch(BinaryNode *x, pType k)
 {
    while (x != 0 && k != x->data)
    {

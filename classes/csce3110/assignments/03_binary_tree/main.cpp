@@ -28,7 +28,6 @@ int main()
    intTree.insert( 5 );  
    intTree.insert( 4 );  
    intTree.insert( 6 );
-   
    cout << "Preorder Output" << endl;
    intTree.preOrder();
    cout << "Inorder Output" << endl;
@@ -44,6 +43,13 @@ int main()
    intTree.remove( 10 );
    intTree.remove( 7 );
    intTree.remove( 2 );
+   cout << "Let's check in on the deletion procees" << endl;
+   cout << "Preorder Output" << endl;
+   intTree.preOrder();
+   cout << "Inorder Output" << endl;
+   intTree.inOrder();
+   cout << "Postorder Output" << endl;
+   intTree.postOrder();
    intTree.remove( 3 );
    intTree.remove( 4 );
    intTree.remove( 5 );
