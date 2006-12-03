@@ -63,57 +63,65 @@ int main(int, char *[])
    map<E, int> path_info;
    property_map<Graph, edge_weight_t>::type weightmap = get(edge_weight, g);
    
-   set<Vertex> starts;
+   set<int> starts;
    starts.insert(0);
    starts.insert(4);
    starts.insert(6);
    
    vector<Vertex> p(num_vertices(g));
    vector<int> d(num_vertices(g));
-   map<E, list<Vertex>*> path_map;
+   map<E, list<int>*> path_map;
    stack<int> path_stack;
    // Calculate Dijkstra's
-   for (set<Vertex>::iterator i = starts.begin(); i != starts.end(); ++i)
+   // For each starting vertex run Dijkstra's once
+   for (set<int>::iterator i = starts.begin(); i != starts.end(); ++i)
    {
-      Vertex s = vertex(*i, g);
+      int s = vertex(*i, g); // This chnages the starting node
       dijkstra_shortest_paths(g, s, predecessor_map(&p[0]).distance_map(&d[0]));
-      // Creating a target tracing back to start
       
-      for (set<Vertex>::iterator q = starts.begin(); q != starts.end(); ++q)
+      // Creating a target tracing back to start
+      // Iterate through the set of possible starts and label them q
+      for (set<int>::iterator q = starts.begin(); q != starts.end(); ++q)
       {
-         Vertex cur = 0;
-         if (*q != s)
+         int cur, end; // current will be reassinged from the end vertex back to the start
+         if (*q != s) // Avoid the start. No point in going to myself
          {
             cur = *q;
-            path_stack.push(cur);    
-            while (cur != s)
+            end = cur;
+            path_stack.push(cur); // push the ending point on the stack
+            while (cur != s) // keep pushing previous nodes until you reach the start
             {
                cur = p[cur];
-               path_stack.push(cur);               
+               path_stack.push(cur);
             }
          }
-         // Reverse the order and then store for reuse later
+         
+         // Now that the order has been pushed onto the stack we can and then store for reuse later
          // If I thought this through it would probably not smack of a bad idea.
          if (!path_stack.empty())
          {
-            cout << "Path" << endl;
-            cout << "Size of stack " << path_stack.size() << endl;
-            Vertex u = path_stack.top();
-            Vertex v = cur;
-
-            // PETE Here is a core dump!!
+            int u = path_stack.top();
+            int v = end;
             while (!path_stack.empty())
             {
-               v = path_stack.top();
-               cout << v << " ";
+               cur = path_stack.top();
+               
                if (path_map.find(E(u, v)) == path_map.end())
-                  path_map[E(u, v)] = new list<Vertex>;
-               path_map[E(u, v)]->push_back(Vertex(v));
+               {
+                  cout << "new list for E(" << u << ", " << v << ")" << endl;
+                  path_map[E(u, v)] = new list<int>;
+               }
+               path_map[E(u, v)]->push_back(Vertex(cur));
                path_stack.pop();
             }
+            cout << "Steps ";
+            for (list<int>::iterator i = path_map[E(u, v)]->begin(); i != path_map[E(u, v)]->end(); ++i)
+               cout << *i << " ";
+            cout << endl << endl;
          }
       }  
       
+      // Create path_info which is a map of edges and their distance.
       graph_traits <Graph>::vertex_iterator vi, vend;
       for (tie(vi, vend) = vertices(g); vi != vend; ++vi)
       {
@@ -149,12 +157,16 @@ int main(int, char *[])
    // MST Printing begins here
 
    cout << "Print the edges in the MST:" << endl;
-   for (vector <Edge>::iterator ei = spanning_tree.begin(); ei != spanning_tree.end(); ++ei)
+   for (vector<Edge>::iterator ei = spanning_tree.begin(); ei != spanning_tree.end(); ++ei)
    {
       int u = source(*ei, mst_g);
       int v = target(*ei, mst_g);
-      int distance = weight[*ei];
-      // Construct a graph using these to / from points and grab the paths out
+      //int distance = weight[*ei];
+      cout << "Edge(" << u << ", " << v << ")" << endl;
+      cout << "Steps ";
+      for (list<int>::iterator i = path_map[E(u, v)]->begin(); i != path_map[E(u, v)]->end(); ++i)
+         cout << *i << " ";
+      cout << endl << endl;
       // of path_map 
       //for final_path[E(u,v)]
    }
