@@ -18,32 +18,9 @@ typedef graph_traits <Graph>::vertex_descriptor Vertex;
 typedef graph_traits <Graph>::edge_descriptor Edge;
 typedef pair<int, int> E;
 
-void output_dot(string filename, Graph g, vector<int> d, vector<Vertex> p, property_map<Graph, edge_weight_t>::type weightmap)
-{
-   ofstream dot_file(filename.c_str());
-
-   dot_file << "graph G {\n"
-      << "  edge[style=\"bold\"]\n" << "  node[shape=\"circle\"]\n";
-
-   graph_traits <Graph>::edge_iterator ei, ei_end;
-   for (tie(ei, ei_end) = edges(g); ei != ei_end; ++ei)
-   {
-      graph_traits <Graph>::edge_descriptor e = *ei;
-      graph_traits <Graph>::vertex_descriptor u = source(e, g), v = target(e, g);
-      dot_file << u << " -- " << v
-         << " [label=\"" << get(weightmap, e) << "\"";
-      cout << u << " " << v << " " << p[v] << endl;
-      if (p[v] == u)
-         dot_file << ", color=\"black\"";
-      else
-         dot_file << ", color=\"grey\"";
-      dot_file << "]\n";
-   }
-   dot_file << "}";
-}
-
 int main(int, char *[])
 {
+   string filename = "figs/kmb.dot";
    const int num_nodes = 5;
    E edge_array[] = {
       E(0, 1), 
@@ -156,49 +133,50 @@ int main(int, char *[])
 
    // MST Printing begins here
 
-   cout << "Print the edges in the MST:" << endl;
+   map<E, int> kmb_edges_map;
    for (vector<Edge>::iterator ei = spanning_tree.begin(); ei != spanning_tree.end(); ++ei)
    {
       int u = source(*ei, mst_g);
       int v = target(*ei, mst_g);
-      //int distance = weight[*ei];
+      int distance = weight[*ei];
       cout << "Edge(" << u << ", " << v << ")" << endl;
       cout << "Steps ";
+      int start = u, finish;
+      
       for (list<int>::iterator i = path_map[E(u, v)]->begin(); i != path_map[E(u, v)]->end(); ++i)
-         cout << *i << " ";
+      {
+         finish = *i;
+         if (finish != start) 
+            kmb_edges_map[E(start, finish)] = distance;
+         start = finish;
+      }
+         
       cout << endl << endl;
-      // of path_map 
-      //for final_path[E(u,v)]
    }
    
    // Run MST against this graph one more time
    
    // Generate the DOT file
-   
-   
-   
-   
-/*
-   ofstream fout("figs/kmb4.dot");
-   fout << "graph A {\n"
-      << " rankdir=LR\n"
-      << " size=\"3,3\"\n"
-      << " ratio=\"filled\"\n"
-      << " edge[style=\"bold\"]\n" << " node[shape=\"circle\"]\n";
-   graph_traits<graph_t>::edge_iterator eiter, eiter_end;
-   for (tie(eiter, eiter_end) = edges(mst_g); eiter != eiter_end; ++eiter) {
-      graph_traits < graph_t >::vertex_descriptor 
-      u = source(*eiter, mst_g), v = target(*eiter, mst_g);
-    fout << name[u] << " -- " << name[v];
-    if (find(spanning_tree.begin(), spanning_tree.end(), *eiter)
-        != spanning_tree.end())
-      fout << "[color=\"black\", label=\"" << get(edge_weight, mst_g, *eiter)
-           << "\"];\n";
-    else
-      fout << "[color=\"gray\", label=\"" << get(edge_weight, mst_g, *eiter)
-           << "\"];\n";
-  }
-  fout << "}\n";
-*/
-  return EXIT_SUCCESS;
+   ofstream dot_file(filename.c_str());
+
+   dot_file << "graph G {\n"
+      << "  edge[style=\"bold\"]\n" << "  node[shape=\"circle\"]\n";
+
+   graph_traits <Graph>::edge_iterator ei, ei_end;
+   for (tie(ei, ei_end) = edges(g); ei != ei_end; ++ei)
+   {
+      graph_traits <Graph>::edge_descriptor e = *ei;
+      graph_traits <Graph>::vertex_descriptor u = source(e, g), v = target(e, g);
+      dot_file << u << " -- " << v
+         << " [label=\"" << get(weightmap, e) << "\"";
+      cout << u << " " << v << " " << p[v] << endl;
+      if (kmb_edges_map.find(E(u, v)) != kmb_edges_map.end())
+         dot_file << ", color=\"black\"";
+      else
+         dot_file << ", color=\"grey\"";
+      dot_file << "]\n";
+   }
+   dot_file << "}";
+  
+   return EXIT_SUCCESS;
 }
