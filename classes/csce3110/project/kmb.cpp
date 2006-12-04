@@ -27,6 +27,12 @@ int main(int argc, char* argv[])
    ifstream in;
    ofstream dot_file;
    
+   if (argc < 2)
+   {
+      cout << "Usage: " << argv[0] << " <input graph> <dot_output file>" << endl << endl;
+      return EXIT_FAILURE;
+   }
+   
    string infile = argv[1];
    string outfile = argv[2];
    in.open(infile.c_str());
