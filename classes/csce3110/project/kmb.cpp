@@ -1,6 +1,7 @@
 #include <boost/config.hpp>
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
 #include <stack>
 
@@ -8,6 +9,8 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/graph/kruskal_min_spanning_tree.hpp>
+#include <boost/regex.hpp>
+#include <boost/lexical_cast.hpp>
 
 using namespace boost;
 using namespace std;
@@ -18,32 +21,75 @@ typedef graph_traits <Graph>::vertex_descriptor Vertex;
 typedef graph_traits <Graph>::edge_descriptor Edge;
 typedef pair<int, int> E;
 
-int main(int, char *[])
+int main(int argc, char* argv[])
 {
-   string filename = "figs/kmb.dot";
-   const int num_nodes = 5;
-   E edge_array[] = {
-      E(0, 1), 
-      E(0, 2), 
-      E(0, 3), 
-      E(1, 2), 
-      E(1, 4), 
-      E(2, 5), 
-      E(3, 5), 
-      E(3, 6),
-      E(4, 5), 
-      E(5, 6)
-   };
-   int weights[] = { 6, 2, 1, 3, 1, 1, 3, 3, 3, 2 };
-   int num_arcs = sizeof(edge_array) / sizeof(E);
-   Graph g(edge_array, edge_array + num_arcs, weights, num_nodes);
+   
+   ifstream in;
+   ofstream dot_file;
+   
+   string infile = argv[1];
+   string outfile = argv[2];
+   in.open(infile.c_str());
+   dot_file.open(outfile.c_str());
+   
+   boost::regex re_nodes("^\\s*n\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_start("^\\s*s\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_dest("^\\s*d\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_vertex("^\\s*v\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::cmatch matches;
+   
+   int nodes = 0;
+   vector<int> weights;
+   set<int> starts;
+   vector<E> edge_array;
+   
+   string str;
+   getline(in, str);
+   while ( in )
+   {
+      if (boost::regex_match(str.c_str(), matches, re_nodes))
+         nodes = boost::lexical_cast<int>(matches[1]);
+      else if (boost::regex_match(str.c_str(), matches, re_start))
+         starts.insert(boost::lexical_cast<int>(matches[1]));
+      else if (boost::regex_match(str.c_str(), matches, re_dest))
+         starts.insert(boost::lexical_cast<int>(matches[1]));
+      else if (boost::regex_match(str.c_str(), matches, re_vertex))
+      {
+         int u = boost::lexical_cast<int>(matches[1]);
+         int v = boost::lexical_cast<int>(matches[2]);
+         int distance = boost::lexical_cast<int>(matches[3]);
+         // if node doesn't exist, create a linked list and attach the next item
+         edge_array.push_back(E(u, v));
+         weights.push_back(distance);
+         // if it does exist just add the next item and distance to the appropriate node
+      }
+      getline(in, str);
+   }
+   in.close();
+      
+   const int num_nodes = nodes;
+   //E edge_array[] = {
+   //   E(0, 1),
+   //   E(0, 2),
+   //   E(0, 3), 
+   //   E(1, 2), 
+   //   E(1, 4), 
+   //   E(2, 5), 
+   //   E(3, 5), 
+   //   E(3, 6),
+   //   E(4, 5), 
+   //   E(5, 6)
+   //};
+   //int weights[] = { 6, 2, 1, 3, 1, 1, 3, 3, 3, 2 };
+   //int num_arcs = sizeof(edge_array) / sizeof(E);
+   size_t num_arcs = edge_array.size();
+   Graph g(&edge_array[0], &edge_array[0] + num_arcs, &weights[0], num_nodes);
    map<E, int> path_info;
    property_map<Graph, edge_weight_t>::type weightmap = get(edge_weight, g);
    
-   set<int> starts;
-   starts.insert(0);
-   starts.insert(4);
-   starts.insert(6);
+   //starts.insert(0);
+   //starts.insert(4);
+   //starts.insert(6);
    
    vector<Vertex> p(num_vertices(g));
    vector<int> d(num_vertices(g));
@@ -58,9 +104,9 @@ int main(int, char *[])
       
       // Creating a target tracing back to start
       // Iterate through the set of possible starts and label them q
+      int cur, end = 0; // current will be reassinged from the end vertex back to the start
       for (set<int>::iterator q = starts.begin(); q != starts.end(); ++q)
       {
-         int cur, end; // current will be reassinged from the end vertex back to the start
          if (*q != s) // Avoid the start. No point in going to myself
          {
             cur = *q;
@@ -85,16 +131,16 @@ int main(int, char *[])
                
                if (path_map.find(E(u, v)) == path_map.end())
                {
-                  cout << "new list for E(" << u << ", " << v << ")" << endl;
+                  //cout << "new list for E(" << u << ", " << v << ")" << endl;
                   path_map[E(u, v)] = new list<int>;
                }
                path_map[E(u, v)]->push_back(Vertex(cur));
                path_stack.pop();
             }
-            cout << "Steps ";
-            for (list<int>::iterator i = path_map[E(u, v)]->begin(); i != path_map[E(u, v)]->end(); ++i)
-               cout << *i << " ";
-            cout << endl << endl;
+            //cout << "Steps ";
+            //for (list<int>::iterator i = path_map[E(u, v)]->begin(); i != path_map[E(u, v)]->end(); ++i)
+            //   cout << *i << " ";
+            //cout << endl << endl;
          }
       }  
       
@@ -139,8 +185,8 @@ int main(int, char *[])
       int u = source(*ei, mst_g);
       int v = target(*ei, mst_g);
       int distance = weight[*ei];
-      cout << "Edge(" << u << ", " << v << ")" << endl;
-      cout << "Steps ";
+      //cout << "Edge(" << u << ", " << v << ")" << endl;
+      //cout << "Steps ";
       int start = u, finish;
       
       for (list<int>::iterator i = path_map[E(u, v)]->begin(); i != path_map[E(u, v)]->end(); ++i)
@@ -151,14 +197,12 @@ int main(int, char *[])
          start = finish;
       }
          
-      cout << endl << endl;
+      //cout << endl << endl;
    }
    
    // Run MST against this graph one more time
    
    // Generate the DOT file
-   ofstream dot_file(filename.c_str());
-
    dot_file << "graph G {\n"
       << "  edge[style=\"bold\"]\n" << "  node[shape=\"circle\"]\n";
 
@@ -169,7 +213,7 @@ int main(int, char *[])
       graph_traits <Graph>::vertex_descriptor u = source(e, g), v = target(e, g);
       dot_file << u << " -- " << v
          << " [label=\"" << get(weightmap, e) << "\"";
-      cout << u << " " << v << " " << p[v] << endl;
+      //cout << u << " " << v << " " << p[v] << endl;
       if (kmb_edges_map.find(E(u, v)) != kmb_edges_map.end())
          dot_file << ", color=\"black\"";
       else

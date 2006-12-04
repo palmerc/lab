@@ -10,6 +10,9 @@
 #include <iostream>
 #include <fstream>
 
+using namespace std;
+
+
 int
 main()
 {
@@ -36,6 +39,7 @@ main()
   }
 #else
   Graph g(edge_array, edge_array + num_edges, weights, num_nodes);
+  cout << edge_array + num_edges << endl;
 #endif
   property_map < Graph, edge_weight_t >::type weight = get(edge_weight, g);
   std::vector < Edge > spanning_tree;
