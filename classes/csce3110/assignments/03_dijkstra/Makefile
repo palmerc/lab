@@ -1,7 +1,7 @@
 all: main
 
 %: %.cpp
-	gcc -lboost_regex -o $@ $< -g -Wall
+	g++ -lboost_regex -o $@ $< -g -Wall -ansi -pedantic
 
 clean:
 	rm -f *.o main
