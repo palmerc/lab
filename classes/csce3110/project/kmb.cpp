@@ -220,7 +220,7 @@ int main(int argc, char* argv[])
       dot_file << u << " -- " << v
          << " [label=\"" << get(weightmap, e) << "\"";
       //cout << u << " " << v << " " << p[v] << endl;
-      if (kmb_edges_map.find(E(u, v)) != kmb_edges_map.end())
+      if (kmb_edges_map.find(E(u, v)) != kmb_edges_map.end() || kmb_edges_map.find(E(v, u)) != kmb_edges_map.end())
          dot_file << ", color=\"black\"";
       else
          dot_file << ", color=\"grey\"";
