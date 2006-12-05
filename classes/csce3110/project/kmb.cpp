@@ -38,16 +38,17 @@ int main(int argc, char* argv[])
    in.open(infile.c_str());
    dot_file.open(outfile.c_str());
    
-   boost::regex re_nodes("^\\s*n\\s+(\\d+)\\s*$", boost::regex::perl);
-   boost::regex re_start("^\\s*s\\s+(\\d+)\\s*$", boost::regex::perl);
-   boost::regex re_dest("^\\s*d\\s+(\\d+)\\s*$", boost::regex::perl);
-   boost::regex re_vertex("^\\s*v\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_nodes("^\\s*Nodes\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_dest("^\\s*T\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_vertex("^\\s*E\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
+   boost::regex re_pos("^\\s*DD\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
    boost::cmatch matches;
    
    int nodes = 0;
    vector<int> weights;
    set<int> starts;
    vector<E> edge_array;
+   map<int, E> pos_info;
    
    string str;
    getline(in, str);
@@ -55,10 +56,15 @@ int main(int argc, char* argv[])
    {
       if (boost::regex_match(str.c_str(), matches, re_nodes))
          nodes = boost::lexical_cast<int>(matches[1]);
-      else if (boost::regex_match(str.c_str(), matches, re_start))
-         starts.insert(boost::lexical_cast<int>(matches[1]));
       else if (boost::regex_match(str.c_str(), matches, re_dest))
          starts.insert(boost::lexical_cast<int>(matches[1]));
+      else if (boost::regex_match(str.c_str(), matches, re_pos))
+      {
+         int node = boost::lexical_cast<int>(matches[1]);
+         int x = boost::lexical_cast<int>(matches[2]);
+         int y = boost::lexical_cast<int>(matches[3]);
+         pos_info[node] = E(x, y);
+      }  
       else if (boost::regex_match(str.c_str(), matches, re_vertex))
       {
          int u = boost::lexical_cast<int>(matches[1]);
@@ -210,7 +216,7 @@ int main(int argc, char* argv[])
    
    // Generate the DOT file
    dot_file << "graph G {\n"
-      << "  edge[style=\"bold\"]\n" << "  node[shape=\"circle\"]\n";
+      << "  node[shape=\"circle\"]\n";
 
    graph_traits <Graph>::edge_iterator ei, ei_end;
    for (tie(ei, ei_end) = edges(g); ei != ei_end; ++ei)
@@ -219,9 +225,11 @@ int main(int argc, char* argv[])
       graph_traits <Graph>::vertex_descriptor u = source(e, g), v = target(e, g);
       dot_file << u << " -- " << v
          << " [label=\"" << get(weightmap, e) << "\"";
+      if (pos_info.find(u) != pos_info.end())
+         dot_file << ", pos=\"" << pos_info[u].first << "," << pos_info[u].second << "\"";
       //cout << u << " " << v << " " << p[v] << endl;
       if (kmb_edges_map.find(E(u, v)) != kmb_edges_map.end() || kmb_edges_map.find(E(v, u)) != kmb_edges_map.end())
-         dot_file << ", color=\"black\"";
+         dot_file << ", color=\"black\", style=bold, weight=10";
       else
          dot_file << ", color=\"grey\"";
       dot_file << "]\n";

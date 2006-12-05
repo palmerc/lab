@@ -1,5 +1,5 @@
 \documentclass[titlepage,twoside,openright,12pt]{article}
-\usepackage[pdftex]{graphicx}
+\usepackage{graphicx}
 \title{Data Structures Final Project}
 \author{Cameron Lowell Palmer \and Kristina Ratliff \and Tyler Chamberlain \and Brian Stair}
 %\date{}
@@ -18,15 +18,6 @@ The algorithm is called the KMB algorithm after the initials of the authors. KMB
 requires an undirected graph but remains highly useful in solving multicasting 
 problems in a reasoable period of time.\\*[1Em]
 
-\section*{Running Time}
-KMB is a heuristic algorithm for finding Steiner trees with a worst case time
-complexity of $O(|S||V|^{2})$. It is guaranteed to yield a tree that spans $S$ with a
-total distance on its edges no more than $2(1 - \frac{1}{l})$ times that of the optimal
-tree, where $l$ is the number of leaves in the optimal tree. The paper \textit{Multicasting
-for High-Bandwidth Delay-Sensitive Multimedia Applications}\cite{ks:kpp} put the
-running time at $O(n^{3})$ to find the the shortest paths and $O(n^{2} \log n)$ for
-determining the tree where $n$ is the number of nodes in the graph.\\*[1Em]
-
 \section*{KMB Algorithm Steps}
 The algorithm can be broken down into the following steps:
 \begin{enumerate}
@@ -37,7 +28,6 @@ The algorithm can be broken down into the following steps:
 \item Reduce the graph by MST again to arbitrarily eliminate duplicate links.
 \item Construct a Steiner tree by deleting any leftover links (not Steiner points).
 \end{enumerate}
-\includegraphics{kmb.png}
 
 \section*{Implementation}
 We implemented the program using the Boost (http://www.boost.org/) C++ graph 
@@ -62,6 +52,74 @@ algorithms yields a good result. We had initially considered several
 algorithms of our own devising, but we always ran into the same problem of high
 running times because we were brute-forcing the graph. We spent a lot of time
 considering how to reduce the graph in an efficient manner.\\*[1Em]
+
+\section*{Steinlib Graphs}
+One of our discoveries was that creating graphs is really hard to do well. When 
+you sit down and draw a graph you often substitute spacial randomness for really
+complex graphs. We discovered that the Steinlib project provides complex graphs
+with large numbers of nodes and edges. A wide variety of Steinlib input files 
+can be downloaded from http://elib.zib.de/steinlib/testset.php.
+
+The basic graph provided in the project documentation is used as the example in
+this document of input and output. The following section Other Example Graphs are
+datasets B01-B05 from Steinlib.
+
+\pagebreak
+\begin{verbatim}
+33D32945 STP File, STP Format Version 1.0
+
+SECTION Comment
+Name    "Project Graph"
+Creator "Xiaohui Yuan"
+Remark  "The basic project graph"
+END
+
+SECTION Graph
+Nodes 7
+Edges 10
+E 0 1 6
+E 0 2 2 
+E 0 3 1 
+E 1 2 3
+E 1 4 1
+E 2 5 1
+E 3 5 3
+E 3 6 3
+E 4 5 3
+E 5 6 2
+END
+
+SECTION Terminals
+Terminals 3
+T 0
+T 4
+T 6
+END
+
+EOF
+\end{verbatim}
+\begin{center}
+\includegraphics[height=3.00in]{project.eps}
+\end{center}
+
+\section*{Other Example Graphs}
+\includegraphics[keepaspectratio=true,width=\linewidth,height=\textheight]{b01.eps}
+\includegraphics[keepaspectratio=true,width=\linewidth,height=\textheight]{b02.eps}
+\includegraphics[keepaspectratio=true,width=\linewidth,height=\textheight]{b03.eps}
+\includegraphics[keepaspectratio=true,width=\linewidth,height=\textheight]{b04.eps}
+\includegraphics[keepaspectratio=true,width=\linewidth,height=\textheight]{b05.eps}
+
+\section*{Running Time}
+KMB is a heuristic algorithm for finding Steiner trees with a worst case time
+complexity of $O(|S||V|^{2})$. It is guaranteed to yield a tree that spans $S$ with a
+total distance on its edges no more than $2(1 - \frac{1}{l})$ times that of the optimal
+tree, where $l$ is the number of leaves in the optimal tree. The paper \textit{Multicasting
+for High-Bandwidth Delay-Sensitive Multimedia Applications}\cite{ks:kpp} put the
+running time at $O(n^{3})$ to find the the shortest paths and $O(n^{2} \log n)$ for
+determining the tree where $n$ is the number of nodes in the graph.\\*[1Em]
+
+Our implementation ran with zero run time on all the graphs we tested and
+made measurement in seconds difficult.
 
 \section*{Conclusion}
 The beauty of the KMB graph is its ability to reduce a tough problem using two
