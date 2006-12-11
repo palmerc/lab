@@ -75,9 +75,37 @@ foreach ($results as $record)
       'assignmentRank' => $record['assignmentRank']
       );
 }
-//print_r($results);
+echo "<pre>";
+print_r($results);
+echo "</pre>";
 $assignment_count = sizeof($results);
 $category_count = sizeof($assignment_array);
+
+
+
+$student_array = array();
+foreach ($results as $record)
+{
+   if (!array_key_exists($record['studentKey'], $student_array))
+   {
+      $student_array[$record['studentKey']] =
+      array(
+      'studentFirst' => $record['firstName'],
+      'studentLast' => $record['lastName'],
+      'average' => // some calculation
+      'assignments' => array()
+      );
+   }
+   
+   $student_array[$record['studentKey']['assignments'][$record['assignmentKey']] =
+      array(
+      'assignmentTitle' => $record['assignmentTitle'],
+      'assignmentMaxPoints' => $record['assignmentMaxPoints'],
+      'assignmentRank' => $record['assignmentRank'],
+      'assignmentGrade' => $record['assignmentGrade']
+      );
+}
+
 //print_r($assignment_array);
 //echo"
 //   Number of categories: {$category_count}
@@ -86,6 +114,11 @@ $category_count = sizeof($assignment_array);
 //echo "</pre>";
 
 //$assignments_rows = sizeof($results); // This is the total number of assignments
+
+// Lets calculate the averages of the assignments and students
+
+
+
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -166,6 +199,7 @@ $students = $results;
 
 foreach ($students as $student)
 {
+   $student_key = $student['student_key'];
    $first_name = $student['first_name'];
    $last_name =  $student['last_name'];
    
@@ -173,9 +207,19 @@ foreach ($students as $student)
      <tr class="student">
          <th scope="col"><? echo "{$last_name}, {$first_name}" ?></th>
 <?php
+foreach ($assignment_array as $category)
+{
+   foreach ($category['assignments'] as $assignment)
+   {
+      $assignment_title = urlencode($assignment['assignmentTitle']);
+      echo"
+      <td><input name=\"{$assignment_title}[{$student_key}]\" type=\"text\" size=\"3\" value=\"\" /></td>
+         ";
+   }
+}
       for ($i = 0; $i < $assignment_count; $i++)
-         echo "<td><input type=\"text\" size=\"3\" value=\"\" /></td>";
-?>
+         echo "";     
+?>   
          <td>avg</td>
       </tr>
 <?php
