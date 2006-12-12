@@ -101,16 +101,24 @@ function student_rows($assignment_array, $student_array, $student_grade_array)
    }
 }
 
-function subcategory_averages()
+function subcategory_averages($assignment_array, $student_grade_array)
 {
    global $assignment_count;
    ?>
          <tr>
             <th scope="col"><p>Subcategory Averages</p></th>
    <?php
-   for ($i = 0; $i < $assignment_count; $i++)
+   //print_r($assignment_array);
+   foreach ($assignment_array as $categoryKey => $categoryData)
    {
-      echo "<td>avg</td>";
+      foreach ($categoryData[assignments] as $assignmentKey => $assignmentData)
+      {
+         $average = get_subcategory_avg($assignmentKey, $student_grade_array);
+         if ($average)
+            echo "<td>{$average}</td>";
+         else
+            echo "<td>&nbsp;</td>";
+      }
    }
    ?>
             <td>avg</td>
@@ -127,9 +135,10 @@ function category_averages($assignment_array)
    foreach ($assignment_array as $category)
    {
       $category_assignment_count = sizeof($category['assignments']);
+      $category
    ?>
          <!-- colspan should equal the number of assignments -->
-         <td colspan="<? echo $category_assignment_count ?>">avg</td>
+         <td colspan="<? echo $category_assignment_count ?>"></td>
          <!-- if colspan=1 then rowspan=2 -->
    <?php
    }
@@ -331,6 +340,45 @@ function get_student_avg($student_key, $assignment_array, $student_grade_array)
    return $average;
 }
 
+function get_subcategory_avg($key, $student_grade_array)
+{
+   global $class_key, $subcategoryAverages;
+   //echo "<pre>";
+   //print_r($student_grade_array);
+   //echo "</pre>";
+   $query = "SELECT grade
+         FROM grades
+         WHERE assignmentKey={$key}";
+   $results = array();
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+      $results[] = $row;
+   
+   //echo "<pre>";
+   //print_r($results);
+   //echo "</pre>";
+   $count = 0;
+   foreach ($results as $grade)
+   {
+      $sum += $grade['grade'];
+      $count++;
+   }
+   if ($count > 0)
+   {
+      $average = $sum / $count;
+      $subcategoryAverages[$key] = $average;
+      return $average;
+   }
+   else
+      return;
+}
+
+function get_category_avg($key)
+{
+   foreach ($assignment_array as $categoryKey => $categoryData)
+      foreach ($categoryData['assignments'] as $assignmentKey => $assignmentData)
+         $subcategoryAverages[$key] = $assignmentData[''];
+}
 
 //
 //
@@ -388,10 +436,10 @@ $student_grade_array = get_students_grades();
 <?php
 table_header($assignment_array);
 student_rows($assignment_array, $student_array, $student_grade_array);
-database_disconnect();
-subcategory_averages($assignment_count);
+subcategory_averages($assignment_array, $student_grade_array);
 category_averages($assignment_array);
 table_footer();
+database_disconnect();
 ?>
 
          <input type="submit" id="submit" value="Submit Grades" />
