@@ -126,21 +126,21 @@ function subcategory_averages($assignment_array, $student_grade_array)
    <?
 }
 
-function category_averages($assignment_array)
+function category_averages($assignment_array, $student_grade_array)
 {
    ?>
          <tr>
             <th scope="col">Category Averages </th>
    <?php
-   foreach ($assignment_array as $category)
+   foreach ($assignment_array as $categoryKey => $categoryData)
    {
-      $category_assignment_count = sizeof($category['assignments']);
-      $category
-   ?>
+      $average = get_category_avg($categoryKey, $student_grade_array);
+      $category_assignment_count = sizeof($categoryData['assignments']);
+      echo"
          <!-- colspan should equal the number of assignments -->
-         <td colspan="<? echo $category_assignment_count ?>"></td>
+         <td colspan=\"{$category_assignment_count}\">{$average}</td>
          <!-- if colspan=1 then rowspan=2 -->
-   <?php
+         ";
    }
    ?>
             <td>avg</td>
@@ -327,7 +327,7 @@ function get_student_avg($student_key, $assignment_array, $student_grade_array)
             $count++;
          }
          $categoryAvg = $categorySum / $count;
-         $studentCategories[$categoryKey] = $categoryAvg * ($categoryPercentage / 100);
+         $studentCategories[$categoryKey] = round(($categoryAvg * ($categoryPercentage / 100)), 2);
       }
       foreach ($assignment_array as $categoryKey => $categoryData)
       {
@@ -365,7 +365,7 @@ function get_subcategory_avg($key, $student_grade_array)
    }
    if ($count > 0)
    {
-      $average = $sum / $count;
+      $average = round(($sum / $count), 2);
       $subcategoryAverages[$key] = $average;
       return $average;
    }
@@ -373,11 +373,26 @@ function get_subcategory_avg($key, $student_grade_array)
       return;
 }
 
-function get_category_avg($key)
+function get_category_avg($key, $student_grade_array)
 {
-   foreach ($assignment_array as $categoryKey => $categoryData)
-      foreach ($categoryData['assignments'] as $assignmentKey => $assignmentData)
-         $subcategoryAverages[$key] = $assignmentData[''];
+   //echo "<pre>";
+   //print_r($student_grade_array);
+   //echo "</pre>";
+   $count = 0;
+   foreach ($student_grade_array as $studentData)
+      if ($studentData['categories'][$key]['assignments'])
+      {
+         foreach ($studentData['categories'][$key]['assignments'] as $assignmentKey => $assignmentData)
+         {
+            $sum += $assignmentData['gradesGrade'];
+            $count++;
+         }
+      }
+
+   if ($count > 0)
+      return round(($sum/$count), 2);
+   else
+      return;
 }
 
 //
@@ -386,7 +401,7 @@ function get_category_avg($key)
 //
 
 require('database.php');
-//require('grades.php');
+require('grades.php');
 $class_key = $_REQUEST['class_key'];
 
 // If no class_key is provided default to somewhere else
@@ -410,6 +425,35 @@ $section = $results['section'];
 $assignment_array = get_assignments();
 $student_array = get_students();
 $student_grade_array = get_students_grades();
+
+if ($_POST)
+{
+   //echo "<pre>";
+   //print_r($_POST);
+   //echo "</pre>";
+   
+   foreach ($_POST['grade'] as $student_key => $assignmentData)
+      foreach ($assignmentData as $assignment_key => $grade)
+      {
+         if ($grade)
+         {
+         if ($grade_key = grade_key_get($student_key, $assignment_key))
+         {
+            //echo "<pre>";
+            //print_r($grade_key);
+            //echo "</pre>";
+            //echo "EDIT " . $grade_key . " " . $grade;
+            grade_edit($grade_key, $grade);
+         }
+         else
+         {
+            //echo "CREATE " . $assignment_key . " " . $student_key . " " . $grade;
+            grade_create($assignment_key, $student_key, $grade);
+         }
+         }
+      }
+   
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -437,7 +481,7 @@ $student_grade_array = get_students_grades();
 table_header($assignment_array);
 student_rows($assignment_array, $student_array, $student_grade_array);
 subcategory_averages($assignment_array, $student_grade_array);
-category_averages($assignment_array);
+category_averages($assignment_array, $student_grade_array);
 table_footer();
 database_disconnect();
 ?>
