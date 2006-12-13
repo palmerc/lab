@@ -6,7 +6,7 @@
 //
 function table_header($assignment_array)
 {
-   global $assignment_count;
+   global $class_key, $assignment_count;
    ?>
       <table width="200" border="1">
       <tr>
@@ -34,19 +34,18 @@ function table_header($assignment_array)
       </tr>
       <tr>
    <?
-   foreach ($assignment_array as $category)
+   $assignment_list = assignments_get($class_key);
+   
+   foreach ($assignment_list as $assignment)
    {
-      foreach ($category['assignments'] as $assignment)
-      {
-         $assignment_title = $assignment['assignmentTitle'];
-         echo"
+      $assignment_title = $assignment['assignmentTitle'];
+      echo"
          <th>{$assignment_title}</th>
-            ";
-      }
+         ";
    }
-   ?>
+   echo"
       </tr>
-   <?
+      ";
 }
 
 function table_footer()
@@ -60,44 +59,41 @@ function student_rows($assignment_array, $student_array, $student_grade_array)
 {
    global $class_key, $assignment_count;
    
-   //echo "<pre>";
-   //print_r($students);
-   //echo "</pre>";
-
+   $assignment_list = assignments_get($class_key);
+   
    foreach ($student_array as $student)
    {
       $student_key = $student['student_key'];
       $first_name = $student['first_name'];
       $last_name =  $student['last_name'];
       
-   ?>
-   
+   ?>   
          <tr class="student">
             <th scope="col"><? echo "{$last_name}, {$first_name}" ?></th>
    <?php
-   //echo "<pre>";
-   //print_r($assignment_array);
-   //echo "</pre>";
-   foreach ($assignment_array as $categoryKey => $categoryData)
-   {
-      foreach ($categoryData['assignments'] as $assignmentKey => $assignmentData)
+      $student_grades = grades_student_get_row($class_key, $student_key);
+       
+      foreach ($assignment_list as $assignment)
       {
-         if ($student_grade_array[$student_key]['categories'][$categoryKey]['assignments'][$assignmentKey])
-            $grade = $student_grade_array[$student_key]['categories'][$categoryKey]['assignments'][$assignmentKey]['gradesGrade'];
-         else
-            $grade = "";
-         // Check if the student has a grade for this entry and set the field
-         // name to be a combination of studentKey and assignmentKey
+         $grade = "";
+         $assignmentKey = $assignment['assignmentKey'];
+         //echo $assignmentKey;
+         foreach ($student_grades as $student_assignment)
+         {  
+            //echo $assignmentKey. "==" .$student_assignment['assignmentKey'];
+            if ($assignmentKey == $student_assignment['assignmentKey'])
+               $grade = $student_assignment['grade'];
+         }
          echo"
-         <td><input name=\"grade[{$student_key}][{$assignmentKey}]\" type=\"text\" size=\"3\" value=\"{$grade}\" /></td>
+            <td><input name=\"grade[{$student_key}][{$assignmentKey}]\" type=\"text\" size=\"3\" value=\"{$grade}\" /></td>
             ";
       }
-   }
-   $average = get_student_avg($student_key, $assignment_array, $student_grade_array);
-   echo"
+
+      $average = get_student_avg($student_key, $assignment_array, $student_grade_array);
+      echo"
             <td>{$average}</td>
          </tr>
-      ";
+         ";
    }
 }
 
@@ -121,7 +117,7 @@ function subcategory_averages($assignment_array, $student_grade_array)
       }
    }
    ?>
-            <td>avg</td>
+            <td>&nbsp;</td>
          </tr>
    <?
 }
@@ -143,7 +139,7 @@ function category_averages($assignment_array, $student_grade_array)
          ";
    }
    ?>
-            <td>avg</td>
+            <td>&nbsp;</td>
          </tr>
    <?
 }
@@ -304,42 +300,6 @@ function get_students_grades()
    return $student_grade_array;
 }
 
-function get_student_avg($student_key, $assignment_array, $student_grade_array)
-{
-   // category_avg = sum of assignments in category / # of items
-   // points_attained in category = category percentage * category_avg
-   // student_average = sum of points attained in each category
-   //echo "<pre>";
-   //print_r($student_grade_array);
-   //print_r($assignment_array);
-   //echo "</pre>";
-      
-   if ($student_grade_array[$student_key])
-   {
-      foreach ($student_grade_array[$student_key]['categories'] as $categoryKey => $categoryData)
-      {
-         $categorySum = 0;
-         $count = 0;
-         $categoryPercentage = $categoryData['categoryPercentage'];
-         foreach ($categoryData['assignments'] as $assignment)
-         {
-            $categorySum += $assignment['gradesGrade'];
-            $count++;
-         }
-         $categoryAvg = $categorySum / $count;
-         $studentCategories[$categoryKey] = round(($categoryAvg * ($categoryPercentage / 100)), 2);
-      }
-      foreach ($assignment_array as $categoryKey => $categoryData)
-      {
-         if (!$studentCategories[$categoryKey])
-            $studentCategories[$categoryKey] = $categoryData['categoryPercentage'];
-      }
-      foreach ($studentCategories as $categoryPoints)
-         $average += $categoryPoints;
-   }
-   return $average;
-}
-
 function get_subcategory_avg($key, $student_grade_array)
 {
    global $class_key, $subcategoryAverages;
@@ -426,7 +386,7 @@ $assignment_array = get_assignments();
 $student_array = get_students();
 $student_grade_array = get_students_grades();
 
-if ($_POST)
+if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    //echo "<pre>";
    //print_r($_POST);
@@ -436,20 +396,11 @@ if ($_POST)
       foreach ($assignmentData as $assignment_key => $grade)
       {
          if ($grade)
-         {
-         if ($grade_key = grade_key_get($student_key, $assignment_key))
-         {
-            //echo "<pre>";
-            //print_r($grade_key);
-            //echo "</pre>";
-            //echo "EDIT " . $grade_key . " " . $grade;
-            grade_edit($grade_key, $grade);
-         }
-         else
-         {
-            //echo "CREATE " . $assignment_key . " " . $student_key . " " . $grade;
-            grade_create($assignment_key, $student_key, $grade);
-         }
+         {        
+            if ($grade_key = grade_key_get($assignment_key, $student_key))
+               grade_edit($grade_key, $grade);
+            else
+               grade_create($assignment_key, $student_key, $grade);
          }
       }
    
