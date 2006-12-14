@@ -93,7 +93,7 @@ function grade_exists($grade_key)
 }
 
 
-function grades_student_get_row($class_key, $student_key=1)
+function grades_student_get_row($class_key, $student_key)
 {
     $query = "SELECT student.student_key,
                student.first_name,
@@ -124,15 +124,7 @@ function grades_student_get_row($class_key, $student_key=1)
 }
 
 function get_student_avg($student_key, $assignment_array, $student_grade_array)
-{
-   // category_avg = sum of assignments in category / # of items
-   // points_attained in category = category percentage * category_avg
-   // student_average = sum of points attained in each category
-   //echo "<pre>";
-   //print_r($student_grade_array);
-   //print_r($assignment_array);
-   //echo "</pre>";
-      
+{     
    if ($student_grade_array[$student_key])
    {
       foreach ($student_grade_array[$student_key]['categories'] as $categoryKey => $categoryData)
@@ -159,6 +151,46 @@ function get_student_avg($student_key, $assignment_array, $student_grade_array)
    return $average;
 }
 
+function category_grades_get($class_key, $category_key)
+{
+   $query = "SELECT grades.grade
+            FROM grades, assignment
+            WHERE
+               grades.assignmentKey=assignment.assignmentKey AND
+               assignment.categoryKey={$category_key} AND
+               assignment.classKey={$class_key}";
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
+   }
+   echo "<pre>";
+   print_r($results);
+   echo "</pre>";
+   return $results;
+}
+
+
+function categories_get($class_key)
+{
+   $query = "SELECT categoryKey,
+               categoryTitle,
+               categoryPercentage
+            FROM category
+            WHERE classKey={$class_key}
+            ORDER BY categoryRank,
+               categoryKey";
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
+   }
+//   echo "<pre>";
+//   print_r($results);
+//   echo "</pre>";
+   return $results;   
+}
+
 function assignments_get($class_key)
 {
    $query = "SELECT assignment.assignmentKey,
@@ -179,6 +211,33 @@ function assignments_get($class_key)
 //   print_r($results);
 //   echo "</pre>";
    return $results;   
+}
+
+function get_subcategory_avg($key)
+{
+   global $class_key, $subcategoryAverages;
+   $query = "SELECT grade
+         FROM grades
+         WHERE assignmentKey={$key}";
+   $results = array();
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+      $results[] = $row;
+   
+   $count = 0;
+   foreach ($results as $grade)
+   {
+      $sum += $grade['grade'];
+      $count++;
+   }
+   if ($count > 0)
+   {
+      $average = round(($sum / $count), 2);
+      $subcategoryAverages[$key] = $average;
+      return $average;
+   }
+   else
+      return;
 }
 
 ?>
