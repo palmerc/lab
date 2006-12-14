@@ -123,37 +123,44 @@ function grades_student_get_row($class_key, $student_key)
    return $results;
 }
 
-function get_student_avg($student_key, $assignment_array, $student_grade_array)
-{     
-   if ($student_grade_array[$student_key])
+function get_student_avg($class_key, $student_key)
+{    
+   $query = "SELECT grades.grade,
+               assignment.assignmentMaxPoints,
+               category.categoryKey,
+               category.categoryPercentage
+            FROM grades, assignment, category
+            WHERE grades.assignmentKey=assignment.assignmentKey AND
+               category.categoryKey=assignment.categoryKey AND
+               assignment.classKey={$class_key} AND
+               grades.studentKey={$student_key}";
+               
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    {
-      foreach ($student_grade_array[$student_key]['categories'] as $categoryKey => $categoryData)
-      {
-         $categorySum = 0;
-         $count = 0;
-         $categoryPercentage = $categoryData['categoryPercentage'];
-         foreach ($categoryData['assignments'] as $assignment)
-         {
-            $categorySum += $assignment['gradesGrade'];
-            $count++;
-         }
-         $categoryAvg = $categorySum / $count;
-         $studentCategories[$categoryKey] = round(($categoryAvg * ($categoryPercentage / 100)), 2);
-      }
-      foreach ($assignment_array as $categoryKey => $categoryData)
-      {
-         if (!$studentCategories[$categoryKey])
-            $studentCategories[$categoryKey] = $categoryData['categoryPercentage'];
-      }
-      foreach ($studentCategories as $categoryPoints)
-         $average += $categoryPoints;
+      $results[] = $row;
    }
+   //echo "<pre>";
+   //print_r($category_assignments);
+   //print_r($results);
+   //echo "</pre>";   
+   
+   foreach ($results as $assignment)
+   {
+      $category_assignments[$assignment['categoryKey']]['sum'] += ($assignment['grade'] / $assignment['assignmentMaxPoints']) * 100;
+      $category_assignments[$assignment['categoryKey']]['count'] += 1;
+      $category_assignments[$assignment['categoryKey']]['categoryPercentage'] = $assignment['categoryPercentage'];
+   }
+   foreach ($category_assignments as $category)
+      $average += round(($category['sum'] / $category['count']) * ($category['categoryPercentage'] / 100), 2);
    return $average;
 }
 
-function category_grades_get($class_key, $category_key)
+function get_category_avg($class_key, $category_key)
 {
-   $query = "SELECT grades.grade
+   //echo "{$class_key} {$category_key}";
+   $query = "SELECT grades.grade,
+               assignment.assignmentMaxPoints
             FROM grades, assignment
             WHERE
                grades.assignmentKey=assignment.assignmentKey AND
@@ -164,14 +171,21 @@ function category_grades_get($class_key, $category_key)
    {
       $results[] = $row;
    }
-   echo "<pre>";
-   print_r($results);
-   echo "</pre>";
-   return $results;
+   foreach ($results as $assignment)
+   {
+      $category_assignments[$assignment['categoryKey']]['sum'] += ($assignment['grade'] / $assignment['assignmentMaxPoints']) * 100;
+      $category_assignments[$assignment['categoryKey']]['count'] += 1;
+   }
+   foreach ($category_assignments as $category)
+      $average += round(($category['sum'] / $category['count']), 2); 
+   //echo "<pre>";
+   //print_r($results);
+   //echo "</pre>";
+   return $average;
 }
 
 
-function categories_get($class_key)
+function get_category_list($class_key)
 {
    $query = "SELECT categoryKey,
                categoryTitle,
@@ -191,7 +205,7 @@ function categories_get($class_key)
    return $results;   
 }
 
-function assignments_get($class_key)
+function get_assignments_list($class_key)
 {
    $query = "SELECT assignment.assignmentKey,
                assignment.assignmentTitle
@@ -213,17 +227,35 @@ function assignments_get($class_key)
    return $results;   
 }
 
-function get_subcategory_avg($key)
+function get_students($class_key)
 {
-   global $class_key, $subcategoryAverages;
-   $query = "SELECT grade
-         FROM grades
-         WHERE assignmentKey={$key}";
+   // This query is need to generate the table with all the students
+   $query="SELECT student_class.student_key, student.first_name, student.last_name
+         FROM student, student_class
+         WHERE student_class.student_key=student.student_key
+            AND student_class.class_key={$class_key}
+            AND student.is_active=1";
+   $result = mysql_query($query);
+   $results = array();
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+      $results[] = $row;
+   $students = $results;
+   return $students;
+}
+
+function get_assignment_avg($class_key, $assignment_key)
+{
+   $query = "SELECT grades.grade, assignment.assignmentMaxPoints
+         FROM grades, assignment
+         WHERE grades.assignmentKey=assignment.assignmentKey AND
+            assignment.assignmentKey={$assignment_key}";
    $results = array();
    $result = mysql_query($query);
    while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
       $results[] = $row;
-   
+   //echo "<pre>";
+   //print_r($results);
+   //echo "</pre>";
    $count = 0;
    foreach ($results as $grade)
    {
