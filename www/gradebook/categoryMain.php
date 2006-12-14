@@ -19,11 +19,11 @@ $class_title = $results[0];
 // This is meant to grab all the assignment categories from a given class
 $query = "SELECT *
          FROM category
-         WHERE class_key={$class_key}";
+         WHERE classKey={$class_key}";
 $result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    $categories[] = $row;
-
+//print_r($categories);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -43,39 +43,50 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    <div id="page">
    <h3>Category managment options</h3>
    <ul>
-      <li><a href="assignmentCreate.php?class_key=<? echo $class_key ?>">Add an Assignment</a></li>
-      <li><a href="categoryCreate.php?class_key=<? echo $class_key ?>">Add an Category</a></li>
-      <li><a href="?">Undelete an Assignment</a></li>
-      <li><a href="gradebook.php?class_key=<? echo $class_key ?>">Go to gradebook</a></li>
+      <li><a href="categoryCreate.php?class_key=<? echo $class_key ?>">Add a category</a></li>
+      <li><a href="assignmentMain.php?class_key=<? echo $class_key ?>">Return to assignments</a></li>
    </ul>
    <h3>Edit <? printf("%s %d.%03d", $class_title['dept_key'], $class_title['course_no'], $class_title['section']); ?> categories</h3>
+<?
+   if (!$categories)
+   {
+      echo "<p>No categories have been defined</p>";
+   }
+   else
+   {
+?>
    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
    <input type="hidden" name="class_key" value="<? echo $class_key ?>" />
    <table>
    <tr>
       <th>Title</th>
       <th>Percentage</th>
+      <th>Rank</th>
       <th>Delete</th>
    </tr>
 <?php
-   foreach ($categories as $category)
-   {
-      $category_key = $category['category_key'];
-      $category_title = $category['title'];
-      $category_percentage = $category['percentage'];
-      echo"
-   <tr>
-      <td><a href=\"categoryEdit?category_key={$category_key}\">{$category_title}</a></td>
-      <td>{$category_percentage}</td>
-      <td><input type=\"checkbox\" /></td>
-   </tr>
-         ";
-   }
-   database_disconnect();
+      foreach ($categories as $category)
+      {
+         $category_key = $category['categoryKey'];
+         $category_title = $category['categoryTitle'];
+         $category_percentage = $category['categoryPercentage'];
+         $category_rank = $category['categoryRank'];
+         echo"
+      <tr>
+         <td><a href=\"categoryEdit?category_key={$category_key}\">{$category_title}</a></td>
+         <td>{$category_percentage}</td>
+         <td>{$category_rank}</td>
+         <td><input type=\"checkbox\" /></td>
+      </tr>
+            ";
+      }
 ?>
    </table>
    <input type="submit" value="Submit" />
    </form>
+<?
+   }
+?>
    <div style="position:absolute;" id="popup">
       <table id="sData" class="studentDetail" border="0" cellspacing="2" cellpadding="2">
          <tbody id="sDataBody"></tbody>
@@ -85,3 +96,6 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    </div>
 </body>
 </html>
+<?
+   database_disconnect();
+?>

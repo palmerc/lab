@@ -17,9 +17,9 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
 $class_title = $results[0];
 
 // This is meant to grab all the assignment categories from a given class
-$query = "SELECT category_key, title
+$query = "SELECT categoryKey, categoryTitle
          FROM category
-         WHERE class_key={$class_key}";
+         WHERE classKey={$class_key}";
 $result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    $categories[] = $row;
@@ -43,8 +43,8 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    <div id="page">
    <h3>Assignment managment options</h3>
    <ul>
+      <li><a href="categoryMain.php?class_key=<? echo $class_key ?>">Add a Category</a></li>
       <li><a href="assignmentCreate.php?class_key=<? echo $class_key ?>">Add an Assignment</a></li>
-      <li><a href="categoryMain.php?class_key=<? echo $class_key ?>">Add an Category</a></li>
       <li><a href="?">Undelete an Assignment</a></li>
       <li><a href="gradebook.php?class_key=<? echo $class_key ?>">Go to gradebook</a></li>
    </ul>
@@ -52,20 +52,28 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
    <input type="hidden" name="class_key" value="<? echo $class_key ?>" />
 <?php
-   foreach ($categories as $category)
+   if (!$categories)
    {
-      $category_key = $category['category_key'];
-      $category_title = $category['title'];
-      // This is supposed to fetch the assignments under a given category type
-      $query = "SELECT assignment_key, title, category_key, max_points, due_date, rank
-               FROM assignment WHERE class_key={$class_key} AND category_key={$category_key}";
-      $result = mysql_query($query);
-      $results = null;
-      while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-         $results[] = $row;
-      //print_r($results);
-      if ($results)
+      echo"
+         <p>No categories have been defined</p>
+         ";
+   }
+   else
+   {
+      foreach ($categories as $category)
       {
+         $category_key = $category['categoryKey'];
+         $category_title = $category['categoryTitle'];
+         // This is supposed to fetch the assignments under a given category type
+         $query = "SELECT assignmentKey, assignmentTitle, categoryKey, assignmentMaxPoints, assignmentDueDate, assignmentRank
+                  FROM assignment WHERE classKey={$class_key} AND categoryKey={$category_key}";
+         $result = mysql_query($query);
+         $results = null;
+         while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+            $results[] = $row;
+         //print_r($results);
+         if ($results)
+         {
 ?>
       <h4><? echo $category_title ?></h4>
       <table id="students">
@@ -73,13 +81,13 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
       <th>Assignment</th><th>Max Points</th><th>Due Date</th><th>Delete</th>
       </tr>
 <?php
-         foreach ($results as $row)
-         {
-            $assignment_key = $row['assignment_key'];
-            $title = $row['title'];
-            $max_points = $row['max_points'];
-            $due_date = $row['due_date'];
-            $rank = $row['rank'];
+            foreach ($results as $row)
+            {
+               $assignment_key = $row['assignmentKey'];
+               $title = $row['assignmentTitle'];
+               $max_points = $row['assignmentMaxPoints'];
+               $due_date = $row['assignmentDueDate'];
+               $rank = $row['assignmentRank'];
 ?>
       <tr>
       <td>
@@ -91,14 +99,15 @@ while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
       <td><input type="checkbox" name="studentDelete"/></td>
       </tr>
 <?php
+            }
+            echo"
+         </table>
+               ";
          }
-         echo"
-      </table>
-            ";
-      }
-      else
-      {
-      echo "<p>No assignments in this category</p>";
+         else
+         {
+         echo "<p>No assignments in this category</p>";
+         }
       }
    }
    database_disconnect();

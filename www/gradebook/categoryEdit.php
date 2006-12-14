@@ -12,18 +12,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    // Validate submission
    //print_r($_REQUEST);
+   $class_key = $_REQUEST['class_key'];
    $title = $_REQUEST['title'];
    $percentage = $_REQUEST['percentage'];
-   if (category_edit($category_key, $title, $percentage))
+   $rank = $_REQUEST['rank'];
+   if (category_edit($category_key, $title, $percentage, $rank))
       // If all goes well take them back to the studentMain page
-      header('location:categoryMain.php');
+      header("location:categoryMain.php?class_key={$class_key}");
 }
 
 $category = category_get($category_key);
 $category = $category[0];
 //print_r($category);
-$title = $category['title'];
-$percentage = $category['percentage'];
+$class_key = $category['classKey'];
+$title = $category['categoryTitle'];
+$percentage = $category['categoryPercentage'];
+$rank = $category['categoryRank'];
 
 database_disconnect();
 ?>
@@ -43,6 +47,7 @@ database_disconnect();
    </div>
    <div id="page">
       <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
+      <input type="hidden" name="class_key" value="<? echo $class_key ?>" />
       <input type="hidden" name="category_key" value="<? echo $category_key ?>" />
       <h3>Category basics</h3>
       <div class="indent">
@@ -61,6 +66,14 @@ database_disconnect();
          </td>
          <td>
          <input type="text" id="percentage" name="percentage" size="3" value="<?echo $percentage ?>" />
+         </td>
+      </tr>
+      <tr>
+         <td>
+         Rank:
+         </td>
+         <td>
+         <input type="text" id="rank" name="rank" size="3" value="<?echo $rank ?>" />
          </td>
       </tr>
       </table>

@@ -13,10 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    // Validate submission
    //print_r($_REQUEST);
    $title = $_REQUEST['title'];
-   $rank = $_REQUEST['percentage'];
-   if (category_create($class_key, $title, $percentage))
+   $percentage = $_REQUEST['percentage'];
+   $rank = $_REQUEST['rank'];
+   
+   if (category_create($class_key, $title, $percentage, $rank=0))
       // If all goes well take them back to the studentMain page
-      header('location:categoryMain.php');
+      header("location:categoryMain.php?class_key={$class_key}");
 }
    
 database_disconnect();
@@ -55,6 +57,14 @@ database_disconnect();
          </td>
          <td>
          <input type="text" id="percentage" name="percentage" size="3" value="" />
+         </td>
+      </tr>
+      <tr>
+         <td>
+         Rank:
+         </td>
+         <td>
+         <input type="text" id="rank" name="rank" size="3" value="" />
          </td>
       </tr>
       </table>

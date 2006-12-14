@@ -1,6 +1,18 @@
 <?php
 require('database.php');
 require('class.php');
+database_connect();
+if ($_SERVER['REQUEST_METHOD'] == "POST")
+{
+   //print_r($_POST);
+   foreach ($_POST['classDelete'] as $class_key)
+   {
+      $query = "UPDATE class SET is_active='0' WHERE class_key='{$class_key}'";
+      $result = mysql_query($query);
+   }
+}
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -19,11 +31,12 @@ require('class.php');
    <div id="page">
    <h3>Class managment options</h3>
    <ul>
+      <li><a href="index.php">Return to Main</a></li>
       <li><a href="termCreate.php">Add a Term</a></li>
       <li><a href="deptCreate.php">Add a Department</a></li>
       <li><a href="courseCreate.php">Add a Course</a></li>
       <li><a href="classCreate.php">Add a Class</a></li>
-      <li><a href="?">Undelete a Class</a></li>
+      <li><a href="classUndeleteMain.php">Undelete a Class</a></li>
    </ul>
    <h3>Edit classes</h3>
    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
@@ -33,9 +46,9 @@ require('class.php');
       <th>Class</th><th>Name</th><th>Term</th><th>Delete</th>
       </tr>
 <?php
-   database_connect();
+   $results = array();
    $query = "SELECT class_key, course.dept_key, course.course_no, course.title, section, term.semester, term.year, is_active
-            FROM course, term, class WHERE class.course_key=course.course_key AND class.term_key=term.term_key";
+            FROM course, term, class WHERE class.course_key=course.course_key AND class.term_key=term.term_key AND class.is_active='1'";
    $result = mysql_query($query);
    while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    {
@@ -61,7 +74,7 @@ require('class.php');
       </td>
       <td><? echo $title ?></td>
       <td><? echo "{$semester} {$year}"; ?></td>
-      <td><input type="checkbox" name="studentDelete"/></td>
+      <td><input type="checkbox" name="classDelete[]" value="<? echo $class_key ?>" /></td>
       </tr>
 <?php
       }

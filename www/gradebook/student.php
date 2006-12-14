@@ -78,6 +78,18 @@ function student_get_all()
    return $results;
 }
 
+function student_class_get_all($class_key)
+{
+   $query = "SELECT * FROM student, student_class WHERE student.student_key=student_class.student_key AND class_key={$class_key}";
+   $result = mysql_query($query);
+   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
+   }
+   return $results;
+}
+
+
 // Check if the student is in the database
 // Requires an empl_id address
 // Returns boolean true if the user already exists

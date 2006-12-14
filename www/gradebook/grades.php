@@ -95,6 +95,7 @@ function grade_exists($grade_key)
 
 function grades_student_get_row($class_key, $student_key)
 {
+   $results = array();
     $query = "SELECT student.student_key,
                student.first_name,
                student.last_name,
@@ -144,15 +145,17 @@ function get_student_avg($class_key, $student_key)
    //print_r($category_assignments);
    //print_r($results);
    //echo "</pre>";   
-   
-   foreach ($results as $assignment)
+   if ($results)
    {
-      $category_assignments[$assignment['categoryKey']]['sum'] += ($assignment['grade'] / $assignment['assignmentMaxPoints']) * 100;
-      $category_assignments[$assignment['categoryKey']]['count'] += 1;
-      $category_assignments[$assignment['categoryKey']]['categoryPercentage'] = $assignment['categoryPercentage'];
+      foreach ($results as $assignment)
+      {
+         $category_assignments[$assignment['categoryKey']]['sum'] += ($assignment['grade'] / $assignment['assignmentMaxPoints']) * 100;
+         $category_assignments[$assignment['categoryKey']]['count'] += 1;
+         $category_assignments[$assignment['categoryKey']]['categoryPercentage'] = $assignment['categoryPercentage'];
+      }
+      foreach ($category_assignments as $category)
+         $average += round(($category['sum'] / $category['count']) * ($category['categoryPercentage'] / 100), 2);
    }
-   foreach ($category_assignments as $category)
-      $average += round(($category['sum'] / $category['count']) * ($category['categoryPercentage'] / 100), 2);
    return $average;
 }
 
@@ -168,22 +171,45 @@ function get_category_avg($class_key, $category_key)
                assignment.classKey={$class_key}";
    $result = mysql_query($query);
    while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
-   {
       $results[] = $row;
-   }
-   foreach ($results as $assignment)
+   if ($results)
    {
-      $category_assignments[$assignment['categoryKey']]['sum'] += ($assignment['grade'] / $assignment['assignmentMaxPoints']) * 100;
-      $category_assignments[$assignment['categoryKey']]['count'] += 1;
+      foreach ($results as $assignment)
+      {
+         $category_assignments[$assignment['categoryKey']]['sum'] += ($assignment['grade'] / $assignment['assignmentMaxPoints']) * 100;
+         $category_assignments[$assignment['categoryKey']]['count'] += 1;
+      }
+      foreach ($category_assignments as $category)
+         $average += round(($category['sum'] / $category['count']), 2); 
    }
-   foreach ($category_assignments as $category)
-      $average += round(($category['sum'] / $category['count']), 2); 
    //echo "<pre>";
    //print_r($results);
    //echo "</pre>";
    return $average;
 }
 
+function get_category_assignments_list($class_key, $category_key)
+{
+   $query = "SELECT assignment.assignmentKey,
+               assignment.assignmentTitle
+            FROM assignment, category
+            WHERE assignment.categoryKey=category.categoryKey AND
+               assignment.categoryKey={$category_key} AND
+               assignment.classKey={$class_key}
+            ORDER BY category.categoryRank,
+               assignment.categoryKey,
+               assignment.assignmentRank,
+               assignment.assignmentKey";
+   $result = mysql_query($query);
+   while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
+   {
+      $results[] = $row;
+   }
+   //echo "<pre>";
+   //print_r($results);
+   //echo "</pre>";
+   return sizeof($results);
+}
 
 function get_category_list($class_key)
 {

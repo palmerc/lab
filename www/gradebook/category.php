@@ -1,23 +1,23 @@
 <?php
-function category_create($class_key, $title, $percentage)
+function category_create($class_key, $title, $percentage, $rank)
 {
    // Query string should contain properly formatted SQL
    $query = "INSERT INTO category 
-            VALUES(null,'{$class_key}','{$title}','{$percentage}')";
+            VALUES(null,'{$class_key}','{$title}','{$percentage}','{$rank}')";
    $result = mysql_query($query);
    if (!$result)
       return false;
    return true;
 }
 
-function category_edit($category_key, $title, $percentage)
+function category_edit($category_key, $title, $percentage, $rank)
 {
    if (category_exists($category_key))
    {
       // Query string should contain properly formatted SQL, will want to update     
       // only changed information
-      $updates = "title='{$title}',percentage='{$percentage}'";
-      $query = "UPDATE category SET {$updates} WHERE category_key='{$category_key}'";
+      $updates = "categoryTitle='{$title}',categoryPercentage='{$percentage}',categoryRank='{$rank}'";
+      $query = "UPDATE category SET {$updates} WHERE categoryKey='{$category_key}'";
       $result = mysql_query($query);
       if (!$result)
          return false;
@@ -47,7 +47,7 @@ function category_delete($category_key)
 function category_get($category_key)
 {
    // Query string should contain properly formatted SQL
-   $query = "SELECT * FROM category WHERE category_key='{$category_key}'";
+   $query = "SELECT * FROM category WHERE categoryKey='{$category_key}'";
    $result = mysql_query($query);
    while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
       $results[] = $row;

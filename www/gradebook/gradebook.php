@@ -61,11 +61,32 @@ $section = $results['section'];
       </div>
       <br />
       <p id="fields">Currently hidden categories: none</p>
+      <h3>Gradebook options</h3>
+   <ul>
+      <li><a href="categoryMain.php?class_key=<? echo $class_key ?>">Add a Category</a></li>
+      <li><a href="assignmentMain.php?class_key=<? echo $class_key ?>">Add an Assignment</a></li>
+      <li><a href="studentGradebookMain.php?class_key=<? echo $class_key ?>">Add a Student</a></li>
+      <li><a href="index.php">Return to Main</a></li>
+   </ul>
       <div id="gradebook">
          <form action="<? echo $_SERVER['PHP_SELF'] ?>" method="post">
          <input type="hidden" name="class_key" value="<? echo $class_key ?>" />
 
 <?php
+if (!$category_list)
+   echo"
+      <p>You haven't defined any assignment categories or assignments</p>
+      <a href=\"assignmentMain.php?class_key={$class_key}\">Define categories and assignments</a>
+      ";
+else if (!$assignment_list)
+{
+   echo"
+      <p>You haven't defined any assignments</p>
+      <a href=\"assignmentMain.php?class_key={$class_key}\">Define assignments</a>
+      ";
+}
+else
+{
 table_header($class_key, $category_list, $assignment_list);
 student_rows($class_key);
 subcategory_averages($class_key);
@@ -75,8 +96,10 @@ table_footer();
 
          <input type="submit" id="submit" value="Submit Grades" />
          <input type="button" id="reset" value="Undo Changes" />
-         <input type="button" id="reset" value="Edit Assignments" />
          </form>
+<?
+}
+?>
       </div>
       </div>
    </div>

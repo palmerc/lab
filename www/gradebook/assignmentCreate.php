@@ -5,7 +5,7 @@ require('assignment.php');
 if (isset($_REQUEST['class_key']))
    $class_key=$_REQUEST['class_key'];
 else
-   header('location:assignmentMain.php');
+   header('location:index.php');
    
 database_connect();
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -19,17 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $rank = $_REQUEST['rank'];
    if (assignment_create($class_key, $title, $category_key, $max_points, $due_date, $rank))
       // If all goes well take them back to the studentMain page
-      header('location:assignmentMain.php');
+      header("location:assignmentMain.php?class_key={$class_key}");
 }
 
 // This is meant to grab all the assignment categories from a given class
-$query = "SELECT category_key, title
+$query = "SELECT categoryKey, categoryTitle
          FROM category
-         WHERE class_key={$class_key}";
+         WHERE classKey={$class_key}";
 $result = mysql_query($query);
 while (@$row = mysql_fetch_array($result, MYSQL_ASSOC))
    $categories[] = $row;
-   
+
 database_disconnect();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -69,8 +69,8 @@ database_disconnect();
 <?php
    foreach ($categories as $category)
    {
-      $category_key = $category['category_key'];
-      $category_title = $category['title'];
+      $category_key = $category['categoryKey'];
+      $category_title = $category['categoryTitle'];
       echo "
             <option value=\"{$category_key}\">{$category_title}</option>";
    }

@@ -6,9 +6,9 @@ database_connect();
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    //print_r($_POST);
-   foreach ($_POST['studentDelete'] as $student_key)
+   foreach ($_POST['studentUndelete'] as $student_key)
    {
-      $query = "UPDATE student SET is_active='0' WHERE student_key='{$student_key}'";
+      $query = "UPDATE student SET is_active='1' WHERE student_key='{$student_key}'";
       $result = mysql_query($query);
    }
 }
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-   <title>The Gradebook - Student management</title>
+   <title>The Gradebook - Student archive management</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
    <link rel="stylesheet" type="text/css" href="c/main.css" />
    <link rel="icon" href="i/favicon.ico" type="image/vnd.microsoft.icon" />
@@ -29,29 +29,27 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 <body>
    <div id="container">
    <div id="header">
-   <h2>Student management</h2>
+   <h2>Student archive management</h2>
    </div>
    <div id="page">
    <h3>Student managment options</h3>
    <ul>
       <li><a href="index.php">Return to Main</a></li>
-      <li><a href="studentCreate.php">Add a student</a></li>
-      <li><a href="studentImport.php">Import students from CSV</a></li>
-      <li><a href="studentUndeleteMain.php">Undelete a student</a></li>
+      <li><a href="studentDeleteMain.php">Delete a student</a></li>
    </ul>
    <h3>Edit students</h3>
    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
    <table id="students">
       <tbody>
       <tr>
-      <th>Name</th><th>Course</th><th>EmployeeID</th><th>Comments</th><th>Delete</th>
+      <th>Name</th><th>Course</th><th>EmployeeID</th><th>Comments</th><th>Undelete</th>
       </tr>
 <?php
 
    $users = student_get_all();
    foreach ($users as $row)
    {
-      if ($row['is_active'] == 1)
+      if ($row['is_active'] == 0)
       {
          $student_key = $row['student_key'];
          $email = $row['email'];
@@ -94,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       </td>
       <td><?echo $empl_id ?></td>
       <td></td>
-      <td><input type="checkbox" name="studentDelete[]" value="<? echo $student_key ?>" /></td>
+      <td><input type="checkbox" name="studentUndelete[]" value="<? echo $student_key ?>" /></td>
       </tr>
 <?php
       }
