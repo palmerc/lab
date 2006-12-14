@@ -14,7 +14,7 @@ require('class.php');
 <body>
    <div id="container">
    <div id="header">
-   <h2>Gradebook</h2>
+   <h2>Gradebook - Cameron Palmer - cameron.palmer@gmail.com</h2>
    </div>
    <div id="page">
    <h3>Managment options</h3>
