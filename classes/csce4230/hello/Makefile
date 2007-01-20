@@ -1,4 +1,4 @@
-all: main
+all: hello
 
 %: %.c
 	cc -lglut -o $@ $< -g -Wall -ansi -pedantic
