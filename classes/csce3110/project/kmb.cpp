@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
             }
             //cout << "Steps ";
             //for (list<int>::iterator i = path_map[E(u, v)]->begin(); i != path_map[E(u, v)]->end(); ++i)
-            //   cout << *i << " ";
+               //cout << *i << " ";
             //cout << endl << endl;
          }
       }  
@@ -190,7 +190,13 @@ int main(int argc, char* argv[])
    kruskal_minimum_spanning_tree(mst_g, back_inserter(spanning_tree));
 
    // MST Printing begins here
-
+   cout << "Print the edges in the MST:" << std::endl;
+   for (std::vector < Edge >::iterator ei = spanning_tree.begin(); ei != spanning_tree.end(); ++ei) 
+   {
+      cout << source(*ei, g) << " <--> " << target(*ei, g)
+         << " with weight of " << weight[*ei]
+         << endl;
+   }
    map<E, int> kmb_edges_map;
    for (vector<Edge>::iterator ei = spanning_tree.begin(); ei != spanning_tree.end(); ++ei)
    {
