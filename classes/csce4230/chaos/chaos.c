@@ -23,6 +23,7 @@ void display(void)
    srand(seed); /*initialize random number generator*/
    currentXPos = w/2;
    currentYPos = h/2;
+   glClear (GL_COLOR_BUFFER_BIT);
    glBegin(GL_POINTS);
       glColor3f (1.0, 1.0, 1.0);
    
@@ -63,7 +64,6 @@ void display(void)
 void init (void) 
 {
 /* select clearing color 	*/
-   glClear (GL_COLOR_BUFFER_BIT);
    glClearColor (0.0, 0.0, 0.0, 0.0);
 
 /* initialize viewing values  */
