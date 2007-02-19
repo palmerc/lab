@@ -4,6 +4,6 @@ all: pend
 	cc -lglut -o $@ $< -g -Wall -ansi -pedantic
 
 clean:
-	rm -f *.o main
+	rm -f *.o pend
 
 .PHONY: clean all

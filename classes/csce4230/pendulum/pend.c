@@ -1,5 +1,9 @@
 #include <GL/glut.h>
 #include <math.h>
+#include <stdio.h>
+
+GLfloat angle = 180.0;
+GLint direction = 0;
 
 /* x and y represent the center of the circle */
 void drawSolidCircle(float radius, float x, float y)
@@ -31,13 +35,34 @@ void display(void)
    glClear (GL_COLOR_BUFFER_BIT);
 
    glColor3f (1.0, 1.0, 1.0);
-   glBegin(GL_LINES);
-      glVertex3f (0.0, 0.0, 0.0);
-      glVertex3f (-0.50, -0.50, 0.0);
-   glEnd();
-   glColor3f (1.0, 0.0, 0.0);
-   drawSolidCircle(0.10, -0.50, -0.50);
-   glFlush ();
+   
+   glPushMatrix();
+      glRotatef(angle, 0.0, 0.0, 1.0);
+      glBegin(GL_LINES);
+         glVertex3f (0.0, 0.0, 0.0);
+         glVertex3f (0.0, 0.50, 0.0);
+      glEnd();
+      glColor3f (1.0, 0.0, 0.0);
+      drawSolidCircle(0.10, 0.0, 0.60);
+   glPopMatrix();
+   
+   glFinish ();
+   glutSwapBuffers();
+}
+
+void swing(void)
+{
+   if (angle < 135.0)
+      direction = 0;
+   else if (angle > 225.0)
+      direction = 1;
+   
+   if (direction == 0)
+      angle += 0.025;
+   else if (direction == 1)
+      angle -= 0.025;
+   
+   glutPostRedisplay();
 }
 
 void init (void) 
@@ -47,18 +72,21 @@ void init (void)
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
    glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+   glMatrixMode(GL_MODELVIEW);
+   glLoadIdentity();
    glEnable(GL_LINE_SMOOTH);
 }
 
 int main(int argc, char** argv)
 {
    glutInit(&argc, argv);
-   glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
    glutInitWindowSize (500, 500); 
    glutInitWindowPosition (100, 100);
    glutCreateWindow ("pendulum");
    init ();
-   glutDisplayFunc(display); 
+   glutDisplayFunc(display);
+   glutIdleFunc(swing);
    glutMainLoop();
    return 0;   /* ANSI C requires main to return int. */
 }
