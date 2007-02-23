@@ -11,8 +11,9 @@ void init (void)
 {
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glShadeModel(GL_FLAT);
-   glEnable(GL_POINT_SMOOTH);
+   glEnable(GL_LINE_SMOOTH);
    glEnable(GL_BLEND);
+   glEnable(GL_DEPTH_TEST);
 }
 
 void pointsCircle (GLfloat x, GLfloat y, GLfloat z, GLfloat radius)
@@ -67,7 +68,7 @@ void displayAxis(void)
 
 void display(void)
 {
-   glClear (GL_COLOR_BUFFER_BIT);
+   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    displayAxis();
    glColor3f(1.0, 1.0, 1.0);
    glPushMatrix();
@@ -117,6 +118,12 @@ void keyboard(unsigned char key, int x, int y)
 {
    switch (key) 
    {
+      case 43:
+         glutIdleFunc(spinDisplay);
+         break;
+      case 32:
+         glutIdleFunc(NULL);
+         break;
       case 27:
          exit(0);
          break;
@@ -126,7 +133,7 @@ void keyboard(unsigned char key, int x, int y)
 int main(int argc, char** argv)
 {
    glutInit(&argc, argv);
-   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
+   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
    glutInitWindowSize (450, 450); 
    glutInitWindowPosition (100, 100);
    glutCreateWindow (argv[0]);
