@@ -1,3 +1,8 @@
+/* Cameron Palmer
+   CSCE 4230
+   February 22, 2007
+*/
+
 #include <GL/glut.h>
 #include <math.h>
 #include <stdio.h>
@@ -20,7 +25,7 @@ void drawSolidCircle(void)
 
 void spinDisplay(void)
 {
-+_+++   if (direction == 0)
+   if (direction == 0)
    {
       spin = spin - 0.1;
       if (spin < 0.0)
@@ -95,23 +100,42 @@ void mouse(int button, int state, int x, int y)
    }
 }
 
+void menu(int value)
+{
+   switch (value)
+   {
+      case 1:
+         direction = 1; /* Minus - clockwise */
+         glutIdleFunc(spinDisplay);
+         break;
+      case 2:
+         direction = 0; /* Plus - counterclockwise */
+         glutIdleFunc(spinDisplay);
+         break;
+      case 3:
+         glutIdleFunc(NULL);
+         break;
+      case 4:
+         exit(0);
+         break;
+   }
+}
+
 void keyboard(unsigned char key, int x, int y)
 {
    switch (key)
    {
       case 27:
-         exit(0);
+         menu(4);
          break;
       case 32:
-         glutIdleFunc(NULL);
+         menu(3);
          break;
       case 43:
-         direction = 0; /* Plus - counterclockwise */
-         glutIdleFunc(spinDisplay);
+         menu(2);
          break;
       case 45:
-         direction = 1; /* Minus - clockwise */
-         glutIdleFunc(spinDisplay);
+         menu(1);
          break;
    }
 }
@@ -124,6 +148,8 @@ void init (void)
 
 int main(int argc, char** argv)
 {
+   int m;
+   
    glutInit(&argc, argv);
    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
    glutInitWindowSize (500, 500); 
@@ -134,6 +160,12 @@ int main(int argc, char** argv)
    glutReshapeFunc(reshape);
    glutKeyboardFunc(keyboard);
    glutMouseFunc(mouse);
+   m = glutCreateMenu(menu);
+   glutAddMenuEntry("Clock-wise", 1);
+   glutAddMenuEntry("Counter clock-wise", 2);
+   glutAddMenuEntry("Stop", 3);
+   glutAddMenuEntry("Exit", 4);
+   glutAttachMenu(GLUT_RIGHT_BUTTON);
    glutMainLoop();
    return 0;   /* ANSI C requires main to return int. */
 }
