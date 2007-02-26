@@ -16,12 +16,12 @@
 
 
 #define  OS_MASTER_FILE                       /* Prevent the following files from including includes.h */
-#include "\software\ucos-ii\source\os_core.c"
-#include "\software\ucos-ii\source\os_flag.c"
-#include "\software\ucos-ii\source\os_mbox.c"
-#include "\software\ucos-ii\source\os_mem.c"
-#include "\software\ucos-ii\source\os_mutex.c"
-#include "\software\ucos-ii\source\os_q.c"
-#include "\software\ucos-ii\source\os_sem.c"
-#include "\software\ucos-ii\source\os_task.c"
-#include "\software\ucos-ii\source\os_time.c"
+#include "os_core.c"
+#include "os_flag.c"
+#include "os_mbox.c"
+#include "os_mem.c"
+#include "os_mutex.c"
+#include "os_q.c"
+#include "os_sem.c"
+#include "os_task.c"
+#include "os_time.c"
