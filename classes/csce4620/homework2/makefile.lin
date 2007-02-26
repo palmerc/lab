@@ -27,8 +27,11 @@ $(UCOS_PORT_LIB)/ucos_ii.a:	os_cfg.h
 	@echo --- Recompiling library ucos_ii.a ---
 	@gcc -c -D__LINUX__ $(CFLAGS) -I$(UCOS_SRC) -I$(UCOS_PORT_SRC) -I$(UCOS_PORT_EX) $(UCOS_SRC)/ucos_ii.c $(UCOS_PORT_SRC)/pc.c $(UCOS_PORT_SRC)/os_cpu_c.c
 	@ar -r $(UCOS_PORT_LIB)/ucos_ii.a ucos_ii.o os_cpu_c.o pc.o 
+	@rm -f *.o
 
 clean:
+	@rm -f $(PROGRAM)
+	@rm -f *.a
 	@rm -f *.o
 	@rm -f *.bak
 	@rm -f *~

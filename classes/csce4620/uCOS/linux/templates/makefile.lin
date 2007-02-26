@@ -30,6 +30,8 @@ $(UCOS_PORT_LIB)/ucos_ii.a:	os_cfg.h
 	@rm -f *.o
 
 clean:
+	@rm -f $(PROGRAM)
+	@rm -f *.a
 	@rm -f *.o
 	@rm -f *.bak
 	@rm -f *~
