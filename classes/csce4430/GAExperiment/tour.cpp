@@ -14,8 +14,6 @@
 //
 // ***********************************************************************
 
-#include <iostream>
-#include <assert.h>
 #include "tour.h"
 
 int distances[128][128];	// store distance between each pair

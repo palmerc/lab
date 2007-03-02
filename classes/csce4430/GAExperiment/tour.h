@@ -17,6 +17,8 @@
 #ifndef TOURH
 #define TOURH
 
+#include <iostream>
+#include <assert.h>
 // ***********************************************************************
 // 
 //   Class Tour --- the element of a doubly linked list.

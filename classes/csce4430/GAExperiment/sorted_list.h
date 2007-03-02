@@ -1,14 +1,12 @@
 #ifndef _SORTED_LIST_H
 #define _SORTED_LIST_H
 
-#include <cstdlib>
-#include <assert.h>
-
 template <class Data>
 class SortedList { // hooray!  inheritance!
 public:
 	virtual Data& operator[] (int k) = 0;
 	virtual void insert(Data& value) = 0;
+	virtual ~SortedList() {};
 	virtual void remove() = 0;
 #ifdef CAN_DUMP // because we can't print all element types...
 	virtual void dump() = 0;

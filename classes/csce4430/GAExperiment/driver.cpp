@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdio>
 #include <cmath>
 #include "sorted_list.h"
 #include "tour.h"
@@ -12,18 +11,18 @@ int choose(int p)
 	return (int) f;
 }
 
-void usage(char *me)
+void usage(char *progname)
 {
-	std::printf("Usage: %s population generations method [quiet]\n", me);
-	std::printf("\twhere:\n");
-	std::printf("\t\t\"population\" is the population size\n");
-	std::printf("\t\t\"generations\" is the number of generations you want\n");
-	std::printf("\t\t\"method\" is the method of storage:\n");
-	std::printf("\t\t\t(1 == dynamic array, 2 == linked list\n");
-	std::printf("\t\t\t 3 == binary tree, 4 == avl tree)\n");
-	printf("\t\t\"quiet\" is optional, and will disable dumping info\n");
-	printf("\t\t\t about the tours.  use this when timing.\n");
-	exit(1);
+   std::cout << "Usage: " << progname << "population generations method [quiet]"
+   << std::endl << "\twhere:" << std::endl
+   << "\t\t\"population\" is the population size" << std::endl
+   << "\t\t\"generations\" is the number of generations you want" << std::endl
+   << "\t\t\"method\" is the method of storage:" << std::endl
+   << "\t\t\t(1 == dynamic array, 2 == linked list" << std::endl
+   << "\t\t\t 3 == binary tree, 4 == avl tree)" << std::endl
+   << "\t\t\"quiet\" is optional, and will disable dumping info" << std::endl
+   << "\t\t\t about the tours.  use this when timing." << std::endl;
+   exit(1);
 }
 
 int main(int argc, char **argv)

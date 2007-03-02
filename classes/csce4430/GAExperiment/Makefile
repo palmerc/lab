@@ -1,28 +1,24 @@
-# Joseph Parrish
-# Program 3
-#   written on a 98-column terminal,
-#   so sorry if it looks poorly formatted.
-
 CC = g++
 RM = rm -f
 
-CFLAGS = -g -Wall -ansi -pedantic
-LDFLAGS = 
+CFLAGS = -g -Wall -ansi -pedantic -c
 
 OBJS = tour.o driver.o
 
 all: driver
-.PHONY: all
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) $<
 
 driver: $(OBJS) 
 	$(CC) $(OBJS) -o gen
+	$(RM) $(OBJS)
 
-tags: $(SRCS)
-	$(CTAGS) $(SRCS)
-	
 clean:
 	$(RM) gen $(OBJS) 
 
+.PHONY: all
 # DO NOT DELETE
-
-#driver.o: sorted_list.h tour.h
+tour.cpp: tour.h
+driver.cpp: sorted_list.h tour.h
+driver.o: sorted_list.h tour.h
