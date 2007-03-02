@@ -6,25 +6,23 @@
 CC = g++
 RM = rm -f
 
-CFLAGS = -g -Wall 
-CPPFLAGS = -g -Wall 
+CFLAGS = -g -Wall -ansi -pedantic
+LDFLAGS = 
 
-GEN_OBJS = driver.o tour.o
-OBJS = test.o avltest.o $(GEN_OBJS)
+OBJS = tour.o driver.o
 
-gen: $(GEN_OBJS)
-	$(CC) $(CFLAGS) -o gen $(GEN_OBJS)
-	
-test: test.o
-	$(CC) $(CFLAGS) -o test test.o
+all: driver
+.PHONY: all
 
-avltest: avltest.o
-	$(CC) $(CFLAGS) -o avltest avltest.o
+driver: $(OBJS) 
+	$(CC) $(OBJS) -o gen
+
+tags: $(SRCS)
+	$(CTAGS) $(SRCS)
 	
 clean:
-	$(RM) test gen $(OBJS) core *.stackdump *~ *.exe
+	$(RM) gen $(OBJS) 
 
-driver.o: sorted_list.h
-test.o: sorted_list.h
-avltest.o: sorted_list.h
+# DO NOT DELETE
 
+#driver.o: sorted_list.h tour.h
