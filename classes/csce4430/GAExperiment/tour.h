@@ -18,6 +18,7 @@
 #define TOURH
 
 #include <iostream>
+#include <cstdlib>
 #include <assert.h>
 // ***********************************************************************
 // 

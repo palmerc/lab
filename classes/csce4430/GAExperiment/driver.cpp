@@ -6,7 +6,7 @@
 int choose(int p)
 {
 	double f;
-	f = random() % (p * p);
+	f = rand() % (p * p);
 	f = sqrt(f);
 	return (int) f;
 }

@@ -376,8 +376,8 @@ Tour& build_a_random_bit_string()
 
     for( i = 0; i < 64; i++ )
     {
-        int index1 = random() % 128;
-        int index2 = random() % 128;
+        int index1 = rand() % 128;
+        int index2 = rand() % 128;
         int temp = tsp[index1];
         tsp[index1] = tsp[index2];
         tsp[index2] = temp;
@@ -397,11 +397,11 @@ void initialize_distances()
     {
         for( j = 0; j < i; j++ )
         {
-	    distances[i][j] = distances[j][i] = random() % 1000;
+	    distances[i][j] = distances[j][i] = rand() % 1000;
             if( (rand() % 100) <  6 ) 
-	        distances[i][j] = distances[j][i] = random() % 100;
+	        distances[i][j] = distances[j][i] = rand() % 100;
             if( (rand() % 100) >  91 ) 
-	        distances[i][j] = distances[j][i] = random() % 5000;
+	        distances[i][j] = distances[j][i] = rand() % 5000;
         }
     }
     for( i = 0; i < 128; i++ )

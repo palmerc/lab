@@ -436,9 +436,10 @@ public:
 		return start[num];
 	}
 
-        void *operator new ( unsigned int num_bytes )
+	// This is an example of overloading the new operator.
+        void *operator new ( size_t num_bytes )
 	{
-		return malloc( 1000000000 * num_bytes );
+		return malloc( num_bytes );
 	}
 
 	void insert(Data& x) {
