@@ -67,7 +67,7 @@ void display(void)
    glColor3f (1.0, 1.0, 1.0);
    glLoadIdentity (); /* clear the matrix */
    /* viewing transformation */
-   gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+   glTranslated(0.0, 0.0, -5.0);
    glScalef (1.0, 2.0, 3.0); /* modeling transformation */ 
    glPushMatrix();    
       glRotatef(-xrot, 1.0, 0.0, 0.0);
@@ -81,6 +81,16 @@ void display(void)
 void reshape (int w, int h)
 {
    glViewport (0, 0, (GLsizei) w, (GLsizei) h); 
+   if (w < h)
+   {
+      w = h;
+      glutReshapeWindow((GLsizei) w, (GLsizei) h);
+   }
+   else if (h < w)
+   {
+      h = w;
+      glutReshapeWindow((GLsizei) w, (GLsizei) h);
+   }
    glMatrixMode (GL_PROJECTION);
    glLoadIdentity ();
    glFrustum (-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
