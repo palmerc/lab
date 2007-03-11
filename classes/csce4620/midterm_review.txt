@@ -1,0 +1,118 @@
+=== Real time and RTOS ===
+
+Real-time computing - the study of hardware and software systems which are
+subject to a "real-time constraint"
+
+Hard real time - A system is said to be hard real-time if the completion of an
+operation after its deadline is considered useless.
+
+Soft real time - A system is said to be soft real-time if it can tolerate some
+lateness, or may respond with decreased service quality.
+
+uCOS - The Real-Time Kernel is a portable, ROMable, scalable, preemptive
+real-time, multitasking kernel for microcontrollers. Can manage up to 255 tasks.
+
+Embedded system - is a special-purpose system in which the computer is completely
+encapsulated by the device it controls. It performs one or a few pre-defined
+tasks, usually with very specific requirements.
+
+Foreground/background - Typically a small system of low complexity. Consists of 
+an infinite loop that processes each background module and async events are
+handled as ISRs (foreground). ISRs tend to take too long in these systems and
+background tasks won't process information provided by ISRs until they get
+called again.
+
+Foreground = interrupt level.
+Background = task level.
+
+=== Tasks and Processes ===
+Task/Process - also called a thread is a simple program that thinks it has the 
+processor all to itself. Each task is a assigned a priority, its own set of CPU
+registers, and its own stack area. 
+
+Critical section - is code that needs to be treated indivisibly. Typically
+interrupts are disabled before execution of a critical section and re-enabled
+after.
+
+Task state - Each task is typically an infinite loop with five states: Dormant,
+Ready, Running, Waiting, or ISR.
+
+Context switch - When a multitasking kernel decides to run a different task, it 
+saves the current task's context (CPU Registers) to the stack. Upon completion
+of the task a context is restored by getting the registers off the stack. Don't
+judge a Real Time kernel by how many context switches it can do per second.
+
+Scheduler - aka dispatcher. Two main kinds preemptive and non-preemptive. 
+Decides which task runs next.
+
+Reentrant - code that can be used by more than one task without fear of data 
+corruption.
+
+Task priority - the relative importance of a particular task to other tasks.
+
+Interrupts - a hardware mechanism to indicate an asynchronous event has occurred.
+A context switch is generated and control is given to the ISR.
+
+Task Control Block - data structure to maintain the state of a task when it is 
+preempted. When the task regains control of the CPU, the task control block
+allows the task to resume execution exactly where it left off.
+
+=== Task Scheduling ===
+
+Non-preemptive kernels require that each task does something to explicitly give
+up control of the CPU. Uses cooperative multitasking. ISRs are still possible
+but even if a higher priority task is ready to run but still returns to the 
+interrupted task.
+
+Preemptive kernel - used when system responsiveness is important. The highest
+priority task ready to run is given control of the CPU.
+
+Static priority - A priority is assigned to each task at compile time and it 
+does not change during the application's execution.
+
+Dynamic priority - A task's priority can be changed at run time. This helps
+prevent priority inversion.
+
+Schedule locking and unlocking - prevents the scheduler from preempting the
+running task. An ISR can still be called but it will return to the interrupted
+task. Very similar to the behavior of a non-preemptive kernel when the scheduler
+is turned off.
+
+Kernel - is the part of a multitasking system responsible for management of tasks
+and communication between tasks. The main service provided is context switching.
+
+Round-robin scheduling - When two or more tasks with the same priority are allowed
+to run for a finite period of time called a quantum. 
+
+Ready list - is the list from 0 to OS_LOWEST_PRIORITY, inclusive of tasks that
+are ready to run. Each task has an entry in the OSRdyGrp and OSRdyTbl.
+
+Idle task - Always the lowest priority task and gets scheduled when no other 
+task is ready to run.
+
+=== Task Interaction ===
+
+Asynchronous / Synchronous 
+
+Shared resources - a resource that can be used by more than one task and will
+require the use of a mutex to prevent data corruption.
+
+Mutual Exclusion - methods for preventing data corruption of a shared resource.
+Common methods are disabling interrupts, performing test-and-set operations, 
+disabling scheduling, or using semaphores.
+
+Event 
+
+Priority Inversion - A problem in real time kernels where a lower priority task
+prevents a higher priority task from executing because it waiting on a resource
+that a lower priority task has.
+
+Priority Inheritance - used to prevent priority inversion. It raises the priority
+of the task that is preventing a higher priority task from running.
+
+Deadlock - a situation where two tasks are waiting on a resource the other task
+has.
+
+Bilateral Rendevous - When two tasks use two semaphores to synchronize their 
+activities.
+
