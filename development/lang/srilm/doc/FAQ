@@ -1,0 +1,87 @@
+
+FREQUENTLY ASKED QUESTIONS ABOUT SRILM
+
+Topic: Building SRILM
+
+Topic: LM smoothing pitfalls
+
+Topic: Large data / too little memory issues
+
+1) I'm getting a message saying (among other things)
+
+	Assertion `body != 0' failed.
+
+A: You are running out of memory.  See subsequent questions depending on
+   what you are trying to do.  Note: the above message means you are running
+   out of "virtual" memory on your computer, which could be because of 
+   limits in swap space, administrative resource limits, or limitations of 
+   the machine architecture (a 32-bit machine cannot address more than
+   4GB no matter how many resources your system has).
+   Another symptom of not enough memory is that your program runs, but 
+   very, very slowly, i.e., it is "paging" or "swapping" as it tries to
+   use more memory than the machine has RAM installed.
+
+2) I am trying to count N-grams in a text file and running out of memory.
+
+A: Don't use ngram-count directly to count N-grams.  Instead, use the 
+   make-batch-counts and merge-batch-counts scripts described in
+   training-scripts(1).  That way you can create N-gram counts limited only
+   by the maximum file size on your system.
+
+3) I am trying to build an N-gram LM and ngram-count runs out of memory.
+
+A: You are running out of memory either because of the size of ngram counts,
+   or of the LM being built. The following are strategies for reducing the
+   memory requiredments for training LMs.
+
+     a)	Assuming you are using Good-Turing or Kneser-Ney discounting, don't use
+	ngram-count in "raw" form.  Instead, use the make-big-lm wrapper
+	script described in the traning-scripts(1) man page.
+
+     b)	Switch to using the "_c" or "_s" versions of the SRI binaries.  For
+	instructions on how to build them, see the INSTALL file.
+	Once built, set your executable seach path accordingly, and try 
+	make-big-lm again.
+
+     c) Lower the minimum counts for N-grams included in the LM, i.e., the 
+	values of the options -gt2min, -gt3min, gt4min, etc.  The higher
+	order N-grams typically get higher minumum counts.
+
+     d) Get a machine with more memory.  If you are hitting the limitations of
+	a 32-bit machine architecture, get a 64-bit machine and recompile SRILM
+	to take advantage of the expanded address space. (The "i686-m64"
+	MACHINE_TYPE setting is for systems based on 64-bit AMD processors.)
+	Note: that the 64-bit pointers will require a memory overhead in 
+	themselves, so will need a machine with significantly, not just a
+	little, more memory than 4GB.
+
+4) I am trying to apply a large LM to some data and am running out of memory.
+
+A: Again, there are several strategies to reduce memory requirements.
+
+     a)	Use the "_c" or "_s" versions of the SRI binaries.  See 3b) above.
+
+     b)	Precompute the vocabulary of your test data and use the
+	ngram -limit-vocab option to load only the N-gram parameters relevant
+	to your data.  This approach should allow you to use arbitrarily 
+	large LMs provided the data is divided into small enough chunks.
+
+     c) If the LM can be built on a large machine, but then is to be used on
+	machines with limited memory, use ngram -prune to remove the less 
+	important parametere of the model.  This usually gives huge size
+	reductions with relatively modest performance degradation.  The
+	tradeoff is adjustable by varying the pruning parameter.
+
+5) My large LMs take forever to load into memory. What should I do?
+
+A: The techniques described in 4b) and 4c) above also reduce the load time
+   of the LM.
+
+   In addition, you can convert you
+   Another strategy is to build an "LM server" application that loads the 
+   LM into memory once, and then waits for data and outputs LM scores.
+   It is relatively easy to construct such servers via wrapper scripts because
+   most SRILM tools can get input from stdin.  (For example, a "lattice
+   rescoring server" can be constructed by having lattice-tool with
+   -in-lattice-list read lattice filenames from standard input.)
+
