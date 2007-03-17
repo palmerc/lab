@@ -64,10 +64,10 @@ AR_OUTPUT_OPTION = $@
 DEMANGLE_FILTER = 2>&1 | c++filt
 
 # Path to GNU awk; used in editing scripts 
-GAWK = /usr/local/bin/gawk
+GAWK = /usr/bin/awk
 
 # Path to Perl; used in editing scripts 
-PERL = /usr/local/bin/perl
+PERL = /usr/bin/perl
 
 # Keep the source and object files in separate directories.
 OUTPUT_OPTION = -o $@

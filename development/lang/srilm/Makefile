@@ -74,13 +74,13 @@ release-headers release-libraries release-programs release-scripts:
 
 # files needed for the web page
 WWW_DOCS = CHANGES License INSTALL RELEASE
-WWW_DIR = /home/spftp/www/DocumentRoot/projects/srilm
+WWW_DIR = /home/palmerc/lab/development/lang/srilm/www
 
 www:	$(WWW_DOCS)
 	ginstall -m 444 $(WWW_DOCS) $(WWW_DIR)/docs
 	ginstall -m 444 man/html/* $(WWW_DIR)/manpages
 
-TAR = /usr/local/gnu/bin/tar
+TAR = /bin/tar
 
 package:	EXCLUDE
 	$(TAR) cvzXf EXCLUDE ../srilm-$(RELEASE).tar.gz .
