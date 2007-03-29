@@ -59,8 +59,8 @@ static unsigned umask[4] = {0x00FFFFFF, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00};
    {
       if (bytes > _counter)
       {
-         _pNext = malloc(512 * bytes);
-         _counter = 512 * bytes;
+         _pNext = malloc(16 * bytes);
+         _counter = 16 * bytes;
       }
       void* _cur = _pNext;
       _pNext = (void*)((size_t) _pNext + bytes);
