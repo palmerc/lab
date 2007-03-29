@@ -16,6 +16,8 @@
 
 #include "tour.h"
 
+void *Tour::_pNext;
+size_t Tour::_counter;
 int distances[128][128];	// store distance between each pair
                                 // in the 128-city tsp
 
@@ -49,19 +51,21 @@ static unsigned umask[4] = {0x00FFFFFF, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00};
    Tour::Tour()
    {
        worthiness = 1000000;  // big value indicates worthiness not set
+       _counter = 0;
+       _pNext = 0;
    }
 
    void* Tour::operator new ( size_t bytes )
    {
-      if (bytes * sizeof(Tour) > _counter)
+      if (bytes > _counter)
       {
-         _pNext = malloc(1024 * sizeof(Tour) * bytes);
-         _counter = 1024 * sizeof(Tour) * bytes;
+         _pNext = malloc(512 * bytes);
+         _counter = 512 * bytes;
       }
       void* _cur = _pNext;
-      _pNext = (void*)((size_t) _pNext + sizeof(Tour) * bytes);
-      _counter -= sizeof(Tour) * bytes;
-      return _cur;      
+      _pNext = (void*)((size_t) _pNext + bytes);
+      _counter -= bytes;
+      return _cur;
    } 
 
 // -----------------------------------------------------------------------
@@ -431,3 +435,4 @@ Tour& combine(Tour& t1, Tour& t2)
     X->evaluate();
     return *X;  
 }
+
