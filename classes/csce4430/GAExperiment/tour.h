@@ -35,7 +35,7 @@ class Tour
 // 
 // -----------------------------------------------------------------------
    Tour(); 
-
+   void *operator new ( size_t bytes );
 
 // -----------------------------------------------------------------------
 // 
@@ -82,6 +82,8 @@ class Tour
    void mutate();
 
    int worthiness;    // the "value" of the tour
+   static void* _pNext;
+   static size_t _counter;
    unsigned data[32];  
    // *******************************************************************
    // 

@@ -44,7 +44,6 @@ int main(int argc, char **argv)
 		s = new AVLList<Tour>;
 	else
 		usage(argv[0]);
-	
 	pop_size = atoi(argv[1]);
 	gens = atoi(argv[2]);
 
@@ -60,6 +59,7 @@ int main(int argc, char **argv)
 	}
     
 	for (i = 0; i < gens; i++) {
+
 		s->remove();
 		s->insert(combine((*s)[choose(pop_size - 1)], (*s)[choose(pop_size - 1)]));
 	}

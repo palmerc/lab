@@ -49,6 +49,19 @@ static unsigned umask[4] = {0x00FFFFFF, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00};
    Tour::Tour()
    {
        worthiness = 1000000;  // big value indicates worthiness not set
+   }
+
+   void* Tour::operator new ( size_t bytes )
+   {
+      if (bytes * sizeof(Tour) > _counter)
+      {
+         _pNext = malloc(1024 * sizeof(Tour) * bytes);
+         _counter = 1024 * sizeof(Tour) * bytes;
+      }
+      void* _cur = _pNext;
+      _pNext = (void*)((size_t) _pNext + sizeof(Tour) * bytes);
+      _counter -= sizeof(Tour) * bytes;
+      return _cur;      
    } 
 
 // -----------------------------------------------------------------------
@@ -64,6 +77,7 @@ static unsigned umask[4] = {0x00FFFFFF, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00};
        worthiness = 1000000;
        worthiness = evaluate();
    } 
+
 
 
 // -----------------------------------------------------------------------

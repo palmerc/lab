@@ -2,6 +2,6 @@
 
 for ds in 1 2 3 4
 do
-   echo "time ./gen 500 50000 $ds" 
-   time ./gen 500 50000 $ds quiet
+   echo "time ./gen 500 500000 $ds" 
+   time ./gen 500 500000 $ds quiet
 done

@@ -260,8 +260,11 @@ private:
 #endif
 	
 public:
-	
 	AVLList() {
+		head = NULL;
+	}
+
+	AVLList(int genhint) {
 		head = NULL;
 	}
 	
@@ -362,12 +365,16 @@ public:
 	BSTList() {
 		head = NULL;
 	}
+
+	BSTList(int genhint) {
+		head = NULL;
+	}
 	
 	~BSTList() {
 		if (head) _destroy(head);
 		head = NULL;
 	}
-	
+
 	Data& operator[] (int k) {
 		return _seek(head, k);
 	}
@@ -405,7 +412,7 @@ private:
 	// probably my fault, but i can't see what i'm doing wrong.
 	// perhaps something to do with {con,de}structors in the Data classes...
 	void grow_list() {
-		int new_length;
+		int new_length = 0;
 		Data *new_list;
 		
 		if (length == 0)
@@ -420,9 +427,14 @@ private:
 		ram = new_list;
 		length = new_length;
 	}
-	
+
 public:
 	ArrayList() {
+		length = used = 0;
+		ram = start = NULL;
+	}
+
+	ArrayList(int genhint) {
 		length = used = 0;
 		ram = start = NULL;
 	}
@@ -434,12 +446,6 @@ public:
 
 	Data& operator[](int num) {
 		return start[num];
-	}
-
-	// This is an example of overloading the new operator.
-        void *operator new ( size_t num_bytes )
-	{
-		return malloc( num_bytes );
 	}
 
 	void insert(Data& x) {
@@ -499,6 +505,10 @@ private:
 
 public:
 	LinkedList() {
+		head = NULL;
+	}
+
+	LinkedList(int genhint) {
 		head = NULL;
 	}
 
