@@ -48,7 +48,7 @@ int main(void)
    //PC_DOSSaveReturn(); /* Save environment to return to DOS */
    //PC_VectSet(uCOS, OSCtxSw); /* Install uC/OS-II's context switch vector */
 
-   SemA  = OSSemCreate(1); /* Task1 Signals Task2 using this semaphore */
+   SemA  = OSSemCreate(0); /* Task1 Signals Task2 using this semaphore */
 	SemB  = OSSemCreate(0); /* Task2 Signals Task1 using this semaphore */
 
    ret = OSTaskCreate(TaskStart, (void *)9, &TaskStartStk[TASK_STK_SIZE - 1], 9);
@@ -203,6 +203,7 @@ void Task1(void *pdata)
       OSTimeDlyHMSM(0, 0, 1, 0); /* Wait one second */
 	  PC_DispStr(10, 12, "  Waiting on signal from Task 2 (PEND)                                          ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       OSSemPend(SemA, 0, &err); /* Pend on Signal from Task 2 */
+	  
 	}
 }
 
