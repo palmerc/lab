@@ -48,7 +48,7 @@ int main(void)
    //PC_DOSSaveReturn(); /* Save environment to return to DOS */
    //PC_VectSet(uCOS, OSCtxSw); /* Install uC/OS-II's context switch vector */
 
-   SemA  = OSSemCreate(0); /* Task1 Signals Task2 using this semaphore */
+   SemA  = OSSemCreate(1); /* Task1 Signals Task2 using this semaphore */
 	SemB  = OSSemCreate(0); /* Task2 Signals Task1 using this semaphore */
 
    ret = OSTaskCreate(TaskStart, (void *)9, &TaskStartStk[TASK_STK_SIZE - 1], 9);
@@ -196,12 +196,10 @@ void Task1(void *pdata)
       PC_DispStr(10, 11, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       PC_DispStr(10, 12, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       
-		OSSemPost(SemA); /* Signal Task2 using semaphore */
-			
+	  OSSemPost(SemB); /* Signal Task2 using semaphore */
       PC_DispStr(10, 11, "  Signal Task 2 (POST Semaphore A)                                              ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       PC_DispStr(10, 12, "  Waiting on signal from Task 2 (PEND)                                          ", DISP_FGND_BLACK + DISP_BGND_WHITE);
-
-		OSSemPend(SemB, 0, &err); /* Pend on Signal from Task 2 */
+      OSSemPend(SemA, 0, &err); /* Pend on Signal from Task 2 */
 	}
 }
 
@@ -215,11 +213,9 @@ void  Task2 (void *pdata)
       PC_DispStr(10, 16, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       PC_DispStr(10, 17, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
 
-      OSSemPost(SemB); /* Signal Task1 using semaphore */
-
+      OSSemPost(SemA); /* Signal Task1 using semaphore */
       PC_DispStr(10, 16, "  Signal Task 1 (POST Semaphore B)                                              ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       PC_DispStr(10, 17, "  Waiting on Task1 (PEND Semaphore A)                                           ", DISP_FGND_BLACK + DISP_BGND_WHITE);
-		
-      OSSemPend(SemA, 0, &err); /* Pend on Signal from Task 1 */
+      OSSemPend(SemB, 0, &err); /* Pend on Signal from Task 1 */
    }
 }
