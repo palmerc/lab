@@ -1,14 +1,16 @@
-/*******************************************************************************
- * uC/OS-II
- * The Real-Time Kernel
- *
- *	WIN32 PORT & LINUX PORT
- * (c) Copyright 2004, Werner.Zimmermann@fht-esslingen.de
- * (Similar to Example 1 of the 80x86 Real Mode port by Jean J. Labrosse)
- * All Rights Reserved
- *
- * EXAMPLE #1
- ******************************************************************************/
+/*
+*********************************************************************************************************
+*                                                uC/OS-II
+*                                          The Real-Time Kernel
+*
+*					WIN32 PORT & LINUX PORT
+*                          (c) Copyright 2004, Werner.Zimmermann@fht-esslingen.de
+*                 (Similar to Example 1 of the 80x86 Real Mode port by Jean J. Labrosse)
+*                                           All Rights Reserved
+*
+*                                               EXAMPLE #1
+*********************************************************************************************************
+*/
 
 #include "includes.h"
 
@@ -32,9 +34,11 @@ OS_STK        TaskStartStk[TASK_STK_SIZE];
 char          TaskData[N_TASKS];                      /* Parameters to pass to each task               */
 OS_EVENT     *RandomSem;
 
-/******************************************************************************
- *                               FUNCTION PROTOTYPES
- ******************************************************************************/
+/*
+*********************************************************************************************************
+*                                           FUNCTION PROTOTYPES
+*********************************************************************************************************
+*/
 
         void  Task(void *data);                       /* Function prototypes of tasks                  */
         void  TaskStart(void *data);                  /* Function prototypes of Startup task           */
@@ -51,15 +55,15 @@ static  void  TaskStartDisp(void);
 
 int  main (void)
 {
-   PC_DispClrScr(DISP_FGND_WHITE + DISP_BGND_BLACK);  /* Clear the screen */
+    PC_DispClrScr(DISP_FGND_WHITE + DISP_BGND_BLACK);      /* Clear the screen                         */
 
-   OSInit(); /* Initialize uC/OS-II */
+    OSInit();                                              /* Initialize uC/OS-II                      */
 
-   RandomSem   = OSSemCreate(1); /* Random number semaphore */
+    RandomSem   = OSSemCreate(1);                          /* Random number semaphore                  */
 
-   OSTaskCreate(TaskStart, (void *)0, &TaskStartStk[TASK_STK_SIZE - 1], 0);
-   OSStart(); /* Start multitasking */
-   return 0;
+    OSTaskCreate(TaskStart, (void *)0, &TaskStartStk[TASK_STK_SIZE - 1], 0);
+    OSStart();                                             /* Start multitasking                       */
+    return 0;
 }
 
 
@@ -104,8 +108,8 @@ void  TaskStart (void *pdata)
 
 static  void  TaskStartDispInit (void)
 {
-/* 1111111111222222222233333333334444444444555555555566666666667777777777 */
-/* 01234567890123456789012345678901234567890123456789012345678901234567890123456789 */
+/*                                1111111111222222222233333333334444444444555555555566666666667777777777 */
+/*                      01234567890123456789012345678901234567890123456789012345678901234567890123456789 */
     PC_DispStr( 0,  0, "                         uC/OS-II, The Real-Time Kernel                         ", DISP_FGND_WHITE + DISP_BGND_RED);
 #ifdef __WIN32__
     PC_DispStr( 0,  1, "  Original version by Jean J. Labrosse, 80x86-WIN32 port by Werner Zimmermann   ", DISP_FGND_BLACK + DISP_BGND_LIGHT_GRAY);
@@ -180,39 +184,41 @@ static  void  TaskStartDisp (void)
 
 static  void  TaskStartCreateTasks (void)
 {
-   INT8U  i;
+    INT8U  i;
 
-   for (i = 0; i < N_TASKS; i++) {    /* Create N_TASKS identical tasks */
-      TaskData[i] = '0' + i;          /* Each task will display its own letter */
-      OSTaskCreate(Task, (void *) &TaskData[i], &TaskStk[i][TASK_STK_SIZE - 1], (INT8U) (i + 1));
-   }
+    for (i = 0; i < N_TASKS; i++) {                        /* Create N_TASKS identical tasks           */
+        TaskData[i] = '0' + i;                             /* Each task will display its own letter    */
+        OSTaskCreate(Task, (void *) &TaskData[i], &TaskStk[i][TASK_STK_SIZE - 1], (INT8U) (i + 1));
+    }
 }
 
-/******************************************************************************
- * TASKS
- ******************************************************************************/
+/*
+*********************************************************************************************************
+*                                                  TASKS
+*********************************************************************************************************
+*/
 
 void  Task (void *pdata)
 {
-   INT8U  x;
-   INT8U  y;
-   INT8U  err;
+    INT8U  x;
+    INT8U  y;
+    INT8U  err;
 
 #ifdef __WIN32__
-   srand(GetCurrentThreadId());
+    srand(GetCurrentThreadId());
 #endif
 #ifdef __LINUX__
-   srand(getppid());
+    srand(getppid());
 #endif
-   for (;;) {
-      
-      OSSemPend(RandomSem, 0, &err); /* Acquire semaphore to perform random numbers */
-      x = (int)(78.0 * (rand()/(RAND_MAX + 1.0))); /* Find X position where task number will appear */
-      y = (int)(15.0 * (rand()/(RAND_MAX + 1.0))); /* Find Y position where task number will appear */
-      OSSemPost(RandomSem); /* Release semaphore */
-      /* Display the task number on the screen */
-      PC_DispChar(x,(INT8U) (y + 5), *((char *)pdata), DISP_FGND_BLACK + DISP_BGND_GRAY);
+    for (;;) {
 
-      OSTimeDly(1); /* Delay 1 clock tick */
-   }
+        OSSemPend(RandomSem, 0, &err);           /* Acquire semaphore to perform random numbers        */
+        x = rand() % 78;                        /* Find X position where task number will appear      */
+        y = rand() % 15;                        /* Find Y position where task number will appear      */
+        OSSemPost(RandomSem);                    /* Release semaphore                                  */
+                                                 /* Display the task number on the screen              */
+        PC_DispChar(x,(INT8U) (y + 5), *((char *)pdata), DISP_FGND_BLACK + DISP_BGND_GRAY);
+
+        OSTimeDly(1);                            /* Delay 1 clock tick                                 */
+    }
 }

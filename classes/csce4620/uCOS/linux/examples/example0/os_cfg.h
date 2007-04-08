@@ -117,6 +117,9 @@
 
                                        /* ---------------------- MISCELLANEOUS ----------------------- */
 #if OS_VERSION < 280
+  #ifndef NO_TYPEDEF_OS_FLAGS
+    typedef INT32U OS_FLAGS;   	       /* Date type for event flag bits (8, 16 or 32 bits)             */
+  #endif
 #endif
 
 /* New options in V2.8x ********************************************************************************/
