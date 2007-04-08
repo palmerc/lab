@@ -195,10 +195,13 @@ void Task1(void *pdata)
       PC_DispStr(10, 10, " Task 1 start                                                                   ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       PC_DispStr(10, 11, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       PC_DispStr(10, 12, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
-      
+      PC_DispStr(10, 16, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
+      PC_DispStr(10, 17, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
+
 	  OSSemPost(SemB); /* Signal Task2 using semaphore */
       PC_DispStr(10, 11, "  Signal Task 2 (POST Semaphore A)                                              ", DISP_FGND_BLACK + DISP_BGND_WHITE);
-      PC_DispStr(10, 12, "  Waiting on signal from Task 2 (PEND)                                          ", DISP_FGND_BLACK + DISP_BGND_WHITE);
+      OSTimeDlyHMSM(0, 0, 1, 0); /* Wait one second */
+	  PC_DispStr(10, 12, "  Waiting on signal from Task 2 (PEND)                                          ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       OSSemPend(SemA, 0, &err); /* Pend on Signal from Task 2 */
 	}
 }
@@ -210,12 +213,15 @@ void  Task2 (void *pdata)
    for(;;) 
    {
       PC_DispStr(10, 15, " Task 2 start                                                                   ", DISP_FGND_BLACK + DISP_BGND_WHITE);
-      PC_DispStr(10, 16, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
+      PC_DispStr(10, 11, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
+      PC_DispStr(10, 12, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
+	  PC_DispStr(10, 16, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       PC_DispStr(10, 17, "                                                                                ", DISP_FGND_BLACK + DISP_BGND_WHITE);
 
       OSSemPost(SemA); /* Signal Task1 using semaphore */
       PC_DispStr(10, 16, "  Signal Task 1 (POST Semaphore B)                                              ", DISP_FGND_BLACK + DISP_BGND_WHITE);
-      PC_DispStr(10, 17, "  Waiting on Task1 (PEND Semaphore A)                                           ", DISP_FGND_BLACK + DISP_BGND_WHITE);
+      OSTimeDlyHMSM(0, 0, 1, 0); /* Wait one second */
+	  PC_DispStr(10, 17, "  Waiting on Task1 (PEND Semaphore A)                                           ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       OSSemPend(SemB, 0, &err); /* Pend on Signal from Task 1 */
    }
 }
