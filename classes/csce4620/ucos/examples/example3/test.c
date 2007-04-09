@@ -99,13 +99,6 @@ static  void  TaskStartDisp(void);
 
 int main (void)
 {
-   unsigned long mask = 1;
-   unsigned int len = sizeof(mask);
-   if (sched_setaffinity(0, len, &mask) < 0) 
-   { 
-      perror("sched_setaffinity");
-   }
-
     PC_DispClrScr(DISP_BGND_BLACK);                        /* Clear the screen                         */
 
     OSInit();                                              /* Initialize uC/OS-II                      */

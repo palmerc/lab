@@ -54,12 +54,6 @@ static  void  TaskStartDisp(void);
 
 int  main (int argc, char *argv[])
 {
-    unsigned long mask = 1;
-    unsigned int len = sizeof(mask);
-    if (sched_setaffinity(0, len, &mask) < 0) 
-    { 
-       perror("sched_setaffinity");
-    }
     if (argc>1)
     	timingLog=TRUE;					   /* Log task timing, if any command line parameter is used */
     	

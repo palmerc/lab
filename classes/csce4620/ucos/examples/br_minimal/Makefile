@@ -1,5 +1,5 @@
 ########## The following definition must be set for uCOS >= V2.8x #############
-#CFLAGS=-DNO_TYPEDEF_OS_FLAGS
+CFLAGS=-DNO_TYPEDEF_OS_FLAGS
 
 ########## Path for uCOS-II core source files #################################
 UCOS_SRC=../../micrium/src
@@ -14,12 +14,9 @@ UCOS_PORT_EX=.
 UCOS_PORT_LIB=$(UCOS_PORT_EX)
 
 ########## Name of source file ########################################
-PROGRAM=bilateral_rendevous
+PROGRAM=test
 
-########## Name of source file ########################################
-PROGRAM=bilateral_rendevous
-
-all:	$(PROGRAM).c  app_cfg.h  os_cfg.h  includes.h  $(UCOS_PORT_LIB)/ucos_ii.a  makefile.lin
+all:	$(PROGRAM).c  app_cfg.h  os_cfg.h  includes.h  $(UCOS_PORT_LIB)/ucos_ii.a Makefile 
 	@echo --- Recompiling the application ---
 	@gcc -g -D__LINUX__ $(CFLAGS) -I$(UCOS_SRC) -I$(UCOS_PORT_SRC) -I$(UCOS_PORT_EX) $(PROGRAM).c $(UCOS_PORT_LIB)/ucos_ii.a -lm  -o $(PROGRAM)
 

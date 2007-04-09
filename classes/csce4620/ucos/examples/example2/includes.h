@@ -19,7 +19,6 @@
 #include <math.h>
 #include <time.h>
 #include <string.h>
-#include <sched.h>
 
 #ifndef __GNUC__
 #include <conio.h>

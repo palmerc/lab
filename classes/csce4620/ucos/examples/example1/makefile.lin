@@ -5,7 +5,7 @@ CFLAGS=-DNO_TYPEDEF_OS_FLAGS
 UCOS_SRC=../../micrium/src
 
 ########## Path for uCOS-II WIN32 port source files ###########################
-UCOS_PORT_SRC=../../src
+UCOS_PORT_SRC=../../linux-port
 
 ########## Path for uCOS-II WIN32 example source files ########################
 UCOS_PORT_EX=.
@@ -29,6 +29,6 @@ $(UCOS_PORT_LIB)/ucos_ii.a:	os_cfg.h
 	@ar -r $(UCOS_PORT_LIB)/ucos_ii.a ucos_ii.o os_cpu_c.o pc.o 
 
 clean:
-	@rm -f *.o
+	@rm -f *.o *.a test
 	@rm -f *.bak
 	@rm -f *~

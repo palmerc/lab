@@ -192,6 +192,21 @@ static void TaskStartCreateTasks(void)
 * TASKS
 *******************************************************************************/
 
+int isPrime(int x)
+{
+   int i;
+   int max = sqrt(x); 
+
+   if (x <= 1) { return 0; }
+
+   for (i=2; i < max; ++i)
+   {
+      if (i % x == 0) { return 0; } 
+   }
+   return 1;
+}
+
+
 void Task1(void *pdata)
 {
    INT8U err;
@@ -206,7 +221,12 @@ void Task1(void *pdata)
       
       OSSemPend(SemA, 0, &err); /* Pend on Signal from Task 2 */
       PC_DispStr(10, 11, "  Signal Task 2 (POST Semaphore A)                                              ", DISP_FGND_BLACK + DISP_BGND_WHITE);
-      OSTimeDly(500); /* Wait one second */
+      //OSTimeDly(500); /* Wait one second */
+      int i;
+      for (i = 0; i < 100000; ++i)
+      {
+         isPrime(i); 
+      } 
       PC_DispStr(10, 12, "  Waiting on signal from Task 2 (PEND)                                          ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       OSSemPost(SemB); /* Signal Task2 using semaphore */
    }
@@ -226,7 +246,12 @@ void  Task2 (void *pdata)
 
       OSSemPend(SemB, 0, &err); /* Pend on Signal from Task 1 */      
       PC_DispStr(10, 16, "  Signal Task 1 (POST Semaphore B)                                              ", DISP_FGND_BLACK + DISP_BGND_WHITE);
-      OSTimeDly(500); /* Wait one second */
+      //OSTimeDly(500); /* Wait one second */
+      int k;
+      for (k = 0; k < 100000; ++k)
+      {
+          isPrime(k);
+      }
       PC_DispStr(10, 17, "  Waiting on Task1 (PEND Semaphore A)                                           ", DISP_FGND_BLACK + DISP_BGND_WHITE);
       OSSemPost(SemA); /* Signal Task1 using semaphore */
    }

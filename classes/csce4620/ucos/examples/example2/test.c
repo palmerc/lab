@@ -84,13 +84,6 @@ int main(void)
     OS_STK *pbos;
     INT32U size;
 
-   unsigned long mask = 1;
-   unsigned int len = sizeof(mask);
-   if (sched_setaffinity(0, len, &mask) < 0) 
-   { 
-      perror("sched_setaffinity");
-   }
-
     PC_DispClrScr(DISP_FGND_WHITE);                             // Clear the screen
     PC_ElapsedInit();                                           // Initialized elapsed time measurement
 

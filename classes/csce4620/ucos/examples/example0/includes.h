@@ -18,6 +18,7 @@
 #include <limits.h>
 #include <math.h>
 #include <time.h>
+#include <string.h>
 
 #ifndef __GNUC__
 #include <conio.h>
