@@ -16,10 +16,7 @@ UCOS_PORT_LIB=$(UCOS_PORT_EX)
 ########## Name of Example source file ########################################
 EXAMPLE=test
 
-########## Name of Example source file ########################################
-EXAMPLE=test
-
-all:	$(EXAMPLE).c  app_cfg.h  os_cfg.h  includes.h  $(UCOS_PORT_LIB)/ucos_ii.a  makefile.lin
+all:	$(EXAMPLE).c app_cfg.h os_cfg.h includes.h $(UCOS_PORT_LIB)/ucos_ii.a Makefile
 	@echo --- Recompiling the application ---
 	@gcc -D__LINUX__ $(CFLAGS) -I$(UCOS_SRC) -I$(UCOS_PORT_SRC) -I$(UCOS_PORT_EX) $(EXAMPLE).c $(UCOS_PORT_LIB)/ucos_ii.a -lm  -o $(EXAMPLE)
 
