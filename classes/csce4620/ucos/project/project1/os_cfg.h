@@ -146,7 +146,7 @@
                                        /* --------------------- TIME MANAGEMENT ----------------------   */
 #define OS_TIME_TICK_HOOK_EN      1    /*     Include code for OSTimeTickHook()                          */
                                        /* --------------------- TIMER MANAGEMENT ---------------------   */
-#define OS_TMR_EN                 0    /* Enable (1) or Disable (0) code generation for TIMERS           */
+#define OS_TMR_EN                 1    /* Enable (1) or Disable (0) code generation for TIMERS           */
 #define OS_TASK_TMR_PRIO (OS_LOWEST_PRIO-4)	 /* Priority of timer management task                    */
 #define OS_TMR_CFG_MAX           16    /*     Maximum number of timers                                   */
 #define OS_TMR_CFG_NAME_SIZE     16    /*     Determine the size of a timer name                         */
