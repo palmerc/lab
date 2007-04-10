@@ -75,7 +75,7 @@ void OSDisableInterruptFlag(void);
    0x00000080   Interrupt-Enable/Disable
  */
 #ifndef DEBUGLEVEL
-#define DEBUGLEVEL 0	//0x07F
+#define DEBUGLEVEL 0x1000007fUL //0x07F
 #endif
 
 /* Timeout value in milliseconds for the scheduler - used to detect deadlocks. Set to INFINITE for "slow" applications*/

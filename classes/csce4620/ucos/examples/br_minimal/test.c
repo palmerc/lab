@@ -131,12 +131,13 @@ void Task1(void *pdata)
    {    
       printf("BEGIN: task 1\n");
       OSSemPend(Sem1, 0, &err); /* Pend on Signal from Task 2 */
+      OSTimeDly(500);
       printf("MIDDLE: task 1\n");
-      int i;
-      for (i = 0; i < 100000; ++i)
-      {
-         isPrime(i); 
-      }
+      //int i;
+      //for (i = 0; i < 100000; ++i)
+      //{
+      //   isPrime(i); 
+      //}
       OSSemPost(Sem2); /* Signal Task2 using semaphore */
       printf("END: task 1\n");
    }
@@ -150,13 +151,13 @@ void  Task2 (void *pdata)
    {
       printf("BEGIN: task 2\n");
       OSSemPend(Sem2, 0, &err); /* Pend on Signal from Task 1 */
-      //OSTimeDly(500);
+      OSTimeDly(500);
       printf("MIDDLE: task 2\n");      
-      int k;
-      for (k = 0; k < 100000; ++k)
-      {
-          isPrime(k);
-      }
+      //int k;
+      //for (k = 0; k < 100000; ++k)
+      //{
+      //    isPrime(k);
+      //}
       OSSemPost(Sem3); /* Signal Task1 using semaphore */
       printf("END: task 2\n");
    }
@@ -170,13 +171,13 @@ void  Task3 (void *pdata)
    {
       printf("BEGIN: task 3\n");
       OSSemPend(Sem3, 0, &err); /* Pend on Signal from Task 1 */
-      //OSTimeDly(500);
+      OSTimeDly(500);
       printf("MIDDLE: task 3\n");      
-      int l;
-      for (l = 0; l < 100000; ++l)
-      {
-          isPrime(l);
-      }
+      //int l;
+      //for (l = 0; l < 100000; ++l)
+      //{
+      //    isPrime(l);
+      //}
       OSSemPost(Sem1); /* Signal Task1 using semaphore */
       printf("END: task 3\n");
    }

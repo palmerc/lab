@@ -582,7 +582,7 @@ void OSStartHighRdy(void)
     DBGPRINT(0x00000002, "*** OSStartHighRdy   from %2u to %2u\n", OSPrioCur, OSPrioHighRdy);
 
     DBGPRINT(0x00000002, "--- Sending signal hScheduleEvent to PID=%u\n", hScheduleThread);
-    kill(hScheduleThread,hScheduleEvent);                      	//Trigger scheduling thread
+    kill(hScheduleThread,hScheduleEvent);                      	//Trigger scheduling threadOSCtxSw
 
     while(OSRunning)						//A redundant idle thread, in case the uCOS
     {   //usleep(1000);						//scheduler does not invoke the uCOS idle task
