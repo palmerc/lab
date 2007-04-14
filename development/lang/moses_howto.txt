@@ -140,10 +140,18 @@ $ ngram-count -interpolate -kndiscount -text corpus/bible.qu -lm lm/quechua.sril
 
 The srilm file will now be in the lm folder.
 
+Run the clean corpus script which will output cleaned up versions:
+scripts/training/clean-corpus-n.perl bible es qu clean 1 50
+
+Note the 1-50 parameter. GIZA has some limitations with short sentences, or ones too
+long, or violate the 9-1 sentence ratio limit. So we set the shortest and longest sentence
+to 1 or 50 words, respectively. 100 words maximum. If you do not do this the training 
+script will catch fire and fail.
+
 If you are running on a single processor machine remove the --parallel switch:
 $ scripts/training/train-factored-phrase-model.perl \
 --parallel \ 
--root-dir ./translators \
+-root-dir ./translators/es-qu \
 --lm 0:1:lm/quechua.srilm \
 --corpus corpus/bible \
 --f es \ 
@@ -165,11 +173,39 @@ Moses is interactive. If you want to call it differently you will need to redire
 stdin and stdout.
 
 Example:
-$ moses -f moses.ini < file.in > file.out
+$ moses -f translators/es-qu/model/moses.ini < file.in > file.out
 
+Run interactively:
+$ moses -f translators/es-qu/model/moses.ini
+Defined parameters (per moses.ini or switch):
+        config: translators/model/moses.ini 
+        distortion-limit: 6 
+        input-factors: 0 
+        lmodel-file: 0 0 1 lm/quechua.srilm 
+        mapping: 0 T 0 
+        ttable-file: 0 0 5 /home/babylon/software/moses/translators/model/phrase-table.0-0.gz 
+        ttable-limit: 20 0 
+        weight-d: 0.6 
+        weight-l: 0.5000 
+        weight-t: 0.2 0.2 0.2 0.2 0.2 
+        weight-w: -1 
+Loading lexical distortion models...
+have 0 models
+Start loading LanguageModel lm/quechua.srilm : [0.000] seconds
+Finished loading LanguageModels : [2.000] seconds
+Start loading PhraseTable /home/babylon/software/moses/translators/model/phrase-table.0-0.gz : [2.000] seconds
+Finished loading phrase tables : [4.000] seconds
+IO from STDOUT/STDIN
+Created input-output object : [4.000] seconds
+Que hora es
+Translating: Que hora es 
 
+BEST TRANSLATION: Ama kay nispa. [111]  [total=-26.772] <<0.000, -3.000, 0.000, -39.826, -15.925, -18.302, -4.563, -13.505, 3.000>>
+Ama kay nispa. 
+Finished translating
+End. : [39.000] seconds
 
-
+To exit Ctrl-D.
 
 Important pages
 
