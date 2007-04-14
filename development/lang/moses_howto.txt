@@ -1,0 +1,179 @@
+Word of warning about the lit machines, the umask is 22. I would change it, for
+the duration of compilation, to zero.
+
+==Build SRILM==
+SRILM Version 1.5.2
+Requirements
+G++ version 4.x
+
+($SRILM_SRC) will represent the source code directory in this case 
+/home/babylon/moses/lang/srilm/common/.
+
+You must use a web browser and fill out the form to download SRILM
+http://www.speech.sri.com/projects/srilm/download.html
+
+Make a directory and copy the tar file into it, and then untar it.
+$ mkdir ($SRILM_SRC)
+$ cp srilm.tgz ($SRILM_SRC)
+$ cd ($SRILM_SRC)
+$ tar xvfz srilm.tgz
+
+Edit the Makefile line that begins # SRILM.
+Remove the # (octothorpe) and the preceding whitespace like this:
+SRILM = ($SRILM_SRC)
+alternatively you could just export the variable at the command line.
+$ export SRILM = ($SRILM_SRC)
+I prefer the former since it is more permanent.
+
+For the sake of precompile cleanliness I would delete the subdirectories lib, 
+bin, and include.
+$ cd ($SRILM_SRC)
+$ rm -rf lib bin include
+
+You will need to edit the Makefile specific to the machine type. To determine
+which file will be called run:
+$ ($SRILM_SRC)/sbin/machine-type
+$ cd ($SRILM_SRC)/common
+$ nano Makefile.machine.`($SRILM_SRC)/sbin/machine-type`
+If Tcl is not available, set NO_TCL=X and leave the TCL related variables empty.
+I have never managed to get TCL to compile with it so I wouldn't bother trying.
+I had to edit paths for the awk, gcc and g++.
+
+When everything is ready and you are in :
+$ make World
+
+The fruits of your labor are in bin/(machine-type)/
+If you do an ls -la and see zero byte files it means your compile had errors,
+otherwise it worked.
+
+The SRILM source does not include an installer script, so you will want to move
+the contents of the bin/ include/ lib/ and man/ files somewhere else. I personally
+would create a directory either in your home directory, or under /usr/local/.
+
+Don't forget to add the bin directory to your PATH, and the man directory to your
+MAN_PATH either each time you login or once in your profile.
+
+Example assuming BASH shell:
+$ export PATH=/usr/local/srilm/bin/:$PATH
+$ export MAN_PATH=/usr/local/srilm/man/:$MAN_PATH
+
+== Building GIZA++ ==
+Requires g++ version 3.3
+On ubuntu do this:
+$ sudo apt-get install g++-3.3
+This will download and install the old version in /usr/bin and will be called
+gcc-3.3 and g++-3.3. Edit the Makefile line:
+CXX = g++
+to
+CXX = g++-3.3
+
+Download GIZA++ from:
+http://www.fjoch.com/GIZA++.2003-09-30.tar.gz
+I used wget like this:
+$ wget http://www.fjoch.com/GIZA++.2003-09-30.tar.gz
+$ tar xvfz GIZA++.2003-09-30.tar.gz
+$ cd GIZA++
+$ make
+$ make snt2cooc.out
+
+Copy GIZA++, snt2plain.out, snt2cooc.out, trainGIZA++.sh, and 
+plain2snt.out to the directory of your choice.
+
+== Building mkcls ==
+
+$ wget http://www.fjoch.com/mkcls.2003-09-30.tar.gz
+$ tar xvfz mkcls.2003-09-30.tar.gz
+$ cd mkcls-v2
+$ nano Makefile
+Add the line:
+CXX = g++-3.3
+$ make
+
+Copy mkcls to the directory of your choice.
+
+== Building moses ==
+Requires autoconf, automake 1.9, zlib, and subversion
+$ sudo apt-get install autoconf subversion automake-1.9 zlib1g-dev
+
+svn co https://svn.sourceforge.net/svnroot/mosesdecoder/trunk mosesdecoder
+$ cd mosesdecoder
+Edit the regenerate-makefiles.sh to use aclocal and automake version 1.9. Since
+ubuntu by default uses 1.4 you will change the files to look like this.
+The lines will look like this:
+ACLOCAL=`which aclocal-1.9`
+AUTOMAKE=`which automake-1.9`
+$ ./regenerate-makefiles.sh
+Ignore the advice
+$ ./configure --with-srilm=($SRILM_SRC)
+$ make
+$ sudo make install
+$ cd scripts
+You will need to edit two lines in the Makefile, and the BINDIR line must contain
+the location of GIZA++, mkcls, ngram-count, and snt2cooc.out. I made symbolic 
+links to them in /usr/local/bin:
+TARGETDIR=/home/babylon/software/moses
+BINDIR=/usr/local/bin
+$ make release
+
+== Running Moses Training Script ==
+The install directory of the scripts must be exported as an environment variable.
+I would add this to your profile:
+export SCRIPTS_ROOTDIR=/home/babylon/software/moses/scripts-(DATE GENERATED)
+
+So from the moses directory let's generate some translation models.
+$ cd /home/babylon/software/moses
+I created three directories, one for the bodies:
+$ mkdir corpus
+one for the target language ngram language model
+$ mkdir lm
+and the other for the resulting directories
+$ mkdir translators
+
+Place your source and destination parallel text files in the corpus folder. 
+If you do any special formatting like lowercasing, or altering spacing, or
+eliminating characters do that now. Moses comes with some scripts that do some
+data massaging, you should look for them in the scripts folder.
+
+You need to create the language model for the target language using the SRILM 
+ngram tool. The -interpolate -kndiscount do the basic data smoothing.
+$ ngram-count -interpolate -kndiscount -text corpus/bible.qu -lm lm/quechua.srilm
+
+The srilm file will now be in the lm folder.
+
+If you are running on a single processor machine remove the --parallel switch:
+$ scripts/training/train-factored-phrase-model.perl \
+--parallel \ 
+-root-dir ./translators \
+--lm 0:1:lm/quechua.srilm \
+--corpus corpus/bible \
+--f es \ 
+--e qu
+
+The --lm option is required but I suggest looking into what values to choose for
+the first two fields. --lm factor:order:filename
+
+The training script parameters are described at 
+http://www.statmt.org/moses/?n=FactoredTraining.TrainingParameters
+
+FYI - The training process takes a very long time. Depends on the size of your
+texts. You will notice that it is generating all 5 IBM language models in GIZA,
+although I believe it only uses the sentence alignment. I would suggest a good
+book or a trip to Starbucks at this point.
+
+== Running moses ==
+Moses is interactive. If you want to call it differently you will need to redirect
+stdin and stdout.
+
+Example:
+$ moses -f moses.ini < file.in > file.out
+
+
+
+
+
+Important pages
+
+Moses - http://www.statmt.org/
+GIZA++ - http://www.fjoch.com/GIZA++.html
+mkcls -  http://www.fjoch.com/mkcls.html
+SRILM - http://www.speech.sri.com/projects/srilm/
