@@ -1,0 +1,5 @@
+class FloydWarshall {
+	FloydWarshall();
+	~FloydWarshall();
+	
+};
