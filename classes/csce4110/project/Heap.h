@@ -106,6 +106,7 @@ void Heap::heap_increase_key(int i, int key)
 void Heap::max_heap_insert(int key)
 {
 	heap_size = heap_size + 1;
+	A.resize(heap_size);
 	A[heap_size] = std::numeric_limits<int>::min();
 	heap_increase_key(heap_size, key);
 }
@@ -120,7 +121,7 @@ int Heap::left(int i)
 }
 int Heap::right(int i)
 {
-	return i << i + 1; // 2 * i + 1
+	return i << 1 + 1; // 2 * i + 1
 }
 void Heap::exchange(int i, int j)
 {

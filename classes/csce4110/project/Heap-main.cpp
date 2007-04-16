@@ -1,10 +1,12 @@
 #include <iostream>
 #include "Heap.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 int main()
 {
+   int i;
    Heap heapy;
    
    heapy.max_heap_insert(15);
@@ -19,6 +21,11 @@ int main()
    heapy.max_heap_insert(6);
    heapy.max_heap_insert(2);
    heapy.max_heap_insert(1);
+
+   for (i = 0; i < 12; ++i)
+   {
+      cout << "Max " << heapy.heap_extract_max() << endl;
+   }
 
    return 0;
 }
