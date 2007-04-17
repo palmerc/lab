@@ -55,7 +55,7 @@ void Heap::build_max_heap()
 	int i;
 	
 	heap_size = A.size();
-	for (i = floor(A.size() / 2); i >= 1; --i)
+	for (i = A.size() / 2; i >= 0; --i) // This is dedicated to Pete.
 	{
 		max_heapify(i);
 	}  
@@ -65,16 +65,16 @@ void Heap::heapsort()
 	int i;
 	
 	build_max_heap();
-	for (i = A.size(); i >= 2; --i)
+	for (i = A.size(); i >= 0; --i)
 	{
-		exchange(A[1], A[i]);
+		exchange(A[0], A[i]);
 		heap_size = heap_size - 1;
-		max_heapify(1);
+		max_heapify(0);
 	}
 }
 int Heap::heap_maximum()
 {
-	return A[1];
+	return A[0];
 }
 int Heap::heap_extract_max()
 {
@@ -84,10 +84,10 @@ int Heap::heap_extract_max()
 	{
 		std::cerr << "Heap underflow" << std::endl;
 	}
-	max = A[1];
-	A[1] = A[heap_size];
+	max = A[0];
+	A[0] = A[heap_size - 1];
 	heap_size = heap_size - 1;
-	max_heapify(1);
+	max_heapify(0);
 	return max;
 }
 void Heap::heap_increase_key(int i, int key)
@@ -97,7 +97,7 @@ void Heap::heap_increase_key(int i, int key)
     	std::cerr << "New key is smaller than current key" << std::endl;
     }
     A[i] = key;
-    while ((i > 1) && (A[parent(i)] < A[i]))
+    while ((i > 0) && (A[parent(i)] < A[i]))
     {
 		exchange(i, parent(i));
 		i = parent(i);
@@ -107,21 +107,21 @@ void Heap::max_heap_insert(int key)
 {
 	heap_size = heap_size + 1;
 	A.resize(heap_size);
-	A[heap_size] = std::numeric_limits<int>::min();
-	heap_increase_key(heap_size, key);
+	A[heap_size - 1] = std::numeric_limits<int>::min();
+	heap_increase_key(heap_size - 1, key);
 }
     
 int Heap::parent(int i)
 {
-	return ceil(i >> 1); // ceil(i/2)
+	return (i - 1) / 2; // ceil(i/2)
 }
 int Heap::left(int i)
 {
-	return i << 1; // 2 * i
+	return 2 * i + 1; // 2 * i
 }
 int Heap::right(int i)
 {
-	return i << 1 + 1; // 2 * i + 1
+	return 2 * i + 2; // 2 * i + 1
 }
 void Heap::exchange(int i, int j)
 {
