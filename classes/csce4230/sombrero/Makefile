@@ -1,4 +1,4 @@
-all: prog5
+all: sombrero
 
 %: %.c
 	cc -lglut -o $@ $< -g -Wall -ansi -pedantic
