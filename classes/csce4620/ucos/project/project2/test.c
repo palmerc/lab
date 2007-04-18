@@ -128,6 +128,7 @@ void Task1(void *pdata)
    printf("Sending Term to T2\n");
    err = OSQPost(Q2, (void *)&msg1);
    // Send T2 a -1
+   OSTaskDel(OS_PRIO_SELF);
 }
 
 void  Task2 (void *pdata)
@@ -167,7 +168,7 @@ void  Task2 (void *pdata)
 	   printf("%d -> %d\n", i, history[i]);
 	}
 	printf("T2 terminating\n");
-	OSTaskDel(OS_PRIO_SELF);        
+	OSTaskDel(OS_PRIO_SELF);       
       }
    }
 }
