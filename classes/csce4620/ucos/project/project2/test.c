@@ -21,12 +21,10 @@
 OS_STK TaskStk[N_TASKS][TASK_STK_SIZE]; /* Tasks stacks */
 OS_STK TaskStartStk[TASK_STK_SIZE];
 char TaskData[N_TASKS]; /* Parameters to pass to each task */
-OS_EVENT *Mbox1, *Sem2, *Mutex3, *Q2, *Q3a, *Q3b;
+OS_EVENT *Mbox3, *Q2, *Q3a;
 void *MessageQ2[100];
 void *MessageQ3a[100];
-void *MessageQ3b[100];
-int msg1;
-int msg2;
+int msg1, msg2;
 
 /*******************************************************************************
 *                                           FUNCTION PROTOTYPES
@@ -56,10 +54,7 @@ int main(void)
 
    Q2 = OSQCreate((void *) MessageQ2, 100);
    Q3a = OSQCreate((void *) MessageQ3a, 100);
-   Q3b = OSQCreate((void *) MessageQ3b, 100);
-   Mbox1 = OSMboxCreate((void *)1); /* Task1 */
-   Sem2 = OSSemCreate(0); /* Task3 */
-   Mutex3 = OSMutexCreate(9, &err); /* Task2 */
+   Mbox3 = OSMboxCreate((void *)0); 
    
    ret = OSTaskCreate(TaskStart, (void *)7, &TaskStartStk[TASK_STK_SIZE - 1], 7);	
   
@@ -80,7 +75,7 @@ void TaskStart(void *pdata)
    
    pdata = pdata; /* Prevent compiler warning */
 
-   //OSStatInit(); /* Initialize uC/OS-II's statistics */
+   OSStatInit(); /* Initialize uC/OS-II's statistics */
    TaskStartCreateTasks(); /* Create all the application tasks */
 
    for (;;)
@@ -113,28 +108,14 @@ static void TaskStartCreateTasks(void)
 * TASKS
 *******************************************************************************/
 
-int isPrime(int x)
-{
-   int i;
-   int max = sqrt(x); 
-
-   if (x <= 1) { return 0; }
-
-   for (i=2; i < max; ++i)
-   {
-      if (i % x == 0) { return 0; } 
-   }
-   return 1;
-}
-
-
 void Task1(void *pdata)
 {
    INT8U err;
-   int r;
    int counter;
+	
    for (counter = 0; counter < 1000; ++counter)
    {  
+      printf("Entering Task 1\n");
       msg1 = rand() % 100;
       // Post Random Integer to T2 and T3 via MessageQ
       err = OSQPost(Q2, (void *)&msg1);
@@ -152,27 +133,41 @@ void Task1(void *pdata)
 void  Task2 (void *pdata)
 {
    INT8U err;
-   
+   int i, history[10];
+   for (i = 0; i < 10; ++i)
+   {
+      history[i] = 0;
+   }
    
    for(;;) 
    {
+      printf("Entering Task 2\n");
       // Wait for message to arrive
       msg2 = *(int *) OSQPend(Q2, 0, &err);
+      history[msg2 % 10]++;
       if (err)
          printf("Received error %d\n", err);
       
       if (msg2 != -1)
       {
-         printf("T2 Received %d\n", msg2);
-         // Pass message to T3 using mailbox
-         err = OSQPost(Q3b, (void *)&msg2);
-         // Calculate Histogram and printf
+        printf("T2 Received %d\n", msg2);
+        // Pass message to T3 using mailbox
+        err = OSMboxPost(Mbox3, (void *)&msg2);
+        // Calculate Histogram and printf
+	for (i = 0; i < 10; ++i)
+	{
+	   printf("%d -> %d\n", i, history[i]);
+	}
       }
       else
       {
-         // if message was negative print histogram and die
-         printf("T2 terminating\n");
-         OSTaskDel(OS_PRIO_SELF);        
+	// if message was negative print histogram and die
+	for (i = 0; i < 10; ++i)
+	{
+	   printf("%d -> %d\n", i, history[i]);
+	}
+	printf("T2 terminating\n");
+	OSTaskDel(OS_PRIO_SELF);        
       }
    }
 }
@@ -180,14 +175,15 @@ void  Task2 (void *pdata)
 void  Task3 (void *pdata) // highest priority
 {
    INT8U err;
-   int msg3a, msg3b, msg_count;
-
+   int msg3a, msg3b, msg_count = 0;
+	
    for(;;) 
    {
+      printf("Entering Task 3\n");
       // Wait for message from T1
       msg3a = *(int *) OSQPend(Q3a, 0, &err);
       // Wait for message from T2
-      msg3b = *(int *) OSQPend(Q3b, 0, &err);
+      msg3b = *(int *) OSMboxPend(Mbox3, 0, &err);
       msg_count++;
       // Compare messages and print if not equal, mesg num, numbers, and not equal
       if (msg3a != msg3b)
@@ -195,6 +191,13 @@ void  Task3 (void *pdata) // highest priority
          printf("Not Equal, msg number %d, value1 %d, value2 %d\n", msg_count, msg3a, msg3b);
       }
       // Delay one tick
+      OSTimeDly(1);
       // If message from T1 is negative, print a line stating finished, and terminate
+      if (msg3a == -1)
+      {
+         // if message was negative print histogram and die
+         printf("T3 terminating\n");
+         OSTaskDel(OS_PRIO_SELF);        
+      }
    }
 }

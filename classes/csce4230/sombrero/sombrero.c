@@ -120,7 +120,10 @@ void calculateNormals(void)
 	{
 		calculateCrossProduct(vertex_array[i], vertex_array[i+1], vertex_normals[i]);
 	}
-	
+	for (i = 0; i < nv; ++i)
+	{
+		printf("Normals=> %f %f %f\n", vertex_normals[i][0],vertex_normals[i][1],vertex_normals[i][2]);
+	}
 }
 
 void display(void)
@@ -128,11 +131,13 @@ void display(void)
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    glPushMatrix();
    
+   glColor3d(1.0,1.0,1.0);
    glTranslatef (0.0, 0.0, zooom);
    glRotatef (xrot, 1.0, 0.0, 0.0);
    glRotatef (yrot, 0.0, 1.0, 0.0);
    
-   glDrawElements(GL_TRIANGLES, 3 * nt, GL_UNSIGNED_INT, tri);
+   /*glDrawElements(GL_TRIANGLES, 3 * nt, GL_UNSIGNED_INT, tri);*/
+   glDrawElements(GL_LINES, nv, GL_DOUBLE, vertex_normals);
 
    glPopMatrix();
    glutSwapBuffers();
