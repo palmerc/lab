@@ -16,7 +16,7 @@
 
 static GLdouble vertex_array[nv][3];
 static GLdouble vertex_normals[nv][3];
-static GLuint tri[nt][3];
+static GLuint triangles[nt][3];
 static int xrot = 0, yrot = 0, zooom = 0;
 
 void init(void) 
@@ -24,7 +24,7 @@ void init(void)
    GLfloat light_ambient[] = { 0.5, 0.5, 0.5, 0.9 };
    GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat light_specular[] = { 1.0, 0.5, 0.5, 1.0 };
-   GLfloat light_position[] = { 0.0, -2.0, 0.0, 0.0 };
+   GLfloat light_position[] = { 0.0, 2.0, 0.0, 0.0 };
    
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glShadeModel (GL_SMOOTH);
@@ -70,25 +70,29 @@ void calculateCrossProduct(GLdouble v1[3], GLdouble v2[3], GLdouble out[3])
 
 void calculateTriangles(void)
 {
-	GLuint i, j, iv, index;
+	GLuint row, col, array_index, tri_index;
 	
-	iv = 0;
-	index = 0;
-	for (i = 1; i < k; ++i) /* y */
+	array_index = 0;
+	tri_index = 0;
+	for (row = 1; row < k; ++row) /* y */
 	{
-		for (j = 1; j < k; ++j) /* x */
+		for (col = 1; col < k; ++col) /* x */
 		{
-			iv = i * (k+1) + j;
-			tri[index][0] = iv - k - 2;
-			tri[index][1] = iv - k - 1;
-			tri[index][2] = iv;
+			/* We need to create a grid of triangles */
+			array_index = col * (k+1) + row;
+			triangles[tri_index][0] = array_index - k - 2;
+			triangles[tri_index][1] = array_index - k - 1;
+			triangles[tri_index][2] = array_index;
+			printf("%d %d %d\n",triangles[tri_index][0], triangles[tri_index][1], triangles[tri_index][2]);
 			
-			tri[index + 1][0] = iv - k - 2;
-			tri[index + 1][1] = iv;
-			tri[index + 1][2] = iv - 1;
-			index += 2;
+			triangles[tri_index + 1][0] = array_index - k - 2;
+			triangles[tri_index + 1][1] = array_index;
+			triangles[tri_index + 1][2] = array_index - 1;
+			printf("%d %d %d\n",triangles[tri_index+1][0], triangles[tri_index+1][1], triangles[tri_index+1][2]);
+			tri_index += 2;
 		}
 	}
+
 }
 
 void calculateShape(void)
@@ -120,10 +124,6 @@ void calculateNormals(void)
 	{
 		calculateCrossProduct(vertex_array[i], vertex_array[i+1], vertex_normals[i]);
 	}
-	for (i = 0; i < nv; ++i)
-	{
-		printf("Normals=> %f %f %f\n", vertex_normals[i][0],vertex_normals[i][1],vertex_normals[i][2]);
-	}
 }
 
 void display(void)
@@ -131,14 +131,22 @@ void display(void)
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    glPushMatrix();
    
-   glColor3d(1.0,1.0,1.0);
+   glColor3d(1.0,0.0,0.0);
    glTranslatef (0.0, 0.0, zooom);
    glRotatef (xrot, 1.0, 0.0, 0.0);
    glRotatef (yrot, 0.0, 1.0, 0.0);
    
-   /*glDrawElements(GL_TRIANGLES, 3 * nt, GL_UNSIGNED_INT, tri);*/
-   glDrawElements(GL_LINES, nv, GL_DOUBLE, vertex_normals);
-
+   glDrawElements(GL_TRIANGLES, 3 * nt, GL_UNSIGNED_INT, triangles);
+   glDisable(GL_LIGHTING);
+   glColor3d(0.0,0.0,1.0);
+   glBegin(GL_LINES);
+   for (int i = 0; i < nv; ++i)
+   {
+      glVertex3f(vertex_array[i][0], vertex_array[i][1], vertex_array[i][2]);
+      glVertex3f(vertex_array[i][0] + vertex_normals[i][0] *.1, vertex_array[i][1] + vertex_normals[i][1]*.1, vertex_array[i][2] + vertex_normals[i][2]*.1);
+   }
+   glEnd();
+   glEnable(GL_LIGHTING);
    glPopMatrix();
    glutSwapBuffers();
 }
