@@ -14,10 +14,10 @@
 #define nv 3721
 #define nt 7200
 
-static GLdouble vertex_array[nv][3];
-static GLdouble vertex_normals[nv][3];
+static GLdouble vertices[nv][3];
+static GLdouble normals[nv][3];
 static GLuint triangles[nt][3];
-static int xrot = 0, yrot = 0, zooom = 0;
+static int xrot = 0, yrot = 0, zooom = 0, showNormals = 0, showShape = 1;
 
 void init(void) 
 {
@@ -33,8 +33,8 @@ void init(void)
    glEnable(GL_LIGHT0);
    glEnableClientState(GL_VERTEX_ARRAY);
    glEnableClientState(GL_NORMAL_ARRAY);
-   glVertexPointer(3, GL_DOUBLE, 0, vertex_array);
-   glNormalPointer(GL_DOUBLE, 0, vertex_normals);
+   glVertexPointer(3, GL_DOUBLE, 0, vertices);
+   glNormalPointer(GL_DOUBLE, 0, normals);
   
    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
@@ -47,9 +47,57 @@ double z(GLdouble x, GLdouble y)
 	return ( .5 * exp( -.04 * sqrt( pow( 80 * x - 40, 2 ) + pow( 90 * y - 45, 2 ) ) ) * cos( 0.15 * sqrt( pow( 80 * x - 40, 2 ) + pow( 90 * y - 45, 2 ) ) ) );
 }
 
+void calculateVertices(void)
+{
+	GLuint vi;
+	GLdouble x, y, side;
+	
+	vi = 0;
+	side = 1 / (GLdouble) k;
+	for (GLuint i = 0; i < k + 1; ++i)
+	{
+		y = side * i;
+	   	for (GLuint j = 0; j < k + 1; ++j)
+	   	{
+	   		x = side * j;
+	   		vertices[vi][0] = x;
+	   		vertices[vi][1] = y;
+	   		vertices[vi][2] = z(x, y);
+	   		/* printf("Vertex values %f %f %f\n", x, y, z(x, y)); */
+	   		++vi;
+	   	}
+	}
+}
+
+void calculateTriangles(void)
+{
+	GLuint ai, ti;
+	
+	ai = 0; /* Array Index */
+	ti = 0; /* Triangle Index */
+	for (GLuint row = 1; row < k; ++row) /* y */
+	{
+		for (GLuint col = 1; col < k; ++col) /* x */
+		{
+			/* We need to create a grid of triangles */
+			ai = col * (k+1) + row;
+			triangles[ti][0] = ai - k - 2;
+			triangles[ti][1] = ai - k - 1;
+			triangles[ti][2] = ai;
+			printf("%d - %d %d %d\n", ti, triangles[ti][0], triangles[ti][1], triangles[ti][2]);
+			
+			triangles[ti + 1][0] = ai - k - 2;
+			triangles[ti + 1][1] = ai;
+			triangles[ti + 1][2] = ai - 1;
+			printf("%d - %d %d %d\n", ti+1, triangles[ti+1][0], triangles[ti+1][1], triangles[ti+1][2]);
+			ti += 2;
+		}
+	}
+}
+
 void normalize(GLdouble v[3])
 {
-	GLdouble d = sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
+	GLdouble d = sqrt(pow(v[0],2)+pow(v[1],2)+pow(v[2],2));
 	if (d == 0.0)
 	{
 		perror("zero length vector");
@@ -68,61 +116,12 @@ void calculateCrossProduct(GLdouble v1[3], GLdouble v2[3], GLdouble out[3])
 	normalize(out);
 }
 
-void calculateTriangles(void)
-{
-	GLuint row, col, array_index, tri_index;
-	
-	array_index = 0;
-	tri_index = 0;
-	for (row = 1; row < k; ++row) /* y */
-	{
-		for (col = 1; col < k; ++col) /* x */
-		{
-			/* We need to create a grid of triangles */
-			array_index = col * (k+1) + row;
-			triangles[tri_index][0] = array_index - k - 2;
-			triangles[tri_index][1] = array_index - k - 1;
-			triangles[tri_index][2] = array_index;
-			printf("%d %d %d\n",triangles[tri_index][0], triangles[tri_index][1], triangles[tri_index][2]);
-			
-			triangles[tri_index + 1][0] = array_index - k - 2;
-			triangles[tri_index + 1][1] = array_index;
-			triangles[tri_index + 1][2] = array_index - 1;
-			printf("%d %d %d\n",triangles[tri_index+1][0], triangles[tri_index+1][1], triangles[tri_index+1][2]);
-			tri_index += 2;
-		}
-	}
-
-}
-
-void calculateShape(void)
-{
-	GLuint i, j, vertex_index;
-	GLdouble x, y, side;
-	
-	vertex_index = 0;
-	side = 1 / (GLdouble) k;
-	for (i = 0; i < k + 1; ++i)
-	{
-		y = side * i;
-	   	for (j = 0; j < k + 1; ++j)
-	   	{
-	   		x = side * j;
-	   		vertex_array[vertex_index][0] = x;
-	   		vertex_array[vertex_index][1] = y;
-	   		vertex_array[vertex_index][2] = z(x, y);
-	   		/* printf("Vertex values %f %f %f\n", x, y, z(x, y)); */
-	   		++vertex_index;
-	   	}
-	}
-}
-
 void calculateNormals(void)
 {
 	GLuint i;
 	for (i = 0; i < nv; ++i)
 	{
-		calculateCrossProduct(vertex_array[i], vertex_array[i+1], vertex_normals[i]);
+		calculateCrossProduct(vertices[i], vertices[i+1], normals[i]);
 	}
 }
 
@@ -135,18 +134,24 @@ void display(void)
    glTranslatef (0.0, 0.0, zooom);
    glRotatef (xrot, 1.0, 0.0, 0.0);
    glRotatef (yrot, 0.0, 1.0, 0.0);
-   
-   glDrawElements(GL_TRIANGLES, 3 * nt, GL_UNSIGNED_INT, triangles);
-   glDisable(GL_LIGHTING);
-   glColor3d(0.0,0.0,1.0);
-   glBegin(GL_LINES);
-   for (int i = 0; i < nv; ++i)
+      
+   if (showShape)
    {
-      glVertex3f(vertex_array[i][0], vertex_array[i][1], vertex_array[i][2]);
-      glVertex3f(vertex_array[i][0] + vertex_normals[i][0] *.1, vertex_array[i][1] + vertex_normals[i][1]*.1, vertex_array[i][2] + vertex_normals[i][2]*.1);
+      glDrawElements(GL_TRIANGLES, 3 * nt, GL_UNSIGNED_INT, triangles);
    }
-   glEnd();
-   glEnable(GL_LIGHTING);
+   if (showNormals)
+   {
+      glDisable(GL_LIGHTING);
+   	  glColor3d(0.0,0.0,1.0);
+   	  glBegin(GL_LINES);
+      for (GLint i = 0; i < nv; ++i)
+      {
+          glVertex3f(vertices[i][0], vertices[i][1], vertices[i][2]);
+          glVertex3f(vertices[i][0] + normals[i][0] *.1, vertices[i][1] + normals[i][1]*.1, vertices[i][2] + normals[i][2]*.1);
+      }
+      glEnd();
+      glEnable(GL_LIGHTING);
+   }
    glPopMatrix();
    glutSwapBuffers();
 }
@@ -159,13 +164,35 @@ void reshape (int w, int h)
    gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 1.0, 24.0);
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
-   glTranslatef (0.0, 0.0, -5.0);
+   glTranslatef (0.0, 0.0, -4.0);
 }
 
 void menu(int value)
 {
    switch (value)
    {
+      case 5:
+   	     if (showShape == 1)
+   	     {
+   	        showShape = 0;
+   	     }
+   	     else
+   	     {
+   	        showShape = 1;
+   	     }
+   	     glutPostRedisplay();
+         break;
+   	  case 6:
+   	     if (showNormals == 1)
+   	     {
+   	        showNormals = 0;
+   	     }
+   	     else
+   	     {
+   	        showNormals = 1;
+   	     }
+   	     glutPostRedisplay();
+         break;
 	  case 7:
          xrot = (xrot + 5) % 360;
          glutPostRedisplay();
@@ -201,6 +228,12 @@ void menu(int value)
 void keyboard (unsigned char key, int x, int y)
 {
    switch (key) {
+      case 's': /* Toggle normal display on/off */
+   	     menu(5);
+   	     break;
+   	  case 'n': /* Toggle normal display on/off */
+   	     menu(6);
+   	     break;
 	  case 'x':
          menu(7);
          break;
@@ -230,7 +263,7 @@ void keyboard (unsigned char key, int x, int y)
 int main(int argc, char** argv)
 {
    int m;
-   calculateShape();
+   calculateVertices();
    calculateTriangles();
    calculateNormals();
    glutInit(&argc, argv);

@@ -4,6 +4,6 @@ all: sombrero
 	cc -lglut -o $@ $< -g -Wall -ansi -pedantic --std=c99
 
 clean:
-	rm -f *.o pend
+	rm -f *.o sombrero 
 
 .PHONY: clean all
