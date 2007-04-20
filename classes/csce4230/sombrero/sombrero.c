@@ -10,37 +10,17 @@
 #include <stdio.h>
 #include <math.h>
 
+/* number of grid lines */
 #define k 60
+/* number of vertices is k+1 squared */
 #define nv 3721
-#define nt 7200
+/* number of triangles is 2 time k-1 squared */ 
+#define nt 6962 
 
 static GLdouble vertices[nv][3];
 static GLdouble normals[nv][3];
 static GLuint triangles[nt][3];
-static int xrot = 0, yrot = 0, zooom = 0, showNormals = 0, showShape = 1;
-
-void init(void) 
-{
-   GLfloat light_ambient[] = { 0.5, 0.5, 0.5, 0.9 };
-   GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-   GLfloat light_specular[] = { 1.0, 0.5, 0.5, 1.0 };
-   GLfloat light_position[] = { 0.0, 2.0, 0.0, 0.0 };
-   
-   glClearColor (0.0, 0.0, 0.0, 0.0);
-   glShadeModel (GL_SMOOTH);
-   glEnable(GL_DEPTH_TEST);
-   glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT0);
-   glEnableClientState(GL_VERTEX_ARRAY);
-   glEnableClientState(GL_NORMAL_ARRAY);
-   glVertexPointer(3, GL_DOUBLE, 0, vertices);
-   glNormalPointer(GL_DOUBLE, 0, normals);
-  
-   glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-   glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-   glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-}
+static int xrot = 0, yrot = 0, zooom = 0, showNormals = 0, showShape = 1, solidOrWireframe = 0;
 
 double z(GLdouble x, GLdouble y)
 {
@@ -54,10 +34,10 @@ void calculateVertices(void)
 	
 	vi = 0;
 	side = 1 / (GLdouble) k;
-	for (GLuint i = 0; i < k + 1; ++i)
+	for (GLuint i = 0; i <= k; ++i)
 	{
 		y = side * i;
-	   	for (GLuint j = 0; j < k + 1; ++j)
+	   	for (GLuint j = 0; j <= k; ++j)
 	   	{
 	   		x = side * j;
 	   		vertices[vi][0] = x;
@@ -79,17 +59,17 @@ void calculateTriangles(void)
 	{
 		for (GLuint col = 1; col < k; ++col) /* x */
 		{
-			/* We need to create a grid of triangles */
+			/* We need to create a grid of triangles that indexes back to the vertices */
 			ai = col * (k+1) + row;
 			triangles[ti][0] = ai - k - 2;
 			triangles[ti][1] = ai - k - 1;
 			triangles[ti][2] = ai;
-			printf("%d - %d %d %d\n", ti, triangles[ti][0], triangles[ti][1], triangles[ti][2]);
+			printf("%d - %d - %d %d %d\n", ti, ai, triangles[ti][0], triangles[ti][1], triangles[ti][2]);
 			
 			triangles[ti + 1][0] = ai - k - 2;
 			triangles[ti + 1][1] = ai;
 			triangles[ti + 1][2] = ai - 1;
-			printf("%d - %d %d %d\n", ti+1, triangles[ti+1][0], triangles[ti+1][1], triangles[ti+1][2]);
+			printf("%d - %d - %d %d %d\n", ti+1, ai, triangles[ti+1][0], triangles[ti+1][1], triangles[ti+1][2]);
 			ti += 2;
 		}
 	}
@@ -113,15 +93,23 @@ void calculateCrossProduct(GLdouble v1[3], GLdouble v2[3], GLdouble out[3])
 	out[0] = v1[1]*v2[2] - v1[2]*v2[1];
 	out[1] = v1[2]*v2[0] - v1[0]*v2[2];
 	out[2] = v1[0]*v2[1] - v1[1]*v2[0];
+	printf("Cross product %f, %f, %f\n", out[0], out[1], out[2]);
 	normalize(out);
+	printf("Normalized to %f, %f, %f\n", out[0], out[1], out[2]);
 }
 
 void calculateNormals(void)
 {
-	GLuint i;
-	for (i = 0; i < nv; ++i)
+	GLuint i, xptr, yptr, zptr;
+	
+	for (i = 0; i < nt - 1; ++i)
 	{
-		calculateCrossProduct(vertices[i], vertices[i+1], normals[i]);
+		printf("Round %d\n", i);
+		xptr = triangles[i][0];
+		yptr = triangles[i][1];
+		zptr = triangles[i][2];
+		
+		calculateCrossProduct(vertices[xptr], vertices[zptr], normals[i]);
 	}
 }
 
@@ -134,10 +122,19 @@ void display(void)
    glTranslatef (0.0, 0.0, zooom);
    glRotatef (xrot, 1.0, 0.0, 0.0);
    glRotatef (yrot, 0.0, 1.0, 0.0);
+   
+   if (solidOrWireframe)
+   {   
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   }
+   else
+   {
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   }     
       
    if (showShape)
    {
-      glDrawElements(GL_TRIANGLES, 3 * nt, GL_UNSIGNED_INT, triangles);
+      glDrawElements(GL_TRIANGLES, 3*nt, GL_UNSIGNED_INT, triangles);
    }
    if (showNormals)
    {
@@ -171,6 +168,17 @@ void menu(int value)
 {
    switch (value)
    {
+   	  case 4:
+   	     if (solidOrWireframe == 1)
+   	     {
+   	        solidOrWireframe = 0;
+   	     }
+   	     else
+   	     {
+   	        solidOrWireframe = 1;
+   	     }
+   	     glutPostRedisplay();
+   	     break;
       case 5:
    	     if (showShape == 1)
    	     {
@@ -228,7 +236,10 @@ void menu(int value)
 void keyboard (unsigned char key, int x, int y)
 {
    switch (key) {
-      case 's': /* Toggle normal display on/off */
+   	  case 's':
+   	     menu(4);
+   	     break;
+      case 'f': /* Toggle function display on/off */
    	     menu(5);
    	     break;
    	  case 'n': /* Toggle normal display on/off */
@@ -258,6 +269,29 @@ void keyboard (unsigned char key, int x, int y)
       default:
          break;
    }
+}
+
+void init(void) 
+{
+   GLfloat light_ambient[] = { 0.5, 0.5, 0.5, 0.9 };
+   GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+   GLfloat light_specular[] = { 1.0, 0.5, 0.5, 1.0 };
+   GLfloat light_position[] = { 0.0, 2.0, 0.0, 0.0 };
+   
+   glClearColor (0.0, 0.0, 0.0, 0.0);
+   glShadeModel (GL_SMOOTH);
+   glEnable(GL_DEPTH_TEST);
+   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHT0);
+   glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
+   glVertexPointer(3, GL_DOUBLE, 0, vertices);
+   glNormalPointer(GL_DOUBLE, 0, normals);
+  
+   glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+   glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+   glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 }
 
 int main(int argc, char** argv)
