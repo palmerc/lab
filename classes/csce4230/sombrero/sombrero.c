@@ -64,12 +64,15 @@ void calculateTriangles(void)
 			triangles[ti][0] = ai - k - 2;
 			triangles[ti][1] = ai - k - 1;
 			triangles[ti][2] = ai;
+#ifdef debug
 			printf("%d - %d - %d %d %d\n", ti, ai, triangles[ti][0], triangles[ti][1], triangles[ti][2]);
-			
+#endif	
 			triangles[ti + 1][0] = ai - k - 2;
 			triangles[ti + 1][1] = ai;
 			triangles[ti + 1][2] = ai - 1;
+#ifdef debug
 			printf("%d - %d - %d %d %d\n", ti+1, ai, triangles[ti+1][0], triangles[ti+1][1], triangles[ti+1][2]);
+#endif
 			ti += 2;
 		}
 	}
@@ -93,24 +96,48 @@ void calculateCrossProduct(GLdouble v1[3], GLdouble v2[3], GLdouble out[3])
 	out[0] = v1[1]*v2[2] - v1[2]*v2[1];
 	out[1] = v1[2]*v2[0] - v1[0]*v2[2];
 	out[2] = v1[0]*v2[1] - v1[1]*v2[0];
+#ifdef debug
 	printf("Cross product %f, %f, %f\n", out[0], out[1], out[2]);
+#endif
 	normalize(out);
+#ifdef debug
 	printf("Normalized to %f, %f, %f\n", out[0], out[1], out[2]);
+#endif
 }
 
 void calculateNormals(void)
 {
-	GLuint i, xptr, yptr, zptr;
+	/* Once again we have the mapping from a triangle to vertices, and we and normals */
+	GLuint i, lptr, mptr, nptr;
 	
 	for (i = 0; i < nt - 1; ++i)
 	{
+#ifdef debug
 		printf("Round %d\n", i);
-		xptr = triangles[i][0];
-		yptr = triangles[i][1];
-		zptr = triangles[i][2];
-		
-		calculateCrossProduct(vertices[xptr], vertices[zptr], normals[i]);
-	}
+#endif
+ 		lptr = triangles[i][0];
+ 		mptr = triangles[i][1];
+ 		nptr = triangles[i][2];
+ 		
+ 		GLdouble a[] =
+ 		{
+ 			vertices[mptr][0] - vertices[lptr][0],
+ 			vertices[mptr][1] - vertices[lptr][1],
+ 			vertices[mptr][2] - vertices[lptr][2]
+ 		};
+ 		GLdouble b[] =
+ 		{
+ 			vertices[nptr][0] - vertices[lptr][0],
+ 			vertices[nptr][1] - vertices[lptr][1],
+ 			vertices[nptr][2] - vertices[lptr][2]
+ 		};
+ 		calculateCrossProduct(a, b, normals[lptr]);
+ 		calculateCrossProduct(a, b, normals[mptr]);
+ 		calculateCrossProduct(a, b, normals[nptr]);
+ 	}
+#ifdef debug
+	printf("Exiting calculateNormals()\n");
+#endif
 }
 
 void display(void)
@@ -276,7 +303,7 @@ void init(void)
    GLfloat light_ambient[] = { 0.5, 0.5, 0.5, 0.9 };
    GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat light_specular[] = { 1.0, 0.5, 0.5, 1.0 };
-   GLfloat light_position[] = { 0.0, 2.0, 0.0, 0.0 };
+   GLfloat light_position[] = { 0.0, -2.0, 0.0, 0.0 };
    
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glShadeModel (GL_SMOOTH);
@@ -310,6 +337,9 @@ int main(int argc, char** argv)
    glutReshapeFunc(reshape);
    glutKeyboardFunc(keyboard);
    m = glutCreateMenu(menu);
+   glutAddMenuEntry("Toggle solid/wireframe", 4);
+   glutAddMenuEntry("Toggle hide/show shape", 5);
+   glutAddMenuEntry("Toggle normals", 6);
    glutAddMenuEntry("x Rotate CCW", 7);
    glutAddMenuEntry("X Rotate CW", 8);
    glutAddMenuEntry("y Rotate CCW", 9);
