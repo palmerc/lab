@@ -61,7 +61,7 @@ void Dijkstra::initialize_single_source()
 	for (adj_t::iterator i = adj.begin(); i != adj.end(); ++i)
 	{
 		vertex_t v = i->first;
-		min_w[v] = std::numeric_limits<int>::infinity();
+		min_w[v] = std::numeric_limits<int>::max();
 		pi[v] = 0;
 	}
 
@@ -70,7 +70,7 @@ void Dijkstra::initialize_single_source()
 
 void Dijkstra::compute_shortest_path()
 {
-	vertex_t lowest;
+	
 	// Load the Q (not really) with the vertices
 	std::map<vertex_t, int> Q;
 	for (adj_t::iterator i = adj.begin(); i != adj.end(); ++i)
@@ -81,25 +81,27 @@ void Dijkstra::compute_shortest_path()
 	min_w[s] = 0;
 	// set the initial vertex to source.
 	vertex_t v = s;
+	vertex_t lowest = s;
 	// Run until your Q (not really) is out of vertices.
 	while (!Q.empty())
 	{
-		std::list<edge> targets = adj[v];
+		vertex_t u = Q.begin()->first;
+		Q.erase(u);
+
+		std::list<edge> targets = adj[u];
 		// Go through each target for the current vertex
-		for(std::list<edge>::iterator t = targets.begin(); t != targets.end(); ++t)
+		for(std::list<edge>::iterator i = targets.begin(); i != targets.end(); ++i)
 		{
-			int cost = min_w[v] + (*t).w;
-			if (cost < min_w[(*t).target])
+			vertex_t v = (*i).target;
+			weight_t cost = min_w[u] + (*i).w;
+			std::cout << "Cost is " << cost << std::endl;
+			if (cost < min_w[v])
 			{
-				min_w[(*t).target] = cost;
-				pi[(*t).target] = v;
-				if (cost < min_w[lowest])
-				{
-					lowest = v;
-				}
+				Q[v] = min_w[v] = cost;
+				pi[v] = u;
 			}
 		}
-		Q.erase(v);
 		v = lowest;
+		print_min();
 	}		
 }
