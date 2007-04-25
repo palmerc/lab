@@ -16,5 +16,6 @@ int main()
    adj[4].push_back(edge(2,6));
 
    Dijkstra graph(adj, source);
+   graph.print_min();
    return 0;
 }

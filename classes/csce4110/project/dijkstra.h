@@ -22,7 +22,8 @@ class Dijkstra
 		vertex_t s;
 		min_w_t min_w;
 		pi_t pi;
-				
+		unsigned int rounds;
+	
 		void initialize_single_source();
 		void compute_shortest_path();
 		
@@ -40,7 +41,6 @@ Dijkstra::Dijkstra(adj_t new_adj, vertex_t new_s)
 	
 	initialize_single_source();
 	compute_shortest_path();
-	print_min();
 }
 
 void Dijkstra::set_source(vertex_t v)
@@ -50,6 +50,7 @@ void Dijkstra::set_source(vertex_t v)
 
 void Dijkstra::print_min()
 {
+	std::cout << "Completed with " << rounds << " rounds" << std::endl;
 	for (min_w_t::iterator i = min_w.begin(); i != min_w.end(); ++i)
 	{
 		std::cout << "Vertex " << i->first << " distance " << i->second << std::endl;
@@ -80,8 +81,10 @@ void Dijkstra::compute_shortest_path()
 	min_w[s] = 0;
 	// set the initial vertex to source.
 	// Run until your Q (not really) is out of vertices.
+	rounds = 1;
 	while (!Q.empty())
 	{
+		//std::cout << "Round " << rounds << std::endl;
 		vertex_t u = Q.begin()->first;
 		Q.erase(u);
 
@@ -91,12 +94,13 @@ void Dijkstra::compute_shortest_path()
 		{
 			vertex_t v = (*i).target;
 			weight_t cost = min_w[u] + (*i).w;
-			std::cout << "Cost is " << cost << std::endl;
+			//std::cout << "Cost is " << cost << std::endl;
 			if (cost < min_w[v])
 			{
 				Q[v] = min_w[v] = cost;
 				pi[v] = u;
 			}
 		}
+		rounds++;
 	}		
 }
