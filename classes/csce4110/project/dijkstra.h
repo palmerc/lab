@@ -34,6 +34,8 @@ class Dijkstra
 		void print_min();
 };
 
+
+
 Dijkstra::Dijkstra(adj_t new_adj, vertex_t new_s)
 {
 	set_source(new_s);
@@ -100,6 +102,7 @@ void Dijkstra::compute_shortest_path()
 				Q[v] = min_w[v] = cost;
 				pi[v] = u;
 			}
+			rounds++;
 		}
 		rounds++;
 	}		
