@@ -1,6 +1,6 @@
 #include "dijkstra.h"
 
-int main()
+int main(int argc, int argv[argc])
 {
    adj_t adj;
    vertex_t source = 0;
