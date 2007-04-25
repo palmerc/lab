@@ -52,7 +52,7 @@ void Dijkstra::print_min()
 {
 	for (min_w_t::iterator i = min_w.begin(); i != min_w.end(); ++i)
 	{
-		std::cout << i->first << " distance " << i->second << std::endl;
+		std::cout << "Vertex " << i->first << " distance " << i->second << std::endl;
 	}
 }
 
@@ -70,7 +70,6 @@ void Dijkstra::initialize_single_source()
 
 void Dijkstra::compute_shortest_path()
 {
-	
 	// Load the Q (not really) with the vertices
 	std::map<vertex_t, int> Q;
 	for (adj_t::iterator i = adj.begin(); i != adj.end(); ++i)
@@ -80,8 +79,6 @@ void Dijkstra::compute_shortest_path()
 	// Start by setting the source node cost to zero.
 	min_w[s] = 0;
 	// set the initial vertex to source.
-	vertex_t v = s;
-	vertex_t lowest = s;
 	// Run until your Q (not really) is out of vertices.
 	while (!Q.empty())
 	{
@@ -101,7 +98,5 @@ void Dijkstra::compute_shortest_path()
 				pi[v] = u;
 			}
 		}
-		v = lowest;
-		print_min();
 	}		
 }
