@@ -4,38 +4,43 @@
 #include <limits>
 #include <iostream>
 
-class Dijkstra
+typedef int vertex_t;
+typedef int weight_t;
+typedef std::map<vertex_t, vertex_t> pi_t;
+typedef std::map<vertex_t, weight_t> min_w_t;
+struct edge
 {
-	typedef int vertex_t;
-	typedef int weight_t;
+	vertex_t target;
+	weight_t w;
+	edge(vertex_t arg_target, weight_t arg_weight)
+    	: target(arg_target), w(arg_weight) { }
+};	    
+typedef std::map<vertex_t, std::list<edge> > adj_t;
+class Dijkstra
+{	
 	private:
-		struct edge
-		{
-			vertex_t target;
-			weight_t w;
-			edge(vertex_t arg_target, weight_t arg_weight)
-	        	: target(arg_target), w(arg_weight) { }
-		};
 		vertex_t s;
-		typedef std::map<vertex_t, vertex_t> pi_t;
-		typedef std::map<vertex_t, weight_t> min_w_t;
-	    
-		typedef std::map<vertex_t, std::list<edge> > adj_t;
 		min_w_t min_w;
 		pi_t pi;
-		adj_t adj;
-		
-		
+				
 		void initialize_single_source();
 		void compute_shortest_path();
+		
 	public:
-		Dijkstra();
+		adj_t adj;
+		Dijkstra(adj_t, vertex_t);
 		void set_source(vertex_t);
 		void print_min();
 };
 
-Dijkstra::Dijkstra()
+Dijkstra::Dijkstra(adj_t new_adj, vertex_t new_s)
 {
+	set_source(new_s);
+	adj = new_adj;
+	
+	initialize_single_source();
+	compute_shortest_path();
+	print_min();
 }
 
 void Dijkstra::set_source(vertex_t v)
@@ -67,10 +72,10 @@ void Dijkstra::compute_shortest_path()
 {
 	vertex_t lowest;
 	// Load the Q (not really) with the vertices
-	std::vector<vertex_t> Q;
+	std::map<vertex_t, int> Q;
 	for (adj_t::iterator i = adj.begin(); i != adj.end(); ++i)
 	{
-		Q.push_back(i->first);
+		Q[i->first] = 1;
 	}
 	// Start by setting the source node cost to zero.
 	min_w[s] = 0;
@@ -83,11 +88,11 @@ void Dijkstra::compute_shortest_path()
 		// Go through each target for the current vertex
 		for(std::list<edge>::iterator t = targets.begin(); t != targets.end(); ++t)
 		{
-			int cost = min_w[v] + t.w;
-			if (cost < min_w[*t.target])
+			int cost = min_w[v] + (*t).w;
+			if (cost < min_w[(*t).target])
 			{
-				min_w[*t.target] = cost;
-				pi[*t.target] = v;
+				min_w[(*t).target] = cost;
+				pi[(*t).target] = v;
 				if (cost < min_w[lowest])
 				{
 					lowest = v;
@@ -97,10 +102,4 @@ void Dijkstra::compute_shortest_path()
 		Q.erase(v);
 		v = lowest;
 	}		
-}
-
-int main()
-{
-	std::map<vertex_t, vertex_t> pi;
-   return 0;
 }
