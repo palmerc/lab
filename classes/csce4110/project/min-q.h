@@ -1,7 +1,15 @@
 #include <cmath>
 #include <vector>
 #include <limits>
+#include <map>
 
+typedef int vertex_t;
+typedef int weight_t;
+typedef struct vertex_data {
+	vertex_t v;
+	weight_t w;
+} vertex_data;
+	
 class Heap
 {
    public:
@@ -11,8 +19,8 @@ class Heap
 	void heapsort();
 	int heap_minimum();
 	int heap_extract_min();
-	void heap_decrease_key(int, int);
-	void min_heap_insert(int);
+	void heap_decrease_key(int, vertex_data);
+	void min_heap_insert(vertex_data);
 	
    private:
 	int parent(int);
@@ -20,7 +28,7 @@ class Heap
 	int right(int);
 	void exchange(int, int);
 	
-    std::vector<int> A;
+    std::vector<vertex_data> A;
     int heap_size;
 };
 
@@ -32,14 +40,14 @@ void Heap::min_heapify(int i)
 	int smallest;
 	int l = left(i);
 	int r = right(i);
-	if ( ( l <= heap_size ) && ( A[l] < A[i] ) )
+	if ( ( l <= heap_size ) && ( A[l].w < A[i].w ) )
 	{
 		smallest = l;
 	} else {
 		smallest = i;
 	}
 	
-	if ( ( r <= heap_size ) && ( A[r] < A[smallest] ) )
+	if ( ( r <= heap_size ) && ( A[r].w < A[smallest].w ) )
 	{
 		smallest = r;
 	}
@@ -67,48 +75,48 @@ void Heap::heapsort()
 	build_min_heap();
 	for (i = A.size(); i >= 0; --i)
 	{
-		exchange(A[0], A[i]);
+		exchange(0, i);
 		heap_size = heap_size - 1;
 		min_heapify(0);
 	}
 }
-int Heap::heap_minimum()
+vertex_t Heap::heap_minimum()
 {
-	return A[0];
+	return A[0].v;
 }
-int Heap::heap_extract_min()
+vertex_t Heap::heap_extract_min()
 {
-	int min;
+	vertex_t min;
 	
 	if (heap_size < 1)
 	{
 		std::cerr << "Heap underflow" << std::endl;
 	}
-	min = A[0];
+	min = A[0].v;
 	A[0] = A[heap_size - 1];
 	heap_size = heap_size - 1;
 	min_heapify(0);
 	return min;
 }
-void Heap::heap_decrease_key(int i, int key)
+void Heap::heap_decrease_key(int i, vertex_data key)
 {
-	if (key < A[i])
+	if (key.w < A[i].w)
     {
     	std::cerr << "New key is smaller than current key" << std::endl;
     }
     A[i] = key;
-    while ((i > 0) && (A[parent(i)] < A[i]))
+    while ((i > 0) && (A[parent(i)].w > A[i].w))
     {
 		exchange(i, parent(i));
 		i = parent(i);
     }
 }
-void Heap::min_heap_insert(int key)
+void Heap::min_heap_insert(vertex_data key)
 {
 	heap_size = heap_size + 1;
 	A.resize(heap_size);
-	A[heap_size - 1] = std::numeric_limits<int>::min();
-	heap_increase_key(heap_size - 1, key);
+	A[heap_size - 1].w = std::numeric_limits<int>::min();
+	heap_decrease_key(heap_size - 1, key);
 }
     
 int Heap::parent(int i)
@@ -125,7 +133,7 @@ int Heap::right(int i)
 }
 void Heap::exchange(int i, int j)
 {
-	int tmp = A[i];
+	vertex_data tmp = A[i];
 	A[i] = A[j];
 	A[j] = tmp; 
 }
