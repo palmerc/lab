@@ -10,7 +10,7 @@ struct TPQ_t {
 	TPQ_t(int _key, int _data, unsigned int _loc)
 		: key(_key), data(_data), loc(_loc) { }
 };
-typedef vector<TPQ_t> tpq_vector; // Index values of TPQ will be what is contained in the heap.
+typedef vector<struct TPQ_t> tpq_vector; // Index values of TPQ will be what is contained in the heap.
 
 template <class DataType>
 class TaggedPQ {

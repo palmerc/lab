@@ -1,4 +1,4 @@
-#include "dijkstra.h"
+#include "Dijkstra.h"
 #include <string>
 #include <ostream>
 #include <fstream>
