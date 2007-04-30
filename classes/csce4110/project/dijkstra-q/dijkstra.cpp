@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
 			int node = boost::lexical_cast<int>(matches[2]);
 			int weight = boost::lexical_cast<int>(matches[3]);
 			// if it does exist just add the next item and distance to the appropriate node
+			if(adj.find(node) == adj.end())
+				adj[node].clear();
 			adj[vertex].push_back(edge(node, weight));
 		}
 		getline(in, str);
