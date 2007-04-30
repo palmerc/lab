@@ -116,15 +116,15 @@ bool MinHeap::empty()
 }
 int MinHeap::parent(int i)
 {
-	return i / 2;
+	return (i - 1) / 2;
 }
 int MinHeap::left(int i)
 {
-	return 2 * i;
+	return 2 * i + 1;
 }
 int MinHeap::right(int i)
 {
-	return 2 * i + 1;
+	return 2 * i + 2;
 }
 void MinHeap::exchange(data *i, data *j)
 {
