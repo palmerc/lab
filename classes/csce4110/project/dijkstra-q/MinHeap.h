@@ -4,60 +4,64 @@
 #include <vector>
 #include <limits>
 #include <iostream>
+#include <string>
 
-struct vertex_data {
-	int v; // key
-	int w; // value
+using std::swap;
+
+struct data {
+	int key;
+	int value;
 };
 
 class MinHeap
 {
 public:
 	MinHeap();
-	void min_heapify(unsigned int);
+	void min_heapify(int);
 	int extract_min();
-	void decrease_key(unsigned int, int);
-	void insert(unsigned int, int);
+	void decrease_key(int, int);
+	void insert(int, int);
 	bool empty();
 	
 private:
-	unsigned int parent(unsigned int);
-	unsigned int left(unsigned int);
-	unsigned int right(unsigned int);
-	void exchange(vertex_data*, vertex_data*);
+	int parent(int);
+	int left(int);
+	int right(int);
+	void exchange(data*, data*);
 	
-	std::vector<vertex_data> A;
-	std::vector<unsigned int> position;
+	data A[100000];
+	int position[100000];
 	
-	unsigned int heap_size;
+	int heap_size;
 };
 
 MinHeap::MinHeap() : heap_size(0)
 {
 }
-void MinHeap::min_heapify(unsigned int index)
+void MinHeap::min_heapify(int index)
 {
-	unsigned int smallest = index;
-	unsigned int l = left(index);
-	unsigned int r = right(index);
-	if ( ( l <= heap_size ) && ( A[l].w < A[index].w ) )
+	int smallest = index;
+	int l = left(index);
+	int r = right(index);
+	if ( ( l <= heap_size ) && ( A[l].value < A[index].value ) )
 	{
 		smallest = l;
 	}
 	
-	if ( ( r <= heap_size ) && ( A[r].w < A[smallest].w ) )
+	if ( ( r <= heap_size ) && ( A[r].value < A[smallest].value ) )
 	{
 		smallest = r;
 	}
 	
 	if ( smallest != index )
 	{
-		exchange(&A[index], &A[smallest]);
-		position[A[index].v] = index;
-		position[A[smallest].v] = smallest;
+		swap(A[index], A[smallest]);
+		position[A[index].key] = index;
+		position[A[smallest].key] = smallest;
 		min_heapify(smallest);
 	}	
 }
+
 int MinHeap::extract_min()
 {
 	int min;
@@ -66,47 +70,42 @@ int MinHeap::extract_min()
 	{
 		std::cerr << "Heap underflow" << std::endl;
 	}
-	min = A[0].v;
+	min = A[0].key;
 	//std::cout << "extracting " << A.front().v << " " << A.front().w << std::endl;
-	A[0] = A[heap_size];
-	position[A[heap_size].v] = -1; // This value causes the seg fault
+	A[0] = A[heap_size - 1];
+	position[A[heap_size - 1].key] = 0; // This value causes the seg fault
+	heap_size--;
 	min_heapify(0);
 	return min;
 }
-void MinHeap::decrease_key(unsigned int vertex, int weight)
+void MinHeap::decrease_key(int key, int value)
 {
-	unsigned int index = position[vertex]; // The position vertex points to array indice in A
+	int index = position[key]; // The position vertex points to array indice in A
 	//std::cout << "Decreasing " << vertex << std::endl;
-	if (weight > A[index].w)
+	if (value > A[index].value)
 	{
 		std::cerr << "New key is smaller than current key" << std::endl;
 	}
 	//std::cout << "lowering weight " << weight << std::endl;
-	A[index].w = weight;
-	std::cout << "DecKey " << index << " parent w: "<< A[parent(index)].w << " > cur w: " << A[index].w << std::endl;
-	while ((index > 0) && (A[parent(index)].w > A[index].w))
+	A[index].value = value;
+	//std::cout << "Decrease Key: " << index << " parent value: "<< A[parent(index)].value << " > cur value: " << A[index].value << std::endl;
+	while ((index > 0) && (A[parent(index)].value > A[index].value))
 	{
-		//std::cout << "lowering weight loop " << index << " " << A[parent(index)].w << " " << A[index].w << std::endl;
+		//std::cout << "loop " << index << " swapping " << A[parent(index)].value << " and " << A[index].value << std::endl;
 		exchange(&A[index], &A[parent(index)]);
-		position[A[index].v] = index;
-		position[A[parent(index)].v] = parent(index);
-		//std::cout << "loop " << A[parent(index)].w << " " << A[index].w << std::endl;
+		position[A[index].key] = index;
+		position[A[parent(index)].key] = parent(index);
+		//std::cout << "heap index " << A[parent(index)].w << " " << A[index].w << std::endl;
 		index = parent(index);
 	}
 }
-void MinHeap::insert(unsigned int vertex, int weight)
+void MinHeap::insert(int key, int value)
 {
+	position[key] = heap_size;
+	A[heap_size].key = key;
+	A[heap_size].value = std::numeric_limits<int>::max();
 	heap_size++;
-	if (position.size() < heap_size)
-		position.resize(heap_size);
-	position[vertex] = heap_size;
-	vertex_data tmp;
-	tmp.v = vertex;
-	tmp.w = std::numeric_limits<int>::max();
-	//tmp.w = 10000;
-	A[heap_size] = tmp;
-	
-	decrease_key(vertex, weight);
+	decrease_key(key, value);
 }
 bool MinHeap::empty()
 {
@@ -115,21 +114,21 @@ bool MinHeap::empty()
 	else
 		return true;
 }
-unsigned int MinHeap::parent(unsigned int i)
+int MinHeap::parent(int i)
 {
 	return i / 2;
 }
-unsigned int MinHeap::left(unsigned int i)
+int MinHeap::left(int i)
 {
 	return 2 * i;
 }
-unsigned int MinHeap::right(unsigned int i)
+int MinHeap::right(int i)
 {
 	return 2 * i + 1;
 }
-void MinHeap::exchange(vertex_data *i, vertex_data *j)
+void MinHeap::exchange(data *i, data *j)
 {
-	vertex_data tmp = *i;
+	data tmp = *i;
 	*i = *j;
 	*j = tmp; 
 }
