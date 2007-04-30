@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <limits>
+#include <iostream>
 
 struct vertex_data {
 	int v; // key
@@ -13,10 +14,11 @@ class MinHeap
 {
 public:
 	MinHeap();
-	void min_heapify(int);
+	void min_heapify(unsigned int);
 	int extract_min();
 	void decrease_key(unsigned int, int);
 	void insert(unsigned int, int);
+	bool empty();
 	
 private:
 	unsigned int parent(unsigned int);
@@ -26,22 +28,24 @@ private:
 	
 	std::vector<vertex_data> A;
 	std::vector<unsigned int> position;
+	
+	unsigned int heap_size;
 };
 
-MinHeap::MinHeap()
+MinHeap::MinHeap() : heap_size(0)
 {
 }
-void MinHeap::min_heapify(int index)
+void MinHeap::min_heapify(unsigned int index)
 {
-	int smallest = index;
-	int l = left(index);
-	int r = right(index);
-	if ( ( l <= A.size() ) && ( A[l].w < A[index].w ) )
+	unsigned int smallest = index;
+	unsigned int l = left(index);
+	unsigned int r = right(index);
+	if ( ( l <= heap_size ) && ( A[l].w < A[index].w ) )
 	{
 		smallest = l;
 	}
 	
-	if ( ( r <= A.size() ) && ( A[r].w < A[smallest].w ) )
+	if ( ( r <= heap_size ) && ( A[r].w < A[smallest].w ) )
 	{
 		smallest = r;
 	}
@@ -58,15 +62,14 @@ int MinHeap::extract_min()
 {
 	int min;
 	
-	if (A.size() < 1)
+	if (heap_size < 1)
 	{
 		std::cerr << "Heap underflow" << std::endl;
 	}
-	min = A.front().v;
+	min = A[0].v;
 	//std::cout << "extracting " << A.front().v << " " << A.front().w << std::endl;
-	A.front() = A.back();
-	position[A.back().v] = -1;
-	A.pop_back();
+	A[0] = A[heap_size];
+	position[A[heap_size].v] = -1; // This value causes the seg fault
 	min_heapify(0);
 	return min;
 }
@@ -80,7 +83,7 @@ void MinHeap::decrease_key(unsigned int vertex, int weight)
 	}
 	//std::cout << "lowering weight " << weight << std::endl;
 	A[index].w = weight;
-	//std::cout << "comparison " << A[parent(index)].w << " > " << A[index].w << std::endl;
+	std::cout << "DecKey " << index << " parent w: "<< A[parent(index)].w << " > cur w: " << A[index].w << std::endl;
 	while ((index > 0) && (A[parent(index)].w > A[index].w))
 	{
 		//std::cout << "lowering weight loop " << index << " " << A[parent(index)].w << " " << A[index].w << std::endl;
@@ -93,18 +96,28 @@ void MinHeap::decrease_key(unsigned int vertex, int weight)
 }
 void MinHeap::insert(unsigned int vertex, int weight)
 {
-	position.resize(A.size() + 1);
-	position[vertex] = A.size();
+	heap_size++;
+	if (position.size() < heap_size)
+		position.resize(heap_size);
+	position[vertex] = heap_size;
 	vertex_data tmp;
 	tmp.v = vertex;
 	tmp.w = std::numeric_limits<int>::max();
-	A.push_back(tmp);
+	//tmp.w = 10000;
+	A[heap_size] = tmp;
 	
 	decrease_key(vertex, weight);
 }
+bool MinHeap::empty()
+{
+	if (heap_size > 0)
+		return false;
+	else
+		return true;
+}
 unsigned int MinHeap::parent(unsigned int i)
 {
-	return (i) / 2;
+	return i / 2;
 }
 unsigned int MinHeap::left(unsigned int i)
 {

@@ -1,3 +1,4 @@
+#include "MinHeap.h"
 #include <list>
 #include <map>
 #include <vector>
@@ -20,21 +21,21 @@ class Dijkstra
 {	
 	private:
 		vertex_t s;
+		std::vector<vertex_t> S;
 		min_w_t min_w;
 		pi_t pi;
+		MinHeap Q;
 		unsigned int rounds;
 	
 		void initialize_single_source();
 		void compute_shortest_path();
-		
+		void relax(int, int, int);
 	public:
 		adj_t adj;
 		Dijkstra(adj_t, vertex_t);
 		void set_source(vertex_t);
 		void print_min();
 };
-
-
 
 Dijkstra::Dijkstra(adj_t new_adj, vertex_t new_s)
 {
@@ -65,43 +66,42 @@ void Dijkstra::initialize_single_source()
 	{
 		vertex_t v = i->first;
 		min_w[v] = std::numeric_limits<int>::max();
+		//min_w[v] = 10000;
 		pi[v] = 0;
 	}
-
 	min_w[s] = 0;
 }
-
+void Dijkstra::relax(int u, int v, int w)
+{
+	if (min_w[v] > w)
+	{
+		min_w[v] = w;
+		Q.decrease_key(v, w);
+		pi[v] = u;
+	} 
+}
 void Dijkstra::compute_shortest_path()
 {
 	// Load the Q (not really) with the vertices
-	std::map<vertex_t, int> Q;
-	for (adj_t::iterator i = adj.begin(); i != adj.end(); ++i)
+	for (min_w_t::iterator i = min_w.begin(); i != min_w.end(); ++i)
 	{
-		Q[i->first] = 1;
+		std::cout << "Q insertion " << i->first << " " << i->second << std::endl;
+		Q.insert(i->first, i->second);
 	}
-	// Start by setting the source node cost to zero.
-	min_w[s] = 0;
-	// set the initial vertex to source.
 	// Run until your Q (not really) is out of vertices.
 	rounds = 1;
 	while (!Q.empty())
 	{
 		//std::cout << "Round " << rounds << std::endl;
-		vertex_t u = Q.begin()->first;
-		Q.erase(u);
-
+		vertex_t u = Q.extract_min();
+		S.push_back(u);
 		std::list<edge> targets = adj[u];
 		// Go through each target for the current vertex
 		for(std::list<edge>::iterator i = targets.begin(); i != targets.end(); ++i)
 		{
 			vertex_t v = (*i).target;
-			weight_t cost = min_w[u] + (*i).w;
-			//std::cout << "Cost is " << cost << std::endl;
-			if (cost < min_w[v])
-			{
-				Q[v] = min_w[v] = cost;
-				pi[v] = u;
-			}
+			weight_t w = min_w[u] + (*i).w;
+			relax(u, v, w);		
 			rounds++;
 		}
 		rounds++;
