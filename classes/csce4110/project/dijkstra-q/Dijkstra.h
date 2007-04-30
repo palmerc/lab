@@ -90,6 +90,7 @@ void Dijkstra::compute_shortest_path()
 	}
 	// Run until your Q (not really) is out of vertices.
 	rounds = 1;
+	Q.decrease_key(s,0);
 	while (!Q.empty())
 	{
 		//std::cout << "Round " << rounds << std::endl;
