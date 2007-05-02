@@ -9,19 +9,20 @@
 int main(int argc, char *argv[])
 {
 	adj_t adj;
-	vertex_t source = 0;
 	std::ifstream in;
+	std::map<int, int> source_list;
+	int rows;
 	in.open(argv[1]);
-	boost::regex re_start("^\\s*s\\s+(\\d+)\\s*$", boost::regex::perl);
-	boost::regex re_vertex("^\\s*v\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
+	boost::regex re_rows("^\\s*Nodes\\s+(\\d+)\\s*$", boost::regex::perl);
+	boost::regex re_vertex("^\\s*E\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
 	boost::cmatch matches;
 	std::string str;
 
 	getline(in, str);
 	while ( in )
 	{
-		if (boost::regex_match(str.c_str(), matches, re_start))
-			source= boost::lexical_cast<int>(matches[1]);
+		if (boost::regex_match(str.c_str(), matches, re_rows))
+			rows = boost::lexical_cast<int>(matches[1]);
 		else if (boost::regex_match(str.c_str(), matches, re_vertex))
 		{
 			int vertex = boost::lexical_cast<int>(matches[1]);
@@ -31,11 +32,15 @@ int main(int argc, char *argv[])
 			if(adj.find(node) == adj.end())
 				adj[node].clear();
 			adj[vertex].push_back(edge(node, weight));
+			source_list[vertex] = 1;
 		}
 		getline(in, str);
 	}
 	in.close();
-	Dijkstra graph(adj, source);
-	graph.print_min();
+	for(std::map<int, int>::iterator i = source_list.begin(); i != source_list.end(); ++i)
+	{
+		Dijkstra graph(adj, i->first);
+	}
+	//graph.print_min();
 	return 0;
 }

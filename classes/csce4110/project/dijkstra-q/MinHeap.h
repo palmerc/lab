@@ -68,7 +68,7 @@ int MinHeap::extract_min()
 	
 	if (heap_size < 1)
 	{
-		std::cerr << "Heap underflow" << std::endl;
+//		std::cerr << "Heap underflow" << std::endl;
 	}
 	min = A[0].key;
 	//std::cout << "extracting " << A.front().v << " " << A.front().w << std::endl;
@@ -84,7 +84,7 @@ void MinHeap::decrease_key(int key, int value)
 	//std::cout << "Decreasing " << vertex << std::endl;
 	if (value > A[index].value)
 	{
-		std::cerr << "New key is smaller than current key" << std::endl;
+//		std::cerr << "New key is smaller than current key" << std::endl;
 	}
 	//std::cout << "lowering weight " << weight << std::endl;
 	A[index].value = value;

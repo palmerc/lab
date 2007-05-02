@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
 {
 	std::ifstream in;
 	in.open(argv[1]);
-	boost::regex re_rows("^\\s*r\\s+(\\d+)\\s*$", boost::regex::perl);
-	boost::regex re_vertex("^\\s*v\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
+	boost::regex re_rows("^\\s*Nodes\\s+(\\d+)\\s*$", boost::regex::perl);
+	boost::regex re_vertex("^\\s*E\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*$", boost::regex::perl);
 	boost::cmatch matches;
 	std::string str;
 
