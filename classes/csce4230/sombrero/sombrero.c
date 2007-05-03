@@ -1,9 +1,9 @@
 /*
- * robot.c
- * This program shows how to composite modeling transformations
- * to draw translated and rotated hierarchical models.
- * Interaction:  pressing the s and e keys (shoulder and elbow)
- * alters the rotation of the robot arm.
+ * Cameron Palmer
+ * CSCE 4230
+ * Program 6
+ * 
+ * 
  */
 #include <GL/glut.h>
 #include <stdlib.h>
