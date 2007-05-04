@@ -170,6 +170,7 @@ void display(void)
    }     
    if (showBoundingBox)
    {
+   	glTranslatef (0.5*scaleFactor, 0.5*scaleFactor, 0.0);
    	glutWireCube(1.0*scale);
    }
    glTranslatef(-0.5*scale, 0.0, 0.0);
