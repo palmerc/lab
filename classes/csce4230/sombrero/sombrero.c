@@ -20,7 +20,7 @@
 static GLdouble vertices[nv][3];
 static GLdouble normals[nv][3];
 static GLuint triangles[nt][3];
-static GLdouble tri_normals[nv][3];
+static GLdouble tri_normals[nt][3];
 static int xrot = 0, yrot = 0, zooom = 0, showNormals = 0, flatSmooth = 1, solidOrWireframe = 0;
 
 double z(GLdouble x, GLdouble y)
@@ -131,11 +131,11 @@ void calculateNormals(void)
  			vertices[nptr][0] - vertices[lptr][0],
  			vertices[nptr][1] - vertices[lptr][1],
  			vertices[nptr][2] - vertices[lptr][2]
- 		};	
+ 		};
+ 		calculateCrossProduct(a, b, tri_normals[i]);
  		calculateCrossProduct(a, b, normals[lptr]);
  		calculateCrossProduct(a, b, normals[mptr]);
  		calculateCrossProduct(a, b, normals[nptr]);
- 		(normals[lptr][0] + normals[lptr][1] + normals[lptr][2]) / 3;
  	}
 #ifdef debug
 	printf("Exiting calculateNormals()\n");
@@ -171,10 +171,10 @@ void display(void)
    	glShadeModel(GL_FLAT);
    	glBegin(GL_TRIANGLES);
 		for (int i = 0;  i < nt; i++) {
-			glNormal3dv(&tri_normals[i][0]);
-			glVertex3dv(&vertices[triangles[i][0]][0]);
-			glVertex3dv(&vertices[triangles[i][1]][0]);
-			glVertex3dv(&vertices[triangles[i][2]][0]);
+			glNormal3dv(tri_normals[i]);
+			glVertex3dv(vertices[triangles[i][0]]);
+			glVertex3dv(vertices[triangles[i][1]]);
+			glVertex3dv(vertices[triangles[i][2]]);
 		}
 		glEnd();
    }
