@@ -21,13 +21,25 @@ static GLdouble vertices[nv][3];
 static GLdouble normals[nv][3];
 static GLuint triangles[nt][3];
 static GLdouble tri_normals[nt][3];
-static int xrot = 0, yrot = 0, zooom = 0, showNormals = 0, flatSmooth = 1, solidOrWireframe = 0;
-
+static int xrot = 0, yrot = 0, zooom = 0, showNormals = 0, flatSmooth = 1, 
+	solidOrWireframe = 0, showBoundingBox = 0;
+static float shine = 32.0, scale = 1.0;
 double z(GLdouble x, GLdouble y)
 {
 	return ( .5 * exp( -.04 * sqrt( pow( 80 * x - 40, 2 ) + pow( 90 * y - 45, 2 ) ) ) * cos( 0.15 * sqrt( pow( 80 * x - 40, 2 ) + pow( 90 * y - 45, 2 ) ) ) );
 }
-
+void ScaleIt()
+{
+	for (GLuint i = 0; i < nv; i++)
+	{
+		vertices[i][0] = scale * vertices[i][0];
+		vertices[i][1] = scale * vertices[i][1];
+		vertices[i][2] = scale * vertices[i][2];
+		normals[i][0] = scale * normals[i][0];
+		normals[i][1] = scale * normals[i][1];
+		normals[i][2] = scale * normals[i][2];
+	}
+}
 void calculateVertices(void)
 {
 	GLuint vi;
@@ -147,7 +159,6 @@ void display(void)
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    glPushMatrix();
    
-   glColor3d(1.0,0.0,0.0);
    glTranslatef (0.0, 0.0, zooom);
    glRotatef (xrot, 1.0, 0.0, 0.0);
    glRotatef (yrot, 0.0, 1.0, 0.0);
@@ -160,7 +171,14 @@ void display(void)
    {
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    }     
-      
+   if (showBoundingBox)
+   {
+   	glutWireCube(1.0*scale);
+   }
+   glTranslatef(-0.5, -0.5, 0.0);
+   glColor3f(0.5, 0.5, 0.8);
+   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shine);
+   
    if (flatSmooth)
    {
    	glShadeModel(GL_SMOOTH);
@@ -186,7 +204,9 @@ void display(void)
       for (GLint i = 0; i < nv; ++i)
       {
           glVertex3f(vertices[i][0], vertices[i][1], vertices[i][2]);
-          glVertex3f(vertices[i][0] + normals[i][0] *.1, vertices[i][1] + normals[i][1]*.1, vertices[i][2] + normals[i][2]*.1);
+          glVertex3f(vertices[i][0] + normals[i][0]*.1, 
+          				vertices[i][1] + normals[i][1]*.1, 
+          				vertices[i][2] + normals[i][2]*.1);
       }
       glEnd();
       glEnable(GL_LIGHTING);
@@ -210,6 +230,17 @@ void menu(int value)
 {
    switch (value)
    {
+   	case 2:
+   		if (showBoundingBox == 1)
+   		{
+   			showBoundingBox = 0;
+   		}
+   		else
+   		{
+   			showBoundingBox = 1;
+   		}
+   		glutPostRedisplay();
+   		break;
    	case 3:
    		xrot = 0;
    		yrot = 0;
@@ -217,6 +248,9 @@ void menu(int value)
    		showNormals = 0;
    		flatSmooth = 1;
    		solidOrWireframe = 0;
+   		showBoundingBox = 0;
+   		shine = 32.0;
+   		scale = 1.0;
    		glutPostRedisplay();
    		break;
    	  case 4:
@@ -279,6 +313,38 @@ void menu(int value)
       case 13:
          exit(0);
          break;
+		case 14:
+			if (scale > 1)
+			{
+				scale = scale * 0.5;
+				printf("Scale %f\n", scale);
+				ScaleIt();
+				glutPostRedisplay();
+			}
+			break;
+		case 15:
+			if (scale < 10)
+			{
+				scale = scale * 2.0;
+				printf("Scale %f\n", scale);
+				ScaleIt();
+				glutPostRedisplay();
+			}
+			break;
+		case 16:
+			if (shine > 1)
+			{
+				shine = shine * 0.5;
+				glutPostRedisplay();
+			}
+			break;
+		case 17:
+			if (shine < 128)
+			{
+				shine = shine * 2.0;
+				glutPostRedisplay();
+			}
+			break;
       default:
          break;
    }
@@ -287,19 +353,34 @@ void menu(int value)
 void keyboard (unsigned char key, int x, int y)
 {
    switch (key) {
+   	case 'b':
+   		menu(2);
+   		break;
+   	case 'd':
+   		menu(14);
+   		break;
+		case 'D':
+			menu(15);
+   		break;
+   	case 'e':
+   		menu(16);
+   		break;
+   	case 'E':
+   		menu(17);
+   		break;
    	case 'r':
    		menu(3);
    		break;
-   	  case 'f':
+		case 'f':
    	     menu(4);
    	     break;
       case 's': /* Toggle function display on/off */
    	     menu(5);
    	     break;
-   	  case 'n': /* Toggle normal display on/off */
+		case 'n': /* Toggle normal display on/off */
    	     menu(6);
    	     break;
-	  case 'x':
+		case 'x':
          menu(7);
          break;
       case 'X':
@@ -327,14 +408,18 @@ void keyboard (unsigned char key, int x, int y)
 
 void init(void) 
 {
-   GLfloat light_ambient[] = { 0.5, 0.5, 0.5, 0.9 };
-   GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-   GLfloat light_specular[] = { 1.0, 0.5, 0.5, 1.0 };
-   GLfloat light_position[] = { 0.0, -2.0, 0.0, 0.0 };
-   
+   GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+   GLfloat light_diffuse[] = { 0.4, 0.4, 0.4, 0.0 };
+   GLfloat light_specular[] = { 0.5, 0.5, 0.5, 0.0 };
+   GLfloat light_position[] = { 1.0, 0.0, 0.0, 0.0 };
+   GLfloat mat[4] = {1.0,1.0,1.0,1.0};
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glShadeModel (GL_SMOOTH);
    glEnable(GL_DEPTH_TEST);
+   glEnable(GL_COLOR_MATERIAL);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat); 
+   glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat); 
+   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat); 
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
    glEnableClientState(GL_VERTEX_ARRAY);
@@ -364,8 +449,10 @@ int main(int argc, char** argv)
    glutReshapeFunc(reshape);
    glutKeyboardFunc(keyboard);
    m = glutCreateMenu(menu);
+   glutAddMenuEntry("Reset values to default", 3);
+   glutAddMenuEntry("Toggle bounding box", 2);
    glutAddMenuEntry("Toggle solid/wireframe", 4);
-   glutAddMenuEntry("Toggle hide/show shape", 5);
+   glutAddMenuEntry("Toggle change lighting model", 5);
    glutAddMenuEntry("Toggle normals", 6);
    glutAddMenuEntry("x Rotate CCW", 7);
    glutAddMenuEntry("X Rotate CW", 8);
