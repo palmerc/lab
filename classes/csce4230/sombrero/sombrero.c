@@ -444,6 +444,8 @@ int main(int argc, char** argv)
    m = glutCreateMenu(menu);
    glutAddMenuEntry("Reset values to default", 3);
    glutAddMenuEntry("Toggle bounding box", 2);
+   glutAddMenuEntry("Scale down", 14);
+   glutAddMenuEntry("Scale up", 15);
    glutAddMenuEntry("Toggle solid/wireframe", 4);
    glutAddMenuEntry("Toggle change lighting model", 5);
    glutAddMenuEntry("Toggle normals", 6);
