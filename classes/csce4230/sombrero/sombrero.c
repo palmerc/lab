@@ -32,12 +32,9 @@ void ScaleIt()
 {
 	for (GLuint i = 0; i < nv; i++)
 	{
-		vertices[i][0] = scale * vertices[i][0];
-		vertices[i][1] = scale * vertices[i][1];
-		vertices[i][2] = scale * vertices[i][2];
-		normals[i][0] = scale * normals[i][0];
-		normals[i][1] = scale * normals[i][1];
-		normals[i][2] = scale * normals[i][2];
+		vertices[i][0] *= scale;
+		vertices[i][1] *= scale;
+		vertices[i][2] *= scale;
 	}
 }
 void calculateVertices(void)
@@ -175,7 +172,8 @@ void display(void)
    {
    	glutWireCube(1.0*scale);
    }
-   glTranslatef(-0.5, -0.5, 0.0);
+   glTranslatef(-0.5*scale, 0.0, 0.0);
+   glTranslatef(0.0, -0.5*scale, 0.0);
    glColor3f(0.5, 0.5, 0.8);
    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shine);
    
