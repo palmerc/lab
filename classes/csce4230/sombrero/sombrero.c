@@ -28,15 +28,6 @@ double z(GLdouble x, GLdouble y)
 {
 	return ( .5 * exp( -.04 * sqrt( pow( 80 * x - 40, 2 ) + pow( 90 * y - 45, 2 ) ) ) * cos( 0.15 * sqrt( pow( 80 * x - 40, 2 ) + pow( 90 * y - 45, 2 ) ) ) );
 }
-void ScaleIt()
-{
-	for (GLuint i = 0; i < nv; i++)
-	{
-		vertices[i][0] *= scale;
-		vertices[i][1] *= scale;
-		vertices[i][2] *= scale;
-	}
-}
 void calculateVertices(void)
 {
 	GLuint vi;
@@ -50,9 +41,9 @@ void calculateVertices(void)
 	   	for (GLuint j = 0; j <= k; ++j)
 	   	{
 	   		x = side * j;
-	   		vertices[vi][0] = x;
-	   		vertices[vi][1] = y;
-	   		vertices[vi][2] = z(x, y);
+	   		vertices[vi][0] = x * scale;
+	   		vertices[vi][1] = y * scale;
+	   		vertices[vi][2] = z(x, y) * scale;
 	   		/* printf("Vertex values %f %f %f\n", x, y, z(x, y)); */
 	   		++vi;
 	   	}
@@ -150,7 +141,12 @@ void calculateNormals(void)
 	printf("Exiting calculateNormals()\n");
 #endif
 }
-
+void ScaleIt()
+{
+	calculateVertices();
+   calculateTriangles();
+   calculateNormals();
+}
 void display(void)
 {
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -170,7 +166,6 @@ void display(void)
    }     
    if (showBoundingBox)
    {
-   	glTranslatef (0.5*scaleFactor, 0.5*scaleFactor, 0.0);
    	glutWireCube(1.0*scale);
    }
    glTranslatef(-0.5*scale, 0.0, 0.0);
@@ -250,6 +245,7 @@ void menu(int value)
    		showBoundingBox = 0;
    		shine = 32.0;
    		scale = 1.0;
+   		ScaleIt();
    		glutPostRedisplay();
    		break;
    	  case 4:
@@ -316,7 +312,6 @@ void menu(int value)
 			if (scale > 1)
 			{
 				scale = scale * 0.5;
-				printf("Scale %f\n", scale);
 				ScaleIt();
 				glutPostRedisplay();
 			}
@@ -325,7 +320,6 @@ void menu(int value)
 			if (scale < 10)
 			{
 				scale = scale * 2.0;
-				printf("Scale %f\n", scale);
 				ScaleIt();
 				glutPostRedisplay();
 			}
