@@ -20,7 +20,8 @@
 static GLdouble vertices[nv][3];
 static GLdouble normals[nv][3];
 static GLuint triangles[nt][3];
-static int xrot = 0, yrot = 0, zooom = 0, showNormals = 0, showShape = 1, solidOrWireframe = 0;
+static GLdouble tri_normals[nv][3];
+static int xrot = 0, yrot = 0, zooom = 0, showNormals = 0, flatSmooth = 1, solidOrWireframe = 0;
 
 double z(GLdouble x, GLdouble y)
 {
@@ -131,6 +132,7 @@ void calculateNormals(void)
  			vertices[nptr][1] - vertices[lptr][1],
  			vertices[nptr][2] - vertices[lptr][2]
  		};
+ 		calculateCrossProduct(a, b, tri_normals[lptr]);
  		calculateCrossProduct(a, b, normals[lptr]);
  		calculateCrossProduct(a, b, normals[mptr]);
  		calculateCrossProduct(a, b, normals[nptr]);
@@ -159,9 +161,22 @@ void display(void)
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    }     
       
-   if (showShape)
+   if (flatSmooth)
    {
+   	glShadeModel(GL_SMOOTH);
       glDrawElements(GL_TRIANGLES, 3*nt, GL_UNSIGNED_INT, triangles);
+   }
+   else
+   {
+   	glShadeModel(GL_FLAT);
+   	glBegin(GL_TRIANGLES);
+		for (int i = 0;  i < nt; i++) {
+			glNormal3dv(&tri_normals[i][0]);
+			glVertex3dv(&vertices[triangles[i][0]][0]);
+			glVertex3dv(&vertices[triangles[i][1]][0]);
+			glVertex3dv(&vertices[triangles[i][2]][0]);
+		}
+		glEnd();
    }
    if (showNormals)
    {
@@ -195,6 +210,15 @@ void menu(int value)
 {
    switch (value)
    {
+   	case 3:
+   		xrot = 0;
+   		yrot = 0;
+   		zooom = 0;
+   		showNormals = 0;
+   		flatSmooth = 1;
+   		solidOrWireframe = 0;
+   		glutPostRedisplay();
+   		break;
    	  case 4:
    	     if (solidOrWireframe == 1)
    	     {
@@ -207,13 +231,13 @@ void menu(int value)
    	     glutPostRedisplay();
    	     break;
       case 5:
-   	     if (showShape == 1)
+   	     if (flatSmooth == 1)
    	     {
-   	        showShape = 0;
+   	        flatSmooth = 0;
    	     }
    	     else
    	     {
-   	        showShape = 1;
+   	        flatSmooth = 1;
    	     }
    	     glutPostRedisplay();
          break;
@@ -263,10 +287,13 @@ void menu(int value)
 void keyboard (unsigned char key, int x, int y)
 {
    switch (key) {
-   	  case 's':
+   	case 'r':
+   		menu(3);
+   		break;
+   	  case 'f':
    	     menu(4);
    	     break;
-      case 'f': /* Toggle function display on/off */
+      case 's': /* Toggle function display on/off */
    	     menu(5);
    	     break;
    	  case 'n': /* Toggle normal display on/off */
