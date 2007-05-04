@@ -131,11 +131,11 @@ void calculateNormals(void)
  			vertices[nptr][0] - vertices[lptr][0],
  			vertices[nptr][1] - vertices[lptr][1],
  			vertices[nptr][2] - vertices[lptr][2]
- 		};
- 		calculateCrossProduct(a, b, tri_normals[lptr]);
+ 		};	
  		calculateCrossProduct(a, b, normals[lptr]);
  		calculateCrossProduct(a, b, normals[mptr]);
  		calculateCrossProduct(a, b, normals[nptr]);
+ 		(normals[lptr][0] + normals[lptr][1] + normals[lptr][2]) / 3;
  	}
 #ifdef debug
 	printf("Exiting calculateNormals()\n");
