@@ -13,19 +13,34 @@ sum([], 0).
 sum([First | Rest], Total) :-
 	sum(Rest, TotalOfRest),
         Total is First + TotalOfRest.
-list_length([], 0).
-list_length([_ | Tail], Count) :-
-	list_length(Tail, Counter),
-	Count is Counter + 1.
 mean([], 0) .
 mean(Tail, Mean) :-
 	sum(Tail, Sum),
 	list_length(Tail, Count),
 	Mean is Sum / Count.
+list_length([], 0).
+list_length([_ | Tail], Count) :-
+	list_length(Tail, Counter),
+	Count is Counter + 1.
+list_element([H|T], Pos, Value) :-
+	Cur is Pos - 1,
+	( Cur=\=0
+	-> list_element(T, Cur, Value)
+	; Value is H ).
+even(List, Pos, Value) :-
+	list_element(List, Pos, Result1),
+	list_element(List, Pos + 1, Result2),
+	Value is ((Result1 + Result2)/ 2).
+odd(List, Pos, Value) :-
+	list_element(List, Pos, Value).
 middle(List, Middle) :-
 	list_length(List, Count),
 	Mod is mod(Count, 2),
 	( Mod = 0
-	-> ceil(Mod, Ceil)
-	; floor(Mod, ).
-	Middle is Count / 2.
+	-> even(List, Count / 2, Middle)
+	; odd(List, truncate(Count / 2) + 1, Middle) ).
+median(List, Median) :-
+	quicksort(List, Sorted),
+	middle(Sorted, Median).
+	
+	
