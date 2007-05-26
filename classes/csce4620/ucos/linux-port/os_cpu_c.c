@@ -171,10 +171,13 @@ void OSEnableInterruptFlag(void)
 {
 
     if (virtualInterruptFlag==FALSE)				//If the timer interrupt previously was disabled,
-    {   virtualInterruptFlag=TRUE;
+    {   
+	virtualInterruptFlag=TRUE;
 	if (getpid()!=hInterruptThread)
+		OS_ENTER_CRITICAL();
 	    sigprocmask(SIG_UNBLOCK, &interruptSignalSet, NULL);//... resume the interrupt thread
-    }
+		OS_EXIT_CRITICAL();
+	}
 
     DBGPRINT(0x00000080, ">>> ODEnableInterruptFlag %2d\n", virtualInterruptFlag);
 }

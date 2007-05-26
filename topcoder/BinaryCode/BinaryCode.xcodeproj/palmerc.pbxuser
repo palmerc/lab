@@ -1,0 +1,139 @@
+// !$*UTF8*$!
+{
+	88230FFE05D9926E00FE8D22 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 88934D45061E10E600F42905 /* BinaryCode */;
+		activeTarget = 8823100505D9929B00FE8D22 /* BinaryCode */;
+		codeSenseManager = C78913FD0C07BE6C0056CA03 /* Code sense */;
+		executables = (
+			88934D45061E10E600F42905 /* BinaryCode */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					243,
+					20,
+					48.1626,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 201834089;
+			PBXWorkspaceStateSaveDate = 201834089;
+		};
+		perUserProjectItems = {
+			C789145E0C07DC1F0056CA03 /* PBXTextBookmark */ = C789145E0C07DC1F0056CA03 /* PBXTextBookmark */;
+			C789154B0C08B1770056CA03 /* PBXTextBookmark */ = C789154B0C08B1770056CA03 /* PBXTextBookmark */;
+		};
+		sourceControlManager = C78913FC0C07BE6C0056CA03 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	8823100505D9929B00FE8D22 /* BinaryCode */ = {
+		activeExec = 0;
+	};
+	886FEE5605D9BD280091015F /* build.xml */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {459, 700}}";
+			sepNavSelRange = "{1018, 65}";
+			sepNavVisRect = "{{0, 306}, {459, 186}}";
+		};
+	};
+	88934D45061E10E600F42905 /* BinaryCode */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 0;
+		activeArgIndices = (
+			YES,
+		);
+		argumentStrings = (
+			"-jar \"dist/BinaryCode.jar\"",
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = JavaDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		launchableReference = 88934D46061E10E600F42905 /* java */;
+		libgmallocEnabled = 0;
+		name = BinaryCode;
+		sourceDirectories = (
+		);
+		startupPath = "<<ProjectDirectory>>";
+	};
+	88934D46061E10E600F42905 /* java */ = {
+		isa = PBXFileReference;
+		explicitFileType = "compiled.mach-o.executable";
+		name = java;
+		path = /usr/bin/java;
+		sourceTree = "<absolute>";
+	};
+	C78913FC0C07BE6C0056CA03 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	C78913FD0C07BE6C0056CA03 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	C789140E0C07C2B20056CA03 /* BinaryCode.java */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.java;
+		name = BinaryCode.java;
+		path = /Users/palmerc/lab/topcoder/BinaryCode/src/BinaryCode.java;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {980, 3682}}";
+			sepNavSelRange = "{21, 2125}";
+			sepNavVisRect = "{{0, 924}, {781, 895}}";
+			sepNavWindowFrame = "{{775, 4}, {820, 1024}}";
+		};
+	};
+	C789145E0C07DC1F0056CA03 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "cannot find symbol";
+		fRef = C789140E0C07C2B20056CA03 /* BinaryCode.java */;
+		rLen = 0;
+		rLoc = 35;
+		rType = 1;
+	};
+	C789154B0C08B1770056CA03 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C789154C0C08B1770056CA03 /* BinaryCode.java */;
+		name = "(null): 3";
+		rLen = 2125;
+		rLoc = 21;
+		rType = 0;
+		vrLen = 1727;
+		vrLoc = 1613;
+	};
+	C789154C0C08B1770056CA03 /* BinaryCode.java */ = {
+		isa = PBXFileReference;
+		name = BinaryCode.java;
+		path = /Users/palmerc/lab/topcoder/BinaryCode/src/BinaryCode.java;
+		sourceTree = "<absolute>";
+	};
+}
