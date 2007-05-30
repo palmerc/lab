@@ -1,0 +1,113 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXFileReference section */
+		886FEE5605D9BD280091015F /* build.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = build.xml; sourceTree = "<group>"; };
+		886FEE5705D9BD280091015F /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = lib; sourceTree = "<group>"; };
+		886FEE5905D9BD280091015F /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; path = src; sourceTree = "<group>"; };
+		888251B805DAF9E10060550A /* Manifest */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Manifest; sourceTree = "<group>"; };
+		88934D71061E157F00F42905 /* dist */ = {isa = PBXFileReference; lastKnownFileType = file; path = dist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		88230FFA05D9926E00FE8D22 = {
+			isa = PBXGroup;
+			children = (
+				888251B805DAF9E10060550A /* Manifest */,
+				886FEE5605D9BD280091015F /* build.xml */,
+				886FEE5905D9BD280091015F /* src */,
+				886FEE5705D9BD280091015F /* lib */,
+				88934D71061E157F00F42905 /* dist */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		8823100505D9929B00FE8D22 /* Lottery */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-emacs $(ACTION)";
+			buildConfigurationList = 0A5CE55108BBAA1100F96152 /* Build configuration list for PBXLegacyTarget "Lottery" */;
+			buildPhases = (
+			);
+			buildToolPath = /Developer/Java/Ant/bin/ant;
+			dependencies = (
+			);
+			name = Lottery;
+			passBuildSettingsInEnvironment = 1;
+			productName = Lottery;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		88230FFE05D9926E00FE8D22 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 0A5CE55508BBAA1100F96152 /* Build configuration list for PBXProject "Lottery" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 88230FFA05D9926E00FE8D22;
+			projectDirPath = "";
+			targets = (
+				8823100505D9929B00FE8D22 /* Lottery */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		0A5CE55208BBAA1100F96152 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				PRODUCT_NAME = Lottery;
+			};
+			name = Debug;
+		};
+		0A5CE55308BBAA1100F96152 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				PRODUCT_NAME = Lottery;
+			};
+			name = Release;
+		};
+		0A5CE55608BBAA1100F96152 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		0A5CE55708BBAA1100F96152 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0A5CE55108BBAA1100F96152 /* Build configuration list for PBXLegacyTarget "Lottery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A5CE55208BBAA1100F96152 /* Debug */,
+				0A5CE55308BBAA1100F96152 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0A5CE55508BBAA1100F96152 /* Build configuration list for PBXProject "Lottery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A5CE55608BBAA1100F96152 /* Debug */,
+				0A5CE55708BBAA1100F96152 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 88230FFE05D9926E00FE8D22 /* Project object */;
+}
