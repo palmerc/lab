@@ -90,31 +90,59 @@ import java.util.*;
 import java.math.BigInteger;
 
 public class Lottery {
-	private static BigInteger getFactorial (int n) {
-		BigInteger fact = BigInteger.ONE;
-		for (int i = n; i > 1; i--) {
-			fact = fact.multiply (new BigInteger (Integer.toString (i)));
-		}
-		return fact;
-	}
 	public long power(long base, long exponent) {
-		System.out.print("Power " + base + "^" + exponent);
+		//System.out.print("Power " + base + "^" + exponent);
 		
 		long result = 1;
 		for(long i = 0; i < exponent; ++i) {
 			result *= base;
 		}
-		System.out.println(" = " + result);
+		//System.out.println(" = " + result);
 		return result;
 	}
-	
-	public BigInteger factorial(BigInteger x) {
-		return getFactorial(x);
-	}
+        public long factorial(long number, long limiter) {
+            long result = 1;
+            for(long count = 0; count < limiter; count++)
+                result *= (number - count);
+            return result;
+        }
+        public long binomial_coefficient(int n, int m) {
+            long[][] bc;
+            int i, j;
+            
+            bc = new long[108][108];
+            for (i = 0; i <= n; i++) bc[i][0] = 1;
+            for (j = 0; i <= n; j++) bc[j][j] = 1;
+            for (i = 1; i <= n; i++)
+                for (j = 1; j < i; j++)
+                    bc[i][j] = bc[i-1][j-1] + bc[i-1][j];
+            
+            
+            /*
+            for (int k = 0; k < 108; k++) {
+                
+                for (int l = 0; l < 108; l++) {
+                    System.out.print(bc[l][k] + " ");
+                }
+                
+                System.out.println();
+            }
+            
+            
+            if ((n == 11) && (m == 2)) {
+                System.exit(0);
+            }
+            */
+            return bc[n][m];
+        }
 	
     public String[] sortByOdds(String[] rules) {
+                long[] probabilities;
 		long possibilities;
+                String result[];
+                result = new String[rules.length];
                 
+                probabilities = new long[50];
 		if((rules.length == 0) || (rules.length > 50)) {
 			return rules;
 		}
@@ -157,20 +185,30 @@ public class Lottery {
 			System.out.println("Parsed-> name: " + game + " choices: " + choices + " blanks: " + blanks + " sorted: " + sorted + " unique: " + unique);
 			
 			if((sorted == true) && (unique == true)) {
-				// Factorial
-				possibilities = combinatorial(choices, blanks);
+				possibilities = binomial_coefficient(choices + blanks - 1, blanks);
 			} else if((sorted == true) && (unique == false)) {
-				possibilities = combinatorial(choices + blanks - 1, blanks);
+				possibilities = power(choices, blanks) - binomial_coefficient(choices + blanks - 1, blanks);
 			} else if((sorted == false) && (unique == true)) {
-				possibilities = 1;
+                                possibilities = factorial(choices, blanks);
 			} else {
 				possibilities = power(choices, blanks);
 			}
 			
 			System.out.println("Possibilities " + possibilities);
-		}
-		
-		return rules;
+                        
+                        probabilities[i] = possibilities;
+                }
+                int previous = 0;
+                for(int index = 0; index < rules.length; index++) {
+                    int smallest = 0;
+                    for(int i = 0; i < rules.length; i++) {
+                        if ((probabilities[i] < smallest) && (probabilities[i] > probabilities[previous]))
+                            smallest = i;
+                    }
+                    previous = smallest;
+                    result[index] = rules[smallest];
+                }
+		return result;
     }
 
 
