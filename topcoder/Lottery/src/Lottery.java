@@ -87,10 +87,33 @@ Empty case
 */
 
 import java.util.*;
+import java.math.BigInteger;
 
 public class Lottery {
+	private static BigInteger getFactorial (int n) {
+		BigInteger fact = BigInteger.ONE;
+		for (int i = n; i > 1; i--) {
+			fact = fact.multiply (new BigInteger (Integer.toString (i)));
+		}
+		return fact;
+	}
+	public long power(long base, long exponent) {
+		System.out.print("Power " + base + "^" + exponent);
+		
+		long result = 1;
+		for(long i = 0; i < exponent; ++i) {
+			result *= base;
+		}
+		System.out.println(" = " + result);
+		return result;
+	}
+	
+	public BigInteger factorial(BigInteger x) {
+		return getFactorial(x);
+	}
+	
     public String[] sortByOdds(String[] rules) {
-                double possibilities;
+		long possibilities;
                 
 		if((rules.length == 0) || (rules.length > 50)) {
 			return rules;
@@ -103,11 +126,11 @@ public class Lottery {
 			boolean sorted, unique;
 			// Add check for >11 and <50
 			start = 0;
-                        j = rules[i].indexOf(':', start);
+			j = rules[i].indexOf(':', start);
 			game = rules[i].substring(start, j);
 			
-                        start = j+2;
-                        j = rules[i].indexOf(' ', start);
+			start = j+2;
+			j = rules[i].indexOf(' ', start);
 			choices = Integer.parseInt(rules[i].substring(start, j));
 						
 			start = j+1;
@@ -115,39 +138,38 @@ public class Lottery {
 			blanks = Integer.parseInt(rules[i].substring(start, j));
 			
 			start = j+1;
-                        j = rules[i].indexOf(' ', start);
-                        if(rules[i].substring(start, j).equals("T")) {
-                            sorted = true;
-                        } else {
-                            sorted = false;
-                        }
+			j = rules[i].indexOf(' ', start);
+			if(rules[i].substring(start, j).equals("T")) {
+				sorted = true;
+			} else {
+				sorted = false;
+			}
 			//sorted = Boolean.parseBoolean(rules[i].substring(start, j));
                         			
 			start = j+1;
-                        if(rules[i].substring(start, start+1).equals("T")) {
-                            unique = true;
-                        } else {
-                            unique = false;
-                        }
+			if(rules[i].substring(start, start+1).equals("T")) {
+				unique = true;
+			} else {
+				unique = false;
+			}
 			//unique = Boolean.parseBoolean(rules[i].substring(start, start+1));
-                                                
-                        System.out.println("Parsed-> name: " + game + " choices: " + choices + " blanks: " + blanks + " sorted: " + sorted + " unique: " + unique);
-                        
-                        if(unique == true) {
-                            System.out.println("Factorial");
-                            // Factorial
-                            int factor = choices;
-                            possibilities = 1;
-                            for(int count = blanks - 1; count >= 0; count--) {
-                                possibilities *= choices - count;
-                            }      
-            
-                        } else {
-                            System.out.println("Power");
-                            possibilities = Math.pow(choices, blanks);
-                        }
-                        System.out.println("Possibilities " + possibilities);
+									
+			System.out.println("Parsed-> name: " + game + " choices: " + choices + " blanks: " + blanks + " sorted: " + sorted + " unique: " + unique);
+			
+			if((sorted == true) && (unique == true)) {
+				// Factorial
+				possibilities = combinatorial(choices, blanks);
+			} else if((sorted == true) && (unique == false)) {
+				possibilities = combinatorial(choices + blanks - 1, blanks);
+			} else if((sorted == false) && (unique == true)) {
+				possibilities = 1;
+			} else {
+				possibilities = power(choices, blanks);
+			}
+			
+			System.out.println("Possibilities " + possibilities);
 		}
+		
 		return rules;
     }
 
