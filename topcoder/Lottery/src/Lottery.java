@@ -100,44 +100,30 @@ public class Lottery {
 		//System.out.println(" = " + result);
 		return result;
 	}
-        public long factorial(long number, long limiter) {
-            long result = 1;
-            for(long count = 0; count < limiter; count++)
-                result *= (number - count);
-            return result;
-        }
-        public long binomial_coefficient(int n, int m) {
-            long[][] bc;
-            int i, j;
-            
-            bc = new long[108][108];
-            for (i = 0; i <= n; i++) bc[i][0] = 1;
-            for (j = 0; i <= n; j++) bc[j][j] = 1;
-            for (i = 1; i <= n; i++)
-                for (j = 1; j < i; j++)
-                    bc[i][j] = bc[i-1][j-1] + bc[i-1][j];
-            
-            
-            /*
-            for (int k = 0; k < 108; k++) {
-                
-                for (int l = 0; l < 108; l++) {
-                    System.out.print(bc[l][k] + " ");
-                }
-                
-                System.out.println();
-            }
-            
-            
-            if ((n == 11) && (m == 2)) {
-                System.exit(0);
-            }
-            */
-            return bc[n][m];
-        }
+	
+	public long permutation(long number, long limiter) {
+		long result = 1;
+		for(long count = 0; count < limiter; count++)
+			result *= (number - count);
+		return result;
+	}
+		
+	public long binomial_coefficient(int n, int m) {
+		long[][] bc;
+		int i, j;
+		n++;
+		bc = new long[108][108];
+		for (i = 0; i <= n; i++) bc[i][0] = 1;
+		for (j = 0; i <= n; j++) bc[j][j] = 1;
+		for (i = 1; i <= n; i++)
+			for (j = 1; j < i; j++)
+				bc[i][j] = bc[i-1][j-1] + bc[i-1][j];
+		
+		return bc[n][m];
+	}
 	
     public String[] sortByOdds(String[] rules) {
-                long[] probabilities;
+		long[] probabilities;
 		long possibilities;
                 String result[];
                 result = new String[rules.length];
@@ -146,6 +132,8 @@ public class Lottery {
 		if((rules.length == 0) || (rules.length > 50)) {
 			return rules;
 		}
+		
+		Arrays.sort(rules, String.CASE_INSENSITIVE_ORDER);
 		
 		for(int i = 0; i < rules.length; ++i)
 		{
@@ -182,32 +170,47 @@ public class Lottery {
 			}
 			//unique = Boolean.parseBoolean(rules[i].substring(start, start+1));
 									
-			System.out.println("Parsed-> name: " + game + " choices: " + choices + " blanks: " + blanks + " sorted: " + sorted + " unique: " + unique);
-			
+			//System.out.println("Parsed-> name: " + game + " choices: " + choices + " blanks: " + blanks + " sorted: " + sorted + " unique: " + unique);
+			rules[i] = game;
 			if((sorted == true) && (unique == true)) {
-				possibilities = binomial_coefficient(choices + blanks - 1, blanks);
+				possibilities = binomial_coefficient(choices, blanks);
 			} else if((sorted == true) && (unique == false)) {
-				possibilities = power(choices, blanks) - binomial_coefficient(choices + blanks - 1, blanks);
+				possibilities = binomial_coefficient(choices + blanks - 1, blanks);
 			} else if((sorted == false) && (unique == true)) {
-                                possibilities = factorial(choices, blanks);
+				possibilities = permutation(choices, blanks);
 			} else {
 				possibilities = power(choices, blanks);
 			}
 			
-			System.out.println("Possibilities " + possibilities);
+			//System.out.println("Possibilities " + possibilities);
                         
-                        probabilities[i] = possibilities;
-                }
-                int previous = 0;
-                for(int index = 0; index < rules.length; index++) {
-                    int smallest = 0;
-                    for(int i = 0; i < rules.length; i++) {
-                        if ((probabilities[i] < smallest) && (probabilities[i] > probabilities[previous]))
-                            smallest = i;
-                    }
-                    previous = smallest;
-                    result[index] = rules[smallest];
-                }
+			probabilities[i] = possibilities;
+		}
+		
+		// Go through the list and look for the lowest probability that hasn't been seen.
+		// Add that item to result set.
+		// Loop this once for each rule (N^2)
+		
+		
+		for(int index = 0; index < rules.length; index++) {
+			long smallest = 0;
+			int previous = -1;
+			int rulenumber = -1;
+			for(int i = 0; i < rules.length; i++) {
+				long current = probabilities[i];
+				if(current == -1)
+					continue;
+				//System.out.println(current + " " + smallest);
+				if((current < smallest) || (smallest == 0)) {
+					//System.out.println("Smallest " + current);
+					smallest = current;
+					rulenumber = i;
+				}
+			}
+			
+			probabilities[rulenumber] = -1;
+			result[index] = rules[rulenumber];
+		}
 		return result;
     }
 
@@ -227,6 +230,10 @@ public class Lottery {
                 "YELLOW: 75 6 F F"}
                ),new String[] { "RED",  "ORANGE",  "YELLOW",  "GREEN",  "BLUE",  "INDIGO",  "VIOLET" });
             eq(2,(new Lottery()).sortByOdds(new String[] {}),new String[] { });
+			eq(3,(new Lottery()).sortByOdds(new String[] {"PICK ANY THREE: 10 3 F F"
+               ,"PICK THREE IN ORDER: 10 3 T F"
+               ,"PICK THREE DIFFERENT: 10 3 F T"
+               ,"PICK THREE LIMITED: 10 3 T T"}),new String[] { "PICK THREE LIMITED",  "PICK THREE IN ORDER",  "PICK THREE DIFFERENT",  "PICK ANY THREE" });
         } catch( Exception exx) {
             System.err.println(exx);
             exx.printStackTrace(System.err);
