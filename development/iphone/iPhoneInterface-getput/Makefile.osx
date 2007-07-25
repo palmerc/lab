@@ -1,0 +1,21 @@
+CPP = /usr/bin/c++
+HOSTTYPE = $(shell /usr/bin/uname -p)
+
+ifeq ($(UNIVERSAL),1)
+        ARCH_FLAGS = -arch i386 -arch ppc
+else
+	ifeq ($(HOSTTYPE),powerpc)
+		ARCH_FLAGS = -arch ppc
+	else
+		ARCH_FLAGS = -arch $(HOSTTYPE)
+	endif
+endif
+
+CPP_FLAGS = -g $(ARCH_FLAGS)
+
+PRIV_FRAMEWORKS = /System/Library/PrivateFrameworks
+FRAMEWORKS =  -framework CoreFoundation -F$(PRIV_FRAMEWORKS) -framework MobileDevice
+COMMON_DIR = ../Common
+
+iPhoneInterface: main.cpp $(COMMON_DIR)/MobileDevice.h
+	$(CPP) $(CPP_FLAGS) $(FRAMEWORKS) -o $@ main.cpp
