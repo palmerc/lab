@@ -1,0 +1,26 @@
+How I setup the MySQL database for the gradebook system:
+
+// One time setup command
+GRANT ALL PRIVILEGES ON *.* TO gradedb@localhost IDENTIFIED BY 'gradedbpw' WITH GRANT OPTION;
+
+// Create the database called gradebook
+CREATE DATABASE gradebook;
+
+// Tell mysql that you are going to edit that database you just created.
+USE gradebook;
+
+// Create the students table. Likely you will delete and recreate this a few times
+// until you get it the way you want. So it is good to have this handy dandy cheat sheet.
+CREATE TABLE students (studentid INT AUTO_INCREMENT PRIMARY KEY, lastname VARCHAR(100));
+
+
+// To insert a student into the table
+INSERT INTO students VALUES (null, 'Palmer');
+
+// Reporting of sorts, and sanity checking
+DESCRIBE students;  // This means show what the table looks like.
+SELECT * FROM students;  // This mean show all the values in the students table AKA show me the vote entries. Hello, Diebold.
+
+// Administrative commands
+DROP students;  // Deletes the students table so you can recreate it. Medium Danger.
+DROP gradebook;  // Deletes the whole database. DANGER! Not what you probably want to do.

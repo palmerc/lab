@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Count the files
+find . -name '*.C' > source_code
+find . -name '*.c' >> source_code
+find . -name '*.cc' >> source_code
+find . -name '*.cpp' >> source_code
+find . -name '*.CC' >> source_code
+echo -n "Number of C and C++ files: " 
+wc -l < source_code
+
+# Number of directories
+echo -n "Number of directories containing source code: "
+cat source_code | sed 's/\/[A-Za-z0-9._]*$//' | uniq | wc -l
+
+# Number of functions
+echo -n "Total number of functions: "
+cat source_code | xargs grep -e ^} | wc -l
+
+# Number of lines of code, excluding comments
+echo -n "Total lines of code: "
+cat source_code | xargs grep -v -e ^[:space:]*// | wc -l
+
+# Number of basic blocks
+echo -n "Total basic blocks of code: "
+cat source_code | xargs grep -v -e ^} | grep -e } | wc -l
+
+# Number of ?: in the files
+echo -n "Total ternary operators in code: "
+cat source_code | xargs grep -e .*?.*:.* | wc -l
+
+# Number of preprocessor macros
+echo -n "Preprocessor count "
+cat source_code | xargs grep -e ^#define | wc -l
+
+

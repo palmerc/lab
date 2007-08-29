@@ -1,7 +1,0 @@
-#!/bin/bash
-
-while [ 1 ]; do
-   date +%H:%M:%S > timer
-   sleep 5
-   cat timer
-done

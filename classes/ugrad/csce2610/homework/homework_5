@@ -1,0 +1,205 @@
+Cameron L Palmer
+CSCE 2610 - Homework 5
+Feb 19, 2006
+
+3.27, 3.30, 3.35, 3.37
+
+2.27)
+a) x + y
+0000 0000 0000 0000 0000 0000 0101 1011
+0000 0000 0000 0000 0000 0000 0000 1101
+---------------------------------------
+0000 0000 0000 0000 0000 0000 0110 1000
+
+b) x - y
+0000 0000 0000 0000 0000 0000 0101 1011
+0000 0000 0000 0000 0000 0000 0000 1101
+---------------------------------------
+0000 0000 0000 0000 0000 0000 0100 1110
+
+c) x * y
+Step 0 -
+0000 0000 0000 0000 0000 0000 0101 1011 Mcand
+0000 0000 0000 0000 0000 0000 0000 1101 Mplier
+0000 0000 0000 0000 0000 0000 0000 0000 Product
+
+Step 1 -
+1 in Mplier => Prod = Prod + Mcand
+0000 0000 0000 0000 0000 0000 0101 1011 Mcand
+0000 0000 0000 0000 0000 0000 0000 1101 Mplier
+0000 0000 0000 0000 0000 0000 0101 1011 Product
+
+Step 2 -
+Shift left Mcand
+0000 0000 0000 0000 0000 0000 1011 0110 Mcand
+0000 0000 0000 0000 0000 0000 0000 1101 Mplier
+0000 0000 0000 0000 0000 0000 0101 1011 Product
+
+Step 3 -
+Shift right Mplier
+0000 0000 0000 0000 0000 0000 1011 0110 Mcand
+0000 0000 0000 0000 0000 0000 0000 0110 Mplier
+0000 0000 0000 0000 0000 0000 0101 1011 Product
+
+Step 4, 5, & 6
+0 in Mplier is NoOp, shift Mcand left, Mplier right
+0000 0000 0000 0000 0000 0001 0110 1100 Mcand
+0000 0000 0000 0000 0000 0000 0000 0011 Mplier
+0000 0000 0000 0000 0000 0000 0101 1011 Product
+
+Step 7, 8, & 9
+1 in Mplier Prod = Prod + Mcand, shift Mcand left, Mplier right
+0000 0000 0000 0000 0000 0010 1101 1000 Mcand
+0000 0000 0000 0000 0000 0000 0000 0001 Mplier
+0000 0000 0000 0000 0000 0001 1100 0111 Product
+
+Step 10, 11, & 12
+1 in Mplier Prod = Prod + Mcand, shift Mcand left, Mplier right
+0000 0000 0000 0000 0000 0101 1011 0000 Mcand
+0000 0000 0000 0000 0000 0000 0000 0000 Mplier
+0000 0000 0000 0000 0000 0100 1001 1111 Product
+
+d) x / y - 91/13 = 7
+Step 0 -
+0000 0000 0000 0000 0000 0000 0101 1011 Dividend
+0000 0000 0000 0000 0000 0000 0000 1101 Divisor
+0000 0000 0000 0000 0000 0000 0000 0000 Quotient
+
+Step 1 -
+Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0101 1011 Remainder, dividend is moved here
+0000 0000 0000 0000 0000 1101 0000 0000 Divisor moved to left of dividend
+1111 1111 1111 1111 1111 0011 0101 1011 Number is negative so revert
+
+Step 2 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0000 Quotient remains empty
+
+Step 3 - Shift Divisor Right
+0000 0000 0000 0000 0000 0110 1000 0000 Divisor shifted right 25th time
+
+Step 4 - Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0101 1011 Remainder
+1111 1111 1111 1111 1111 1001 1000 0000 2s complement of Divisor
+1111 1111 1111 1111 1111 1001 1101 1011 Remainder is negative revert
+
+Step 5 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0000 Quotient remains empty
+
+Step 6 - Shift Divisor Right
+0000 0000 0000 0000 0000 0011 0100 0000 Divisor shifted right 26th time
+
+Step 7 - Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0101 1011 Remainder
+1111 1111 1111 1111 1111 1100 1100 0000 2s complement of Divisor
+1111 1111 1111 1111 1111 1101 0001 1011 Remainder is negative revert
+
+Step 8 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0000 Quotient remains empty
+
+Step 9 - Shift Divisor Right
+0000 0000 0000 0000 0000 0001 1010 0000 Divisor shifted right 27th time
+
+Step 10 - Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0101 1011 Remainder
+1111 1111 1111 1111 1111 1111 0110 0000 2s complement of Divisor
+1111 1111 1111 1111 1111 1111 1011 1011 Remainder is negative revert
+
+Step 11 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0000 Quotient remains empty
+
+Step 12 - Shift Divisor Right
+0000 0000 0000 0000 0000 0000 1101 0000 Divisor shifted right 28th time
+
+Step 13 - Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0101 1011 Remainder
+1111 1111 1111 1111 1111 1111 0011 0000 2s complement of Divisor
+1111 1111 1111 1111 1111 1111 1000 1011 Remainder is negative revert
+
+Step 14 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0000 Quotient remains empty
+
+Step 15 - Shift Divisor Right
+0000 0000 0000 0000 0000 0000 0110 1000 Divisor shifted right 29th time
+
+Step 16 - Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0101 1011 Remainder
+1111 1111 1111 1111 1111 1111 1001 1000 2s complement of Divisor
+1111 1111 1111 1111 1111 1111 1111 0011 Remainder is negative revert
+
+Step 17 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0000 Quotient remains empty
+
+Step 18 - Shift Divisor Right
+0000 0000 0000 0000 0000 0000 0011 0100 Divisor shifted right 30th time
+
+Step 19 - Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0101 1011 Remainder
+1111 1111 1111 1111 1111 1111 1100 1100 2s complement of Divisor
+0000 0000 0000 0000 0000 0000 0010 0111 w00t we managed to divide
+
+Step 20 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0001 Quotient
+
+Step 21 - Shift Divisor Right
+0000 0000 0000 0000 0000 0000 0001 1010 Divisor shifted right 31st time
+
+Step 22 - Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0010 0111 Replaced remainder
+1111 1111 1111 1111 1111 1111 1110 0110 2s complement of Divisor
+0000 0000 0000 0000 0000 0000 0000 1101 We divided successfully
+
+Step 23 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0011 Quotient
+
+Step 24 - Shift Divisor Right
+0000 0000 0000 0000 0000 0000 0000 1101 Divisor shifted right 32nd time
+
+Step 25 - Rem = Rem - Div
+0000 0000 0000 0000 0000 0000 0000 1101 Remainder
+1111 1111 1111 1111 1111 1111 1111 0011 2s complement of Divisor
+0000 0000 0000 0000 0000 0000 0000 0000 We divided successfully
+
+Step 26 - Shift Quotient Left
+0000 0000 0000 0000 0000 0000 0000 0111 Quotient
+
+Step 27 - Shift Divisor Right
+0000 0000 0000 0000 0000 0000 0000 0110 Divisor shifted right 33rd time
+
+0000 0000 0000 0000 0000 0000 0000 0111 Final Quotient
+0000 0000 0000 0000 0000 0000 0000 0000 Final Remainder
+
+3.30)
+1010 1101 0001 0000 0000 0000 0000 0010
+a) -1 391 460 350
+b) 2 903 506 946
+c) single precision floating-point
+-8.18545x10^-12
+ 
+d) mips machine instruction
+d.sw $s0, $t0(16) 
+sw $r16, $r8(2)
+
+3.35)
+2.85 x 10^3
+9.84 x 10^4
+
+.285 x 10^4
+9.84 x 10^4
+-----------
+10.125 x 10^4
+
+1.0125 x 10^5
+
+1.01 x 10^5 with guard and round
+1.01 x 10^5 w/o guard and round
+
+3.37) 20
+single precision - 8 bit exponent, 23 bit significand, bias 127
+(-1)^sign x (1 + fraction) x 2^(exponent - bias)
+10100 = 1.0100 x 2^4
+0 | 1000 0011 | 0100 0000 0000 0000 0000 000
+
+double precision - 11 bit exponent, 20 bit significand, bias 1023
+10100 = 1.0100 x 2^4
+0 |1000 0000 011 | 0 1000 0000 0000 0000 000 0000 0000 0000 0000 0000 0000 0000 0000
+

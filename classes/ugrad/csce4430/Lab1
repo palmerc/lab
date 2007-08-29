@@ -1,0 +1,45 @@
+		Lab "Exercise" for 4430/5450
+
+The objectives of this dedicated lab time are:
+
+	. Make sure that each student has an active CSP account
+          that they can access remotely.
+
+	. Familiarize each student with the use of Makefile(s) and
+          scripts to support the compilation and execution of the
+          supplied GA software.
+
+	. Allow each student to insert their own version of "new" into
+          a least one class in the C++ implementation of GAs supplied.
+
+	. Provide practice for any student nervous about C++ programming.
+
+Instructions:
+
+	. First, log on to a CSP of your choice.  One way to do this
+          from the computers in 218 is to use putty, and specify one of
+          csp01 ... csp09 as the machine to use.
+
+	. Make a new directory within your own "domain"  (in other words
+          a directory somewhere under your home directory.)
+
+	. Copy all of the GA code to the directory you just made.  To do
+          that, "move" to that directory and type:
+
+		cp -r ~sweany/public/ProgrammingLanguages/GAExperiment .
+
+	. Enter your copy of the GAExperiment directory that you've just
+          built and type 
+
+		make
+
+	. Having done all of that, add, to your version of GAExperiment,
+          code to override the "new" operator for at least one of the
+          classes defined GAExperiment.
+
+IF you finish early:
+
+	. Instrument the code of GAExperiment to print out the number of
+          times the different "new" operators are called.   This will
+          give you and idea of where (and how?) you can save execution
+          time by replacing "new."
