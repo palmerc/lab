@@ -257,7 +257,7 @@ def pdftotxt(pdffile, txtfile=None):
             raise e
       txtfile = datadir + semesdir + '/' + txtfile          
             
-      handle = os.popen('pdftotext -layout %s %s' % (origfile, txtfile))
+      handle = os.popen('./pdftoxy %s | ./pdftotxt.py > %s' % (origfile, txtfile))
       handle.close()
    return txtfile
     
