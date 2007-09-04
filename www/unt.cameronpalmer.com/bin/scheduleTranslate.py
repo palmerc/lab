@@ -270,6 +270,3 @@ if __name__ == '__main__':
         pdffile = dirprefix + 'pdf/'
 
     textfile = pdftotxt(pdffile)
-    #textfile = dirprefix + 'txt/1061/mathematics_1061.txt'
-    textfile = dirprefix + 'txt/'
-    csvfile = txttocsv(textfile)

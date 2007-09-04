@@ -1,9 +1,14 @@
+#!/usr/bin/env python
+
 import re
 import sys
 from StringIO import StringIO
 
-def main( fn ):
-	f = open(fn, "rb")
+def main():
+	if (len(sys.argv) > 1):
+		f = open(sys.argv[1], "rb")
+	else:
+		f = sys.stdin
 	rfile = re.compile(r"file=(\d+)", re.DOTALL)
 	rpage = re.compile(r"page=(\d+)", re.DOTALL)
 	rkey = re.compile(r"Updated:.+", re.DOTALL)
@@ -45,4 +50,4 @@ def main( fn ):
 	f.close()
 
 if __name__ == "__main__":
-	main(sys.argv[1])
+	main()

@@ -1,5 +1,5 @@
 <?php
-	$title = "UNT Schedule Search Project";
+	$title = "UNT Schedule of Classes Search Project";
 	$section = "Welcome";
 	require("unt-template.php");
 ?>
@@ -9,6 +9,7 @@
 			<p>The goal of this project is to automatically download some of the
             UNT schedule information and process it into a useful collection of
             files for further automated report and study.</p>
+                        <p>The project has made some major progress. The text versions of the class schedule look very much like the original PDF. If you find problems where the PDF version doesn't match the TXT version please email me.</p> 
 		</div>
 
         <div class="leftside">
