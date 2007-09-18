@@ -1,0 +1,63 @@
+CSCE 4930/5290 Natural Language Processing
+Fall 2007
+Language models for language identification
+Issued: 09/11/07  Due: 09/25/07 
+Total points: 60 
+
+
+
+Language identification is the problem of taking a text in an unknown language 
+and determine what language is written in. N-grams models are very effective 
+solutions for this problem.
+
+For training, use the English, French, and Italian texts made available from 
+the class webpage. For test, use the file LangId.test provided on the class 
+webpage. For each of the following problems, the output of your program has 
+to contain a list of [line_id] [language] pairs, starting with line 1. For 
+instance,
+   1 English
+   2 Italian
+   ...
+  
+
+1 [20 points]. 
+Implement a letter bigram model, which learns letter bigram probabilities 
+from the training data. A separate bigram model has to be learned for each 
+language. 
+Apply the models to determine the most likely language for each sentence in 
+the test file (that is, determine the probability associated with each sentence
+in the test file, using each of the three language models). 
+Compare your output file with the solution file (LangId.sol). How many times 
+your program was correct?
+  
+Save the program as letterLangId.pl 
+Save the output as letterLangId.out
+
+
+2 [25 points].  
+Implement a word bigram model, which learns word bigram probabilities from 
+the training data. Again, a separate model will be learned for each language. 
+Use add-one smoothing to avoid zero-counts in the data. Apply the models to 
+determine the language for each sentence in the test file.  
+Compare your output file with the solution file (LangId.sol). How many times 
+your program was correct?
+  
+Save the program as wordLangId.pl 
+Save the output as wordLangId.out
+
+
+3 [5290 only; 15 points]. 
+Same as 2, but replace the add-one smoothing with Good-Turing smoothing.
+Save the program as wordLangId2.pl
+Save the output as wordLangId2.out
+
+Submission instructions:
+   - write a README file including a detailed note about the 
+   functionality of each of the programs, and complete instructions 
+   on how to run them; the README file should also include answers to 
+   all the questions above.
+   - make sure you include your name in each program and in the README file.
+   - make sure all your programs run correctly on the CSP machines.
+   - submit your assignment by the due date using the 'project' program.
+     class code is 5290s001, project HW1.
+     
