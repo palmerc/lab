@@ -62,8 +62,12 @@ It is a convention in unix that any script with a #! line at the top of the file
 and executable permissions will be magically invoked like the second without
 having to type the interpreter
 
-The magic line at the top of all executable shell scripts:
+The magic line (/etc/magic) at the top of all executable shell scripts:
 #!/bin/sh
+
+Using this version of the magic line forces bash to adhere to POSIX sh standards
+which is good for portability, but if that doesn't bother you
+#!/bin/bash
 
 This line could instead reference Bash directly, perl, python, or any other
 command. If the script has executable permissions (e.g. chmod 755) then the
@@ -98,6 +102,30 @@ is set using VAR_NAME=value, and accessed using the $VAR_NAME.
 
 PATH=$PATH:/usr/bin:/bin
 export $PATH
+
+You can now display the value of PATH using echo. export makes sure that all sub
+processes of the shell can see the variable, akin to making the variable a global.
+
+$ VARIABLEONE=high
+$ VARIABLETWO=low
+$ export VARIABLETWO
+$ bash
+$ echo $VARIABLEONE
+$ echo $VARIABLETWO
+$ logout
+$ export VARIABLEONE
+$ bash
+$ echo $VARIABLEONE
+
+The most common mistakes with variables is the use of $ and export.
+
+So let's write a quick program to take in a bunch of command line variables of
+the sort ./program one two three and print them out one at a time one per line.
+
+#!/bin/bash
+
+# This program will demo command line arguments
+for 
 
 
 
