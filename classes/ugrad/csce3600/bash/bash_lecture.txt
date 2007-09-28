@@ -1,0 +1,131 @@
+Bash
+
+There are lots of shells. sh is the traditional abbreviation for Bourne shell 
+(not related to Matt Damon) and bash is guaranteed to exist on every flavor of Unix
+in some form or fashion. Ubuntu for example soft links sh to dash, but most
+link sh to bash. It really depends. On Solaris sh is the actual Bourne shell
+which is far too limited, and is typically only used by root. Other shells are
+Korn shell (ksh), Z shell (zsh), Bourne-again shell (bash), and C shell (csh)
+to name a few.
+
+In this class we cover bash because GNU's bash has risen to be the most popular 
+shell available. If you are interested in the source code it can be gotten at
+http://www.gnu.org/software/bash
+ftp://ftp.gnu.org/pub/gnu/bash/bash-3.2.tar.gz
+ftp://ftp.cwru.edu/pub/bash/bash-3.2-patches/
+ftp://ftp.gnu.org/pub/gnu/bash/bash-doc-3.2.tar.gz
+http://www.gnu.org/software/bash/manual/bash.html
+
+Bash was originally written by Brian Fox of the Free Software
+Foundation.  The current developer and maintainer is Chet Ramey
+of Case Western Reserve University.
+
+Current version is v3.2 Release October 12, 2006
+
+<quote>
+Bash is the shell, or command language interpreter, that will appear in the GNU 
+operating system. Bash is an sh-compatible shell that incorporates useful 
+features from the Korn shell (ksh) and C shell (csh). It is intended to conform 
+to the IEEE POSIX P1003.2/ISO 9945.2 Shell and Tools standard. It offers 
+functional improvements over sh for both programming and interactive use. In 
+addition, most sh scripts can be run by Bash without modification.
+
+The improvements offered by BASH include:
+    * Command line editing
+    * Unlimited size command history
+    * Job Control
+    * Shell Functions and Aliases
+    * Indexed arrays of unlimited size
+    * Integer arithmetic in any base from two to sixty-four
+</quote>
+
+A shell is a command line interface into the operating system that is 
+very much like a DOS command line, except that Microsoft didn't do a wonderful 
+job of copying and made people think command line interfaces were lame.
+
+When a user logs into a computer they are presented with a login prompt. This
+login process is started by the getty, which is spawned by init. When the getty
+gets a username login asks for a password. So the login process is not handled 
+by the shell. When login accepts your credentials, on linux the shell specified
+in /etc/passwd will be called.
+
+Excerpt from /etc/passwd
+palmerc:x:1000:1000:Cameron Palmer,,,:/home/palmerc:/bin/bash
+
+Let's start with a script called script.
+
+If we open that file in our favorite editor like vi we can add a first line
+to the program.
+$ vi script
+
+It is a convention in unix that any script with a #! line at the top of the file
+and executable permissions will be magically invoked like the second without
+having to type the interpreter
+
+The magic line (/etc/magic) at the top of all executable shell scripts:
+#!/bin/sh
+
+Using this version of the magic line forces bash to adhere to POSIX sh standards
+which is good for portability, but if that doesn't bother you
+#!/bin/bash
+
+This line could instead reference Bash directly, perl, python, or any other
+command. If the script has executable permissions (e.g. chmod 755) then the
+program will behave like a binary application.
+$ ./script
+
+without the executable premissions or lacking the magic line at the top of the
+file the script would have to be executed like this
+$ sh script
+
+When you hit return the shell parses the line, performs shell expansions if
+necessary, performs redirections and removes them from the input stream, and
+executes the command. So the shell behaves just like an interpreter/compiler for
+a regular programming language. Digging through the source code of bash you can
+find the grammar for the language in parse.y.
+
+Quoting:
+single quotes - preserve literal meaning contained within
+double quotes - preserve literal meaning contained within except $, `, and \
+
+Comments
+# This is a comment in a bash program
+# Comments are not allowed on the command-line unless the variable SHELLOPTS
+# contains the value
+SHELLOPTS=interactive-comments
+
+You can find out the value of SHELLOPTS by typing
+$ echo $SHELLOPTS
+
+This demonstrates two things. echo is the print command in shell, and a variable
+is set using VAR_NAME=value, and accessed using the $VAR_NAME.
+
+PATH=$PATH:/usr/bin:/bin
+export $PATH
+
+You can now display the value of PATH using echo. export makes sure that all sub
+processes of the shell can see the variable, akin to making the variable a global.
+
+$ VARIABLEONE=high
+$ VARIABLETWO=low
+$ export VARIABLETWO
+$ bash
+$ echo $VARIABLEONE
+$ echo $VARIABLETWO
+$ logout
+$ export VARIABLEONE
+$ bash
+$ echo $VARIABLEONE
+
+The most common mistakes with variables is the use of $ and export.
+
+So let's write a quick program to take in a bunch of command line variables of
+the sort ./program one two three and print them out one at a time one per line.
+
+#!/bin/bash
+
+# This program will demo command line arguments
+for 
+
+
+
