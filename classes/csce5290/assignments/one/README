@@ -1,0 +1,35 @@
+For letters and words there are seperate diretories.
+
+The directories are structured like this:
+compareResults.sh - Tells you the percentage correct
+generateGtModels.sh - Generates the language model files with Good Turing
+gtModelLangId.pl - the perl part of generateGtModels
+letterLangId.pl - the letter bigram perl script that runs the test
+generateModels.sh - Generates the language model files with Add One
+modelLangId.pl - the Add one version of the model generator
+generateResults.sh - the perl Results generator
+rm_files.sh - cleans out the generated files
+
+Add One Letter:
+$ ./generateModels.sh
+$ ./generateResults.sh
+$ ./compareResults.sh
+98% accuracy
+
+Good Turing Letter:
+$ ./generateGtModels.sh
+$ ./generateResults.sh
+$ ./compareResults.sh
+99% accuracy
+
+Add One Word:
+$ ./generateModels.sh
+$ ./generateResults.sh
+$ ./compareResults.sh
+99% accuracy
+
+Good Turing Word:
+$ ./generateGtModels.sh
+$ ./generateResults.sh
+$ ./compareResults.sh
+99% accuracy
