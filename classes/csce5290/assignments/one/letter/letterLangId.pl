@@ -7,26 +7,26 @@ binmode(STDOUT, ":utf8");
 open FRENCH, "<French.model";
 open ITALIAN, "<Italian.model";
 open ENGLISH, "<English.model";
-open TEST, "<LangId.test.utf8";
+open TEST, "<../originals/LangId.test.utf8";
 
 # Read in language models
 my %frenchModel;
 foreach my $line (<FRENCH>) {
-	$line =~ m/(.{2})=> -?(\d+)/;
+	$line =~ m/(.{2}) => -?(\d+)/;
 	my $key = $1;
 	my $value = $2;
 	$frenchModel{"$key"} = $value;
 }
 my %italianModel;
 foreach my $line (<ITALIAN>) {
-	$line =~ m/(.{2})=> -?(\d+)/;
+	$line =~ m/(.{2}) => -?(\d+)/;
 	my $key = $1;
 	my $value = $2;
 	$italianModel{"$key"} = $value;
 }
 my %englishModel;
 foreach my $line (<ENGLISH>) {
-	$line =~ m/(.{2})=> -?(\d+)/;
+	$line =~ m/(.{2}) => -?(\d+)/;
 	my $key = $1;
 	my $value = $2;
 	$englishModel{"$key"} = $value;
@@ -56,7 +56,8 @@ foreach my $line (<TEST>) {
 		$previous = $char;
 	}
 	my @stupidArray = ($frenchProb, $italianProb, $englishProb);
-	my $winner = (sort @stupidArray)[0];
+	#print "\n$line F=$frenchProb I=$italianProb E=$englishProb\n";
+	my $winner = (sort {$a <=> $b} @stupidArray)[0];
 	if ($winner == $frenchProb) {$language = "French"};
 	if ($winner == $italianProb) {$language = "Italian"};
 	if ($winner == $englishProb) {$language = "English"};

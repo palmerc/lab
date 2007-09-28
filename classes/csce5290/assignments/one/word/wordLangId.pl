@@ -4,10 +4,10 @@ use strict;
 
 use open ":utf8";
 binmode(STDOUT, ":utf8");
-open FRENCH, "<French.word.model";
-open ITALIAN, "<Italian.word.model";
-open ENGLISH, "<English.word.model";
-open TEST, "<LangId.test.utf8";
+open FRENCH, "<French.model";
+open ITALIAN, "<Italian.model";
+open ENGLISH, "<English.model";
+open TEST, "<../originals/LangId.test.utf8";
 
 print "Read in the models\n";
 # Read in language models

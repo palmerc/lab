@@ -70,5 +70,5 @@ foreach my $key (keys(%bigramHash)) {
 
 # Dump the hash
 foreach my $key (sort keys(%bigramHash)) {
-	print $key . "=> " . $bigramHash{"$key"}{'probability'} . "\n";
+	print $key . " => " . $bigramHash{"$key"}{'probability'} . "\n";
 }
