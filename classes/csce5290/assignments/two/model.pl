@@ -45,7 +45,6 @@ foreach my $line (@document) {
 			
 			# Bigram probability of word|curtag
 			my $keywtag = $curtag . " " . $word;
-			my $reversekeywtag = $word . " " . $curtag;
 
 			# Add one to the bigram count
 			if (exists $wordtagHash{"$keywtag"}) {
@@ -55,9 +54,6 @@ foreach my $line (@document) {
 				# otherwise this is a new key. initialize to one and generate a
 				# reversekey initialized to zero for later add one smoothing.
 				$wordtagHash{"$keywtag"}{'count'} = 1;
-				if (!exists $wordtagHash{"$reversekeywtag"}) {
-					$wordtagHash{"$reversekeywtag"}{'count'} = 0;
-				}
 			}
 		} else {
 			print STDERR "Token error on line $linecount, $wordtag";
@@ -70,11 +66,6 @@ foreach my $line (@document) {
 # Add one to all the counts in the matrix
 foreach my $key (keys(%tagHash)) {
 	$tagHash{"$key"}{'count'} += 1;
-}
-
-# Add one to all the counts in the matrix
-foreach my $key (keys(%wordtagHash)) {
-	$wordtagHash{"$key"}{'count'} += 1;
 }
 
 # Generate the Tag|Tag bigram prefix counts
@@ -90,7 +81,6 @@ foreach my $key (keys(%wordtagHash)) {
 	my $prefixTag = (split(" ", $key))[0];
 	$prefixWordTagHash{"$prefixTag"}{'count'} += $wordtagHash{"$key"}{'count'};
 }
-
 
 # Do the math
 foreach my $key (keys(%tagHash)) {
@@ -110,4 +100,8 @@ foreach my $key (keys(%wordtagHash)) {
 # Dump the hash
 foreach my $key (sort keys(%tagHash)) {
 	print $key . " => " . $tagHash{"$key"}{'probability'} . "\n";
+}
+
+foreach my $key (sort keys(%wordtagHash)) {
+	print $key . " => " . $wordtagHash{"$key"}{'probability'} . "\n";
 }
