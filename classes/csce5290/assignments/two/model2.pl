@@ -59,9 +59,13 @@ my @backpointer;
 my @arrayToTag;
 my @tagArray;
 my @wordArray;
+my @percentages;
 my %tagBigramHash;
 my %wordTagHash;
 my %tagToArray;
+my %prefixWordHash;
+my %prefixTagHash;
+my %tagListHash;
 my $totalCorrectCount = 0;
 my $totalWrongCount = 0;
 my $totalWordCount = 0;
@@ -78,10 +82,41 @@ sub Viterbi {
 	
 	# What tags does the first word have?
 	foreach my $tag (keys %{$wordTagHash{"$firstWord"}} ) {
+		if ($firstWord =~ /^[0-9][0-9.]*$/) {
+			$wordTagHash{"$firstWord"}{"CD"}{"count"} = 1;
+			$wordTagHash{"$firstWord"}{"CD"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
+		}
+		if (!exists $wordTagHash{"$firstWord"}) {
+			$wordTagHash{"$firstWord"}{"NN"}{"count"} = 1;
+			$wordTagHash{"$firstWord"}{"NN"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
+		}
+
+		if (!exists $tagBigramHash{". $tag"}) {
+			print "ADDED . $tag\n";
+			$tagBigramHash{". $tag"}{'probability'} = log (1 / $prefixTagHash{"."}{'count'}) / log(2);
+			$tagListHash{"$tag"} = 0;
+			push @arrayToTag, $tag;
+			my $i = scalar (@arrayToTag) - 1;
+			$tagToArray{"$i"} = $i;
+		}
+		if (!exists $wordTagHash{"$firstWord"}{"$tag"}{'probability'}) {
+			$wordTagHash{"$firstWord"}{"$tag"}{'probability'} = log(1 / ($prefixWordHash{"$tag"}{'count'} + scalar keys(%wordTagHash))) / log(2);
+		}
+		
 		my $tagIndex = $tagToArray{"$tag"};
-		$viterbi[$tagIndex][0] = 
+		
+		$viterbi[$tagIndex][0] =
 			$wordTagHash{"$firstWord"}{"$tag"}{'probability'} * $tagBigramHash{". $tag"}{'probability'};
 		
+		if ($viterbi[$tagIndex][0] == 0) { 
+			print "ZERO -- @wordArray\n";
+			print "$firstWord $tag -- " . $wordTagHash{"$firstWord"}{"$tag"}{'probability'} . "\n";
+			foreach my $key (keys %{$wordTagHash{"$firstWord"}}) {
+				print "$key " . $wordTagHash{"$firstWord"}{"$tag"}{'probability'} . "\n";
+			}
+			print $tagBigramHash{". $tag"}{'probability'} . "\n";
+			exit;
+		}
 		# backpointer will store the vertex we came from
 		$backpointer[$tagIndex][0] = 0;
 		print "0 $firstWord $tag $viterbi[$tagIndex][0] $arrayToTag[0]\n";
@@ -92,6 +127,14 @@ sub Viterbi {
 	for (my $w = 1; $w < scalar @wordArray; $w++) {
 		my $word = $wordArray[$w];
 		
+		if ($word =~ /^[0-9][0-9.]*$/) {
+			$wordTagHash{"$word"}{"CD"}{"count"} = 1;
+			$wordTagHash{"$word"}{"CD"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
+		}
+		if (!exists $wordTagHash{"$word"}) {
+			$wordTagHash{"$word"}{"NN"}{"count"} = 1;
+			$wordTagHash{"$word"}{"NN"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
+		}
 		# Lookup the tags for this word and iterate over them
 		foreach my $tag (keys %{$wordTagHash{"$word"}} ) {
 			my $tagIndex = $tagToArray{"$tag"};
@@ -103,15 +146,24 @@ sub Viterbi {
 			# MAX discovery. Look at the previous word's tags
 			foreach my $prevTag (keys %{$wordTagHash{"$prevWord"}} ) {
 				my $j = $tagToArray{"$prevTag"};
+				if (!exists $tagBigramHash{"$prevTag $tag"}) {
+					$tagBigramHash{"$prevTag $tag"}{'probability'} = log (1 / $prefixTagHash{"$prevTag"}{'count'}) / log(2);
+					$tagListHash{"$tag"} = 0;
+					push @arrayToTag, $tag;
+					my $i = scalar (@arrayToTag) - 1;
+					$tagToArray{"$i"} = $i;
+				}
 				$candidates{$j} = $viterbi[$j][$w-1] * abs($tagBigramHash{"$prevTag $tag"}{'probability'});
 			}
-			$argmax = (sort {$candidates{$a} <=> $candidates{$b}} keys %candidates)[0];
+			my @sortedCandidates = (sort {$candidates{$a} <=> $candidates{$b}} keys %candidates);
+			my $argmax = $sortedCandidates[0];
 			my $max = $candidates{"$argmax"};
 
 			$viterbi[$tagIndex][$w] = abs($wordTagHash{"$word"}{"$tag"}{'probability'}) * $max;
 			$backpointer[$tagIndex][$w] = $argmax;
 			print "$w $word $tag $viterbi[$tagIndex][$w] $arrayToTag[$argmax]\n";
 		}
+
 	}
 	# Termination and path-readout
 	my $W = scalar (@wordArray) - 1;
@@ -147,6 +199,7 @@ sub Viterbi {
 	}
 	if ($sentenceWordCount > 0) {
 		print "Sentence correct " . $sentenceCorrectCount/$sentenceWordCount*100 . "%.\n";
+		push @percentages, $sentenceCorrectCount/$sentenceWordCount*100;
 	}
 }
 
@@ -226,13 +279,11 @@ foreach my $word (keys(%wordTagHash)) {
 }
 
 # Generate the Tag|Tag bigram prefix counts
-my %prefixTagHash;
 foreach my $key (keys(%tagBigramHash)) {
 	my $prefixTag = (split(" ", $key))[0];
 	$prefixTagHash{"$prefixTag"}{'count'} += $tagBigramHash{"$key"}{'count'};
 }
 
-my %tagListHash;
 foreach my $tag (keys(%tagBigramHash)) {
 	my $prefixTag = (split(" ", $tag))[0];
 	$tagListHash{"$prefixTag"} = 0;
@@ -241,13 +292,12 @@ foreach my $tag (keys(%tagBigramHash)) {
 @arrayToTag = sort keys(%tagListHash);
 for (my $i = 0; $i < scalar @arrayToTag; $i++) {
 	$tagToArray{"$arrayToTag[$i]"} = $i;
-}	
+}
 
 # Generate the Word|Tag bigram prefix counts
-my %prefixWordHash;
 foreach my $word (sort keys(%wordTagHash)) {
 	foreach my $tag (keys(%{$wordTagHash{"$word"}})) {
-		$prefixWordHash{"$tag"} += $wordTagHash{"$word"}{"$tag"}{'count'};
+		$prefixWordHash{"$tag"}{'count'} += $wordTagHash{"$word"}{"$tag"}{'count'};
 	}
 }
 
@@ -256,17 +306,22 @@ foreach my $key (keys(%tagBigramHash)) {
 	my $prefixTag = (split(" ", $key))[0];
 	$tagBigramHash{"$key"}{'probability'} =
 		# Get log base two of the probability
-		log($tagBigramHash{"$key"}{'count'} / $prefixTagHash{"$prefixTag"}{'count'}) / log(2);
+		log($tagBigramHash{"$key"}{'count'} / ($prefixTagHash{"$prefixTag"}{'count'} + scalar keys(%tagListHash))) / log(2);
 }
 
 foreach my $word (keys(%wordTagHash)) {
 	foreach my $tag (keys(%{$wordTagHash{"$word"}})) {
 		$wordTagHash{"$word"}{"$tag"}{'probability'} =
-		# Get log base two of the probability
-		log($wordTagHash{"$word"}{"$tag"}{'count'} / $prefixWordHash{"$tag"}) / log(2);
+			# Get log base two of the probability
+			log($wordTagHash{"$word"}{"$tag"}{'count'} / ($prefixWordHash{"$tag"}{'count'} + scalar keys(%wordTagHash)))/ log(2);
 		#print "$word, $tag, " . $wordTagHash{"$word"}{"$tag"}{'probability'} . "\n";
 	}
 }
+
+print scalar keys(%wordTagHash) . "\n";
+print $wordTagHash{"more"}{"RBR|JJR"}{'count'} . "\n";
+print $prefixWordHash{"RBR|JJR"}{'count'} . "\n";
+print $prefixWordHash{"."}{'count'} . "\n";
 
 foreach my $line (@test_document) {
 	$line =~ s/\s+/ /g;
@@ -277,7 +332,7 @@ foreach my $line (@test_document) {
 	@tagArray = ();
 	@wordArray = ();
 	foreach my $wordtag (split(" ", $line)) {
-		$wordtag =~ /([^\/]+)\/([^\/]+)/;
+		$wordtag =~ m#^(.+)/([^/]+)$#;
 		my $word = lc $1;
 		my $tag = $2;
 		push @tagArray, $tag;
@@ -286,3 +341,8 @@ foreach my $line (@test_document) {
 	Viterbi();
 }
 print "\nOverall correct " . $totalCorrectCount/$totalWordCount*100 . "%.\n";
+my $sum = 0;
+foreach my $value (@percentages) {
+	$sum += $value;
+}
+print "\nAveraged averages " . $sum / scalar @percentages . "% \n\n";
