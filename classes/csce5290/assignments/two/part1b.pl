@@ -169,7 +169,7 @@ foreach my $word (keys(%wordTagHash)) {
 
 foreach my $word (keys(%wordTagHash)) {
 	my @tags = sort {$wordTagHash{$word}{$b}{'probability'} <=> $wordTagHash{$word}{$a}{'probability'}} keys(%{$wordTagHash{$word}});
-	print "Most popular for $word is $tags[0]\n";
+	#print "Most popular for $word is $tags[0]\n";
 	$manBearPig{$word} = $tags[0];
 }
 
