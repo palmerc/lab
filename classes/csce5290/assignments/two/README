@@ -17,7 +17,20 @@ Running forward for both sets
 	Overall correct 84.0808114678515%
 	Averaged averages 84.603680110302%
 1c)
+	i) ivory coast was chosen to be NN NN instead of NP NP
+	Given the context of the sentence there isn't enough information to distinguish that ivory coast is a nation and not simply two nouns.
+
+	ii) is already close to found VBZ RB VB TO instead of VBZ RB JJ TO 
+	In this case of a small corpus there was no other choice from 'to' back to 'close' and so it took the only path possible which was VB instead of JJ.
+
+	iii) 14-year low was discovered as NN NN instead of JJ JJ.
+	14-year not appearing in the training set was given a default tag of NN and it impacted low too.
 	
+	iv) markets reopen monday discovered as NP VB NP instead of NNS VBP NP.
+	the start of the problem with markets is that it was a near tie with NP and NNS. NP only edged out NNS by a few thousandths.
+
+	v) 12-nation tagged as NN instead of JJ.
+	Another example of how a whole in your data set can lead to a guess.
 
 2)
 	Overall correct 84.3909799647917%.
