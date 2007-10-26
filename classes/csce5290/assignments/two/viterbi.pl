@@ -57,7 +57,7 @@ sub Viterbi {
 				
 		# backpointer will store the vertex we came from
 		$backpointer[$tagIndex][0] = 0;
-		#print "0 $firstWord $tag $viterbi[$tagIndex][0] $arrayToTag[0]\n";
+		print "0 $firstWord $tag $viterbi[$tagIndex][0] $arrayToTag[0]\n";
 	}
 	
 	# Recursion
@@ -98,7 +98,7 @@ sub Viterbi {
 
 			$viterbi[$tagIndex][$w] = abs($wordTagHash{"$word"}{"$tag"}{'probability'}) * $max;
 			$backpointer[$tagIndex][$w] = $argmax;
-			#print "$w $word $tag $viterbi[$tagIndex][$w] $arrayToTag[$argmax]\n";
+			print "$w $word $tag $viterbi[$tagIndex][$w] $arrayToTag[$argmax]\n";
 		}
 
 	}
@@ -117,8 +117,8 @@ sub Viterbi {
 	}
 
 	my @reversed = reverse @result;
-	#print "Hand     -> @tagArray\n";
-	#print "Generated-> @reversed\n";
+	print "Hand     -> @tagArray\n";
+	print "Generated-> @reversed\n";
 	
 	my $sentenceCorrectCount = 0;
 	my $sentenceWrongCount = 0;
@@ -135,7 +135,7 @@ sub Viterbi {
 		$sentenceWordCount += 1;
 	}
 	if ($sentenceWordCount > 0) {
-		#print "Sentence correct " . $sentenceCorrectCount/$sentenceWordCount*100 . "%.\n";
+		print "Sentence correct " . $sentenceCorrectCount/$sentenceWordCount*100 . "%.\n";
 		push @percentages, $sentenceCorrectCount/$sentenceWordCount*100;
 	}
 }

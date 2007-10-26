@@ -1,0 +1,33 @@
+Cameron Palmer
+CSCE 5290
+October 25, 2007
+
+Running viterbi for both sets
+./viterbi.pl treebank.5290.train treebank.5290.test
+./viterbi.pl treebank.5290.train.large treebank.5290.test
+
+Running forward for both sets
+./forward.pl treebank.5290.train treebank.5290.test
+./forward.pl treebank.5290.train.large treebank.5290.test
+
+1a)
+	Overall correct 86.6795204962696%
+	Averaged averages 87.4450943563651% 
+1b) 
+	Overall correct 84.0808114678515%
+	Averaged averages 84.603680110302%
+1c)
+	
+
+2)
+	Overall correct 84.3909799647917%.
+	Averaged averages 85.1938431722653%
+
+3) Using a large set:
+	Viterbi
+	Overall correct 88.6243608014083%.
+	Averaged averages 89.2114540223255%
+
+	Forward
+	Overall correct 84.9861681616229%.
+	Averaged averages 85.7275009051455% 

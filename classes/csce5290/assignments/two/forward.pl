@@ -53,7 +53,7 @@ sub Forward {
 		$forward[$tagIndex][0] =
 			$wordTagHash{"$firstWord"}{"$tag"}{'probability'} * $tagBigramHash{". $tag"}{'probability'};
 				
-		print "0 $firstWord $tag $forward[$tagIndex][0]\n";
+		#print "0 $firstWord $tag $forward[$tagIndex][0]\n";
 	}
 	
 	# Recursion
@@ -89,12 +89,15 @@ sub Forward {
 			}
 			
 			$forward[$tagIndex][$w] = abs($wordTagHash{"$word"}{"$tag"}{'probability'}) * $sumner;
-			print "$w $word $tag $forward[$tagIndex][$w]\n";
+			#print "$w $word $tag $forward[$tagIndex][$w]\n";
 		}
 	}
 	
+	my @result;
 	for (my $w = 0; $w < scalar @wordArray; $w++) {
 		my $word = $wordArray[$w];
+		my $max = 0;
+		my $max_j = 0;
 		foreach my $tag (keys %{$wordTagHash{"$word"}} ) {
 			my $tagIndex = $tagToArray{"$tag"};
 			
@@ -103,18 +106,21 @@ sub Forward {
 				my $j = $tagToArray{"$otherTags"};
 				$sumner += $forward[$j][$w]; 
 			}
-			print "\n$word $tag == ". (1 - ($forward[$tagIndex][$w] / $sumner)) . "\n";
+			if ((1 - $forward[$tagIndex][$w] / $sumner) >= $max) {
+				$max = 1 - $forward[$tagIndex][$w] / $sumner;
+				$max_j = $tagIndex;
+			}
 		}
+		push @result, $arrayToTag[$max_j];
 	}
-	my @reversed = ();
 	print "Hand     -> @tagArray\n";
-	#print "Generated-> @reversed\n";
+	print "Generated-> @result\n";
 	
 	my $sentenceCorrectCount = 0;
 	my $sentenceWrongCount = 0;
 	my $sentenceWordCount = 0;
-	for (my $i = 0; $i < scalar @reversed; $i++) {
-		if ($reversed[$i] eq $tagArray[$i]) {
+	for (my $i = 0; $i < scalar @result; $i++) {
+		if ($result[$i] eq $tagArray[$i]) {
 			$totalCorrectCount += 1;
 			$sentenceCorrectCount += 1;
 		} else {
@@ -125,7 +131,7 @@ sub Forward {
 		$sentenceWordCount += 1;
 	}
 	if ($sentenceWordCount > 0) {
-		#print "Sentence correct " . $sentenceCorrectCount/$sentenceWordCount*100 . "%.\n";
+		print "Sentence correct " . $sentenceCorrectCount/$sentenceWordCount*100 . "%.\n";
 		push @percentages, $sentenceCorrectCount/$sentenceWordCount*100;
 	}
 }
@@ -262,9 +268,9 @@ foreach my $line (@test_document) {
 	}
 	Forward();
 }
-#print "\nOverall correct " . $totalCorrectCount/$totalWordCount*100 . "%.\n";
-#my $sum = 0;
-#foreach my $value (@percentages) {
-#	$sum += $value;
-#}
-#print "Averaged averages " . $sum / scalar(@percentages) . "% \n\n";
+print "\nOverall correct " . $totalCorrectCount/$totalWordCount*100 . "%.\n";
+my $sum = 0;
+foreach my $value (@percentages) {
+	$sum += $value;
+}
+print "Averaged averages " . $sum / scalar(@percentages) . "% \n\n";

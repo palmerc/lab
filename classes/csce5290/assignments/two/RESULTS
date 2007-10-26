@@ -1,0 +1,23 @@
+./viterbi.pl treebank.5290.train treebank.5290.test
+Overall correct 86.6795204962696%.
+Averaged averages 87.4450943563651% 
+
+./viterbi.pl treebank.5290.train.large treebank.5290.test
+Overall correct 88.6243608014083%.
+Averaged averages 89.2114540223255% 
+
+./part1b.pl treebank.5290.train treebank.5290.test
+Overall correct 84.0808114678515%.
+Averaged averages 84.603680110302% 
+
+./part1b.pl treebank.5290.train.large treebank.5290.test
+Overall correct 88.25551177802%.
+Averaged averages 88.763631842874% 
+
+./forward.pl treebank.5290.train treebank.5290.test
+Overall correct 84.3909799647917%.
+Averaged averages 85.1938431722653%
+
+./forward.pl treebank.5290.train.large treebank.5290.test
+Overall correct 84.9861681616229%.
+Averaged averages 85.7275009051455%
