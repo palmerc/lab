@@ -93,7 +93,7 @@ sub Forward {
 		}
 	}
 	
-	for (my $w = 1; $w < scalar @wordArray; $w++) {
+	for (my $w = 0; $w < scalar @wordArray; $w++) {
 		my $word = $wordArray[$w];
 		foreach my $tag (keys %{$wordTagHash{"$word"}} ) {
 			my $tagIndex = $tagToArray{"$tag"};
@@ -103,7 +103,7 @@ sub Forward {
 				my $j = $tagToArray{"$otherTags"};
 				$sumner += $forward[$j][$w]; 
 			}
-			print "\n$word $tag == ". $forward[$tagIndex][$w] / $sumner . "\n";
+			print "\n$word $tag == ". (1 - ($forward[$tagIndex][$w] / $sumner)) . "\n";
 		}
 	}
 	my @reversed = ();
