@@ -2,58 +2,6 @@
 
 use strict;
 
-my %treeBankTags = (
-	"\$" => "dollar",
-	"``" => "opening quotation mark",
-	"''" => "closing quotation mark",
-	"(" => "opening parenthesis",
-	")" => "closing parenthesis",
-	"," => "comma",
-	"--" => "dash",
-	"." => "sentence terminator",
-	":" => "colon or ellipsis",
-	"CC" => "conjunction, coordinating",
-	"CD" => "numeral, cardinal",
-	"DT" => "determiner",
-	"EX" => "existential there",
-	"FW" => "foreign word",
-	"IN" => "preposition or conjunction, subordinating",
-	"JJ" => "adjective or numeral, ordinal",
-	"JJR" => "adjective, comparative",
-	"JJS" => "adjective, superlative",
-	"LS" => "list item marker",
-	"MD" => "modal auxiliary",
-	"NN" => "noun, common, singular or mass",
-	"NP" => "noun, proper, singular (Added by Cameron)",
-	"NNP" => "noun, proper, singular",
-	"NNPS" => "noun, proper, plural",
-	"NNS" => "noun, common, plural",
-	"NPS" => "noun, proper, plural (Added by Cameron)",
-	"PDT" => "pre-determiner",
-	"POS" => "genitive marker",
-	"PP" => "pronoun, personal (Added by Cameron)",
-	"PP\$" => "pronoun, possessive (Added by Cameron)",
-	"PRP" => "pronoun, personal",
-	"PRP\$" => "pronoun, possessive",
-	"RB" => "adverb",
-	"RBR" => "adverb, comparative",
-	"RBS" => "adverb, superlative",
-	"RP" => "particle",
-	"SYM" => "symbol",
-	"TO" => "to as preposition or infinitive marker",
-	"UH" => "interjection",
-	"VB" => "verb, base form",
-	"VBD" => "verb, past tense",
-	"VBG" => "verb, present participle or gerund",
-	"VBN" => "verb, past participle",
-	"VBP" => "verb, present tense, not 3rd person singular",
-	"VBZ" => "verb, present tense, 3rd person singular",
-	"WDT" => "WH-determiner",
-	"WP" => "WH-pronoun",
-	"WP\$" => "WH-pronoun, possessive",
-	"WRB" => "Wh-adverb"
-);
-
 my @viterbi;
 my @backpointer;
 my @arrayToTag;
@@ -71,69 +19,58 @@ my $totalWrongCount = 0;
 my $totalWordCount = 0;
 
 sub Viterbi {
-	print "\n\nViterbi\n";
-	
 	# Initialize arrays;
 	@viterbi = ();
 	@backpointer = ();
 	
 	# Initialization
 	my $firstWord = $wordArray[0];
-	
 	# What tags does the first word have?
+	
+	if ($firstWord =~ /^[0-9][0-9.]*$/) {
+		$wordTagHash{"$firstWord"}{"CD"}{"count"} = 1;
+		$wordTagHash{"$firstWord"}{"CD"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
+	}
+	
+	if (!exists $wordTagHash{"$firstWord"}) {
+		$wordTagHash{"$firstWord"}{"NN"}{"count"} = 1;
+		$wordTagHash{"$firstWord"}{"NN"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
+	}
+	
 	foreach my $tag (keys %{$wordTagHash{"$firstWord"}} ) {
-		if ($firstWord =~ /^[0-9][0-9.]*$/) {
-			$wordTagHash{"$firstWord"}{"CD"}{"count"} = 1;
-			$wordTagHash{"$firstWord"}{"CD"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
-		}
-		if (!exists $wordTagHash{"$firstWord"}) {
-			$wordTagHash{"$firstWord"}{"NN"}{"count"} = 1;
-			$wordTagHash{"$firstWord"}{"NN"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
-		}
-
 		if (!exists $tagBigramHash{". $tag"}) {
-			print "ADDED . $tag\n";
 			$tagBigramHash{". $tag"}{'probability'} = log (1 / $prefixTagHash{"."}{'count'}) / log(2);
 			$tagListHash{"$tag"} = 0;
 			push @arrayToTag, $tag;
 			my $i = scalar (@arrayToTag) - 1;
 			$tagToArray{"$i"} = $i;
 		}
+		
 		if (!exists $wordTagHash{"$firstWord"}{"$tag"}{'probability'}) {
-			$wordTagHash{"$firstWord"}{"$tag"}{'probability'} = log(1 / ($prefixWordHash{"$tag"}{'count'} + scalar keys(%wordTagHash))) / log(2);
+			$wordTagHash{"$firstWord"}{"$tag"}{'probability'} = log(1 / ($prefixWordHash{"$tag"}{'count'} + scalar(keys(%wordTagHash)))) / log(2);
 		}
 		
 		my $tagIndex = $tagToArray{"$tag"};
 		
 		$viterbi[$tagIndex][0] =
 			$wordTagHash{"$firstWord"}{"$tag"}{'probability'} * $tagBigramHash{". $tag"}{'probability'};
-		
-		if ($viterbi[$tagIndex][0] == 0) { 
-			print "ZERO -- @wordArray\n";
-			print "$firstWord $tag -- " . $wordTagHash{"$firstWord"}{"$tag"}{'probability'} . "\n";
-			foreach my $key (keys %{$wordTagHash{"$firstWord"}}) {
-				print "$key " . $wordTagHash{"$firstWord"}{"$tag"}{'probability'} . "\n";
-			}
-			print $tagBigramHash{". $tag"}{'probability'} . "\n";
-			exit;
-		}
+				
 		# backpointer will store the vertex we came from
 		$backpointer[$tagIndex][0] = 0;
-		print "0 $firstWord $tag $viterbi[$tagIndex][0] $arrayToTag[0]\n";
+		#print "0 $firstWord $tag $viterbi[$tagIndex][0] $arrayToTag[0]\n";
 	}
 	
 	# Recursion
 	# Start on the second word to the end of the sentence
 	for (my $w = 1; $w < scalar @wordArray; $w++) {
 		my $word = $wordArray[$w];
-		
 		if ($word =~ /^[0-9][0-9.]*$/) {
 			$wordTagHash{"$word"}{"CD"}{"count"} = 1;
-			$wordTagHash{"$word"}{"CD"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
+			$wordTagHash{"$word"}{"CD"}{"probability"} = log(1 / ($prefixWordHash{"NN"}{'count'} + scalar(keys(%wordTagHash)))) / log(2);
 		}
 		if (!exists $wordTagHash{"$word"}) {
 			$wordTagHash{"$word"}{"NN"}{"count"} = 1;
-			$wordTagHash{"$word"}{"NN"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
+			$wordTagHash{"$word"}{"NN"}{"probability"} = log(1 / ($prefixWordHash{"NN"}{'count'}  + scalar(keys(%wordTagHash)))) / log(2);
 		}
 		# Lookup the tags for this word and iterate over them
 		foreach my $tag (keys %{$wordTagHash{"$word"}} ) {
@@ -161,7 +98,7 @@ sub Viterbi {
 
 			$viterbi[$tagIndex][$w] = abs($wordTagHash{"$word"}{"$tag"}{'probability'}) * $max;
 			$backpointer[$tagIndex][$w] = $argmax;
-			print "$w $word $tag $viterbi[$tagIndex][$w] $arrayToTag[$argmax]\n";
+			#print "$w $word $tag $viterbi[$tagIndex][$w] $arrayToTag[$argmax]\n";
 		}
 
 	}
@@ -180,8 +117,8 @@ sub Viterbi {
 	}
 
 	my @reversed = reverse @result;
-	print "Hand     -> @tagArray\n";
-	print "Generated-> @reversed\n";
+	#print "Hand     -> @tagArray\n";
+	#print "Generated-> @reversed\n";
 	
 	my $sentenceCorrectCount = 0;
 	my $sentenceWrongCount = 0;
@@ -198,7 +135,7 @@ sub Viterbi {
 		$sentenceWordCount += 1;
 	}
 	if ($sentenceWordCount > 0) {
-		print "Sentence correct " . $sentenceCorrectCount/$sentenceWordCount*100 . "%.\n";
+		#print "Sentence correct " . $sentenceCorrectCount/$sentenceWordCount*100 . "%.\n";
 		push @percentages, $sentenceCorrectCount/$sentenceWordCount*100;
 	}
 }
@@ -306,22 +243,17 @@ foreach my $key (keys(%tagBigramHash)) {
 	my $prefixTag = (split(" ", $key))[0];
 	$tagBigramHash{"$key"}{'probability'} =
 		# Get log base two of the probability
-		log($tagBigramHash{"$key"}{'count'} / ($prefixTagHash{"$prefixTag"}{'count'} + scalar keys(%tagListHash))) / log(2);
+		log($tagBigramHash{"$key"}{'count'} / ($prefixTagHash{"$prefixTag"}{'count'} + scalar(keys(%tagListHash)))) / log(2);
 }
 
 foreach my $word (keys(%wordTagHash)) {
 	foreach my $tag (keys(%{$wordTagHash{"$word"}})) {
 		$wordTagHash{"$word"}{"$tag"}{'probability'} =
 			# Get log base two of the probability
-			log($wordTagHash{"$word"}{"$tag"}{'count'} / ($prefixWordHash{"$tag"}{'count'} + scalar keys(%wordTagHash)))/ log(2);
+			log($wordTagHash{"$word"}{"$tag"}{'count'} / ($prefixWordHash{"$tag"}{'count'} + scalar(keys(%wordTagHash))))/ log(2);
 		#print "$word, $tag, " . $wordTagHash{"$word"}{"$tag"}{'probability'} . "\n";
 	}
 }
-
-print scalar keys(%wordTagHash) . "\n";
-print $wordTagHash{"more"}{"RBR|JJR"}{'count'} . "\n";
-print $prefixWordHash{"RBR|JJR"}{'count'} . "\n";
-print $prefixWordHash{"."}{'count'} . "\n";
 
 foreach my $line (@test_document) {
 	$line =~ s/\s+/ /g;
@@ -345,4 +277,4 @@ my $sum = 0;
 foreach my $value (@percentages) {
 	$sum += $value;
 }
-print "\nAveraged averages " . $sum / scalar @percentages . "% \n\n";
+print "Averaged averages " . $sum / scalar(@percentages) . "% \n\n";
