@@ -2,8 +2,7 @@
 
 use strict;
 
-my @viterbi;
-my @backpointer;
+my @forward;
 my @arrayToTag;
 my @tagArray;
 my @wordArray;
@@ -18,12 +17,10 @@ my $totalCorrectCount = 0;
 my $totalWrongCount = 0;
 my $totalWordCount = 0;
 
-sub Viterbi {
+sub Forward {
 	# Initialize arrays;
-	@viterbi = ();
-	@backpointer = ();
+	@forward = ();
 	
-	# Initialization
 	my $firstWord = $wordArray[0];
 	# What tags does the first word have?
 	
@@ -36,7 +33,8 @@ sub Viterbi {
 		$wordTagHash{"$firstWord"}{"NN"}{"count"} = 1;
 		$wordTagHash{"$firstWord"}{"NN"}{"probability"} = log(1 / $prefixWordHash{"NN"}{'count'}) / log(2);
 	}
-	
+
+	# Initialization
 	foreach my $tag (keys %{$wordTagHash{"$firstWord"}} ) {
 		if (!exists $tagBigramHash{". $tag"}) {
 			$tagBigramHash{". $tag"}{'probability'} = log (1 / $prefixTagHash{"."}{'count'}) / log(2);
@@ -52,12 +50,10 @@ sub Viterbi {
 		
 		my $tagIndex = $tagToArray{"$tag"};
 		
-		$viterbi[$tagIndex][0] =
+		$forward[$tagIndex][0] =
 			$wordTagHash{"$firstWord"}{"$tag"}{'probability'} * $tagBigramHash{". $tag"}{'probability'};
 				
-		# backpointer will store the vertex we came from
-		$backpointer[$tagIndex][0] = 0;
-		#print "0 $firstWord $tag $viterbi[$tagIndex][0] $arrayToTag[0]\n";
+		print "0 $firstWord $tag $forward[$tagIndex][0]\n";
 	}
 	
 	# Recursion
@@ -77,10 +73,9 @@ sub Viterbi {
 			my $tagIndex = $tagToArray{"$tag"};
 			my $prevWord = $wordArray[$w - 1];
 			
-			my $argmax = 0;
-			my %candidates = ();
+			my $sumner = 0;
 			
-			# MAX discovery. Look at the previous word's tags
+			# SUM. Look at the previous word's tags
 			foreach my $prevTag (keys %{$wordTagHash{"$prevWord"}} ) {
 				my $j = $tagToArray{"$prevTag"};
 				if (!exists $tagBigramHash{"$prevTag $tag"}) {
@@ -90,34 +85,29 @@ sub Viterbi {
 					my $i = scalar (@arrayToTag) - 1;
 					$tagToArray{"$i"} = $i;
 				}
-				$candidates{$j} = $viterbi[$j][$w-1] * abs($tagBigramHash{"$prevTag $tag"}{'probability'});
+				$sumner = $forward[$j][$w-1] * abs($tagBigramHash{"$prevTag $tag"}{'probability'});
 			}
-			my @sortedCandidates = (sort {$candidates{$a} <=> $candidates{$b}} keys %candidates);
-			my $argmax = $sortedCandidates[0];
-			my $max = $candidates{"$argmax"};
-
-			$viterbi[$tagIndex][$w] = abs($wordTagHash{"$word"}{"$tag"}{'probability'}) * $max;
-			$backpointer[$tagIndex][$w] = $argmax;
-			#print "$w $word $tag $viterbi[$tagIndex][$w] $arrayToTag[$argmax]\n";
+			
+			$forward[$tagIndex][$w] = abs($wordTagHash{"$word"}{"$tag"}{'probability'}) * $sumner;
+			print "$w $word $tag $forward[$tagIndex][$w]\n";
 		}
-
 	}
-	# Termination and path-readout
-	my $W = scalar (@wordArray) - 1;
-	my $argmax = 0;
-
-	my @result;
-	$argmax = $tagToArray{"."};
-	push @result, ".";
 	
-	my $w;
-	for ($w = $W - 1; $w >= 0; $w--) {
-		$argmax = $backpointer[$argmax][$w + 1];
-		push @result, $arrayToTag[$argmax];
+	for (my $w = 1; $w < scalar @wordArray; $w++) {
+		my $word = $wordArray[$w];
+		foreach my $tag (keys %{$wordTagHash{"$word"}} ) {
+			my $tagIndex = $tagToArray{"$tag"};
+			
+			my $sumner = 0;
+			foreach my $otherTags (keys %{$wordTagHash{"$word"}}) {
+				my $j = $tagToArray{"$otherTags"};
+				$sumner += $forward[$j][$w]; 
+			}
+			print "\n$word $tag == ". $forward[$tagIndex][$w] / $sumner . "\n";
+		}
 	}
-
-	my @reversed = reverse @result;
-	#print "Hand     -> @tagArray\n";
+	my @reversed = ();
+	print "Hand     -> @tagArray\n";
 	#print "Generated-> @reversed\n";
 	
 	my $sentenceCorrectCount = 0;
@@ -270,11 +260,11 @@ foreach my $line (@test_document) {
 		push @tagArray, $tag;
 		push @wordArray, $word;
 	}
-	Viterbi();
+	Forward();
 }
-print "\nOverall correct " . $totalCorrectCount/$totalWordCount*100 . "%.\n";
-my $sum = 0;
-foreach my $value (@percentages) {
-	$sum += $value;
-}
-print "Averaged averages " . $sum / scalar(@percentages) . "% \n\n";
+#print "\nOverall correct " . $totalCorrectCount/$totalWordCount*100 . "%.\n";
+#my $sum = 0;
+#foreach my $value (@percentages) {
+#	$sum += $value;
+#}
+#print "Averaged averages " . $sum / scalar(@percentages) . "% \n\n";
