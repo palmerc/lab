@@ -23,7 +23,7 @@ clc;
 
 % Edit the above text to modify the response to help tramaInterface
 
-% Last Modified by GUIDE v2.5 28-Oct-2007 13:31:38
+% Last Modified by GUIDE v2.5 28-Oct-2007 13:58:37
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -1107,5 +1107,42 @@ function popupmenu2_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
+function edit28_Callback(hObject, eventdata, handles)
+% hObject    handle to edit28 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit28 as text
+%        str2double(get(hObject,'String')) returns contents of edit28 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit28_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit28 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton13.
+function pushbutton13_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton14.
+function pushbutton14_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton14 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
 

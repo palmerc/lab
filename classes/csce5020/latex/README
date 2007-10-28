@@ -1,0 +1,19 @@
+# This line basically sets up both twosided and letter size
+\documentclass[twoside,letterpaper]{article}
+
+# These setlength lines establish the 'proper' technical writing style for
+# the margins, indentation and paragraph spacing
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{10pt}
+
+# This line suppresses the page number appearing at the bottom
+\pagestyle{empty}
+
+# Ragged Right which is how documents should look.
+\raggedright

@@ -13,7 +13,7 @@ if ($#ARGV < 0) {
 open(FH, $ARGV[0]);
 
 my @document;
-for my $line (<FH>) {
+foreach my $line (<FH>) {
 	chomp $line;
 	$line = lc $line;
 	@document = (@document, $line);
