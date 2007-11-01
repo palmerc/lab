@@ -1,0 +1,50 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+Cameron Palmer - CSCE 5150\\
+November 1, 2007
+\section*{Homework 3}
+\subsection*{Page 364 15-1}
+Intuition - Scanning from left to right you connect each point to its closest neighbor. As the scan of the graph occurs you pick up a new point and connect it to the vertex closest to the point that is already in the bitonic tour.
+If Z represents the cost of the shortest bitonic path from i, through all verticies, and $1 \le i \le n, j > i$ then
+$$Z_{i,j} = d(i, i+1) + Z_{i+1,j} \textrm{ where } j \ne i+1$$
+which represents the addition of a new point to the tour, and
+$$Z_{i,i+1} = \min_{k>i+1}{d(i,k) + Z_{i+1,k}}$$
+It takes $\textrm{O}(i)$ to compute $Z_{i,j}$. So time complexity is $\Theta(\sum_{i=1}^n i)$ which is $\Theta(n^2)$.
+
+\subsection*{Page 367 15-4}
+For any $x \in T$. Let $W_x$ be the value of an optimal solution if we force $x$ in the the solution. Let $W_x^\prime$ be the value of the optimal solution for subtree rooted at $x$ if we force x out of the solution. Let $O_x$ be a value of an optimal solution for a subtree rooted at $x$. We want to compute $O$.
+
+If $x$ is not a leaf,
+\begin{equation}
+O_x = \max(W_x,W_x^\prime)
+\end{equation}
+Let $C(x)$ be the children of $x$,
+\begin{equation}
+W_x = w(x) + \sum_{y \in C(x)} W_y^\prime
+\end{equation}
+
+\begin{equation}
+W_x^\prime = \sum_{y \in C(x)} O_y
+\end{equation}
+
+If $x$ is a leaf,
+$$W_x= W(x)$$
+$$W_x^\prime = O$$
+
+The algorithm is post order in which recurrence relations (1), (2), (3) are used to compute $O_x, W_x, W_x^\prime$ for all $x \in V$. Time complexity is $\textrm{O}(n)$ where $n = |v|$.
+
+\subsection*{Page 369 15-7}
+
+\subsection*{Problem 4}
+\end{document}
+
