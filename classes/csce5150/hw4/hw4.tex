@@ -45,10 +45,27 @@ $$W_x^\prime = O$$
 The algorithm is post order in which recurrence relations (1), (2), (3) are used to compute $O_x, W_x, W_x^\prime$ for all $x \in V$. Time complexity is $\textrm{O}(n)$ where $n = |v|$.
 
 \subsection*{Page 369 15-7}
-You could order the jobs $a$ by deadline $d$. From here you place the maximum profit $p$ in the matrix and optimize your path through the jobs. Which would yield $\textrm{O}(n^3)$ running time.
+You could order the jobs $a$ by deadline $d$. From here you place the maximum profit $p$ in the matrix and optimize your path through the jobs. Which would yield $\textrm{O}(n^3)$ running time based upon the size of the table $n^2$ and then the recovery of the optimal path $n$.
 
+In table $T$,
+\[ T[i,t] = \max \left\{ \begin{array}{ll}
+T[i-1,t]\\
+T[i-1,t-t_i]+p_i & \mbox{if $t \le d_i$}\\
+T[i-1,t-t_i] & \mbox{if $t > d_i$}\end{array} \right. \] 
 
+\subsection*{Problem 4a}
+Using Floyd-Warshall as a basis simply recursively follow the backpointers for all the shortest paths that had the same weight.
 
-\subsection*{Problem 4}
+sub count(i, j)
+	if ( edge(i, j) = d(i, j) ) // meaning if the edge and the shortest path are equivalent we are done.
+		return 1
+	else
+		foreach edge(i, k): where d(i, k) + d(k, j) = d(i, j)
+		sum += count(i, k)
+		return sum
+
+\subsection*{Problem 4b}
+Since a fixed edge means that there is some edge e(i, j) we can easily lookup the j-th row and determine how many backpointers refer back to that cell.
+
 \end{document}
 
