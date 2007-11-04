@@ -1,0 +1,36 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+\section*{Vertex Cover}
+$S \subseteq V$ is called a vertex cover if for any edge $ab \in E$ either $a \in S$ or $b \in S$. Minimum vertex cover is one with smallest number of vertices. This problem is NP-hard.
+
+\subsection*{Approximation Algorithm}
+If you choose nodes with maximum degree first. Be careful with a greedy algorithm because it might choose $a$ and $b$ first and then end up with degree 4 rather than minimal of degree 3.
+
+Need to pick the minimum number of vertices that cover all the edges.
+
+Let $G=(V,E)$ be a graph.
+Let $M \subseteq E$. We say that $M$ is matching if no two edges in $M$ have an end point in common. For example a hexagon's maximum matching has cardinality of three.
+
+Let $M \subseteq E$ be matching. We say $M$ is "maximal" if for any $e$ not in $M$ maximum matching $M \cup \{ e \}$ is not maximal matching.
+
+Let $S$ be a vertex cover and $M$ be matching then $|S^*| \ge |M|$.
+
+If this is maximal matching then you can pick up endpoints for vertex cover. Must pick up all $a$'s and $b$'s.
+
+Let $M=\{a_1,b_1,a_2,b_2,...,a_k,b_k\}$ be a maximal matching then $S=\{a_1,..,a_k,b_1,...,b_k\}$ is a vertex cover. Note that $|S|=2|M|$\\
+$2|S^*| \ge |S| = 2|M| \ge |S^*|$ which is an upper bound.
+\end{document}
