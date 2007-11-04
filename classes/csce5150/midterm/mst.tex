@@ -1,0 +1,27 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+\section*{Minimum Spanning Tree}
+Let $G=(V,E)$ be a graph. Assume that we have a positive cost $C(i,j)$ for every $ij \in E$. Let $(S,S^\prime)$ be a cut, and let $A \subseteq E$ so that $A$ respects the cut. Finally, assume that $A$ is contained in some minimum spanning tree. Prove that if $e$ is a light edge in $(S,S^\prime)$, then $A \cup e$ is contained in some minimum spanning tree.
+
+\begin{proof}
+Let $T$ be a minimum spanning tree containing $A$. If $e \in T$ we are done. So assume that $e$ is not in $T$. There must be a path $p$ that connects $u$ and $v$ via a light edge$(x,y)$. Inclusion of $e$ to $p$ will create exactly one cycle. Let $c=p \cup \{e\}$ be a cycle. Observe that $p$ has an edge $e^\prime=ab$ so that $a \in S$ and $b \in S^\prime$. Note that $T^\prime=(T \cup \{e\})-e^\prime$ is a spanning tree.
+
+Furthermore, $w(e) < w(e^\prime)$, this $w(T^\prime) \le w(T)$. Therefore $T^\prime$ is a minimum spanning tree. Note that $A \subseteq T^\prime$. Then $A \cup \{ e \} \subseteq T^\prime$.
+
+\end{proof}
+
+\end{document}

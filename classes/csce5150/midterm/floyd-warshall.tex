@@ -1,0 +1,32 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+\section*{Floyd-Warshall}
+Let $d_{ij}^k$ be the least cost shortest path from $i$ to $j$ that does not contain vertices $k+1,...,n$ or has intermediate vertices $k=1,...,n$ then $d_{ij}^0=w(i,j)$.
+
+Note that $d_{ij}^n$ is the least cost shortest path fron $i$ to $j$.
+
+Case 1: vertex $k$ is not on path $p$.
+$$d_{ij}^k=d_{ij}^{k-1}$$
+Case 2: vertex $k$ is on the path $p$.
+$$d_{ij}^k=d_{ik}^{k-1}+d_{kj}^{k-1}$$
+
+$$d_{ij}^0=w(i,j)$$
+\begin{equation}
+d_{ij}^k=\min\left( d_{ij}^{k-1}, d_{ik}^{k-1}+d_{kj}^{k-1}\right)
+\end{equation}
+Compute $d^0,d^1,...,d^n$ in that order and store them where $d^k$, where $k=1,...,n$, is an $n \times n$ matrix.
+
+Compute $d^k$ from $d^{k-1}$ using (1).
+
+Time complexity O($n^3$).
+\end{document}

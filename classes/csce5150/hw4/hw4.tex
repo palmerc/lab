@@ -1,4 +1,5 @@
 \documentclass[12pt,twoside,letterpaper]{article}
+\usepackage{algorithmic}
 \setlength\topmargin{0in}
 \setlength\headheight{0in}
 \setlength\headsep{0in}
@@ -12,7 +13,7 @@
 \begin{document}
 Cameron Palmer - CSCE 5150\\
 November 1, 2007
-\section*{Homework 3}
+\section*{Homework 4}
 \subsection*{Page 364 15-1}
 Intuition - Scanning from left to right you connect each point to its closest neighbor. As the scan of the graph occurs you pick up a new point and connect it to the vertex closest to the point that is already in the bitonic tour.
 
@@ -56,16 +57,20 @@ T[i-1,t-t_i] & \mbox{if $t > d_i$}\end{array} \right. \]
 \subsection*{Problem 4a}
 Using Floyd-Warshall as a basis simply recursively follow the backpointers for all the shortest paths that had the same weight.
 
-sub count(i, j)
-	if ( edge(i, j) = d(i, j) ) // meaning if the edge and the shortest path are equivalent we are done.
-		return 1
-	else
-		foreach edge(i, k): where d(i, k) + d(k, j) = d(i, j)
-		sum += count(i, k)
-		return sum
+\begin{algorithmic}
+\STATE sub count(i, j)
+	\IF {edge(i, j) = d(i, j)}
+		\RETURN 1
+	\ELSE
+		\FOR {edge(i, k): where d(i, k) + d(k, j) = d(i, j)}
+		\STATE $sum \gets sum + count(i, k)$
+		\ENDFOR
+	\RETURN sum
+	\ENDIF
+\end{algorithmic}
 
 \subsection*{Problem 4b}
-Since a fixed edge means that there is some edge e(i, j) we can easily lookup the j-th row and determine how many backpointers refer back to that cell.
+Since a fixed edge means that there is some edge e(i, j) we can easily lookup the j-th row and determine how many backpointers refer back to that cell. That can be lookup in linear time.
 
 \end{document}
 
