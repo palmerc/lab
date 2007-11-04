@@ -14,10 +14,10 @@
 \section*{Bitonic TSP}
 Intuition - Scanning from left to right you connect each point to its closest neighbor. As the scan of the graph occurs you pick up a new point and connect it to the vertex closest to the point that is already in the bitonic tour.
 
-If $Z$ represents the cost of the shortest bitonic path from i, through all verticies, and $1 \le i \le n$, $j > i$ then
+If $Z$ represents the cost of the shortest bitonic path from $i$, through all verticies, and $1 \le i \le n$, $j > i$ then
 $$Z_{i,j} = d(i,i+1) + Z_{i+1,j} \textrm{ where } j \ne i+1$$
 which represents the addition of a new point to the tour, and
-$$Z_{i,i+1} = \min_{k>i+1}{d(i,k) + Z_{i+1,k}}$$
+$$Z_{i,i+1} = \min_{k>i+1}{ d(i,k) + Z_{i+1,k}} $$
 It takes $\textrm{O}(i)$ to compute $Z_{i,j}$. 
 
 Time complexity is $\Theta(\sum_{i=1}^n i)$ which is $\Theta(n^2)$.
