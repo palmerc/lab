@@ -1,0 +1,35 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+\section*{Maximum Independent Set in a Tree}
+For any vertex $x \in T$. Let $T_x$ denote the subtree rooted at $x$. Let $w(x)$ be the weight of $x$. Let $W_x$ be the value of an optimal solution if we force $x$ into the solution. Let $W_x^\prime$ be the value for $T_x$ if we force $x$ out of the solution. If $O_x$ is the optimal value for $T_x$ then:
+
+If $x$ is not a leaf,
+\begin{equation}
+O_x = \max(W_x,W_x^\prime)
+\end{equation}
+Let $C(x)$ be the children of $x$,
+\begin{equation}
+W_x = w(x) + \sum_{y \in C(x)} W_y^\prime
+\end{equation}
+\begin{equation}
+W_x^\prime = \sum_{y \in C(x)} O_y
+\end{equation}
+
+If $x$ is a leaf,
+$$W_x= W(x)$$
+$$W_x^\prime = O$$
+
+The algorithm is post order in which recurrence relations (1), (2), (3) are used to compute $O_x, W_x, W_x^\prime$ for all $x \in V$.
+
+Time complexity is $\textrm{O}(n)$ where $n = |v|$.
+\end{document}
