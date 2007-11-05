@@ -1,0 +1,28 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\usepackage{algorithmic}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+\section*{Choosing a Compatible Set of Activities with a Profit}
+You could order the jobs $a$ by deadline $d$. From here you place the maximum profit $p$ in the matrix and optimize your path through the jobs. Which would yield $\textrm{O}(n^3)$ running time based upon the size of the table $n^2$ and then the recovery of the optimal path $n$.
+
+First we initialize the table $T$ with
+\[ T[1,t] = \left\{ \begin{array}{ll}
+0 & \mbox{if $t \ne t_1$}\\
+p_1 & \mbox{if $t = t_1 \le d_1$}\\
+0 & \mbox{if $t = t_1 > d_1$}\end{array} \right. \]
+
+In table $T$, we have the choice of performing job $i$. If we decide not to perform job $i$, then our profit is $T[i-1,t]$. If we perform the job it will take $t_i$ units to complete. The maximum profit is selected based upon the following recurrence.
+\[ T[i,t] = \max \left\{ \begin{array}{ll}
+T[i-1,t]\\
+T[i-1,t-t_i]+p_i & \mbox{if $t \le d_i$}\\
+T[i-1,t-t_i] & \mbox{if $t > d_i$}\end{array} \right. \]
+\end{document}
