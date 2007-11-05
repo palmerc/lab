@@ -1,0 +1,21 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\usepackage{algorithmic}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+\section*{Longest Common Subsequence}
+Let us define $c[i,j]$ to be the length of an LCS of the sequences $X_i$ and $Y_j$. If either $i = 0$ or $j = 0$, one of the sequences has length $0$, so the LCS has length $0$. The optimal substructure of the LCS problem gives the recursive formula.
+\[ c[i,j] = \left\{ \begin{array}{ll}
+0 & \mbox{if $i = 0$ or $j = 0$},\\
+c[i-1,j-1]+1 & \mbox{if $i, j > 0$ and $x_i = y_j$},\\
+\max{(c[i,j-1], c[i-1,j])} & \mbox{if $i, j > 0$ and $x_i \ne y_j$}.
+\end{array} \right. \]
+\end{document}
