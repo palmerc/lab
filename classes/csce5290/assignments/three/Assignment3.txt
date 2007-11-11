@@ -1,0 +1,40 @@
+CSCE 4930/5290 Natural Language Processing
+Fall 2007
+Word sense disambiguation
+Issued: 10/25/07  Due: 11/16/07 
+Total points: 80
+
+
+1. [60 points] 
+
+Implement a Naive Bayes word sense disambiguation algorithm, using
+features consisting of words in a window around the word being 
+disambiguated. 
+
+Evaluate your algorithm using the data provided on the class webpage
+for six ambiguous words: bass, crane, motion, palm, plant, and tank. 
+For the evaluation, you should use 5-way cross validation:  train on 
+4/5 of the data and test on 1/5, selecting each 1/5 of the data in turn, 
+and then averaging the results.  Report an accuracy for each word, 
+a baseline (based on selecting the most likely prior), and an overall 
+accuracy.
+
+
+2. [5290 only: 20 points]
+
+Supplement the set of features using keywords in context. How are the 
+new features affecting the disambiguation performance? Report the new
+accuracy for each word, as well as overall accuracy.
+
+
+
+Submission instructions:
+   - write a README file including a detailed note about the functionality 
+     of each of the above programs, and complete instructions on how to 
+     run them. Make sure you include the answers to questions 1, 2.
+   - make sure you include your name in each program and in the README file.
+   - make sure all your programs are fully commented, and run correctly on the 
+     CSP machines.
+   - submit your assignment by the due date using the 'project' program.
+     class code is 5290s001, project HW3.
+     
