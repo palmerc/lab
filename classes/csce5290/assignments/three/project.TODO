@@ -13,6 +13,24 @@ Part One
 Train on 4 out of 5, test on the 1/5 left and average the results.
 Report baseline, and overall accuracy.
 
+From the training data, you should collect the most frequent words for
+each word sense, and then use those as features.
+
+Q. What is a baseline (based on selecting the most likely prior)?
+
+A. The baseline would be the simple heuristic where you select the most frequent sense by default. E.g, if in the training data you have 7 examples for plant#1 and 2 examples for plant#2, you will conclude that the most frequent sense is plant#1. So you will annotate all the examples in the test data as plant#1, and then measure the precision of this simple heuristic (which is the baseline).
+
+Q. What does "keywords in context" mean? Does that mean to add more words to the word database for each sense extracted from training data, specific words... If so, where do those words come from? how many should we add? How do we know we are adding the correct words in order to improve and increment vocabulary per sense?
+
+A. E.g., if "garden" and "animal" are the most frequently occurring words for
+plant#1, and "industry" and "work" are the most frequent ones for plant#2,
+then you will add four more features to your vectors: garden, animal,
+industry, work, and for each example in your training or test data, you
+will indicate whether each of these features occur in the example (a value
+of 1) or not (a value of 0).
+
+
+
 Part Two
 
 
