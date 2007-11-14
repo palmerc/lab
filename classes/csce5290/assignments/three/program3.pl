@@ -4,56 +4,59 @@ use strict;
 use XML::Simple;
 use Data::Dumper;
 
-my $data;
+my ($trainData, $testData);
 my $xml;
-my $inputFile;
+my ($trainFile, $testFile);
 my $word;
-my %senseCount;
+my (%senseCount, %senseTotals);
 my $baseCorrect = 0;
-my $totalCount = 0;
 
+sub cleanString {
+	my $string = shift;
+	chomp $string;
+	#$string =~ s/[(),.?!"'-;]//g;
+	$string =~ s/\s+/ /g;
+	$string =~ s/^\s+//;
+	$string =~ s/\s+$//;
+	
+	return $string;
+}
 
-if (scalar(@ARGV) < 1) {
-	print("Usage: $0 inputFile\n");
+sub addOneSmoothing {
+
+}
+
+if (scalar(@ARGV) < 2) {
+	print("Usage: $0 trainFile testFile\n");
 	exit 1;
 } else {
-	$inputFile = $ARGV[0];
+	$trainFile = $ARGV[0];
+	$testFile = $ARGV[1];
 }
-print "inputFile: $inputFile\n";
 
 $xml = new XML::Simple;
-$data = $xml->XMLin($inputFile);
+$trainData = $xml->XMLin($trainFile);
+$testData = $xml->XMLin($testFile);
 
 # Retrieve each instance and its sense.
-foreach my $instance (keys %{$data->{'instance'}}) {
+foreach my $instance (keys %{$trainData->{'instance'}}) {
 	print $instance . "\n";
 	my ($firstHalf, $secondHalf);
-	my $answer = $data->{'instance'}{$instance}{'answer'}{'senseid'};
+	my $answer = $trainData->{'instance'}{$instance}{'answer'}{'senseid'};
 	my $sense = (split(/%/, $answer))[1];
-	$word = $data->{'instance'}{$instance}{'context'}{'head'};
-	if (defined ($data->{'instance'}{$instance}{'context'}{'content'}[0])) {
-		$firstHalf = $data->{'instance'}{$instance}{'context'}{'content'}[0];
-	} else {
-		$firstHalf = ". ";
-	}
-	$secondHalf = $data->{'instance'}{$instance}{'context'}{'content'}[1];
+	$word = $trainData->{'instance'}{$instance}{'context'}{'head'};
+	$firstHalf = $trainData->{'instance'}{$instance}{'context'}{'content'}[0];
+	$secondHalf = $trainData->{'instance'}{$instance}{'context'}{'content'}[1];
 
-	chomp($firstHalf);
-	chomp($secondHalf);
-	$firstHalf =~ s/[(),.?!"'-;]//g;
-	$secondHalf =~ s/[(),.?!"'-;]//g;
-	$firstHalf =~ s/\s+/ /g;
-	$secondHalf =~ s/\s+/ /g;
-	$firstHalf =~ s/^\s+//;
-	$firstHalf =~ s/\s+$//;
-	$secondHalf =~ s/^\s+//;
-	$secondHalf =~ s/\s+$//;
+	$firstHalf = cleanString($firstHalf);
+	$secondHalf = cleanString($secondHalf);
 
 	print ">$firstHalf<\n";
 
 	my @firstArray = split(/\s/, $firstHalf);
 	my @secondArray = split(/\s/, $secondHalf);
 
+	# I will count the positions of the individual appearences of the words.
 	for (my $j = -1; $j > -3; $j--) {
 		if (!exists $senseCount{$sense}{$firstArray[$j]}) { 
 			for (my $i = 0; $i < 4; $i++) {
@@ -68,21 +71,69 @@ foreach my $instance (keys %{$data->{'instance'}}) {
 			}
 		} 
 	}
+	$senseTotals{$sense}{'count'} += 4;
 
+	# Count the occurence of the two words on either side of our word to disambiguate
 	$senseCount{$sense}{$firstArray[-2]}[0] += 1;
 	$senseCount{$sense}{$firstArray[-1]}[1] += 1;
 	$senseCount{$sense}{$secondArray[0]}[2] += 1;
 	$senseCount{$sense}{$secondArray[1]}[3] += 1;
 
-	$totalCount += 1;
 }
 
+foreach my $sense (keys %senseCount) {
+	foreach my $feature (keys %{$senseCount{$sense}}) {
+		for (my $i = 0; $i < 4; $i++) {
+			print "$sense, $feature, $i\n";
+			if ($senseCount{$sense}{$feature}[$i] == 0) {
+				next;
+			}
+			$senseCount{$sense}{$feature}[$i] = log ($senseCount{$sense}{$feature}[$i] / $senseTotals{$sense}{'count'}) / log (2) . "\n";
+		}
+	}
+}
+
+# Sum the total number of sense instances
+my $senseSum = 0;
+foreach my $sense (keys %senseTotals) {
+	$senseSum += $senseTotals{$sense}{'count'};
+}
+
+# Perform the test
+foreach my $instance (keys %{$testData->{'instance'}}) {
+	my ($firstHalf, $secondHalf);
+	my $answer = $testData->{'instance'}{$instance}{'answer'}{'senseid'};
+	my $correctSense = (split(/%/, $answer))[1];
+	$word = $testData->{'instance'}{$instance}{'context'}{'head'};
+	$firstHalf = $testData->{'instance'}{$instance}{'context'}{'content'}[0];
+	$secondHalf = $testData->{'instance'}{$instance}{'context'}{'content'}[1];
+
+	$firstHalf = cleanString($firstHalf);
+	$secondHalf = cleanString($secondHalf);
+
+	my @firstArray = split(/\s/, $firstHalf);
+	my @secondArray = split(/\s/, $secondHalf);
+
+	foreach my $sense (keys %senseCount) {
+		my $sumProb = 0;
+		$sumProb = $senseCount{$sense}{$firstArray[-2]}[0];
+		$sumProb += $senseCount{$sense}{$firstArray[-1]}[1];
+		$sumProb += $senseCount{$sense}{$secondArray[0]}[2];
+		$sumProb += $senseCount{$sense}{$secondArray[1]}[3];
+		$sumProb += log($senseTotals{$sense}{'count'} / $senseSum)/log(2);
+
+		print "$answer - $sense: $sumProb\n";
+	}
+}
+
+exit;
+# Dump the sense hash
 print "$word\n";
 foreach my $sense (keys %senseCount) {
 	print "$sense:\n";
-	foreach my $word (keys %{$senseCount{$sense}}) {
+	foreach my $feature (keys %{$senseCount{$sense}}) {
 		for (my $i = 0; $i < 4; $i++) {
-			print "\t$word [$i] $senseCount{$sense}{$word}[$i]\n";
+			print "\t$feature [$i] $senseCount{$sense}{$feature}[$i]\n";
 		}
 	}
 }
