@@ -7,6 +7,7 @@ use Data::Dumper;
 my $data;
 my $xml;
 my $inputFile;
+my $word;
 my %senseCount;
 my $baseCorrect = 0;
 my $totalCount = 0;
@@ -24,36 +25,65 @@ $xml = new XML::Simple;
 $data = $xml->XMLin($inputFile);
 
 # Retrieve each instance and its sense.
-foreach my $sense (keys %{$data->{'instance'}}) {
-#	print "\n\n";
-	my $answer = $data->{'instance'}{$sense}{'answer'}{'senseid'};
+foreach my $instance (keys %{$data->{'instance'}}) {
+	print $instance . "\n";
+	my ($firstHalf, $secondHalf);
+	my $answer = $data->{'instance'}{$instance}{'answer'}{'senseid'};
 	my $sense = (split(/%/, $answer))[1];
-	my $word = $data->{'instance'}{$sense}{'context'}{'head'};
-	my $firstHalf = $data->{'instance'}{$sense}{'context'}{'content'}[0];
-	my $secondHalf = $data->{'instance'}{$sense}{'context'}{'content'}[1];
+	$word = $data->{'instance'}{$instance}{'context'}{'head'};
+	if (defined ($data->{'instance'}{$instance}{'context'}{'content'}[0])) {
+		$firstHalf = $data->{'instance'}{$instance}{'context'}{'content'}[0];
+	} else {
+		$firstHalf = ". ";
+	}
+	$secondHalf = $data->{'instance'}{$instance}{'context'}{'content'}[1];
 
 	chomp($firstHalf);
 	chomp($secondHalf);
-	$firstHalf =~ s/[(),.?!"'-]//g;
-	$secondHalf =~ s/[(),.?!"'-]//g;
+	$firstHalf =~ s/[(),.?!"'-;]//g;
+	$secondHalf =~ s/[(),.?!"'-;]//g;
 	$firstHalf =~ s/\s+/ /g;
 	$secondHalf =~ s/\s+/ /g;
+	$firstHalf =~ s/^\s+//;
+	$firstHalf =~ s/\s+$//;
+	$secondHalf =~ s/^\s+//;
+	$secondHalf =~ s/\s+$//;
+
+	print ">$firstHalf<\n";
 
 	my @firstArray = split(/\s/, $firstHalf);
 	my @secondArray = split(/\s/, $secondHalf);
 
-#	print "$firstArray[-2] $firstArray[-1]\n";
-#	print "$word\n";
-#	print "$secondArray[-2] $secondArray[-1]\n";
-
-	$senseCount{$word}{$sense} += 1;
-	my $mostCommonSense = (sort({$senseCount{$word}{$b} <=> $senseCount{$word}{$a}} keys %{$senseCount{$word}}))[0];
-	if ($sense eq $mostCommonSense) {
-		print "$sense == $mostCommonSense\n";
-		$baseCorrect += 1;
+	for (my $j = -1; $j > -3; $j--) {
+		if (!exists $senseCount{$sense}{$firstArray[$j]}) { 
+			for (my $i = 0; $i < 4; $i++) {
+				$senseCount{$sense}{$firstArray[$j]}[$i] = 0; 
+			}
+		} 
 	}
+	for (my $j = 0; $j < 2; $j++) {
+		if (!exists $senseCount{$sense}{$secondArray[$j]}) { 
+			for (my $i = 0; $i < 4; $i++) {
+				$senseCount{$sense}{$secondArray[$j]}[$i] = 0; 
+			}
+		} 
+	}
+
+	$senseCount{$sense}{$firstArray[-2]}[0] += 1;
+	$senseCount{$sense}{$firstArray[-1]}[1] += 1;
+	$senseCount{$sense}{$secondArray[0]}[2] += 1;
+	$senseCount{$sense}{$secondArray[1]}[3] += 1;
+
 	$totalCount += 1;
 }
 
-print "Total baseline accuracy: " . $baseCorrect / $totalCount * 100 . "%.\n";
-print Dumper(%senseCount);
+print "$word\n";
+foreach my $sense (keys %senseCount) {
+	print "$sense:\n";
+	foreach my $word (keys %{$senseCount{$sense}}) {
+		for (my $i = 0; $i < 4; $i++) {
+			print "\t$word [$i] $senseCount{$sense}{$word}[$i]\n";
+		}
+	}
+}
+
