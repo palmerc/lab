@@ -2,7 +2,6 @@
 
 use strict;
 use XML::Simple;
-use Data::Dumper;
 
 my $data;
 my $xml;
