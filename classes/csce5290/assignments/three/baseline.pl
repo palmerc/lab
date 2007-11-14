@@ -6,54 +6,43 @@ use Data::Dumper;
 
 my $data;
 my $xml;
-my $inputFile;
+my ($testFile, $trainFile);
 my %senseCount;
 my $baseCorrect = 0;
 my $totalCount = 0;
 
 
-if (scalar(@ARGV) < 1) {
-	print("Usage: $0 inputFile\n");
+if (scalar(@ARGV) < 2) {
+	print("Usage: $0 trainFile testFile\n");
 	exit 1;
 } else {
-	$inputFile = $ARGV[0];
+	$trainFile = $ARGV[0];
+	$testFile = $ARGV[1];
 }
-print "inputFile: $inputFile\n";
-
 $xml = new XML::Simple;
-$data = $xml->XMLin($inputFile);
+my $trainData = $xml->XMLin($trainFile);
+my $testData = $xml->XMLin($testFile);
 
-# Retrieve each instance and its sense.
-foreach my $sense (keys %{$data->{'instance'}}) {
-#	print "\n\n";
-	my $answer = $data->{'instance'}{$sense}{'answer'}{'senseid'};
-	my $sense = (split(/%/, $answer))[1];
-	my $word = $data->{'instance'}{$sense}{'context'}{'head'};
-	my $firstHalf = $data->{'instance'}{$sense}{'context'}{'content'}[0];
-	my $secondHalf = $data->{'instance'}{$sense}{'context'}{'content'}[1];
+# Train the baseline 
+foreach my $instance (keys %{$trainData->{'instance'}}) {
+	my $answer = $trainData->{'instance'}{$instance}{'answer'}{'senseid'};
+	my ($word, $correctSense) = split(/%/, $answer);
 
-	chomp($firstHalf);
-	chomp($secondHalf);
-	$firstHalf =~ s/[(),.?!"'-]//g;
-	$secondHalf =~ s/[(),.?!"'-]//g;
-	$firstHalf =~ s/\s+/ /g;
-	$secondHalf =~ s/\s+/ /g;
+	$senseCount{$word}{$correctSense} += 1;
+}
 
-	my @firstArray = split(/\s/, $firstHalf);
-	my @secondArray = split(/\s/, $secondHalf);
-
-#	print "$firstArray[-2] $firstArray[-1]\n";
-#	print "$word\n";
-#	print "$secondArray[-2] $secondArray[-1]\n";
-
-	$senseCount{$word}{$sense} += 1;
+# Perform the Test
+foreach my $instance (keys %{$testData->{'instance'}}) {
+	my $answer = $testData->{'instance'}{$instance}{'answer'}{'senseid'};
+	my ($word, $correctSense) = split(/%/, $answer);
+	
+	# Find the most common sense of this word.
 	my $mostCommonSense = (sort({$senseCount{$word}{$b} <=> $senseCount{$word}{$a}} keys %{$senseCount{$word}}))[0];
-	if ($sense eq $mostCommonSense) {
-		print "$sense == $mostCommonSense\n";
+
+	if ($correctSense eq $mostCommonSense) {
 		$baseCorrect += 1;
 	}
 	$totalCount += 1;
 }
 
-print "Total baseline accuracy: " . $baseCorrect / $totalCount * 100 . "%.\n";
-print Dumper(%senseCount);
+print "Baseline accuracy for $testFile: " . $baseCorrect / $totalCount * 100 . "%.\n";

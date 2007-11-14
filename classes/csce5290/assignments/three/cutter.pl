@@ -2,58 +2,47 @@
 
 use strict;
 use XML::Simple;
-use Data::Dumper;
 
 my $data;
 my $xml;
 my $inputFile;
-my %senseCount;
-my $baseCorrect = 0;
-my $totalCount = 0;
+my $testFile;
+my $trainFile;
 
 
-if (scalar(@ARGV) < 1) {
-	print("Usage: $0 inputFile\n");
+if (scalar(@ARGV) < 3) {
+	print("Usage: $0 inputFile testFile trainFile\n");
 	exit 1;
 } else {
 	$inputFile = $ARGV[0];
+	$testFile = $ARGV[1];
+	$trainFile = $ARGV[2];
 }
-print "inputFile: $inputFile\n";
 
-$xml = new XML::Simple;
-$data = $xml->XMLin($inputFile);
+open(FH, "<", $inputFile);
+open(TEST, ">", $testFile);
+open(TRAIN, ">", $trainFile);
+print TEST "<?xml version='1.0'?>\n<document>\n";
+print TRAIN "<?xml version='1.0'?>\n<document>\n";
 
-# Retrieve each instance and its sense.
-foreach my $sense (keys %{$data->{'instance'}}) {
-#	print "\n\n";
-	my $answer = $data->{'instance'}{$sense}{'answer'}{'senseid'};
-	my $sense = (split(/%/, $answer))[1];
-	my $word = $data->{'instance'}{$sense}{'context'}{'head'};
-	my $firstHalf = $data->{'instance'}{$sense}{'context'}{'content'}[0];
-	my $secondHalf = $data->{'instance'}{$sense}{'context'}{'content'}[1];
+my $xml = new XML::Simple;
+my $data = $xml->XMLin($inputFile);
 
-	chomp($firstHalf);
-	chomp($secondHalf);
-	$firstHalf =~ s/[(),.?!"'-]//g;
-	$secondHalf =~ s/[(),.?!"'-]//g;
-	$firstHalf =~ s/\s+/ /g;
-	$secondHalf =~ s/\s+/ /g;
+my $fiveFifths = scalar keys %{$data->{'instance'}};
 
-	my @firstArray = split(/\s/, $firstHalf);
-	my @secondArray = split(/\s/, $secondHalf);
-
-#	print "$firstArray[-2] $firstArray[-1]\n";
-#	print "$word\n";
-#	print "$secondArray[-2] $secondArray[-1]\n";
-
-	$senseCount{$word}{$sense} += 1;
-	my $mostCommonSense = (sort({$senseCount{$word}{$b} <=> $senseCount{$word}{$a}} keys %{$senseCount{$word}}))[0];
-	if ($sense eq $mostCommonSense) {
-		print "$sense == $mostCommonSense\n";
-		$baseCorrect += 1;
+my $count = 0;
+foreach my $line (<FH>) {
+	if ($count < $fiveFifths / 5 * 7) {
+		print TEST $line;
+	} else {
+		print TRAIN $line;
 	}
-	$totalCount += 1;
+	$count += 1;
 }
 
-print "Total baseline accuracy: " . $baseCorrect / $totalCount * 100 . "%.\n";
-print Dumper(%senseCount);
+print TEST "</document>\n";
+print TRAIN "</document>\n";
+
+close(FH);
+close(TEST);
+close(TRAIN);
