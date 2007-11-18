@@ -14,7 +14,7 @@ my $baseCorrect = 0;
 sub cleanString {
 	my $string = shift;
 	chomp $string;
-	#$string =~ s/[(),.?!"'-;]//g;
+	$string =~ s/[(),.?!"'-;]//g;
 	$string =~ s/\s+/ /g;
 	$string =~ s/^\s+//;
 	$string =~ s/\s+$//;
@@ -27,7 +27,7 @@ sub addOneSmoothing {
 }
 
 if (scalar(@ARGV) < 2) {
-	print("Usage: $0 trainFile testFile\n");
+	#print("Usage: $0 trainFile testFile\n");
 	exit 1;
 } else {
 	$trainFile = $ARGV[0];
@@ -40,7 +40,7 @@ $testData = $xml->XMLin($testFile);
 
 # Retrieve each instance and its sense.
 foreach my $instance (keys %{$trainData->{'instance'}}) {
-	print $instance . "\n";
+	#print $instance . "\n";
 	my ($firstHalf, $secondHalf);
 	my $answer = $trainData->{'instance'}{$instance}{'answer'}{'senseid'};
 	my $sense = (split(/%/, $answer))[1];
@@ -51,7 +51,7 @@ foreach my $instance (keys %{$trainData->{'instance'}}) {
 	$firstHalf = cleanString($firstHalf);
 	$secondHalf = cleanString($secondHalf);
 
-	print ">$firstHalf<\n";
+	#print ">$firstHalf<\n";
 
 	my @firstArray = split(/\s/, $firstHalf);
 	my @secondArray = split(/\s/, $secondHalf);
@@ -84,7 +84,7 @@ foreach my $instance (keys %{$trainData->{'instance'}}) {
 foreach my $sense (keys %senseCount) {
 	foreach my $feature (keys %{$senseCount{$sense}}) {
 		for (my $i = 0; $i < 4; $i++) {
-			print "$sense, $feature, $i\n";
+			#print "$sense, $feature, $i\n";
 			if ($senseCount{$sense}{$feature}[$i] == 0) {
 				next;
 			}
@@ -100,7 +100,11 @@ foreach my $sense (keys %senseTotals) {
 }
 
 # Perform the test
+my $correctTotal = 0;
+my $totalTotal = 0;
 foreach my $instance (keys %{$testData->{'instance'}}) {
+	my $winner = -1;
+	my $winningSense = "";
 	my ($firstHalf, $secondHalf);
 	my $answer = $testData->{'instance'}{$instance}{'answer'}{'senseid'};
 	my $correctSense = (split(/%/, $answer))[1];
@@ -114,6 +118,7 @@ foreach my $instance (keys %{$testData->{'instance'}}) {
 	my @firstArray = split(/\s/, $firstHalf);
 	my @secondArray = split(/\s/, $secondHalf);
 
+	#print "\n$word $answer\n";
 	foreach my $sense (keys %senseCount) {
 		my $sumProb = 0;
 		$sumProb = $senseCount{$sense}{$firstArray[-2]}[0];
@@ -121,10 +126,18 @@ foreach my $instance (keys %{$testData->{'instance'}}) {
 		$sumProb += $senseCount{$sense}{$secondArray[0]}[2];
 		$sumProb += $senseCount{$sense}{$secondArray[1]}[3];
 		$sumProb += log($senseTotals{$sense}{'count'} / $senseSum)/log(2);
-
-		print "$answer - $sense: $sumProb\n";
+		$sumProb = abs($sumProb);
+		if ($winner < $sumProb) {
+			$winner = $sumProb;
+			$winningSense = $sense;	
+		}
 	}
+	if ($winningSense eq $correctSense) {
+		$correctTotal += 1;
+	}
+	$totalTotal += 1;
 }
+print "$word accuracy " . $correctTotal / $totalTotal * 100 . "%\n";
 
 exit;
 # Dump the sense hash
