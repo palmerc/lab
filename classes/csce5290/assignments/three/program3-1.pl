@@ -137,7 +137,7 @@ foreach my $instance (keys %{$testData->{'instance'}}) {
 	}
 	$totalTotal += 1;
 }
-print "$word accuracy " . $correctTotal / $totalTotal * 100 . "%\n";
+print "Feature: " . $correctTotal / $totalTotal * 100 . "%\n";
 
 exit;
 # Dump the sense hash

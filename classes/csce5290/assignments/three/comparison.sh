@@ -2,6 +2,7 @@
 
 for word in bass crane motion palm plant tank
 do
+	echo $word
 	./baseline.pl TWA.sensetagged/$word.train TWA.sensetagged/$word.test	
 	./program3-1.pl TWA.sensetagged/$word.train TWA.sensetagged/$word.test	
 	./program3-2.pl TWA.sensetagged/$word.train TWA.sensetagged/$word.test	

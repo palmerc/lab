@@ -44,4 +44,4 @@ foreach my $instance (keys %{$testData->{'instance'}}) {
 	$totalCount += 1;
 }
 
-print "Baseline accuracy for $testFile: " . $baseCorrect / $totalCount * 100 . "%.\n";
+print "Baseline: " . $baseCorrect / $totalCount * 100 . "%.\n";
