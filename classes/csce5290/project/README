@@ -1,0 +1,25 @@
+http://nlp.uned.es/weps/task-description.html
+
+1. Description of the task
+1.1. Motivation
+
+Finding people, information about people, in the World-Wide-Web is one of the most common activities of Internet users: around 30% of search engine queries include person names [2]. Person names, however, are highly ambiguous: for instance, only 90,000 different names are shared by 100 million people according to the U.S. Census Bureau [2]. In most cases, therefore, the results for this type of search are a mixture of pages about different people that share the same name.
+
+Person names offer interesting challenges for disambiguation: potentially high ambiguity (thousands of people can share the same first and last name), undefined number of meanings (in this case, referents) and variability of person names (not directly addressed in this task). As a Semeval task, this is a problem of Word Sense Discrimination, because the number of meanings is not predefined.
+1.1. Task
+
+The task scenario is a situation in which a search engine user types in a person name as a query. Instead of ranking web pages, an ideal system should organize search results in as many clusters as there are different people sharing the same name in the documents returned by the search engine. The challenge for a system is estimating the number of referents and grouping documents referring to the same individual.
+
+The input is, therefore, the results given by a web search engine using a person name as query (see Training and test data below). Besides the search results page, we will also provide the content of each of the documents retrieved. We will restrict the task to the first one hundred documents retrieved.
+
+The output of the system must be a clustering of the web pages, where each cluster is assumed to contain all (and only those) pages that refer to one individual.
+
+Note that it might be the case that different people with the same name may be mentioned simultaneously in the same document (for instance, if one of the web pages is the result of an Amazon author's search). If this is the case, the document should appear in all appropriate clusters.
+2. The evaluation methodology
+
+For the evaluation we will provide a gold standard which will be compared to the systems output using standard clustering measures (purity, inverse purity, and their harmonic mean F).
+3. Training and test data
+
+As preliminary training corpora, we will offer the WePS corpus (Web People Search corpus), already available at http://nlp.uned.es/weps, and an expansion of the corpus in order to cover different degrees of ambiguity (from very common names, as in WePS, to uncommon names or celebrity names which tend to monopolize search results). The WePS corpus is composed of 10 sets of 100 web pages, each set corresponds to the first results of a SE for a person name query (in total 1000 documents approx. and 10 person names). The documents where manually clustered to solve the ambiguity of each set. Additionally, there is an intensive manual annotation of people-related information (such as occupation, date of birth, address, etc.)
+
+This corpus will be extended to form the complete traning set by adding 30 additional person names, with the search results clustered but without any additional tagging of the texts.
