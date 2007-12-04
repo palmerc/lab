@@ -3,6 +3,6 @@ do
 	for file in `find ./trial/$type -name '*.xml' | cut -d '/' -f 4 | sed 's/\([a-z._]*\).xml/\1/'` 
 	do
 		echo $file
-		tidy -xml -latin1 -raw -c -n -i -q -o ./clean/$file.tidy.xml ./trial/$type/$file.xml
+		tidy -xml -latin1 -raw -c -n -i -q ./trial/$type/$file.xml | ./toutf8.pl > ./clean/$file.tidy.xml 
 	done
 done
