@@ -38,12 +38,13 @@ foreach my $documentId (keys %{$webPagesXml->{'WEPS:document'}}) {
 	print TEMP $webPagesXml->{'WEPS:document'}{$documentId}{'content'};
 	close(TEMP);
 	# Call tidy to cleanup the html, indent it, clean it, make it bare
-	my $tidyHtml = `/usr/bin/tidy -q -i -c -b $fileNameTmp 2>/dev/null`;
+	my $tidyHtml = `/usr/bin/tidy -q -i $fileNameTmp 2>/dev/null`;
 	`rm $fileNameTmp`;
 	# This will strip the HTML out of the document
 	my $hs = HTML::Strip->new();
 	my $strippedHtml = $hs->parse($tidyHtml);
 	$hs->eof;
+	$strippedHtml =~ s/\s\s*/ /g;
 	# Clean out the stopwords from each text
 	my @words = grep { !$stopwords->{$_} } split ' ', $strippedHtml;
 
@@ -56,7 +57,6 @@ foreach my $documentId (keys %{$webPagesXml->{'WEPS:document'}}) {
 
 	#$strippedHtml = join ' ', @$stemmedWordsAnonArray;
 	# Turn multiple blank characters into a single space.
-	#$strippedHtml =~ s/\s\s*/ /g;
 	#print $strippedHtml;
 }
 
@@ -82,6 +82,27 @@ foreach my $documentId (keys %{$weightHash{'byDocument'}}) {
 		$documentSum += $weightHash{'byDocument'}{$documentId}{'term'}{$term}**2;
 	}
 	$weightHash{'byDocument'}{$documentId}{'cnf'} = sqrt($documentSum);
+}
+
+my @orderedDocs = sort keys %{$termHash{'byDocument'}};
+foreach my $documentId (@orderedDocs) {
+	print "Document: $documentId\n";
+	foreach my $innerDocumentId (@orderedDocs) {
+		my $similaritySum = 0;
+		foreach my $term (keys %{$termHash{'byDocument'}{$documentId}}) {
+			foreach my $innerTerm (keys %{$termHash{'byDocument'}{$innerDocumentId}}) {
+				if ($documentId == $innerDocumentId) {
+					next;
+				} else {
+					if ($term == $innerTerm) {
+						$similaritySum = ($weightHash{'byDocument'}{$documentId}{'term'}{$term}/$weightHash{'byDocument'}{$documentId}{'cnf'}) * ($weightHash{'byDocument'}{$innerDocumentId}{'term'}{$innerTerm}/$weightHash{'byDocument'}{$innerDocumentId}{'cnf'});
+					}
+				}
+			}
+		}
+		print "    Similarity sum: $innerDocumentId -- $similaritySum\n";
+		
+	}
 }
 
 print Dumper(%weightHash);
