@@ -27,10 +27,12 @@ my $stopwords = getStopWords('en', 'UTF-8');
 my $stemmer = Lingua::Stem->new(-locale => 'EN');
 $stemmer->stem_caching({ -level => 2 });
 
-
+my $documentCount = 0;
+my (%termHash, %weightHash);
 my $person = $webPagesXml->{'name'};
 foreach my $documentId (keys %{$webPagesXml->{'WEPS:document'}}) {
-	print "\n\nKey: $documentId\n";
+	#print "\n\nKey: $documentId\n";
+	$documentCount += 1;
 	my $fileNameTmp = "/tmp/weps$documentId.tmp";
 	open(TEMP, ">", "$fileNameTmp");
 	print TEMP $webPagesXml->{'WEPS:document'}{$documentId}{'content'};
@@ -46,11 +48,40 @@ foreach my $documentId (keys %{$webPagesXml->{'WEPS:document'}}) {
 	my @words = grep { !$stopwords->{$_} } split ' ', $strippedHtml;
 
 	# Stem the remaining words
-	my $stemmed_words_anon_array = $stemmer->stem(@words);
-	$strippedHtml = join ' ', @$stemmed_words_anon_array;
+	my $stemmedWordsAnonArray = $stemmer->stem(@words);
+	# This gives you how many times a term appears in a document
+	foreach my $term (@$stemmedWordsAnonArray) {
+		$termHash{'byDocument'}{$documentId}{$term} += 1;
+	}
+
+	#$strippedHtml = join ' ', @$stemmedWordsAnonArray;
 	# Turn multiple blank characters into a single space.
-	$strippedHtml =~ s/\s\s*/ /g;
-	print $strippedHtml;
+	#$strippedHtml =~ s/\s\s*/ /g;
+	#print $strippedHtml;
 }
 
-print Dumper($webDataXml);
+# This will give you the number of documents a particular term appears in
+foreach my $documentId (keys %{$termHash{'byDocument'}}) {
+	foreach my $term (keys %{$termHash{'byDocument'}{$documentId}}) {
+		$termHash{'byTerm'}{$term} += 1;
+	}
+}
+
+foreach my $documentId (keys %{$termHash{'byDocument'}}) {
+	foreach my $term (keys %{$termHash{'byDocument'}{$documentId}}) {
+		# weight equals term frequency in a document times the log of number of 
+		# documents divided by how many documents the term appeared in
+		$weightHash{'byDocument'}{$documentId}{'term'}{$term} = $termHash{'byDocument'}{$documentId}{$term} * (log($documentCount/$termHash{'byTerm'}) / log(2));
+	}
+}
+
+# Calculate the cosine normalization factor
+foreach my $documentId (keys %{$weightHash{'byDocument'}}) {
+	my $documentSum = 0; 
+	foreach my $term (keys %{$weightHash{'byDocument'}{$documentId}{'term'}}) {
+		$documentSum += $weightHash{'byDocument'}{$documentId}{'term'}{$term}**2;
+	}
+	$weightHash{'byDocument'}{$documentId}{'cnf'} = sqrt($documentSum);
+}
+
+print Dumper(%weightHash);
