@@ -56,7 +56,7 @@
       <tr>
         <td>&nbsp;</td>
 
-        <td><p>I am trying to make progress in the area of extracting Thread Level Parallelism from C code. This area is made more important by the recent development of consumer multi-core processors. Since Instruction Level Parallelism in superscalar processor piplelines has been become harder to exploit, we need a compiler technique that can improve performance without requiring extensive hand coding.</p>
+        <td><p>I am trying to make progress in the area of extracting Thread Level Parallelism from C code. This area is made more important by the recent development of consumer multi-core processors. Since Instruction Level Parallelism in superscalar processor piplelines has become harder to exploit, we need a compiler technique that can improve performance without requiring extensive hand coding.</p>
         </td>
       <tr>
         <td width="73">Jun 2006 to Sep 2006 </td>
