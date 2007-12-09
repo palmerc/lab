@@ -81,7 +81,7 @@ function do_footer($buf) {
     return $buf.'
     				</div>
             <div id="footer">
-                Copyright &copy; 2005 Cameron Palmer<br />
+                Copyright &copy; 2007 Cameron Palmer<br />
                 cameron DOT palmer AT gmail DOT com
             </div>
         </div>
