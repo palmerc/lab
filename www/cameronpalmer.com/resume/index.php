@@ -50,13 +50,22 @@
 
     <table width="545" height="110" border="0">
       <tr>
-        <td width="73">Jun 2006 to Present </td>
+        <td width="73">Sep 2006 to Present</td>
+        <td width="462">Research Assistant, <strong>University of North Texas</strong>, Denton TX </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+
+        <td><p>I am trying to make progress in the area of extracting Thread Level Parallelism from C code. This area is made more important by the recent development of consumer multi-core processors. Since Instruction Level Parallelism in superscalar processor piplelines has been become harder to exploit, we need a compiler technique that can improve performance without requiring extensive hand coding.</p>
+        </td>
+      <tr>
+        <td width="73">Jun 2006 to Sep 2006 </td>
         <td width="462">Software Developer, <strong>IBM</strong>, Dallas TX </td>
       </tr>
       <tr>
         <td>&nbsp;</td>
 
-        <td><p>Internship that involves the development of Java based tools and pages for the Academic Initiative group within IBM.</p>
+        <td><p>Summer internship that involved the development of Java based tools and pages for the Academic Initiative group within IBM.</p>
         </td>
       </tr>
       <tr>
