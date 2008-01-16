@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include "lexer.h"
 
-int main (int argc, const char * argv[]) {
+void yyparse() {
 	T type;
 	
-	while ((type = yylex()) != EOT) {
+	while ((type = yylex()) != EOT) {	
 		switch (type) {
 			case INT:
 				printf("<INT %d>\n", yyint);
@@ -28,6 +28,10 @@ int main (int argc, const char * argv[]) {
 				break;
 		}
 	}
+}
+
+int main (int argc, const char * argv[]) {
 	
+	yyparse();
 	return 0;
 }

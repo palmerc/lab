@@ -13,17 +13,23 @@
 #include "lexer.h"
 
 char stringbuf[BSIZE];
+long int yyln;
 int yyint;
 char *yystring;
 
 T yylex(void) { /* lexical analyzer */
 	int c;
 	
-	while( isspace(c = getchar()) );
+	/* chew up spaces until a non-space comes along */
+	while( isspace(c = getchar()) ) {
+		if (c == '\n')
+			yyln++;
+	}
 	
 	if( c == EOF )
 		return EOT;
-		
+	
+	/* See what sort of character we found */
 	switch( c ) {
 		case '=':
 			return EQUAL;
@@ -115,6 +121,7 @@ T yylex(void) { /* lexical analyzer */
 		stringbuf[i] = '\0';
 		
 		ungetc(c, stdin);
+		free(yystring);
 		yystring = strdup(stringbuf);
 		
 		return ID;
