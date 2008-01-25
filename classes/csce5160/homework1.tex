@@ -1,0 +1,115 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+Cameron Palmer - CSCE 5160 \\
+Computer Architecture - Homework 1 \\
+January 24, 2008
+
+\section*{Case Study 1.2 Page 55}
+\textbf{a. What is the cost of the old Power5 chip?}
+
+First, we must calculate the number of dies on a wafer,
+\begin{equation}
+\textrm{Dies per wafer} = \frac{\pi \times (\textrm{Wafer diameter}/2)^2}{\textrm{Die area}} - \frac{\pi \times \textrm{Wafer diameter}}{\sqrt{2 \times \textrm{Die area}}}
+\end{equation}
+
+Second, we must calculate the yield,
+\begin{equation}
+\textrm{Die yield} = \textrm{Wafer yield} \times \left( 1 + \frac{\textrm{Defects per unit area} \times \textrm{Die area}}{\alpha} \right)^{-\alpha}
+\end{equation}
+
+We assume a wafer yield of 100\% and $\alpha=4.0$. The old IBM Power5 had a die size of $389 \textrm{mm}^2$ and a defect rate of $.30/\textrm{cm}^2$. The wafer size is 300mm in diameter and costs \$500 to manufacture.
+
+$$\textrm{147 Dies per wafer} \approx \frac{\pi \times (300/2)^2}{389} - \frac{\pi \times 300}{\sqrt{2 \times 389}}$$
+
+$$\textrm{36\% Die yield} \approx 1.0 \times \left( 1 + \frac{.30 \times 3.89}{4.0} \right)^{-4.0}$$
+
+Finally, we need to take the yield and multiply it against the number of chips per wafer to find out how many working chips we will have. Then we divide that into \$500 to get the cost of a single Power5 chip under the old process.
+
+$$\textrm{\$9.45/chip} = \frac{\$500}{.36 \times 147}$$
+
+\textbf{b. What is the cost of the new Power5 chip?}
+
+The new IBM Power5 has a die size of $186 \textrm{mm}^2$ and a defect rate of $.7/\textrm{cm}^2$.
+
+$$\textrm{330 Dies per wafer} \approx \frac{\pi \times (300/2)^2}{186} - \frac{\pi \times 300}{\sqrt{2 \times 186}}$$
+
+$$\textrm{32\% Die yield} \approx 1.0 \times \left( 1 + \frac{.7 \times 1.86}{4.0} \right)^{-4.0}$$
+
+$$\textrm{\$4.73/chip} = \frac{\$500}{.32 \times 330}$$
+
+\textbf{c. What was the profit on each old Power5 chip?}
+
+We were selling them for 40\% more than their cost.
+
+$$\textrm{\$3.78 profit per chip} = .40 \times \$9.45$$
+
+\textbf{d. What was the profit on each new Power5 chip?}
+
+We are selling the new chip at twice the price of the original.
+
+$$\textrm{\$21.73 profit per chip} = 2 \times (\$3.78 + \$9.45) - \$4.73$$
+
+\textbf{e. If you sold 500,000 old Power5 chips per month, how long would it take to recoup the costs of the new fabrication facility?}
+
+The new facility costs \$1 billion.
+
+$$\textrm{92 months} \approx \frac{\$1,000,000,000}{500,000 \times \$21.73}$$
+
+\section*{Case Study 1.4 Page 57}
+\textbf{a. Assuming the maximum load for each component, and a power supply efficiency of 70\%, what wattage must the server's power supply deliver to a system with a Sun Niagara 8-core chip, 2GB 184-pin Kingston DRAM, and two 7200rpm hard drives?}
+
+According to the table the processor uses 79W, the memory 3.7W $\times$ 2, and the drive 7.9W $\times$ 2.
+
+$$ \begin{array}{rcl}
+.70x & = & 79 + 3.7 \times 2 + 7.9 \times 2 \\
+x & = & \frac{102.2}{.70} \\
+x & = & 146\textrm{W power supply is required}
+\end{array} $$
+
+\textbf{b. How much power will the 7200 rpm disk drive consume it is idle roughly 40\% of the time?}
+
+According to the table the hard drive uses 7.9W read/seek, 4.0W idle.
+
+So this means that 60\% of the time the drive uses 7.9W and 40\% of the time it uses 4.0W.
+$$6.34W = .60 \times 7.9 + .40 \times 4.0$$
+
+\textbf{c. Assume that rpm is the only factor in how long a disk is not idle. In other words, assume that for the same set of requests, a 5400 rpm disk will require twice as much time to read data as a 10,800 rpm disk. What percentage of the time would the 5400 rpm disk drive be idle to perform the same transactions as in part(b)?}
+
+Since the drive 7200 rpm drive is 1.33 times faster than the 5400 rpm drive, this suggests that it will take the 5400 rpm drive 1.33 times longer to do the same work.
+
+$$\textrm{20\% idle} \approx 1 - (.60 \times 1.33)$$
+
+\section*{Case Study 1.7 Page 58}
+\textbf{a. Assume your application is 100\% parallelizable. By how much could you decrease the frequency and get the same performance.}
+
+If the application is 100\% parallelizable and the new machine has 2 processors you could reduce frequency by 50\% and maintain your performance.
+
+\textbf{b. Assume voltage can be reduced linearly with the frequency. Using the equation in Section 1.5, how much dynamic power would the dual-core system require as compared to the single-core system?}
+
+\[ \textrm{Power}_\textrm{dynamic} = 1/2 \times \textrm{Capacitive load} \times \textrm{Voltage}^2 \times \textrm{Frequency switched} \]
+
+Since Power consumption of the new over the old would have the same capacitive load, each new processor would consume $.5^3$ or 12.5\% of the original processors power. So combined the two would consume 25\% of the dynamic power used by the single processor.
+
+\textbf{c. Now assume the voltage may not decrease below 30\% of the original voltage. This voltage is referred to as the "voltage floor," and any voltage lower than that will lose the state. What percent of parallelization gives you a voltage at the voltage floor?}
+
+Since the voltage can't drop below 70\% of the original I work backwards.
+$$ \begin{array}{rcl}
+x^3 & = & .70 \\
+x & = & \sqrt[3]{.70} \\
+x & = & .89
+\end{array}$$
+
+This means that frequency and voltage can't drop by more than 11\%.
+
+\textbf{d. }
+\end{document}
