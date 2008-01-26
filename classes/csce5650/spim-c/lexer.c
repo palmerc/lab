@@ -45,7 +45,7 @@ T yylex(void) { /* lexical analyzer */
 			if ( c == '>' )
 				return RBRACKET;
 			else {
-				unget(c, stdin);
+				ungetc(c, stdin);
 				return COLON;
 			}
 			break;
@@ -104,9 +104,9 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '/': /* Capture a C-style comment, /, or /= */
+			c = getchar();
 			int in_comment = 0;
 			int i = 0;
-			c = getchar();
 			if ( c == '*' ) {
 				in_comment = 1;
 				while ( in_comment == 1 ) {
@@ -126,13 +126,13 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '%': /* %, %=, or %> */
-			c == getchar();
+			c = getchar();
 			if ( c == '>' ) {
 				return RCURLY;
 			} else if ( c == '=' ) {
 				return MOD_ASSIGN;
 			} else {
-				unget(c, stdin);
+				ungetc(c, stdin);
 				return PERCENT;
 			}
 			break;
@@ -153,7 +153,7 @@ T yylex(void) { /* lexical analyzer */
 					return LEFT_OP;
 				}
 			} else {
-				unget(c, stdin);
+				ungetc(c, stdin);
 				return LTHAN;
 			}
 			break;
@@ -164,7 +164,7 @@ T yylex(void) { /* lexical analyzer */
 				if ( c == '=' ) {
 					return RIGHT_ASSIGN;
 				} else {
-					ungetc(c, stdin();
+					ungetc(c, stdin);
 					return RIGHT_OP;
 				}
 			} else if ( c == '=' ) {
@@ -214,14 +214,14 @@ T yylex(void) { /* lexical analyzer */
 				return AND_OP;
 			} else {
 				ungetc(c, stdin);
-				return AMPERSAND;
+				return AMP;
 			}
 			break;			
 		case ',':
 			return COMMA;
 			break;
 		case ';':
-			return SEMICOLON;
+			return SEMI;
 			break;
 		case '.': /* ., or ... */
 			c = getchar();
@@ -254,7 +254,7 @@ T yylex(void) { /* lexical analyzer */
 		
 		ungetc(c, stdin);
 		yyint = atoi( stringbuf );
-		return INT;
+		return NUM;
 	}
 	
 	/* ID token */
@@ -270,76 +270,76 @@ T yylex(void) { /* lexical analyzer */
 		stringbuf[i] = '\0';
 		
 		ungetc(c, stdin);
-		free(yystring);
-		if (strcmp(stringbuf, "auto"))
+		if ( strcmp(stringbuf, "auto") == 0 )
 			return AUTO;
-		else if (strcmp(stringbuf, "break"))
+		else if (strcmp(stringbuf, "break") == 0 )
 			return BREAK;
-		else if (strcmp(stringbuf, "case"))
+		else if (strcmp(stringbuf, "case") == 0 )
 			return CASE;
-		else if (strcmp(stringbuf, "char"))
+		else if (strcmp(stringbuf, "char") == 0 )
 			return CHAR;
-		else if (strcmp(stringbuf, "const"))
+		else if (strcmp(stringbuf, "const") == 0 )
 			return CONST;
-		else if (strcmp(stringbuf, "continue"))
+		else if (strcmp(stringbuf, "continue") == 0 )
 			return CONTINUE;
-		else if (strcmp(stringbuf, "default"))
+		else if (strcmp(stringbuf, "default") == 0 )
 			return DEFAULT;
-		else if (strcmp(stringbuf, "do"))
+		else if (strcmp(stringbuf, "do") == 0 )
 			return DO;
-		else if (strcmp(stringbuf, "double"))
+		else if (strcmp(stringbuf, "double") == 0 )
 			return DOUBLE;
-		else if (strcmp(stringbuf, "else"))
+		else if (strcmp(stringbuf, "else") == 0 )
 			return ELSE;
-		else if (strcmp(stringbuf, "enum"))
+		else if (strcmp(stringbuf, "enum") == 0 )
 			return ENUM;
-		else if (strcmp(stringbuf, "extern"))
+		else if (strcmp(stringbuf, "extern") == 0 )
 			return EXTERN;
-		else if (strcmp(stringbuf, "float"))
+		else if (strcmp(stringbuf, "float") == 0 )
 			return FLOAT;
-		else if (strcmp(stringbuf, "for"))
+		else if (strcmp(stringbuf, "for") == 0 )
 			return FOR;
-		else if (strcmp(stringbuf, "goto"))
+		else if (strcmp(stringbuf, "goto") == 0 )
 			return GOTO;
-		else if (strcmp(stringbuf, "if"))
+		else if (strcmp(stringbuf, "if") == 0 )
 			return IF;
-		else if (strcmp(stringbuf, "int"))
+		else if (strcmp(stringbuf, "int") == 0 )
 			return INT;
-		else if (strcmp(stringbuf, "long"))
+		else if (strcmp(stringbuf, "long") == 0 )
 			return LONG;
-		else if (strcmp(stringbuf, "register"))
+		else if (strcmp(stringbuf, "register") == 0 )
 			return REGISTER;
-		else if (strcmp(stringbuf, "return"))
+		else if (strcmp(stringbuf, "return") == 0 )
 			return RETURN;
-		else if (strcmp(stringbuf, "short"))
+		else if (strcmp(stringbuf, "short") == 0 )
 			return SHORT;
-		else if (strcmp(stringbuf, "signed"))
+		else if (strcmp(stringbuf, "signed") == 0 )
 			return SIGNED;
-		else if (strcmp(stringbuf, "sizeof"))
+		else if (strcmp(stringbuf, "sizeof") == 0 )
 			return SIZEOF;
-		else if (strcmp(stringbuf, "static"))
+		else if (strcmp(stringbuf, "static") == 0 )
 			return STATIC;
-		else if (strcmp(stringbuf, "struct"))
+		else if (strcmp(stringbuf, "struct") == 0 )
 			return STRUCT;
-		else if (strcmp(stringbuf, "switch"))
+		else if (strcmp(stringbuf, "switch") == 0 )
 			return SWITCH;
-		else if (strcmp(stringbuf, "typedef"))
+		else if (strcmp(stringbuf, "typedef") == 0 )
 			return TYPEDEF;
-		else if (strcmp(stringbuf, "union"))
+		else if (strcmp(stringbuf, "union") == 0 )
 			return UNION;
-		else if (strcmp(stringbuf, "unsigned"))
+		else if (strcmp(stringbuf, "unsigned") == 0 )
 			return UNSIGNED;
-		else if (strcmp(stringbuf, "void"))
+		else if (strcmp(stringbuf, "void") == 0 )
 			return VOID;
-		else if (strcmp(stringbuf, "volatile"))
+		else if (strcmp(stringbuf, "volatile") == 0 )
 			return VOLATILE;
-		else if (strcmp(stringbuf, "while"))
+		else if (strcmp(stringbuf, "while") == 0 )
 			return WHILE;
 		else {
+			free(yystring);
 			yystring = strdup(stringbuf);
-			return IDENTIFIER;
+			return ID;
 		}
 	} else { 
-		return ERR; /* This is what happens when an unrecognized token is encountered */
+		return ERROR; /* This is what happens when an unrecognized token is encountered */
 	}
 }

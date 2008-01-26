@@ -2,8 +2,8 @@ CXXFLAGS=-g
 
 all: spimcc
 
-spimcc: lexer.o parser.o spimcc.o
-	cc $(LDFLAGS) lexer.o parser.o spimcc.o -Wall -ansi -pedantic --std=c99 -o $@
+spimcc: lexer.o spimcc.o
+	cc $(LDFLAGS) lexer.o spimcc.o -Wall -ansi -pedantic --std=c99 -o $@
 
 lexer.o: lexer.c lexer.h global.h
 parser.o: parser.c parser.h lexer.h
