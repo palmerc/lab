@@ -85,14 +85,11 @@ void yyparse() {
 			case ID:
 				printf("<ID %s>", yystring);
 				break;
-			case NUM:
-				printf("<NUM %d>", yyint);
-				break;
 			case CONSTANT:
-				printf("<CONSTANT>");
+				printf("<CONSTANT: %s>", yystring);
 				break;
 			case STRING_LITERAL:
-				printf("<STRING_LITERAL>");
+				printf("<STRING_LITERAL: %s>", yystring);
 				break;
 			case SIZEOF:
 				printf("<SIZEOF>");

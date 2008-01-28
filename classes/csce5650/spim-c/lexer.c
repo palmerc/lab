@@ -3,7 +3,11 @@
  *
  *  Created by Cameron Palmer on 1/18/08.
  *  Copyright 2007 University of North Texas. All rights reserved.
- *
+ * 
+ *	This has potential if not real overflow issues. Should be reimplemented.
+ * 	ASCII centric, should be more unicode friendly.
+ * 
+ * 
  */
 
 #include <stdlib.h>
@@ -13,17 +17,33 @@
 #include "lexer.h"
 
 char stringbuf[BSIZE];
-long int yyln;
-int yyint;
+long int col;
+long int line;
 char *yystring;
+
+int isis( char c ) {
+	if( c == 'u' || c == 'U' || c == 'l' || c == 'L' )
+		return 1; /* true */
+	else
+		return 0; /* false */
+}
+
+int isfs( char c ) {
+	if( c == 'f' || c == 'F' || c == 'l' || c == 'L' )
+		return 1; /* true */
+	else
+		return 0; /* false */
+}
 
 T yylex(void) { /* lexical analyzer */
 	int c;
+	int i = 0; /* This variable is for use within loops, make sure you initialize it yourself */
+	int escaped = 0; /* This variable is for strings and constants that have escaped characters */
 	
 	/* chew up spaces until a non-space comes along */
 	while( isspace(c = getchar()) ) {
 		if (c == '\n')
-			yyln++;
+			line++;
 	}
 	
 	if( c == EOF )
@@ -106,14 +126,14 @@ T yylex(void) { /* lexical analyzer */
 		case '/': /* Capture a C-style comment, /, or /= */
 			c = getchar();
 			int in_comment = 0;
-			int i = 0;
+			i = 0;
 			if ( c == '*' ) {
 				in_comment = 1;
 				while ( in_comment == 1 ) {
 					c = getchar();
-					if ( c = '*' ) {
+					if ( c == '*' ) {
 						c = getchar();
-						if ( c = '/' )
+						if ( c == '/' )
 							in_comment = 0;
 					}
 				}
@@ -124,6 +144,73 @@ T yylex(void) { /* lexical analyzer */
 				ungetc(c, stdin);
 				return FSLASH;
 			}
+			break;
+		case '\'': /* Constant in quotes */
+			stringbuf[0] = '\'';
+			c = getchar();
+			
+			int in_constant = 1;
+			escaped = 0;
+			i = 1;
+			while ( in_constant == 1 && i < (BSIZE - 1)) {
+				if ( c == '\'' && escaped == 0 ) {
+					in_constant = 0;
+				} else if ( c == '\\' && escaped == 0 ) {
+					escaped = 1;
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				} else {
+					escaped = 0;
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				}
+			}
+			stringbuf[i] = '\'';
+			i++;
+			stringbuf[i] = '\0';
+			
+			free(yystring);
+			yystring = strdup(stringbuf);
+			
+			return CONSTANT;
+			break;
+			
+		case '"': /* String Literal */
+			stringbuf[0] = '"';
+			
+			c = getchar();
+			int in_string = 1;
+			escaped = 0;
+			i = 1;
+			while ( in_string == 1 && i < (BSIZE - 1)) {
+				if ( c == '"' && escaped == 0 ) {
+					in_string = 0;
+				} else if ( c == '\\' && escaped == 0 ) {
+					escaped = 1;
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				} else {
+					escaped = 0;
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				}
+			}
+			stringbuf[i] ='"';
+			i++;
+			stringbuf[i] = '\0';
+			
+			free(yystring);
+			yystring = strdup(stringbuf);
+			
+			return STRING_LITERAL;
 			break;
 		case '%': /* %, %=, or %> */
 			c = getchar();
@@ -223,16 +310,62 @@ T yylex(void) { /* lexical analyzer */
 		case ';':
 			return SEMI;
 			break;
-		case '.': /* ., or ... */
+		case '.': /* floating point number, ., or ... */
 			c = getchar();
-			if ( c = '.' ) {
+			if ( c == '.' ) {
 				c = getchar();
-				if ( c = '.' ) {
+				if ( c == '.' ) {
 					return ELLIPSIS;
 				} else {
 					ungetc(c, stdin);
 					return ERROR;
 				}
+			} else if ( isdigit(c) ) {
+				stringbuf[0] = '.';
+				int i = 1;
+				
+				stringbuf[i] = (char) c;
+				i++;
+			
+				c = getchar();
+				while( isdigit(c) && i < (BSIZE - 1) ) {
+					stringbuf[i] = (char) c;
+					i++;
+					c = getchar();
+				}
+			
+				/* Optional exponent section */
+				if( (c == 'e' || c == 'E') && i < (BSIZE - 1) ) { /* exponent */
+					stringbuf[i] = (char) c;
+					i++;
+			
+					c = getchar();
+					if( (c == '+' || c == '-') && i < (BSIZE - 1) ) {
+						stringbuf[i] = (char) c;
+						i++;
+						c = getchar();
+					}
+					/* Must have at least one digit */
+					int test = i;
+					while( isdigit(c) && i < (BSIZE - 1) ) {
+						stringbuf[i] = (char) c;
+						i++;
+						c = getchar();
+					}
+					if( test == i ) /* We didn't pass the test */
+						return ERROR;			
+				}
+			
+				if( isfs(c) && i < (BSIZE - 1) ) { /* Optional */
+					stringbuf[i] = (char) c;
+					i++;
+				}
+				
+				stringbuf[i] = '\0';
+		
+				free(yystring);
+				yystring = strdup(stringbuf);
+				return CONSTANT;
 			} else {
 				ungetc(c, stdin);
 				return PERIOD;
@@ -240,28 +373,207 @@ T yylex(void) { /* lexical analyzer */
 			break;
 	}
 	
-	/* INT token */
+	/* CONSTANT token */
 	if( isdigit(c) ) {
+		/* Test if this is a hex constant */
+		if ( c == '0' ) {
+			c = getchar();
+			if ( c == 'x' || c == 'X' ) {
+				stringbuf[0] = '0';
+				stringbuf[1] = (char) c;
+				
+				int i = 2;
+				c = getchar();
+				while( isxdigit(c) && i < (BSIZE - 2) ) {
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				}
+				if( isis(c) ) {
+					stringbuf[i] = (char) c;
+					i++;
+				} else {
+					ungetc(c, stdin);
+				}
+				stringbuf[i] = '\0';
+								
+				free(yystring);
+				yystring = strdup(stringbuf);
+				return CONSTANT;
+			} else {
+				ungetc(c, stdin);
+				c = '0';
+			}
+		}
+		
 		stringbuf[0] = (char) c;
-		int i = 1;
 		c = getchar();
+		
+		int i = 1;
+		/* Suck up as many digits as possible */
 		while( isdigit(c) && i < (BSIZE - 1) ) {
 			stringbuf[i] = (char) c;
 			i++;
 			c = getchar();
 		}
+		
+		/* then see if it is floating point, exponent, or has a u or l at the end */
+		if( isis(c) ) {
+			stringbuf[i] = (char) c;
+			i++;
+			
+		} else if( c == 'e' || c == 'E' ) { /* exponent */
+			stringbuf[i] = (char) c;
+			i++;
+			
+			c = getchar();
+			if( c == '+' || c == '-' ) {
+				stringbuf[i] = (char) c;
+				i++;
+				c = getchar();
+			}
+			/* Must have at least one digit */
+			int test = i;
+			while( isdigit(c) && i < (BSIZE - 2) ) {
+				stringbuf[i] = (char) c;
+				i++;
+				c = getchar();
+			}
+			if( test == i ) /* We didn't pass the test */
+				return ERROR;
+				
+			/* Optional f or l at end, otherwise return the character to stdin */
+			if( isfs(c) ) {
+				stringbuf[i] = (char) c;
+				i++;
+			} else {
+				ungetc(c, stdin);
+			}
+			
+		} else if( c == '.' ) { /* floating point preceded by a digit */
+			stringbuf[i] = (char) c;
+			i++;
+			
+			c = getchar();
+			while( isdigit(c) && i < (BSIZE - 1) ) {
+				stringbuf[i] = (char) c;
+				i++;
+				c = getchar();
+			}
+			
+			/* Optional exponent section */
+			if( (c == 'e' || c == 'E') && i < (BSIZE - 1) ) { /* exponent */
+				stringbuf[i] = (char) c;
+				i++;
+			
+				c = getchar();
+				if( (c == '+' || c == '-') && i < (BSIZE - 1) ) {
+					stringbuf[i] = (char) c;
+					i++;
+					c = getchar();
+				}
+				/* Must have at least one digit */
+				int test = i;
+				while( isdigit(c) && i < (BSIZE - 1) ) {
+					stringbuf[i] = (char) c;
+					i++;
+					c = getchar();
+				}
+				if( test == i ) /* We didn't pass the test */
+					return ERROR;			
+			}
+			
+			if( isfs(c) && i < (BSIZE - 1) ) { /* Optional */
+				stringbuf[i] = (char) c;
+				i++;
+			} else {
+				ungetc(c, stdin);
+			}
+		} else {
+			ungetc(c, stdin);
+		}
+		
 		stringbuf[i] = '\0';
 		
-		ungetc(c, stdin);
-		yyint = atoi( stringbuf );
-		return NUM;
-	}
-	
+		free(yystring);
+		yystring = strdup(stringbuf);
+		return CONSTANT;
+			
 	/* ID token */
-	else if( isalpha(c) || c == '_' ) {
+	} else if( isalpha(c) || c == '_' ) {
 		stringbuf[0] = (char) c;
 		int i = 1;
 		c = getchar();
+		
+		/* Check if it is a string literal or constant */
+		if ( c == '\'') {
+			stringbuf[i] = '\'';
+			i++;
+			c = getchar();
+			
+			int in_constant = 1;
+			int escaped = 0;
+			while ( in_constant == 1 && i < (BSIZE - 1)) {
+				if ( c == '\'' && escaped == 0 ) {
+					in_constant = 0;
+				} else if ( c == '\\' && escaped == 0 ) {
+					escaped = 1;
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				} else {
+					escaped = 0;
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				}
+			}
+			stringbuf[i] = '\'';
+			i++;
+			stringbuf[i] = '\0';
+			
+			free(yystring);
+			yystring = strdup(stringbuf);
+			
+			return CONSTANT;
+		} else if ( c == '"' ) {
+			stringbuf[i] = '"';
+			i++;
+			
+			c = getchar();
+			int in_string = 1;
+			int escaped = 0;
+			while ( in_string == 1 && i < (BSIZE - 1)) {
+				if ( c == '"' && escaped == 0 ) {
+					in_string = 0;
+				} else if ( c == '\\' && escaped == 0 ) {
+					escaped = 1;
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				} else {
+					escaped = 0;
+					stringbuf[i] = (char) c;
+					i++;
+					
+					c = getchar();
+				}
+			}
+			stringbuf[i] ='"';
+			i++;
+			stringbuf[i] = '\0';
+			
+			free(yystring);
+			yystring = strdup(stringbuf);
+			
+			return STRING_LITERAL;
+		}
+		
+		
 		while( (isalnum(c) || c == '_') && (i < (BSIZE - 1) )) {
 			stringbuf[i] = (char) c;
 			i++;

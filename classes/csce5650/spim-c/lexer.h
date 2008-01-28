@@ -29,8 +29,8 @@ typedef enum {	EOT, ERROR, COMMENT,
 				STRUCT, UNION, ENUM, ELLIPSIS,
 				
 				CASE, DEFAULT, IF, ELSE, SWITCH, WHILE, DO, FOR, GOTO, CONTINUE, BREAK, RETURN } T;
-extern long int yyln;
-extern int yyint;
+extern long int col;
+extern long int line;
 extern char *yystring;
 
 T yylex(void);
