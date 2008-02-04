@@ -7,16 +7,21 @@
  */
 
 #include "lexer.h"
-#include "parser.h"
 
 typedef struct { 
 	long int line_number;
-	T type_of_token;
+	T type;
 	char* lexeme_string;
 } Token;
 
 T type;
 Token lookaheadT;
+
+int yyparse() {
+	translation_unit();
+	
+	return 0;
+}
 
 void get_token(void) {
 	lookaheadT.type_of_token = yylex();
@@ -24,188 +29,244 @@ void get_token(void) {
 	lookaheadT.line_number = yyln;
 }
 
-void primary_expression(void) {
-	match(IDENTIFIER);
+void match( void ) {
+	if( lookAheadT == t ) {
+	} else {
+		error();
+	} 
+}
+
+int primary_expression(void) {
+	get_token();
 	
-	match(CONSTANT);
-	
-	match(STRING_LITERAL);
-	
-	match(LPAREN);
-	expression();
-	match(RPAREN);
+	if( lookaheadT.type == ID || 
+		lookaheadT.type == CONSTANT || 
+		lookaheadT.type == STRING_LITERAL ) {
+		match(lookaheadT.type);
+	} else if ( lookaheadT.type == LPAREN ) {
+		match(LPAREN);
+		expression();
+		get_token();
+		match(RPAREN);
+	} else {
+		error();
+	}
 }
 
 void postfix_expression(void) {
-	primary_expression();
-	
-	postfix_expression();
-	match(LBRACKET);
-	expression();
-	match(RBRACKET);
-	
-	postfix_expression();
-	match(LPAREN);
-	match(RPAREN);
-	
-	postfix_expression();
-	match(LPAREN);
-	argument_expression_list();
-	match(RPAREN);
-	
-	postfix_expression();
-	match(DOT);
-	match(IDENTIFIER);
-	
-	postfix_expression();
-	match(PTR_OP);
-	match(IDENTIFIER);
-	
-	postfix_expression();
-	match(INC_OP);
-	
-	postfix_expression();
-	match(DEC_OP);
+	if ( primary_expression() ) {
+	} else if( postfix_expression() ) {
+		if( lookaheadT.type == LBRACKET ) {
+			match(LBRACKET);
+			expression();
+			match(RBRACKET);
+		} else if( lookaheadT.type == LPAREN ) {
+			match(LPAREN);
+			if( argument_expression_list() ) {
+			}
+			match(RPAREN);
+		} else if( lookaheadT.type == DOT ) {
+			match(DOT);
+			match(IDENTIFIER);
+		} else if( lookaheadT.type == PTR_OP ) {	
+			match(PTR_OP);
+			match(IDENTIFIER);
+		} else if( lookaheadT.type == INC_OP ) {
+			match(INC_OP);
+		} else if( lookaheadT.type == DEC_OP ) {	
+			match(DEC_OP);
+		} else {
+			error();
+		}
+	} else {
+		error();
+	}
 }
 
 void argument_expression_list(void) {
-	assignment_expression();
-	
-	argument_expression_list();
-	match(COMMA);
-	assignment_expression();
+	if( assignment_expression() ) {
+	} else if( argument_expression_list() ) {
+		match(COMMA);
+		assignment_expression();
+	} else {
+		error();
+	}
 }
 
 void unary_expression(void) {
-	postfix_expression();
-	
-	match(INC_OP);
-	unary_expression();
-	
-	match(DEC_OP);
-	unary_expression();
-	
-	unary_operator();
-	cast_expression();
-	
-	match(SIZEOF);
-	unary_expression();
-	
-	match(SIZEOF);
-	match(LPAREN);
-	type_name();
-	match(RPAREN);
+	if( postfix_expression() ) {
+	} else if( lookaheadT.type == INC_OP ) {	
+		match(INC_OP);
+		unary_expression();
+	} else if( lookaheadT.type == DEC_OP ) {
+		match(DEC_OP);
+		unary_expression();
+	} else if( unary_operator() ) {
+		cast_expression();
+	} else if( lookaheadT.type == SIZEOF ) {
+		match(SIZEOF);
+		if( unary_expression() ) {
+		} else if( lookaheadT.type == LPAREN ) {
+			match(LPAREN);
+			type_name();
+			match(RPAREN);
+		} else {
+			error();
+		}
+	} else {
+		error();
+	}
 }
 
 void unary_operator(void) {
-	match(AMPERSAND);
-	
-	match(ASTERIX);
-	
-	match(PLUS);
-	
-	match(MINUS);
-	
-	match(TILDE);
-	
-	match(EXCLAMATION);
+	switch( lookaheadT.type ) {
+		case AMPERSAND: 
+			match(AMPERSAND);
+			break;
+		case ASTERIX:
+			match(ASTERIX);
+			break;
+		case PLUS:
+			match(PLUS);
+			break;
+		case MINUS:
+			match(MINUS);
+			break;
+		case TILDE:
+			match(TILDE);
+			break;
+		case EXCLAMATION:
+			match(EXCLAMATION);
+			break;
+		default:
+			error();
+	}
 }
 
 void cast_expression(void) {
-	unary_expression();
-	
-	match(LPAREN);
-	type_name();
-	match(RPAREN);
-	cast_expression();
+	if ( unary_expression() ) {
+	} else if ( lookaheadT.type == LPAREN ) {
+		match(LPAREN);
+		type_name();
+		match(RPAREN);
+		cast_expression();
+	} else {
+		error();
+	}
 }
 
 void multiplicative_expression(void) {
-	cast_expression();
-	
-	multiplicative_expression();
-	match(ASTERIX);
-	cast_expression();
-	
-	multiplicative_expression();
-	match(FSLASH);
-	cast_expression();
-	
-	multiplicative_expression();
-	match(PERCENT);
-	cast_expression();
+	if(	cast_expression() ) {
+	} else if (	multiplicative_expression() ) {
+		switch( lookaheadT.type ) {
+			case ASTERIX:
+				match(ASTERIX);
+				break;
+			case FSLASH:	
+				match(FSLASH);
+				break;
+			case PERCENT:
+				match(PERCENT);
+				break;
+		}
+		cast_expression();
+	} else {
+		error();
+	}
 }
 
 void additive_expression(void) {
-	multiplicative_expression();
-	
-	additive_expression();
-	match(PLUS);
-	multiplicative_expression();
-	
-	additive_expression();
-	match(MINUS);
-	multiplicative_expression();
+	if( multiplicative_expression() ) {
+	} else if( additive_expression() ) {
+		switch( lookaheadT.type ) {
+			case PLUS:
+				match(PLUS);
+				break;
+			case MINUS:
+				match(MINUS);
+				break;
+		}
+		multiplicative_expression();
+	} else {
+		error();
+	}
 }
 
 void shift_expression(void) {
-	additive_expression();
-	
-	shift_expression();
-	match(LEFT_OP);
-	additive_expression();
-	
-	shift_expression();
-	match(RIGHT_OP);
-	additive_expression();
+	if( additive_expression() ) {
+	} else if( shift_expression() ) {
+		switch( lookaheadT.type ) {
+			case LEFT_OP:
+				match(LEFT_OP);
+				break;
+			case RIGHT_OP:
+				match(RIGHT_OP);
+				break;
+		}
+		additive_expression();
+	} else {
+		error();
+	}
 }
 
 void relational_expression(void) {
-	shift_expression();
-	
-	relational_expression();
-	match(LTHAN);
-	shift_expression();
-	
-	relational_expression();
-	match(RTHAN);
-	shift_expression();
-	
-	relational_expression();
-	match(LE_OP);
-	shift_expression();
-	
-	relational_expression();
-	match(GE_OP);
-	shift_expression();
+	if( shift_expression() ) {
+	} else if( relational_expression() ) {
+		switch( lookaheadT.type ) {
+			case LTHAN:
+				match(LTHAN);
+				break;
+			case RTHAN:
+				match(RTHAN);
+				break;
+			case LE_OP:
+				match(LE_OP);
+				break;
+			case GE_OP:
+				match(GE_OP);
+				break;	
+		}
+		shift_expression();
+	} else {
+		error();
+	}
 }
 
 void equality_expression(void) {
-	relational_expression();
-	
-	equality_expression();
-	match(EQ_OP);
-	relational_expression();
-	
-	equality_expression();
-	match(NE_OP);
-	relational_expression();
+	if( relational_expression() ) {
+	} else if( equality_expression() ) {
+		switch( lookaheadT.type ) {
+			case EQ_OP:
+				match(EQ_OP);
+				break;
+			case NE_OP:	
+				match(NE_OP);
+				break;
+		}
+		relational_expression();
+	} else {
+		error();
+	}
 }
 
 void and_expression(void) {
-	equality_expression();
-	
-	and_expression();
-	match(AMPERSAND);
-	equality_expression();
+	if( equality_expression() ) {
+	} else if( and_expression() ) {
+		match(AMPERSAND);
+		equality_expression();
+	} else {
+		error();
+	}
 }
 
 void exclusive_or_expression(void) {
-	and_expression();
-	
-	exclusive_or_expression();
-	match(CARAT);
-	and_expression();
+	if( and_expression() ) {
+	} else if( exclusive_or_expression() ) {
+		match(CARAT);
+		and_expression();
+	} else {
+		error();
+	}
 }
 
 void inclusive_or_expression(void) {
@@ -275,11 +336,14 @@ void assignment_operator(void) {
 }
 
 void expression(void) {
-	assignment_expression();
-	
-	expression();
-	match(COMMA);
-	assignment_expression();
+	if(	assignment_expression() ) {
+	} else if ( expression() ) {
+		get_token();
+		match(COMMA);
+		assignment_expression();
+	} else {
+		error();
+	}
 }
 
 void constant_expression(void) {
@@ -760,8 +824,6 @@ void jump_statement(void) {
 }
 
 void translation_unit(void) {
-	get_token();
-	
 	external_declaration();
 	translation_unit();
 }
@@ -772,19 +834,16 @@ void external_declaration(void) {
 }
 
 void function_definition(void) {
-	declaration_specifiers();
-	declarator();
-	declaration_list();
-	compound_statement();
-
-	declaration_specifiers();
-	declarator();
-	compound_statement();
-	
-	declarator();
-	declaration_list();
-	compound_statement();
-	
-	declarator();
+	if( declaration_specifiers() ) {
+		declarator();
+		
+		if( declaration_list() ) {
+		}
+	} else if ( declarator() ) {
+		if(	declaration_list() ) {
+		}
+	} else {
+		error();
+	}
 	compound_statement();
 }
