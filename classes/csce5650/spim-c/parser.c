@@ -6,39 +6,46 @@
  *
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "lexer.h"
 
 typedef struct { 
 	long int line_number;
 	T type;
-	char* lexeme_string;
+	char* string;
 } Token;
 
-T type;
 Token lookaheadT;
 
-int yyparse() {
-	translation_unit();
-	
-	return 0;
-}
-
 void get_token(void) {
-	lookaheadT.type_of_token = yylex();
-	lookaheadT.lexeme_string = strdup(yystring);
-	lookaheadT.line_number = yyln;
+	printf("get_token: entering\n"); 
+	lookaheadT.type = yylex();
+	free(lookaheadT.string);
+	lookaheadT.string = strdup(yystring);
+	lookaheadT.line_number = line;
+	printf("get_token <%s, %s>\n", lookaheadT.type, lookaheadT.string);
+	printf("get_token: exiting\n");
 }
 
-void match( void ) {
-	if( lookAheadT == t ) {
+int match( T type ) {
+	if( lookaheadT.type == type ) {
+		return 1; /* true */
 	} else {
-		error();
+		abort();
 	} 
 }
 
-int primary_expression(void) {
+int yyparse(void) {
+	printf("yyparse: entering\n");
 	get_token();
-	
+	translation_unit();
+	printf("yyparse: exiting\n");
+	return 0;
+}
+
+int primary_expression(void) {
 	if( lookaheadT.type == ID || 
 		lookaheadT.type == CONSTANT || 
 		lookaheadT.type == STRING_LITERAL ) {
@@ -49,11 +56,11 @@ int primary_expression(void) {
 		get_token();
 		match(RPAREN);
 	} else {
-		error();
+		abort();
 	}
 }
 
-void postfix_expression(void) {
+int postfix_expression(void) {
 	if ( primary_expression() ) {
 	} else if( postfix_expression() ) {
 		if( lookaheadT.type == LBRACKET ) {
@@ -65,35 +72,35 @@ void postfix_expression(void) {
 			if( argument_expression_list() ) {
 			}
 			match(RPAREN);
-		} else if( lookaheadT.type == DOT ) {
-			match(DOT);
-			match(IDENTIFIER);
+		} else if( lookaheadT.type == PERIOD ) {
+			match(PERIOD);
+			match(ID);
 		} else if( lookaheadT.type == PTR_OP ) {	
 			match(PTR_OP);
-			match(IDENTIFIER);
+			match(ID);
 		} else if( lookaheadT.type == INC_OP ) {
 			match(INC_OP);
 		} else if( lookaheadT.type == DEC_OP ) {	
 			match(DEC_OP);
 		} else {
-			error();
+			abort();
 		}
 	} else {
-		error();
+		abort();
 	}
 }
 
-void argument_expression_list(void) {
+int argument_expression_list(void) {
 	if( assignment_expression() ) {
 	} else if( argument_expression_list() ) {
 		match(COMMA);
 		assignment_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void unary_expression(void) {
+int unary_expression(void) {
 	if( postfix_expression() ) {
 	} else if( lookaheadT.type == INC_OP ) {	
 		match(INC_OP);
@@ -111,17 +118,17 @@ void unary_expression(void) {
 			type_name();
 			match(RPAREN);
 		} else {
-			error();
+			abort();
 		}
 	} else {
-		error();
+		abort();
 	}
 }
 
-void unary_operator(void) {
+int unary_operator(void) {
 	switch( lookaheadT.type ) {
-		case AMPERSAND: 
-			match(AMPERSAND);
+		case AMP: 
+			match(AMP);
 			break;
 		case ASTERIX:
 			match(ASTERIX);
@@ -139,11 +146,11 @@ void unary_operator(void) {
 			match(EXCLAMATION);
 			break;
 		default:
-			error();
+			abort();
 	}
 }
 
-void cast_expression(void) {
+int cast_expression(void) {
 	if ( unary_expression() ) {
 	} else if ( lookaheadT.type == LPAREN ) {
 		match(LPAREN);
@@ -151,11 +158,11 @@ void cast_expression(void) {
 		match(RPAREN);
 		cast_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void multiplicative_expression(void) {
+int multiplicative_expression(void) {
 	if(	cast_expression() ) {
 	} else if (	multiplicative_expression() ) {
 		switch( lookaheadT.type ) {
@@ -171,11 +178,11 @@ void multiplicative_expression(void) {
 		}
 		cast_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void additive_expression(void) {
+int additive_expression(void) {
 	if( multiplicative_expression() ) {
 	} else if( additive_expression() ) {
 		switch( lookaheadT.type ) {
@@ -188,11 +195,11 @@ void additive_expression(void) {
 		}
 		multiplicative_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void shift_expression(void) {
+int shift_expression(void) {
 	if( additive_expression() ) {
 	} else if( shift_expression() ) {
 		switch( lookaheadT.type ) {
@@ -205,19 +212,19 @@ void shift_expression(void) {
 		}
 		additive_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void relational_expression(void) {
+int relational_expression(void) {
 	if( shift_expression() ) {
 	} else if( relational_expression() ) {
 		switch( lookaheadT.type ) {
 			case LTHAN:
 				match(LTHAN);
 				break;
-			case RTHAN:
-				match(RTHAN);
+			case GTHAN:
+				match(GTHAN);
 				break;
 			case LE_OP:
 				match(LE_OP);
@@ -228,11 +235,11 @@ void relational_expression(void) {
 		}
 		shift_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void equality_expression(void) {
+int equality_expression(void) {
 	if( relational_expression() ) {
 	} else if( equality_expression() ) {
 		switch( lookaheadT.type ) {
@@ -245,595 +252,625 @@ void equality_expression(void) {
 		}
 		relational_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void and_expression(void) {
+int and_expression(void) {
 	if( equality_expression() ) {
 	} else if( and_expression() ) {
-		match(AMPERSAND);
+		match(AMP);
 		equality_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void exclusive_or_expression(void) {
+int exclusive_or_expression(void) {
 	if( and_expression() ) {
 	} else if( exclusive_or_expression() ) {
 		match(CARAT);
 		and_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void inclusive_or_expression(void) {
-	exclusive_or_expression();
-	
-	inclusive_or_expression();
-	match(PIPE);
-	exclusive_or_expression();
+int inclusive_or_expression(void) {
+	if( exclusive_or_expression() ) {
+	} else if( inclusive_or_expression() ) {
+		match(PIPE);
+		exclusive_or_expression();
+	}
 }
 
-void logical_and_expression(void) {
-	inclusive_and_expression();
-	
-	logical_and_expression();
-	match(AND_OP);
-	inclusive_or_expression();
+int logical_and_expression(void) {
+	if( inclusive_or_expression() ) {
+	} else if( logical_and_expression() ) {
+		match(AND_OP);
+		inclusive_or_expression();
+	}
 }
 
-void logical_or_expression(void) {
-	logical_and_expression();
-	
-	logical_or_expression();
-	match(OR_OP);
-	logical_and_expression();
+int logical_or_expression(void) {
+	if( logical_and_expression() ) {
+	} else if( logical_or_expression() ) {
+		match(OR_OP);
+		logical_and_expression();
+	}
 }
 
-void conditional_expression(void) {
-	logical_or_expression();
-	
-	logical_or_expression();
-	match(QUESTION);
-	expression();
-	match(COLON);
-	conditional_expression();
+int conditional_expression(void) {
+	if( logical_or_expression() ) {
+	} else if( logical_or_expression() ) {
+		match(QUESTION);
+		expression();
+		match(COLON);
+		conditional_expression();
+	}
 }
 
-void assignment_expression(void) {
-	conditional_expression();
-	
-	unary_expression();
-	assignment_operator();
-	assignment_expression();
+int assignment_expression(void) {
+	if( conditional_expression() ) {
+	} else if( unary_expression() ) {
+		assignment_operator();
+		assignment_expression();
+	}
 }
 
-void assignment_operator(void) {
-	match(EQUAL);
-	
-	match(MUL_ASSIGN);
-	
-	match(DIV_ASSIGN);
-	
-	match(MOD_ASSIGN);
-	
-	match(ADD_ASSIGN);
-	
-	match(SUB_ASSIGN);
-	
-	match(LEFT_ASSIGN);
-	
-	match(RIGHT_ASSIGN);
-	
-	match(AND_ASSIGN);
-	
-	match(XOR_ASSIGN);
-	
-	match(OR_ASSIGN);
+int assignment_operator(void) {
+	switch( lookaheadT.type ) {
+		case EQUAL:
+			match(EQUAL);
+			break;
+		case MUL_ASSIGN:
+			match(MUL_ASSIGN);
+			break;	
+		case DIV_ASSIGN:
+			match(DIV_ASSIGN);
+			break;
+		case MOD_ASSIGN:
+			match(MOD_ASSIGN);
+			break;
+		case ADD_ASSIGN:
+			match(ADD_ASSIGN);
+			break;
+		case SUB_ASSIGN:
+			match(SUB_ASSIGN);
+			break;
+		case LEFT_ASSIGN:
+			match(LEFT_ASSIGN);
+			break;
+		case RIGHT_ASSIGN:
+			match(RIGHT_ASSIGN);
+			break;
+		case AND_ASSIGN:
+			match(AND_ASSIGN);
+			break;
+		case XOR_ASSIGN:
+			match(XOR_ASSIGN);
+			break;
+		case OR_ASSIGN:
+			match(OR_ASSIGN);
+			break;
+		default:
+			abort();
+	}
 }
 
-void expression(void) {
+int expression(void) {
 	if(	assignment_expression() ) {
 	} else if ( expression() ) {
-		get_token();
 		match(COMMA);
 		assignment_expression();
 	} else {
-		error();
+		abort();
 	}
 }
 
-void constant_expression(void) {
+int constant_expression(void) {
 	conditional_expression();
 }
 
-void declaration(void) {
+int declaration(void) {
 	declaration_specifiers();
-	match(SEMI);
-	
-	declaration_specifiers();
-	init_declarator_list();
+	if( init_declarator_list() ) {
+	}
 	match(SEMI);
 }
 
-void declaration_specifiers(void) {
-	storage_class_specifier();
-	
-	storage_class_specifier();
-	declaration_specifiers();
-	
-	type_specifier();
-	
-	type_specifier();
-	declaration_specifiers();
-	
-	type_qualifier();
-	
-	type_qualifier();
-	declaration_specifiers();
+int declaration_specifiers(void) {
+	if( storage_class_specifier() ) {
+		if( declaration_specifiers() ) {
+		}
+	} else if( type_specifier() ) {
+		if( declaration_specifiers() ) {
+		}
+	} else if( type_qualifier() ) {	
+		if( declaration_specifiers() ) {
+		}
+	}
 }
 
-void init_declarator_list(void) {
-	init_declarator();
-	
-	init_declarator();
-	match(COMMA);
-	init_declarator();	
-}
-
-void init_declarator(void) {
+int init_declarator(void) {
 	declarator();
-	
-	declarator();
-	match(EQUAL);
-	initializer();
+	if( lookaheadT.type == EQUAL ) {
+		match(EQUAL);
+		initializer();
+	}
 }
 
-void storage_class_specifier(void) {
-	match(TYPEDEF);
-	
-	match(EXTERN);
-	
-	match(STATIC);
-	
-	match(AUTO);
-	
-	match(REGISTER);
+int init_declarator_list(void) {
+	if( init_declarator() ) {
+	} else if( init_declarator_list() ) {
+		match(COMMA);
+		init_declarator();
+	} else {
+		abort();
+	}	
 }
 
-void type_specifier(void) {
-	match(VOID);
-	
-	match(CHAR);
-	
-	match(SHORT);
-	
-	match(INT);
-	
-	match(LONG);
-	
-	match(FLOAT);
-	
-	match(DOUBLE);
-	
-	match(SIGNED);
-	
-	match(UNSIGNED);
-	
-	struct_or_union_specifier();
-	
-	enum_specifier();
-	
-	match(TYPE_NAME);
+int storage_class_specifier(void) {
+	switch( lookaheadT.type ) {
+		case TYPEDEF:
+			match(TYPEDEF);
+			break;
+		case EXTERN:
+			match(EXTERN);
+			break;
+		case STATIC:
+			match(STATIC);
+			break;
+		case AUTO:
+			match(AUTO);
+			break;
+		case REGISTER:
+			match(REGISTER);
+			break;
+		default:
+			abort();
+	}
 }
 
-void struct_or_union_specifier(void) {
+int type_specifier(void) {
+	if( struct_or_union_specifier() ) {
+	} else if( enum_specifier() ) {
+	} else {
+		switch( lookaheadT.type ) {
+			case VOID:
+				match(VOID);
+				break;
+			case CHAR:
+				match(CHAR);
+				break;
+			case SHORT:
+				match(SHORT);
+				break;
+			case INT:
+				match(INT);
+				break;
+			case LONG:
+				match(LONG);
+				break;
+			case FLOAT:
+				match(FLOAT);
+				break;
+			case DOUBLE:
+				match(DOUBLE);
+				break;
+			case SIGNED:
+				match(SIGNED);
+				break;
+			case UNSIGNED:
+				match(UNSIGNED);
+				break;
+			case TYPE_NAME: 
+				match(TYPE_NAME);
+				break;
+		}
+	}
+
+}
+
+int struct_or_union_specifier(void) {
 	struct_or_union();
-	match(IDENTIFER);
-	match(LCURLY);
-	struct_declaration_list();
-	match(RCURLY);
 	
-	struct_or_union();
-	match(LCURLY);
-	struct_declaration_list();
-	match(RCURLY);
-	
-	struct_or_union();
-	match(IDENTIFIER);
+	if( lookaheadT.type == ID ) {
+		match(ID);
+	}
+	if( lookaheadT.type == LCURLY ) {
+		match(LCURLY);
+		struct_declaration_list();
+		match(RCURLY);
+	}
 }
 
-void struct_or_union(void) {
-	match(STRUCT);
-	
-	match(UNION);
+int struct_or_union(void) {
+	switch( lookaheadT.type ) {
+		case STRUCT:
+			match(STRUCT);
+			break;
+		case UNION:
+			match(UNION);
+			break;
+		default:
+			abort();
+	}
 }
 
-void struct_declaration_list(void) {
+int struct_declaration_list(void) {
+	if( struct_declaration_list() ) {
+	}
 	struct_declaration();
-	
-	struct_declaration_list();
-	struct_declaration();
 }
 
-void struct_declaration(void) {
+int struct_declaration(void) {
 	specifier_qualifier_list();
 	struct_declarator_list();
 	match(SEMI);
 }
 
-void specifier_qualifier_list(void) {
-	type_specifier();
-	specifier_qualifier_list();
-	
-	type_specifier();
-	
-	type_qualifier();
-	specifier_qualifier_list();
-	
-	type_qualifier();
+int specifier_qualifier_list(void) {
+	if( type_specifier() ) {
+		if( specifier_qualifier_list() ) {
+		}
+	} else if( type_qualifier() ) {
+		if( specifier_qualifier_list() ) {
+		}
+	} else {
+		abort();
+	}
 }
 
-void struct_declarator_list(void) {
+int struct_declarator_list(void) {
+	if( struct_declarator_list() ) {
+		match(COMMA);
+	}
 	struct_declarator();
-	
-	struct_declarator_list();
-	match(COMMA);
-	struct_declarator();
 }
 
-void struct_declarator(void) {
-	declarator();
-	
-	match(COLON);
-	constant_expression();
-	
-	declarator();
-	match(COLON);
-	constant_expression();
+int struct_declarator(void) {
+	if( declarator() ) {
+	}
+	if( lookaheadT.type == COLON ) {
+		match(COLON);
+		constant_expression();
+	}
 }
 
-void enum_specifier(void) {
+int enum_specifier(void) {
 	match(ENUM);
-	match(LCURLY);
-	enumerator_list();
-	match(RCURLY);
 	
-	match(ENUM);
-	match(IDENTIFIER);
-	match(LCURLY);
-	enumerator_list();
-	match(RCURLY);
-	
-	match(ENUM);
-	match(IDENTIFIER);
+	if( lookaheadT.type == ID ) {
+		match(ID);
+	}
+	if( lookaheadT.type == LCURLY ) {	
+		match(LCURLY);
+		enumerator_list();
+		match(RCURLY);
+	}
 }
 
-void enumerator_list(void) {
-	enumerator();
-	
-	enumerator_list();
-	match(COMMA);
+int enumerator_list(void) {
+	if( enumerator_list() ) {
+		match(COMMA);
+	}
 	enumerator();	
 }
 
-void enumerator(void) {
-	match(IDENTIFIER);
-	
-	match(IDENTIFIER);
-	match(EQUAL);
-	constant_expression();
+int enumerator(void) {
+	match(ID);
+	if( lookaheadT.type == EQUAL ) { 
+		match(EQUAL);
+		constant_expression();
+	}
 }
 
-void type_qualifier(void) {
-	match(CONST);
-	
-	match(VOLATILE);
+int type_qualifier(void) {
+	switch( lookaheadT.type ) {
+		case CONST:
+			match(CONST);
+			break;
+		case VOLATILE:
+			match(VOLATILE);
+			break;
+	}
 }
 
-void declarator(void) {
-	pointer();
-	direct_declarator();
-	
+int declarator(void) {
+	if( pointer() ) {
+	}
 	direct_declarator();
 }
 
-void direct_declarator(void) {
-	match(IDENTIFIER);
-	
-	match(LPAREN);
-	declarator();
-	match(RPAREN);
-	
-	direct_declarator();
-	match(LBRACKET);
-	constant_expression();
-	match(RBRACKET);
-	
-	direct_declarator();
-	match(LBRACKET);
-	match(RBRACKET);
-	
-	direct_declarator();
-	match(LPAREN);
-	parameter_type_list();
-	match(RPAREN);
-
-	direct_declarator();
-	match(LPAREN);
-	identifier_list();
-	match(RPAREN);
-
-	direct_declarator();
-	match(LPAREN);
-	match(RPAREN);
+int direct_declarator(void) {
+	if( lookaheadT.type == ID ) {
+		match(ID);
+	} else if( lookaheadT.type == LPAREN ) {
+		match(LPAREN);
+		declarator();
+		match(RPAREN);
+	} else if( direct_declarator() ) {
+		if( lookaheadT.type == LBRACKET ) {
+			match(LBRACKET);
+			if( constant_expression() ) {
+			}
+			match(RBRACKET);
+		} else if( lookaheadT.type == LPAREN ) {
+			match(LPAREN);
+			if( parameter_type_list() ) {
+			} else if ( identifier_list() ) {
+			}
+			match(RPAREN);
+		}
+	}
 }
 
-void pointer(void) {
+int pointer(void) {
 	match(ASTERIX);
-	
-	match(ASTERIX);
-	type_qualifier_list();
-	
-	match(ASTERIX);
-	pointer();
-	
-	match(ASTERIX);
-	type_qualifier_list();
-	pointer();
+	if( type_qualifier_list() ) {
+	}
+	if( pointer() ) {
+	}
 }
 
-void type_qualifier_list(void) {
-	type_qualifier();
-	
-	type_qualifier_list();
-	type_qualifier();
+int type_qualifier_list(void) {
+	if( type_qualifier () ) {
+	} else if ( type_qualifier_list() ) {
+		type_qualifier();
+	}
 }
 
-void parameter_type_list(void) {
+int parameter_type_list(void) {
 	parameter_list();
-	
-	parameter_list();
-	match(COMMA);
-	match(ELLIPSIS);
+	if( lookaheadT.type == COMMA ) {	
+		match(COMMA);
+		match(ELLIPSIS);
+	}
 }
 
-void parameter_list(void) {
-	parameter_declaration();
-	
-	parameter_list();
-	match(COMMA);
-	parameter_declaration();
+int parameter_list(void) {
+	if( parameter_declaration() ) {
+	} else if( parameter_list() ) {
+		match(COMMA);
+		parameter_declaration();
+	}
 }
 
-void parameter_declaration(void) {
+int parameter_declaration(void) {
 	declaration_specifiers();
-	declarator();
-	
-	declaration_specifiers();
-	abstract_declarator();
-	
-	declaration_specifiers();
+	if( declarator() ) {
+	} else if( abstract_declarator() ) {
+	}
 }
 
-void identifier_list(void) {
-	match(IDENTIFIER);
-	
-	identifier_list();
-	match(COMMA);
-	match(IDENTIFIER);
+int identifier_list(void) {
+	if( lookaheadT.type == ID ) {
+		match(ID);
+	} else if( identifier_list() ) {
+		match(COMMA);
+		match(ID);
+	}
 }
 
-void type_name(void) {
+int type_name(void) {
 	specifier_qualifier_list();
-	
-	specifier_qualifier_list();
-	abstract_declarator();
+	if( abstract_declarator() ) {
+	}
 }
 
-void abstract_declarator(void) {
-	pointer();
-	
-	direct_abstract_declarator();
-	
-	pointer();
-	direct_abstract_declarator();
+int abstract_declarator(void) {
+	if( pointer() ) {
+	}
+	if( direct_abstract_declarator() ) {
+	}
 }
 
-void direct_abstract_declarator(void) {
-	match(LPAREN);
-	abstract_declarator();
-	match(RPAREN);
-	
-	match(LBRACKET);
-	match(RBRACKET);
-	
-	match(LBRACKET);
-	constant_expression();
-	match(RBRACKET);
-	
-	direct_abstract_declarator();
-	match(LBRACKET);
-	match(RBRACKET);
-	
-	direct_abstract_declarator();
-	match(LBRACKET);
-	constant_expression();
-	match(RBRACKET);
-	
-	match(LPAREN);
-	match(RPAREN);
-	
-	match(LPAREN);
-	parameter_type_list();
-	match(RPAREN);
-	
-	direct_abstract_declarator();
-	match(LPAREN);
-	match(RPAREN);
-	
-	direct_abstract_declarator();
-	match(LPAREN);
-	parameter_type_list();
-	match(RPAREN);
+int direct_abstract_declarator(void) { 
+	if( lookaheadT.type == LPAREN ) {
+		match(LPAREN);
+		if( abstract_declarator() ) {
+		} else if( parameter_type_list() ) {
+		}
+		match(RPAREN);
+	} else if ( lookaheadT.type == LBRACKET ) {
+		match(LBRACKET);
+		if( constant_expression() ) {}
+		match(RBRACKET);
+	} else if( direct_abstract_declarator() ) {
+		match(LBRACKET);
+		if( constant_expression() ) {}
+		match(RBRACKET);
+	} else if( direct_abstract_declarator() ) {
+		match(LPAREN);
+		if( parameter_type_list() ) {}
+		match(RPAREN);
+	} else {
+		abort();
+	}
 }
 
-void initializer(void) {
-	assignment_expression();
-	
+int initializer(void) {
+	if( assignment_expression() ) {
+	} else if( lookaheadT.type == LCURLY ) {
+		match(LCURLY);
+		if( initializer_list() ) {}
+		if( lookaheadT.type == COMMA ) {
+			match(COMMA);
+		}
+		match(RCURLY);
+	} else {
+		abort();
+	}
+}
+
+int initializer_list(void) {
+	if( initializer() ) {
+	} else if( initializer_list() ) {
+		match(COMMA);
+		initializer();
+	}
+}
+
+int statement(void) {
+	if( labeled_statement() ) {
+	} else if( compound_statement() ) {
+	} else if( expression_statement() ) {
+	} else if( selection_statement() ) {
+	} else if( iteration_statement() ) {
+	} else if( jump_statement() ) {
+	} else {
+		abort();
+	}
+}
+
+int labeled_statement(void) {
+	if( lookaheadT.type == ID ) {
+		match(ID);
+		match(COLON);
+		statement();
+	} else if( lookaheadT.type == CASE ) {	
+		match(CASE);
+		constant_expression();
+		match(COLON);
+		statement();
+	} else if( lookaheadT.type == DEFAULT ) {	
+		match(DEFAULT);
+		match(COLON);
+		statement();
+	} else {
+		abort();
+	}
+}
+
+int compound_statement(void) {
 	match(LCURLY);
-	initializer_list();
-	match(RCURLY);
-	
-	match(LCURLY);
-	initializer_list();
-	match(COMMA);
-	match(RCURLY);
-}
-
-void initializer_list(void) {
-	initializer();
-	
-	initializer_list();
-	match(COMMA);
-	initializer();
-}
-
-void statement(void) {
-	labeled_statement();
-	
-	compound_statement();
-	
-	expression_statement();
-	
-	selection_statement();
-	
-	iteration_statement();
-	
-	jump_statement();
-}
-
-void labeled_statement(void) {
-	match(IDENTIFIER);
-	match(COLON);
-	statement();
-	
-	match(CASE);
-	constant_expression();
-	match(COLON);
-	statement();
-	
-	match(DEFAULT);
-	match(COLON);
-	statement();
-}
-
-void compound_statement(void) {
-	match(LCURLY);
-	match(RCURLY);
-	
-	match(LCURLY);
-	statement_list();
-	match(RCURLY);
-	
-	match(LCURLY);
-	declaration_list();
-	match(RCURLY);
-	
-	match(LCURLY);
-	declaration_list();
-	statement_list();
+	if( statement_list() ) {
+	} else if( declaration_list() ) {
+		if( statement_list() ) {
+		}
+	} else {
+		abort();
+	}
 	match(RCURLY);
 }
 
-void declaration_list(void) {
-	declaration();
-	
-	declaration_list();
-	declaration();
+int declaration_list(void) {
+	if( declaration() ) {
+	} else if( declaration_list() ) {
+		declaration();
+	} else {
+		abort();
+	}
 }
 
-void statement_list(void) {
-	statement();
-	
-	statement_list();
-	statement();
+int statement_list(void) {
+	if( statement() ) {
+	} else if( statement_list() ) {
+		statement();
+	} else {
+		abort();
+	}
 }
 
-void expression_statement(void) {
-	match(SEMI);
-	
-	expression();
+int expression_statement(void) {
+	if( lookaheadT.type == SEMI ) {
+		match(SEMI);
+	} else if( expression() ) {	
+		match(SEMI);
+	} else {
+		abort();
+	}
+}
+
+int selection_statement(void) {
+	if( lookaheadT.type == IF ) {
+		match(LPAREN);
+		expression();
+		match(RPAREN);
+		statement();
+		if( lookaheadT.type == ELSE ) {
+			match(ELSE);
+			statement();
+		}
+	} else if( lookaheadT.type == SWITCH ) {
+		match(LPAREN);
+		expression();
+		match(RPAREN);
+		statement();
+	} else {
+		abort();
+	}
+}
+
+int iteration_statement(void) {
+	if( lookaheadT.type == WHILE ) {
+		match(WHILE);
+		match(LPAREN);
+		expression();
+		match(RPAREN);
+		statement();
+	} else if( lookaheadT.type == DO ) {	
+		match(DO);
+		statement();
+		match(WHILE);
+		match(LPAREN);
+		expression();
+		match(RPAREN);
+		match(SEMI);
+	} else if( lookaheadT.type == FOR ) {
+		match(FOR);
+		match(LPAREN);
+		expression_statement();
+		expression_statement();
+		if( expression() ) {}
+		match(RPAREN);
+		statement();
+	} else {
+		abort();
+	}
+}
+
+int jump_statement(void) {
+	switch( lookaheadT.type ) {
+		case GOTO:
+			match(GOTO);
+			match(ID);
+			break;
+		case CONTINUE:
+			match(CONTINUE);
+			break;
+	 	case BREAK:
+			match(BREAK);
+			break;
+		case RETURN:
+			match(RETURN);
+			if( expression() ) {}
+			break;
+		default:
+			abort();
+	}
 	match(SEMI);
 }
 
-void selection_statement(void) {
+int translation_unit(void) {
+	if( external_declaration() ) {
+	} else if( translation_unit() ) {
+		external_declaration();
+	} else {
+		abort();
+	}
 }
 
-void iteration_statement(void) {
-	match(WHILE);
-	match(LPAREN);
-	expression();
-	match(RPAREN);
-	statement();
-	
-	match(DO);
-	statement();
-	match(WHILE);
-	match(LPAREN);
-	expression();
-	match(RPAREN);
-	match(SEMI);
-	
-	match(FOR);
-	match(LPAREN);
-	expression_statement();
-	expression_statement();
-	match(RPAREN);
-	statement();
-	
-	match(FOR);
-	match(LPAREN);
-	expression_statement();
-	expression_statement();
-	expression();
-	match(RPAREN);
-	statement();
+int external_declaration(void) {
+	if( function_definition() ) {
+	} else if( declaration() ) {
+	} else {
+		abort();
+	}
 }
 
-void jump_statement(void) {
-	match(GOTO);
-	match(IDENTIFIER);
-	match(SEMI);
-	
-	match(CONTINUE);
-	match(SEMI);
-	
-	match(BREAK);
-	match(SEMI);
-	
-	match(RETURN);
-	match(SEMI);
-	
-	match(RETURN);
-	expression();
-	match(SEMI);
-}
-
-void translation_unit(void) {
-	external_declaration();
-	translation_unit();
-}
-
-void external_declaration(void) {
-	function_definition();
-	declaration();
-}
-
-void function_definition(void) {
+int function_definition(void) {
 	if( declaration_specifiers() ) {
 		declarator();
 		
@@ -843,7 +880,7 @@ void function_definition(void) {
 		if(	declaration_list() ) {
 		}
 	} else {
-		error();
+		abort();
 	}
 	compound_statement();
 }

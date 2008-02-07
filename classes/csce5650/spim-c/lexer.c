@@ -9,7 +9,7 @@
  * 
  * 
  */
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -17,6 +17,7 @@
 #include "lexer.h"
 
 char stringbuf[BSIZE];
+FILE* yyin;
 long int col;
 long int line;
 char *yystring;
@@ -41,7 +42,7 @@ T yylex(void) { /* lexical analyzer */
 	int escaped = 0; /* This variable is for strings and constants that have escaped characters */
 	
 	/* chew up spaces until a non-space comes along */
-	while( isspace(c = getchar()) ) {
+	while( isspace(c = getc(yyin)) ) {
 		if (c == '\n')
 			line++;
 	}
@@ -52,7 +53,7 @@ T yylex(void) { /* lexical analyzer */
 	/* See what sort of character we found */
 	switch( c ) {
 		case '=': /* = or == */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '=' ) {
 				return EQ_OP;
 			} else {
@@ -61,7 +62,7 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case ':': /* : or :> */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '>' )
 				return RBRACKET;
 			else {
@@ -91,7 +92,7 @@ T yylex(void) { /* lexical analyzer */
 			return TILDE;
 			break;
 		case '-':
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '=' ) {
 				return SUB_ASSIGN;
 			} else if ( c == '-' ) {
@@ -104,7 +105,7 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '+': /* +, +=, and ++ */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '=' ) {
 				return ADD_ASSIGN;
 			} else if ( c == '+' ) {
@@ -115,7 +116,7 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '*': /* *, or *= */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '=' ) {
 				return MUL_ASSIGN;
 			} else {
@@ -124,15 +125,15 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '/': /* Capture a C-style comment, /, or /= */
-			c = getchar();
+			c = getc(yyin);
 			int in_comment = 0;
 			i = 0;
 			if ( c == '*' ) {
 				in_comment = 1;
 				while ( in_comment == 1 ) {
-					c = getchar();
+					c = getc(yyin);
 					if ( c == '*' ) {
-						c = getchar();
+						c = getc(yyin);
 						if ( c == '/' )
 							in_comment = 0;
 					}
@@ -147,7 +148,7 @@ T yylex(void) { /* lexical analyzer */
 			break;
 		case '\'': /* Constant in quotes */
 			stringbuf[0] = '\'';
-			c = getchar();
+			c = getc(yyin);
 			
 			int in_constant = 1;
 			escaped = 0;
@@ -160,13 +161,13 @@ T yylex(void) { /* lexical analyzer */
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				} else {
 					escaped = 0;
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				}
 			}
 			stringbuf[i] = '\'';
@@ -182,7 +183,7 @@ T yylex(void) { /* lexical analyzer */
 		case '"': /* String Literal */
 			stringbuf[0] = '"';
 			
-			c = getchar();
+			c = getc(yyin);
 			int in_string = 1;
 			escaped = 0;
 			i = 1;
@@ -194,13 +195,13 @@ T yylex(void) { /* lexical analyzer */
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				} else {
 					escaped = 0;
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				}
 			}
 			stringbuf[i] ='"';
@@ -213,7 +214,7 @@ T yylex(void) { /* lexical analyzer */
 			return STRING_LITERAL;
 			break;
 		case '%': /* %, %=, or %> */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '>' ) {
 				return RCURLY;
 			} else if ( c == '=' ) {
@@ -224,7 +225,7 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '<': /* <, <%, <:, <=, <<, or <<= */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '%' ) {
 				return LCURLY;
 			} else if ( c == ':' ) {
@@ -232,7 +233,7 @@ T yylex(void) { /* lexical analyzer */
 			} else if ( c == '=' ) {
 				return LE_OP;
 			} else if ( c == '<' ) {
-				c = getchar();
+				c = getc(yyin);
 				if ( c == '=' ) {
 					return LEFT_ASSIGN;
 				} else {
@@ -245,9 +246,9 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '>': /* >, >>, >>=, or >= */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '>' ) {
-				c = getchar();
+				c = getc(yyin);
 				if ( c == '=' ) {
 					return RIGHT_ASSIGN;
 				} else {
@@ -262,7 +263,7 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '^': /* ^, or ^= */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '=' ) {
 				return XOR_ASSIGN;
 			} else {
@@ -271,7 +272,7 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '|': /* |, |=, or || */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '=' ) {
 				return OR_ASSIGN;
 			} else if ( c == '|' ) {
@@ -285,7 +286,7 @@ T yylex(void) { /* lexical analyzer */
 			return QUESTION;
 			break;
 		case '!': /* !, or != */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '=' ) {
 				return NE_OP;
 			} else {
@@ -294,7 +295,7 @@ T yylex(void) { /* lexical analyzer */
 			}
 			break;
 		case '&': /* &, &=, or && */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '=' ) {
 				return AND_ASSIGN;
 			} else if ( c == '&' ) {
@@ -311,9 +312,9 @@ T yylex(void) { /* lexical analyzer */
 			return SEMI;
 			break;
 		case '.': /* floating point number, ., or ... */
-			c = getchar();
+			c = getc(yyin);
 			if ( c == '.' ) {
-				c = getchar();
+				c = getc(yyin);
 				if ( c == '.' ) {
 					return ELLIPSIS;
 				} else {
@@ -327,11 +328,11 @@ T yylex(void) { /* lexical analyzer */
 				stringbuf[i] = (char) c;
 				i++;
 			
-				c = getchar();
+				c = getc(yyin);
 				while( isdigit(c) && i < (BSIZE - 1) ) {
 					stringbuf[i] = (char) c;
 					i++;
-					c = getchar();
+					c = getc(yyin);
 				}
 			
 				/* Optional exponent section */
@@ -339,18 +340,18 @@ T yylex(void) { /* lexical analyzer */
 					stringbuf[i] = (char) c;
 					i++;
 			
-					c = getchar();
+					c = getc(yyin);
 					if( (c == '+' || c == '-') && i < (BSIZE - 1) ) {
 						stringbuf[i] = (char) c;
 						i++;
-						c = getchar();
+						c = getc(yyin);
 					}
 					/* Must have at least one digit */
 					int test = i;
 					while( isdigit(c) && i < (BSIZE - 1) ) {
 						stringbuf[i] = (char) c;
 						i++;
-						c = getchar();
+						c = getc(yyin);
 					}
 					if( test == i ) /* We didn't pass the test */
 						return ERROR;			
@@ -377,18 +378,18 @@ T yylex(void) { /* lexical analyzer */
 	if( isdigit(c) ) {
 		/* Test if this is a hex constant */
 		if ( c == '0' ) {
-			c = getchar();
+			c = getc(yyin);
 			if ( c == 'x' || c == 'X' ) {
 				stringbuf[0] = '0';
 				stringbuf[1] = (char) c;
 				
 				int i = 2;
-				c = getchar();
+				c = getc(yyin);
 				while( isxdigit(c) && i < (BSIZE - 2) ) {
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				}
 				if( isis(c) ) {
 					stringbuf[i] = (char) c;
@@ -408,14 +409,14 @@ T yylex(void) { /* lexical analyzer */
 		}
 		
 		stringbuf[0] = (char) c;
-		c = getchar();
+		c = getc(yyin);
 		
 		int i = 1;
 		/* Suck up as many digits as possible */
 		while( isdigit(c) && i < (BSIZE - 1) ) {
 			stringbuf[i] = (char) c;
 			i++;
-			c = getchar();
+			c = getc(yyin);
 		}
 		
 		/* then see if it is floating point, exponent, or has a u or l at the end */
@@ -427,18 +428,18 @@ T yylex(void) { /* lexical analyzer */
 			stringbuf[i] = (char) c;
 			i++;
 			
-			c = getchar();
+			c = getc(yyin);
 			if( c == '+' || c == '-' ) {
 				stringbuf[i] = (char) c;
 				i++;
-				c = getchar();
+				c = getc(yyin);
 			}
 			/* Must have at least one digit */
 			int test = i;
 			while( isdigit(c) && i < (BSIZE - 2) ) {
 				stringbuf[i] = (char) c;
 				i++;
-				c = getchar();
+				c = getc(yyin);
 			}
 			if( test == i ) /* We didn't pass the test */
 				return ERROR;
@@ -455,11 +456,11 @@ T yylex(void) { /* lexical analyzer */
 			stringbuf[i] = (char) c;
 			i++;
 			
-			c = getchar();
+			c = getc(yyin);
 			while( isdigit(c) && i < (BSIZE - 1) ) {
 				stringbuf[i] = (char) c;
 				i++;
-				c = getchar();
+				c = getc(yyin);
 			}
 			
 			/* Optional exponent section */
@@ -467,18 +468,18 @@ T yylex(void) { /* lexical analyzer */
 				stringbuf[i] = (char) c;
 				i++;
 			
-				c = getchar();
+				c = getc(yyin);
 				if( (c == '+' || c == '-') && i < (BSIZE - 1) ) {
 					stringbuf[i] = (char) c;
 					i++;
-					c = getchar();
+					c = getc(yyin);
 				}
 				/* Must have at least one digit */
 				int test = i;
 				while( isdigit(c) && i < (BSIZE - 1) ) {
 					stringbuf[i] = (char) c;
 					i++;
-					c = getchar();
+					c = getc(yyin);
 				}
 				if( test == i ) /* We didn't pass the test */
 					return ERROR;			
@@ -504,13 +505,13 @@ T yylex(void) { /* lexical analyzer */
 	} else if( isalpha(c) || c == '_' ) {
 		stringbuf[0] = (char) c;
 		int i = 1;
-		c = getchar();
+		c = getc(yyin);
 		
 		/* Check if it is a string literal or constant */
 		if ( c == '\'') {
 			stringbuf[i] = '\'';
 			i++;
-			c = getchar();
+			c = getc(yyin);
 			
 			int in_constant = 1;
 			int escaped = 0;
@@ -522,13 +523,13 @@ T yylex(void) { /* lexical analyzer */
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				} else {
 					escaped = 0;
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				}
 			}
 			stringbuf[i] = '\'';
@@ -543,7 +544,7 @@ T yylex(void) { /* lexical analyzer */
 			stringbuf[i] = '"';
 			i++;
 			
-			c = getchar();
+			c = getc(yyin);
 			int in_string = 1;
 			int escaped = 0;
 			while ( in_string == 1 && i < (BSIZE - 1)) {
@@ -554,13 +555,13 @@ T yylex(void) { /* lexical analyzer */
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				} else {
 					escaped = 0;
 					stringbuf[i] = (char) c;
 					i++;
 					
-					c = getchar();
+					c = getc(yyin);
 				}
 			}
 			stringbuf[i] ='"';
@@ -577,7 +578,7 @@ T yylex(void) { /* lexical analyzer */
 		while( (isalnum(c) || c == '_') && (i < (BSIZE - 1) )) {
 			stringbuf[i] = (char) c;
 			i++;
-			c = getchar();
+			c = getc(yyin);
 		}
 		stringbuf[i] = '\0';
 		
