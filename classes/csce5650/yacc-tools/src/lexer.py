@@ -3,47 +3,55 @@ from Stack import Stack
 
 def lex(grammar):
     # open file
+    s = []
+    token = ''
     for char in grammar:
-        s = Stack()
-        while char.isspace(): grammar.next()
-        
-        if char == '|':
-            return 'COLON'
+        if char.isspace():
+            continue       
+        elif char == '|':
+            return 'PIPE', char
+        elif char == ':':
+            return 'COLON', char
         elif char == ';':
-            return 'SEMI'
+            return 'SEMI', char
         elif char == '%':
             while not char.isspace():
-                s.push(char)
+                s.append(char)
                 char = grammar.next()
-            if s == '%token':
-                return 'TOKEN'
-            elif s == '%start':
-                return 'START'
-            elif s == '%%':
-                return 'BLOCK'
+            token = ''.join(s)
+            if token == '%token':
+                return 'TOKEN', token
+            elif token == '%start':
+                return 'START', token
+            elif token == '%%':
+                return 'BLOCK', token
         elif char == '\'':
             while not char.isspace():
-                s.push(char)
+                s.append(char)
                 char = grammar.next()
+            token = ''.join(s)
             if len(s) == 3:
-                return 'CHAR,', s
+                return 'CHAR', token
             else:
                 raise "Error", "unexpected character", s
         elif char.islower():
             while not char.isspace():
-                s.push(char)
+                s.append(char)
                 char = grammar.next()
-            return 'NONTERM', s
+            token = ''.join(s)
+            return 'NONTERM', token
         elif char.isupper():
             while not char.isspace():
-                s.push(char)
+                s.append(char)
                 char = grammar.next()
-            return 'TERM', s
+            token = ''.join(s)
+            return 'TERM', token
         else:
             while not char.isspace():
-                s.push(char)
+                s.append(char)
                 char = grammar.next()
-            print "Error unexpected token", char
+            token = ''.join(s)
+            print "Error unexpected token", token
         
         
 def main(argv):
@@ -59,10 +67,21 @@ def main(argv):
         print "Unable to open file", filename
         sys.exit(2)
 
-    token = lex(f)
+    G = ""
+    for line in f:
+        G += line
+    f.close()
+    
+    grammar = iter(G) 
+    token = lex(grammar)
+    block = 0
     while token:
         print token
-        token = lex(f)
+        token = lex(grammar)
+        if block == 0 and token[0] == 'BLOCK':
+            block = 1
+        elif block == 1 and token[0] == 'BLOCK':
+            sys.exit(0)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
