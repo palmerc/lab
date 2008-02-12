@@ -1,0 +1,54 @@
+#! /usr/local/bin/tcsh
+
+#
+# setenv: simulation env
+#
+
+#
+# work
+#
+
+# work dir
+setenv WORK_DIR /export/$HOST/$user
+
+#
+# simulator
+#
+
+# simulator dir name
+setenv SIM_DIR_NAME newsim
+# simulator dir
+setenv SIM_DIR $WORK_DIR/$SIM_DIR_NAME
+# simulation midfile data dir
+setenv DATA_DIR $SIM_DIR/data
+# sim-bpred log dir
+setenv LOG_DIR $SIM_DIR/log
+# simulation result dir
+setenv RESULT_DIR $SIM_DIR/result
+# benchmark sim-input dir
+setenv INPUT_DIR $SIM_DIR/input
+# simulator bin
+setenv NEWSIM_BIN $SIM_DIR/src/newsim
+# simulator source dir
+setenv SOURCE_DIR $SIM_DIR/src
+
+# midfile dir
+setenv MID_DIR $SIM_DIR/midfile
+
+#
+# work's bin
+#
+
+# work's bin dir
+setenv BIN_DIR $SIM_DIR/bin
+# sim-bpred
+setenv TRACE_BIN $SIM_DIR/SS/sim-bpred
+# simulation script bin
+setenv SCRIPT_BIN $BIN_DIR/run_newsim.pl
+
+#
+# SPEC
+#
+
+# benchmark binary file
+setenv BENCH_BIN_DIR /export/$HOST/SPEC_TRACE/SimpleScalar/bin

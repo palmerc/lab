@@ -1,0 +1,36 @@
+/export/capc5/nakajima/newsim/src/newsim -dir /export/capc5/nakajima/newsim/data/compress95 -sim_type LP -spool 5000  -updrive /bin/sh -c 'echo 30000 e 2231 | /export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/compress95/prog -redir:sim /export/capc5/nakajima/newsim/log/compress95/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/compress95.ss'
+
+# set dir: /export/capc5/nakajima/newsim/data/compress95/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/01/21 16:17:31> 
+	 fork_eq: cd>exec, sp_fork(max_cd>exec), mp_mem, reg
+$            ADD MD predict (warmuped), MD pred warmup, FIX LP model
+$ REEXEC MODE: spool size 5000
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ simulation type: LP (indirect CD)
+$ MP perfect
+$ sp fork
+$ sp send
+$ SP perfect
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+# Brnach_Predict::file_read() init end
+# PosDom::file_read() no read posdom
+# ICD::file_read() init end
+# Loop::file_read() init end
+
+@ TC 1000000 cycle: 213514 ipc: 4.34493 thread: 1804 re: 12138
+@ TC 2000000 cycle: 486562 ipc: 3.86133 thread: 3931 re: 14265
+@ TC 3000000 cycle: 758276 ipc: 3.73195 thread: 6058 re: 16392
+@ TC 4000000 cycle: 984185 ipc: 3.82164 thread: 7668 re: 19237
+@ TC 5000000 cycle: 1114308 ipc: 4.20064 thread: 7953 re: 20952
+@ TC 6000000 cycle: 1255790 ipc: 4.46377 thread: 8099 re: 22698
+@ TC 7000000 cycle: 1411765 ipc: 4.63103 thread: 8099 re: 22698
+@ TC 8000000 cycle: 1539637 ipc: 4.83877 thread: 8323 re: 24570

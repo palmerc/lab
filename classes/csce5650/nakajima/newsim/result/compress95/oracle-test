@@ -1,0 +1,78 @@
+/export/capc5/nakajima/newsim/src/newsim -dir /export/capc5/nakajima/newsim/data/compress95 -sim_type oracle -spool 5000 -statistic -trace 10000 -updrive /bin/sh -c 'echo 30000 e 2231 | /export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/compress95/prog -redir:sim /export/capc5/nakajima/newsim/log/compress95/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/compress95.ss'
+
+# set dir: /export/capc5/nakajima/newsim/data/compress95/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/01/26 12:05:08> 
+	 fork_eq: cd>exec, sp_fork(no), mp_mem, reg
+$            ADD MD predict (warmuped), MD pred warmup, FIX unroll model
+$ NO REEXEC MODE
+$ trace limit: 10000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ simulation type: oracle
+$ print statistic
+$ SP perfect
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+# Loop::allocate_loop_c() init end
+# Loop::file_read() init end
+
+# Re_Exec::check_mode() trace lim :10000
+
+# print_result_data()
+trace count         : 10000
+ nop count          : 15
+ call/return count  : 222
+ con branch count   : 1476
+ other branch count : 80
+ load count         : 1354
+ store count        : 3669
+ other count        : 3184
+inst (trace - nop)  : 9985
+
+<func inline>
+ inline call count  : 113
+ inline return count: 109
+ inline other count : 179
+
+<perfect memory disambiguate (SP_REG, GP_REG)>
+ sp load count      : 362
+ sp store count     : 381
+ gp load count      : 85
+ gp store count     : 31
+
+<loop unroll>
+ loop unroll branch : 470
+ loop induction val : 1191
+ (loop const val    : 110 )
+#fbb: 36/25 -> bedge, header, ave: 12, 12, 2
+#fbb: 37/18 -> bedge, header, ave: 0, 1, 1
+#fbb: 38/27 -> bedge, header, ave: 24, 12, 3
+#fbb: 43/1 -> bedge, header, ave: 0, 1, 1
+#fbb: 60/31 -> bedge, header, ave: 0, 1, 1
+#fbb: 61/5 -> bedge, header, ave: 383, 1, 384
+#fbb: 62/19 -> bedge, header, ave: 4, 1, 5
+#fbb: 62/42 -> bedge, header, ave: 0, 2, 1
+#fbb: 62/109 -> bedge, header, ave: 0, 1, 1
+#fbb: 62/200 -> bedge, header, ave: 8, 2, 5
+#fbb: 63/4 -> bedge, header, ave: 6, 1, 7
+#fbb: 69/4 -> bedge, header, ave: 0, 1, 1
+#fbb: 70/1 -> bedge, header, ave: 11, 7, 2.57143
+#fbb: 70/5 -> bedge, header, ave: 17, 9, 2.88889
+#fbb: 71/48 -> bedge, header, ave: 0, 1, 1
+#fbb: 71/49 -> bedge, header, ave: 0, 1, 1
+#fbb: 85/9 -> bedge, header, ave: 1, 1, 2
+#fbb: 87/26 -> bedge, header, ave: 4, 1, 5
+ dynamic loop num   : 23.6922 (sum_ave/num: 426.46/18)
+ loop num (weighted): 9.39286
+
+instance count      : 7923
+clock cycle         : 88
+ipc (instance/clock): 90.0341
+
+# Bb_Statistic::print() statistic

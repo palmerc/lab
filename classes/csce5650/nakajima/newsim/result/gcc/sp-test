@@ -1,0 +1,60 @@
+/export/capc5/nakajima/newsim/src/newsim -dir /export/capc5/nakajima/newsim/data/gcc -sim_type sp  -updrive /bin/sh -c '/export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/gcc/prog -redir:sim /export/capc5/nakajima/newsim/log/gcc/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/cc1.ss -quiet -funroll-loops -fforce-mem -fcse-follow-jumps -fcse-skip-blocks -fexpensive-optimizations -fstrength-reduce -fpeephole -fschedule-insns -finline-functions -fschedule-insns2 -O genoutput.i -o genoutput.s'
+
+# set dir: /export/capc5/nakajima/newsim/data/gcc/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/02/07 22:49:59>	 ADD: MD predict, FIXED: setjmp/longjmp, unroll
+$            FIX: 
+$ NO REEXEC MODE
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ 2lev brn_pred
+$ simulation type: sp
+$ SP perfect
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+$ Branch_Predict::allocate() pa_i:16, pa_j:10, pa_k:6
+# Brnach_Predict::allocate() allocate end
+# Loop::allocate_loop_c() init end
+# Loop::file_read() init end
+
+@ TC 1000000 cycle: 121894 ipc: 7.27736
+@ TC 2000000 cycle: 284964 ipc: 6.38749
+@ TC 3000000 cycle: 457391 ipc: 5.98267
+@ TC 4000000 cycle: 619706 ipc: 5.8971
+@ TC 5000000 cycle: 801465 ipc: 5.68461
+@ TC 6000000 cycle: 972138 ipc: 5.62831
+@ TC 7000000 cycle: 1115024 ipc: 5.72487
+@ TC 8000000 cycle: 1261309 ipc: 5.78126
+@ TC 9000000 cycle: 1411398 ipc: 5.81545
+@ TC 10000000 cycle: 1544421 ipc: 5.90667
+@ TC 11000000 cycle: 1676906 ipc: 5.97325
+@ TC 12000000 cycle: 1809053 ipc: 6.02811
+@ TC 13000000 cycle: 1941359 ipc: 6.08723
+@ TC 14000000 cycle: 2069920 ipc: 6.15019
+@ TC 15000000 cycle: 2192842 ipc: 6.22536
+@ TC 16000000 cycle: 2288803 ipc: 6.3504
+@ TC 17000000 cycle: 2427023 ipc: 6.36755
+@ TC 18000000 cycle: 2566708 ipc: 6.38659
+@ TC 19000000 cycle: 2700077 ipc: 6.41841
+@ TC 20000000 cycle: 2844607 ipc: 6.41421
+@ TC 21000000 cycle: 2965974 ipc: 6.45672
+@ TC 22000000 cycle: 3092606 ipc: 6.49771
+@ TC 23000000 cycle: 3223101 ipc: 6.51511
+@ TC 24000000 cycle: 3335723 ipc: 6.55628
+@ TC 25000000 cycle: 3451959 ipc: 6.5906
+@ TC 26000000 cycle: 3605872 ipc: 6.55645
+@ TC 27000000 cycle: 3719810 ipc: 6.60053
+@ TC 28000000 cycle: 3829198 ipc: 6.65112
+@ TC 29000000 cycle: 3933201 ipc: 6.71102
+@ TC 30000000 cycle: 4048668 ipc: 6.74483
+@ TC 31000000 cycle: 4194876 ipc: 6.72665
+@ TC 32000000 cycle: 4367427 ipc: 6.67128
+@ TC 33000000 cycle: 4521847 ipc: 6.64469
+@ TC 34000000 cycle: 4690562 ipc: 6.60253
+@ TC 35000000 cycle: 4841424 ipc: 6.58777

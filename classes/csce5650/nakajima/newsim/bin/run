@@ -1,0 +1,447 @@
+#
+# read run_newsim.pl
+# calchome:$HOME/run
+#  Time-stamp: <04/02/20 15:07:34 nakajima>
+#
+
+
+# divide X sp
+
+HOST:calc10
+FILE:-perfect
+SIM:[LP]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_no -sp_fork -sp_send -sp_ss]
+ARG:
+
+HOST:calc11
+FILE:-perfect
+SIM:[FC]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_no -sp_fork]
+ARG:
+
+HOST:calc12
+FILE:-perfect
+SIM:[FC]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_send -sp_ss]
+ARG:
+
+HOST:calc13
+FILE:-perfect
+SIM:[CE]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_no -sp_fork]
+ARG:
+
+HOST:calc14
+FILE:-perfect
+SIM:[CE]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_send -sp_ss]
+ARG:
+
+HOST:calc15
+FILE:-perfect
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_no -sp_fork]
+ARG:
+
+HOST:calc16
+FILE:-perfect
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_send -sp_ss]
+ARG:
+
+# divide vs sp_mem
+
+HOST:calc17
+FILE:-reg_perf
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-sp_ss
+
+HOST:calc18
+FILE:-reg_perf
+SIM:[CE]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-sp_ss
+
+HOST:calc19
+FILE:-reg_perf
+SIM:[LP FC]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-sp_ss
+
+
+## PD reg X sp 
+
+HOST:calc28
+FILE:-reg_512
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect]
+ARG:-sp_ss -reg_finite 512
+
+HOST:calc29
+FILE:-reg_512
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder]
+ARG:-sp_ss -reg_finite 512
+
+HOST:calc30
+FILE:-reg_512
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_sequential]
+ARG:-sp_ss -reg_finite 512
+
+HOST:calc31
+FILE:-reg_256
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect]
+ARG:-sp_ss -reg_finite 256
+
+HOST:calc32
+FILE:-reg_256
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder]
+ARG:-sp_ss -reg_finite 256
+
+HOST:calc33
+FILE:-reg_256
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_sequential]
+ARG:-sp_ss -reg_finite 256
+
+HOST:calc34
+FILE:-reg_128
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect]
+ARG:-sp_ss -reg_finite 128
+
+HOST:calc35
+FILE:-reg_128
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder]
+ARG:-sp_ss -reg_finite 128
+
+HOST:calc36
+FILE:-reg_128
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_sequential]
+ARG:-sp_ss -reg_finite 128
+
+HOST:calc37
+FILE:-reg_64
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect]
+ARG:-sp_ss -reg_finite 64
+
+HOST:calc38
+FILE:-reg_64
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder]
+ARG:-sp_ss -reg_finite 64
+
+HOST:calc39
+FILE:-reg_64
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_sequential]
+ARG:-sp_ss -reg_finite 64
+
+HOST:calc40
+FILE:-reg_32
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect]
+ARG:-sp_ss -reg_finite 32
+
+HOST:calc41
+FILE:-reg_32
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder]
+ARG:-sp_ss -reg_finite 32
+
+HOST:calc42
+FILE:-reg_32
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_sequential]
+ARG:-sp_ss -reg_finite 32
+
+HOST:calc43
+FILE:-reg_no
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect]
+ARG:-sp_ss -reg_none
+
+HOST:calc44
+FILE:-reg_no
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder]
+ARG:-sp_ss -reg_none
+
+HOST:calc45
+FILE:-reg_no
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_sequential]
+ARG:-sp_ss -reg_none
+
+
+# mem
+
+HOST:calc46
+FILE:-blind
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_blind
+
+HOST:calc47
+FILE:-pred1
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_predict 1
+
+HOST:calc48
+FILE:-pred2
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_predict 2
+
+HOST:calc49
+FILE:-pred3
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_predict 3
+
+HOST:calc50
+FILE:-pred4
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_predict 4
+
+
+# mem mp vs sp
+
+HOST:calc51
+FILE:-blind
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-mp_blind
+
+HOST:calc52
+FILE:-pred1
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-mp_predict 1
+
+HOST:calc53
+FILE:-pred1
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-mp_predict 2
+
+HOST:calc54
+FILE:-pred3
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-mp_predict 3
+
+HOST:calc55
+FILE:-pred4
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-mp_predict 4
+
+HOST:calc65
+FILE:-pred8
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_reorder -sp_sequential]
+ARG:-mp_predict 8
+
+
+
+# mem predict (perfect predict)
+
+HOST:calc56
+FILE:-perf_pred1
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_perf_pred 1
+
+HOST:calc57
+FILE:-perf_pred2
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_perf_pred 2
+
+HOST:calc58
+FILE:-perf_pred3
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_perf_pred 3
+
+HOST:calc59
+FILE:-perf_pred4
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_perf_pred 4
+
+HOST:calc66
+FILE:-perf_pred8
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_perf_pred 8
+
+# analysis
+
+HOST:calc60
+FILE:-analysis1
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_analysis 1
+
+HOST:calc61
+FILE:-analysis2
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_analysis 2
+
+HOST:calc62
+FILE:-analysis3
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_analysis 3
+
+HOST:calc63
+FILE:-analysis4
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_analysis 4
+
+HOST:calc64
+FILE:-analysis8
+SIM:[PD]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-mp_analysis 8
+
+
+###
+
+
+HOST:calc67
+FILE:-other-no_loop_unroll
+SIM:[PD CE FC LP sp oracle]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-no_loop_unroll
+
+HOST:calc68
+FILE:-other-no_inline
+SIM:[PD CE FC LP sp oracle]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-no_inline
+
+HOST:calc69
+FILE:-other-no_loop_and_inline
+SIM:[PD CE FC LP sp oracle]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss]
+ARG:-no_inline -no_loop_unroll
+
+
+###
+
+HOST:cados46
+FILE:-reg_perf
+SIM:[oracle sp]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect -sp_reorder -sp_sequential]
+ARG:-statistic
+
+HOST:cados47
+FILE:-reg_none
+SIM:[oracle sp]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect -sp_reorder -sp_sequential]
+ARG:-reg_none
+
+HOST:cados49
+FILE:-reg_32
+SIM:[oracle sp]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect -sp_reorder -sp_sequential]
+ARG:-reg_finite 32
+
+HOST:cados50
+FILE:-reg_64
+SIM:[oracle sp]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect -sp_reorder -sp_sequential]
+ARG:-reg_finite 64
+
+HOST:calc7
+FILE:-reg_128
+SIM:[oracle sp]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect -sp_reorder -sp_sequential]
+ARG:-reg_finite 128
+
+HOST:calc8
+FILE:-reg_256
+SIM:[oracle sp]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect -sp_reorder -sp_sequential]
+ARG:-reg_finite 256
+
+HOST:calc9
+FILE:-reg_512
+SIM:[oracle sp]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_perfect -sp_reorder -sp_sequential]
+ARG:-reg_finite 512
+
+# EOF

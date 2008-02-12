@@ -1,0 +1,155 @@
+Profile listing generated Mon Feb 13 14:26:00 1995 with:
+
+----------------------------------------------------------------------------
+*  -p[rocedures] using basic-block counts;                                 *
+*  sorted in descending order by the number of cycles executed in each     *
+*  procedure; unexecuted procedures are excluded                           *
+----------------------------------------------------------------------------
+
+
+    cycles %cycles  cum %  seconds     cycles  bytes procedure (file)
+                                        /call  /line
+
+5298056987    5.67   5.67  19.2657      28976     22 propagate_block (flow.c)
+4103530999    4.39  10.06  14.9219       1390     24 cse_insn (cse.c)
+2805334134    3.00  13.06  10.2012       3220     23 record_reg_classes (regclass.c)
+2049220560    2.19  15.25   7.4517   36593225    144 yyparse (bison.simple)
+2001229511    2.14  17.40   7.2772        137     26 canon_reg (cse.c)
+1981208598    2.12  19.52   7.2044          ?   2068 _OtsDivide (ots_div_alpha.s)
+1922599946    2.06  21.57   6.9913        537     26 subst (combine.c)
+1882635476    2.01  23.59   6.8459        161     19 canon_hash (cse.c)
+1862550039    1.99  25.58   6.7729      10449     19 schedule_block (sched.c)
+1676749565    1.79  27.37   6.0973       1333     19 constrain_operands (recog.c)
+1670592457    1.79  29.16   6.0749        379     24 make_compound_operation (combine.c)
+1652133683    1.77  30.93   6.0078        251     24 fold_rtx (cse.c)
+1639584188    1.75  32.68   5.9621        236     23 refers_to_regno_p (rtlanal.c)
+1565783878    1.68  34.36   5.6938        142     22 mark_set_resources (reorg.c)
+1537584548    1.65  36.00   5.5912        160     15 rtx_alloc (rtl.c)
+1525019842    1.63  37.64   5.5455        136     19 reg_scan_mark_refs (regclass.c)
+1510689520    1.62  39.25   5.4934        527     25 invalidate (cse.c)
+1499257007    1.60  40.86   5.4518        227     24 gen_rtx (emit-rtl.c)
+1383631399    1.48  42.34   5.0314       6620     22 invalidate_for_call (cse.c)
+1361065732    1.46  43.79   4.9493        301     24 insert (cse.c)
+1352650666    1.45  45.24   4.9187         99     31 rtx_cost (cse.c)
+1288392403    1.38  46.62   4.6851      12801     29 mark_target_live_regs (reorg.c)
+1280691673    1.37  47.99   4.6571       2640     21 find_reloads (reload.c)
+1263230672    1.35  49.34   4.5936         86     24 rtx_equal_p (rtlanal.c)
+1253746350    1.34  50.68   4.5591        137     23 mark_referenced_resources (reorg.c)
+1126224122    1.21  51.89   4.0954     407168     23 regclass (regclass.c)
+1031732739    1.10  52.99   3.7518        130     26 exp_equiv_p (cse.c)
+ 969670167    1.04  54.03   3.5261       2519     35 record_one_conflict (global.c)
+ 822511582    0.88  54.91   2.9910        640     19 make_node (tree.c)
+ 821354158    0.88  55.79   2.9867        536     22 yylex (c-lex.c)
+ 731353377    0.78  56.57   2.6595        215     22 nonzero_bits (combine.c)
+ 703789520    0.75  57.32   2.5592         55     12 delete_reg_equiv (cse.c)
+ 696938714    0.75  58.07   2.5343        132     21 mention_regs (cse.c)
+ 688336788    0.74  58.81   2.5030        218     27 copy_rtx (rtl.c)
+ 667717789    0.71  59.52   2.4281     241402     29 life_analysis (flow.c)
+ 629407252    0.67  60.19   2.2888        220      4 memset (../../../../../../src/usr/ccs/lib/libc/alpha/memset.s)
+ 591096156    0.63  60.83   2.1494         99     18 mark_jump_label (jump.c)
+ 572421075    0.61  61.44   2.0815      97169     19 jump_optimize (jump.c)
+ 554655791    0.59  62.03   2.0169         94     22 volatile_refs_p (rtlanal.c)
+ 551463040    0.59  62.62   2.0053       3715     20 find_basic_block (reorg.c)
+
+
+----------------------------------------------------------------------------
+*  -p[rocedures] using invocation counts;                                  *
+*  sorted in descending order by number of calls per procedure;            *
+*  unexecuted procedures are excluded                                      *
+----------------------------------------------------------------------------
+
+712023521 invocations total
+
+     calls  %calls    cum%    bytes procedure (file)
+
+  80521407   11.31   11.31        ? _OtsDivide32 (ots_div_alpha.s)
+  42270967    5.94   17.25        ? _OtsDivide32Unsigned (ots_div_alpha.s)
+  18293327    2.57   19.81       64 find_reg_note (rtlanal.c)
+  15404866    2.16   21.98       84 recog_memoized (recog.c)
+  14834309    2.08   24.06      880 rtx_equal_p (rtlanal.c)
+  14695617    2.06   26.13      660 canon_reg (cse.c)
+  13740903    1.93   28.06      936 rtx_cost (cse.c)
+  12892913    1.81   29.87      156 delete_reg_equiv (cse.c)
+  12821023    1.80   31.67      208 register_operand (recog.c)
+  11732811    1.65   33.31     1220 canon_hash (cse.c)
+  11214673    1.58   34.89     1088 reg_scan_mark_refs (regclass.c)
+  11045329    1.55   36.44     1284 mark_set_resources (reorg.c)
+   9668661    1.36   37.80      236 rtx_alloc (rtl.c)
+   9185218    1.29   39.09     1644 mark_referenced_resources (reorg.c)
+   8415218    1.18   40.27       40 prev_nonnote_insn (emit-rtl.c)
+   8405250    1.18   41.45      300 single_set (rtlanal.c)
+   7938242    1.11   42.57     1448 exp_equiv_p (cse.c)
+   7604673    1.07   43.63      372 note_stores (rtlanal.c)
+   6954915    0.98   44.61      972 refers_to_regno_p (rtlanal.c)
+   6754457    0.95   45.56      176 lookup (cse.c)
+   6618379    0.93   46.49      836 gen_rtx (emit-rtl.c)
+   6602706    0.93   47.42     8428 fold_rtx (cse.c)
+   6309057    0.89   48.30      660 apply_change_group (recog.c)
+   6231208    0.88   49.18     1100 free (../../../../../../src/usr/ccs/lib/libc/malloc.c)
+   6187787    0.87   50.05       96 simplejump_p (jump.c)
+   6042873    0.85   50.90      680 malloc (../../../../../../src/usr/ccs/lib/libc/malloc.c)
+   6000042    0.84   51.74      832 mark_jump_label (jump.c)
+   5959886    0.84   52.58      364 volatile_refs_p (rtlanal.c)
+   5952960    0.84   53.41      200 __alloca (../../../../../../src/usr/ccs/lib/libc/alpha/alloca.c)
+   5921671    0.83   54.24      304 validate_change (recog.c)
+   5897301    0.83   55.07       48 xmalloc (../../../../../../src/usr/ccs/lib/libc/alpha/alloca.c)
+   5405581    0.76   55.83      104 next_active_insn (emit-rtl.c)
+   5319876    0.75   56.58      672 mention_regs (cse.c)
+   4871746    0.68   57.26      944 copy_rtx_if_shared (emit-rtl.c)
+   4523916    0.64   57.90     1692 insert (cse.c)
+   4523916    0.64   58.53       84 get_element (cse.c)
+   4477269    0.63   59.16       20 free_element (cse.c)
+   4418293    0.62   59.78     3324 make_compound_operation (combine.c)
+   4403233    0.62   60.40      116 next_insn_no_annul (reorg.c)
+   4324862    0.61   61.01      416 insert_regs (cse.c)
+
+
+----------------------------------------------------------------------------
+*  -h[eavy] using basic-block counts;                                      *
+*  sorted in descending order by the number of cycles executed in each     *
+*  line; unexecuted lines are excluded                                     *
+----------------------------------------------------------------------------
+
+procedure (file)                           line bytes     cycles      %  cum %
+
+propagate_block (flow.c)                   1252    20 1420806325   1.52   1.52
+record_one_conflict (global.c)             1196    80  681333360   0.73   2.25
+propagate_block (flow.c)                   1452    32  657685970   0.70   2.95
+invalidate (cse.c)                         1526    32  599557482   0.64   3.59
+invalidate_for_call (cse.c)                1692    68  548452736   0.59   4.18
+record_reg_classes (regclass.c)            1174    40  512071584   0.55   4.73
+propagate_block (flow.c)                   1347    16  502936720   0.54   5.27
+rtx_alloc (rtl.c)                           238    12  502770372   0.54   5.81
+make_node (tree.c)                          936    12  502377564   0.54   6.34
+gen_rtx (emit-rtl.c)                        348    80  440149898   0.47   6.81
+refers_to_regno_p (rtlanal.c)               738    48  402626500   0.43   7.24
+delete_reg_equiv (cse.c)                    870    24  399680303   0.43   7.67
+subst (combine.c)                          2862   124  396983519   0.42   8.10
+make_compound_operation (combine.c)        5546   120  382672624   0.41   8.51
+find_basic_block (reorg.c)                 2121    28  377512513   0.40   8.91
+make_compound_operation (combine.c)        5542    44  374047200   0.40   9.31
+propagate_block (flow.c)                   1499    88  340111758   0.36   9.67
+schedule_block (sched.c)                   3644    40  335340520   0.36  10.03
+propagate_block (flow.c)                   1478    36  332240868   0.36  10.39
+invalidate_memory (cse.c)                  1663    32  328491560   0.35  10.74
+invalidate_for_call (cse.c)                1695    24  321045504   0.34  11.08
+refers_to_regno_p (rtlanal.c)               740    44  313473204   0.34  11.42
+gen_rtx (emit-rtl.c)                        369    36  290453626   0.31  11.73
+record_reg_classes (regclass.c)            1240    40  288609216   0.31  12.04
+propagate_block (flow.c)                   1250    20  284833710   0.30  12.34
+rtx_alloc (rtl.c)                           213    20  280391169   0.30  12.64
+canon_reg (cse.c)                          2455    32  277897050   0.30  12.94
+reg_fits_class_p (recog.c)                 1945    84  272515824   0.29  13.23
+rtx_equal_p (rtlanal.c)                     915    52  267017562   0.29  13.52
+rtx_cost (cse.c)                            735    36  266232672   0.28  13.80
+reg_scan_mark_refs (regclass.c)            1657    40  252371837   0.27  14.07
+canon_hash (cse.c)                         1858    40  239734306   0.26  14.33
+canon_reg (cse.c)                          2403    44  235129872   0.25  14.58
+make_compound_operation (combine.c)        5278    32  234169529   0.25  14.83
+propagate_block (flow.c)                   1500    36  233603460   0.25  15.08
+constrain_operands (recog.c)               1654    44  232322039   0.25  15.33
+rtx_alloc (rtl.c)                           215     8  232047864   0.25  15.58
+lookup (cse.c)                             1159    32  216820660   0.23  15.81
+refers_to_regno_p (rtlanal.c)               737    16  210345980   0.23  16.04
+nonzero_bits (combine.c)                   6454    44  208158657   0.22  16.26
+

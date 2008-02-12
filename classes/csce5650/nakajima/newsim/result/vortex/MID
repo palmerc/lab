@@ -1,0 +1,18 @@
+/export/capc5/nakajima/newsim/midfile/presim/presim -dir /export/capc5/nakajima/newsim/data/vortex -fastfwd 100000000  -updrive /bin/sh -c '/export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/vortex/prog -redir:sim /export/capc5/nakajima/newsim/log/vortex/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/vortex.ss vortex.in'
+dir:/export/capc5/nakajima/newsim/data/vortex/
+	=== init end ===
+Program_Info::Program_Info() init end
+Re_Exec::init_trace_skip() trace skip: 100000000 ..........
+TC:10000000
+TC:20000000
+TC:30000000
+TC:40000000
+TC:50000000
+TC:60000000
+TC:70000000
+TC:80000000
+TC:90000000
+TC:100000000
+100000000 END
+Branch_Predict::file_write() end
+Value_Predict::file_write() end

@@ -1,0 +1,78 @@
+/export/capc5/nakajima/newsim/src/newsim -dir /export/capc5/nakajima/newsim/data/li -sim_type PD -mp_predict 1 -updrive /bin/sh -c '/export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/li/prog -redir:sim /export/capc5/nakajima/newsim/log/li/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/li.ss train.lsp'
+
+# set dir: /export/capc5/nakajima/newsim/data/li/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/01/20 00:43:45> 
+	 FIXED: fork_eq: cd>exec, fork(cd=exec), mp_mem, reg
+$            ADD MD predict
+$ REEXEC MODE: spool size 20000
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ simulation type: PD (indirect CD)
+$ MP mem dep predict, store num: 1
+$ sp fork
+$ sp send
+$ SP perfect
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+# Brnach_Predict::file_read() init end
+# PosDom::file_read() (post dominate) init end
+# ICD::file_read() init end
+# Loop::file_read() init end
+
+# Re_Exec::check_mode() trace end :893209
+
+# print_result_data()
+trace count         : 893209
+ nop count          : 6
+ call/return count  : 59899
+ con branch count   : 112806
+ other branch count : 23607
+ load count         : 214554
+ store count        : 161819
+ other count        : 320518
+inst (trace - nop)  : 893203
+
+<func inline>
+ inline call count  : 29962
+ inline return count: 29937
+ inline other count : 53858
+
+<perfect memory disambiguate (SP_REG, GP_REG)>
+ sp load count      : 83869
+ sp store count     : 88293
+ gp load count      : 31421
+ gp store count     : 13978
+
+<loop unroll>
+ loop unroll branch : 12127
+ loop induction val : 22109
+ (loop const val    : 2336 )
+
+instance count      : 745210
+clock cycle         : 22990
+<branch predict>
+branch prediction : 89.1531 (100570/112806)
+ipc (instance/clock): 32.4145
+
+thread count: 26449, re_count: 83316 per: 31.7454%
+ fork: 26449 (gain: 4113, eq: 22336, nogain: 0)
+ no: 56867 (no_gain: 25, eq: 56842)
+  (total: 83316)
+
+inst per thread: 28.1754
+==== model mp_analysis ====
+mem sync_t: 5164
+mem viol_t: 7186
+mem dep_t: 16112
+mem no dep_t: 10338
+viol/thread : 27.1693
+viol_load/all_load : 18.0514
+
+

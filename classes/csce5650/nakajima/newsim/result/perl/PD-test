@@ -1,0 +1,28 @@
+/export/capc5/nakajima/newsim/src/newsim -dir /export/capc5/nakajima/newsim/data/perl -sim_type PD  -updrive /bin/sh -c '/export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/perl/prog -redir:sim /export/capc5/nakajima/newsim/log/perl/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/perl.ss scrabbl.pl scrabbl.in'
+
+# set dir: /export/capc5/nakajima/newsim/data/perl/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/01/26 13:36:03> 
+	 fork_eq: cd>exec, sp_fork(no), mp_mem, reg
+$            ADD:MD predict, FIX:unroll setjmp
+$ REEXEC MODE: spool size 20000
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ simulation type: PD (indirect CD)
+$ MP perfect
+$ sp fork
+$ sp send
+$ SP perfect
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+# Brnach_Predict::file_read() init end
+# PosDom::file_read() (post dominate) init end
+# ICD::file_read() init end
+# Loop::file_read() init end
+

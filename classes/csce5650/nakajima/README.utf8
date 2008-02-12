@@ -1,0 +1,192 @@
+●シミュレータの実行までのドキュメント
+・depend
+  # gcc version 2.95.3
+  c++プログラムでusing namespace stdを記述しているため
+
+  # sslittle-na-sstrix-objdump
+  simpleutils-990811.tar.gzを計算機のhome等でコンパイルし、すべての
+  計算機に対して実行可能にする。
+
+・newsimには以下のディレクトリがある。
+  SS/  bin/  data/  input/  log/  midfile/  result/  src/
+
+
+・bin以下に、スクリプト、設定ファイルがある。
+  dot.setenv        : シミュレータのディレクトリ設定ファイル
+                      $SIM_DIR_NAME : 展開先を変更する場合は、これを変更する
+  newsim_copy.pl*   : ホストcalchomeから全計算機にtarファイルを展開する
+                      スクリプト。
+                      その他の役割として、全計算をkillするスクリプト。
+  data.pl*          : 結果収集用のスクリプト
+  make_midfile.pl*  : 中間ファイル生成の実行スクリプト
+  run_newsim.pl*    : シミュレータ実行スクリプト
+  run               : 実行スクリプトが読みとるファイル
+
+
+
+
+・環境設定
+  dot.setenvを、calchome:/home/$user/.setenvにコピーし、
+  calchome:~/.cshrcに以下の行を追加する
+  source .setenv
+
+  newsim_copy.plとdata.plをcalchome:~/bin/等にコピー
+  (このスクリプトは、calchomeでしか動作しない)
+
+  ~/ 以下に次のディレクトリを作成
+  mkdir proc result result/ベンチマーク
+
+
+
+
+
+・中間ファイルの生成
+  シミュレータを計算機の/export/$HOST/$user/$SIM_DIR_NAME以下に展開
+  ($SIM_DIR_NAMEの初期値はnewsimに設定されている。)
+
+  .setenvが読み込まれているか確認
+  envコマンドで以下の表示がされるかを確認
+  (hostがcalc10、userがnakajima, SIM_DIR_NAMEがnewsimの場合 )
+
+  calc10% env
+  WORK_DIR=/export/calc10/nakajima
+  SIM_DIR_NAME=newsim
+  SIM_DIR=/export/calc10/nakajima/newsim
+  DATA_DIR=/export/calc10/nakajima/newsim/data
+  LOG_DIR=/export/calc10/nakajima/newsim/log
+  RESULT_DIR=/export/calc10/nakajima/newsim/result
+  INPUT_DIR=/export/calc10/nakajima/newsim/input
+  NEWSIM_BIN=/export/calc10/nakajima/newsim/src/newsim
+  SOURCE_DIR=/export/calc10/nakajima/newsim/src
+  MID_DIR=/export/calc10/nakajima/newsim/midfile
+  BIN_DIR=/export/calc10/nakajima/newsim/bin
+  TRACE_BIN=/export/calc10/nakajima/newsim/SS/sim-bpred
+  SCRIPT_BIN=/export/calc10/nakajima/newsim/bin/run_newsim.pl
+  BENCH_BIN_DIR=/export/calc10/SPEC_TRACE/SimpleScalar/bin
+
+
+  $BIN_DIR/make_midfile.pl &  を実行し、以下のファイルを作成する。
+
+  *calchomeが停止しても実行が止まらないように、スクリプトは $BIN_DIR/
+   以下から動かさない。
+
+  各バイナリとそのソースコードは$MID_DIR/以下にあります。
+  calc10% ls $MID_DIR/
+  ana_mem_dep/	du_chain/	loop_del_pc/	posdom/
+  bb_div_jr/	icd_info/	obj2asm/	presim/
+
+  make_midfile.plの実行のみで、以下のファイルを作成するためのバイナリが
+  コンパイル(make clean, make)され、各ベンチマークについて中間ファイルの
+  生成コマンドが実行されます。
+
+  compressの例
+  calc10% ls $DATA_DIR/compress95/
+  asm_loop	du_chain	bb_info		icd_info
+  objdump	brn_pred	jr_table	posdom
+  asm_du	ctrleq		loop_del_pcs	val_pred
+
+  各ファイルの説明はmaster.tar.gzに記載しています。
+  objdumpはsslittle-na-sstrix-objdumpの実行結果
+  asm_loop, asm_du はobjdumpを整形したファイル
+  jr_tableはジャンプテーブルと、それによるleaderのpc
+  bb_infoは関数、基本ブロックのleader, pc, pred, succの情報
+  ctrleq, posdomは制御等価、後支配
+  du_chainは定義使用連鎖
+  icd_info は間接制御依存
+  brn_pred, val_predは静的分岐予測、値予測プロファイル
+  loop_del_pcsはループのheader、誘導変数、ループをでる分岐、不変変数の情報
+
+
+
+
+
+
+
+・シミュレーション実行(1) : たくさんのモデルをシミュレーション
+
+  $BIN_DIR 以下の run ファイルを ~/ にコピー。
+
+  run ファイルを修正する。
+
+----例
+HOST:calc10
+FILE:-other-no_loop_unroll
+SIM:[PD CE FC LP sp oracle]
+BM:[compress95 gcc go ijpeg li m88ksim perl vortex]
+LP:[-sp_ss -sp_no]
+ARG:-no_loop_unroll
+----
+
+  HOST:実行したいhostname
+  FILE: 出力結果のファイル名の一部
+  SIM: シミュレーションする分割モデルの設定
+  BM: シミュレーションするベンチマークのリスト
+  LP: シミュレーションするモデルのリスト
+  ARG: デフォルトのモデルの設定
+
+  結果ファイル
+  $host:$RESULT_DIR/$BM/$SIM$FILE$LP
+
+  結果ファイルの例: はじめにシミュレーションされるモデル
+  $RESULT_DIR/compress95/PD-other-no_loop_unroll-sp_ss
+  結果ファイルの例: 最後にシミュレーションされるモデル
+  $RESULT_DIR/vortex/oracle-other-no_loop_unroll-sp_no
+
+  以下のコマンドを実行
+  calc10$ nice +20 $SCRIPT_BIN & を実行し、ログアウト
+  必要なバイナリが再度コンパイルされ、シミュレーションを実行します。
+
+  * ~/run ファイルを読み込むが、すぐにcloseするため、calchomeが落ちても
+    シミュレーション可能。
+
+  シミュレーションの進行状況の確認は、~/proc以下のファイルを見ればよい
+
+  cat ~/proc/ホスト名-実行した日付.proc
+  cat ~/proc/ホスト名-実行した日付
+
+  .procファイルは、実行または実行終了したモデルと、実行時のパラメータ表示
+  .procのないファイルは、出力ファイルのフルパス
+
+
+  # 結果ファイルは、~/result 以下にもコピーされます。
+
+
+
+
+
+
+・シミュレーション実行(2) : 一つのベンチマーク/モデルのみ実行
+
+  $SCRIPT_BIN ベンチマーク 分割モデル ファイル名の一部 [その他のモデル]
+
+  例
+  calc10$ $SCRIPT_BIN compress95 PD test -sp_ss -mp_blind &
+  ~/run ファイルは読み込みません
+
+  結果 $RESULT_DIR/compress95/PD-test
+
+
+
+
+
+
+
+・結果収集
+  calchomeでrunファイルを用いて結果を収集。
+
+  calchome$ ~/bin/data.pl を実行。自動的にrunファイルを読み、nfsで
+  マウントして結果ファイルを読み、読みたい値をgrepして、ベンチマーク毎に
+  整形する。
+
+  例
+  calchome% data.pl
+  calc10
+  LP-perfect-sp_no
+  9.19 9.66 5.01 24.15 9.52 7.04 10.56 51.39 
+  LP-perfect-sp_fork
+  9.28 10.01 5.14 23.98 9.52 7.12 10.89 51.13 
+  LP-perfect-sp_send
+  10.29 10.52 5.45 65.43 11.26 7.12 11.05 51.42 
+  LP-perfect-sp_ss
+  10.29 10.86 5.58 69.52 11.52 7.27 11.16 51.61 
+

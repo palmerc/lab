@@ -1,0 +1,78 @@
+gcc -DDEBUG -o sysprobe sysprobe.c
+endian probe results: little
+probe flags: -DBYTES_LITTLE_ENDIAN -DWORDS_LITTLE_ENDIAN -DFAST_SRL -DFAST_SRA -DGZIP_PATH="/usr/bin/gzip"
+probe libs: -lm
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c sim-bpred.c
+sim-bpred.c: In function `sim_main':
+sim-bpred.c:524: warning: unused variable `inst_type'
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c bpred.c
+In file included from misc.h:93,
+                 from bpred.c:123:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c main.c
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c syscall.c
+syscall.c: In function `sys_syscall':
+syscall.c:1843: warning: implicit declaration of function `utime'
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c memory.c
+In file included from misc.h:93,
+                 from memory.c:86:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c regs.c
+In file included from misc.h:93,
+                 from regs.c:78:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c loader.c
+In file included from misc.h:93,
+                 from loader.c:93:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c endian.c
+In file included from misc.h:93,
+                 from loader.h:81,
+                 from endian.c:72:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c dlite.c
+In file included from misc.h:93,
+                 from dlite.c:78:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c symbol.c
+In file included from misc.h:93,
+                 from symbol.c:73:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c eval.c
+In file included from misc.h:93,
+                 from eval.c:77:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c options.c
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c stats.c
+In file included from misc.h:93,
+                 from stats.c:73:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c eio.c
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c range.c
+In file included from misc.h:93,
+                 from range.c:75:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c misc.c
+In file included from misc.h:93,
+                 from misc.c:92:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   -c machine.c
+In file included from misc.h:93,
+                 from machine.c:71:
+/usr/include/sys/types.h:66: warning: empty declaration
+cd libexo ;  make "MAKE=make" "CC=gcc" "AR=ar qcv" "AROPT=" "RANLIB=ranlib" "CFLAGS=`./sysprobe -flags`  -DDEBUG -O0 -g -Wall" "OEXT=o" "LEXT=a" "EEXT=" "X=/" "RM=rm -f" libexo.a
+gcc -DBYTES_LITTLE_ENDIAN -DWORDS_LITTLE_ENDIAN -DFAST_SRL -DFAST_SRA -DGZIP_PATH="/usr/bin/gzip"   -DDEBUG -O0 -g -Wall -c libexo.c
+In file included from ../misc.h:93,
+                 from libexo.c:73:
+/usr/include/sys/types.h:66: warning: empty declaration
+gcc -DBYTES_LITTLE_ENDIAN -DWORDS_LITTLE_ENDIAN -DFAST_SRL -DFAST_SRA -DGZIP_PATH="/usr/bin/gzip"   -DDEBUG -O0 -g -Wall -c exolex.c
+In file included from ../misc.h:93,
+                 from exolex.l:68:
+/usr/include/sys/types.h:66: warning: empty declaration
+rm -f libexo.a
+ar qcv libexo.a libexo.o exolex.o
+a - libexo.o
+a - exolex.o
+ranlib libexo.a
+gcc -o sim-bpred `./sysprobe -flags`  -DDEBUG -O0 -g -Wall   sim-bpred.o bpred.o main.o syscall.o memory.o regs.o  loader.o endian.o dlite.o symbol.o  eval.o options.o stats.o eio.o  range.o misc.o machine.o libexo/libexo.a `./sysprobe -libs` -lm
+my work is done here...

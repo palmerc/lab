@@ -1,0 +1,80 @@
+//
+//
+//
+
+struct Reg_State{
+  int func;
+  int count;
+  bool defined;
+
+  // constructor
+  Reg_State(){ defined = false; }
+} reg_state[REG];
+
+int last_func = 0;
+int count_func = 0;
+
+static void inst_test(Pipe_Inst &inst, Program_Info &program){
+  const int func = program.search_func(inst.pc);
+  bool change = false;
+
+  if( last_func != func ){
+    //    cout << "change " << last_func << "->" << func << endl;
+    last_func = func;
+    change = true;
+    count_func ++;
+    for( int reg = 0; reg < REG; reg ++ ){
+      break;
+      if( reg == 1 ){
+	reg_state[reg].defined = false;
+      }else if( 4 <= reg && reg <= 15 ){
+	reg_state[reg].defined = false;
+      }else if( 24 <= reg && reg <= 25 ){
+	reg_state[reg].defined = false;
+      }else if( 32 <= reg ){
+	reg_state[reg].defined = false;
+      }
+    }
+  }
+
+  if( inst.dest != 0 ){
+    reg_state[inst.dest].defined = true;
+    reg_state[inst.dest].func = func;
+    reg_state[inst.dest].count = count_func;
+  }
+
+  if( change ){
+    int reg = inst.s_A;
+    if( reg != 0 && reg_state[reg].defined ){
+      if( reg_state[reg].func != func && reg_state[reg].count < count_func ){
+	if( !(reg == 2 || (4 <= reg && reg <= 7 )
+	      || (16 <= reg && reg <= 23) ||(28 <= reg && reg <= 31) ) ){
+	  cout << hex << inst.pc << dec << ":" << reg << endl;
+	  error("");
+	}
+      }
+    }
+
+    reg = inst.s_B;
+    if( reg != 0 && reg_state[reg].defined ){
+      if( reg_state[reg].func != func && reg_state[reg].count < count_func ){
+	if( !(reg == 2 || (4 <= reg && reg <= 7 )
+	      || (16 <= reg && reg <= 23) ||(28 <= reg && reg <= 31) ) ){
+	  cout << hex << inst.pc << dec << ":" << reg << endl;
+	  error("");
+	}
+      }
+    }
+
+    reg = inst.s_C;
+    if( reg != 0 && reg_state[reg].defined ){
+      if( reg_state[reg].func != func && reg_state[reg].count < count_func ){
+	if( !(reg == 2 || (4 <= reg && reg <= 7 )
+	      || (16 <= reg && reg <= 23) ||(28 <= reg && reg <= 31) ) ){
+	  cout << hex << inst.pc << dec << ":" << reg << endl;
+	  error("");
+	}
+      }
+    }
+  }
+}

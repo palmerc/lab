@@ -1,0 +1,69 @@
+/export/capc5/nakajima/newsim/src/newsim -dir /export/capc5/nakajima/newsim/data/li -sim_type FC -sp_sequential -trace 10000 -updrive /bin/sh -c '/export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/li/prog -redir:sim /export/capc5/nakajima/newsim/log/li/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/li.ss train.lsp'
+
+# set dir: /export/capc5/nakajima/newsim/data/li/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/01/14 15:51:28> FIXED: loop_c
+$            MD predict
+$ REEXEC MODE: spool size 20000
+$ trace limit: 10000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ simulation type: FC (indirect CD)
+$ MP perfect
+$ sp fork
+$ sp send
+$ SP sequential
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+# Brnach_Predict::file_read() init end
+# PosDom::file_read() no read posdom
+# ICD::file_read() init end
+# Loop::file_read() init end
+
+# Re_Exec::check_mode() trace lim :10000
+
+# print_result_data()
+trace count         : 10000
+ nop count          : 2
+ call/return count  : 135
+ con branch count   : 995
+ other branch count : 30
+ load count         : 434
+ store count        : 5495
+ other count        : 2909
+inst (trace - nop)  : 9998
+
+<func inline>
+ inline call count  : 72
+ inline return count: 63
+ inline other count : 113
+
+<perfect memory disambiguate (SP_REG, GP_REG)>
+ sp load count      : 163
+ sp store count     : 190
+ gp load count      : 87
+ gp store count     : 46
+
+<loop unroll>
+ loop unroll branch : 670
+ loop induction val : 1957
+ (loop const val    : 5 )
+
+instance count      : 7123
+clock cycle         : 3105
+<branch predict>
+branch prediction : 95.5779 (951/995)
+ipc (instance/clock): 2.29404
+
+thread count: 25, re_count: 62 per: 40.3226%
+ fork: 25 (gain: 0, eq: 10, nogain: 15)
+ no: 37 (no_gain: 32, eq: 5)
+  (total: 62)
+
+inst per thread: 284.92
+

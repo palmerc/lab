@@ -1,0 +1,518 @@
+total inst: 9985
+total func: 114
+
+====== func statistic ======
+0(__start)
+	inst: 0.190285 %		func_inst: 19
+1(spec_select_action)
+	inst: 0 %		func_inst: 0
+2(compress)
+	inst: 0 %		func_inst: 0
+3(output)
+	inst: 0 %		func_inst: 0
+4(decompress)
+	inst: 0 %		func_inst: 0
+5(getcode)
+	inst: 0 %		func_inst: 0
+6(rindex)
+	inst: 0 %		func_inst: 0
+7(onintr)
+	inst: 0 %		func_inst: 0
+8(oops)
+	inst: 0 %		func_inst: 0
+9(cl_block)
+	inst: 0 %		func_inst: 0
+10(cl_hash)
+	inst: 0 %		func_inst: 0
+11(prratio)
+	inst: 0 %		func_inst: 0
+12(version)
+	inst: 0 %		func_inst: 0
+13(getbyte)
+	inst: 0 %		func_inst: 0
+14(putbyte)
+	inst: 0 %		func_inst: 0
+15(readbytes)
+	inst: 0 %		func_inst: 0
+16(writebytes)
+	inst: 0 %		func_inst: 0
+17(add_line)
+	inst: 0 %		func_inst: 0
+18(fill_text_buffer)
+	inst: 0 %		func_inst: 0
+19(print_buffer)
+	inst: 0 %		func_inst: 0
+20(getranchar)
+	inst: 0 %		func_inst: 0
+21(ran2)
+	inst: 0 %		func_inst: 0
+22(ran)
+	inst: 0 %		func_inst: 0
+23(compare_buffer)
+	inst: 0 %		func_inst: 0
+24(main)
+	inst: 0.2003 %		func_inst: 20
+25(__do_global_dtors)
+	inst: 0 %		func_inst: 0
+26(__do_global_ctors)
+	inst: 0.190285 %		func_inst: 19
+27(__main)
+	inst: 0.10015 %		func_inst: 10
+28(__libc_init)
+	inst: 0.0600901 %		func_inst: 6
+29(exit)
+	inst: 0 %		func_inst: 0
+30(_cleanup)
+	inst: 0 %		func_inst: 0
+31(fprintf)
+	inst: 0 %		func_inst: 0
+32(unlink)
+	inst: 0 %		func_inst: 0
+33(__stdio_check_funcs)
+	inst: 0 %		func_inst: 0
+34(__stdio_check_offset)
+	inst: 4.34652 %		func_inst: 434
+35(flushbuf)
+	inst: 0.721082 %		func_inst: 72
+36(fillbuf)
+	inst: 8.89334 %		func_inst: 888
+37(__flshfp)
+	inst: 1.02153 %		func_inst: 102
+38(__fillbf)
+	inst: 13.0696 %		func_inst: 1305
+39(__invalidate)
+	inst: 0 %		func_inst: 0
+40(printf)
+	inst: 0.130195 %		func_inst: 13
+41(scanf)
+	inst: 0.10015 %		func_inst: 10
+42(atexit)
+	inst: 0.16024 %		func_inst: 16
+43(__new_exitfn)
+	inst: 0.210315 %		func_inst: 21
+44(__init_misc)
+	inst: 0.16024 %		func_inst: 16
+45(_exit)
+	inst: 0 %		func_inst: 0
+46(fclose)
+	inst: 0 %		func_inst: 0
+47(vfprintf)
+	inst: 1.01152 %		func_inst: 101
+48(printf_unknown)
+	inst: 0 %		func_inst: 0
+49(__unlink)
+	inst: 0 %		func_inst: 0
+50(__stdio_read)
+	inst: 0.721082 %		func_inst: 72
+51(__stdio_write)
+	inst: 0 %		func_inst: 0
+52(__stdio_seek)
+	inst: 0.260391 %		func_inst: 26
+53(__stdio_close)
+	inst: 0 %		func_inst: 0
+54(__stdio_fileno)
+	inst: 0 %		func_inst: 0
+55(__stdio_open)
+	inst: 0 %		func_inst: 0
+56(__stdio_reopen)
+	inst: 0 %		func_inst: 0
+57(__stdio_init_stream)
+	inst: 0.560841 %		func_inst: 56
+58(initialize)
+	inst: 0.470706 %		func_inst: 47
+59(morecore)
+	inst: 0.420631 %		func_inst: 42
+60(malloc)
+	inst: 0.761142 %		func_inst: 76
+61(memset)
+	inst: 46.3495 %		func_inst: 4628
+62(__vfscanf)
+	inst: 7.09064 %		func_inst: 708
+63(strrchr)
+	inst: 0.520781 %		func_inst: 52
+64(syscall_error)
+	inst: 0.0400601 %		func_inst: 4
+65(_free_internal)
+	inst: 0 %		func_inst: 0
+66(free)
+	inst: 0 %		func_inst: 0
+67(register_printf_function)
+	inst: 0 %		func_inst: 0
+68(mbtowc)
+	inst: 0.530796 %		func_inst: 53
+69(strlen)
+	inst: 0.230346 %		func_inst: 23
+70(strchr)
+	inst: 6.4697 %		func_inst: 646
+71(fwrite)
+	inst: 1.05158 %		func_inst: 105
+72(_itoa)
+	inst: 0 %		func_inst: 0
+73(__printf_fp)
+	inst: 0 %		func_inst: 0
+74(sprintf)
+	inst: 0 %		func_inst: 0
+75(fflush)
+	inst: 0 %		func_inst: 0
+76(__read)
+	inst: 0.480721 %		func_inst: 48
+77(__write)
+	inst: 0 %		func_inst: 0
+78(__lseek)
+	inst: 0.0801202 %		func_inst: 8
+79(__close)
+	inst: 0 %		func_inst: 0
+80(__open)
+	inst: 0 %		func_inst: 0
+81(__dup2)
+	inst: 0 %		func_inst: 0
+82(__fstat)
+	inst: 0.0801202 %		func_inst: 8
+83(__isatty)
+	inst: 0 %		func_inst: 0
+84(__default_morecore)
+	inst: 0.300451 %		func_inst: 30
+85(memcpy)
+	inst: 0.510766 %		func_inst: 51
+86(realloc)
+	inst: 0 %		func_inst: 0
+87(strtol)
+	inst: 1.49224 %		func_inst: 149
+88(strtoul)
+	inst: 0 %		func_inst: 0
+89(strtod)
+	inst: 0 %		func_inst: 0
+90(ungetc)
+	inst: 0 %		func_inst: 0
+91(strncmp)
+	inst: 0 %		func_inst: 0
+92(memchr)
+	inst: 0 %		func_inst: 0
+93(__isnan)
+	inst: 0 %		func_inst: 0
+94(__isinf)
+	inst: 0 %		func_inst: 0
+95(__mpn_extract_double)
+	inst: 0 %		func_inst: 0
+96(__mpn_lshift)
+	inst: 0 %		func_inst: 0
+97(__mpn_cmp)
+	inst: 0 %		func_inst: 0
+98(__mpn_divmod_1)
+	inst: 0 %		func_inst: 0
+99(abort)
+	inst: 0 %		func_inst: 0
+100(__mpn_mul_1)
+	inst: 0 %		func_inst: 0
+101(__mpn_add_n)
+	inst: 0 %		func_inst: 0
+102(__mpn_divmod)
+	inst: 0 %		func_inst: 0
+103(__mpn_rshift)
+	inst: 0 %		func_inst: 0
+104(__mpn_sub_n)
+	inst: 0 %		func_inst: 0
+105(vsprintf)
+	inst: 0 %		func_inst: 0
+106(__ioctl)
+	inst: 0 %		func_inst: 0
+107(__sbrk)
+	inst: 0.450676 %		func_inst: 45
+108(_wordcopy_fwd_aligned)
+	inst: 0.290436 %		func_inst: 29
+109(_wordcopy_fwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+110(_wordcopy_bwd_aligned)
+	inst: 0 %		func_inst: 0
+111(_wordcopy_bwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+112(memmove)
+	inst: 0 %		func_inst: 0
+113(pow)
+	inst: 0 %		func_inst: 0
+114(pow_P)
+	inst: 0 %		func_inst: 0
+115(__mpn_submul_1)
+	inst: 0 %		func_inst: 0
+116(__brk)
+	inst: 0.270406 %		func_inst: 27
+117(__finite)
+	inst: 0 %		func_inst: 0
+118(__copysign)
+	inst: 0 %		func_inst: 0
+119(__drem)
+	inst: 0 %		func_inst: 0
+120(log)
+	inst: 0 %		func_inst: 0
+121(__log__D)
+	inst: 0 %		func_inst: 0
+122(exp)
+	inst: 0 %		func_inst: 0
+123(__exp__D)
+	inst: 0 %		func_inst: 0
+124(ldexp)
+	inst: 0 %		func_inst: 0
+125(__logb)
+	inst: 0 %		func_inst: 0
+126(__umoddi3)
+	inst: 0 %		func_inst: 0
+127(__udivdi3)
+	inst: 0 %		func_inst: 0
+
+====== inst statistic ======
+0(__start)
+	func: 0 %		call: 0
+1(spec_select_action)
+	func: 0 %		call: 0
+2(compress)
+	func: 0 %		call: 0
+3(output)
+	func: 0 %		call: 0
+4(decompress)
+	func: 0 %		call: 0
+5(getcode)
+	func: 0 %		call: 0
+6(rindex)
+	func: 0 %		call: 0
+7(onintr)
+	func: 0 %		call: 0
+8(oops)
+	func: 0 %		call: 0
+9(cl_block)
+	func: 0 %		call: 0
+10(cl_hash)
+	func: 0 %		call: 0
+11(prratio)
+	func: 0 %		call: 0
+12(version)
+	func: 0 %		call: 0
+13(getbyte)
+	func: 0 %		call: 0
+14(putbyte)
+	func: 0 %		call: 0
+15(readbytes)
+	func: 0 %		call: 0
+16(writebytes)
+	func: 0 %		call: 0
+17(add_line)
+	func: 0 %		call: 0
+18(fill_text_buffer)
+	func: 0 %		call: 0
+19(print_buffer)
+	func: 0 %		call: 0
+20(getranchar)
+	func: 0 %		call: 0
+21(ran2)
+	func: 0 %		call: 0
+22(ran)
+	func: 0 %		call: 0
+23(compare_buffer)
+	func: 0 %		call: 0
+24(main)
+	func: 0.877193 %		call: 1
+25(__do_global_dtors)
+	func: 0 %		call: 0
+26(__do_global_ctors)
+	func: 0.877193 %		call: 1
+27(__main)
+	func: 0.877193 %		call: 1
+28(__libc_init)
+	func: 0.877193 %		call: 1
+29(exit)
+	func: 0 %		call: 0
+30(_cleanup)
+	func: 0 %		call: 0
+31(fprintf)
+	func: 0 %		call: 0
+32(unlink)
+	func: 0 %		call: 0
+33(__stdio_check_funcs)
+	func: 0 %		call: 0
+34(__stdio_check_offset)
+	func: 11.4035 %		call: 13
+35(flushbuf)
+	func: 0.877193 %		call: 1
+36(fillbuf)
+	func: 10.5263 %		call: 12
+37(__flshfp)
+	func: 0.877193 %		call: 1
+38(__fillbf)
+	func: 11.4035 %		call: 13
+39(__invalidate)
+	func: 0 %		call: 0
+40(printf)
+	func: 0.877193 %		call: 1
+41(scanf)
+	func: 0.877193 %		call: 1
+42(atexit)
+	func: 0.877193 %		call: 1
+43(__new_exitfn)
+	func: 0.877193 %		call: 1
+44(__init_misc)
+	func: 0.877193 %		call: 1
+45(_exit)
+	func: 0 %		call: 0
+46(fclose)
+	func: 0 %		call: 0
+47(vfprintf)
+	func: 0.877193 %		call: 1
+48(printf_unknown)
+	func: 0 %		call: 0
+49(__unlink)
+	func: 0 %		call: 0
+50(__stdio_read)
+	func: 10.5263 %		call: 12
+51(__stdio_write)
+	func: 0 %		call: 0
+52(__stdio_seek)
+	func: 1.75439 %		call: 2
+53(__stdio_close)
+	func: 0 %		call: 0
+54(__stdio_fileno)
+	func: 0 %		call: 0
+55(__stdio_open)
+	func: 0 %		call: 0
+56(__stdio_reopen)
+	func: 0 %		call: 0
+57(__stdio_init_stream)
+	func: 1.75439 %		call: 2
+58(initialize)
+	func: 0.877193 %		call: 1
+59(morecore)
+	func: 0.877193 %		call: 1
+60(malloc)
+	func: 0.877193 %		call: 1
+61(memset)
+	func: 0.877193 %		call: 1
+62(__vfscanf)
+	func: 0.877193 %		call: 1
+63(strrchr)
+	func: 0.877193 %		call: 1
+64(syscall_error)
+	func: 0.877193 %		call: 1
+65(_free_internal)
+	func: 0 %		call: 0
+66(free)
+	func: 0 %		call: 0
+67(register_printf_function)
+	func: 0 %		call: 0
+68(mbtowc)
+	func: 1.75439 %		call: 2
+69(strlen)
+	func: 0.877193 %		call: 1
+70(strchr)
+	func: 7.89474 %		call: 9
+71(fwrite)
+	func: 0.877193 %		call: 1
+72(_itoa)
+	func: 0 %		call: 0
+73(__printf_fp)
+	func: 0 %		call: 0
+74(sprintf)
+	func: 0 %		call: 0
+75(fflush)
+	func: 0 %		call: 0
+76(__read)
+	func: 10.5263 %		call: 12
+77(__write)
+	func: 0 %		call: 0
+78(__lseek)
+	func: 1.75439 %		call: 2
+79(__close)
+	func: 0 %		call: 0
+80(__open)
+	func: 0 %		call: 0
+81(__dup2)
+	func: 0 %		call: 0
+82(__fstat)
+	func: 1.75439 %		call: 2
+83(__isatty)
+	func: 0 %		call: 0
+84(__default_morecore)
+	func: 2.63158 %		call: 3
+85(memcpy)
+	func: 0.877193 %		call: 1
+86(realloc)
+	func: 0 %		call: 0
+87(strtol)
+	func: 0.877193 %		call: 1
+88(strtoul)
+	func: 0 %		call: 0
+89(strtod)
+	func: 0 %		call: 0
+90(ungetc)
+	func: 0 %		call: 0
+91(strncmp)
+	func: 0 %		call: 0
+92(memchr)
+	func: 0 %		call: 0
+93(__isnan)
+	func: 0 %		call: 0
+94(__isinf)
+	func: 0 %		call: 0
+95(__mpn_extract_double)
+	func: 0 %		call: 0
+96(__mpn_lshift)
+	func: 0 %		call: 0
+97(__mpn_cmp)
+	func: 0 %		call: 0
+98(__mpn_divmod_1)
+	func: 0 %		call: 0
+99(abort)
+	func: 0 %		call: 0
+100(__mpn_mul_1)
+	func: 0 %		call: 0
+101(__mpn_add_n)
+	func: 0 %		call: 0
+102(__mpn_divmod)
+	func: 0 %		call: 0
+103(__mpn_rshift)
+	func: 0 %		call: 0
+104(__mpn_sub_n)
+	func: 0 %		call: 0
+105(vsprintf)
+	func: 0 %		call: 0
+106(__ioctl)
+	func: 0 %		call: 0
+107(__sbrk)
+	func: 2.63158 %		call: 3
+108(_wordcopy_fwd_aligned)
+	func: 0.877193 %		call: 1
+109(_wordcopy_fwd_dest_aligned)
+	func: 0 %		call: 0
+110(_wordcopy_bwd_aligned)
+	func: 0 %		call: 0
+111(_wordcopy_bwd_dest_aligned)
+	func: 0 %		call: 0
+112(memmove)
+	func: 0 %		call: 0
+113(pow)
+	func: 0 %		call: 0
+114(pow_P)
+	func: 0 %		call: 0
+115(__mpn_submul_1)
+	func: 0 %		call: 0
+116(__brk)
+	func: 2.63158 %		call: 3
+117(__finite)
+	func: 0 %		call: 0
+118(__copysign)
+	func: 0 %		call: 0
+119(__drem)
+	func: 0 %		call: 0
+120(log)
+	func: 0 %		call: 0
+121(__log__D)
+	func: 0 %		call: 0
+122(exp)
+	func: 0 %		call: 0
+123(__exp__D)
+	func: 0 %		call: 0
+124(ldexp)
+	func: 0 %		call: 0
+125(__logb)
+	func: 0 %		call: 0
+126(__umoddi3)
+	func: 0 %		call: 0
+127(__udivdi3)
+	func: 0 %		call: 0

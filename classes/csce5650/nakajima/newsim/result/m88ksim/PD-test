@@ -1,0 +1,30 @@
+/export/capc5/nakajima/newsim/src/newsim -dir /export/capc5/nakajima/newsim/data/m88ksim -sim_type PD -spool 5000 -bp_dynamic -updrive /bin/sh -c 'cat ctl.in | /export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/m88ksim/prog -redir:sim /export/capc5/nakajima/newsim/log/m88ksim/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/m88ksim.ss'
+
+# set dir: /export/capc5/nakajima/newsim/data/m88ksim/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/02/08 02:06:37>	 ADD: MD predict, FIXED: setjmp/longjmp, unroll
+$            FIX: 
+$ REEXEC MODE: spool size 5000
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ 2lev brn_pred
+$ simulation type: PD (indirect CD)
+$ MP perfect
+$ sp fork
+$ sp send
+$ SP perfect
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+$ Branch_Predict::allocate() pa_i:10, pa_j:6, pa_k:3
+# Brnach_Predict::allocate() allocate end
+# PosDom::file_read() (post dominate) init end
+# Loop::file_read() init end
+# ICD::file_read() init end
+
+@ TC 1000000 cycle: 2838 ipc: 309.856 thread: 12047 re: 89778
