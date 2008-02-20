@@ -21,36 +21,33 @@ def start():
 	
 def productions():
 	match('BLOCK')
-	while token != 'BLOCK':
+	while token[0] != 'BLOCK':
 		left_side()
-	match('BLOCK')
 	
 def left_side():
 	match('NONTERM')
 	match('COLON')
 	right_side()
+	match('SEMI')
 
 def right_side():
-	if token[0] == 'TERM':
-		match('TERM')
-	elif token[0] == 'NONTERM':
-		match('NONTERM')
-	elif token[0] == 'CHAR':
-		match('CHAR')
-	elif token[0] == 'PIPE':
-		match('PIPE')
-		print 'next token', token
-		right_side()
-	elif token[0] == 'SEMI':
-		match('SEMI')
-	else:
-		print 'right_side error', token
+	while token[0] != 'SEMI':
+		if token[0] == 'TERM':
+			match('TERM')
+		elif token[0] == 'NONTERM':
+			match('NONTERM')
+		elif token[0] == 'CHAR':
+			match('CHAR')
+		elif token[0] == 'PIPE':
+			match('PIPE')
+			right_side()
+		else:
+			print 'right_side:', token
 	
 def match(m):
 	global token, grammar
 	
 	if m == token[0]:
-		print m
 		token = lex(grammar)
 	else:
 		print 'match error', m
