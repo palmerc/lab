@@ -31,23 +31,29 @@ def left_side():
 	right_side()
 
 def right_side():
-	if 
-	match('TERM')
-	expression()
-	match('PIPE')
-	if token == 'NONTERM':
+	if token[0] == 'TERM':
+		match('TERM')
+	elif token[0] == 'NONTERM':
 		match('NONTERM')
-	match('SEMI')
+	elif token[0] == 'CHAR':
+		match('CHAR')
+	elif token[0] == 'PIPE':
+		match('PIPE')
+		print 'next token', token
+		right_side()
+	elif token[0] == 'SEMI':
+		match('SEMI')
+	else:
+		print 'right_side error', token
 	
 def match(m):
 	global token, grammar
 	
-	print token
 	if m == token[0]:
 		print m
 		token = lex(grammar)
 	else:
-		print 'error', m
+		print 'match error', m
 
 
 def parser():
