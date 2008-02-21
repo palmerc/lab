@@ -5,98 +5,93 @@ from grammar import Production
 from grammar import Grammar
 from grammar import PrettyPrint
 
-source = None
-token = None
-grammar = None
-rule = None
-rules = []
-pductions = []
-terminals = []
-start = ''
-
-def yaccgrammar():
-	tokens()
-	start()
-	productions()
-
-def tokens():
-	global terminals
+class Parser:
+	__token = ''
+	__rule = ''
+	__rule_list = []
+	__production_list = []
 	
-	while token[0] == 'TOKEN':
-		match('TOKEN')
-		while token[0] == 'TERM':
-			terminals.append(token[1])
-			match('TERM')
+	source = None
+	start = ''
+	terminal_list = []
+	grammar = None
 	
-def start():
-	global start
+	def __init__(self, source):
+		
+		self.source = iter(source)
+		self.parser()
 	
-	match('START')
-	start = token[1]
-	match('NONTERM')
+	def yygrammar(self):
+		self.tokens()
+		self.start()
+		self.productions()
 	
-def productions():
-	global grammar, start, terminals
+	def tokens(self):	
+		while self.__token[0] == 'TOKEN':
+			self.match('TOKEN')
+			while self.__token[0] == 'TERM':
+				self.terminal_list.append(self.__token[1])
+				self.match('TERM')
+		
+	def start(self):	
+		self.match('START')
+		self.start = self.__token[1]
+		self.match('NONTERM')
+		
+	def productions(self):
+		self.match('BLOCK')
+		while self.__token[0] != 'BLOCK':
+			self.left_side()
+		self.grammar = Grammar(self.__production_list)
+		self.grammar.start = self.start
+		self.grammar.tokens = self.terminal_list
+		
+	def left_side(self):
+		self.__rule_list = []
+		production_name = self.__token[1]
+		self.match('NONTERM')
+		self.match('COLON')
+		self.right_side()
+		self.__rule_list.append(Rule(self.__rule))
+		self.__production_list.append(Production(production_name, self.__rule_list))
+		self.match('SEMI')
 	
-	match('BLOCK')
-	while token[0] != 'BLOCK':
-		left_side()
-	grammar = Grammar(pductions)
-	grammar.start = start
-	grammar.tokens = terminals
-	
-def left_side():
-	global rules
-	
-	rules = []
-	production = token[1]
-	match('NONTERM')
-	match('COLON')
-	right_side()
-	rules.append(Rule(rule))
-	pductions.append(Production(production, rules))
-	match('SEMI')
-
-def right_side():
-	global rule
-	rule = ''
-	
-	while token[0] != 'SEMI':
-		if token[0] == 'TERM':
-			rule += token[1]
-			match('TERM')
-		elif token[0] == 'NONTERM':
-			rule += token[1]
-			match('NONTERM')
-		elif token[0] == 'CHAR':
-			rule += token[1]
-			match('CHAR')
-		elif token[0] == 'PIPE':
-			rules.append(Rule(rule))
-			match('PIPE')
-			right_side()
+	def right_side(self):
+		self.__rule = ''
+		
+		while self.__token[0] != 'SEMI':
+			if self.__token[0] == 'TERM':
+				self.__rule += self.__token[1]
+				self.match('TERM')
+			elif self.__token[0] == 'NONTERM':
+				self.__rule += self.__token[1]
+				self.match('NONTERM')
+			elif self.__token[0] == 'CHAR':
+				self.__rule += self.__token[1]
+				self.match('CHAR')
+			elif self.__token[0] == 'PIPE':
+				self.__rule_list.append(Rule(self.__rule))
+				self.match('PIPE')
+				self.right_side()
+			else:
+				print 'right_side:', self.__Ltoken
+			self.__rule += ' '
+		
+	def match(self, m):
+		if m == self.__token[0]:
+			self.__token = lex(self.source)
 		else:
-			print 'right_side:', token
-		rule += ' '
+			print 'match error', m
 	
-def match(m):
-	global token, source
 	
-	if m == token[0]:
-		token = lex(source)
-	else:
-		print 'match error', m
-
-
-def parser():
-	global token, source
-	
-	token = lex(source)
-	yaccgrammar()
-        
+	def parser(self):
+		self.__token = lex(self.source)
+		self.yygrammar()
+		
+	def printer(self):
+		PrettyPrint(self.grammar).printer()
+	        
 def main(argv):
-	global source, grammar
-	
 	try:
 		filename = argv[0]
 	except IndexError:
@@ -113,12 +108,9 @@ def main(argv):
 	for line in f:
 		G += line
 	f.close()
-      
-	source = iter(G)
     
-	parser()
-	
-	PrettyPrint(grammar).printer()
+	grammar = Parser(G)
+	grammar.printer()
 
 if __name__ == "__main__":
     main(sys.argv[1:])
