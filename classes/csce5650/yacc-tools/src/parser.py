@@ -4,10 +4,11 @@ from grammar import Rule
 from grammar import Production
 from grammar import Grammar
 from grammar import PrettyPrint
+from grammar import Transform
 
 class Parser:
 	__token = ''
-	__rule = ''
+	__rule = []
 	__rule_list = []
 	__production_list = []
 	
@@ -57,37 +58,41 @@ class Parser:
 		self.match('SEMI')
 	
 	def right_side(self):
-		self.__rule = ''
+		self.__rule = []
 		
 		while self.__token[0] != 'SEMI':
 			if self.__token[0] == 'TERM':
-				self.__rule += self.__token[1]
+				self.__rule.append(self.__token[1])
 				self.match('TERM')
 			elif self.__token[0] == 'NONTERM':
-				self.__rule += self.__token[1]
+				self.__rule.append(self.__token[1])
 				self.match('NONTERM')
 			elif self.__token[0] == 'CHAR':
-				self.__rule += self.__token[1]
+				self.__rule.append(self.__token[1])
 				self.match('CHAR')
 			elif self.__token[0] == 'PIPE':
 				self.__rule_list.append(Rule(self.__rule))
 				self.match('PIPE')
 				self.right_side()
 			else:
-				print 'right_side:', self.__Ltoken
-			self.__rule += ' '
+				print 'right_side:', self.__token
 		
 	def match(self, m):
 		if m == self.__token[0]:
 			self.__token = lex(self.source)
 		else:
-			print 'match error', m
-	
+			print 'match error', m	
 	
 	def parser(self):
 		self.__token = lex(self.source)
 		self.yygrammar()
+	
+	def lf(self):
+		Transform(self.grammar).lf()
 		
+	def pa(self):
+		Transform(self.grammar).pa()
+	
 	def printer(self):
 		PrettyPrint(self.grammar).printer()
 	        

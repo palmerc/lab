@@ -1,9 +1,5 @@
 import sys
-from parser import parser
-
-def kil_LeR():
-	# double for loop Page 177 of 1988 edition of Dragon book
-	pass
+from parser import Parser
 
 def main(argv):
 	# open file
@@ -23,12 +19,11 @@ def main(argv):
 	for line in f:
 		G += line
 	f.close()
-      
-	source = iter(G)
-    
-	parser()
-	
-	PrettyPrint(grammar).printer()
+       
+	grammar = Parser(G)
+	#grammar.lf()
+	grammar.pa()
+	#grammar.printer()
 	
 if __name__ == "__main__":
 	main(sys.argv[1:])
