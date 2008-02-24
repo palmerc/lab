@@ -1,0 +1,7 @@
+Author: Cameron Palmer
+Date: February 2008
+
+These tools are meant to help generate a recursive descent parser from a yacc grammar. 
+
+The current tools consist of a lexer and parser for a yacc grammar, and in theory the ability to roundtrip the grammar, perform Paull's algorithm on a grammar to remove left recursion, and left factor a grammar to improve its size and make it more suitable for predictive parsing.
+
