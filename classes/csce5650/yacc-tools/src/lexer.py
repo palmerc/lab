@@ -67,10 +67,16 @@ def main(argv):
         print "Unable to open file", filename
         sys.exit(2)
 
-    G = ""
-    for line in f:
-        G += line
+    #G = ""
+    #for line in f:
+    #    if line.startswith('#'):
+    #        continue
+    #    G += line
+    G = ''.join(line for line in f if not line.startswith('#'))
     f.close()
+    
+    #G = f.read()
+    
     
     grammar = iter(G) 
     token = lex(grammar)

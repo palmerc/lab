@@ -21,9 +21,10 @@ def main(argv):
 	f.close()
        
 	grammar = Parser(G)
+	print grammar
 	#grammar.lf()
 	grammar.pa()
-	#grammar.printer()
+	grammar.printer()
 	
 if __name__ == "__main__":
 	main(sys.argv[1:])
