@@ -6,7 +6,7 @@ class ParserTestCase(unittest.TestCase):
     '''This test check to make sure the internal representation matches the file read'''
 
     def setUp(self):
-        f = open('../' + self.file)
+        f = open('../grammars/' + self.file)
         G = f.read()
         f.close()
     

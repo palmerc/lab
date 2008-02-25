@@ -2,14 +2,13 @@ import sys
 
 class Rule:
     __slots__ = ('rule',)
+    
     def __init__(self, rule):
         self.rule = rule
         
-    #def __getitem__(self, key): return self.rule[key]
-    #def __setitem__(self, key, item): self.rule[key] = item
-
 class Production:
     __slots__ = ('ls', 'rule_list')
+    
     def __init__(self, ls, rule_list):
         self.ls = ls
         self.rule_list = rule_list
@@ -19,18 +18,18 @@ class Production:
     
 class Grammar:
     def __init__(self, production_list):
-        self.start = None
-        self.token_list = []
+        self.start_token = None
+        self.terminal_list = []
         self.production_list = production_list
     
     def __iter__(self):
         return iter(self.production_list)
         
-    def add_token(self, token):
-        self.token_list.append(token)
+    def add_terminal(self, token):
+        self.terminal_list.append(token)
         
-    def start_token(self, token):
-        self.start = token
+    def set_start(self, token):
+        self.start_token = token
         
 class Transform:
     suffix = '_prime'
@@ -49,43 +48,39 @@ class Transform:
         '''M.C. Paull's Algorithm for the removal of left recursion in a CFG
         input: a grammar with no cycles or epsilon productions
         output: an equivalent grammar with no left recursion'''
-        i = 0
-        # Go through the list of A_i productions
+        
+        # Provide a quick lookup for rules
         prod_dict = dict([(x.ls, n) for n, x in enumerate(self.grammar.production_list)])
+        
+        i = 0
         num_productions = len(self.grammar.production_list)
-        while i < num_productions:
-            #print i, 'A_i:', self.grammar.production_list[i].ls
-            print i
-            # For the production prior to A_i in the list called A_j
-                
+        while i < num_productions:                        
+            # Assign the list of rules to i_rule_list for the current production
+            Ai_rule_list = self.grammar.production_list[i].rule_list
+            num_Ai_rules = len(Ai_rule_list)
+            
             k = 0
-            i_rule_list = self.grammar.production_list[i].rule_list
-            num_i_rules = len(i_rule_list)
-            while k < num_i_rules:
-                
-                #print k,'\t\trule:', self.grammar.production_list[i].rule_list[k].rule
-                
-                # Evaluate each rule to see if it's left most element is a match to a previous production
-                # compare the first subpart of the rule to the jth production
-                A_i_gamma = i_rule_list[k].rule
-                j = prod_dict.get(A_i_gamma[0], 1e200)
-                if j < i:
-                    j_rule_list = self.grammar.production_list[j].rule_list
-                    assert A_i_gamma[0] == self.grammar.production_list[j].ls
-                    # Pop off the beginning that will be replaced
-                    #print 'Popping', A_i_gamma[0]
-                    A_i_gamma.pop(0)
-                    # Remove the rule that will be replaced
-                    #print 'Popping', self.grammar.production_list[i].rule_list[k].rule
-                    del i_rule_list[k]
-                    k -= 1
-                    num_i_rules -= 1
+            while k < num_Ai_rules:                
+                # Each rule k in the current production must me checked
+                # to see if the leftmost portion is a non-terminal that
+                # matches a production we have already seen
+                Ai_rule_k = Ai_rule_list[k].rule
+                j = prod_dict.get(Ai_rule_k[0])
+                if j < i and j is not None:
+                    Aj_rule_list = self.grammar.production_list[j].rule_list
+                    assert Ai_rule_k[0] == self.grammar.production_list[j].ls
+                    # Pop off the leftmost non-terminal that will be replaced
+                    Ai_rule_k.pop(0)
+                    # Remove the rule that will be replaced and subtract one from the counters
+                    del Ai_rule_list[k]
+                    
                     l = 0
-                    num_j_rules = len(self.grammar.production_list[j].rule_list)
-                    while l < num_j_rules:
-                        A_j_delta = j_rule_list[l].rule
-                        #print '\t\t\tNew:', A_j_delta + A_i_gamma
-                        i_rule_list.append(Rule(A_j_delta + A_i_gamma))
+                    num_Aj_rules = len(self.grammar.production_list[j].rule_list)
+                    num_Ai_rules = num_Aj_rules - 1
+                    while l < num_Aj_rules:
+                        Aj_rule_l = Aj_rule_list[l].rule
+                        Ai_rule_list.insert(k, Rule(Aj_rule_l + Ai_rule_k))
+                        k += 1
                         l += 1
                 k += 1
             i += 1
@@ -97,12 +92,13 @@ class PrettyPrint:
     def printer(self, fo = None):
         if fo is None:
             fo = sys.stdout
-            
-        print >>fo, '%token', ' '.join(self.grammar.token_list)
-        print >>fo, '%start', self.grammar.start
+        
+        for tok in self.grammar.terminal_list:
+            print >>fo, '%token', ' '.join(tok)
+        print >>fo, '%start', self.grammar.start_token
         print >>fo
         print >>fo, '%%'
-        for p in self.grammar:
+        for p in self.grammar.production_list:
             print >>fo, p.ls
             print >>fo, '\t:',
             print >>fo, '\n\t| '.join(["%s" % (' '.join(v.rule)) for v in p.rule_list])

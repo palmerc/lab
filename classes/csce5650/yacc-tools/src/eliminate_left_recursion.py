@@ -1,5 +1,6 @@
 import sys
 from parser import Parser
+from grammar import Transform
 
 def main(argv):
 	# open file
@@ -21,9 +22,11 @@ def main(argv):
 	f.close()
        
 	grammar = Parser(G)
-	print grammar
-	#grammar.lf()
-	grammar.pa()
+	#grammar.printer()
+	
+	t = Transform(grammar)
+	t.pa()
+	
 	grammar.printer()
 	
 if __name__ == "__main__":

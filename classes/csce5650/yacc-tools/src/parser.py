@@ -3,8 +3,8 @@ from lexer import lex
 from grammar import Rule
 from grammar import Production
 from grammar import Grammar
-from grammar import PrettyPrint
 from grammar import Transform
+from grammar import PrettyPrint
 
 class Parser:
 	def __init__(self, source):
@@ -19,19 +19,28 @@ class Parser:
 		self.grammar = None
 		
 		self.source = iter(source)
-		self.parser()
+		self.parse()
 	
-	def yygrammar(self):
-		self.tokens()
+	def match(self, m):
+		if m == self.token[0]:
+			self.token = lex(self.source)
+		else:
+			print 'match error', m
+	
+	def parse(self):
+		self.token = lex(self.source)
+		self.terminals()
 		self.start()
 		self.productions()
 	
-	def tokens(self):	
+	def terminals(self):	
 		while self.token[0] == 'TOKEN':
+			tlist = []
 			self.match('TOKEN')
 			while self.token[0] == 'TERM':
-				self.terminal_list.append(self.token[1])
+				tlist.append(self.token[1])
 				self.match('TERM')
+			self.terminal_list.append(tlist)
 		
 	def start(self):	
 		self.match('START')
@@ -43,8 +52,8 @@ class Parser:
 		while self.token[0] != 'BLOCK':
 			self.left_side()
 		self.grammar = Grammar(self.production_list)
-		self.grammar.start = self.start_token
-		self.grammar.tokens = self.terminal_list
+		self.grammar.start_token = self.start_token
+		self.grammar.terminal_list = self.terminal_list
 		
 	def left_side(self):
 		self.rule_list = []
@@ -75,22 +84,7 @@ class Parser:
 				self.right_side()
 			else:
 				print 'right_side:', self.token
-		
-	def match(self, m):
-		if m == self.token[0]:
-			self.token = lex(self.source)
-		else:
-			print 'match error', m	
-	
-	def parser(self):
-		self.token = lex(self.source)
-		self.yygrammar()
-	
-	def lf(self):
-		Transform(self.grammar).lf()
-		
-	def pa(self):
-		Transform(self.grammar).pa()
 	
 	def printer(self, fo = None):
-		PrettyPrint(self.grammar).printer(fo)
+		pp = PrettyPrint(self.grammar)
+		pp.printer(fo)
