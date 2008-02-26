@@ -1,6 +1,18 @@
 import unittest
 from StringIO import StringIO
+from lexer import Lexer
 from parser import Parser
+
+class LexerTestCase(unittest.TestCase):
+    '''This test checks the lexer'''
+    
+    def setUp(self):
+        f = open('../grammars/' + self.file)
+        G = f.read()
+        f.close()
+        
+        self.grammar_one = Lexer(G)
+        
 
 class ParserTestCase(unittest.TestCase):
     '''This test check to make sure the internal representation matches the file read'''

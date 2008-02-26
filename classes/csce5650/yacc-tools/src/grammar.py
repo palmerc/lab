@@ -56,11 +56,12 @@ class Transform:
         num_productions = len(self.grammar.production_list)
         while i < num_productions:                        
             # Assign the list of rules to i_rule_list for the current production
+            Ai_ls = self.grammar.production_list[i].ls
             Ai_rule_list = self.grammar.production_list[i].rule_list
             num_Ai_rules = len(Ai_rule_list)
             
             k = 0
-            while k < num_Ai_rules:                
+            while k < num_Ai_rules:
                 # Each rule k in the current production must me checked
                 # to see if the leftmost portion is a non-terminal that
                 # matches a production we have already seen
@@ -83,6 +84,27 @@ class Transform:
                         k += 1
                         l += 1
                 k += 1
+
+            new_rule_list = []
+            immediate_lr = False
+            Ai_ls_prime = Ai_ls + self.suffix
+            k = 0
+            while k < num_Ai_rules:
+                Ai_rule_k = Ai_rule_list[k].rule
+                # This time we want to eliminate the immediate left recursion
+                if Ai_rule_k[0] == Ai_ls:
+                    immediate_lr = True
+                    print 'Popping', Ai_rule_k[0]
+                    Ai_rule_k.pop(0)
+                    del Ai_rule_list[k]
+                    Ai_rule_k.append(Ai_ls_prime)
+                    new_rule_list.append(Ai_rule_k)
+                    num_Ai_rules -= 1
+                k += 1
+            if immediate_lr == True:
+                self.grammar.production_list.insert(i+1, Production(Ai_ls_prime, new_rule_list))
+                num_productions += 1
+                i += 1
             i += 1
 
 class PrettyPrint:

@@ -16,13 +16,10 @@ def main(argv):
 		print "Unable to open file", filename
 		sys.exit(2)
 
-	G = ""
-	for line in f:
-		G += line
+	G = f.read()
 	f.close()
        
 	grammar = Parser(G)
-	#grammar.printer()
 	
 	t = Transform(grammar)
 	t.pa()

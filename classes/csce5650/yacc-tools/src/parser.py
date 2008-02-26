@@ -1,5 +1,4 @@
-import sys
-from lexer import lex
+from lexer import Lexer
 from grammar import Rule
 from grammar import Production
 from grammar import Grammar
@@ -13,22 +12,21 @@ class Parser:
 		self.rule_list = []
 		self.production_list = []
 	
-		self.source = None
 		self.start_token = ''
 		self.terminal_list = []
 		self.grammar = None
 		
-		self.source = iter(source)
+		self.l = Lexer(source)
 		self.parse()
 	
 	def match(self, m):
 		if m == self.token[0]:
-			self.token = lex(self.source)
+			self.token = self.l.next()
 		else:
 			print 'match error', m
 	
 	def parse(self):
-		self.token = lex(self.source)
+		self.token = self.l.next()
 		self.terminals()
 		self.start()
 		self.productions()
