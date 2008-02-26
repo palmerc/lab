@@ -89,6 +89,7 @@ class Transform:
             immediate_lr = False
             Ai_ls_prime = Ai_ls + self.suffix
             k = 0
+            num_Ai_rules = len(self.grammar.production_list[i].rule_list)
             while k < num_Ai_rules:
                 Ai_rule_k = Ai_rule_list[k].rule
                 # This time we want to eliminate the immediate left recursion
@@ -98,11 +99,14 @@ class Transform:
                     del Ai_rule_list[k]
                     Ai_rule_k.append(Ai_ls_prime)
                     new_rule_list.append(Rule(Ai_rule_k))
+                    num_Ai_rules -= 1
                     continue
                 k += 1
             if immediate_lr == True:
                 self.grammar.production_list.append(Production(Ai_ls_prime, new_rule_list))
                 num_productions += 1
+                for remaining in self.grammar.production_list[i].rule_list:
+                    remaining.rule.append(Ai_ls_prime)
             i += 1
 
 class PrettyPrint:
