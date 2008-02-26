@@ -94,17 +94,15 @@ class Transform:
                 # This time we want to eliminate the immediate left recursion
                 if Ai_rule_k[0] == Ai_ls:
                     immediate_lr = True
-                    print 'Popping', Ai_rule_k[0]
                     Ai_rule_k.pop(0)
                     del Ai_rule_list[k]
                     Ai_rule_k.append(Ai_ls_prime)
-                    new_rule_list.append(Ai_rule_k)
-                    num_Ai_rules -= 1
+                    new_rule_list.append(Rule(Ai_rule_k))
+                    continue
                 k += 1
             if immediate_lr == True:
-                self.grammar.production_list.insert(i+1, Production(Ai_ls_prime, new_rule_list))
+                self.grammar.production_list.append(Production(Ai_ls_prime, new_rule_list))
                 num_productions += 1
-                i += 1
             i += 1
 
 class PrettyPrint:
