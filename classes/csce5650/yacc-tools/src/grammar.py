@@ -39,11 +39,47 @@ class Transform:
         
     def lf(self):
         '''Left factor the grammar to combine rules with redundant starting non-terminals'''
-        for A_i in self.grammar.production_list:
-            for A_i_gamma in A_i.rule_list:
-                print A_i_gamma.rule
-                
         
+        prod_dict = dict([(x.ls, n) for n, x in enumerate(self.grammar.production_list)])
+        i = 0
+        # For each production
+        for production in self.grammar.production_list:
+            print 'production:', i
+            i += 1
+            # Go through each rule in the production
+            for rule in production.rule_list:
+                if len(rule.rule) == 0:
+                    continue
+                if prod_dict.get(rule.rule[0]) is not None:
+                    first = True
+                    prefix = rule.rule[0]
+                    new_name = ''
+                    new_rules = []
+                    for others in production.rule_list:
+                        if first == True and rule == others:
+                            continue
+                        else:
+                            if len(others.rule) == 0:
+                                continue
+                            print 'pre-test:', prefix, '<=>', others.rule[0]
+                            if prefix == others.rule[0]:
+                                if first == True:
+                                    first = False
+                                    new_name = prefix + self.suffix
+                                    rule.rule.pop(0)
+                                    if len(rule.rule) > 0:
+                                        new_rules.append(rule)
+                                    del rule
+                                if prefix == others.rule[0]:
+                                    others.rule.pop(0)
+                                    if len(others.rule) > 0:
+                                        new_rules.append(others)
+                                    del others
+                    if len(new_rules) > 0:
+                        production.rule_list.append(Rule([prefix, new_name]))
+                        self.grammar.production_list.append(Production(new_name, new_rules))
+
+
     def pa(self):
         '''M.C. Paull's Algorithm for the removal of left recursion in a CFG
         input: a grammar with no cycles or epsilon productions

@@ -22,7 +22,7 @@ def main(argv):
 	grammar = Parser(G)
 	
 	t = Transform(grammar)
-	t.pa()
+	t.lf()
 	
 	grammar.printer()
 	
