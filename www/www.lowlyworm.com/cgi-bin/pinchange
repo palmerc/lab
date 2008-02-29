@@ -5,8 +5,8 @@ use Authen::Radius;
 use CGI qw(:standard);
 use URI::Escape;
 
-@hosts = ("rsa-ace-master.it.stsj.seagate.com","rsa-ace-slave.ang.sing.seagate.com");
-$secret = "checkpoint";
+@hosts = ("master","slave");
+$secret = "check";
 
 $r = new Authen::Radius(Host => $hosts[0], Secret => $secret, TimeOut => 5);
 sub initial_request_form();
@@ -117,7 +117,7 @@ $message
 <HR>
 <A href="pinchange">Perform Another Test</A>
 <BR>
-<A href="http://gfo.seagate.com/">GFO Home Page</A>
+<A href="http://www.example.com/">GFO Home Page</A>
 END_OF_HTML
 }
 
