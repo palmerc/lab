@@ -39,6 +39,10 @@ class Transform:
         
     def lf(self):
         '''Left factor the grammar to combine rules with redundant starting non-terminals'''
+        # For each production cycle through each rule and check for other rules in the same production that start with the same non-terminal 
+        # If you find a rule with the same starting non-terminal save the rules off adding rule_prime to the end of the rule
+        # Create a single matching rule that goes to the production : rule rule_prime ; 
+        # Generate a new production rule_prime that has all the rules that were picked up
         
         prod_dict = dict([(x.ls, n) for n, x in enumerate(self.grammar.production_list)])
         i = 0
@@ -46,48 +50,42 @@ class Transform:
         for production in self.grammar.production_list:
             print 'production:', i
             i += 1
-            # Go through each rule in the production
+            # Go through each rule object in the current production
             for rule in production.rule_list:
-                if len(rule.rule) == 0:
-                    continue
-                if prod_dict.get(rule.rule[0]) is not None:
-                    first = True
-                    prefix = rule.rule[0]
-                    new_name = ''
+                rule_prefix_token = rule.rule[0]
+                # This is a quick check to see if the item is a non-terminal
+                if prod_dict.get(rule_prefix_token) is not None:
+                    # Set the prefix to be the non-terminal
+                    new_production_name = rule_prefix_token + self.suffix 
                     new_rules = []
-                    for others in production.rule_list:
-                        if first == True and rule == others:
+                    # Compare the other rules first element to the current rule and see if they have the same first token
+                    for other in production.rule_list:
+                        other_prefix_token = other.rule[0]
+                        # This should check if we are looking at the same Rule object which should be skipped
+                        if rule == other:
                             continue
-                        else:
-                            if len(others.rule) == 0:
-                                continue
-                            print 'pre-test:', prefix, '<=>', others.rule[0]
-                            if prefix == others.rule[0]:
-                                if first == True:
-                                    first = False
-                                    new_name = prefix + self.suffix
-                                    rule.rule.pop(0)
-                                    if len(rule.rule) > 0:
-                                        new_rules.append(rule)
-                                    del rule
-                                if prefix == others.rule[0]:
-                                    others.rule.pop(0)
-                                    if len(others.rule) > 0:
-                                        new_rules.append(others)
-                                    del others
+                        # This is the test that checks if current rule matches the first token of the others
+                        if rule_prefix_token == other_prefix_token:
+                            # remove the beginning non-terminal
+                            other.rule.pop(0)
+                            # tack on the new production name
+                            other.rule.append(new_production_name)
+                            # Add the new rule to the list of rules for the new production
+                            new_rules.append(other)
+                            # del the rule
+                            del other
                     if len(new_rules) > 0:
-                        production.rule_list.append(Rule([prefix, new_name]))
-                        self.grammar.production_list.append(Production(new_name, new_rules))
+                        self.grammar.production_list.append(Production(new_production_name, new_rules))
 
 
     def pa(self):
         '''M.C. Paull's Algorithm for the removal of left recursion in a CFG
         input: a grammar with no cycles or epsilon productions
         output: an equivalent grammar with no left recursion'''
-        
+ 
         # Provide a quick lookup for rules
         prod_dict = dict([(x.ls, n) for n, x in enumerate(self.grammar.production_list)])
-        
+ 
         i = 0
         num_productions = len(self.grammar.production_list)
         while i < num_productions:                        
