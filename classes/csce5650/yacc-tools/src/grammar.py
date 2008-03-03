@@ -45,35 +45,44 @@ class Transform:
         # Generate a new production rule_prime that has all the rules that were picked up
         
         prod_dict = dict([(x.ls, n) for n, x in enumerate(self.grammar.production_list)])
-        i = 0
+
         # For each production
         for production in self.grammar.production_list:
-            print 'production:', i
-            i += 1
             # Go through each rule object in the current production
-            for rule in production.rule_list:
+            for rule_index, rule in enumerate(production.rule_list):
                 rule_prefix_token = rule.rule[0]
+
                 # This is a quick check to see if the item is a non-terminal
                 if prod_dict.get(rule_prefix_token) is not None:
                     # Set the prefix to be the non-terminal
-                    new_production_name = rule_prefix_token + self.suffix 
+                    new_production_name = production.ls + '_' + rule_prefix_token + self.suffix 
                     new_rules = []
+                    del_rules = []
+                    primaries = []
                     # Compare the other rules first element to the current rule and see if they have the same first token
-                    for other in production.rule_list:
-                        other_prefix_token = other.rule[0]
+                    for index, item in enumerate(production.rule_list):
+                        item_prefix_token = item.rule[0]
                         # This should check if we are looking at the same Rule object which should be skipped
-                        if rule == other:
-                            continue
+                        if rule == item:
+                            primaries.append(item)
                         # This is the test that checks if current rule matches the first token of the others
-                        if rule_prefix_token == other_prefix_token:
+                        elif rule_prefix_token == item_prefix_token:
                             # remove the beginning non-terminal
-                            other.rule.pop(0)
+                            item.rule.pop(0)
                             # tack on the new production name
-                            other.rule.append(new_production_name)
+                            item.rule.append(new_production_name)
                             # Add the new rule to the list of rules for the new production
-                            new_rules.append(other)
-                            # del the rule
-                            del other
+                            new_rules.append(item)
+                            # save the rule for deletion
+                            del_rules.append(index)
+                    del_rules.reverse()
+                    if len(del_rules) > 0:
+                        primary.rule.pop(0)
+                        primary.rule.append(new_production_name)
+                        new_rules.insert(0, primary)
+                        production.rule_list[primary_index] = Rule([item_prefix_token, new_production_name])
+                        for index in del_rules:
+                            production.rule_list.pop(index)
                     if len(new_rules) > 0:
                         self.grammar.production_list.append(Production(new_production_name, new_rules))
 

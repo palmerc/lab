@@ -23,6 +23,7 @@ def main(argv):
 	
 	t = Transform(grammar)
 	t.lf()
+	#t.pa()
 	
 	grammar.printer()
 	
