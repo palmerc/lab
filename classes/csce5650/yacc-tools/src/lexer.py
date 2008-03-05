@@ -40,6 +40,11 @@ class Lexer:
                     return 'CHAR', token
                 else:
                     raise "Error", "unexpected character", s
+            elif char == '<':
+                while not char.isspace():
+                    s.append(char)
+                    char = self.text.next()
+                token = ''.join(s)
             elif char.islower():
                 while not char.isspace():
                     s.append(char)

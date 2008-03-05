@@ -341,7 +341,7 @@ equality_expression_equality_expression_prime
 	| NE_OP relational_expression equality_expression_equality_expression_prime
 	;
 conditional_expression_logical_or_expression_prime
-	: conditional_expression_logical_or_expression_prime
+	: 
 	| '?' expression ':' conditional_expression conditional_expression_logical_or_expression_prime
 	;
 declaration_declaration_specifiers_prime
@@ -349,19 +349,19 @@ declaration_declaration_specifiers_prime
 	| init_declarator_list ';' declaration_declaration_specifiers_prime
 	;
 declaration_specifiers_storage_class_specifier_prime
-	: declaration_specifiers_storage_class_specifier_prime
+	: 
 	| declaration_specifiers declaration_specifiers_storage_class_specifier_prime
 	;
 declaration_specifiers_type_specifier_prime
-	: declaration_specifiers_type_specifier_prime
+	: 
 	| declaration_specifiers declaration_specifiers_type_specifier_prime
 	;
 declaration_specifiers_type_qualifier_prime
-	: declaration_specifiers_type_qualifier_prime
+	: 
 	| declaration_specifiers declaration_specifiers_type_qualifier_prime
 	;
 init_declarator_declarator_prime
-	: init_declarator_declarator_prime
+	: 
 	| '=' initializer init_declarator_declarator_prime
 	;
 struct_or_union_specifier_struct_or_union_prime
@@ -371,14 +371,14 @@ struct_or_union_specifier_struct_or_union_prime
 	;
 specifier_qualifier_list_type_specifier_prime
 	: specifier_qualifier_list specifier_qualifier_list_type_specifier_prime
-	| specifier_qualifier_list_type_specifier_prime
+	| 
 	;
 specifier_qualifier_list_type_qualifier_prime
 	: specifier_qualifier_list specifier_qualifier_list_type_qualifier_prime
-	| specifier_qualifier_list_type_qualifier_prime
+	| 
 	;
 struct_declarator_declarator_prime
-	: struct_declarator_declarator_prime
+	: 
 	| ':' constant_expression struct_declarator_declarator_prime
 	;
 direct_declarator_direct_declarator_prime
@@ -389,20 +389,20 @@ direct_declarator_direct_declarator_prime
 	| '(' ')' direct_declarator_direct_declarator_prime
 	;
 parameter_type_list_parameter_list_prime
-	: parameter_type_list_parameter_list_prime
+	: 
 	| ',' ELLIPSIS parameter_type_list_parameter_list_prime
 	;
 parameter_declaration_declaration_specifiers_prime
 	: declarator parameter_declaration_declaration_specifiers_prime
 	| abstract_declarator parameter_declaration_declaration_specifiers_prime
-	| parameter_declaration_declaration_specifiers_prime
+	| 
 	;
 type_name_specifier_qualifier_list_prime
-	: type_name_specifier_qualifier_list_prime
+	: 
 	| abstract_declarator type_name_specifier_qualifier_list_prime
 	;
 abstract_declarator_pointer_prime
-	: abstract_declarator_pointer_prime
+	: 
 	| direct_abstract_declarator abstract_declarator_pointer_prime
 	;
 direct_abstract_declarator_direct_abstract_declarator_prime

@@ -58,6 +58,8 @@ class Parser:
 		production_name = self.token[1]
 		self.match('NONTERM')
 		self.match('COLON')
+		if self.token[0] == 'PIPE':
+			self.rule_list.append(Rule(['']))
 		self.right_side()
 		self.rule_list.append(Rule(self.rule))
 		self.production_list.append(Production(production_name, self.rule_list))
@@ -79,6 +81,8 @@ class Parser:
 			elif self.token[0] == 'PIPE':
 				self.rule_list.append(Rule(self.rule))
 				self.match('PIPE')
+				if self.token[0] == 'PIPE' or self.token[0] == 'SEMI':
+					self.rule_list.append(Rule(['']))
 				self.right_side()
 			else:
 				print 'right_side:', self.token

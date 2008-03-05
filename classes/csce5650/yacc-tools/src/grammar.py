@@ -47,45 +47,37 @@ class Transform:
         prod_dict = dict([(x.ls, n) for n, x in enumerate(self.grammar.production_list)])
 
         # For each production
-        for production in self.grammar.production_list:
-            # Go through each rule object in the current production
-            for rule_index, rule in enumerate(production.rule_list):
-                rule_prefix_token = rule.rule[0]
-
-                # This is a quick check to see if the item is a non-terminal
-                if prod_dict.get(rule_prefix_token) is not None:
-                    # Set the prefix to be the non-terminal
-                    new_production_name = production.ls + '_' + rule_prefix_token + self.suffix 
+        for pindex, production in enumerate(self.grammar.production_list):
+            matches = []
+            for rindex, rule in enumerate(production.rule_list):
+                for oindex, other in enumerate(production.rule_list):
+                    if rule == other:
+                        continue
+                    elif rule.rule[0] == other.rule[0] and prod_dict.get(rule.rule[0]) is not None:
+                        if matches.count(rule.rule[0]) == 0:
+                            matches.append(rule.rule[0])
+            if len(matches) > 0:
+                for match in matches:
+                    new_name = None
                     new_rules = []
-                    del_rules = []
-                    primaries = []
-                    # Compare the other rules first element to the current rule and see if they have the same first token
-                    for index, item in enumerate(production.rule_list):
-                        item_prefix_token = item.rule[0]
-                        # This should check if we are looking at the same Rule object which should be skipped
-                        if rule == item:
-                            primaries.append(item)
-                        # This is the test that checks if current rule matches the first token of the others
-                        elif rule_prefix_token == item_prefix_token:
-                            # remove the beginning non-terminal
-                            item.rule.pop(0)
-                            # tack on the new production name
-                            item.rule.append(new_production_name)
-                            # Add the new rule to the list of rules for the new production
-                            new_rules.append(item)
-                            # save the rule for deletion
-                            del_rules.append(index)
-                    del_rules.reverse()
-                    if len(del_rules) > 0:
-                        primary.rule.pop(0)
-                        primary.rule.append(new_production_name)
-                        new_rules.insert(0, primary)
-                        production.rule_list[primary_index] = Rule([item_prefix_token, new_production_name])
-                        for index in del_rules:
-                            production.rule_list.pop(index)
+                    removal_list = []
+                    for rindex, rule in enumerate(production.rule_list):
+                        if rule.rule[0] == match:
+                            new_name = production.ls + '_' + match + self.suffix
+                            rule.rule.pop(0)
+                            if len(rule.rule) == 0:
+                                rule.rule.append('')
+                            else:
+                                rule.rule.append(new_name)
+                            new_rules.append(rule)
+                            removal_list.append(rindex)
+                    production.rule_list.append(Rule([match, new_name]))
                     if len(new_rules) > 0:
-                        self.grammar.production_list.append(Production(new_production_name, new_rules))
-
+                        self.grammar.production_list.append(Production(new_name, new_rules))
+                        removal_list.sort()
+                        removal_list.reverse()
+                        for i in removal_list:
+                            del production.rule_list[i]                   
 
     def pa(self):
         '''M.C. Paull's Algorithm for the removal of left recursion in a CFG
@@ -97,12 +89,12 @@ class Transform:
  
         i = 0
         num_productions = len(self.grammar.production_list)
-        while i < num_productions:                        
+        while i < num_productions:
+
             # Assign the list of rules to i_rule_list for the current production
             Ai_ls = self.grammar.production_list[i].ls
             Ai_rule_list = self.grammar.production_list[i].rule_list
             num_Ai_rules = len(Ai_rule_list)
-            
             k = 0
             while k < num_Ai_rules:
                 # Each rule k in the current production must me checked

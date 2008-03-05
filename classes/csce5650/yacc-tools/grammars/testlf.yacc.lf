@@ -1,0 +1,46 @@
+%token A B C D E
+%start starter
+%%
+
+starter
+	: lr second third
+	;
+
+lr
+	: lr lr_lr_prime
+	;
+
+second
+	: A
+	| B
+	| C
+	| D
+	| second
+	;
+
+third
+	: lr third_lr_prime
+	| second third_second_prime
+	;
+
+lr_lr_prime
+	:
+	| second lr_lr_prime_second_prime
+	;
+
+third_lr_prime
+	: second third_lr_prime
+	| third third_lr_prime
+	;
+
+third_second_prime
+	:
+	| lr third_second_prime
+	;
+
+lr_lr_prime_second_prime
+	:
+	| third lr_lr_prime_second_prime
+	;
+	
+%%
