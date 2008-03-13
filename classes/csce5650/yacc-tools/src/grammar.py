@@ -44,7 +44,9 @@ class Transform:
         # Create a single matching rule that goes to the production : rule rule_prime ; 
         # Generate a new production rule_prime that has all the rules that were picked up
         
-        prod_dict = dict([(x.ls, n) for n, x in enumerate(self.grammar.production_list)])
+        term_list = [(x, n) for n, x in enumerate(self.grammar.terminal_list)]
+	print term_list
+        #prod_dict = dict([(x, n) for n, x in enumerate(self.grammar.terminal_list)])
 
         # For each production
         for pindex, production in enumerate(self.grammar.production_list):
