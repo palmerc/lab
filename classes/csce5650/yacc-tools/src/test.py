@@ -35,14 +35,14 @@ class ParserTestCase(unittest.TestCase):
         
     def test_terminals(self):
         '''%token terminals'''
-        self.assertEquals(len(self.grammar_one.terminal_list), len(self.grammar_two.terminal_list))
-        for (a, b) in zip(self.grammar_one.terminal_list, self.grammar_two.terminal_list):
+        self.assertEquals(len(self.grammar_one.grammar.terminal_name), len(self.grammar_two.grammar.terminal_name))
+        for (a, b) in zip(self.grammar_one.grammar.terminal_name, self.grammar_two.grammar.terminal_name):
             self.assertEquals(a, b)
     
     def test_productions(self):
         '''Parser Production Count'''
-        self.assertEquals(len(self.grammar_one.production_list), len(self.grammar_two.production_list))
-        for (a, b) in zip(self.grammar_one.production_list, self.grammar_two.production_list):
+        self.assertEquals(len(self.grammar_one.grammar.production_list), len(self.grammar_two.grammar.production_list))
+        for (a, b) in zip(self.grammar_one.grammar.production_list, self.grammar_two.grammar.production_list):
             self.assertEquals(a.ls, b.ls)
 
 class LeftFactoringTestCase(unittest.TestCase):
@@ -65,9 +65,10 @@ class LeftFactoringTestCase(unittest.TestCase):
         
     def test_productions(self):
         '''LF Production Count'''
-        self.assertEquals(len(self.grammar_one.production_list), len(self.grammar_two.production_list))
-        for (a, b) in zip(self.grammar_one.production_list, self.grammar_two.production_list):
+        self.assertEquals(len(self.grammar_one.grammar.production_list), len(self.grammar_two.grammar.production_list))
+        for (a, b) in zip(self.grammar_one.grammar.production_list, self.grammar_two.grammar.production_list):
             self.assertEquals(a.ls, b.ls)
+            self.assertEquals(len(a.rule_list), len(b.rule_list))            
             for (ra, rb) in zip(a.rule_list, b.rule_list):
                 self.assertEquals(ra.rule, rb.rule)
 
@@ -94,6 +95,10 @@ class LeftRecursionTestCase(unittest.TestCase):
         self.assertEquals(len(self.grammar_one.production_list), len(self.grammar_two.production_list))
         for (a, b) in zip(self.grammar_one.production_list, self.grammar_two.production_list):
             self.assertEquals(a.ls, b.ls)
+            
+class LFTestCaseForPostfixExpression(LeftFactoringTestCase):
+    file = "postfix_expression.yacc"
+    solution = "postfix_expression.yacc.lf"
 
 class LFTestCaseForP178(LeftFactoringTestCase):
     file = "p178.yacc"
@@ -129,6 +134,7 @@ def suite():
     suite.addTest(unittest.makeSuite(ParserTestCaseForC))
     suite.addTest(unittest.makeSuite(ParserTestCaseForD))
     suite.addTest(unittest.makeSuite(ParserTestCaseForP178))
+    suite.addTest(unittest.makeSuite(LFTestCaseForPostfixExpression))
     suite.addTest(unittest.makeSuite(LFTestCaseForP178))
     suite.addTest(unittest.makeSuite(LFTestCaseForC))
     suite.addTest(unittest.makeSuite(LFTestCaseForTestLF))

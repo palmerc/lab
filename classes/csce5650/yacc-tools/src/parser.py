@@ -10,10 +10,10 @@ class Parser:
 		self.token = ''
 		self.rule = []
 		self.rule_list = []
-		self.production_list = []
+		self.terminal_name = {}
+		self.terminal_group = {}
 	
 		self.start_token = ''
-		self.terminal_list = []
 		self.grammar = None
 		
 		self.l = Lexer(source)
@@ -26,19 +26,20 @@ class Parser:
 			print 'match error', m
 	
 	def parse(self):
+		self.grammar = Grammar()
 		self.token = self.l.next()
 		self.terminals()
 		self.start()
 		self.productions()
 	
 	def terminals(self):	
+		group = 0
 		while self.token[0] == 'TOKEN':
-			tlist = []
 			self.match('TOKEN')
 			while self.token[0] == 'TERM':
-				tlist.append(self.token[1])
+				self.grammar.add_terminal(self.token[1], group)
 				self.match('TERM')
-			self.terminal_list.append(tlist)
+			group += 1
 		
 	def start(self):	
 		self.match('START')
@@ -49,45 +50,54 @@ class Parser:
 		self.match('BLOCK')
 		while self.token[0] != 'BLOCK':
 			self.left_side()
-		self.grammar = Grammar(self.production_list)
 		self.grammar.start_token = self.start_token
-		self.grammar.terminal_list = self.terminal_list
 		
 	def left_side(self):
 		self.rule_list = []
 		production_name = self.token[1]
 		self.match('NONTERM')
 		self.match('COLON')
-		# If a token is a blank then it is an epsilon
-		if self.token[0] == 'PIPE':
-			self.rule_list.append(Rule(['']))
 		self.right_side()
-		self.rule_list.append(Rule(self.rule))
-		self.production_list.append(Production(production_name, self.rule_list))
+		self.grammar.add_production(production_name, self.rule_list)
 		self.match('SEMI')
-	
+
 	def right_side(self):
-		self.rule = []
+		rule = []
 		
+		first = True
 		while self.token[0] != 'SEMI':
 			if self.token[0] == 'TERM':
-				self.rule.append(self.token[1])
+				if first == True:
+					first = False
+				rule.append(self.token[1])
 				self.match('TERM')
 			elif self.token[0] == 'NONTERM':
-				self.rule.append(self.token[1])
+				if first == True:
+					first = False
+				rule.append(self.token[1])
 				self.match('NONTERM')
 			elif self.token[0] == 'CHAR':
-				self.rule.append(self.token[1])
+				if first == True:
+					first = False
+				rule.append(self.token[1])
 				self.match('CHAR')
 			elif self.token[0] == 'PIPE':
-				self.rule_list.append(Rule(self.rule))
-				self.match('PIPE')
-				# If a token is a blank then it is an epsilon
-				if self.token[0] == 'PIPE' or self.token[0] == 'SEMI':
+				if first == True:
 					self.rule_list.append(Rule(['']))
-				self.right_side()
+					first = False
+					self.match('PIPE')
+				else:
+					self.rule_list.append(Rule(rule))
+					rule = []
+					self.match('PIPE')
+					if self.token[0] == 'PIPE':
+						self.rule_list.append(Rule(['']))
+						self.match(self.token[0])
+					elif self.token[0] == 'SEMI':
+						rule = ['']
 			else:
 				print 'right_side:', self.token
+		self.rule_list.append(Rule(rule))
 	
 	def printer(self, fo = None):
 		pp = PrettyPrint(self.grammar)

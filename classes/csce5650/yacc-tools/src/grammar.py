@@ -17,25 +17,36 @@ class Production:
         return iter(self.rule_list)
     
 class Grammar:
-    def __init__(self, production_list):
+    def __init__(self):
         self.start_token = None
-        self.terminal_list = []
-        self.production_list = production_list
+        self.terminal_group = {}
+        self.terminal_name = {}
+        self.production_name = {}
+        self.production_list = []
     
     def __iter__(self):
         return iter(self.production_list)
         
-    def add_terminal(self, token):
-        self.terminal_list.append(token)
-        
+    def add_terminal(self, token, group):
+        if not self.terminal_group.has_key(group):
+            self.terminal_group[group] = []
+            self.terminal_group[group].append(token)
+        else:
+            self.terminal_group[group].append(token)
+        self.terminal_name[token] = group
+    
+    def add_production(self, ls, rule_list):
+        self.production_list.append(Production(ls, rule_list))
+        self.production_name[ls] = rule_list
+              
     def set_start(self, token):
         self.start_token = token
         
 class Transform:
     suffix = '_prime'
     
-    def __init__(self, grammar):
-        self.grammar = grammar
+    def __init__(self, parse):
+        self.grammar = parse.grammar
         
     def lf(self):
         '''Left factor the grammar to combine rules with redundant starting non-terminals'''
@@ -43,29 +54,33 @@ class Transform:
         # If you find a rule with the same starting non-terminal save the rules off adding rule_prime to the end of the rule
         # Create a single matching rule that goes to the production : rule rule_prime ; 
         # Generate a new production rule_prime that has all the rules that were picked up
-        
-        term_list = [(x, n) for n, x in enumerate(self.grammar.terminal_list)]
-	print term_list
-        #prod_dict = dict([(x, n) for n, x in enumerate(self.grammar.terminal_list)])
 
         # For each production
         for pindex, production in enumerate(self.grammar.production_list):
             matches = []
+            # Identify the rules that begin with the same production, if any.
             for rindex, rule in enumerate(production.rule_list):
                 for oindex, other in enumerate(production.rule_list):
                     if rule == other:
                         continue
-                    elif rule.rule[0] == other.rule[0] and prod_dict.get(rule.rule[0]) is not None:
+                    elif len(rule.rule) == 0:
+                        del rule
+                    elif rule.rule[0] == other.rule[0] and self.grammar.production_name.get(rule.rule[0]) is not None:
                         if matches.count(rule.rule[0]) == 0:
                             matches.append(rule.rule[0])
+            # if there are rules with duplicate productions
             if len(matches) > 0:
+                # process each item in the match list
                 for match in matches:
                     new_name = None
                     new_rules = []
                     removal_list = []
                     for rindex, rule in enumerate(production.rule_list):
+                        # in each rule check the left hand non-terminal to see if it is in the match list
                         if rule.rule[0] == match:
+                            # generate the new name for the production
                             new_name = production.ls + '_' + match + self.suffix
+                            # pop off the leftmost non-terminal
                             rule.rule.pop(0)
                             if len(rule.rule) == 0:
                                 rule.rule.append('')
@@ -75,11 +90,12 @@ class Transform:
                             removal_list.append(rindex)
                     production.rule_list.append(Rule([match, new_name]))
                     if len(new_rules) > 0:
-                        self.grammar.production_list.append(Production(new_name, new_rules))
+                        new_rules.append(Rule(['']))
+                        self.grammar.add_production(new_name, new_rules)
                         removal_list.sort()
                         removal_list.reverse()
                         for i in removal_list:
-                            del production.rule_list[i]                   
+                            del production.rule_list[i]
 
     def pa(self):
         '''M.C. Paull's Algorithm for the removal of left recursion in a CFG
@@ -154,8 +170,11 @@ class PrettyPrint:
         if fo is None:
             fo = sys.stdout
         
-        for tok in self.grammar.terminal_list:
-            print >>fo, '%token', ' '.join(tok)
+        for group in self.grammar.terminal_group:
+            print >>fo, '%token',
+            for tok in self.grammar.terminal_group[group]:
+                print >>fo, tok,
+            print >>fo
         print >>fo, '%start', self.grammar.start_token
         print >>fo
         print >>fo, '%%'

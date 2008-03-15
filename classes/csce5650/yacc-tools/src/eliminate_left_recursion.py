@@ -19,13 +19,13 @@ def main(argv):
 	G = f.read()
 	f.close()
        
-	grammar = Parser(G)
+	parse = Parser(G)
 	
-	t = Transform(grammar)
+	t = Transform(parse)
 	t.lf()
 	#t.pa()
 	
-	grammar.printer()
+	parse.printer()
 	
 if __name__ == "__main__":
 	main(sys.argv[1:])
