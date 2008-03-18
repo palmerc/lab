@@ -107,10 +107,10 @@
 ##	RS/6000 AIX Unix version 4, GNU GCC version cygnus-2.7-96q4
 ##	Windows NT version 4.0, Cygnus CygWin/32 beta 19
 ##
-CC = gcc
+CC = gcc-3.3
 OFLAGS = -O0 -g -Wall
 MFLAGS = `./sysprobe -flags`
-MLIBS  = `./sysprobe -libs` -lm
+MLIBS  = -lm
 ENDIAN = `./sysprobe -s`
 MAKE = make
 AR = ar qcv
