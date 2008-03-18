@@ -8,8 +8,6 @@
 #ifndef PRINT_H
 #define PRINT_H
 
-using namespace std;
-
 #include <string>
 #include "trace.h"
 
@@ -18,15 +16,15 @@ void print_progress_report();
 void print_debug_header(const Pipe_Inst &);
 
 // error
-inline void error(const string &msg){
-  cerr << "#### ERROR: " << msg << " ####" << endl;
+inline void error(const std::string &msg){
+  std::cerr << "#### ERROR: " << msg << " ####" << std::endl;
   print_result_data();
   exit(1);
 }
 
 // warning
-inline void warning(const string &msg){
-  cerr << "#### Warning: " << msg << " ####" << endl;
+inline void warning(const std::string &msg){
+  std::cerr << "#### Warning: " << msg << " ####" << std::endl;
 }
 
 #endif

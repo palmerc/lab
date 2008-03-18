@@ -6,7 +6,7 @@ FLAG =-g -pg
 WAR =-Wall -Wcast-align -Wcast-qual -Werror
 
 OPT =-O1 $(FLAG) $(WAR)
-OPT =-O6 -march=pentiumpro -funroll-loops -finline-functions -static
+OPT =-O6 -funroll-loops -finline-functions -static
 
 OBJECTS =bb.o data.o fork.o icd.o loop.o main.o\
 	 pred.o print.o re.o sim.o trace.o

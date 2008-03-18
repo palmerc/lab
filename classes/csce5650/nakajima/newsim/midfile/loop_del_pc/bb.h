@@ -22,7 +22,6 @@ public:
   int func;
   int bb;
 
-public:
   // constructor
   Func_Bb(const int &f = 0, const int &b = 0) { func = f; bb = b; }
 };
@@ -39,17 +38,17 @@ public:
   int start;
   int end;
 
-public:
   // const/destructor
   Bb_Info() { start = end = 0; }
 };
 
 class Program_Info{
+public:
   // define
-  typedef multimap< int, int > MMAP;
+  typedef std::multimap< int, int > MMAP;
   typedef MMAP::iterator MMI;
-  typedef pair< MMI, MMI > MMI_PAIR;
-  typedef set< int > SET;
+  typedef std::pair< MMI, MMI > MMI_PAIR;
+  typedef std::set< int > SET;
   typedef SET::iterator SI;
 
   // function size
@@ -57,7 +56,7 @@ class Program_Info{
   // bb size
   int *bb_size;
   // function name
-  string *fname;
+  std::string *fname;
 
   // succeesor bb
   SET **succ;
@@ -66,7 +65,6 @@ class Program_Info{
   // bb start/end pc and br/in bb num set
   Bb_Info **info;
 
-public:
   // const/destructor
   Program_Info();
   ~Program_Info();
@@ -74,7 +72,7 @@ public:
   // function num, bb num
   const int size() { return func_size; }
   const int size(const int &func) { return bb_size[func]; }
-  string funcname(const int &func) { return fname[func]; }
+  std::string funcname(const int &func) { return fname[func]; }
 
   // get start/end pc
   Bb_Info get_info(const Func_Bb &fbb) { return info[fbb.func][fbb.bb]; }

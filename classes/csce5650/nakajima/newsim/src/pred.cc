@@ -63,7 +63,7 @@ const Value_Result Value_Predict::predict(const Pipe_Inst &inst){
 
     if( map_i->second.count(inst.v_dest) ){
       if( model.debug(50) ){
-	cerr << "Value_Predict::predict() HIT" << endl;
+	std::cerr << "Value_Predict::predict() HIT" << std::endl;
       }
       if( reexec.mode() == Normal ){
 	hit ++;
@@ -83,7 +83,7 @@ const Value_Result Value_Predict::predict(const Pipe_Inst &inst){
 }
 
 void Value_Predict::file_read(){
-  string fin_fname;
+  std::string fin_fname;
 
   switch( model.vp ){
   case VP_Send:
@@ -100,7 +100,7 @@ void Value_Predict::file_read(){
     return;
   }
 
-  ifstream fin(fin_fname.c_str());
+  std::ifstream fin(fin_fname.c_str());
 
   if( !fin ){
     error("Value_Predict::file_read() can't open" + fin_fname);
@@ -111,23 +111,23 @@ void Value_Predict::file_read(){
   try{
     val_table = new MAP[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Value_Predict::file_read() bad_alloc");
   }
 
-  string buf;
+  std::string buf;
   int total_size = 0;
 
   getline(fin, buf);
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
-    const string fname = program.funcname(func);
+    const std::string fname = program.funcname(func);
 
-    if( buf.find("{") == string::npos ){// function name
+    if( buf.find("{") == std::string::npos ){// function name
       error("Value_Predict::file_read() {");
     }
-    if( fname != buf.substr(buf.find(":") + 1, string::npos) ){
-      cerr << "bb_info funcname " << fname << ", brn_pred funcname "
-	   <<  buf.substr(buf.find(":") + 1, string::npos);
+    if( fname != buf.substr(buf.find(":") + 1, std::string::npos) ){
+      std::cerr << "bb_info funcname " << fname << ", brn_pred funcname "
+	   <<  buf.substr(buf.find(":") + 1, std::string::npos);
       error("Value_Predict::file_read() funcname");
     }
 
@@ -137,9 +137,9 @@ void Value_Predict::file_read(){
 	break;
       }
 
-      if( buf.find(":") == string::npos || buf.find(",") == string::npos
-	  || buf.find(";") == string::npos ){
-	cerr << buf << endl;
+      if( buf.find(":") == std::string::npos || buf.find(",") == std::string::npos
+	  || buf.find(";") == std::string::npos ){
+	std::cerr << buf << std::endl;
 	error("Value_Predict::file_read() file error");
       }
 
@@ -175,26 +175,26 @@ void Value_Predict::file_read(){
     }
   }// LOOP FUNC
 
-  cout << "# Value_Predict::file_read() init end: " << total_size << endl;
+  std::cout << "# Value_Predict::file_read() init end: " << total_size << std::endl;
 }
 
 void Value_Predict::print(){
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
-    cout << "{" << func << ":" << program.funcname(func) << endl;
+    std::cout << "{" << func << ":" << program.funcname(func) << std::endl;
 
     for( MI map_i = val_table[func].begin();
 	 map_i != val_table[func].end(); map_i ++ ){// LOOP pc
-      cout << hex << map_i->first << dec << ":";
+      std::cout << std::hex << map_i->first << std::dec << ":";
 
       for( SI set_i = map_i->second.begin();
 	   set_i != map_i->second.end(); set_i ++ ){// LOOP val
-	cout << *set_i << ",";
+	std::cout << *set_i << ",";
       }// LOOP val
 
-      cout << endl;
+      std::cout << std::endl;
     }// LOOP pc
 
-    cout << "}" << endl;
+    std::cout << "}" << std::endl;
   }// LOOP FUNC
 
   exit(0);
@@ -245,15 +245,15 @@ void Branch_Predict::allocate(){
   pa_j = 15;// pc (pa_i >= pa_j)
   pa_k = 2;// BHT k-bit shift reg
 
-  cout << "$ Branch_Predict::allocate() pa_i:" << pa_i
-       << ", pa_j:" << pa_j << ", pa_k:" << pa_k << endl;
+  std::cout << "$ Branch_Predict::allocate() pa_i:" << pa_i
+       << ", pa_j:" << pa_j << ", pa_k:" << pa_k << std::endl;
 
   if( pa_i < pa_j ){
     warning("Branch_Predict::allocate() pa_i < pa_j");
   }
 
   if( bitset_size < pa_i || bitset_size < (pa_j + pa_k) ){
-    cout << "bitset_size "<< bitset_size << endl;
+    std::cout << "bitset_size "<< bitset_size << std::endl;
     error("Branch_Predict::allocate() size < i or size < j + k");
   }
 
@@ -267,7 +267,7 @@ void Branch_Predict::allocate(){
       ph_bak = new BITSET[2];// 2bc
     }
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Branch_Predict::allocate() bad_alloc");
   }
 
@@ -276,9 +276,9 @@ void Branch_Predict::allocate(){
   ph_table[1].reset();
 
   if( model.reexec ){
-    cout << "# Brnach_Predict::allocate() allocate BHT PHT (bak) end" << endl;
+    std::cout << "# Brnach_Predict::allocate() allocate BHT PHT (bak) end" << std::endl;
   }else{
-    cout << "# Brnach_Predict::allocate() allocate BHT PHT end" << endl;
+    std::cout << "# Brnach_Predict::allocate() allocate BHT PHT end" << std::endl;
   }
 }
 
@@ -292,8 +292,8 @@ void Branch_Predict::predict(const Pipe_Inst &inst){
     MI map_i =  brn_table[func].find(pc);
 
     if( map_i == brn_table[func].end() ){
-      cerr << "func: " << func << hex << " address:" << address
-	   << " pc:" << pc << dec <<  endl;
+      std::cerr << "func: " << func << std::hex << " address:" << address
+	   << " pc:" << pc << std::dec <<  std::endl;
       error("Branch_Predict::result() brn_table.find(pc)");
     }else{
       if( map_i->second != address ){
@@ -319,9 +319,9 @@ void Branch_Predict::predict(const Pipe_Inst &inst){
     const int nextpc = pc + 8;
 
     if( false ){
-      cout << hex << "pc:" << pc << ","  << "p:" << (pc >> 3)
+      std::cout << std::hex << "pc:" << pc << ","  << "p:" << (pc >> 3)
 	   << ",i:" << lev1_i << ",j:" << lev2_j << ",k:" << lev2_k
-	   << ",j+k:" << lev2_jk << ",addr:" << address << "\t" << dec;
+	   << ",j+k:" << lev2_jk << ",addr:" << address << "\t" << std::dec;
     }
 
     // PHT
@@ -337,7 +337,7 @@ void Branch_Predict::predict(const Pipe_Inst &inst){
 	  ph_table[0].reset(lev2_jk);
 
 	  if( false ){
-	    cout << "11 no miss 10" << endl;
+	    std::cout << "11 no miss 10" << std::endl;
 	  }
 	}else{
 	  // 10 -> 01
@@ -345,7 +345,7 @@ void Branch_Predict::predict(const Pipe_Inst &inst){
 	  ph_table[0].set(lev2_jk);
 
 	  if( false ){
-	    cout << "10 no miss 01" << endl;
+	    std::cout << "10 no miss 01" << std::endl;
 	  }
 	}
       }else{
@@ -357,7 +357,7 @@ void Branch_Predict::predict(const Pipe_Inst &inst){
 	ph_table[0].set(lev2_jk);
 
 	if( false ){
-	  cout << "1* ta hit 11" << endl;
+	  std::cout << "1* ta hit 11" << std::endl;
 	}
       }
 
@@ -374,7 +374,7 @@ void Branch_Predict::predict(const Pipe_Inst &inst){
 	ph_table[0].reset(lev2_jk);
 
 	if( false ){
-	  cout << "0* no hit 00" << endl;
+	  std::cout << "0* no hit 00" << std::endl;
 	}
       }else{
 	sp = MISS;
@@ -386,14 +386,14 @@ void Branch_Predict::predict(const Pipe_Inst &inst){
 	  ph_table[0].reset(lev2_jk);
 
 	  if( false ){
-	    cout << "01 ta miss 10" << endl;
+	    std::cout << "01 ta miss 10" << std::endl;
 	  }
 	}else{
 	  // 00 -> 01
 	  ph_table[0].set(lev2_jk);
 
 	  if( false ){
-	    cout << "00 ta miss 01" << endl;
+	    std::cout << "00 ta miss 01" << std::endl;
 	  }
 	}
       }
@@ -484,7 +484,7 @@ void Branch_Predict::restore(){
 
 // read branch info
 void Branch_Predict::file_read(){
-  ifstream fin(model.brn_pred.c_str());
+  std::ifstream fin(model.brn_pred.c_str());
 
   if( !fin ){
     error("Branch_Predict::file_read() can't open " + model.brn_pred);
@@ -495,22 +495,22 @@ void Branch_Predict::file_read(){
   try{
     brn_table = new MAP[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Branch_Predict::Branch_Predict() bad_alloc");
   }
 
-  string buf;
+  std::string buf;
 
   getline(fin, buf);
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
-    const string fname = program.funcname(func);
+    const std::string fname = program.funcname(func);
 
-    if( buf.find("{") == string::npos ){// function name
+    if( buf.find("{") == std::string::npos ){// function name
       error("Branch_Predict::file_read() {");
     }
-    if( fname != buf.substr(buf.find(":") + 1, string::npos) ){
-      cerr << "bb_info funcname " << fname << ", brn_pred funcname "
-	   <<  buf.substr(buf.find(":") + 1, string::npos);
+    if( fname != buf.substr(buf.find(":") + 1, std::string::npos) ){
+      std::cerr << "bb_info funcname " << fname << ", brn_pred funcname "
+	   <<  buf.substr(buf.find(":") + 1, std::string::npos);
       error("Branch_Predict::file_read() funcname");
     }
 
@@ -520,9 +520,9 @@ void Branch_Predict::file_read(){
 	break;
       }
 
-      if( buf.find(":") == string::npos || buf.find(",") == string::npos
-	  || buf.find(";") == string::npos ){
-	cerr << func << " " << buf << endl;
+      if( buf.find(":") == std::string::npos || buf.find(",") == std::string::npos
+	  || buf.find(";") == std::string::npos ){
+	std::cerr << func << " " << buf << std::endl;
 	error("Branch_Predict::file_read() file error");
       }
 
@@ -533,7 +533,7 @@ void Branch_Predict::file_read(){
       sscanf( buf.substr(0, buf.find(",")).c_str(), "%x", &target );
 
       // insert
-      brn_table[func].insert( make_pair( pc, target ) );
+      brn_table[func].insert( std::make_pair( pc, target ) );
     }// LOOP branch inst
     getline(fin, buf);
 
@@ -542,5 +542,5 @@ void Branch_Predict::file_read(){
     }
   }// LOOP FUNC
 
-  cout << "# Brnach_Predict::file_read() init end" << endl;
+  std::cout << "# Brnach_Predict::file_read() init end" << std::endl;
 }

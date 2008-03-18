@@ -8,8 +8,6 @@
 #ifndef FORK_H
 #define FORK_H
 
-using namespace std;
-
 #include <map>
 #include <stack>
 #include "bb.h"
@@ -22,6 +20,7 @@ const int null_data = 1 << 30;// 1,073,741,824
 //
 // class Func_Stack (function data stack)
 class Func_Stack{
+public:
   class Bb_Data{
   public:
     int exec_time;// 次のスレッド実行可能時刻
@@ -30,7 +29,6 @@ class Func_Stack{
     int lp_exec_time;// loop unroll: loop header展開、スレッド実行可能時刻
     bool lp_unroll;// loop に入った場合、true
 
-  public:
     // constructor
     Bb_Data(){
       order_tc = -1;
@@ -42,7 +40,7 @@ class Func_Stack{
   };
 
   // define
-  typedef stack< int > STACK;
+  typedef std::stack< int > STACK;
   // require stack size
   static const int stack_size = 600;// シミュレーションに十分な数
 

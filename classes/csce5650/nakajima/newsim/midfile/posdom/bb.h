@@ -30,8 +30,9 @@ public:
 //
 
 class Program_Info{
+public:
   // define
-  typedef set< int > SET;
+  typedef std::set< int > SET;
   typedef SET::iterator SI;
 
   // succeesor bb
@@ -44,9 +45,8 @@ class Program_Info{
   // bb size
   int *bb_size;
   // function name
-  string *fname;
+  std::string *fname;
 
-public:
   // const/destructor
   Program_Info();
   ~Program_Info();
@@ -54,7 +54,7 @@ public:
   // function num, bb num
   const int size() { return func_size; }
   const int size(const int &func) { return bb_size[func]; }
-  string funcname(const int &func) { return fname[func]; }
+  std::string funcname(const int &func) { return fname[func]; }
 
   // get succeesor bb
   SET get_succ(const Func_Bb &fbb) { return succ[fbb.func][fbb.bb]; }

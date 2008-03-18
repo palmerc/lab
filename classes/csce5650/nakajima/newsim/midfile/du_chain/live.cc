@@ -19,7 +19,7 @@ Live_Reg::Live_Reg(Program_Info &program, const int &f){
     in = new BITSET[bb_size];
     out = new BITSET[bb_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Reach_Def::Reach_Def() bad_alloc");
   }
 }
@@ -69,9 +69,9 @@ void Live_Reg::analysis(Program_Info &program, Def_Use &du){
   }
 }
 
-void Live_Reg::print(ofstream &fout){
-  fout << "livereg" << endl;
+void Live_Reg::print(std::ofstream &fout){
+  fout << "livereg" << std::endl;
 
 
-  fout << "}" << endl;
+  fout << "}" << std::endl;
 }

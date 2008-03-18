@@ -20,7 +20,7 @@ Reach_Def::Reach_Def(Program_Info &program, const int &f){
     in = new BITSET[bb_size];
     out = new BITSET[bb_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Reach_Def::Reach_Def() bad_alloc");
   }
 }
@@ -91,7 +91,7 @@ void Reach_Def::make_du_chain(Program_Info &program, Def_Use &du){
 
 	  // 関数の引数の依存
 	  if( ra0 <= def_reg && def_reg < (ra0 << 2) ){
-	    du_chain.insert( make_pair(use_data.get_pc(), chain) );
+	    du_chain.insert( std::make_pair(use_data.get_pc(), chain) );
 	  }
 	}// LOOP id
 	continue;
@@ -111,7 +111,7 @@ void Reach_Def::make_du_chain(Program_Info &program, Def_Use &du){
 	  if( def_reg == 0 ){
 	    continue;
 	  }else if( use_reg == def_reg ){
-	    du_chain.insert( make_pair(use_data.get_pc(), chain) );
+	    du_chain.insert( std::make_pair(use_data.get_pc(), chain) );
 	    break;
 	  }
 	}// LOOP id
@@ -130,7 +130,7 @@ void Reach_Def::make_du_chain(Program_Info &program, Def_Use &du){
 	  if( def_data.get_jal() ){
 	    Chain chain( def_data.get_pc(), use_reg );
 
-	    du_chain.insert( make_pair(use_data.get_pc(), chain) );
+	    du_chain.insert( std::make_pair(use_data.get_pc(), chain) );
 	    continue;
 	  }
 	}
@@ -147,7 +147,7 @@ void Reach_Def::make_du_chain(Program_Info &program, Def_Use &du){
 	    DU_Data def_data = du.get_data(id);
 	    Chain chain( def_data.get_pc(), def_data.get_def() );
 
-	    du_chain.insert( make_pair(use_data.get_pc(), chain) );
+	    du_chain.insert( std::make_pair(use_data.get_pc(), chain) );
 	  }
 	}// LOOP def_id
       }//
@@ -156,13 +156,13 @@ void Reach_Def::make_du_chain(Program_Info &program, Def_Use &du){
 }
 
 // file out
-void Reach_Def::print(ofstream &fout){
-  fout << "{" << func << ":" << fname << endl;
+void Reach_Def::print(std::ofstream &fout){
+  fout << "{" << func << ":" << fname << std::endl;
 
   for( MI map_i = du_chain.begin(); map_i != du_chain.end(); map_i ++ ){
-    fout << hex << map_i->second.get_pc() << "->" << map_i->first << "("
-	 << dec << map_i->second.get_reg() << ")" << endl;
+    fout << std::hex << map_i->second.get_pc() << "->" << map_i->first << "("
+	 << std::dec << map_i->second.get_reg() << ")" << std::endl;
   }
 
-  fout << "}" << endl;
+  fout << "}" << std::endl;
 }

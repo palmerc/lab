@@ -43,16 +43,17 @@ public:
 // class Reach_Def
 //
 class Reach_Def{
+public:
   // define
-  typedef bitset< bitset_size > BITSET;
-  typedef multimap< int, Chain > MMAP;
+  typedef std::bitset< bitset_size > BITSET;
+  typedef std::multimap< int, Chain > MMAP;
   typedef MMAP::iterator MI;
-  typedef pair< MI, MI > MI_PAIR;
+  typedef std::pair< MI, MI > MI_PAIR;
 
   // current function number/bb size
   int func;
   int bb_size;
-  string fname;
+  std::string fname;
 
   // in/out
   BITSET *in;
@@ -61,7 +62,6 @@ class Reach_Def{
   // du chain
   MMAP du_chain;
 
-public:
   // const/destructor
   Reach_Def(Program_Info &, const int &);// make kill/gen
   ~Reach_Def();
@@ -71,7 +71,7 @@ public:
   // make du-chain
   void make_du_chain(Program_Info &, Def_Use &);
   // file out
-  void print(ofstream &);
+  void print(std::ofstream &);
 };
 
 #endif

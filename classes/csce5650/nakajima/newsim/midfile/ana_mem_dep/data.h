@@ -16,8 +16,8 @@
 
 class Mem_Profile{
   // define
-  typedef vector< double > VEC;
-  typedef map< int, VEC > MAP;
+  typedef std::vector< double > VEC;
+  typedef std::map< int, VEC > MAP;
   typedef MAP::iterator MI;
 
   static const int size = 101;

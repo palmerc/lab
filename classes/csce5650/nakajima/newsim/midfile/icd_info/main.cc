@@ -37,10 +37,10 @@ int main(int argc, char **argv){
     icd.print(model.fout_icd);
 
     // progress report
-    cerr << "\r\t" << func << "/" << program.size() - 1;
+    std::cerr << "\r\t" << func << "/" << program.size() - 1;
   }
 
-  cerr << endl << "geneate " << model.icd_info << endl;
+  std::cerr << std::endl << "geneate " << model.icd_info << std::endl;
 
   return(0);
 }
@@ -48,15 +48,15 @@ int main(int argc, char **argv){
 // arg check
 static void arg_check(const int &argc, char **argv){
   if( argc == 3 ){
-    string opt = argv[1];
-    string dir = argv[2];
+    std::string opt = argv[1];
+    std::string dir = argv[2];
 
     if( opt == "-dir" ){
       if( dir[dir.size() - 1] != '/' ){
 	dir += "/";
       }
 
-      cerr << "dir:" << dir << endl;
+      std::cerr << "dir:" << dir << std::endl;
 
       model.bb_info = dir + "bb_info";
       model.icd_info = dir + "icd_info";

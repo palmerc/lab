@@ -23,7 +23,7 @@ PosDom::PosDom(Program_Info &program, const int &f){
     pos = new BITSET[bb_size];
     dom = new BITSET[bb_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("PosDom::PosDom() bad_alloc pd = new");
   }
 }
@@ -127,8 +127,8 @@ void PosDom::equivalence(){
 }
 
 // print output file
-void PosDom::print(ofstream &fout){
-  fout << "{" << func << ":" << fname << endl;
+void PosDom::print(std::ofstream &fout){
+  fout << "{" << func << ":" << fname << std::endl;
 
   for( int bb = 0; bb < bb_size; bb ++){
     fout << bb << ":";
@@ -138,10 +138,10 @@ void PosDom::print(ofstream &fout){
 	fout << i << ",";
       }
     }
-    fout << ";" << endl;
+    fout << ";" << std::endl;
   }
 
-  fout << "}" << endl;
+  fout << "}" << std::endl;
 }
 
 

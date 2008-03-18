@@ -49,10 +49,10 @@ int main(int argc, char **argv){
     //    livereg.print(model.fout_du_chain);
 
     // progress report
-    cerr << "\r\t" << func << "/" << program.size() - 1;
+    std::cerr << "\r\t" << func << "/" << program.size() - 1;
   }
 
-  cerr << endl<< "generate " << model.du_chain << endl;
+  std::cerr << std::endl<< "generate " << model.du_chain << std::endl;
 
   return(0);
 }
@@ -60,15 +60,15 @@ int main(int argc, char **argv){
 // arg check
 static void arg_check(int argc, char **argv){
   if( argc == 3 ){
-    string opt = argv[1];
-    string dir = argv[2];
+    std::string opt = argv[1];
+    std::string dir = argv[2];
 
     if( opt == "-dir" ){
       if( dir[dir.size() - 1] != '/' ){
 	dir += "/";
       }
 
-      cerr << "dir:" << dir << endl;
+      std::cerr << "dir:" << dir << std::endl;
 
       model.asm_du = dir + "asm_du";
       model.bb_info = dir + "bb_info";

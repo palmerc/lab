@@ -81,7 +81,7 @@ const int Mem_Dep_MP::get_viol_limit(){
   if( viol_flag == VIOL ){
     // change blind / analysis limit
     if( model.debug(5) ){
-      cerr << " mem_mp limit: " << mem_limit << endl;
+      std::cerr << " mem_mp limit: " << mem_limit << std::endl;
     }
     return mem_limit;
   }
@@ -94,7 +94,7 @@ void Mem_Dep_MP::blind(const Pipe_Inst &inst, int &limit){
   const int address = inst.address, load_byte = inst.m_size;
   int st_pc = 0;
 
-  limit = max(limit, get_viol_limit() );
+  limit = std::max(limit, get_viol_limit() );
 
   for( int byte = 0; byte < load_byte; byte ++ ){// LOOP byte
     Mem::Mem_Data mem = memory.read_data(address + byte);
@@ -119,10 +119,10 @@ void Mem_Dep_MP::blind(const Pipe_Inst &inst, int &limit){
     if( mem.write > limit ){
       // スレッド間メモリ依存違反
       viol_flag = VIOL;
-      mem_limit = max(mem_limit, mem.write);
+      mem_limit = std::max(mem_limit, mem.write);
 
       if( model.debug(5) ){
-	cerr << " -> " << mem_limit << endl;
+	std::cerr << " -> " << mem_limit << std::endl;
       }
     }
   }// LOOP byte
@@ -143,7 +143,7 @@ void Mem_Dep_MP::blind(const Pipe_Inst &inst, int &limit){
     }
   }
 
-  limit = max( limit, get_viol_limit() );
+  limit = std::max( limit, get_viol_limit() );
 }
 
 void Mem_Dep_MP::analysis(const Pipe_Inst &inst, int &limit){
@@ -151,7 +151,7 @@ void Mem_Dep_MP::analysis(const Pipe_Inst &inst, int &limit){
   const int func = program.fbb().func;
   int st_pc = 0;
 
-  limit = max(limit, get_viol_limit() );
+  limit = std::max(limit, get_viol_limit() );
 
   for( int byte = 0; byte < load_byte; byte ++ ){// LOOP byte
     // store data
@@ -177,7 +177,7 @@ void Mem_Dep_MP::analysis(const Pipe_Inst &inst, int &limit){
     if( mem.write > limit ){
       // スレッド間メモリ依存違反
       if( model.debug(10) ){
-	cerr << hex << " load pc:" << ld_pc << " store pc:" << st_pc << dec;
+	std::cerr << std::hex << " load pc:" << ld_pc << " store pc:" << st_pc << std::dec;
       }
 
       MI map_i;
@@ -189,7 +189,7 @@ void Mem_Dep_MP::analysis(const Pipe_Inst &inst, int &limit){
 	  // 該当エントリ内にストア命令が存在する ->
 	  // スレッド間メモリ依存はperfectに同期
   	  if( model.debug(10) ){
-  	    cerr << " SYNC ";
+  	    std::cerr << " SYNC ";
   	  }
 
   	  if( viol_flag == DEP ){
@@ -199,23 +199,23 @@ void Mem_Dep_MP::analysis(const Pipe_Inst &inst, int &limit){
   	  // 該当エントリ内にストア命令が存在しない ->
 	  // スレッド間メモリ依存違反
 	  if( model.debug(10) ){
-	    cerr << " VIOL ";
+	    std::cerr << " VIOL ";
 	  }
 	  viol_flag = VIOL;
-	  mem_limit = max(mem_limit, mem.write);
+	  mem_limit = std::max(mem_limit, mem.write);
 	}
       }else{
 	// ロード命令に対応するエントリが存在しない -> blindと同様
 	// スレッド間メモリ依存違反
 	if( model.debug(10) ){
-	  cerr << " VIOL ";
+	  std::cerr << " VIOL ";
 	}
 	viol_flag = VIOL;
-	mem_limit = max(mem_limit, mem.write);
+	mem_limit = std::max(mem_limit, mem.write);
       }
 
       if( model.debug(10) ){
-	cerr << " -> " << mem_limit << endl;
+	std::cerr << " -> " << mem_limit << std::endl;
       }
     }
   }// LOOP byte
@@ -236,7 +236,7 @@ void Mem_Dep_MP::analysis(const Pipe_Inst &inst, int &limit){
     }
   }
 
-  limit = max( limit, get_viol_limit() );
+  limit = std::max( limit, get_viol_limit() );
 }
 
 // MDP
@@ -246,7 +246,7 @@ void Mem_Dep_MP::md_predict(const Pipe_Inst &inst, Store_Thread &st_tid,
   const int func = program.fbb().func;// ld_pc func num
   int st_pc = 0;
 
-  limit = max(limit, get_viol_limit() );
+  limit = std::max(limit, get_viol_limit() );
 
   for( int byte = 0; byte < load_byte; byte ++ ){// LOOP byte
     // store data (pc, write_time, thread_id)
@@ -272,7 +272,7 @@ void Mem_Dep_MP::md_predict(const Pipe_Inst &inst, Store_Thread &st_tid,
     if( mem.write > limit ){
       // スレッド間メモリ依存違反
       if( model.debug(10) ){
-	cerr << hex << " load pc:" << ld_pc << " store pc:" << st_pc << dec;
+	std::cerr << std::hex << " load pc:" << ld_pc << " store pc:" << st_pc << std::dec;
       }
 
       // ロード命令に対応するエントリが存在するかどうか
@@ -322,7 +322,7 @@ void Mem_Dep_MP::md_predict(const Pipe_Inst &inst, Store_Thread &st_tid,
 	    // blindで違反が発生しない
 
 	    if( model.debug(10) ){
-	      cerr << " SYNC ";
+	      std::cerr << " SYNC ";
 	    }
 
 	    if( viol_flag == DEP ){
@@ -335,10 +335,10 @@ void Mem_Dep_MP::md_predict(const Pipe_Inst &inst, Store_Thread &st_tid,
 
 	    // スレッド間メモリ依存違反
 	    if( model.debug(10) ){
-	      cerr << " VIOL(MULT) ";
+	      std::cerr << " VIOL(MULT) ";
 	    }
 	    viol_flag = VIOL;
-	    mem_limit = max(mem_limit, mem.write);
+	    mem_limit = std::max(mem_limit, mem.write);
 	  }
 	}else{
   	  // 該当エントリ内にストア命令が存在しない -> blindと同様
@@ -346,10 +346,10 @@ void Mem_Dep_MP::md_predict(const Pipe_Inst &inst, Store_Thread &st_tid,
 
 	  // スレッド間メモリ依存違反
 	  if( model.debug(10) ){
-	    cerr << " VIOL(NO STORE) ";
+	    std::cerr << " VIOL(NO STORE) ";
 	  }
 	  viol_flag = VIOL;
-	  mem_limit = max(mem_limit, mem.write);
+	  mem_limit = std::max(mem_limit, mem.write);
 
 	  // 削除・登録
 	  switch( reexec.mode() ){
@@ -401,10 +401,10 @@ void Mem_Dep_MP::md_predict(const Pipe_Inst &inst, Store_Thread &st_tid,
 
 	// スレッド間メモリ依存違反
 	if( model.debug(10) ){
-	  cerr << " VIOL(NO ENTRY) ";
+	  std::cerr << " VIOL(NO ENTRY) ";
 	}
 	viol_flag = VIOL;
-	mem_limit = max(mem_limit, mem.write);
+	mem_limit = std::max(mem_limit, mem.write);
 
 	// (どちらにも)エントリが存在しないので、登録
 	switch( reexec.mode() ){
@@ -436,7 +436,7 @@ void Mem_Dep_MP::md_predict(const Pipe_Inst &inst, Store_Thread &st_tid,
       }
 
       if( model.debug(10) ){
-	cerr << " -> " << mem_limit << endl;
+	std::cerr << " -> " << mem_limit << std::endl;
       }
     }
   }// LOOP byte
@@ -457,7 +457,7 @@ void Mem_Dep_MP::md_predict(const Pipe_Inst &inst, Store_Thread &st_tid,
     }
   }
 
-  limit = max( limit, get_viol_limit() );
+  limit = std::max( limit, get_viol_limit() );
 }
 
 
@@ -468,14 +468,14 @@ void Mem_Dep_MP::allocate(){
   try{
     profile = new MAP[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Mem_Dep_MP::allocate() bad_alloc");
   }
 }
 
 
 void Mem_Dep_MP::file_read(){
-  ifstream fin(model.mp_analysis.c_str());
+  std::ifstream fin(model.mp_analysis.c_str());
 
   if( !fin ){
     error("Mem_Dep_MP::file_read() can't open " + model.mp_analysis);
@@ -486,23 +486,23 @@ void Mem_Dep_MP::file_read(){
   try{
     profile = new MAP[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Mem_Dep_MP::file_read() bad_alloc");
   }
 
-  string buf;
+  std::string buf;
   int total_size = 0, total_set_size = 0;
 
   getline(fin, buf);
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
-    const string fname = program.funcname(func);
+    const std::string fname = program.funcname(func);
 
-    if( buf.find("{") == string::npos ){// function name
+    if( buf.find("{") == std::string::npos ){// function name
       error("Mem_Dep_MP::file_read() {");
     }
-    if( fname != buf.substr(buf.find(":") + 1, string::npos) ){
-      cerr << "bb_info funcname " << fname << ", analysis funcname "
-	   <<  buf.substr(buf.find(":") + 1, string::npos);
+    if( fname != buf.substr(buf.find(":") + 1, std::string::npos) ){
+      std::cerr << "bb_info funcname " << fname << ", analysis funcname "
+	   <<  buf.substr(buf.find(":") + 1, std::string::npos);
       error("Mem_Dep_MP::file_read() funcname");
     }
 
@@ -512,9 +512,9 @@ void Mem_Dep_MP::file_read(){
 	break;
       }
 
-      if( buf.find(":") == string::npos || buf.find(",") == string::npos
-	  || buf.find(";") == string::npos ){
-	cerr << buf << endl;
+      if( buf.find(":") == std::string::npos || buf.find(",") == std::string::npos
+	  || buf.find(";") == std::string::npos ){
+	std::cerr << buf << std::endl;
 	error("Mem_Dep_MP::file_read() file error");
       }
 
@@ -527,7 +527,7 @@ void Mem_Dep_MP::file_read(){
 
       // duplicate check
       if( !profile[func][ld_pc].empty() ){
-	cerr << "ld_pc: " << hex << ld_pc << dec << endl << endl;
+	std::cerr << "ld_pc: " << std::hex << ld_pc << std::dec << std::endl << std::endl;
 	print();
 	error("Mem_Dep_MP::file_read() duplicate");
       }
@@ -559,27 +559,27 @@ void Mem_Dep_MP::file_read(){
     }
   }// LOOP func
 
-  cout << "# Mem_Dep_MP::file_read() init end: " << total_size
+  std::cout << "# Mem_Dep_MP::file_read() init end: " << total_size
        << "," << total_set_size
-       << " (" << (double)total_set_size / (double)total_size << ")" << endl;
+       << " (" << (double)total_set_size / (double)total_size << ")" << std::endl;
 }
 
 void Mem_Dep_MP::print(){
-  cout << "Mem_Dep_MP::print()" << endl;
+  std::cout << "Mem_Dep_MP::print()" << std::endl;
 
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
     for( MI map_i = profile[func].begin();
 	 map_i != profile[func].end(); map_i ++ ){// LOOP load_pc
       const int ld_pc = map_i->first;
 
-      cout << hex << ld_pc << ":" << dec << map_i->second.size() << ":";
+      std::cout << std::hex << ld_pc << ":" << std::dec << map_i->second.size() << ":";
 
       for( LI list_i = map_i->second.begin();
 	   list_i != map_i->second.end(); list_i ++ ){
-	cout << hex << *list_i << dec << ",";
+	std::cout << std::hex << *list_i << std::dec << ",";
       }
 
-      cout << ";" << endl;
+      std::cout << ";" << std::endl;
     }// LOOP load pc
   }// LOOP func
 }
@@ -613,9 +613,9 @@ void Mem_Profile::Profile_Data::add_data(const int &st_pc){
   total ++;
 }
 
-void Mem_Profile::Profile_Data::file_write(ofstream &fout){
+void Mem_Profile::Profile_Data::file_write(std::ofstream &fout){
   // sort
-  typedef multimap< int, int > MMAP;
+  typedef std::multimap< int, int > MMAP;
   typedef MMAP::reverse_iterator MMI;
 
   MMAP sorted;
@@ -623,7 +623,7 @@ void Mem_Profile::Profile_Data::file_write(ofstream &fout){
   for( MI map_i = profile_data.begin();
        map_i != profile_data.end(); map_i ++ ){// LOOP store_pc
     // sort "store_pc, count" --> "count, store_pc:"
-    sorted.insert( make_pair(map_i->second, map_i->first) );
+    sorted.insert( std::make_pair(map_i->second, map_i->first) );
   }// LOOP store_pc
 
   fout << total << ":";
@@ -631,7 +631,7 @@ void Mem_Profile::Profile_Data::file_write(ofstream &fout){
   for( MMI map_i = sorted.rbegin();
        map_i != sorted.rend(); map_i ++ ){// LOOP count
     // print "count, load_pc:"
-    fout << map_i->first << "," << hex << map_i->second << dec << ":";
+    fout << map_i->first << "," << std::hex << map_i->second << std::dec << ":";
   }// LOOP count
 }
 
@@ -642,7 +642,7 @@ void Mem_Profile::allocate(){
   try{
     profile = new MAP[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Mem_Profile::allocate() bad_alloc");
   }
 }
@@ -675,7 +675,7 @@ void Mem_Profile::count_inst(const Pipe_Inst &inst, const int &limit){
 }
 
 void Mem_Profile::file_write(){
-  ofstream fout(model.mp_analysis.c_str());
+  std::ofstream fout(model.mp_analysis.c_str());
 
   if( !fout ){
     error("Mem_Profile::file_write() can't open " + model.mp_analysis);
@@ -684,24 +684,24 @@ void Mem_Profile::file_write(){
   int total_size = 0;
 
   for( int func = 0; func < func_size; func ++ ){// LOOP func
-    fout << "{" << func << ":" << program.funcname(func) << endl;
+    fout << "{" << func << ":" << program.funcname(func) << std::endl;
 
     for( MI map_i = profile[func].begin();
 	 map_i != profile[func].end(); map_i ++ ){// LOOP load_pc
       const int ld_pc = map_i->first;
 
-      fout << hex << ld_pc << ":" << dec;
+      fout << std::hex << ld_pc << ":" << std::dec;
       // file write store_pcs
       map_i->second.file_write(fout);
-      fout << ";" << endl;
+      fout << ";" << std::endl;
     }// LOOP load_pc
 
     total_size += profile[func].size();
 
-    fout << "}" << endl;
+    fout << "}" << std::endl;
   }// LOOP func
 
-  cout << "# Mem_Profile::file_write() size: " << total_size << endl;
+  std::cout << "# Mem_Profile::file_write() size: " << total_size << std::endl;
 }
 
 
@@ -758,7 +758,7 @@ void Mem::write_data(const int &address, const Mem::Mem_Data &data){
 }
 
 void Mem::print_mem_size(){
-  cout << "memory buffer:" <<  mem.size() << endl;
+  std::cout << "memory buffer:" <<  mem.size() << std::endl;
 }
 
 
@@ -782,18 +782,18 @@ void Store_Thread::add_store_pc(const int &st_pc, const int &write_time){
   switch( reexec.mode() ){
   case Normal:
     if( model.debug(20) ){
-      cout << "Store_Thread::add_store_pc " << hex << st_pc << dec << endl;
+      std::cout << "Store_Thread::add_store_pc " << std::hex << st_pc << std::dec << std::endl;
     }
 
     if( ( map_i = more_store_c.find(st_pc) ) != more_store_c.end() ){
       // 複数出現
       // min write timeを更新
-      map_i->second = min( map_i->second, write_time );
+      map_i->second = std::min( map_i->second, write_time );
     }else{
       // 複数出現していない
       if( ( map_i = one_store_c.find(st_pc) ) != one_store_c.end() ){
 	// 2回出現したので、複数に登録、min write timeを更新
-	more_store_c[st_pc] = min( map_i->second, write_time );
+	more_store_c[st_pc] = std::min( map_i->second, write_time );
       }else{
 	// 一度も出現されていないので、登録、write timeを記録
 	one_store_c[st_pc] = write_time;
@@ -821,7 +821,7 @@ void Store_Thread::init_thread(const int &thread_id){
       const int st_pc = map_i->first, min_write_time = map_i->second;
 
       // id, min write timeをテーブルに登録
-      st_tid_table[st_pc].insert( make_pair(thread_id, min_write_time) );
+      st_tid_table[st_pc].insert( std::make_pair(thread_id, min_write_time) );
 
       // 複数出現するものは、一回出るに登録されているので、重複を削除
       one_store_c.erase(st_pc);
@@ -871,7 +871,7 @@ bool Store_Thread::search(const Mem::Mem_Data &mem_data){
 	return true;
       }else{
 	// 待ち合わせのストアが存在しない
-	cerr << st_tid << " " << hex << st_pc << dec << endl;
+	std::cerr << st_tid << " " << std::hex << st_pc << std::dec << std::endl;
 	print();
 	error("Store_Thread::search() not found");
       }
@@ -893,8 +893,8 @@ bool Store_Thread::search(const Mem::Mem_Data &mem_data){
       }
     }else{
       // 待ち合わせのストアが存在しない
-      cerr << "normal: tid:" << st_tid
-	   << " st_pc:" << hex << st_pc << dec << endl;
+      std::cerr << "normal: tid:" << st_tid
+	   << " st_pc:" << std::hex << st_pc << std::dec << std::endl;
       print();
       error("Store_Thread::search() not found");
     }
@@ -908,16 +908,16 @@ bool Store_Thread::search(const Mem::Mem_Data &mem_data){
 
 void Store_Thread::print(){
   if( st_tid_table.empty() ){
-    cout << "st_tid_table.empty()" << endl;
+    std::cout << "st_tid_table.empty()" << std::endl;
   }else{
     for( HMI map_i = st_tid_table.begin();
 	 map_i != st_tid_table.end(); map_i ++ ){
-      cout << hex << map_i->first << dec << ":";
+      std::cout << std::hex << map_i->first << std::dec << ":";
 
       for( MI mi = map_i->second.begin(); mi != map_i->second.end(); mi ++ ){
-	cout << mi->first << ", ";
+	std::cout << mi->first << ", ";
       }
-      cout << endl;
+      std::cout << std::endl;
     }
   }
 }
@@ -936,18 +936,18 @@ void Reg_Count::counter(const Reg_Data &reg_dest, const int &commit){
   }
 
   // 分岐ミスによる制限のほうが厳しい場合、finite_limitを更新
-  finite_limit = max(finite_limit, t.cd_limit);
+  finite_limit = std::max(finite_limit, t.cd_limit);
 
-  int commit_order = max(finite_limit, commit);
+  int commit_order = std::max(finite_limit, commit);
 
   // commit orderの計算
   if( reg_dest.flag & DEFINE || !c.thread ){
-    commit_order = max(commit_order, reg_dest.write);
+    commit_order = std::max(commit_order, reg_dest.write);
   }
 
   if( model.debug(20) && reexec.mode() == Normal ){
-    cerr << "limit: " << finite_limit
-	 << " commit: " << commit_order << endl;
+    std::cerr << "limit: " << finite_limit
+	 << " commit: " << commit_order << std::endl;
   }
 
 #ifdef UNDEF
@@ -1090,9 +1090,9 @@ void Reg_Count::counter(const Reg_Data &reg_dest, const int &commit){
 
   if( false && model.debug(20) && reexec.mode() == Normal ){
     for( LI list_i = count.begin(); list_i != count.end(); list_i ++ ){
-      cerr << list_i->start << "," << list_i->reg << ":";
+      std::cerr << list_i->start << "," << list_i->reg << ":";
     }
-    cerr << count.back().end << endl;
+    std::cerr << count.back().end << std::endl;
   }
 }
 
@@ -1124,7 +1124,7 @@ void Reg_Count::backup(){
   }
 
   if( model.debug(20) ){
-    cerr << "Reg_Count::backup()" << endl;
+    std::cerr << "Reg_Count::backup()" << std::endl;
   }
 
   finite_limit_bak = finite_limit;
@@ -1141,7 +1141,7 @@ void Reg_Count::restore(){
   case Finish:
     // re = ForkからFinishに遷移
     if( model.debug(20) ){
-      cerr << "Reg_Count::restore() Finish not restore" << endl;
+      std::cerr << "Reg_Count::restore() Finish not restore" << std::endl;
     }
     // restore data
     finite_limit = finite_limit_bak;
@@ -1150,7 +1150,7 @@ void Reg_Count::restore(){
   case Change:
     // No -> Change -> (Fork) に遷移
     if( model.debug(20) ){
-      cerr << "Reg_Count::restore() Change copy count to count_diff" << endl;
+      std::cerr << "Reg_Count::restore() Change copy count to count_diff" << std::endl;
     }
     break;
 

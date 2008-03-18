@@ -52,7 +52,7 @@ void Bb_Statistic::allocate(){
     bb = new int*[func_size];
     inst = new int*[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Bb_Statistic::allocate() bad_alloc");
   }
 
@@ -63,7 +63,7 @@ void Bb_Statistic::allocate(){
       bb[f] = new int[program.size(f)];
       inst[f] = new int[program.size(f)];
     }
-    catch( bad_alloc ){
+    catch( std::bad_alloc ){
       error("Bb_Statistic::allocate() bad_alloc");
     }
 
@@ -94,37 +94,37 @@ void Bb_Statistic::print(){
   }
 
   // print
-  string file = model.bb_statistic;
+  std::string file = model.bb_statistic;
 
-  cout << "# Bb_Statistic::print() "
-       << file.substr(file.rfind("/") + 1, string::npos) << endl;
+  std::cout << "# Bb_Statistic::print() "
+       << file.substr(file.rfind("/") + 1, std::string::npos) << std::endl;
 
-  ofstream fout(file.c_str());
+  std::ofstream fout(file.c_str());
 
   if( !fout ){
     error("Mem_Profile::file_write() can't open " + model.statistic);
   }
 
-  fout << "total inst: " << total_inst << endl
-       << "total func: " << total_func << endl
-       << endl;
+  fout << "total inst: " << total_inst << std::endl
+       << "total func: " << total_func << std::endl
+       << std::endl;
 
-  fout << "====== func statistic ======" << endl;
+  fout << "====== func statistic ======" << std::endl;
 
   for( int f = 0; f < func_size; f ++ ){
-    fout << f << "(" << program.funcname(f) << ")" << endl;
+    fout << f << "(" << program.funcname(f) << ")" << std::endl;
 
     fout << "\tinst: " << (double)func_inst[f] / (double)total_inst * 100
-	 << " %\t\tfunc_inst: " << func_inst[f] << endl;
+	 << " %\t\tfunc_inst: " << func_inst[f] << std::endl;
   }
 
-  fout << endl << "====== inst statistic ======" << endl;
+  fout << std::endl << "====== inst statistic ======" << std::endl;
 
   for( int f = 0; f < func_size; f ++ ){
-    fout << f << "(" << program.funcname(f) << ")" << endl;
+    fout << f << "(" << program.funcname(f) << ")" << std::endl;
 
     fout << "\tfunc: " << (double)func[f] / (double)total_func * 100
-	 << " %\t\tcall: " << func[f] << endl;
+	 << " %\t\tcall: " << func[f] << std::endl;
   }
 }
 
@@ -174,11 +174,11 @@ const bool Program_Info::change_fbb(const int &pc, const int &tc){
       fbb_now.func = search_func(pc);
 
       if( model.debug(5) ){
-	cerr << "================================" << endl
+	std::cerr << "================================" << std::endl
 	     << "function change last func: " << func
 	     << " " << fname[func]
 	     << ", current func: " << fbb_now.func
-	     << " " << fname[fbb_now.func] << endl;
+	     << " " << fname[fbb_now.func] << std::endl;
       }
     }
 
@@ -186,9 +186,9 @@ const bool Program_Info::change_fbb(const int &pc, const int &tc){
     fbb_now.bb = search_bb(fbb_now.func, pc);
 
     if( model.debug(5) ){
-      cerr << "----------------------------------" << endl
+      std::cerr << "----------------------------------" << std::endl
 	   << "basic block change last bb:" << bb
-	   << ", current bb:" << fbb_now.bb << endl;
+	   << ", current bb:" << fbb_now.bb << std::endl;
     }
     return true;
   }
@@ -233,22 +233,22 @@ const int Program_Info::search_bb(const int &func, const int &pc){
 // read bb_info
 void Program_Info::file_read(){
   // construct
-  vector< vector< Bb_Info > > v_info;
-  vector< string > v_fname;
-  ifstream fin(model.bb_info.c_str());
+  std::vector< std::vector< Bb_Info > > v_info;
+  std::vector< std::string > v_fname;
+  std::ifstream fin(model.bb_info.c_str());
 
   if( !fin ){
     error("Program_Info::file_read() can't open " + model.bb_info);
   }
 
-  string buf;
+  std::string buf;
 
   getline(fin, buf);
   for( int func = 0; true; func ++ ){// LOOP FUNC
     if( buf[0] != '{' ){
       error("Program_Info::file_read() {");
     }else{
-      v_fname.push_back( buf.substr(buf.find(":") + 1, string::npos) );
+      v_fname.push_back( buf.substr(buf.find(":") + 1, std::string::npos) );
     }
 
     // resize array for new function
@@ -260,8 +260,8 @@ void Program_Info::file_read(){
 	break;
       }
 
-      if( buf.find(":") == string::npos || buf.find(";") == string::npos ){
-	cerr << func << "," << bb << " " << buf << endl;
+      if( buf.find(":") == std::string::npos || buf.find(";") == std::string::npos ){
+	std::cerr << func << "," << bb << " " << buf << std::endl;
 	error("Program_Info::file_read() file error");
       }
 
@@ -288,9 +288,9 @@ void Program_Info::file_read(){
   try{
     info = new Bb_Info*[func_size];
     bb_size = new int[func_size];
-    fname = new string[func_size];
+    fname = new std::string[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Program_Info::file_read() bad_alloc");
   }
 
@@ -301,7 +301,7 @@ void Program_Info::file_read(){
     try{
       info[f] = new Bb_Info[size(f)];
     }
-    catch( bad_alloc ){
+    catch( std::bad_alloc ){
       error("Program_Info::file_read() bad_alloc");
     }
 
@@ -313,7 +313,7 @@ void Program_Info::file_read(){
   fbb_last = Func_Bb();
   fbb_now = Func_Bb();
 
-  cout << "# Program_Info::file_read() init end" << endl;
+  std::cout << "# Program_Info::file_read() init end" << std::endl;
 }
 
 // backup (for reexec mode)
@@ -328,15 +328,15 @@ void Program_Info::restore(){
 
 // check code
 void Program_Info::print(){
-  cout << "Program_Info::print()" << endl;
+  std::cout << "Program_Info::print()" << std::endl;
 
   for( int f = 0; f < size() ; f ++ ){
-    cout << "{" << endl;
+    std::cout << "{" << std::endl;
     for( int bb = 0; bb < size(f) ; bb ++ ){
-      cout << bb << ":" <<  info[f][bb].start
-	   << ":" << info[f][bb].end << endl;
+      std::cout << bb << ":" <<  info[f][bb].start
+	   << ":" << info[f][bb].end << std::endl;
     }
-    cout << "}" << endl;
+    std::cout << "}" << std::endl;
   }
   exit(0);
 }
@@ -365,7 +365,7 @@ PosDom::~PosDom(){
 void PosDom::file_read(){
   func_size = program.size();
 
-  string fin_fname;
+  std::string fin_fname;
 
   switch( sim_type ){
   case CD:
@@ -373,20 +373,20 @@ void PosDom::file_read(){
   case CD_MF:
   case PD:
     fin_fname = model.posdom_out;
-    cout << "# PosDom::file_read() (post dominate) ";
+    std::cout << "# PosDom::file_read() (post dominate) ";
     break;
 
   case CE:
     fin_fname = model.ctrleq_out;
-    cout << "# PosDom::file_read() (ctrl eval) ";
+    std::cout << "# PosDom::file_read() (ctrl eval) ";
     break;
 
   default:
-    cout << "# PosDom::file_read() no read posdom" << endl;
+    std::cout << "# PosDom::file_read() no read posdom" << std::endl;
     return;
   }
 
-  ifstream fin(fin_fname.c_str());
+  std::ifstream fin(fin_fname.c_str());
 
   if( !fin ){
     error("PosDom::file_read() can't open " + fin_fname);
@@ -395,40 +395,40 @@ void PosDom::file_read(){
   try{
     pd = new BITSET*[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("PosDom::file_read() bad_alloc pd = new");
   }
 
-  string buf;
+  std::string buf;
 
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
-    const string fname = program.funcname(func);
+    const std::string fname = program.funcname(func);
     const int bb_size = program.size(func);
 
     getline(fin, buf);
 
-    if( buf.find("{") == string::npos ){// function name
+    if( buf.find("{") == std::string::npos ){// function name
       error("PosDom::file_read() {");
     }
-    if( fname != buf.substr(buf.find(":") + 1, string::npos) ){
-      cerr << "bb_info funcnaem " << fname << ", posdom funcname "
-	   <<  buf.substr(buf.find(":") + 1, string::npos);
+    if( fname != buf.substr(buf.find(":") + 1, std::string::npos) ){
+      std::cerr << "bb_info funcnaem " << fname << ", posdom funcname "
+	   <<  buf.substr(buf.find(":") + 1, std::string::npos);
       error("PosDom::file_read() funcname");
     }
 
     try{
       pd[func] = new BITSET[bb_size];
     }
-    catch( bad_alloc ){
+    catch( std::bad_alloc ){
       error("PosDom::file_read() bad_alloc pd[func]");
     }
 
     for( int bb = 0; bb < bb_size; bb ++ ){// LOOP BB
       getline(fin, buf);
 
-      if( buf.find(":") == string::npos || buf.find(",") == string::npos 
-	  || buf.find(";") == string::npos ){
-	cerr << func << "," << bb << " " << buf << endl;
+      if( buf.find(":") == std::string::npos || buf.find(",") == std::string::npos 
+	  || buf.find(";") == std::string::npos ){
+	std::cerr << func << "," << bb << " " << buf << std::endl;
 	error("PosDom::file_read() file error");
       }
 
@@ -454,19 +454,19 @@ void PosDom::file_read(){
     }
   }// LOOP FUNC
 
-  cout << "init end" << endl;
+  std::cout << "init end" << std::endl;
 }
 
 // chech code
 void PosDom::print(){
-  cout << "PosDom::print() test" << endl;
+  std::cout << "PosDom::print() test" << std::endl;
 
   for( int func = 0; func < program.size(); func ++ ){
-    cout << "{" << func << endl;
+    std::cout << "{" << func << std::endl;
     for( int bb = 0; bb < program.size(func); bb ++){
-      cout  << pd[func][bb] << endl;
+      std::cout  << pd[func][bb] << std::endl;
     }
-    cout << "}" << endl;
+    std::cout << "}" << std::endl;
   }
   exit(0);
 }

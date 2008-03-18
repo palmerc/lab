@@ -33,7 +33,6 @@ public:
   int src1;
   int src2;
 
-public:
   // const/destructor
   Inst_Data(Operand o = Other, const int &d = -1,
 	    const int &s1 = -1, const int &s2 = -1){ 
@@ -45,15 +44,15 @@ public:
 };
 
 class Inst_Type{
+public:
   // define
-  typedef map< int, Inst_Data > MAP;
+  typedef std::map< int, Inst_Data > MAP;
   typedef MAP::iterator MI;
-  typedef pair< MI, MI > MI_PAIR;
+  typedef std::pair< MI, MI > MI_PAIR;
 
   // add. sub, mult, div
   MAP insts;
 
-public:
   // const/destructor
   Inst_Type(Program_Info &, const int &);
   ~Inst_Type();

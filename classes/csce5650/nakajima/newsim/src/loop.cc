@@ -66,8 +66,8 @@ Skip Loop::flag_check(const Pipe_Inst &inst){
   if( inst.func == BRANCH && inst.brn == CON_DIRE ){
     if( exit_pcs[func].count(pc) ){
       if( model.debug(10) ){
-	cerr << "exit_pcs[" << func<< "].count("
-	     << hex << pc << dec << ") TRUE" << endl;
+	std::cerr << "exit_pcs[" << func<< "].count("
+	     << std::hex << pc << std::dec << ") TRUE" << std::endl;
       }
 
       skip_flag = EXIT_BRANCH;
@@ -78,15 +78,15 @@ Skip Loop::flag_check(const Pipe_Inst &inst){
 
       if( func_data.not_zero(Func_Bb(func, loop_head)) ){
 	if( model.debug(10) ){
-	  cerr << "const_pcs[" << func<< "].count("
-	       << hex << pc << dec << ") TRUE" << endl;
+	  std::cerr << "const_pcs[" << func<< "].count("
+	       << std::hex << pc << std::dec << ") TRUE" << std::endl;
 	}
 
 	skip_flag = CONST_PC;
       }else{
 	if( model.debug(10) ){
-	  cerr << "const_pcs[" << func<< "].count("
-	       << hex << pc << dec << ") FALSE" << endl;
+	  std::cerr << "const_pcs[" << func<< "].count("
+	       << std::hex << pc << std::dec << ") FALSE" << std::endl;
 	}
 
 	skip_flag =  CONST_CAND;
@@ -96,15 +96,15 @@ Skip Loop::flag_check(const Pipe_Inst &inst){
 
       if( func_data.not_zero(Func_Bb(func, loop_head)) ){
 	if( model.debug(10) ){
-	  cerr <<  "induct_pcs[" << func<< "].count("
-	       << hex << pc << dec << ") TRUE" << endl;
+	  std::cerr <<  "induct_pcs[" << func<< "].count("
+	       << std::hex << pc << std::dec << ") TRUE" << std::endl;
 	}
 
         skip_flag = INDUCT_PC;
       }else{
 	if( model.debug(10) ){
-	  cerr <<  "induct_pcs[" << func<< "].count("
-	       << hex << pc << dec << ") FALSE" << endl;
+	  std::cerr <<  "induct_pcs[" << func<< "].count("
+	       << std::hex << pc << std::dec << ") FALSE" << std::endl;
 	}
 
         skip_flag = INDUCT_CAND;
@@ -128,19 +128,19 @@ void Loop::count_loop_inst(const Skip & skip_flag){
       induct_c ++;
     }
     if( model.debug(5) ){
-      cerr<< "   *** induction pc ***" << endl;
+      std::cerr<< "   *** induction pc ***" << std::endl;
     }
     break;
 
   case INDUCT_CAND:
     if( model.debug(5) ){
-      cerr << "   *** induction candidate ***" << endl;
+      std::cerr << "   *** induction candidate ***" << std::endl;
     }
     break;
 
   case CONST_PC:
     if( model.debug(5) ){
-      cerr << "   *** constant pc ***" << endl;
+      std::cerr << "   *** constant pc ***" << std::endl;
     }
     if( reexec.mode() == Normal ){
       const_c ++;
@@ -149,7 +149,7 @@ void Loop::count_loop_inst(const Skip & skip_flag){
 
   case CONST_CAND:
     if( model.debug(5) ){
-      cerr << "   *** constant candidate ***" << endl;
+      std::cerr << "   *** constant candidate ***" << std::endl;
     }
     break;
 
@@ -160,7 +160,7 @@ void Loop::count_loop_inst(const Skip & skip_flag){
 
 // read loop_del_pc
 void Loop::file_read(){
-  ifstream fin(model.loop_del_pc.c_str());
+  std::ifstream fin(model.loop_del_pc.c_str());
 
   if( !fin ){
     error("Loop::file_read() can't open " + model.loop_del_pc);
@@ -174,22 +174,22 @@ void Loop::file_read(){
     induct_pcs = new MAP[func_size];
     header_bb = new SET[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Loop::file_read() bad_alloc");
   }
 
-  string buf;
+  std::string buf;
 
   getline(fin, buf);
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
-    string fname = program.funcname(func);
+    std::string fname = program.funcname(func);
 
-    if( buf.find("{") == string::npos ){// function name
+    if( buf.find("{") == std::string::npos ){// function name
       error("Loop::file_read() {");
     }
-    if( fname != buf.substr(buf.find(":") + 1, string::npos) ){
-      cerr << "bb_info funcname " << fname << ", loop_del_pcs funcname "
-	   <<  buf.substr(buf.find(":") + 1, string::npos);
+    if( fname != buf.substr(buf.find(":") + 1, std::string::npos) ){
+      std::cerr << "bb_info funcname " << fname << ", loop_del_pcs funcname "
+	   <<  buf.substr(buf.find(":") + 1, std::string::npos);
       error("Loop::file_read() funcname");
     }
 
@@ -200,13 +200,13 @@ void Loop::file_read(){
       }
 
       // this loop header does not include constant/induct variable
-      if( buf.find(":;") != string::npos ){
+      if( buf.find(":;") != std::string::npos ){
 	continue;
       }
 
-      if( buf.find(":") == string::npos || buf.find(",") == string::npos
-	  || buf.find(";") == string::npos ){
-	cerr << func << " " << buf << endl;
+      if( buf.find(":") == std::string::npos || buf.find(",") == std::string::npos
+	  || buf.find(";") == std::string::npos ){
+	std::cerr << func << " " << buf << std::endl;
 	error("Loop::file_read() file format error");
       }
 
@@ -223,18 +223,18 @@ void Loop::file_read(){
 
 	if( buf[0] == 'E' ){
 	  sscanf( buf.substr(1, buf.find(",")).c_str(), "%x", &pc );
-	  exit_pcs[func].insert( make_pair(pc, loop_header) );
+	  exit_pcs[func].insert( std::make_pair(pc, loop_header) );
 	  buf.erase(0, buf.find(",") + 1);
 	}else if( buf[0] == 'C' ){
     	  sscanf( buf.substr(1, buf.find(",")).c_str(), "%x", &pc );
-    	  const_pcs[func].insert( make_pair(pc, loop_header) );
+    	  const_pcs[func].insert( std::make_pair(pc, loop_header) );
 	  buf.erase(0, buf.find(",") + 1);
 	}else if( buf[0] == 'B' ){
 	  sscanf( buf.substr(1, buf.find(",")).c_str(), "%x", &pc );
-	  induct_pcs[func].insert( make_pair(pc, loop_header) );
+	  induct_pcs[func].insert( std::make_pair(pc, loop_header) );
 	  buf.erase(0, buf.find(",") + 1);
 	}else{
-	  cerr << func << " " << buf << endl;
+	  std::cerr << func << " " << buf << std::endl;
 	  error("Loop::file_read() format error");
 	}
       }
@@ -252,7 +252,7 @@ void Loop::file_read(){
     allocate_loop_c();
   }
 
-  cout << "# Loop::file_read() init end" << endl;
+  std::cout << "# Loop::file_read() init end" << std::endl;
 }
 
 //
@@ -263,7 +263,7 @@ void Loop::allocate_loop_c(){
   try{
     loop_c = new Loop_Count*[func_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Loop::allocate() bad_alloc");
   }
 
@@ -273,12 +273,12 @@ void Loop::allocate_loop_c(){
     try{
       loop_c[func] = new Loop_Count[bb_size];
     }
-    catch( bad_alloc ){
+    catch( std::bad_alloc ){
       error("Loop::allocate() bad_alloc");
     }
   }
 
-  cout << "# Loop::allocate_loop_c() init end" << endl;
+  std::cout << "# Loop::allocate_loop_c() init end" << std::endl;
 }
 
 void Loop::count_bedge(const Func_Bb &fbb){
@@ -299,28 +299,28 @@ void Loop::print_count_loop(){
   for( int func = 0; func < func_size; func ++ ){
     if( program.funcname(func) == "__do_global_dtors" ){
       if( static_loop ){
-	cout << "====" << endl
+	std::cout << "====" << std::endl
 	     << " dynamic loop num   : " << sum_ave / (double)static_loop
 	     << " (sum_ave/num: " << sum_ave
-	     << "/" << static_loop << ")" << endl
+	     << "/" << static_loop << ")" << std::endl
 	     << " loop num (weighted): "
-	     << (double)total_loop / (double)total_exec << endl
-	     << "max loop ave: " << max_loop_ave << endl
-	     << "====" << endl;
+	     << (double)total_loop / (double)total_exec << std::endl
+	     << "max loop ave: " << max_loop_ave << std::endl
+	     << "====" << std::endl;
       }
     }
 
     for( int bb = 0; bb < program.size(func); bb ++ ){
       if( loop_c[func][bb].check() ){
 	if( model.statistic ){
-	  cout << "#fbb: " << func << "/" << bb << " -> ";
+	  std::cout << "#fbb: " << func << "/" << bb << " -> ";
 	  loop_c[func][bb].print();
 	}
 
 	sum_ave += loop_c[func][bb].calc_ave();
 	static_loop ++;
 
-	max_loop_ave = max(max_loop_ave, loop_c[func][bb].calc_ave());
+	max_loop_ave = std::max(max_loop_ave, loop_c[func][bb].calc_ave());
 
 	total_exec += loop_c[func][bb].exec();
 	total_loop += loop_c[func][bb].loop();
@@ -329,12 +329,12 @@ void Loop::print_count_loop(){
   }
 
   if( static_loop ){
-    cout << " dynamic loop num   : " << sum_ave / (double)static_loop
-	 << " (sum_ave/num: " << sum_ave << "/" << static_loop << ")" << endl
+    std::cout << " dynamic loop num   : " << sum_ave / (double)static_loop
+	 << " (sum_ave/num: " << sum_ave << "/" << static_loop << ")" << std::endl
 	 << " loop num (weighted): " << (double)total_loop / (double)total_exec
-	 << endl;
+	 << std::endl;
   }else{
-    cout << " dynamic loop num   : NONE" << endl;
+    std::cout << " dynamic loop num   : NONE" << std::endl;
   }
 }
 
@@ -342,14 +342,14 @@ void Loop::print_count_loop(){
 // check code
 void Loop::print(){
   // define
-  typedef multimap< int, int > MMAP;
+  typedef std::multimap< int, int > MMAP;
   typedef MMAP::iterator MMI;
-  typedef pair< MMI, MMI > MMI_PAIR;
+  typedef std::pair< MMI, MMI > MMI_PAIR;
 
-  cout << "Loop::print()" << endl;
+  std::cout << "Loop::print()" << std::endl;
 
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
-    cout << "{" << func << endl;
+    std::cout << "{" << func << std::endl;
 
     MMAP const_head;
     MMAP induct_head;
@@ -357,12 +357,12 @@ void Loop::print(){
     // PAIR( pc, header ) ===> PAIR( header, pcs )
     for( MI map_i = const_pcs[func].begin();
 	 map_i != const_pcs[func].end(); map_i ++ ){
-      const_head.insert( make_pair(map_i->second, map_i->first) );
+      const_head.insert( std::make_pair(map_i->second, map_i->first) );
     }
 
     for( MI map_i = induct_pcs[func].begin();
 	 map_i != induct_pcs[func].end(); map_i ++ ){
-      induct_head.insert( make_pair(map_i->second, map_i->first) );
+      induct_head.insert( std::make_pair(map_i->second, map_i->first) );
     }
 
     for( int bb = 0; bb < program.size(func); bb ++ ){// LOOP bb
@@ -372,28 +372,28 @@ void Loop::print(){
 
       MMI_PAIR pair = const_head.equal_range(bb);
 
-      cout <<  "header " << bb << ":";
+      std::cout <<  "header " << bb << ":";
 
-      cout << "const_pc[";
+      std::cout << "const_pc[";
       for( MMI map_i = pair.first; map_i != pair.second; map_i ++ ){
-	cout <<  map_i->second << ", ";
+	std::cout <<  map_i->second << ", ";
       }
-      cout << "]";
+      std::cout << "]";
 
       if( induct_head.count(bb) ){
 	MMI_PAIR pair = induct_head.equal_range(bb);
 
-	cout << "induct_pc = [";
+	std::cout << "induct_pc = [";
 	for( MMI map_i = pair.first; map_i != pair.second; map_i ++ ){
-	  cout <<  map_i->second << ", ";
+	  std::cout <<  map_i->second << ", ";
 	}
-	cout << "]";
+	std::cout << "]";
       }
 
-      cout << endl;
+      std::cout << std::endl;
     }// LOOP bb
 
-    cout << "}" << endl;
+    std::cout << "}" << std::endl;
   }// LOOP FUNC
 
   exit(0);

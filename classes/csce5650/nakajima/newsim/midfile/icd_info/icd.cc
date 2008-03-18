@@ -21,7 +21,7 @@ ICD::ICD(Program_Info &program, const int &f){
   try{
     icd = new SET*[bb_size];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("ICD::ICD() bad_alloc");
   }
 
@@ -29,7 +29,7 @@ ICD::ICD(Program_Info &program, const int &f){
     try{
       icd[bb] = new SET[REG];
     }
-    catch( bad_alloc ){
+    catch( std::bad_alloc ){
       error("ICD::ICD() bad_alloc");
     }
   }
@@ -174,8 +174,8 @@ ICD::SET ICD::defined_bb(Program_Info &program, SET &all_pass_bb){
 }
 
 // file out
-void ICD::print(ofstream &fout){
-  fout << "{" << func << ":" << fname << endl;
+void ICD::print(std::ofstream &fout){
+  fout << "{" << func << ":" << fname << std::endl;
 
   for( int bb = 0; bb < bb_size; bb ++ ){// LOOP bb
     for( int reg = 0; reg < REG; reg ++ ){// LOOP reg
@@ -190,9 +190,9 @@ void ICD::print(ofstream &fout){
 	fout << *set_i << ",";
       }
 
-      fout << ";" << endl;
+      fout << ";" << std::endl;
     }// LOOP reg
   }// LOOP bb
 
-  fout << "}" << endl;
+  fout << "}" << std::endl;
 }

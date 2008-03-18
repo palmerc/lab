@@ -50,10 +50,10 @@ const bool Re_Exec::check_mode(Pipe_Inst &inst){
   case Normal:
     // trace limit, spool check
     if( model.trace_limit <= trace_count ){
-      cerr << "# Re_Exec::check_mode() trace lim :" << trace_count << endl;
+      std::cerr << "# Re_Exec::check_mode() trace lim :" << trace_count << std::endl;
       return false; // exit main loop
     }else if( spool.empty() ){
-      cerr << "# Re_Exec::check_mode() trace end :" << trace_count << endl;
+      std::cerr << "# Re_Exec::check_mode() trace end :" << trace_count << std::endl;
       return false;// exit main loop
     }else{
       // next inst
@@ -117,8 +117,8 @@ const bool Re_Exec::check_mode(Pipe_Inst &inst){
       re = Finish;
 
       if( model.debug(1) ){
-	cerr << "Re_Exec::check_mode() Fork -> Finish" << endl
-	     << "Re_Exec::check_mode() restore data" << endl;
+	std::cerr << "Re_Exec::check_mode() Fork -> Finish" << std::endl
+	     << "Re_Exec::check_mode() restore data" << std::endl;
       }
 
       // restore data
@@ -127,7 +127,7 @@ const bool Re_Exec::check_mode(Pipe_Inst &inst){
       inst = spool.front();
 
       if( model.debug(1) ){
-	cerr << "Re_Exec::check_mode() Finish (-> Normal)" << endl;
+	std::cerr << "Re_Exec::check_mode() Finish (-> Normal)" << std::endl;
       }
     }else{
       // next reexec inst
@@ -157,7 +157,7 @@ const bool Re_Exec::check_mode(Pipe_Inst &inst){
     func_data.re_start();
 
     if( model.debug(1) ){
-      cerr << "Re_Exec::check_mode() state Change (-> Fork)" << endl;
+      std::cerr << "Re_Exec::check_mode() state Change (-> Fork)" << std::endl;
     }
     break;
 
@@ -195,7 +195,7 @@ void Re_Exec::change_no(){
   re = No;
 
   if( model.debug(10) ){
-    cerr << "Re_Exec::change_no() init reexec mode" << endl;
+    std::cerr << "Re_Exec::change_no() init reexec mode" << std::endl;
   }
 
   // init reexec mode
@@ -249,7 +249,7 @@ const bool Re_Exec::check_fork_process(const int &fork_exec_time){
     // fork or no fork
     if( no_max_exec > fork_max_exec ){
       if( model.debug(1) ){
-	cerr << "Re_Exec::check_fork_process() gain Fork" << endl;
+	std::cerr << "Re_Exec::check_fork_process() gain Fork" << std::endl;
       }
 
       gain_fork ++;
@@ -258,7 +258,7 @@ const bool Re_Exec::check_fork_process(const int &fork_exec_time){
       change_normal();
     }else if( no_max_exec == fork_max_exec ){
       if( model.debug(1) ){
-	cerr << "Re_Exec::check_fork_process() gain EQ" << endl;
+	std::cerr << "Re_Exec::check_fork_process() gain EQ" << std::endl;
       }
 
       // 仮実行の結果では判別できない	
@@ -270,7 +270,7 @@ const bool Re_Exec::check_fork_process(const int &fork_exec_time){
 	       && reg_finite.get_finite_limit() > fork_exec_time )
   	  ){
 	if( model.debug(1) ){
-	  cerr << "  Re_Exec::check_fork_process() Ex_EQ -> Fork" << endl;
+	  std::cerr << "  Re_Exec::check_fork_process() Ex_EQ -> Fork" << std::endl;
 	}
 
 	eq_fork ++;
@@ -279,7 +279,7 @@ const bool Re_Exec::check_fork_process(const int &fork_exec_time){
 	change_normal();
       }else{
 	if( model.debug(1) ){
-	  cerr << "  Re_Exec::check_fork_process() Ex_EQ -> NO" << endl;
+	  std::cerr << "  Re_Exec::check_fork_process() Ex_EQ -> NO" << std::endl;
 	}
 
 	eq_no_fork ++;
@@ -290,7 +290,7 @@ const bool Re_Exec::check_fork_process(const int &fork_exec_time){
       }
     }else{
       if( model.debug(1) ){
-	cerr << "Re_Exec::check_fork_process() gain NO" << endl;
+	std::cerr << "Re_Exec::check_fork_process() gain NO" << std::endl;
       }
 
       no_gain_no_fork ++;
@@ -338,8 +338,8 @@ void Re_Exec::change(){
   spool_size = re_trace_count - trace_count;
 
   if( model.debug(10) ){
-    cerr << "Re_Exec::change() " << spool_size
-	 << " mode: No -> Change" << endl;
+    std::cerr << "Re_Exec::change() " << spool_size
+	 << " mode: No -> Change" << std::endl;
   }
 }
 
@@ -360,7 +360,7 @@ void Re_Exec::change_fork(){
   re = Fork;
 
   if( model.debug(10) ){
-    cerr << "Re_Exec::change_fork() mode Change -> Fork" << endl;
+    std::cerr << "Re_Exec::change_fork() mode Change -> Fork" << std::endl;
   }
 }
 
@@ -381,18 +381,18 @@ void Re_Exec::change_normal(){
   re = Normal;
 
   if( model.debug(10) ){
-    cerr << "Re_Exec::change_normal() mode Finish -> Normal" << endl;
+    std::cerr << "Re_Exec::change_normal() mode Finish -> Normal" << std::endl;
   }
 }
 
 void Re_Exec::gain(const int &time){
   switch( re ){
   case No:
-    no_max_exec = max(no_max_exec, time);
+    no_max_exec = std::max(no_max_exec, time);
     break;
 
   case Fork:
-    fork_max_exec = max(fork_max_exec, time);
+    fork_max_exec = std::max(fork_max_exec, time);
     break;
 
   default:
@@ -476,8 +476,8 @@ void Re_Exec::init_inst_spool(){
 // no reexec mode && lp mode trace skip
 void Re_Exec::init_trace_skip(){
   if( model.fastfwd_tc ){
-    cout << "# Re_Exec::init_trace_skip() " << model.fastfwd_tc
-	 << " " << flush;
+    std::cout << "# Re_Exec::init_trace_skip() " << model.fastfwd_tc
+	 << " " << std::flush;
 
     Pipe_Inst inst;
 
@@ -487,11 +487,11 @@ void Re_Exec::init_trace_skip(){
       }
 
       if( !(tc % model.print_freq_def) ){
-	cout << "." << flush;
+	std::cout << "." << std::flush;
       }
     }// trace skip end
 
-    cout << " skip end" << endl;
+    std::cout << " skip end" << std::endl;
   }
 }
 
@@ -515,33 +515,33 @@ const int Re_Exec::tc(){
 }
 
 void Re_Exec::state(){
-  cerr << "Re_Exec::state() mode:";
+  std::cerr << "Re_Exec::state() mode:";
 
   switch( re ){
   case  Normal:
-    cerr << "Normal";
+    std::cerr << "Normal";
     break;
 
   case No:
-    cerr << "No";
+    std::cerr << "No";
     break;
 
   case Change:
-    cerr << "Change";
+    std::cerr << "Change";
     break;
 
   case Fork:
-    cerr << "Fork";
+    std::cerr << "Fork";
     break;
 
   case Finish:
-    cerr << "Finish";
+    std::cerr << "Finish";
     break;
 
   default:
-    cerr << "re " << re;
+    std::cerr << "re " << re;
     error("Re_Exec::state()");
   }
 
-  cerr << endl;
+  std::cerr << std::endl;
 }

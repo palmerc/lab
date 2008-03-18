@@ -18,22 +18,22 @@
 // constructor
 Program_Info::Program_Info(){
   // construct
-  vector< vector< Bb_Info > > v_info;
-  vector< string > v_fname;
-  ifstream fin(model.bb_info.c_str());
+  std::vector< std::vector< Bb_Info > > v_info;
+  std::vector< std::string > v_fname;
+  std::ifstream fin(model.bb_info.c_str());
 
   if( !fin ){
     error("Program_Info::Program_Info() can't open " + model.bb_info);
   }
 
-  string buf;
+  std::string buf;
 
   getline(fin, buf);
   for( int func = 0; true; func ++ ){// LOOP FUNC
     if( buf[0] != '{' ){
       error("Program_Info::Program_Info() {");
     }else{
-      v_fname.push_back( buf.substr(buf.find(":") + 1, string::npos) );
+      v_fname.push_back( buf.substr(buf.find(":") + 1, std::string::npos) );
     }
 
     // resize array for new function
@@ -45,8 +45,8 @@ Program_Info::Program_Info(){
 	break;
       }
 
-      if( buf.find(":") == string::npos || buf.find(";") == string::npos ){
-	cerr << func << "," << bb << " " << buf << endl;
+      if( buf.find(":") == std::string::npos || buf.find(";") == std::string::npos ){
+	std::cerr << func << "," << bb << " " << buf << std::endl;
 	error("Program_Info::Program_Info() file error");
       }
 
@@ -73,9 +73,9 @@ Program_Info::Program_Info(){
   try{
     info = new Bb_Info*[size()];
     bb_size = new int[size()];
-    fname = new string[size()];
+    fname = new std::string[size()];
   }
-  catch( bad_alloc ){
+  catch( std::bad_alloc ){
     error("Program_Info::Program_Info() bad_alloc");
   }
 
@@ -86,7 +86,7 @@ Program_Info::Program_Info(){
     try{
       info[f] = new Bb_Info[size(f)];
     }
-    catch( bad_alloc ){
+    catch( std::bad_alloc ){
       error("Program_Info::Program_Info() bad_alloc");
     }
 
@@ -95,7 +95,7 @@ Program_Info::Program_Info(){
     }
   }
 
-  cerr << "Program_Info::Program_Info() init end" << endl;
+  std::cerr << "Program_Info::Program_Info() init end" << std::endl;
 }
 
 // destructor
@@ -143,16 +143,16 @@ const int Program_Info::search_bb(const int &func, const int &pc){
 
 // check code
 void Program_Info::print(){
-  cout << "Program_Info::file_read()" << endl;
+  std::cout << "Program_Info::file_read()" << std::endl;
 
   for( int f = 0; f < size() ; f ++ ){// LOOP FUNC
-    cout << "{" << endl;
+    std::cout << "{" << std::endl;
     for( int bb = 0; bb < size(f) ; bb ++ ){// LOOP BB
       // start/end
-      cout << bb << hex << ":" <<  info[f][bb].start
-	   << ":" << info[f][bb].end << dec << endl;
+      std::cout << bb << std::hex << ":" <<  info[f][bb].start
+	   << ":" << info[f][bb].end << std::dec << std::endl;
     }// LOOP BB
-    cout << "}" << endl;
+    std::cout << "}" << std::endl;
   }// LOOP FUNC
 
   exit(0);

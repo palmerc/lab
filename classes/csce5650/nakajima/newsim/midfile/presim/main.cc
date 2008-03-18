@@ -37,11 +37,11 @@ int main(int argc, char **argv){
     value_pred.count_inst(inst, program);
 
     if( reexec.tc() % model.print_freq == 0 ){
-      cerr << "TC:" << reexec.tc() << endl;
+      std::cerr << "TC:" << reexec.tc() << std::endl;
     }
   }// main loop
 
-  cout << reexec.tc() << " END" << endl;
+  std::cout << reexec.tc() << " END" << std::endl;
 
   // print file
   //mem_region.file_write(program);
@@ -62,13 +62,13 @@ Sim_Model::Sim_Model(){
 }
 
 void Sim_Model::arg_check(const int &argc, char **argv){
-  string dir;
+  std::string dir;
   bool file_check = false;
 
   argv0 = argv[0];
 
   for( int i = 1; i < argc; i ++){
-    string arg = argv[i];
+    std::string arg = argv[i];
 
     if( arg == "-dir" ){
       // filename
@@ -82,7 +82,7 @@ void Sim_Model::arg_check(const int &argc, char **argv){
 	dir +=  "/";
       }
 
-      cout << "dir:" << dir << endl;
+      std::cout << "dir:" << dir << std::endl;
 
       // fin
       bb_info = dir + "bb_info";
@@ -120,7 +120,7 @@ void Sim_Model::arg_check(const int &argc, char **argv){
       }else{
 	// init
 	child_process(&(argv[++i]));
-	cerr << "\t=== init end ===" << endl;
+	std::cerr << "\t=== init end ===" << std::endl;
 	return;
       }
     }else{
@@ -132,26 +132,26 @@ void Sim_Model::arg_check(const int &argc, char **argv){
 }
 
 void Sim_Model::usage(){
-  cout << "branch predict, value dest predict" << endl
-       << "usage is:" << endl
-       << argv0 << " [option] -updrive ..." << endl;
+  std::cout << "branch predict, value dest predict" << std::endl
+       << "usage is:" << std::endl
+       << argv0 << " [option] -updrive ..." << std::endl;
 
-  cout << "option:" << endl
-       << "\t-trace <val>, -print <val>, -fastfwd <val>" << endl;
+  std::cout << "option:" << std::endl
+       << "\t-trace <val>, -print <val>, -fastfwd <val>" << std::endl;
 
   exit(1);
 }
 
 // atoi 自然数のみ値を返す
-const int Sim_Model::check_atoi(const string &str){
+const int Sim_Model::check_atoi(const std::string &str){
   int val = 0;
 
   if( str != "0" ){
     val = atoi(str.c_str());
 
     if( val <= 0 ){
-      cerr << "Sim_Model::check_atoi() error option <val>: " << str << endl
-           << endl;
+      std::cerr << "Sim_Model::check_atoi() error option <val>: " << str << std::endl
+           << std::endl;
       usage();
     }
   }

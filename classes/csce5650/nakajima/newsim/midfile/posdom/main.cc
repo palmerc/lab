@@ -42,12 +42,12 @@ int main(int argc, char **argv){
     ce_num += pd.calc_bb_num();
 
     // progress report
-    cerr << "\r\t" << func << "/" << program.size() - 1;
+    std::cerr << "\r\t" << func << "/" << program.size() - 1;
   }
 
-  cerr << endl << "generate " << model.posdom << " " << model.ctrleq << endl;
+  std::cerr << std::endl << "generate " << model.posdom << " " << model.ctrleq << std::endl;
 
-  cout << "pd_num: " << pd_num << " ce_num: " << ce_num << endl;
+  std::cout << "pd_num: " << pd_num << " ce_num: " << ce_num << std::endl;
 
   return(0);
 }
@@ -56,8 +56,8 @@ int main(int argc, char **argv){
 // arg check
 static void arg_check(const int &argc, char **argv){
   if( argc == 3 ){
-    string opt = argv[1];
-    string dir = argv[2];
+    std::string opt = argv[1];
+    std::string dir = argv[2];
 
     if( opt == "-dir" ){
       if( dir[dir.size() - 1] != '/' ){
@@ -69,8 +69,8 @@ static void arg_check(const int &argc, char **argv){
       model.posdom = dir + "posdom";
       model.ctrleq = dir + "ctrleq";
 
-      cerr << "output file\nposdom_out: " << model.posdom
-	   << "\nctrleq_out: " << model.ctrleq << endl;
+      std::cerr << "output file\nposdom_out: " << model.posdom
+	   << "\nctrleq_out: " << model.ctrleq << std::endl;
     }else{
       usage(argv[0]);
     }

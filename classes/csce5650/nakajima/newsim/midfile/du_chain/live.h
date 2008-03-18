@@ -24,13 +24,15 @@ const bool DEAD = true;
 // class Live_Reg
 //
 class Live_Reg{
+public:
   // define
-  typedef bitset< bitset_size > BITSET;
+  typedef std::bitset< bitset_size > BITSET;
 
+private:
   // current function number/bb size
   int func;
   int bb_size;
-  string fname;
+  std::string fname;
 
   // in/out
   BITSET *in;
@@ -43,7 +45,7 @@ public:
 
   //analysisi live reg
   void analysis(Program_Info &, Def_Use &);
-  void print(ofstream &);
+  void print(std::ofstream &);
 };
 
 #endif

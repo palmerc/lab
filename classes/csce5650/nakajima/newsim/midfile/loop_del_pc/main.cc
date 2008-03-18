@@ -37,10 +37,10 @@ int main(int argc, char **argv){
     loop.analysis(model.fout_loop, program, du_chain, inst_type);
 
     // progress report
-    cerr << "\r\t" << func << "/" << program.size() - 1;
+    std::cerr << "\r\t" << func << "/" << program.size() - 1;
   }
 
-  cerr << endl <<  "generate " << model.loop_del_pcs << endl;
+  std::cerr << std::endl <<  "generate " << model.loop_del_pcs << std::endl;
 
   return(0);
 }
@@ -49,15 +49,15 @@ int main(int argc, char **argv){
 // arg check
 static void arg_check(int argc, char **argv){
   if( argc == 3 ){
-    string opt = argv[1];
-    string dir = argv[2];
+    std::string opt = argv[1];
+    std::string dir = argv[2];
 
     if( opt == "-dir" ){
       if( dir[dir.size() - 1] != '/' ){
 	dir += "/";
       }
 
-      cerr << "dir:" << dir << endl;
+      std::cerr << "dir:" << dir << std::endl;
 
       model.asm_loop = dir + "asm_loop";
       model.bb_info = dir + "bb_info";

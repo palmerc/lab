@@ -1,7 +1,7 @@
-#! /usr/local/bin/tcsh
+#!/bin/bash
 
 #
-# setenv: simulation env
+# : simulation env
 #
 
 #
@@ -9,46 +9,46 @@
 #
 
 # work dir
-setenv WORK_DIR /export/$HOST/$user
+WORK_DIR=$HOME/Development/nakajima; export WORK_DIR
 
 #
 # simulator
 #
 
 # simulator dir name
-setenv SIM_DIR_NAME newsim
+SIM_DIR_NAME=newsim; export SIM_DIR_NAME
 # simulator dir
-setenv SIM_DIR $WORK_DIR/$SIM_DIR_NAME
+SIM_DIR=$WORK_DIR/$SIM_DIR_NAME; export SIM_DIR
 # simulation midfile data dir
-setenv DATA_DIR $SIM_DIR/data
+DATA_DIR=$SIM_DIR/data; export DATA_DIR
 # sim-bpred log dir
-setenv LOG_DIR $SIM_DIR/log
+LOG_DIR=$SIM_DIR/log; export LOG_DIR
 # simulation result dir
-setenv RESULT_DIR $SIM_DIR/result
+RESULT_DIR=$SIM_DIR/result; export RESULT_DIR
 # benchmark sim-input dir
-setenv INPUT_DIR $SIM_DIR/input
+INPUT_DIR=$SIM_DIR/input; export INPUT_DIR
 # simulator bin
-setenv NEWSIM_BIN $SIM_DIR/src/newsim
+NEWSIM_BIN=$SIM_DIR/src/newsim; export NEWSIM_BIN
 # simulator source dir
-setenv SOURCE_DIR $SIM_DIR/src
+SOURCE_DIR=$SIM_DIR/src; export SOURCE_DIR
 
 # midfile dir
-setenv MID_DIR $SIM_DIR/midfile
+MID_DIR=$SIM_DIR/midfile; export MID_DIR
 
 #
 # work's bin
 #
 
 # work's bin dir
-setenv BIN_DIR $SIM_DIR/bin
+BIN_DIR=$SIM_DIR/bin; export BIN_DIR
 # sim-bpred
-setenv TRACE_BIN $SIM_DIR/SS/sim-bpred
+TRACE_BIN=$SIM_DIR/SS/sim-bpred; export TRACE_BIN
 # simulation script bin
-setenv SCRIPT_BIN $BIN_DIR/run_newsim.pl
+SCRIPT_BIN=$BIN_DIR/run_newsim.pl; export SCRIPT_BIN
 
 #
 # SPEC
 #
 
 # benchmark binary file
-setenv BENCH_BIN_DIR /export/$HOST/SPEC_TRACE/SimpleScalar/bin
+BENCH_BIN_DIR=$HOME/SPEC_TRACE/SimpleScalar/bin; export BENCH_BIN_DIR

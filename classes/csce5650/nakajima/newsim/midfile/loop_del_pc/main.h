@@ -29,17 +29,17 @@ const int HI_REG = 64;
 class Sim_Model{
 public:
   // filename (full path)
-  string asm_loop;
-  string bb_info;
-  string du_chain;
-  string posdom;
-  string loop_del_pcs;// output filename
+  std::string asm_loop;
+  std::string bb_info;
+  std::string du_chain;
+  std::string posdom;
+  std::string loop_del_pcs;// output filename
 
   // file stream
-  ifstream fin_du_chain;
-  ifstream fin_asm_loop;
-  ifstream fin_posdom;
-  ofstream fout_loop;
+  std::ifstream fin_du_chain;
+  std::ifstream fin_asm_loop;
+  std::ifstream fin_posdom;
+  std::ofstream fout_loop;
 
 public:
   // file open
@@ -59,14 +59,14 @@ extern Sim_Model model;
 //
 
 // error
-inline void error(string msg){
-  cerr << "=== ERROR: " << msg << " ===\n";
+inline void error(std::string msg){
+  std::cerr << "=== ERROR: " << msg << " ===\n";
   exit(1);
 }
 
 // usage
 inline void usage(char *arg0){
-  cerr << "usage: " << arg0 << " -dir DIR" << endl;
+  std::cerr << "usage: " << arg0 << " -dir DIR" << std::endl;
   exit(2);
 }
 

@@ -36,9 +36,9 @@ void Loop::clear(){
 }
 
 // analysis all loop of a function
-void Loop::analysis(ofstream &fout, Program_Info &program, DU_Chain &du_chain,
+void Loop::analysis(std::ofstream &fout, Program_Info &program, DU_Chain &du_chain,
 		    Inst_Type &inst_type){
-  fout << "{" << func << ":" << fname << endl;
+  fout << "{" << func << ":" << fname << std::endl;
 
   for( bedge_i = bedge.begin(); bedge_i != bedge.end(); bedge_i ++ ){
 #ifdef DEBUG
@@ -51,7 +51,7 @@ void Loop::analysis(ofstream &fout, Program_Info &program, DU_Chain &du_chain,
     // search natural loop
     if( !natural_loop(fout, program) ){
       clear();
-      fout << ";" << endl;
+      fout << ";" << std::endl;
       continue;
     }
 
@@ -69,7 +69,7 @@ void Loop::analysis(ofstream &fout, Program_Info &program, DU_Chain &du_chain,
     // candidate pcs
     fout << "candidate B is[";
     for( SI set_i = unify_pcs.begin(); set_i != unify_pcs.end(); set_i ++ ){
-      fout << hex << *set_i << dec << ",";
+      fout << std::hex << *set_i << std::dec << ",";
     }
     fout << "] ";
 #endif
@@ -91,7 +91,7 @@ void Loop::analysis(ofstream &fout, Program_Info &program, DU_Chain &du_chain,
       // candidate pcs
       fout << "candidate I is[";
       for( SI set_i = unify_pcs.begin(); set_i != unify_pcs.end(); set_i ++ ){
-	fout << hex << *set_i << dec << ",";
+	fout << std::hex << *set_i << std::dec << ",";
       }
       fout << "] ";
 #endif
@@ -107,15 +107,15 @@ void Loop::analysis(ofstream &fout, Program_Info &program, DU_Chain &du_chain,
       }
     }
 
-    fout << ";" << endl;
+    fout << ";" << std::endl;
     clear();
   }
 
-  model.fout_loop << "}" << endl;
+  model.fout_loop << "}" << std::endl;
 }
 
 // search natural loop
-bool Loop::natural_loop(ofstream &fout, Program_Info &program){
+bool Loop::natural_loop(std::ofstream &fout, Program_Info &program){
   // "n --> d" is backward edge (n >= d)
   // d: header, n: tail
   const int d = bedge_i->first, n = bedge_i->second;
@@ -194,7 +194,7 @@ bool Loop::natural_loop(ofstream &fout, Program_Info &program){
 
 #ifdef DEBUG
   // loop bbs
-  fout << dec << "loop bbs[";
+  fout << std::dec << "loop bbs[";
   for( SI set_i = loop_bbs.begin(); set_i != loop_bbs.end(); set_i ++ ){
     fout << *set_i << ",";
   }
@@ -221,7 +221,7 @@ void Loop::sub_insert(SET &lp, STACK &st, const int &m){
 }
 
 // search exit branch
-void Loop::search_exit_branch(ofstream &fout, Program_Info &program,
+void Loop::search_exit_branch(std::ofstream &fout, Program_Info &program,
 			      Inst_Type &inst_type){
   // loopから出る分岐命令
   for( SI set_i = loop_bbs.begin(); set_i != loop_bbs.end(); set_i ++ ){
@@ -240,7 +240,7 @@ void Loop::search_exit_branch(ofstream &fout, Program_Info &program,
 	if( type.op == Branch ){
 	  exit_pcs.insert(end_pc);
 	}else if( type.op != Jump ){
-	  cerr << endl << hex << end_pc << dec << endl;
+	  std::cerr << std::endl << std::hex << end_pc << std::dec << std::endl;
 	  error("Loop::search_exit_branch() exit pcs not branch");
 	}
       }
@@ -249,13 +249,13 @@ void Loop::search_exit_branch(ofstream &fout, Program_Info &program,
 
   // exit branch pc
   for( SI set_i = exit_pcs.begin(); set_i != exit_pcs.end(); set_i ++ ){
-    fout << "E" << hex << *set_i << dec << ",";
+    fout << "E" << std::hex << *set_i << std::dec << ",";
   }
 }
 
 // search constant variable
 // algorithm 10.7
-void Loop::const_variable(ofstream &fout, Program_Info &program,
+void Loop::const_variable(std::ofstream &fout, Program_Info &program,
 			  DU_Chain &du_chain, Inst_Type &inst_type){
   // 定数、または全ての定義がLの外側から到達する演算だけで
   // 構成されている文に、不変の印をつける
@@ -327,7 +327,7 @@ void Loop::const_variable(ofstream &fout, Program_Info &program,
 
   // constant variable
   for( SI set_i = const_pcs.begin(); set_i != const_pcs.end(); set_i ++ ){
-    fout << "C" << hex << *set_i << dec << ",";
+    fout << "C" << std::hex << *set_i << std::dec << ",";
   }
 }
 
@@ -382,7 +382,7 @@ void Loop::candidate_pcs(Program_Info &program, DU_Chain &du_chain,
 
 // search basic induction variable
 // algorithm 10.9
-void Loop::basic_induct_variable(ofstream &fout, Program_Info &program,
+void Loop::basic_induct_variable(std::ofstream &fout, Program_Info &program,
 				 DU_Chain &du_chain, Inst_Type &inst_type){
   // search ALL basic induction variable
   for( SI set_i = unify_pcs.begin(); set_i != unify_pcs.end(); set_i ++ ){
@@ -433,7 +433,7 @@ void Loop::basic_induct_variable(ofstream &fout, Program_Info &program,
   // basic induction variable
   for( SI set_i = basic_induct_pcs.begin();
        set_i != basic_induct_pcs.end(); set_i ++ ){
-    fout << "B" << hex << *set_i << dec << ",";
+    fout << "B" << std::hex << *set_i << std::dec << ",";
   }
 }
 
@@ -462,7 +462,7 @@ return false;
 
 // search induction variable
 // algorithm 10.9
-void Loop::induct_variable(ofstream &fout, Program_Info &program,
+void Loop::induct_variable(std::ofstream &fout, Program_Info &program,
 			   DU_Chain &du_chain, Inst_Type &inst_type){
   MAP old_pcs;
 
@@ -502,16 +502,16 @@ void Loop::induct_variable(ofstream &fout, Program_Info &program,
 	  // k = i +-* c
 	  if( type.src2 < 0 ){
 	    // c is 0x##
-	    induct_pcs.insert( make_pair(pc, pc_bi) );
+	    induct_pcs.insert( std::make_pair(pc, pc_bi) );
 	  }else if( check_const(pair, type.src2) ){
 	    // c is const_pcs
-	    induct_pcs.insert( make_pair(pc, pc_bi) );
+	    induct_pcs.insert( std::make_pair(pc, pc_bi) );
 	  }
 	}else if( basic_induct_pc(pair, type.src2) ){
 	  // k = c +-* i
 	  if( check_const(pair, type.src1) ){
 	    // c is const_pcs
-	    induct_pcs.insert( make_pair(pc, pc_bi) );
+	    induct_pcs.insert( std::make_pair(pc, pc_bi) );
 	  }
 	}
 	break;
@@ -521,10 +521,10 @@ void Loop::induct_variable(ofstream &fout, Program_Info &program,
 	  // k = i / c
 	  if( type.src2 < 0 ){
 	    // c is 0x##
-	    induct_pcs.insert( make_pair(pc, pc_bi) );
+	    induct_pcs.insert( std::make_pair(pc, pc_bi) );
 	  }else if( check_const(pair, type.src2) ){
 	    // c is const_pcs
-	    induct_pcs.insert( make_pair(pc, pc_bi) );
+	    induct_pcs.insert( std::make_pair(pc, pc_bi) );
 	  }
 	}
 	break;
@@ -537,7 +537,7 @@ void Loop::induct_variable(ofstream &fout, Program_Info &program,
 
   // induction variable
   for( MI map_i = induct_pcs.begin(); map_i != induct_pcs.end(); map_i ++ ){
-    fout << "I" << hex << map_i->first << dec << ",";
+    fout << "I" << std::hex << map_i->first << std::dec << ",";
   }
 }
 

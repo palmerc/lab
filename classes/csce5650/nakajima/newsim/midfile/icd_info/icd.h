@@ -17,14 +17,14 @@
 //
 class ICD{
   // define
-  typedef set< int > SET;
+  typedef std::set< int > SET;
   typedef SET::iterator SI;
-  typedef stack< int > STACK;
+  typedef std::stack< int > STACK;
 
   // current function number/bb size
   int func;
   int bb_size;
-  string fname;
+  std::string fname;
 
   // ある識別子の定義が確定する基本ブロックの集合
   SET **icd;
@@ -38,7 +38,7 @@ public:
   void analysis(Program_Info &, DU_Chain &);
 
   // file out
-  void print(ofstream &);
+  void print(std::ofstream &);
 
 private:
   // 関数の始点から定義までに通過する基本ブロックの集合を求める

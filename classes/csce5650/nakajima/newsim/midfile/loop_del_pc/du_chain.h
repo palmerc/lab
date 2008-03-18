@@ -19,7 +19,6 @@ public:
   int bb;
   int reg;
 
-public:
   DU_Data(const int p = 0, const int b = 0, const int r = 0){
     pc = p;
     bb = b;
@@ -28,20 +27,20 @@ public:
 };
 
 class DU_Chain{
+public:
   // define
-  typedef multimap< int, DU_Data > MMAP;
+  typedef std::multimap< int, DU_Data > MMAP;
   typedef MMAP::iterator MI;
-  typedef pair< MI, MI > MI_PAIR;
+  typedef std::pair< MI, MI > MI_PAIR;
 
   // current function number/bb size
   int func;
   int bb_size;
-  string fname;
+  std::string fname;
 
   // used-defined chain
   MMAP *use_chain;
 
-public:
   // const/destructor
   DU_Chain(Program_Info &, const int &);
   ~DU_Chain();

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "sim.h"
 
-static string stamp("Time-stamp: <04/02/12 16:08:12 nakajima>");
+static std::string stamp("Time-stamp: <04/02/12 16:08:12 nakajima>");
 
 #include "print.h"
 #include "trace.h"
@@ -19,10 +19,10 @@ Sim_Model model;
 
 // constructor
 Sim_Model::Sim_Model(){
-  stamp = stamp.substr(stamp.find("<"), string::npos);
+  stamp = stamp.substr(stamp.find("<"), std::string::npos);
   stamp = stamp.substr(0, stamp.rfind(" ")) + ">\t";
 
-  string msg = " ADD: MD predict, FIXED: setjmp/longjmp, unroll";
+  std::string msg = " ADD: MD predict, FIXED: setjmp/longjmp, unroll";
   fix_me = "FIX: ";
 
   time_stamp = stamp + msg;
@@ -83,11 +83,11 @@ void Sim_Model::arg_check(const int &argc, char **argv){
   argv0 = argv[0];
 
   if( argc == 1 ){
-    cerr << "===== few argment =====" << endl;
+    std::cerr << "===== few argment =====" << std::endl;
     usage();
   }
 
-  string arg;
+  std::string arg;
   bool file_check = false;
 
   for( int i = 1; i < argc; i ++){
@@ -105,7 +105,7 @@ void Sim_Model::arg_check(const int &argc, char **argv){
 	data_dir += "/";
       }
 
-      cout << endl << "# set dir: " << data_dir << endl << endl;
+      std::cout << std::endl << "# set dir: " << data_dir << std::endl << std::endl;
 
       bb_info = data_dir + "bb_info";
       posdom_out = data_dir + "posdom";
@@ -311,7 +311,7 @@ void Sim_Model::arg_check(const int &argc, char **argv){
     }
   }
 
-  cerr << "error option: " << arg << endl;
+  std::cerr << "error option: " << arg << std::endl;
   usage();
 }
 
@@ -341,17 +341,17 @@ void Sim_Model::set_mp_profile(){
     error("Sim_Model::set_mp_profile() default switch");
   }
 
-  cout << "# Sim_Model::set_mp_profile(): "
-       << mp_analysis.substr(mp_analysis.rfind("/") + 1, string::npos) << endl;
+  std::cout << "# Sim_Model::set_mp_profile(): "
+       << mp_analysis.substr(mp_analysis.rfind("/") + 1, std::string::npos) << std::endl;
 }
 
 void Sim_Model::print_argment(){
-  cout << "$ ------Sim_Model::print_argment()-----" << endl
-       << "$ " << time_stamp << endl
-       << "$            " << fix_me << endl;
+  std::cout << "$ ------Sim_Model::print_argment()-----" << std::endl
+       << "$ " << time_stamp << std::endl
+       << "$            " << fix_me << std::endl;
 
   if( debuglevel ){
-    cout << "$ debug level:" << debuglevel << endl;
+    std::cout << "$ debug level:" << debuglevel << std::endl;
   }
 
   if( !(sim_type & MF) ){
@@ -362,72 +362,72 @@ void Sim_Model::print_argment(){
   }
 
   if( reexec ){
-    cout << "$ REEXEC MODE: spool size " << spool_size << endl;
+    std::cout << "$ REEXEC MODE: spool size " << spool_size << std::endl;
   }else{
-    cout << "$ NO REEXEC MODE" << endl;
+    std::cout << "$ NO REEXEC MODE" << std::endl;
   }
 
-  cout << "$ trace limit: " << trace_limit << endl;
-  cout << "$ print freq: " << print_freq << endl;
+  std::cout << "$ trace limit: " << trace_limit << std::endl;
+  std::cout << "$ print freq: " << print_freq << std::endl;
 
   if( func_inline ){
-    cout << "$ func_call_inline" << endl;
+    std::cout << "$ func_call_inline" << std::endl;
   }
   if( loop_unroll ){
-    cout << "$ loop unroll" << endl;
+    std::cout << "$ loop unroll" << std::endl;
   }
   if( perf_disamb ){
-    cout << "$ perfect disambiguate (SP_REG, GP_REG)" << endl;
+    std::cout << "$ perfect disambiguate (SP_REG, GP_REG)" << std::endl;
   }
 
   if( static_brn_pred ){
-    cout << "$ static brn_pred" << endl;
+    std::cout << "$ static brn_pred" << std::endl;
   }else{
-    cout << "$ 2lev brn_pred" << endl;
+    std::cout << "$ 2lev brn_pred" << std::endl;
   }
 
   // simulation type
-  cout << "$ simulation type: ";
+  std::cout << "$ simulation type: ";
 
   switch( sim_type ){
   case BASE:
-    cout << "base" << endl;
+    std::cout << "base" << std::endl;
     break;
 
   case SP:
-    cout << "sp" << endl;
+    std::cout << "sp" << std::endl;
     break;
 
   case CD:
-    cout << "cd" << endl;
+    std::cout << "cd" << std::endl;
     break;
 
   case SP_CD:
-    cout << "sp + cd" << endl;
+    std::cout << "sp + cd" << std::endl;
     break;
 
   case ORACLE:
-    cout << "oracle" << endl;
+    std::cout << "oracle" << std::endl;
     break;
 
   case CD_MF:
-    cout << "cd + mf";
+    std::cout << "cd + mf";
     break;
 
   case LP:
-    cout << "LP";
+    std::cout << "LP";
     break;
 
   case FC:
-    cout << "FC";
+    std::cout << "FC";
     break;
 
   case PD:
-    cout << "PD";
+    std::cout << "PD";
     break;
 
   case CE:
-    cout << "CE";
+    std::cout << "CE";
     break;
 
   default:
@@ -437,7 +437,7 @@ void Sim_Model::print_argment(){
   if( !(sim_type & CD) ){
     if( loop_unroll ){
       if( statistic ){
-	cout << "$ print statistic" << endl;
+	std::cout << "$ print statistic" << std::endl;
       }
     }else{
       statistic = false;
@@ -446,38 +446,38 @@ void Sim_Model::print_argment(){
 
   if( sim_type & MF ){
     if( icd ){
-      cout << " (indirect CD)" << endl;
+      std::cout << " (indirect CD)" << std::endl;
     }else{
-      cout << endl;
+      std::cout << std::endl;
     }
 
     switch( mp ){
     case MP_Blind:
-      cout << "$ MP blind" << endl;
+      std::cout << "$ MP blind" << std::endl;
       break;
 
     case MP_Analysis:
-      cout << "$ MP static analysis, store num: " << mp_store_num << endl;
+      std::cout << "$ MP static analysis, store num: " << mp_store_num << std::endl;
       break;
 
     case MP_Predict:
-      cout << "$ MP mem dep predict, store num: " << mp_store_num;
+      std::cout << "$ MP mem dep predict, store num: " << mp_store_num;
       if( mdpred_perf ){
-	cout << " (perfect predict)";
+	std::cout << " (perfect predict)";
       }
       if( mdpred_warmup ){
-	cout << " (warmup)" << endl;
+	std::cout << " (warmup)" << std::endl;
       }else{
-	cout << " (file read)" << endl;
+	std::cout << " (file read)" << std::endl;
       }
       break;
 
     case MP_Profile:
-      cout << "$ MP perfect make profile" << endl;
+      std::cout << "$ MP perfect make profile" << std::endl;
       break;
 
     case MP_Perfect:
-      cout << "$ MP perfect" << endl;
+      std::cout << "$ MP perfect" << std::endl;
       break;
 
     default:
@@ -485,33 +485,33 @@ void Sim_Model::print_argment(){
     }
 
     if( sp_exec & SP_Fork ){
-      cout << "$ sp fork";
+      std::cout << "$ sp fork";
       if( fork_latency ){
-	cout << " (fork latency: " << fork_latency << ")";
+	std::cout << " (fork latency: " << fork_latency << ")";
       }
-      cout << endl;
+      std::cout << std::endl;
     }
 
     if( sp_exec & SP_Send ){
-      cout << "$ sp send";
+      std::cout << "$ sp send";
       if( send_latency ){
-	cout << " (send latency: " << send_latency << ")";
+	std::cout << " (send latency: " << send_latency << ")";
       }
-      cout << endl;
+      std::cout << std::endl;
     }
   }
 
   switch( sp ){
   case SP_Sequential:
-    cout << "$ SP sequential" << endl;
+    std::cout << "$ SP sequential" << std::endl;
     break;
 
   case SP_Reorder:
-    cout << "$ SP reorder" << endl;
+    std::cout << "$ SP reorder" << std::endl;
     break;
 
   case SP_Perfect:
-    cout << "$ SP perfect" << endl;
+    std::cout << "$ SP perfect" << std::endl;
     break;
 
   default:
@@ -520,15 +520,15 @@ void Sim_Model::print_argment(){
 
   switch( reg ){
   case Reg_None:
-    cout << "$ reg none" << endl;
+    std::cout << "$ reg none" << std::endl;
     break;
 
   case Reg_Finite:
-    cout << "$ reg finite register: " << reg_physical << endl;
+    std::cout << "$ reg finite register: " << reg_physical << std::endl;
     break;
 
   case Reg_Perfect:
-    cout << "$ reg perfect" << endl;
+    std::cout << "$ reg perfect" << std::endl;
     break;
 
   default:
@@ -537,11 +537,11 @@ void Sim_Model::print_argment(){
 
   switch( vp ){
   case VP_Send:
-    cout << "$ value predict send, th:" << val_pred_th << endl;
+    std::cout << "$ value predict send, th:" << val_pred_th << std::endl;
     break;
 
   case VP_Result:
-    cout << "$ value predict result, th:" << val_pred_th << endl;
+    std::cout << "$ value predict result, th:" << val_pred_th << std::endl;
     break;
 
   case VP_Nopred:
@@ -551,49 +551,49 @@ void Sim_Model::print_argment(){
     error("Sim_Model::print_argment() vp");
   }
 
-  cout << "$ -------------------------------------" << endl << endl;
+  std::cout << "$ -------------------------------------" << std::endl << std::endl;
 }
 
 // usage
 void Sim_Model::usage(){
-  cout << "Sim_Model::usage()" << endl
-       << "version: " << time_stamp << endl
-       << "         " << fix_me << endl
-       << endl;
+  std::cout << "Sim_Model::usage()" << std::endl
+       << "version: " << time_stamp << std::endl
+       << "         " << fix_me << std::endl
+       << std::endl;
 
-  cout << "Usage: " << argv0
-       << "  -sim_type [sim_type] [options] -updrive [exec sim-bpred]" << endl;
+  std::cout << "Usage: " << argv0
+       << "  -sim_type [sim_type] [options] -updrive [exec sim-bpred]" << std::endl;
 
-  cout << "sim_type:" << endl
-       << "\tbase, sp, cd, sp_cd, cd_mf, oracle, FC, LP, PD, CE" << endl;
+  std::cout << "sim_type:" << std::endl
+       << "\tbase, sp, cd, sp_cd, cd_mf, oracle, FC, LP, PD, CE" << std::endl;
 
-  cout << "options:" << endl
-       << "\t-trace <val>, -fastfwd <val>, -print <val> -spool <val>" << endl
-       << "\t-sp_no, -sp_send, -sp_fork, -sp_ss (send + fork)" << endl
-       << "\t-send_latency <val>, -fork_latency <val>" << endl
-       << "\t-reg_none, -reg_finite <p_reg>, -reg_perfect" << endl
-       << "\t-sp_sequential, -sp_reorder, -sp_perfect" << endl
-       << "\t-mp_blind, -mp_perfect" << endl
-       << "\t-mp_analysis, -mp_predict_read, -mp_predict" << endl
-       << "\t-vp_result, -vp_send" << endl
+  std::cout << "options:" << std::endl
+       << "\t-trace <val>, -fastfwd <val>, -print <val> -spool <val>" << std::endl
+       << "\t-sp_no, -sp_send, -sp_fork, -sp_ss (send + fork)" << std::endl
+       << "\t-send_latency <val>, -fork_latency <val>" << std::endl
+       << "\t-reg_none, -reg_finite <p_reg>, -reg_perfect" << std::endl
+       << "\t-sp_sequential, -sp_reorder, -sp_perfect" << std::endl
+       << "\t-mp_blind, -mp_perfect" << std::endl
+       << "\t-mp_analysis, -mp_predict_read, -mp_predict" << std::endl
+       << "\t-vp_result, -vp_send" << std::endl
        << "\t-no_disamb -perf_disamb"
-       << " -no_inline -no_loop_unroll -no_icd" << endl
-       << endl
-       << "\t-statistic" <<  endl;
+       << " -no_inline -no_loop_unroll -no_icd" << std::endl
+       << std::endl
+       << "\t-statistic" <<  std::endl;
 
   exit(1);
 }
 
 // atoi 自然数のみ値を返す
-const int Sim_Model::check_atoi(const string str){
+const int Sim_Model::check_atoi(const std::string str){
   int val = 0;
 
   if( str != "0" ){
     val = atoi(str.c_str());
 
     if( val <= 0 ){
-      cerr << "Sim_Model::check_atoi() error option <val>: " << str << endl
-	   << endl;
+      std::cerr << "Sim_Model::check_atoi() error option <val>: " << str << std::endl
+	   << std::endl;
       usage();
     }
   }

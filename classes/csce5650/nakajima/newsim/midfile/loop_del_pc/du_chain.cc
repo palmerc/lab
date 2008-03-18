@@ -23,23 +23,23 @@ DU_Chain::DU_Chain(Program_Info &program, const int &f){
   try{
     use_chain = new MMAP[bb_size];
   }
-  catch( bad_alloc ){
-    cerr << func << endl;
+  catch( std::bad_alloc ){
+    std::cerr << func << std::endl;
     error("DU_Chain::DU_Chain() bad_alloc");
   }
 
-  string buf;
+  std::string buf;
 
   getline(model.fin_du_chain, buf);
   if( model.fin_du_chain.eof() ){
     error("DU_Chain::DU_Chain() EOF");
   }
-  if( buf.find("{") == string::npos ){// function name
+  if( buf.find("{") == std::string::npos ){// function name
     error("DU_Chain::DU_Chain() {");
   }
-  if( fname != buf.substr(buf.find(":") + 1, string::npos) ){
-    cerr << "bb_info funcname " << fname << ", du_chain funcname "
-	 <<  buf.substr(buf.find(":") + 1, string::npos);
+  if( fname != buf.substr(buf.find(":") + 1, std::string::npos) ){
+    std::cerr << "bb_info funcname " << fname << ", du_chain funcname "
+	 <<  buf.substr(buf.find(":") + 1, std::string::npos);
     error("DU_Chain::DU_Chain() funcname");
   }
 
@@ -50,9 +50,9 @@ DU_Chain::DU_Chain(Program_Info &program, const int &f){
       break;
     }
 
-    if( buf.find("-") == string::npos || buf.find(">") == string::npos
-	|| buf.find("(") == string::npos || buf.find(")") == string::npos ){
-      cerr << func << ", " << buf << endl;
+    if( buf.find("-") == std::string::npos || buf.find(">") == std::string::npos
+	|| buf.find("(") == std::string::npos || buf.find(")") == std::string::npos ){
+      std::cerr << func << ", " << buf << std::endl;
       error("DU_Chain::DU_Chain() file error");
     }
 
@@ -70,7 +70,7 @@ DU_Chain::DU_Chain(Program_Info &program, const int &f){
     def.reg = use.reg = atoi( buf.substr(0, buf.find(")")).c_str() );
 
     // insert
-    use_chain[use.bb].insert( make_pair(use.pc, def) );
+    use_chain[use.bb].insert( std::make_pair(use.pc, def) );
   }// LOOP DU
 }
 
