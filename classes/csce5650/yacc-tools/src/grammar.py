@@ -2,7 +2,7 @@ import sys
 
 class Rule:
     __slots__ = ('rule',)
-    
+            
     def __init__(self, rule):
         self.rule = rule
         
@@ -23,6 +23,23 @@ class Grammar:
         self.terminal_name = {}
         self.production_name = {}
         self.production_list = []
+        
+    def __str__(self):
+        view = ''
+        for group in self.terminal_group:
+            view += '%token '
+            view += ' '.join(self.terminal_group[group])
+            view += '\n'
+                
+        view += '%start ' + self.start_token + '\n'
+        view += '%%\n'
+        for production in self.production_list:
+            view += production.ls + '\n'
+            view += '\t: '
+            view += '\n\t| '.join(["%s" % (' '.join(v.rule)) for v in production.rule_list])
+            view += '\n\t;\n'
+        view += '%%\n'
+        return view
     
     def __iter__(self):
         return iter(self.production_list)
@@ -75,16 +92,17 @@ class Transform:
                     new_name = None
                     new_rules = []
                     removal_list = []
+                    epsilon_removal = []
                     for rindex, rule in enumerate(production.rule_list):
                         # in each rule check the left hand non-terminal to see if it is in the match list
                         if rule.rule[0] == match:
                             # generate the new name for the production
                             new_name = production.ls + '_' + match + self.suffix
                             # pop off the leftmost non-terminal
-                            rule.rule.pop(0)
-                            if len(rule.rule) == 0:
-                                rule.rule.append('')
+                            if len(rule.rule) == 1:
+                                pass
                             else:
+                                rule.rule.pop(0)
                                 rule.rule.append(new_name)
                             new_rules.append(rule)
                             removal_list.append(rindex)
