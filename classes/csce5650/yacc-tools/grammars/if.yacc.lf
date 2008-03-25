@@ -1,0 +1,34 @@
+%token IF THEN ELSE A B
+%start s
+
+%%
+s
+	: A
+	| if s_if_prime
+	;
+e
+	: B
+	;
+if
+	: IF
+	;
+then
+	: THEN
+	;
+else
+	: ELSE
+	;
+s_if_prime
+	: e s_if_prime_e_prime
+	;
+s_if_prime_e_prime
+	: then s_if_prime_e_prime_then_prime
+	;
+s_if_prime_e_prime_then_prime
+	: s s_if_prime_e_prime_then_prime_s_prime
+	;
+s_if_prime_e_prime_then_prime_s_prime
+	: else s
+	| 
+	;
+%%

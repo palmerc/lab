@@ -34,13 +34,13 @@ third_lr_prime
 	;
 
 third_second_prime
-	:
-	| lr third_second_prime
+	: lr third_second_prime
+	|
 	;
 
 lr_lr_prime_second_prime
-	:
-	| third lr_lr_prime_second_prime
+	: third lr_lr_prime_second_prime
+	|
 	;
 	
 %%
