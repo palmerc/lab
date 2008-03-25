@@ -100,15 +100,12 @@ class Transform:
                             new_name = production.ls + '_' + match + self.suffix
                             # pop off the leftmost non-terminal
                             if len(rule.rule) == 1:
-                                pass
-                            else:
-                                rule.rule.pop(0)
-                                rule.rule.append(new_name)
+                                rule.rule.append('')
+                            rule.rule.pop(0)
                             new_rules.append(rule)
                             removal_list.append(rindex)
                     production.rule_list.append(Rule([match, new_name]))
                     if len(new_rules) > 0:
-                        new_rules.append(Rule(['']))
                         self.grammar.add_production(new_name, new_rules)
                         removal_list.sort()
                         removal_list.reverse()
