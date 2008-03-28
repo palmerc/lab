@@ -31,7 +31,7 @@ class ParserTestCase(unittest.TestCase):
    
     def test_start_token(self):
         '''%start nonterminal'''
-        self.assertEquals(self.grammar_one.start_token, self.grammar_two.start_token)
+        self.assertEquals(self.grammar_one.grammar.start_token, self.grammar_two.grammar.start_token)
         
     def test_terminals(self):
         '''%token terminals'''
@@ -92,10 +92,14 @@ class LeftRecursionTestCase(unittest.TestCase):
         
     def test_productions(self):
         '''LR Production Count'''
-        self.assertEquals(len(self.grammar_one.production_list), len(self.grammar_two.production_list))
-        for (a, b) in zip(self.grammar_one.production_list, self.grammar_two.production_list):
+        self.assertEquals(len(self.grammar_one.grammar.production_list), len(self.grammar_two.grammar.production_list))
+        for (a, b) in zip(self.grammar_one.grammar.production_list, self.grammar_two.grammar.production_list):
             self.assertEquals(a.ls, b.ls)
             
+class LFTestCaseForIf(LeftFactoringTestCase):
+    file = "if.yacc"
+    solution = "if.yacc.lf"
+
 class LFTestCaseForPostfixExpression(LeftFactoringTestCase):
     file = "postfix_expression.yacc"
     solution = "postfix_expression.yacc.lf"
@@ -138,6 +142,7 @@ def suite():
     suite.addTest(unittest.makeSuite(LFTestCaseForP178))
     suite.addTest(unittest.makeSuite(LFTestCaseForC))
     suite.addTest(unittest.makeSuite(LFTestCaseForTestLF))
+    suite.addTest(unittest.makeSuite(LFTestCaseForIf))
     suite.addTest(unittest.makeSuite(LRTestCaseForP178))
     suite.addTest(unittest.makeSuite(LRTestCaseForKLee))
 

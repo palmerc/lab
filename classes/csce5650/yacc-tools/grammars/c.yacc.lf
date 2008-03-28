@@ -309,117 +309,117 @@ function_definition
 	| declarator function_definition_declarator_prime
 	;
 postfix_expression_postfix_expression_prime
-	: '[' expression ']' postfix_expression_postfix_expression_prime
-	| '(' ')' postfix_expression_postfix_expression_prime
-	| '(' argument_expression_list ')' postfix_expression_postfix_expression_prime
-	| '.' IDENTIFIER postfix_expression_postfix_expression_prime
-	| PTR_OP IDENTIFIER postfix_expression_postfix_expression_prime
-	| INC_OP postfix_expression_postfix_expression_prime
-	| DEC_OP postfix_expression_postfix_expression_prime
+	: '[' expression ']'
+	| '(' ')'
+	| '(' argument_expression_list ')'
+	| '.' IDENTIFIER
+	| PTR_OP IDENTIFIER
+	| INC_OP
+	| DEC_OP
 	;
 multiplicative_expression_multiplicative_expression_prime
-	: '*' cast_expression multiplicative_expression_multiplicative_expression_prime
-	| '/' cast_expression multiplicative_expression_multiplicative_expression_prime
-	| '%' cast_expression multiplicative_expression_multiplicative_expression_prime
+	: '*' cast_expression
+	| '/' cast_expression
+	| '%' cast_expression
 	;
 additive_expression_additive_expression_prime
-	: '+' multiplicative_expression additive_expression_additive_expression_prime
-	| '-' multiplicative_expression additive_expression_additive_expression_prime
+	: '+' multiplicative_expression
+	| '-' multiplicative_expression
 	;
 shift_expression_shift_expression_prime
-	: LEFT_OP additive_expression shift_expression_shift_expression_prime
-	| RIGHT_OP additive_expression shift_expression_shift_expression_prime
+	: LEFT_OP additive_expression
+	| RIGHT_OP additive_expression
 	;
 relational_expression_relational_expression_prime
-	: '<' shift_expression relational_expression_relational_expression_prime
-	| '>' shift_expression relational_expression_relational_expression_prime
-	| LE_OP shift_expression relational_expression_relational_expression_prime
-	| GE_OP shift_expression relational_expression_relational_expression_prime
+	: '<' shift_expression
+	| '>' shift_expression
+	| LE_OP shift_expression
+	| GE_OP shift_expression
 	;
 equality_expression_equality_expression_prime
-	: EQ_OP relational_expression equality_expression_equality_expression_prime
-	| NE_OP relational_expression equality_expression_equality_expression_prime
+	: EQ_OP relational_expression
+	| NE_OP relational_expression
 	;
 conditional_expression_logical_or_expression_prime
 	: 
-	| '?' expression ':' conditional_expression conditional_expression_logical_or_expression_prime
+	| '?' expression ':' conditional_expression
 	;
 declaration_declaration_specifiers_prime
-	: ';' declaration_declaration_specifiers_prime
-	| init_declarator_list ';' declaration_declaration_specifiers_prime
+	: ';'
+	| init_declarator_list ';'
 	;
 declaration_specifiers_storage_class_specifier_prime
 	: 
-	| declaration_specifiers declaration_specifiers_storage_class_specifier_prime
+	| declaration_specifiers
 	;
 declaration_specifiers_type_specifier_prime
 	: 
-	| declaration_specifiers declaration_specifiers_type_specifier_prime
+	| declaration_specifiers
 	;
 declaration_specifiers_type_qualifier_prime
 	: 
-	| declaration_specifiers declaration_specifiers_type_qualifier_prime
+	| declaration_specifiers
 	;
 init_declarator_declarator_prime
 	: 
-	| '=' initializer init_declarator_declarator_prime
+	| '=' initializer
 	;
 struct_or_union_specifier_struct_or_union_prime
-	: IDENTIFIER '{' struct_declaration_list '}' struct_or_union_specifier_struct_or_union_prime
-	| '{' struct_declaration_list '}' struct_or_union_specifier_struct_or_union_prime
-	| IDENTIFIER struct_or_union_specifier_struct_or_union_prime
+	: IDENTIFIER '{' struct_declaration_list '}'
+	| '{' struct_declaration_list '}'
+	| IDENTIFIER
 	;
 specifier_qualifier_list_type_specifier_prime
-	: specifier_qualifier_list specifier_qualifier_list_type_specifier_prime
+	: specifier_qualifier_list
 	| 
 	;
 specifier_qualifier_list_type_qualifier_prime
-	: specifier_qualifier_list specifier_qualifier_list_type_qualifier_prime
+	: specifier_qualifier_list
 	| 
 	;
 struct_declarator_declarator_prime
 	: 
-	| ':' constant_expression struct_declarator_declarator_prime
+	| ':' constant_expression
 	;
 direct_declarator_direct_declarator_prime
-	: '[' constant_expression ']' direct_declarator_direct_declarator_prime
-	| '[' ']' direct_declarator_direct_declarator_prime
-	| '(' parameter_type_list ')' direct_declarator_direct_declarator_prime
-	| '(' identifier_list ')' direct_declarator_direct_declarator_prime
-	| '(' ')' direct_declarator_direct_declarator_prime
+	: '[' constant_expression ']'
+	| '[' ']'
+	| '(' parameter_type_list ')'
+	| '(' identifier_list ')'
+	| '(' ')'
 	;
 parameter_type_list_parameter_list_prime
 	: 
-	| ',' ELLIPSIS parameter_type_list_parameter_list_prime
+	| ',' ELLIPSIS
 	;
 parameter_declaration_declaration_specifiers_prime
-	: declarator parameter_declaration_declaration_specifiers_prime
-	| abstract_declarator parameter_declaration_declaration_specifiers_prime
+	: declarator
+	| abstract_declarator
 	| 
 	;
 type_name_specifier_qualifier_list_prime
 	: 
-	| abstract_declarator type_name_specifier_qualifier_list_prime
+	| abstract_declarator
 	;
 abstract_declarator_pointer_prime
 	: 
-	| direct_abstract_declarator abstract_declarator_pointer_prime
+	| direct_abstract_declarator
 	;
 direct_abstract_declarator_direct_abstract_declarator_prime
-	: '[' ']' direct_abstract_declarator_direct_abstract_declarator_prime
-	| '[' constant_expression ']' direct_abstract_declarator_direct_abstract_declarator_prime
-	| '(' ')' direct_abstract_declarator_direct_abstract_declarator_prime
-	| '(' parameter_type_list ')' direct_abstract_declarator_direct_abstract_declarator_prime
+	: '[' ']'
+	| '[' constant_expression ']'
+	| '(' ')'
+	| '(' parameter_type_list ')'
 	;
 function_definition_declaration_specifiers_prime
 	: declarator function_definition_declaration_specifiers_prime_declarator_prime
 	;
 function_definition_declarator_prime
-	: declaration_list compound_statement function_definition_declarator_prime
-	| compound_statement function_definition_declarator_prime
+	: declaration_list compound_statement
+	| compound_statement
 	;
 function_definition_declaration_specifiers_prime_declarator_prime
-	: declaration_list compound_statement function_definition_declaration_specifiers_prime function_definition_declaration_specifiers_prime_declarator_prime
-	| compound_statement function_definition_declaration_specifiers_prime function_definition_declaration_specifiers_prime_declarator_prime
+	: declaration_list compound_statement
+	| compound_statement
 	;
 %%
