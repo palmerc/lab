@@ -65,6 +65,37 @@ class Transform:
     def __init__(self, parse):
         self.grammar = parse.grammar
         
+    def compute_first(self, x):
+        k = len(x)
+        if k == 0:
+            result.append(lambda)
+        else:
+            result.append(first_set[x[1]])
+            i = 1
+        while i < k and lambda is in first_set[x[i]]:
+            i += 1
+            result.extend(first_set[x[i]] - lambda)
+        if i == k and lambda is in first_set[x[k]]:
+            result.append(lambda)
+        return result
+    
+    def fill_first_set(self):
+        for A in nonterminals:
+            if DerivesLambda(A):
+                first_set(A) = { lambda }
+            else:
+                first_set(A) = nullset
+        for a in terminals:
+            first_set(a) = { a }
+            for A in nonterminal:
+                if there exists a production A -> a...:
+                    first_set(A) = first_set(A) + {a}
+        while True:
+            for p in productions:
+                first_set(lhs(p)) = first_set(lhs(p)) + compute_first(rhs(p))
+            if no changes:
+                last
+            
     def lf(self):
         '''Left factor the grammar to combine rules with redundant starting non-terminals'''
         # For each production cycle through each rule and check for other rules in the same production that start with the same non-terminal 
