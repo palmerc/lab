@@ -63,39 +63,8 @@ class Transform:
     suffix = '_prime'
     
     def __init__(self, parse):
-        self.grammar = parse.grammar
-        
-    def compute_first(self, x):
-        k = len(x)
-        if k == 0:
-            result.append(lambda)
-        else:
-            result.append(first_set[x[1]])
-            i = 1
-        while i < k and lambda is in first_set[x[i]]:
-            i += 1
-            result.extend(first_set[x[i]] - lambda)
-        if i == k and lambda is in first_set[x[k]]:
-            result.append(lambda)
-        return result
-    
-    def fill_first_set(self):
-        for A in nonterminals:
-            if DerivesLambda(A):
-                first_set(A) = { lambda }
-            else:
-                first_set(A) = nullset
-        for a in terminals:
-            first_set(a) = { a }
-            for A in nonterminal:
-                if there exists a production A -> a...:
-                    first_set(A) = first_set(A) + {a}
-        while True:
-            for p in productions:
-                first_set(lhs(p)) = first_set(lhs(p)) + compute_first(rhs(p))
-            if no changes:
-                last
-            
+        self.grammar = parse.grammar    
+                
     def lf(self):
         '''Left factor the grammar to combine rules with redundant starting non-terminals'''
         # For each production cycle through each rule and check for other rules in the same production that start with the same non-terminal 
@@ -207,6 +176,61 @@ class Transform:
                 for remaining in self.grammar.production_list[i].rule_list:
                     remaining.rule.append(Ai_ls_prime)
             i += 1
+
+class Analyze:
+    def __init__(self, grammar):
+        self.grammar = grammar.grammar
+        
+    def mark_epsilon(self):
+        changes = True
+
+        for P in self.grammar.production_list:
+            P.derives_epsilon = False
+
+        while changes:
+            changes = False
+            for P in self.grammar.production_list:
+                RHS_derives_epsilon = True
+                for rule in P.rule_list:
+                    if rule.rule[0] == '':
+                        epsilon = True
+                    else:
+                        epsilon = False
+                    RHS_derives_epsilon = RHS_derives_epsilon and epsilon
+                if RHS_derives_epsilon and not P.derives_epsilon:
+                    changes = True
+                    P.derives_epsilon = True
+                    print 'yields epsilon:', P.ls
+    def compute_first(self, x):
+        k = len(x)
+        if k == 0:
+            result.append(lambda)
+        else:
+            result.append(first_set[x[1]])
+            i = 1
+        while i < k and lambda is in first_set[x[i]]:
+            i += 1
+            result.extend(first_set[x[i]] - lambda)
+        if i == k and lambda is in first_set[x[k]]:
+            result.append(lambda)
+        return result
+    
+    def fill_first_set(self):
+        for A in self.grammar.production_name:
+            if DerivesLambda(A):
+                first_set(A) = { lambda }
+            else:
+                first_set(A) = nullset
+        for a in terminals:
+            first_set(a) = { a }
+            for A in nonterminal:
+                if there exists a production A -> a...:
+                    first_set(A) = first_set(A) + {a}
+        while True:
+            for p in productions:
+                first_set(lhs(p)) = first_set(lhs(p)) + compute_first(rhs(p))
+            if no changes:
+                last
 
 class PrettyPrint:
     def __init__(self, grammar):

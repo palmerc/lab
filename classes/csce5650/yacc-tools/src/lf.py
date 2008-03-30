@@ -1,6 +1,7 @@
 import sys
 from parser import Parser
 from grammar import Transform
+from grammar import Analyze
 
 def main(argv):
 	# open file
@@ -23,8 +24,10 @@ def main(argv):
 	
 	t = Transform(grammar)
 	t.lf()
+	a = Analyze(grammar)
+	a.mark_epsilon()
 	
-	grammar.printer()
+	#grammar.printer()
 	
 if __name__ == "__main__":
 	main(sys.argv[1:])
