@@ -184,23 +184,31 @@ class Analyze:
     def mark_epsilon(self):
         changes = True
 
+        # Initialize
+        # Mark all Terminals and Non-terminals as False
         for P in self.grammar.production_list:
             P.derives_epsilon = False
 
+        # Keep looping until you make no changes, kinda like solitaire
         while changes:
             changes = False
+            # Run through each production
+            
             for P in self.grammar.production_list:
-                RHS_derives_epsilon = True
-                for rule in P.rule_list:
-                    if rule.rule[0] == '':
-                        epsilon = True
-                    else:
-                        epsilon = False
-                    RHS_derives_epsilon = RHS_derives_epsilon and epsilon
-                if RHS_derives_epsilon and not P.derives_epsilon:
-                    changes = True
-                    P.derives_epsilon = True
-                    print 'yields epsilon:', P.ls
+                if not P.derives_epsilon:
+                    if len(P.rule) == 0:
+                        changes = True
+                        P.derives_epsilon = True
+                        continue
+                             
+                    for rule in P.rule_list:
+                        RHS_derives_epsilon = epsilon
+                
+                    if RHS_derives_epsilon:
+                        changes = True
+                        P.derives_epsilon = True
+                        print 'yields epsilon:', P.ls
+                    
     def compute_first(self, x):
         k = len(x)
         if k == 0:
