@@ -1,0 +1,23 @@
+Edit the env.sh file WORK_DIR line to point to this directory in your environment.
+After editing the env.sh file source the file into your environment.
+$ . ./env.sh
+
+Now run bin/make_midfile.pl to build the simulator binaries
+
+Everything compiles, although I am not confident about the integrity of SimpleScalar, but there are bunch of files missing with a .ss extension that are called by this perl script. sslittle-na-sstrix-objdump is called on each .ss file (compress95, gcc, go, ijpeg, li, m88ksim, perl, vortex) that reside in BENCH_BIN_DIR. According to the script seems to be where he expects a full version of SimpleScalar in that directory. The results of the objdump are dropped in DATA_DIR. Finally the results are analyzed by:
+	bb_div_jr/bb_div_jr.pl
+ 	obj2asm/obj2asm.pl
+	posdom/make_posdom
+	du_chain/ana_dataflow
+	loop_del_pc/ana_loop_pc
+	icd_info/ana_indirect_cd
+
+I should say they would be analyzed if this worked...
+
+I managed to make the SimpleScalar component of his simulator compile by transferring his alterations to my working version. It seems to have trouble on a 64-bit version of Linux. SimpleScalar really needs some love and care.
+
+Everything that was original to the project that was written in C++ compiles with some modifications, mostly to the fact he never included namespace std. I added std:: to everything that needed it. There were changes to the expected behavior of classes that prevented compilation, so I had to make more things public. I would like to understand and clean up that code at some point.
+
+In general the scripts were very specific to the environment with hard coded paths and machine names, so I am trying to figure out all of those.
+
+In the end, I downloaded Slackware 8.1 which is circa the time of this software being written. With the correction of some scripts, creation of a few folders, and some symbolic links, everything compiles and runs fine. It appears that 2.95.3 of g++ is necessary to eliminate the warnings. I added a driver.sh script that changes the HOST variable so that we can run all the tests in series on a single machine. 
