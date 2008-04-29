@@ -4,7 +4,7 @@ DIST	=ana_loop_pc
 WAR	=-Wall -Wcast-align -Wcast-qual -Werror
 
 OPT	=-g $(WAR) -DDEBUG
-OPT	=-O6 -funroll-loops -finline-functions -static
+OPT	=-O6 -march=pentiumpro -funroll-loops -finline-functions -static
 
 OBJECTS	=\
 	bb.o\

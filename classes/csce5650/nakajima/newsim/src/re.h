@@ -8,6 +8,8 @@
 #ifndef RE_H
 #define RE_H
 
+using namespace std;
+
 #include <list>
 #include "trace.h"
 
@@ -26,7 +28,7 @@ enum Re_Mode{
 
 class Re_Exec{
   // define
-  typedef std::list< Pipe_Inst > LIST;
+  typedef list< Pipe_Inst > LIST;
   typedef LIST::iterator LI;
 
   // reexec mode instruction spool

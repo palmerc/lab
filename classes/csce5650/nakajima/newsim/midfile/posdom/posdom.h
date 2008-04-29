@@ -17,7 +17,7 @@
 
 class PosDom{
   // define
-  typedef std::bitset< bitset_size > BITSET;
+  typedef bitset< bitset_size > BITSET;
   // post dominate flag (PD)
   BITSET *pos;
   // dominate flag (CE)
@@ -26,7 +26,7 @@ class PosDom{
   // current function number/bb size
   int func;
   int bb_size;
-  std::string fname;
+  string fname;
 
 public:
   // const/destructor
@@ -41,7 +41,7 @@ public:
   void equivalence();
 
   // output (PD/CE)
-  void print(std::ofstream &);
+  void print(ofstream &);
   const int calc_bb_num();
 };
 

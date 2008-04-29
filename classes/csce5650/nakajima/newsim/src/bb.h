@@ -8,6 +8,8 @@
 #ifndef BB_H
 #define BB_H
 
+using namespace std;
+
 #include <bitset>
 #include <string>
 
@@ -71,7 +73,7 @@ class Program_Info{
   // bb size
   int *bb_size;
   // function name
-  std::string *fname;
+  string *fname;
 
   // bb start/end pc
   Bb_Info **info;
@@ -97,7 +99,7 @@ public:
   // function num, bb num
   const int size() { return func_size; }
   const int size(const int &func) { return bb_size[func]; }
-  const std::string funcname(const int &func) { return fname[func]; }
+  const string funcname(const int &func) { return fname[func]; }
 
   // read fbb data
   const Func_Bb & fbb() { return fbb_now; }
@@ -127,7 +129,7 @@ class PosDom{
   // posdom flag bitset  size
   static const int bitset_size = 0x0D00;// 104 * 32bit
   // define
-  typedef std::bitset< bitset_size > BITSET;
+  typedef bitset< bitset_size > BITSET;
 
   // function size
   int func_size;

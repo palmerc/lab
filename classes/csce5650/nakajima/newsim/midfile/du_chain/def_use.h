@@ -10,7 +10,7 @@
 #include <fstream>
 #include <bitset>
 #include <set>
-#include <map>
+#include <hash_map>
 #include <vector>
 
 #include "bb.h"
@@ -20,9 +20,8 @@
 // class DU_Data
 //
 class DU_Data{
-public:
   // define
-  typedef std::set< int > SET;
+  typedef set< int > SET;
   typedef SET::iterator SI;
 
   // pc/def id num
@@ -58,18 +57,17 @@ public:
 // class Def_Use
 //
 class Def_Use{
-public:
   // define
-  typedef std::bitset< bitset_size > BITSET;
-  typedef std::map< int, int > HMAP;
-  typedef std::set< int > SET;
+  typedef bitset< bitset_size > BITSET;
+  typedef hash_map< int, int > HMAP;
+  typedef set< int > SET;
   typedef SET::iterator SI;
-  typedef std::vector< DU_Data > VEC;
+  typedef vector< DU_Data > VEC;
 
   // current function number/bb size
   int func;
   int bb_size;
-  std::string fname;
+  string fname;
 
   // read data
   VEC du_data;
@@ -87,6 +85,7 @@ public:
   BITSET *def;
   BITSET *use;
 
+public:
   // const/destructor
   Def_Use(Program_Info &, const int &);
   ~Def_Use();

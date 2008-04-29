@@ -19,16 +19,16 @@
 
 class Loop{
   // define
-  typedef std::set< int > SET;
+  typedef set< int > SET;
   typedef SET::iterator SI;
-  typedef std::stack< int > STACK;
-  typedef std::map< int, int > MAP;
+  typedef stack< int > STACK;
+  typedef map< int, int > MAP;
   typedef MAP::iterator MI;
 
   // current function number/bb size
   int func;
   int bb_size;
-  std::string fname;
+  string fname;
 
   // backward edge
   Program_Info::MMAP bedge;
@@ -57,26 +57,26 @@ public:
   ~Loop();
 
   // analsis all loop of a function
-  void analysis(std::ofstream &, Program_Info &, DU_Chain &, Inst_Type &);
+  void analysis(ofstream &, Program_Info &, DU_Chain &, Inst_Type &);
 
 private:
   // search natural loop
-  bool natural_loop(std::ofstream &, Program_Info &);
+  bool natural_loop(ofstream &, Program_Info &);
   // natural loop subroutine
   void sub_insert(SET &, STACK &, const int &);
 
   //search exit branch pcs
-  void search_exit_branch(std::ofstream &, Program_Info &, Inst_Type &);
+  void search_exit_branch(ofstream &, Program_Info &, Inst_Type &);
 
   // search constant variable
-  void const_variable(std::ofstream &, Program_Info &, DU_Chain &, Inst_Type &);
+  void const_variable(ofstream &, Program_Info &, DU_Chain &, Inst_Type &);
 
   // search candidate pcs
   void candidate_pcs(Program_Info &, DU_Chain &, Inst_Type &);
   // search basic induction variable
-  void basic_induct_variable(std::ofstream&, Program_Info&, DU_Chain&, Inst_Type&);
+  void basic_induct_variable(ofstream&, Program_Info&, DU_Chain&, Inst_Type&);
   // search induction variable
-  void induct_variable(std::ofstream &, Program_Info &, DU_Chain&, Inst_Type &);
+  void induct_variable(ofstream &, Program_Info &, DU_Chain&, Inst_Type &);
 
   // check source register is constant variable
   bool check_const(DU_Chain::MI_PAIR, const int &);

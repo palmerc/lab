@@ -17,7 +17,7 @@ Value_Predict::Value_Predict(Program_Info &program){
   try{
     val_table = new MAP[func_size];
   }
-  catch( std::bad_alloc ){
+  catch( bad_alloc ){
     error("Value_Predict::Value_Predict() bad_alloc");
   }
 }
@@ -35,25 +35,25 @@ void Value_Predict::Value_Data::add_data(const int &v_dest){
   total ++;
 }
 
-void Value_Predict::Value_Data::file_write(std::ofstream &fout){
+void Value_Predict::Value_Data::file_write(ofstream &fout){
   // sort
-  typedef std::multimap< int, int, std::greater_equal< int > > MMAP;
+  typedef multimap< int, int, greater_equal< int > > MMAP;
   typedef MMAP::iterator MMI;
 
   MMAP sorted;
 
   for( MI map_i = val_data.begin(); map_i != val_data.end(); map_i ++ ){// LOOP
-    sorted.insert( std::make_pair(map_i->second, map_i->first) );
+    sorted.insert( make_pair(map_i->second, map_i->first) );
   }// LOOP val
 
   fout << total << ":";
 
   for( MMI map_i = sorted.begin(); map_i != sorted.end(); map_i ++ ){// LOOP
     // print "count,val:"
-    fout << map_i->first << "," << std::hex << map_i->second << std::dec << ":";
+    fout << map_i->first << "," << hex << map_i->second << dec << ":";
   }// LOOP val
 
-  fout << ";" << std::endl;
+  fout << ";" << endl;
 }
 
 // count instruction
@@ -78,26 +78,26 @@ void Value_Predict::count_inst(const Pipe_Inst &inst, Program_Info &program){
 
 // file out
 void Value_Predict::file_write(Program_Info &program){
-  std::ofstream fout(model.val_pred.c_str());
+  ofstream fout(model.val_pred.c_str());
 
   if( !fout ){
     error("Value_Predict::print() can't open " + model.val_pred);
   }
 
   for( int func = 0; func < func_size; func ++ ){// LOOP func
-    fout << "{" << func << ":" << program.funcname(func) << std::endl;
+    fout << "{" << func << ":" << program.funcname(func) << endl;
 
     for( MI map_i = val_table[func].begin();
 	 map_i != val_table[func].end(); map_i ++ ){// LOOP pc
-      fout << std::hex << map_i->first << std::dec << ":";
+      fout << hex << map_i->first << dec << ":";
 
       map_i->second.file_write(fout);
     }// LOOP pc
 
-    fout << "}" << std::endl;
+    fout << "}" << endl;
   }// LOOP func
 
-  std::cout << "Value_Predict::file_write() end" << std::endl;
+  cout << "Value_Predict::file_write() end" << endl;
 }
 
 //
@@ -111,7 +111,7 @@ Branch_Predict::Branch_Predict(Program_Info &program){
   try{
     branch_table = new MAP[func_size];
   }
-  catch( std::bad_alloc ){
+  catch( bad_alloc ){
     error("Branch_Predict::Branch_Predict() bad_alloc");
   }
 }
@@ -145,33 +145,33 @@ void Branch_Predict::count_inst(const Pipe_Inst &inst, Program_Info &program){
 
 // print result data
 void Branch_Predict::file_write(Program_Info &program){
-  std::ofstream fout(model.brn_pred.c_str());
+  ofstream fout(model.brn_pred.c_str());
 
   if( !fout ){
     error("Branch_Predict::file_open() can't open" + model.brn_pred);
   }
 
   for( int func = 0; func < program.size(); func ++ ){// LOOP func
-    fout << "{" << func << ":" << program.funcname(func) << std::endl;
+    fout << "{" << func << ":" << program.funcname(func) << endl;
 
     for( MI map_i = branch_table[func].begin();
 	 map_i != branch_table[func].end(); map_i ++ ){// LOOP branch inst
       const int pc = map_i->first;
       Branch_Inst branch = map_i->second;
 
-      fout << std::hex << pc << std::dec << ":";
+      fout << hex << pc << dec << ":";
 
       if( branch.total_count < (branch.next_count << 1) ){
 	// next pc
-	fout << std::hex << map_i->first + byte << std::dec << ",NEXT;" << std::endl;
+	fout << hex << map_i->first + byte << dec << ",NEXT;" << endl;
       }else{
 	// target pc
-	fout << std::hex << map_i->second.target_pc << std::dec << ",TARGET;" << std::endl;
+	fout << hex << map_i->second.target_pc << dec << ",TARGET;" << endl;
       }
     }// LOOP branch inst
 
-    fout << "}" << std::endl;
+    fout << "}" << endl;
   }// LOOP func
 
-  std::cout << "Branch_Predict::file_write() end" << std::endl;
+  cout << "Branch_Predict::file_write() end" << endl;
 }

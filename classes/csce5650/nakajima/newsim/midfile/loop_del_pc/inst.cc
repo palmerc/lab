@@ -16,19 +16,19 @@
 
 // constructor
 Inst_Type::Inst_Type(Program_Info &program, const int &func){
-  std::string buf;
+  string buf;
 
   getline(model.fin_asm_loop, buf);
   if( model.fin_asm_loop.eof() ){
     error("Inst_Type::Inst_Type() EOF");
   }
-  if( buf.find("{") == std::string::npos ){// function name
+  if( buf.find("{") == string::npos ){// function name
     error("Inst_Type::Inst_Type() {");
   }
-  if( program.funcname(func) != buf.substr(buf.find(":") + 1, std::string::npos) ){
-    std::cerr << "bb_info funcnaem " << program.funcname(func)
+  if( program.funcname(func) != buf.substr(buf.find(":") + 1, string::npos) ){
+    cerr << "bb_info funcnaem " << program.funcname(func)
 	 << ", asm_loop funcname "
-	 <<  buf.substr(buf.find(":") + 1, std::string::npos);
+	 <<  buf.substr(buf.find(":") + 1, string::npos);
     error("Inst_Type::Inst_Type() funcname");
   }
 
@@ -38,13 +38,13 @@ Inst_Type::Inst_Type(Program_Info &program, const int &func){
       break;;
     }
 
-    if( buf.find(":") == std::string::npos || buf.find(";") == std::string::npos){
-      std::cerr << buf << std::endl;
+    if( buf.find(":") == string::npos || buf.find(";") == string::npos){
+      cerr << buf << endl;
       error("Inst_Type::Inst_Type() file format error");
     }
 
     // construction
-    std::string op;
+    string op;
     int pc;
     Inst_Data inst;
 
@@ -52,7 +52,7 @@ Inst_Type::Inst_Type(Program_Info &program, const int &func){
     buf.erase(0, buf.find(":") + 1);
     sscanf( buf.substr(0, buf.find(":")).c_str(), "%x", &pc );
 
-    if( buf.find(":;") != std::string::npos ){
+    if( buf.find(":;") != string::npos ){
       // no register instruction
       if( op == "JAL" ){
 	inst.op = Call;
@@ -73,14 +73,14 @@ Inst_Type::Inst_Type(Program_Info &program, const int &func){
       }else if( op == "DIV" ){
 	inst.op = Div;
       }else{
-	std::cerr << std::endl << op;
+	cerr << endl << op;
 	error("Inst_Type::Inst_Type() Other");
       }
 
       buf.erase(0, buf.find(":") + 1);
 
-      if( buf.find(",") == std::string::npos || buf.find(" ") == std::string::npos ){
-	std::cerr << buf << std::endl;
+      if( buf.find(",") == string::npos || buf.find(" ") == string::npos ){
+	cerr << buf << endl;
 	error("Inst_Type::Inst_Type() file format error");
       }
 
@@ -98,7 +98,7 @@ Inst_Type::Inst_Type(Program_Info &program, const int &func){
     }
 
     // insert
-    insts.insert( std::make_pair(pc, inst) );
+    insts.insert( make_pair(pc, inst) );
   }// LOOP all add, sub, mult, div
 }
 
@@ -124,10 +124,10 @@ void Inst_Type::print(){
   for( MI map_i = insts.begin(); map_i != insts.end(); map_i ++ ){
     Inst_Data type = map_i->second;
 
-    std::cerr << map_i->first << " "
+    cerr << map_i->first << " "
 	 << type.op << " "
 	 << type.dest << " "
 	 << type.src1 << " "
-	 << type.src2 << std::endl;
+	 << type.src2 << endl;
   }
 }

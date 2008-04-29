@@ -7,7 +7,6 @@
 #define MAIN_H
 
 #include <string>
-using namespace std;
 
 //
 // class GnuPlot

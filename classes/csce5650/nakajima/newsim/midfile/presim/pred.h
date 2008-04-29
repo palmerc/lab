@@ -19,7 +19,7 @@
 class Value_Predict{
   class Value_Data{
     // define
-    typedef std::map< int, int > MAP;
+    typedef map< int, int > MAP;
     typedef MAP::iterator MI;
 
     // counter
@@ -32,11 +32,11 @@ class Value_Predict{
     ~Value_Data() { val_data.clear(); }
 
     void add_data(const int &);
-    void file_write(std::ofstream &fout);
+    void file_write(ofstream &fout);
   };
 
   // define
-  typedef std::map< int, Value_Data > MAP;
+  typedef map< int, Value_Data > MAP;
   typedef MAP::iterator MI;
 
   // total function size
@@ -73,7 +73,7 @@ class Branch_Predict{
   };
 
   // define
-  typedef std::map< int, Branch_Inst > MAP;
+  typedef map< int, Branch_Inst > MAP;
   typedef MAP::iterator MI;
   static const int byte = 8;
 

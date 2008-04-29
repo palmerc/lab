@@ -8,6 +8,10 @@
 # work
 #
 
+# hostname
+HOST=calc10; export HOST
+TERM=linux; export TERM
+PATH=$PATH:$HOME/Development/bin; export PATH
 # work dir
 WORK_DIR=$HOME/Development/nakajima; export WORK_DIR
 
@@ -51,4 +55,4 @@ SCRIPT_BIN=$BIN_DIR/run_newsim.pl; export SCRIPT_BIN
 #
 
 # benchmark binary file
-BENCH_BIN_DIR=$HOME/SPEC_TRACE/SimpleScalar/bin; export BENCH_BIN_DIR
+BENCH_BIN_DIR=$SIM_DIR/ss_precompiled_spec; export BENCH_BIN_DIR

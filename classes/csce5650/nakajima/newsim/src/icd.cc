@@ -41,19 +41,19 @@ void ICD::analysis(const Func_Bb &fbb){
   }
 
   if( model.debug(10) ){
-    std::cerr << "icd: ";
+    cerr << "icd: ";
     for( int i = 0; i < icd_size; i ++ ){
-      std::cerr << "[" << i << "]" << reg_icd[i];
+      cerr << "[" << i << "]" << reg_icd[i];
     }
-    std::cerr << std::endl;
+    cerr << endl;
 
-    std::cerr << "reg: ";
+    cerr << "reg: ";
     for( int r = 0; r < REG; r ++ ){
       if( reg[r].write ){
-	std::cerr << "[" << r << "]" << reg[r].write;
+	cerr << "[" << r << "]" << reg[r].write;
       }
     }
-    std::cerr << std::endl;
+    cerr << endl;
   }
 
   for( int reg_num = 1; reg_num < REG; reg_num ++ ){// LOOP REG
@@ -70,20 +70,20 @@ void ICD::analysis(const Func_Bb &fbb){
 
     if( !(model.sp_exec & SP_Send) ){
       // ³ÎÄêsend
-      reach_limit = std::max(reach_limit, reg[reg_num].commit);
+      reach_limit = max(reach_limit, reg[reg_num].commit);
     }
 
-    reg[reg_num].write = std::max(reg[reg_num].write, reach_limit);
+    reg[reg_num].write = max(reg[reg_num].write, reach_limit);
   }// LOOP REG
 
   if( model.debug(10) ){
-    std::cerr << "reg: ";
+    cerr << "reg: ";
     for( int r = 0; r < REG; r ++ ){
       if( reg[r].write ){
-	std::cerr << "[" << r << "]" << reg[r].write;
+	cerr << "[" << r << "]" << reg[r].write;
       }
     }
-    std::cerr << std::endl;
+    cerr << endl;
   }
 }
 
@@ -100,7 +100,7 @@ void ICD::depend(const Func_Bb &fbb, const int &rva){
       reach_limit = reach(fbb, reg_num);
     }
 
-    reg_icd[reg_num] = std::max(reg_icd[reg_num], reach_limit);
+    reg_icd[reg_num] = max(reg_icd[reg_num], reach_limit);
   }// LOOP REG
 }
 
@@ -114,7 +114,7 @@ const int ICD::reach(const Func_Bb &fbb, const int &r){
     Func_Stack::Bb_Data target_data = func_data.data_read(fbb);
 
     if( target_data.order_tc > reg[r].def_tc ){
-      reach_limit = std::max(reach_limit, target_data.send_time);
+      reach_limit = max(reach_limit, target_data.send_time);
     }
   }
 
@@ -128,7 +128,7 @@ void ICD::init_thread(){
   }
 
   for( int reg_num = RET_REG; reg_num < icd_size; reg_num ++ ){
-    reg[reg_num].write = std::max(reg[reg_num].write, reg_icd[reg_num]);
+    reg[reg_num].write = max(reg[reg_num].write, reg_icd[reg_num]);
   }
 
   for( int i = 0; i < icd_size; i ++ ){
@@ -160,7 +160,7 @@ void ICD::file_read(){
     return;
   }
 
-  std::ifstream fin(model.icd_info.c_str());
+  ifstream fin(model.icd_info.c_str());
 
   if( !fin ){
     error("ICD::file_read() can't open " + model.icd_info);
@@ -171,30 +171,30 @@ void ICD::file_read(){
   try{
     icd = new MMAP*[func_size];
   }
-  catch( std::bad_alloc ){
+  catch( bad_alloc ){
     error("ICD::file_read() bad_alloc");
   }
 
-  std::string buf;
+  string buf;
 
   getline(fin, buf);
   for( int func = 0; func < func_size; func ++ ){// LOOP FUNC
-    const std::string fname = program.funcname(func);
+    const string fname = program.funcname(func);
     const int bb_size = program.size(func);
 
-    if( buf.find("{") == std::string::npos ){// function name
+    if( buf.find("{") == string::npos ){// function name
       error("ICD::file_read() {");
     }
-    if( fname != buf.substr(buf.find(":") + 1, std::string::npos) ){
-      std::cerr << "bb_info funcname " << fname << ", icd_info funcname "
-	   <<  buf.substr(buf.find(":") + 1, std::string::npos);
+    if( fname != buf.substr(buf.find(":") + 1, string::npos) ){
+      cerr << "bb_info funcname " << fname << ", icd_info funcname "
+	   <<  buf.substr(buf.find(":") + 1, string::npos);
       error("ICD::file_read() funcname");
     }
 
     try{
       icd[func] = new MMAP[bb_size];
     }
-    catch( std::bad_alloc ){
+    catch( bad_alloc ){
       error("ICD::file_read() bad_alloc");
     }
 
@@ -204,9 +204,9 @@ void ICD::file_read(){
 	break;
       }
 
-      if( buf.find(":") == std::string::npos || buf.find(",") == std::string::npos
-	  || buf.find(";") == std::string::npos ){
-	std::cerr << func << " " << buf << std::endl;
+      if( buf.find(":") == string::npos || buf.find(",") == string::npos
+	  || buf.find(";") == string::npos ){
+	cerr << func << " " << buf << endl;
 	error("ICD::file_read() file error");
       }
 
@@ -220,7 +220,7 @@ void ICD::file_read(){
       while( buf != ";" ){
 	const int val = atoi( buf.substr(0, buf.find(",")).c_str()  );
 
-	icd[func][bb].insert( std::make_pair(reg, val) );
+	icd[func][bb].insert( make_pair(reg, val) );
 	buf.erase(0, buf.find(",") + 1);
       }
     }// LOOP icd
@@ -231,21 +231,21 @@ void ICD::file_read(){
     }
   }// LOOP FUNC
 
-  std::cout << "# ICD::file_read() init end" << std::endl;
+  cout << "# ICD::file_read() init end" << endl;
 }
 
 // check code
 void ICD::print(){
-  std::cout << "ICD::print() test" << std::endl;
+  cout << "ICD::print() test" << endl;
 
   for( int f = 0; f < program.size(); f++ ){// LOOP FUNC
-    std::cout << "{" << f << std::endl;
+    cout << "{" << f << endl;
     for( int bb = 0; bb < program.size(f); bb ++ ){// LOOP BB
       if( icd[f][bb].empty() ){
 	continue;
       }
 
-      std::cout <<  bb << "# ";
+      cout <<  bb << "# ";
       for( int r = 0; r < REG; r ++ ){// LOOP REG
 	MMI_PAIR map_er = icd[f][bb].equal_range(r);
 
@@ -253,15 +253,15 @@ void ICD::print(){
 	  continue;
 	}
 
-	std::cout <<  r <<  "[";
+	cout <<  r <<  "[";
 	for( MMI map_i = map_er.first; map_i != map_er.second; map_i ++ ){
-	  std::cout << map_i->second << ",";
+	  cout << map_i->second << ",";
 	}
-	std::cout << "] ";
+	cout << "] ";
       }// LOOP REG
-      std::cout << std::endl;
+      cout << endl;
     }// LOOP BB
-    std::cout << "}" << std::endl;
+    cout << "}" << endl;
   }// LOOP FUNC
   exit(0);
 }

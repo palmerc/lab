@@ -8,7 +8,10 @@
 #ifndef DATA_H
 #define DATA_H
 
+using namespace std;
+
 #include <fstream>
+#include <hash_map>
 #include <map>
 #include <set>
 #include <list>
@@ -21,7 +24,6 @@
 //
 
 class Mem{
-public:
   class Mem_Data{
   public:
     // PUBLIC
@@ -29,6 +31,7 @@ public:
     int write;  // store write time
     int thread; // thread id
 
+  public:
     // constructor
     Mem_Data( int p = 0, int wt = 0, int tid = 0){
       pc = p;
@@ -37,7 +40,7 @@ public:
     }
   };
   // define
-  typedef std::map< int, Mem_Data > MAP;
+  typedef hash_map< int, Mem_Data > MAP;
   typedef MAP::iterator MI;
 
   // a[write address].{ Mem_Data }
@@ -64,9 +67,9 @@ public:
 // ある静的なstoreについて、同一スレッド内に複数実行される場合に登録
 class Store_Thread{
   // define
-  typedef std::map< int, int > MAP;
+  typedef map< int, int > MAP;
   typedef MAP::iterator MI;
-  typedef std::map< int, MAP > HMAP;
+  typedef hash_map< int, MAP > HMAP;
   typedef HMAP::iterator HMI;
 
   // a[store_pc][thread_id]{ min store time }
@@ -114,9 +117,9 @@ enum Mem_Viol{
 //
 class Mem_Dep_MP{
   // define
-  typedef std::list< int > LIST;
+  typedef list< int > LIST;
   typedef LIST::iterator LI;
-  typedef std::map< int, LIST > MAP;
+  typedef hash_map< int, LIST > MAP;
   typedef MAP::iterator MI;
 
   // total function size
@@ -206,7 +209,7 @@ private:
 class Mem_Profile{
   class Profile_Data{
     // define
-    typedef std::map< int, int > MAP;
+    typedef map< int, int > MAP;
     typedef MAP::iterator MI;
 
     // counter
@@ -219,10 +222,10 @@ class Mem_Profile{
     ~Profile_Data() { profile_data.clear(); }
 
     void add_data(const int &);
-    void file_write(std::ofstream &fout);
+    void file_write(ofstream &fout);
   };
 
-  typedef std::map< int, Profile_Data > MAP;
+  typedef map< int, Profile_Data > MAP;
   typedef MAP::iterator MI;
 
   // total function size
@@ -260,7 +263,7 @@ class Reg_Count{
   };
 
   // define
-  typedef std::list< Range > LIST;
+  typedef list< Range > LIST;
   typedef LIST::iterator LI;
 
   // physical register counter

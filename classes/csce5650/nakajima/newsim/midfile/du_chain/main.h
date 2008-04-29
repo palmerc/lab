@@ -33,13 +33,13 @@ const unsigned int bitset_size = 0x02800;
 class Sim_Model{
 public:
   // filename (full path)
-  std::string asm_du;
-  std::string bb_info;
-  std::string du_chain;// output filename
+  string asm_du;
+  string bb_info;
+  string du_chain;// output filename
 
   // file stream
-  std::ifstream fin_asm_du;
-  std::ofstream fout_du_chain;
+  ifstream fin_asm_du;
+  ofstream fout_du_chain;
 
 public:
   // file_open
@@ -59,14 +59,14 @@ extern Sim_Model model;
 //
 
 // error
-inline void error(std::string msg){
-  std::cerr << "=== ERROR: " << msg << " ===\n";
+inline void error(string msg){
+  cerr << "=== ERROR: " << msg << " ===\n";
   exit(1);
 }
 
 // usage
 inline void usage(char *arg0){
-  std::cerr << "usage: " << arg0 << " -dir DIR" << std::endl;
+  cerr << "usage: " << arg0 << " -dir DIR" << endl;
   exit(2);
 }
 

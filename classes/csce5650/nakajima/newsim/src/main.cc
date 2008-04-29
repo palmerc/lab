@@ -73,7 +73,7 @@ int main(int argc, char **argv){
     mem_profile.file_write();
   }
 
-  std::cout << "return 0" << std::endl;
+  cout << "return 0" << endl;
 
   return 0;
 }
@@ -158,7 +158,7 @@ static void init_main(){
   // pipe inst spool
   reexec.init_inst_spool();
 
-  std::cout << std::endl;
+  cout << endl;
 }
 
 
@@ -307,22 +307,22 @@ const bool Counter::last_j_call_tc(const int &tc){
   if( last_func != func ){
     // 関数呼び出しだが、以前の分岐がj命令の場合
     if( ( branch_tc + 1 == tc ) &&  brn_type == UNCON_DIRE ){
-      const std::string f = program.funcname(func);
+      const string f = program.funcname(func);
 
       if( f == "__setjmp_aux" || f == "syscall_error" ){
 	if( false && reexec.mode() == Normal ){
-	  std::cerr << "# TC " << reexec.tc() << " last_j_call_tc" << std::endl;
+	  cerr << "# TC " << reexec.tc() << " last_j_call_tc" << endl;
 	}
 	return true;
       }
     }
     // 変な関数呼び出し
     if( ( branch_tc + 1 == tc ) &&  brn_type == CON_DIRE ){
-      const std::string f = program.funcname(func);
+      const string f = program.funcname(func);
 
       if( f[0] == '_' && f[1] == '_' ){
   	if( false && reexec.mode() == Normal ){
-	  std::cerr << "# TC " << reexec.tc() << " last_j_call_tc" << std::endl;
+	  cerr << "# TC " << reexec.tc() << " last_j_call_tc" << endl;
   	}
 	return true;
       }
@@ -363,7 +363,7 @@ static void inst_analysis(const Pipe_Inst &inst){
   switch( reexec.mode() ){
   case Change:
     if( model.debug(100) ){
-      std::cerr << "inst_analysis() skip re == Change" << std::endl;
+      cerr << "inst_analysis() skip re == Change" << endl;
     }
     return;
 
@@ -447,7 +447,7 @@ static void inst_load(const Pipe_Inst &inst){
   load_data_dep_next(inst);
 
   // exec time
-  t.exec_max = std::max(t.exec_max, reg[dest].write);
+  t.exec_max = max(t.exec_max, reg[dest].write);
   reexec.gain(reg[dest].write);
 
   if( srcA > 0 ){
@@ -465,32 +465,32 @@ static void inst_load(const Pipe_Inst &inst){
   }
 
   if( model.debug(5) ){
-    std::cerr << " Load address " << std::hex << inst.address << std::dec << std::endl
-	 << "      src reg[" << srcA << "]: " << reg[srcA].write << std::endl
-	 << "             [" << srcB << "]: " << reg[srcB].write << std::endl
-	 << "    write reg[" << dest << "]: " << reg[dest].write << std::endl;
+    cerr << " Load address " << hex << inst.address << dec << endl
+	 << "      src reg[" << srcA << "]: " << reg[srcA].write << endl
+	 << "             [" << srcB << "]: " << reg[srcB].write << endl
+	 << "    write reg[" << dest << "]: " << reg[dest].write << endl;
   }
 }
 
 // none, finite, sequential, reorder, blind, analysis
 static void load_data_dep(const Pipe_Inst &inst){
   const int srcA = inst.s_A, srcB = inst.s_B, dest = inst.dest;
-  int write_time =  std::max(reg[srcA].write, reg[srcB].write);
+  int write_time =  max(reg[srcA].write, reg[srcB].write);
   int limit = t.cd_limit;
 
   for( int byte = 0; byte < inst.m_size; byte ++ ){
-    write_time = std::max(write_time, memory.read_data(inst.address + byte).write);
+    write_time = max(write_time, memory.read_data(inst.address + byte).write);
   }
 
   switch( model.reg ){
   case Reg_None:
     if( !c.thread || reg[dest].flag & DEFINE ){
-      limit = std::max(limit, std::max(reg[dest].write, reg[dest].read));
+      limit = max(limit, max(reg[dest].write, reg[dest].read));
     }
     break;
 
   case Reg_Finite:
-    limit = std::max(limit, reg_finite.get_finite_limit());
+    limit = max(limit, reg_finite.get_finite_limit());
     break;
 
   case Reg_Perfect:
@@ -504,19 +504,19 @@ static void load_data_dep(const Pipe_Inst &inst){
   			     || srcA == GP_REG || srcB == GP_REG ) ){
     // perfect disambiguate
     // vp unpredict
-    reg[dest].write = 1 + std::max(write_time, limit);
+    reg[dest].write = 1 + max(write_time, limit);
   }else{
     switch( model.sp ){
     case SP_Sequential:
       // max store time
-      limit = std::max(limit, mem_sp.store);
+      limit = max(limit, mem_sp.store);
       break;
 
     case SP_Reorder:
       // max load address time
-      mem_sp.load = std::max(mem_sp.load, std::max(reg[srcA].write, reg[srcB].write));
+      mem_sp.load = max(mem_sp.load, max(reg[srcA].write, reg[srcB].write));
       // max store address time
-      limit = std::max(limit, mem_sp.store);
+      limit = max(limit, mem_sp.store);
       break;
 
     case SP_Perfect:
@@ -553,14 +553,14 @@ static void load_data_dep(const Pipe_Inst &inst){
 
     if( model.vp == VP_Nopred ){
       // vp unpredict
-      reg[dest].write = 1 + std::max(write_time, limit);
+      reg[dest].write = 1 + max(write_time, limit);
     }else{
       // vp predict
       switch( value_pred.predict(inst) ){
       case NO_VP:
       case MISS_VP:
 	// missペナルティーなし
-	reg[dest].write = 1 + std::max(write_time, limit);
+	reg[dest].write = 1 + max(write_time, limit);
 	break;
 
       case HIT_VP:
@@ -570,7 +570,7 @@ static void load_data_dep(const Pipe_Inst &inst){
     }
   }
 
-  reg[dest].commit = std::max(t.commit, reg[dest].write);
+  reg[dest].commit = max(t.commit, reg[dest].write);
   if( inst.double_reg ){
     reg[dest + 1].commit = reg[dest].commit;
   }
@@ -603,7 +603,7 @@ static void load_data_dep_next(const Pipe_Inst &inst){
   }else{
     switch( model.sp ){
     case SP_Sequential:
-      mem_sp.load = std::max(mem_sp.load, reg[dest].write);
+      mem_sp.load = max(mem_sp.load, reg[dest].write);
       mem_sp.last_type = LOAD;
       break;
 
@@ -639,10 +639,10 @@ static void inst_store(const Pipe_Inst &inst){
   }
 
   if( model.debug(5) ){
-    std::cerr << " Store address " << std::hex << inst.address << std::dec << std::endl
-	 << "       src reg[" << srcA << "]: " << reg[srcA].write << std::endl
-	 << "              [" << srcB << "]: " << reg[srcB].write << std::endl
-	 << "              [" << srcC << "]: " << reg[srcC].write << std::endl;
+    cerr << " Store address " << hex << inst.address << dec << endl
+	 << "       src reg[" << srcA << "]: " << reg[srcA].write << endl
+	 << "              [" << srcB << "]: " << reg[srcB].write << endl
+	 << "              [" << srcC << "]: " << reg[srcC].write << endl;
   }
 
   const int write_time = store_deta_dep(inst);
@@ -662,7 +662,7 @@ static void inst_store(const Pipe_Inst &inst){
     }
   }
 
-  t.exec_max = std::max(t.exec_max, write_time);
+  t.exec_max = max(t.exec_max, write_time);
   reexec.gain(write_time);
 
   if( model.reg == Reg_None ){
@@ -677,7 +677,7 @@ static void inst_store(const Pipe_Inst &inst){
   }else{
     switch( model.sp ){
     case SP_Sequential:
-      mem_sp.store = std::max(mem_sp.store, write_time);
+      mem_sp.store = max(mem_sp.store, write_time);
       mem_sp.last_type = STORE;
       break;
 
@@ -704,24 +704,24 @@ static void inst_store(const Pipe_Inst &inst){
   }
 
   if( model.debug(5) ){
-    std::cerr << "    write time: " << write_time << std::endl;
+    cerr << "    write time: " << write_time << endl;
   }
 }
 
 // sequential, reorder, finite, blind, analysis
 static const int store_deta_dep(const Pipe_Inst &inst){
   const int srcA = inst.s_A, srcB = inst.s_B, srcC = inst.s_C;
-  int write_time = std::max(reg[srcA].write, std::max(reg[srcB].write, reg[srcC].write));
+  int write_time = max(reg[srcA].write, max(reg[srcB].write, reg[srcC].write));
 
   if ( inst.double_reg ){
-    write_time = std::max(write_time, reg[srcA + 1].write);
+    write_time = max(write_time, reg[srcA + 1].write);
   }
 
   if( model.reg == Reg_Finite ){
-    write_time = std::max(write_time, reg_finite.get_finite_limit());
+    write_time = max(write_time, reg_finite.get_finite_limit());
   }
 
-  write_time = std::max(write_time, t.cd_limit);
+  write_time = max(write_time, t.cd_limit);
 
   if( model.perf_disamb && ( srcB == SP_REG || srcC == SP_REG
   			     || srcB == GP_REG || srcC == GP_REG ) ){
@@ -729,14 +729,14 @@ static const int store_deta_dep(const Pipe_Inst &inst){
   }else{
     switch( model.sp ){
     case SP_Sequential:
-      write_time = std::max(write_time, std::max(mem_sp.load, mem_sp.store));
+      write_time = max(write_time, max(mem_sp.load, mem_sp.store));
       break;
 
     case SP_Reorder:
       // max store address time
-      mem_sp.store = std::max(mem_sp.store, std::max(reg[srcB].write, reg[srcC].write));
+      mem_sp.store = max(mem_sp.store, max(reg[srcB].write, reg[srcC].write));
       // max load and store address time
-      write_time = std::max(write_time, std::max(mem_sp.load, mem_sp.store));
+      write_time = max(write_time, max(mem_sp.load, mem_sp.store));
       break;
 
     case SP_Perfect:
@@ -747,10 +747,10 @@ static const int store_deta_dep(const Pipe_Inst &inst){
     }
 
     if( model.mp != MP_Perfect && model.mp != MP_Profile ){
-      write_time = std::max(write_time, mem_mp.get_viol_limit());
+      write_time = max(write_time, mem_mp.get_viol_limit());
     }
 
-    mem_sp.store_max = std::max(mem_sp.store_max, write_time);
+    mem_sp.store_max = max(mem_sp.store_max, write_time);
   }
 
   return write_time + 1;
@@ -777,13 +777,13 @@ static void inst_other(const Pipe_Inst &inst){
     }
 
     if( model.debug(5) ){
-      std::cerr <<  "perfect inline unrolling dest == 29" << std::endl;
+      cerr <<  "perfect inline unrolling dest == 29" << endl;
     }
   }else if( dest != ZERO_REG ){
     // data dependence
     other_data_dep(inst);
 
-    t.exec_max = std::max(t.exec_max, reg[dest].write);
+    t.exec_max = max(t.exec_max, reg[dest].write);
     reexec.gain(reg[dest].write);
   }
 
@@ -796,30 +796,30 @@ static void inst_other(const Pipe_Inst &inst){
   }
 
   if( model.debug(5) ){
-    std::cerr << " Other limit " << t.cd_limit << std::endl
-	 << "   write reg[" << dest << "]: " << reg[dest].write << std::endl;
+    cerr << " Other limit " << t.cd_limit << endl
+	 << "   write reg[" << dest << "]: " << reg[dest].write << endl;
   }
 }
 
 // none
 static void other_data_dep(const Pipe_Inst &inst){
   const int srcA = inst.s_A, srcB = inst.s_B, dest = inst.dest;
-  int write_time = std::max(reg[srcA].write, reg[srcB].write);
+  int write_time = max(reg[srcA].write, reg[srcB].write);
   int limit = t.cd_limit;
 
   if( model.mp != MP_Perfect && model.mp != MP_Profile ){
-    limit = std::max(limit, mem_mp.get_viol_limit());
+    limit = max(limit, mem_mp.get_viol_limit());
   }
 
   switch( model.reg ){
   case Reg_None:
     if( !c.thread || reg[dest].flag & DEFINE ){
-      limit = std::max(limit, std::max(reg[dest].write, reg[dest].read));
+      limit = max(limit, max(reg[dest].write, reg[dest].read));
     }
     break;
 
   case Reg_Finite:
-    limit = std::max(limit, reg_finite.get_finite_limit());
+    limit = max(limit, reg_finite.get_finite_limit());
     break;
 
   case Reg_Perfect:
@@ -858,14 +858,14 @@ static void other_data_dep(const Pipe_Inst &inst){
 
   if( model.vp == VP_Nopred ){
     // vp unpredict
-    reg[dest].write = 1 + std::max(limit, write_time);
+    reg[dest].write = 1 + max(limit, write_time);
   }else{
     // vp predict
     switch( value_pred.predict(inst) ){
     case NO_VP:
     case MISS_VP:
       // missペナルティーなし
-      reg[dest].write = 1 + std::max(limit, write_time);
+      reg[dest].write = 1 + max(limit, write_time);
       break;
 
     case HIT_VP:
@@ -880,7 +880,7 @@ static void other_data_dep(const Pipe_Inst &inst){
     reg[dest + 1].def_tc = reexec.tc();
   }
 
-  reg[dest].commit = std::max(t.commit, reg[dest].write);
+  reg[dest].commit = max(t.commit, reg[dest].write);
   reg[dest].def_tc = reexec.tc();
 
   // 資源制約
@@ -919,15 +919,15 @@ static void inst_branch(const Pipe_Inst &inst){
 
   // change branch
   if( model.reg == Reg_Finite ){
-    t.branch = std::max( t.branch,
-		    std::max( t.cd_limit, reg_finite.get_finite_limit() ) + 1 );
+    t.branch = max( t.branch,
+		    max( t.cd_limit, reg_finite.get_finite_limit() ) + 1 );
   }
 
   if( model.mp != MP_Perfect && model.mp != MP_Profile ){
-    t.branch = std::max(t.branch, mem_mp.get_viol_limit() + 1);
+    t.branch = max(t.branch, mem_mp.get_viol_limit() + 1);
   }
 
-  t.commit = std::max(t.commit, t.branch);
+  t.commit = max(t.commit, t.branch);
 
   if( sim_type == ORACLE ){
     branch_pred.set_hit();
@@ -943,48 +943,48 @@ static void inst_branch(const Pipe_Inst &inst){
 
 
   if( model.debug(5) ){
-    std::cerr << " Branch ";
+    cerr << " Branch ";
     switch( inst.brn ){
     case JALL_CALL:
-      std::cerr << "JALL_CALL: ";
+      cerr << "JALL_CALL: ";
       break;
 
     case JR_RETURN:
-      std::cerr << "JR_RETURN: ";
+      cerr << "JR_RETURN: ";
       break;
 
     case CON_DIRE:
-      std::cerr << "CON_DIRE: ";
+      cerr << "CON_DIRE: ";
       break;
 
     case UNCON_INDIRE:
-      std::cerr << "UNCON_INDIRE: ";
+      cerr << "UNCON_INDIRE: ";
       break;
 
     case UNCON_DIRE:
-      std::cerr << "UNCON_DIRE: ";
+      cerr << "UNCON_DIRE: ";
       break;
 
     default:
       break;
     }
 
-    std::cerr << " src[" << srcA << "]: " << reg[srcA].write << std::endl
-	 << "           [" << srcB << "]: " << reg[srcB].write << std::endl
-	 << "      limit: " << limit << std::endl;
+    cerr << " src[" << srcA << "]: " << reg[srcA].write << endl
+	 << "           [" << srcB << "]: " << reg[srcB].write << endl
+	 << "      limit: " << limit << endl;
   }
 
   if( model.debug(1) ){
     if( branch_pred.hit() ){
-      std::cerr << "  branch pred :HIT" << std::endl;
+      cerr << "  branch pred :HIT" << endl;
     }else{
-      std::cerr << "  branch pred :MISS" << std::endl;
+      cerr << "  branch pred :MISS" << endl;
     }
   }
 
   if( model.debug(5) ){
-    std::cerr << "  target addr start time: " << t.branch << std::endl
-	 << "        last branch time: " << t.last_branch << std::endl;
+    cerr << "  target addr start time: " << t.branch << endl
+	 << "        last branch time: " << t.last_branch << endl;
   }
 }
 
@@ -1037,7 +1037,7 @@ static void branch_analysis(const Pipe_Inst &inst, const int &limit){
 
   case CON_DIRE:
     // brn
-    t.branch = std::max(limit, std::max(regA, regB)) + 1;
+    t.branch = max(limit, max(regA, regB)) + 1;
 
     branch_pred.change_miss();// no SP
 
@@ -1053,7 +1053,7 @@ static void branch_analysis(const Pipe_Inst &inst, const int &limit){
 
   case UNCON_INDIRE:
     // jr $2 (switch)
-    t.branch = std::max(regA, limit) + 1;
+    t.branch = max(regA, limit) + 1;
     branch_pred.change_miss();// no SP
     break;
 

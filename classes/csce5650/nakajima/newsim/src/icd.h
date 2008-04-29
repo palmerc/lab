@@ -8,6 +8,8 @@
 #ifndef ICD_H
 #define ICD_H
 
+using namespace std;
+
 #include <map>
 #include "bb.h"
 
@@ -38,9 +40,9 @@ class ICD{
   static const int icd_size = 8;
 
   // define
-  typedef std::multimap< int, int > MMAP;
+  typedef multimap< int, int > MMAP;
   typedef MMAP::iterator MMI;
-  typedef std::pair< MMI, MMI > MMI_PAIR;
+  typedef pair< MMI, MMI > MMI_PAIR;
 
   // function size
   int func_size;

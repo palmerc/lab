@@ -188,7 +188,7 @@ main(int argc, char **argv)
 #endif /* BFD_LOADER */
 
 #ifdef linux
-      fprintf(stdout, "-lbsd ");
+      /* fprintf(stdout, "-lbsd "); */
 #elif defined(__USLC__) || (defined(__svr4__) && defined(__i386__) && defined(__unix__))
       fprintf(stdout, "-L/usr/ucblib -lucb ");
 #else

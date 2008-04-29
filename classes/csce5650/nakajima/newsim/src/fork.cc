@@ -59,14 +59,14 @@ void Func_Stack::init_trace_skip(){
   try{
     fstack[end] = new Bb_Data[bb_size];
   }
-  catch( std::bad_alloc ){
+  catch( bad_alloc ){
     error("Func_Stack::init_trace_skip() bad_alloc");
   }
 
   // if fast foward
   if( model.fastfwd_tc ){
-    std::cout << "# Func_Stack::init_trace_skip() " << model.fastfwd_tc
-	 << " " << std::flush;
+    cout << "# Func_Stack::init_trace_skip() " << model.fastfwd_tc
+	 << " " << flush;
 
     Pipe_Inst inst;
     int debug = model.debuglevel;
@@ -104,10 +104,10 @@ void Func_Stack::init_trace_skip(){
       }
 
       if( !(tc % model.print_freq_def) ){
-	std::cout << "." << std::flush;
+	cout << "." << flush;
       }
     }// trace skip end
-    std::cout << " skip end" << std::endl;
+    cout << " skip end" << endl;
 
     model.debuglevel = debug;
   }
@@ -127,7 +127,7 @@ Func_Stack::Bb_Data & Func_Stack::data_read(const Func_Bb &fbb){
     if( fstack_func[end] == fbb.func ){
       return fstack[end][fbb.bb];
     }else{
-      std::cerr<< "fstack:" << fstack_func[end] << " func:" << fbb.func << std::endl;
+      cerr<< "fstack:" << fstack_func[end] << " func:" << fbb.func << endl;
       error("Func_Stack::data_read() fstack_func[end] != fbb.func");
     }
     break;
@@ -138,8 +138,8 @@ Func_Stack::Bb_Data & Func_Stack::data_read(const Func_Bb &fbb){
     if( fstack_func_diff[end_diff] == fbb.func ){
       return fstack_diff[end_diff][fbb.bb];
     }else{
-      std::cerr<< "fstack_func_diff:" << fstack_func_diff[end]
-	  << " func:" << fbb.func << std::endl;
+      cerr<< "fstack_func_diff:" << fstack_func_diff[end]
+	  << " func:" << fbb.func << endl;
       error("Func_Stack::data_read() fstack_func_diff[end] != fbb.func");
     }
     break;
@@ -157,7 +157,7 @@ void Func_Stack::data_write(const Func_Bb &fbb, const Bb_Data &data){
     if( fstack_func[end] == fbb.func ){
       fstack[end][fbb.bb] = data;
     }else{
-      std::cerr<< "fstack:" << fstack_func[end] << " func:" << fbb.func << std::endl;
+      cerr<< "fstack:" << fstack_func[end] << " func:" << fbb.func << endl;
       error("Func_Stack::data_write() fstack_func[end] == fbb.func");
     }
     break;
@@ -168,8 +168,8 @@ void Func_Stack::data_write(const Func_Bb &fbb, const Bb_Data &data){
     if( fstack_func_diff[end_diff] == fbb.func ){
       fstack_diff[end_diff][fbb.bb] = data;
     }else{
-      std::cerr<< "fstack_func_diff:" << fstack_func_diff[end]
-	  << " func:" << fbb.func << std::endl;
+      cerr<< "fstack_func_diff:" << fstack_func_diff[end]
+	  << " func:" << fbb.func << endl;
       error("Func_Stack::data_write() fstack_func_diff[end] == fbb.func");
     }
     break;
@@ -184,16 +184,16 @@ void Func_Stack::data_write(const Func_Bb &fbb, const Bb_Data &data){
 // delete last function's data & restore old data (jr return)
 void Func_Stack::pop_stack(){
   const Func_Bb fbb = program.fbb(), last_fbb = program.last_fbb();
-  const std::string last_fname = program.funcname(last_fbb.func);
+  const string last_fname = program.funcname(last_fbb.func);
 
   switch( reexec.mode() ){
   case Normal:
     if( model.debug(10) ){
-      std::cerr << "POP fstack: ";
+      cerr << "POP fstack: ";
       for( int i = 0; i <= end; i ++ ){
-	std::cerr << fstack_func[i] << ",";
+	cerr << fstack_func[i] << ",";
       }
-      std::cerr << " - " << last_fbb.func << " -> " << fbb.func << std::endl;
+      cerr << " - " << last_fbb.func << " -> " << fbb.func << endl;
     }
 
     // 通常の関数return
@@ -235,8 +235,8 @@ void Func_Stack::pop_stack(){
 	fstack_setjmp.pop();
       }else if( last_fname == "syscall_error" ){
 	if( false ){
-	  std::cout << "# TC " << reexec.tc()
-	       << " Func_Stack::pop_stack() syscall_error" << std::endl;
+	  cout << "# TC " << reexec.tc()
+	       << " Func_Stack::pop_stack() syscall_error" << endl;
 	}
 
 	// どれだけ関数を飛び越えるかわからない
@@ -253,8 +253,8 @@ void Func_Stack::pop_stack(){
 
       // check
       if( fstack_func[end] != fbb.func ){
-	std::cerr << " - " << last_fname
-	     << " -> " << program.funcname(fbb.func) << std::endl;
+	cerr << " - " << last_fname
+	     << " -> " << program.funcname(fbb.func) << endl;
 	error("Func_Stack::pop_stack()");
       }
     }
@@ -263,11 +263,11 @@ void Func_Stack::pop_stack(){
   case No:
   case Fork:
     if( model.debug(10) ){
-      std::cerr << "POP fstack_diff: ";
+      cerr << "POP fstack_diff: ";
       for( int i = 0; i <= end_diff; i ++ ){
-	std::cerr << fstack_func_diff[i] << ",";
+	cerr << fstack_func_diff[i] << ",";
       }
-      std::cerr << " - " << last_fbb.func << " -> " << fbb.func << std::endl;
+      cerr << " - " << last_fbb.func << " -> " << fbb.func << endl;
     }
 
     delete[] fstack_diff[end_diff];
@@ -315,8 +315,8 @@ void Func_Stack::pop_stack(){
 
       // check
       if( fstack_func_diff[end_diff] != fbb.func ){
-	std::cerr << " - " << last_fname
-	     << " -> " << program.funcname(fbb.func) << std::endl;
+	cerr << " - " << last_fname
+	     << " -> " << program.funcname(fbb.func) << endl;
 	error("Func_Stack::pop_stack() re");
       }
     }
@@ -329,7 +329,7 @@ void Func_Stack::pop_stack(){
       try{
 	fstack_diff[end_diff] = new Bb_Data[bb_size];
       }
-      catch( std::bad_alloc ){
+      catch( bad_alloc ){
 	error("Func_Stack::pop_stack() bad alloc");
       }
 
@@ -351,11 +351,11 @@ void Func_Stack::push_stack(){
   switch( reexec.mode() ){
   case Normal:
     if( model.debug(10) ){
-      std::cerr << "PUSH fstack: ";
+      cerr << "PUSH fstack: ";
       for( int i = 0; i <= end; i ++ ){
-	std::cerr << fstack_func[i] << ",";
+	cerr << fstack_func[i] << ",";
       }
-      std::cerr << " + " << fbb.func << std::endl;
+      cerr << " + " << fbb.func << endl;
     }
 
     end ++;
@@ -371,7 +371,7 @@ void Func_Stack::push_stack(){
       try{
 	fstack[end] = new Bb_Data[bb_size];
       }
-      catch( std::bad_alloc ){
+      catch( bad_alloc ){
 	error("Func_Stack::push_stack() bad_alloc");
       }
     }
@@ -380,11 +380,11 @@ void Func_Stack::push_stack(){
   case No:
   case Fork:
     if( model.debug(10) ){
-      std::cerr << "PUSH fstack_diff: ";
+      cerr << "PUSH fstack_diff: ";
       for( int i = 0; i <= end_diff; i ++ ){
-	std::cerr << fstack_func_diff[i] << ",";
+	cerr << fstack_func_diff[i] << ",";
       }
-      std::cerr << " + " << fbb.func << std::endl;
+      cerr << " + " << fbb.func << endl;
     }
 
     end_diff ++;
@@ -400,7 +400,7 @@ void Func_Stack::push_stack(){
       try{
 	fstack_diff[end_diff] = new Bb_Data[bb_size];
       }
-      catch( std::bad_alloc ){
+      catch( bad_alloc ){
 	error("Func_Stack::push_stack() bad_alloc");
       }
     }
@@ -421,11 +421,11 @@ void Func_Stack::re_start(){
   re_state = true;
 
   if( model.debug(10) ){
-    std::cerr << "Func_Stack::re_start()" << std::endl << "fstack_func: ";
+    cerr << "Func_Stack::re_start()" << endl << "fstack_func: ";
     for( int i = 0; i <= end; i ++ ){
-      std::cerr << fstack_func[i] << ",";
+      cerr << fstack_func[i] << ",";
     }
-    std::cerr << std::endl;
+    cerr << endl;
   }
 
   end_diff = end;
@@ -442,7 +442,7 @@ void Func_Stack::re_start(){
   try{
     fstack_diff[end_diff] = new Bb_Data[bb_size];
   }
-  catch( std::bad_alloc ){
+  catch( bad_alloc ){
     error("Func_Stack::re_start() bad alloc");
   }
 
@@ -460,7 +460,7 @@ void Func_Stack::re_end(){
   re_state = false;
 
   if( model.debug(10) ){
-    std::cerr << "Func_Stack::re_end()" << std::endl;
+    cerr << "Func_Stack::re_end()" << endl;
   }
 
   // delete all fstack_diff
@@ -575,8 +575,8 @@ void Func_Stack::analysis(const Pipe_Inst &inst){
 // fork child process
 void Func_Stack::fork_child_process(const int &exec_time){
   if( model.debug(20) ){
-    std::cerr << "  limit(" <<  t.cd_limit << ") > exec_time(" << exec_time
-	 << ")" << std::endl;
+    cerr << "  limit(" <<  t.cd_limit << ") > exec_time(" << exec_time
+	 << ")" << endl;
   }
 
   // check fork or not fork
@@ -594,7 +594,7 @@ void Func_Stack::fork_child_process(const int &exec_time){
   }
 
   if( model.debug(1) ){
-    std::cerr << "  Func_Stack::fork_child_process()" << std::endl;
+    cerr << "  Func_Stack::fork_child_process()" << endl;
   }
 
   // check
@@ -640,10 +640,10 @@ void Func_Stack::fork_child_process(const int &exec_time){
     store_tid.init_thread(c.thread);
   }
 
-  mem_sp.last_store_max = std::max(mem_sp.last_store_max, mem_sp.store_max);
+  mem_sp.last_store_max = max(mem_sp.last_store_max, mem_sp.store_max);
 
   // max cd limit
-  t.max_cd_limit = std::max( t.max_cd_limit, t.cd_limit );
+  t.max_cd_limit = max( t.max_cd_limit, t.cd_limit );
   // change cd limit
   t.commit = t.cd_limit = exec_time;
   // change thread id
@@ -657,7 +657,7 @@ void Func_Stack::fork_child_process(const int &exec_time){
 // if last branch is not jump nor branch instruction
 void Func_Stack::cd_ana_others(){
   if( model.debug(1) ){
-    std::cerr << "  no call/return" << std::endl;
+    cerr << "  no call/return" << endl;
   }
 
   const Func_Bb fbb = program.fbb(), last_fbb = program.last_fbb();
@@ -738,7 +738,7 @@ void Func_Stack::cd_ana_others(){
   data_write(fbb, data);
 
   if( model.debug(1) ){
-    std::cerr <<  "  other limit:" << t.cd_limit << std::endl;
+    cerr <<  "  other limit:" << t.cd_limit << endl;
   }
 }
 
@@ -746,7 +746,7 @@ void Func_Stack::cd_ana_others(){
 // if last branch is function return
 void Func_Stack::cd_ana_jr_return(){
   if( model.debug(1) ){
-    std::cerr << "  jr return" << std::endl;
+    cerr << "  jr return" << endl;
   }
 
   const Func_Bb fbb = program.fbb();
@@ -793,14 +793,14 @@ void Func_Stack::cd_ana_jr_return(){
   data_write(fbb, data);
 
   if( model.debug(1) ){
-    std::cerr << "  return limit:" << t.cd_limit << std::endl;
+    cerr << "  return limit:" << t.cd_limit << endl;
   }
 }
 
 // if last branch is function call
 void Func_Stack::cd_ana_jall_call(){
   if( model.debug(1) ){
-    std::cerr << "  jall call" << std::endl;
+    cerr << "  jall call" << endl;
   }
 
   const Func_Bb fbb = program.fbb(), last_fbb = program.last_fbb();
@@ -843,7 +843,7 @@ void Func_Stack::cd_ana_jall_call(){
   data_write(fbb, data);
 
   if( model.debug(1) ){
-    std::cerr << "  call limit:" << t.cd_limit << std::endl;
+    cerr << "  call limit:" << t.cd_limit << endl;
   }
 }
 
@@ -854,7 +854,7 @@ void Time::set_fork_send_time(int &fork_time, int &send_time){
   if( !branch_pred.hit() && c.last_branch_tc( reexec.tc() ) ){
   // 以前の命令がbranch(jalr, jr, brn)、かつ、分岐予測ミス
     if( !(sim_type & MF) ){
-      branch = std::max(branch, last_branch + 1);
+      branch = max(branch, last_branch + 1);
       // branch misprediction resolve time
       last_branch = branch;
     }
@@ -897,7 +897,7 @@ void Func_Stack::analysis_no_CD(const Pipe_Inst &inst){
 
     if( c.last_return_tc(tc) ){
       if( model.debug(10) ){
-	std::cerr << "  jr return" << std::endl;
+	cerr << "  jr return" << endl;
       }
 
       if( model.statistic ){
@@ -911,7 +911,7 @@ void Func_Stack::analysis_no_CD(const Pipe_Inst &inst){
       pop_stack();
     }else if( c.last_call_tc(tc) || c.last_j_call_tc(tc) ){
       if( model.debug(10) ){
-	std::cerr << "  jall call" << std::endl;
+	cerr << "  jall call" << endl;
       }
 
       if( model.statistic ){

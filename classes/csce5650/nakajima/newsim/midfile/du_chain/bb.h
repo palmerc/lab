@@ -20,6 +20,7 @@ public:
   int func;
   int bb;
 
+public:
   // constructor
   Func_Bb(const int &f = 0, const int &b = 0) { func = f; bb = b; }
 };
@@ -36,14 +37,14 @@ public:
   int start;
   int end;
 
+public:
   // const/destructor
   Bb_Info() { start = end = 0; }
 };
 
 class Program_Info{
-public:
   // define
-  typedef std::set< int > SET;
+  typedef set< int > SET;
   typedef SET::iterator SI;
 
   // succeesor bb
@@ -58,8 +59,9 @@ public:
   // bb size
   int *bb_size;
   // function name
-  std::string *fname;
+  string *fname;
 
+public:
   // const/destructor
   Program_Info();
   ~Program_Info();
@@ -67,7 +69,7 @@ public:
   // function num, bb num
   const int size() { return func_size; }
   const int size(const int &func) { return bb_size[func]; }
-  std::string funcname(const int &func) { return fname[func]; }
+  string funcname(const int &func) { return fname[func]; }
 
   // get start/end pc
   Bb_Info get_info(const Func_Bb &fbb) { return info[fbb.func][fbb.bb]; }

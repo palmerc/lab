@@ -8,8 +8,10 @@
 #ifndef PRED_H
 #define PRED_H
 
+using namespace std;
+
 #include <bitset>
-#include <map>
+#include <hash_map>
 #include <set>
 #include "bb.h"
 #include "trace.h"
@@ -27,9 +29,9 @@ enum Value_Result{
 
 class Value_Predict{
   // define
-  typedef std::set< int > SET;
+  typedef set< int > SET;
   typedef SET::iterator SI;
-  typedef std::map< int, SET > MAP;
+  typedef hash_map< int, SET > MAP;
   typedef MAP::iterator MI;
 
   // function size
@@ -66,7 +68,7 @@ enum Branch_Result{
 
 class Branch_Predict{
   // define
-  typedef std::map< int, int > MAP;
+  typedef hash_map< int, int > MAP;
   typedef MAP::iterator MI;
 
   // function size
@@ -78,7 +80,7 @@ class Branch_Predict{
   // bitset size
   static const int bitset_size = 17;// 2^x
   // define
-  typedef std::bitset< (1 << bitset_size) > BITSET;// 2^bitset_size bit
+  typedef bitset< (1 << bitset_size) > BITSET;// 2^bitset_size bit
 
   int pa_i;// pc
   int pa_j;// pc (pa_i > pa_j)

@@ -26,13 +26,13 @@ const int byte = 8;
 class Sim_Model{
 public:
   // filename (full path)
-  std::string bb_info;
-  std::string du_chain;
-  std::string icd_info;// output filename
+  string bb_info;
+  string du_chain;
+  string icd_info;// output filename
 
   // file stream
-  std::ifstream fin_du_chain;
-  std::ofstream fout_icd;
+  ifstream fin_du_chain;
+  ofstream fout_icd;
 
 public:
   // file open
@@ -52,14 +52,14 @@ extern Sim_Model model;
 //
 
 // error
-inline void error(std::string msg){
-  std::cerr << "=== ERROR: " << msg << " ===\n";
+inline void error(string msg){
+  cerr << "=== ERROR: " << msg << " ===\n";
   exit(1);
 }
 
 // usage
 inline void usage(char *arg0){
-  std::cerr << "usage: " << arg0 << " -dir DIR" << std::endl;
+  cerr << "usage: " << arg0 << " -dir DIR" << endl;
   exit(2);
 }
 

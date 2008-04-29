@@ -8,6 +8,8 @@
 #ifndef LOOP_H
 #define LOOP_H
 
+using namespace std;
+
 #include <map>
 #include <set>
 #include "bb.h"
@@ -29,9 +31,9 @@ enum Skip{
 
 class Loop{
   // define
-  typedef std::set< int > SET;
+  typedef set< int > SET;
   typedef SET::iterator SI;
-  typedef std::map< int, int > MAP;
+  typedef map< int, int > MAP;
   typedef MAP::iterator MI;
 
   // function size
@@ -101,8 +103,8 @@ private:
       return( (double)( bedge_c + header_c ) / (double)header_c );
     }
     void print(){
-      std::cout << "bedge, header, ave: " << bedge_c << ", " << header_c
-  	   << ", " << calc_ave() << std::endl;
+      cout << "bedge, header, ave: " << bedge_c << ", " << header_c
+  	   << ", " << calc_ave() << endl;
     }
     int exec() { return( header_c ); }
     int loop() { return( bedge_c + header_c ); }

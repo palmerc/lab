@@ -8,6 +8,8 @@
 #ifndef SIM_H
 #define SIM_H
 
+using namespace std;
+
 #include <string>
 
 //
@@ -63,23 +65,23 @@ enum Sp_Exec{
 
 // simulation model
 class Sim_Model{
-  std::string time_stamp;
-  std::string fix_me;
-  std::string argv0;
-  std::string data_dir;
+  string time_stamp;
+  string fix_me;
+  string argv0;
+  string data_dir;
 
 public:
   // filename
-  std::string bb_info;
-  std::string posdom_out;
-  std::string ctrleq_out;
-  std::string icd_info;
-  std::string brn_pred;
-  std::string loop_del_pc;
-  std::string mp_analysis;
-  std::string val_pred_send;
-  std::string val_pred_result;
-  std::string bb_statistic;
+  string bb_info;
+  string posdom_out;
+  string ctrleq_out;
+  string icd_info;
+  string brn_pred;
+  string loop_del_pc;
+  string mp_analysis;
+  string val_pred_send;
+  string val_pred_result;
+  string bb_statistic;
 
   // branch pred static
   bool static_brn_pred;
@@ -149,7 +151,7 @@ public:
   void set_mp_profile();
 
 private:
-  const int check_atoi(const std::string);
+  const int check_atoi(const string);
   void usage();
 };
 

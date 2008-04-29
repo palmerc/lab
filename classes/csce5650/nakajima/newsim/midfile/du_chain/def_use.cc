@@ -51,25 +51,25 @@ Def_Use::Def_Use(Program_Info &program, const int &f){
     def = new BITSET[bb_size];
     use = new BITSET[bb_size];
   }
-  catch( std::bad_alloc ){
+  catch( bad_alloc ){
     error("Def_Use::Def_Use() bad_alloc");
   }
 
   // file read
-  std::string buf;
+  string buf;
 
   // function name check
   getline(model.fin_asm_du, buf);
   if( model.fin_asm_du.eof() ){
     error("Def_Use::Def_Use() EOF");
   }
-  if( buf.find("{") == std::string::npos ){// function name
+  if( buf.find("{") == string::npos ){// function name
     error("Def_Use::Def_Use() {");
   }
-  if( program.funcname(func) != buf.substr(buf.find(":") + 1, std::string::npos) ){
-    std::cerr << "bb_info funcnaem " << program.funcname(func)
+  if( program.funcname(func) != buf.substr(buf.find(":") + 1, string::npos) ){
+    cerr << "bb_info funcnaem " << program.funcname(func)
 	 << ", asm_du funcname "
-	 <<  buf.substr(buf.find(":") + 1, std::string::npos);
+	 <<  buf.substr(buf.find(":") + 1, string::npos);
     error("Def_Use::Def_Use() funcname");
   }
 
@@ -78,9 +78,9 @@ Def_Use::Def_Use(Program_Info &program, const int &f){
     if( buf == "}" ){
       break;
     }
-    if( buf.find(":") == std::string::npos || buf.find(",") == std::string::npos
-	|| buf.find(" ") == std::string::npos || buf.find(";") == std::string::npos ){
-      std::cerr << buf << std::endl;
+    if( buf.find(":") == string::npos || buf.find(",") == string::npos
+	|| buf.find(" ") == string::npos || buf.find(";") == string::npos ){
+      cerr << buf << endl;
       error("Def_Use::Def_Use() file format error");
     }
 
@@ -97,7 +97,7 @@ Def_Use::Def_Use(Program_Info &program, const int &f){
     use_reg1 = atoi( buf.substr(0, buf.find(" ")).c_str() );
     buf.erase(0, buf.find(" ") + 1);
 
-    if( buf.find(":") == std::string::npos ){
+    if( buf.find(":") == string::npos ){
       // atoi("C")の場合は、0を代入する
       use_reg2 = atoi( buf.substr(0, buf.find(" ")).c_str() );
     }else{
@@ -135,8 +135,8 @@ Def_Use::Def_Use(Program_Info &program, const int &f){
 
   // check overflow
   if( pc_id_num.size() > bitset_size ){
-    std::cerr << "pc_id_num.size():" << pc_id_num.size()
-	 << " bitset_size " << bitset_size << std::endl;
+    cerr << "pc_id_num.size():" << pc_id_num.size()
+	 << " bitset_size " << bitset_size << endl;
     error("Def_Use::Def_Use() bitset_size (main.h)");
   }
 }
@@ -157,7 +157,7 @@ Def_Use::~Def_Use(){
 // insert readdata and correspondence pc/def id number
 void Def_Use::insert_data(DU_Data &data){
   data.set_id( du_data.size() );
-  pc_id_num.insert( std::make_pair( data.get_pc(), data.get_id() ) );
+  pc_id_num.insert( make_pair( data.get_pc(), data.get_id() ) );
   du_data.push_back(data);
 }
 
@@ -169,7 +169,7 @@ void Def_Use::make_kill_gen(Program_Info &program){
     const int start_id = get_id( program.get_info(fbb).start );
     const int end_id = get_id( program.get_info(fbb).end );
     // defined flag (同じ基本ブロック内で同じレジスタが2回以上定義される場合)
-    std::bitset< REG > check_reg;
+    bitset< REG > check_reg;
 
     for( int id = end_id; id >= start_id; id -- ){// LOOP id of bb
       const int def = get_data(id).get_def();
@@ -192,7 +192,7 @@ void Def_Use::make_kill_gen(Program_Info &program){
     const int start_id = get_id( program.get_info(fbb).start );
     const int end_id = get_id( program.get_info(fbb).end );
     // defined flag (同じ基本ブロック内で同じレジスタが2回以上定義される場合)
-    std::bitset< REG > check_reg;
+    bitset< REG > check_reg;
 
     for( int id = end_id; id >= start_id; id -- ){// LOOP id
       const int def = get_data(id).get_def();
@@ -241,12 +241,12 @@ void Def_Use::print(){
     DU_Data data = get_data(id);
     DU_Data::SET use = data.get_use();
 
-    std::cout << std::hex << data.get_pc() << ":" << std::dec << data.get_def() << ",";
+    cout << hex << data.get_pc() << ":" << dec << data.get_def() << ",";
 
     for( DU_Data::SI set_i = use.begin(); set_i != use.end(); set_i ++ ){ 
-      std::cout << *set_i << " ";
+      cout << *set_i << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
   }
 
   exit(0);

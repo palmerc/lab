@@ -23,7 +23,7 @@ Mem_Region::Mem_Region(Program_Info &program){
     load_region = new MAP[func_size];
     store_region = new MAP[func_size];
   }
-  catch( std::bad_alloc ){
+  catch( bad_alloc ){
     error("Value_Predict::Value_Predict() bad_alloc");
   }
 }
@@ -60,11 +60,11 @@ void Mem_Region::Mem_Address::add_region(const Mem_Region_Type &type){
 }
 
 void Mem_Region::Mem_Address::print_result(){
-  std::cout << freq << "," << region_type << std::endl;
+  cout << freq << "," << region_type << endl;
 }
 
 void Mem_Region::file_write(Program_Info &program){
-  std::ofstream fout(model.mem_region.c_str());
+  ofstream fout(model.mem_region.c_str());
 
   if( !fout ){
     error("mem_Region::file_write() can't open " + model.mem_region);
@@ -72,19 +72,19 @@ void Mem_Region::file_write(Program_Info &program){
 
   // print load region
   for( int func = 0; func < func_size; func ++ ){// LOOP func
-    fout << "{" << func << ":" << program.funcname(func) << std::endl;
+    fout << "{" << func << ":" << program.funcname(func) << endl;
 
-    fout << "}" << std::endl;
+    fout << "}" << endl;
   }// LOOP func
 
   // print store region
   for( int func = 0; func < func_size; func ++ ){// LOOP func
-    fout << "{" << func << ":" << program.funcname(func) << std::endl;
+    fout << "{" << func << ":" << program.funcname(func) << endl;
 
-    fout << "}" << std::endl;
+    fout << "}" << endl;
   }// LOOP func
 
-  std::cout << "Mem_Region::file_write() end" << std::endl;
+  cout << "Mem_Region::file_write() end" << endl;
 }
 
 
@@ -99,13 +99,13 @@ void Mem_Region::check_load_region(const Pipe_Inst &inst,
 
     if( srcA == SP_REG || srcB == SP_REG ){
       // sp
-      load_region[func].insert( std::make_pair(pc, Mem_Address(Stack)) );
+      load_region[func].insert( make_pair(pc, Mem_Address(Stack)) );
     }else if( srcA == GP_REG || srcB == GP_REG ){
       // gp
-      load_region[func].insert( std::make_pair(pc, Mem_Address(Global)) );
+      load_region[func].insert( make_pair(pc, Mem_Address(Global)) );
     }else{
       // other
-      load_region[func].insert( std::make_pair(pc, Mem_Address(Heap)) );
+      load_region[func].insert( make_pair(pc, Mem_Address(Heap)) );
     }
   }
 
@@ -115,13 +115,13 @@ void Mem_Region::check_load_region(const Pipe_Inst &inst,
   if( min_global_region <= address && address <  min_stack_region ){
     // global (read only)
     region_type = R_Only;
-    max_global_region = std::max(max_global_region, address);
+    max_global_region = max(max_global_region, address);
   }else if( min_stack_region <= address && address <= max_stack_region ){
     region_type = Stack;
-    min_stack_region = std::min(min_stack_region, address);
+    min_stack_region = min(min_stack_region, address);
   }else if( min_heap_region <= address && address <= max_heap_region ){
     region_type = Heap;
-    max_heap_region = std::max(max_heap_region, address);
+    max_heap_region = max(max_heap_region, address);
   }
 
   load_region[func][pc].add_region(region_type);
@@ -138,13 +138,13 @@ void Mem_Region::check_store_region(const Pipe_Inst &inst,
 
     if( srcB == SP_REG || srcC == SP_REG ){
       // sp
-      store_region[func].insert( std::make_pair(pc, Mem_Address(Stack)) );
+      store_region[func].insert( make_pair(pc, Mem_Address(Stack)) );
     }else if( srcB == GP_REG || srcC == GP_REG ){
       // gp
-      store_region[func].insert( std::make_pair(pc, Mem_Address(Global)) );
+      store_region[func].insert( make_pair(pc, Mem_Address(Global)) );
     }else{
       // other
-      store_region[func].insert( std::make_pair(pc, Mem_Address(Heap)) );
+      store_region[func].insert( make_pair(pc, Mem_Address(Heap)) );
     }
   }
 
@@ -153,13 +153,13 @@ void Mem_Region::check_store_region(const Pipe_Inst &inst,
 
   if( min_global_region <= address && address <  min_stack_region ){
     region_type = Global;
-    max_global_region = std::max(max_global_region, address);
+    max_global_region = max(max_global_region, address);
   }else if( min_stack_region <= address && address <= max_stack_region ){
     region_type = Stack;
-    min_stack_region = std::min(min_stack_region, address);
+    min_stack_region = min(min_stack_region, address);
   }else if( min_heap_region <= address && address <= max_heap_region ){
     region_type = Heap;
-    max_heap_region = std::max(max_heap_region, address);
+    max_heap_region = max(max_heap_region, address);
   }
 
   store_region[func][pc].add_region(region_type);

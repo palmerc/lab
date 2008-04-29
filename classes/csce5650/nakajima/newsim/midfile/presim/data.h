@@ -49,7 +49,7 @@ class Mem_Region{
   };
 
   // define
-  typedef std::map< int, Mem_Address > MAP;
+  typedef map< int, Mem_Address > MAP;
   typedef MAP::iterator MI;
 
   // total function size

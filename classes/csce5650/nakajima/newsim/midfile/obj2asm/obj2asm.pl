@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl -w
+#!/usr/bin/perl -w
 
 # objdumpから asm_du, asm_loop に変換するスクリプト
 

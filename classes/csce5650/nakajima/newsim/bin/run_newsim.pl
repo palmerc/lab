@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl -w
+#!/usr/bin/perl -w
 
 #
 # run_newsim.pl
@@ -137,10 +137,11 @@ sub loop_simulation{
 	    foreach my $bm ( @{ $loop{'BM'} } ){
 		print_log_add( $log_proc, "time" );
 		print_log_add( $log_proc, "$bm $sim $lp $argment" );
+		print "BENCHMARK:$bm SIM:$sim LP:$lp ARG:$argment\n";
 
 		# simulation result file
 		my( $out ) = "$result_dir/$bm/$sim$fname$lp";
-		# simulation aragument
+		# simulation argument
 		my( $sim_arg ) = &sim_arg($bm, $sim, "$lp $argment");
 
 		# exec simulator
@@ -176,7 +177,7 @@ sub sim_arg{
     $_ = $bm;
     if( /^compress95$/ ){
 	# シミュレーション時間短縮
-	$sim_arg = "$sim_arg -spool 5000";
+	#$sim_arg = "$sim_arg -spool 5000";
 	$sh_arg = "echo 30000 e 2231 | $trace_bin $redir"
 	    . " $bench_bin_dir/compress95.ss";
     }elsif( /^gcc$/ ){
@@ -200,7 +201,7 @@ sub sim_arg{
 	$sh_arg = "$trace_bin $redir $bench_bin_dir/li.ss train.lsp";
     }elsif( /^m88ksim$/ ){
 	# シミュレーション時間短縮
-	$sim_arg = "$sim_arg -spool 5000";
+	#$sim_arg = "$sim_arg -spool 5000";
 	$sh_arg = "cat ctl.in | $trace_bin $redir $bench_bin_dir/m88ksim.ss";
     }elsif( /^perl$/ ){
 	$sh_arg = "$trace_bin $redir $bench_bin_dir/perl.ss"

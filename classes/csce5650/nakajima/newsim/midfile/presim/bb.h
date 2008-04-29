@@ -49,7 +49,7 @@ class Program_Info{
   // bb size
   int *bb_size;
   // function name
-  std::string *fname;
+  string *fname;
 
 public:
   // const/destructor
@@ -59,7 +59,7 @@ public:
   // function num, bb num
   const int size() { return func_size; }
   const int size(const int &func) { return bb_size[func]; }
-  std::string funcname(const int &func) { return fname[func]; }
+  string funcname(const int &func) { return fname[func]; }
 
   // get start/end pc
   Bb_Info get_info(const Func_Bb &fbb) { return info[fbb.func][fbb.bb]; }

@@ -52,15 +52,15 @@ const int FCC_REG = 66;// fcc
 
 // simulation model
 class Sim_Model{
-  std::string argv0;
+  string argv0;
 
 public:
   // fin filename
-  std::string bb_info;
+  string bb_info;
   // fout filename
-  std::string brn_pred;
-  std::string val_pred;
-  std::string mem_region;
+  string brn_pred;
+  string val_pred;
+  string mem_region;
 
   // value
   int trace_limit;
@@ -77,7 +77,7 @@ public:
 
 private:
   void usage();
-  const int check_atoi(const std::string&);
+  const int check_atoi(const string&);
 };
 
 //
@@ -91,8 +91,8 @@ extern Sim_Model model;
 //
 
 // error
-inline void error(std::string msg){
-  std::cerr << "=== ERROR: " << msg << " ===\n";
+inline void error(string msg){
+  cerr << "=== ERROR: " << msg << " ===\n";
   exit(1);
 }
 

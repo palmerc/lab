@@ -16,23 +16,23 @@
 // constructor
 Program_Info::Program_Info(){
   // construct
-  std::vector< std::vector< Bb_Info > > v_info;
-  std::vector< std::vector< SET > > v_succ, v_pred;
-  std::vector< std::string > v_fname;
-  std::ifstream fin(model.bb_info.c_str());
+  vector< vector< Bb_Info > > v_info;
+  vector< vector< SET > > v_succ, v_pred;
+  vector< string > v_fname;
+  ifstream fin(model.bb_info.c_str());
 
   if( !fin ){
     error("Program_Info::Program_Info() can't open " + model.bb_info);
   }
 
-  std::string buf;
+  string buf;
 
   getline(fin, buf);
   for( int func = 0; true; func ++ ){// LOOP FUNC
     if( buf[0] != '{' ){
       error("Program_Info::Program_Info() {");
     }else{
-      v_fname.push_back( buf.substr(buf.find(":") + 1, std::string::npos) );
+      v_fname.push_back( buf.substr(buf.find(":") + 1, string::npos) );
     }
 
     // resize array for new function
@@ -46,8 +46,8 @@ Program_Info::Program_Info(){
 	break;
       }
 
-      if( buf.find(":") == std::string::npos || buf.find(";") == std::string::npos ){
-	std::cerr << func << "," << bb << " " << buf << std::endl;
+      if( buf.find(":") == string::npos || buf.find(";") == string::npos ){
+	cerr << func << "," << bb << " " << buf << endl;
 	error("Program_Info::Program_Info() file error");
       }
 
@@ -61,10 +61,10 @@ Program_Info::Program_Info(){
       sscanf( buf.substr(0, buf.find(":")).c_str(), "%x", &bb_info.end );
       buf.erase(0, buf.find(":") + 1);
 
-      if( buf.find("exit") == std::string::npos &&
-	  buf.find("break") == std::string::npos ){
+      if( buf.find("exit") == string::npos &&
+	  buf.find("break") == string::npos ){
 	while( buf[0] != ':' ){
-	  std::string val = buf.substr(0, buf.find(" "));
+	  string val = buf.substr(0, buf.find(" "));
 
 	  succ_s.insert( atoi(val.c_str()) );
 	  buf.erase(0, buf.find(" ") + 1);
@@ -73,9 +73,9 @@ Program_Info::Program_Info(){
 
       buf.erase(0, buf.find(":") + 1);
 
-      if( buf.find("IN") == std::string::npos ){
+      if( buf.find("IN") == string::npos ){
 	while( buf != ";" ){
-	  std::string val = buf.substr(0, buf.find(" "));
+	  string val = buf.substr(0, buf.find(" "));
 
 	  pred_s.insert( atoi(val.c_str()) );
 	  buf.erase(0, buf.find(" ") + 1);
@@ -101,9 +101,9 @@ Program_Info::Program_Info(){
     succ = new SET*[size()];
     pred = new SET*[size()];
     bb_size = new int[size()];
-    fname = new std::string[size()];
+    fname = new string[size()];
   }
-  catch( std::bad_alloc ){
+  catch( bad_alloc ){
     error("Program_Info::Program_Info() bad_alloc");
   }
 
@@ -116,7 +116,7 @@ Program_Info::Program_Info(){
       succ[f] = new SET[size(f)];
       pred[f] = new SET[size(f)];
     }
-    catch( std::bad_alloc ){
+    catch( bad_alloc ){
       error("Program_Info::Program_Info() bad_alloc");
     }
 
@@ -127,7 +127,7 @@ Program_Info::Program_Info(){
     }
   }
 
-  std::cerr << "Program_Info::Program_Info() init end" << std::endl;
+  cerr << "Program_Info::Program_Info() init end" << endl;
 }
 
 // destructor
@@ -161,34 +161,34 @@ const int Program_Info::search_bb(const int &func, const int &pc){
 
 // check code
 void Program_Info::print(){
-  std::cout << "Program_Info::file_read()" << std::endl;
+  cout << "Program_Info::file_read()" << endl;
 
   for( int f = 0; f < size() ; f ++ ){// LOOP FUNC
-    std::cout << "{" << std::endl;
+    cout << "{" << endl;
     for( int bb = 0; bb < size(f) ; bb ++ ){// LOOP BB
       // start/end
-      std::cout << bb << std::hex << ":" <<  info[f][bb].start
-	   << ":" << info[f][bb].end << std::dec;
+      cout << bb << hex << ":" <<  info[f][bb].start
+	   << ":" << info[f][bb].end << dec;
 
       // succ
-      std::cout << bb << ":";
+      cout << bb << ":";
       for( int i = -1; i < size(f); i ++ ){
 	if( succ[f][bb].count(i) ){
-	  std::cout << i << " ";
+	  cout << i << " ";
 	}
       }
 
       // pred
-      std::cout << ":";
+      cout << ":";
       for( int i = 0; i < size(f); i ++ ){
 	if( pred[f][bb].count(i) ){
-	  std::cout << i << " ";
+	  cout << i << " ";
 	}
       }
 
-      std::cout << std::endl;
+      cout << endl;
     }// LOOP BB
-    std::cout << "}" << std::endl;
+    cout << "}" << endl;
   }// LOOP FUNC
 
   exit(0);

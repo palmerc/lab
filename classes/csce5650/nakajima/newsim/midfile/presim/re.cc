@@ -30,8 +30,8 @@ const bool Re_Exec::check(Pipe_Inst &inst){
 
 void Re_Exec::init_trace_skip(){
   if( model.fastfwd_tc ){
-    std::cerr << "Re_Exec::init_trace_skip() trace skip: "
-	 << model.fastfwd_tc << " " << std::flush;
+    cerr << "Re_Exec::init_trace_skip() trace skip: "
+	 << model.fastfwd_tc << " " << flush;
 
     Pipe_Inst inst;
 
@@ -41,10 +41,10 @@ void Re_Exec::init_trace_skip(){
       }
 
       if( tc % model.print_freq_def == 0 ){
-	std::cerr << "." << std::flush;
+	cerr << "." << flush;
       }
     }
 
-    std::cerr << std::endl;
+    cerr << endl;
   }
 }
