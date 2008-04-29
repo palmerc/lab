@@ -1,5 +1,5 @@
-/export/capc5/nakajima/newsim/midfile/presim/presim -dir /export/capc5/nakajima/newsim/data/ijpeg -fastfwd 50000000  -updrive /bin/sh -c '/export/capc5/nakajima/newsim/SS/sim-bpred -redir:prog /export/capc5/nakajima/newsim/log/ijpeg/prog -redir:sim /export/capc5/nakajima/newsim/log/ijpeg/sim /export/capc5/SPEC_TRACE/SimpleScalar/bin/ijpeg.ss -image_file specmun.ppm -compression.quality 50 -compression.optimize_coding 0  -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp'
-dir:/export/capc5/nakajima/newsim/data/ijpeg/
+/home/palmerc/Development/nakajima/newsim/midfile/presim/presim -dir /home/palmerc/Development/nakajima/newsim/data/ijpeg -fastfwd 50000000  -updrive /bin/sh -c '/home/palmerc/Development/nakajima/newsim/SS/sim-bpred -redir:prog /home/palmerc/Development/nakajima/newsim/log/ijpeg/prog -redir:sim /home/palmerc/Development/nakajima/newsim/log/ijpeg/sim /home/palmerc/Development/nakajima/newsim/ss_precompiled_spec/ijpeg.ss -image_file specmun.ppm -compression.quality 50 -compression.optimize_coding 0  -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp'
+dir:/home/palmerc/Development/nakajima/newsim/data/ijpeg/
 	=== init end ===
 Program_Info::Program_Info() init end
 Re_Exec::init_trace_skip() trace skip: 50000000 .....
