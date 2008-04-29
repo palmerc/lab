@@ -1,0 +1,150 @@
+/home/palmerc/Development/nakajima/newsim/src/newsim -dir /home/palmerc/Development/nakajima/newsim/data/perl -sim_type LP -sp_no  -updrive /bin/sh -c '/home/palmerc/Development/nakajima/newsim/SS/sim-bpred -redir:prog /home/palmerc/Development/nakajima/newsim/log/perl/prog -redir:sim /home/palmerc/Development/nakajima/newsim/log/perl/sim /home/palmerc/Development/nakajima/newsim/ss_precompiled_spec/perl.ss scrabbl.pl scrabbl.in'
+
+# set dir: /home/palmerc/Development/nakajima/newsim/data/perl/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/02/12 16:08:12>	 ADD: MD predict, FIXED: setjmp/longjmp, unroll
+$            FIX: 
+$ REEXEC MODE: spool size 20000
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ 2lev brn_pred
+$ simulation type: LP (indirect CD)
+$ MP perfect
+$ SP perfect
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+$ Branch_Predict::allocate() pa_i:15, pa_j:15, pa_k:2
+# Brnach_Predict::allocate() allocate BHT PHT (bak) end
+# PosDom::file_read() no read posdom
+# Loop::file_read() init end
+# ICD::file_read() init end
+
+@ TC 1000000 cycle: 100916 ipc: 8.75437 thread: 228 re: 26513
+@ TC 2000000 cycle: 200412 ipc: 8.8174 thread: 229 re: 53218
+@ TC 3000000 cycle: 301898 ipc: 8.77889 thread: 230 re: 80474
+@ TC 4000000 cycle: 398175 ipc: 8.87292 thread: 230 re: 107489
+@ TC 5000000 cycle: 500453 ipc: 8.82437 thread: 231 re: 135383
+@ TC 6000000 cycle: 594880 ipc: 8.92792 thread: 307 re: 154017
+@ TC 7000000 cycle: 681298 ipc: 9.13797 thread: 515 re: 159554
+@ TC 8000000 cycle: 766164 ipc: 9.31946 thread: 739 re: 165091
+@ TC 9000000 cycle: 851300 ipc: 9.46199 thread: 973 re: 170595
+@ TC 10000000 cycle: 935516 ipc: 9.58784 thread: 1212 re: 176108
+@ TC 11000000 cycle: 1020032 ipc: 9.69021 thread: 1447 re: 181646
+@ TC 12000000 cycle: 1104708 ipc: 9.77535 thread: 1655 re: 187169
+@ TC 13000000 cycle: 1189979 ipc: 9.84271 thread: 1864 re: 193032
+@ TC 14000000 cycle: 1274414 ipc: 9.90774 thread: 2092 re: 198799
+@ TC 15000000 cycle: 1358794 ipc: 9.96503 thread: 2314 re: 204571
+@ TC 16000000 cycle: 1442979 ipc: 10.017 thread: 2545 re: 210325
+@ TC 17000000 cycle: 1527530 ipc: 10.0608 thread: 2760 re: 216121
+@ TC 18000000 cycle: 1611826 ipc: 10.1017 thread: 2980 re: 221850
+@ TC 19000000 cycle: 1696799 ipc: 10.1344 thread: 3203 re: 227612
+@ TC 20000000 cycle: 1781580 ipc: 10.1652 thread: 3420 re: 233380
+@ TC 21000000 cycle: 1866307 ipc: 10.1934 thread: 3642 re: 239106
+@ TC 22000000 cycle: 1951088 ipc: 10.2187 thread: 3868 re: 244934
+@ TC 23000000 cycle: 2035701 ipc: 10.243 thread: 4083 re: 250684
+@ TC 24000000 cycle: 2120161 ipc: 10.266 thread: 4311 re: 256460
+@ TC 25000000 cycle: 2205224 ipc: 10.2844 thread: 4541 re: 262225
+@ TC 26000000 cycle: 2289828 ipc: 10.3035 thread: 4759 re: 267977
+@ TC 27000000 cycle: 2374039 ipc: 10.323 thread: 4997 re: 273758
+@ TC 28000000 cycle: 2458174 ipc: 10.3415 thread: 5224 re: 279489
+@ TC 29000000 cycle: 2542443 ipc: 10.3582 thread: 5439 re: 285297
+@ TC 30000000 cycle: 2626632 ipc: 10.3741 thread: 5669 re: 291053
+@ TC 31000000 cycle: 2711665 ipc: 10.3858 thread: 5893 re: 296809
+@ TC 32000000 cycle: 2795843 ipc: 10.4 thread: 6122 re: 302569
+@ TC 33000000 cycle: 2880067 ipc: 10.4132 thread: 6354 re: 308323
+@ TC 34000000 cycle: 2964618 ipc: 10.4245 thread: 6578 re: 314097
+@ TC 35000000 cycle: 3048075 ipc: 10.4389 thread: 6810 re: 319848
+@ TC 36000000 cycle: 3132511 ipc: 10.4492 thread: 7043 re: 325650
+@ TC 37000000 cycle: 3216729 ipc: 10.4598 thread: 7266 re: 331401
+@ TC 38000000 cycle: 3300911 ipc: 10.4699 thread: 7496 re: 337127
+@ TC 39000000 cycle: 3385421 ipc: 10.4785 thread: 7725 re: 342922
+@ TC 40000000 cycle: 3469882 ipc: 10.4868 thread: 7938 re: 348682
+@ TC 41000000 cycle: 3554361 ipc: 10.4947 thread: 8149 re: 354447
+@ TC 42000000 cycle: 3638938 ipc: 10.5019 thread: 8374 re: 360195
+@ TC 43000000 cycle: 3723734 ipc: 10.5081 thread: 8585 re: 366009
+@ TC 44000000 cycle: 3807805 ipc: 10.5162 thread: 8809 re: 371757
+@ TC 45000000 cycle: 3891941 ipc: 10.5237 thread: 9023 re: 377481
+@ TC 46000000 cycle: 3976728 ipc: 10.5292 thread: 9245 re: 383045
+@ TC 47000000 cycle: 4063737 ipc: 10.5285 thread: 9462 re: 389216
+@ TC 48000000 cycle: 4148644 ipc: 10.5333 thread: 9678 re: 394997
+@ TC 49000000 cycle: 4232945 ipc: 10.5394 thread: 9909 re: 400746
+@ TC 50000000 cycle: 4317261 ipc: 10.5453 thread: 10137 re: 406480
+@ TC 51000000 cycle: 4401317 ipc: 10.5516 thread: 10368 re: 412274
+@ TC 52000000 cycle: 4485423 ipc: 10.5575 thread: 10587 re: 418007
+@ TC 53000000 cycle: 4570242 ipc: 10.5615 thread: 10805 re: 423801
+@ TC 54000000 cycle: 4655150 ipc: 10.5652 thread: 11026 re: 429564
+@ TC 55000000 cycle: 4739657 ipc: 10.5696 thread: 11245 re: 435340
+@ TC 56000000 cycle: 4824392 ipc: 10.5734 thread: 11475 re: 441091
+@ TC 57000000 cycle: 4909038 ipc: 10.5772 thread: 11689 re: 446886
+@ TC 58000000 cycle: 4993506 ipc: 10.5814 thread: 11912 re: 452608
+@ TC 59000000 cycle: 5077879 ipc: 10.5855 thread: 12141 re: 458377
+@ TC 60000000 cycle: 5162735 ipc: 10.5886 thread: 12361 re: 464162
+@ TC 61000000 cycle: 5246988 ipc: 10.5927 thread: 12587 re: 469909
+@ TC 62000000 cycle: 5330991 ipc: 10.5972 thread: 12819 re: 475681
+@ TC 63000000 cycle: 5415274 ipc: 10.601 thread: 13042 re: 481429
+@ TC 64000000 cycle: 5499254 ipc: 10.6054 thread: 13264 re: 487203
+@ TC 65000000 cycle: 5583690 ipc: 10.6086 thread: 13493 re: 492977
+@ TC 66000000 cycle: 5668286 ipc: 10.6115 thread: 13719 re: 498724
+@ TC 67000000 cycle: 5752319 ipc: 10.6154 thread: 13944 re: 504509
+@ TC 68000000 cycle: 5836551 ipc: 10.6188 thread: 14178 re: 510231
+@ TC 69000000 cycle: 5920877 ipc: 10.6219 thread: 14400 re: 516019
+@ TC 70000000 cycle: 6004695 ipc: 10.6259 thread: 14638 re: 521789
+@ TC 71000000 cycle: 6089188 ipc: 10.6285 thread: 14863 re: 527555
+@ TC 72000000 cycle: 6173525 ipc: 10.6313 thread: 15095 re: 533314
+@ TC 73000000 cycle: 6257602 ipc: 10.6345 thread: 15317 re: 539069
+@ TC 74000000 cycle: 6341767 ipc: 10.6375 thread: 15545 re: 544834
+@ TC 75000000 cycle: 6426168 ipc: 10.64 thread: 15755 re: 550590
+@ TC 76000000 cycle: 6510701 ipc: 10.6422 thread: 15973 re: 556389
+@ TC 77000000 cycle: 6595126 ipc: 10.6446 thread: 16186 re: 562143
+@ TC 78000000 cycle: 6679655 ipc: 10.6467 thread: 16401 re: 567897
+@ TC 79000000 cycle: 6763557 ipc: 10.6497 thread: 16627 re: 573651
+@ TC 80000000 cycle: 6847926 ipc: 10.652 thread: 16842 re: 579423
+# Re_Exec::check_mode() trace end :80303008
+
+# print_result_data()
+trace count         : 80303008
+ nop count          : 30
+ call/return count  : 2983989
+ con branch count   : 10440239
+ other branch count : 1977803
+ load count         : 22512548
+ store count        : 14507995
+ other count        : 27880404
+inst (trace - nop)  : 80302978
+
+<func inline>
+ inline call count  : 1497193
+ inline return count: 1486796
+ inline other count : 2812606
+
+<perfect memory disambiguate (SP_REG, GP_REG)>
+ sp load count      : 9775662
+ sp store count     : 8443050
+ gp load count      : 2888498
+ gp store count     : 1463438
+
+<loop unroll>
+ loop unroll branch : 581115
+ loop induction val : 704386
+ (loop const val    : 2123070 )
+
+instance count      : 73220882
+clock cycle         : 6873415
+<branch predict>
+branch prediction : 89.6887 (8930556/9957283)
+ipc (instance/clock): 10.6528
+
+thread count: 16909, re_count: 581115 per: 2.90975%
+ fork: 16909 (gain: 16909, eq: 0, nogain: 0)
+ no: 564206 (no_gain: 332797, eq: 231409)
+  (total: 581115)
+
+inst per thread: 4330.29
+
+return 0
