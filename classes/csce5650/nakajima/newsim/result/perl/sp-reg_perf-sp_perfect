@@ -1,0 +1,294 @@
+/home/palmerc/Development/nakajima/newsim/src/newsim -dir /home/palmerc/Development/nakajima/newsim/data/perl -sim_type sp -sp_perfect -statistic -updrive /bin/sh -c '/home/palmerc/Development/nakajima/newsim/SS/sim-bpred -redir:prog /home/palmerc/Development/nakajima/newsim/log/perl/prog -redir:sim /home/palmerc/Development/nakajima/newsim/log/perl/sim /home/palmerc/Development/nakajima/newsim/ss_precompiled_spec/perl.ss scrabbl.pl scrabbl.in'
+
+# set dir: /home/palmerc/Development/nakajima/newsim/data/perl/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/02/12 16:08:12>	 ADD: MD predict, FIXED: setjmp/longjmp, unroll
+$            FIX: 
+$ NO REEXEC MODE
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ 2lev brn_pred
+$ simulation type: sp
+$ print statistic
+$ SP perfect
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+$ Branch_Predict::allocate() pa_i:15, pa_j:15, pa_k:2
+# Brnach_Predict::allocate() allocate BHT PHT end
+# Loop::allocate_loop_c() init end
+# Loop::file_read() init end
+
+@ TC 1000000 cycle: 108273 ipc: 8.15952
+@ TC 2000000 cycle: 207777 ipc: 8.50485
+@ TC 3000000 cycle: 309265 ipc: 8.56977
+@ TC 4000000 cycle: 405542 ipc: 8.71173
+@ TC 5000000 cycle: 507823 ipc: 8.6963
+@ TC 6000000 cycle: 602989 ipc: 8.80785
+@ TC 7000000 cycle: 691362 ipc: 9.00495
+@ TC 8000000 cycle: 777090 ipc: 9.18843
+@ TC 9000000 cycle: 863114 ipc: 9.33248
+@ TC 10000000 cycle: 948285 ipc: 9.45874
+@ TC 11000000 cycle: 1033645 ipc: 9.56259
+@ TC 12000000 cycle: 1119087 ipc: 9.64975
+@ TC 13000000 cycle: 1206342 ipc: 9.70921
+@ TC 14000000 cycle: 1292863 ipc: 9.76636
+@ TC 15000000 cycle: 1379359 ipc: 9.81646
+@ TC 16000000 cycle: 1465580 ipc: 9.86253
+@ TC 17000000 cycle: 1552205 ipc: 9.90083
+@ TC 18000000 cycle: 1638559 ipc: 9.93688
+@ TC 19000000 cycle: 1725596 ipc: 9.96529
+@ TC 20000000 cycle: 1812356 ipc: 9.99255
+@ TC 21000000 cycle: 1899090 ipc: 10.0175
+@ TC 22000000 cycle: 1985845 ipc: 10.0399
+@ TC 23000000 cycle: 2072495 ipc: 10.0611
+@ TC 24000000 cycle: 2159029 ipc: 10.0812
+@ TC 25000000 cycle: 2246226 ipc: 10.0966
+@ TC 26000000 cycle: 2332908 ipc: 10.1133
+@ TC 27000000 cycle: 2419352 ipc: 10.1297
+@ TC 28000000 cycle: 2505589 ipc: 10.1458
+@ TC 29000000 cycle: 2591992 ipc: 10.1602
+@ TC 30000000 cycle: 2678423 ipc: 10.1735
+@ TC 31000000 cycle: 2765440 ipc: 10.1839
+@ TC 32000000 cycle: 2851809 ipc: 10.1959
+@ TC 33000000 cycle: 2938159 ipc: 10.2073
+@ TC 34000000 cycle: 3024785 ipc: 10.2171
+@ TC 35000000 cycle: 3110507 ipc: 10.2293
+@ TC 36000000 cycle: 3197131 ipc: 10.238
+@ TC 37000000 cycle: 3283327 ipc: 10.2476
+@ TC 38000000 cycle: 3369631 ipc: 10.2564
+@ TC 39000000 cycle: 3456186 ipc: 10.2639
+@ TC 40000000 cycle: 3542722 ipc: 10.2712
+@ TC 41000000 cycle: 3629273 ipc: 10.2781
+@ TC 42000000 cycle: 3715977 ipc: 10.2842
+@ TC 43000000 cycle: 3802818 ipc: 10.2896
+@ TC 44000000 cycle: 3888948 ipc: 10.2968
+@ TC 45000000 cycle: 3975176 ipc: 10.3033
+@ TC 46000000 cycle: 4061979 ipc: 10.3082
+@ TC 47000000 cycle: 4151234 ipc: 10.3066
+@ TC 48000000 cycle: 4238113 ipc: 10.311
+@ TC 49000000 cycle: 4324514 ipc: 10.3163
+@ TC 50000000 cycle: 4410923 ipc: 10.3214
+@ TC 51000000 cycle: 4497079 ipc: 10.3269
+@ TC 52000000 cycle: 4583223 ipc: 10.3322
+@ TC 53000000 cycle: 4670045 ipc: 10.3358
+@ TC 54000000 cycle: 4756930 ipc: 10.3391
+@ TC 55000000 cycle: 4843484 ipc: 10.343
+@ TC 56000000 cycle: 4930216 ipc: 10.3465
+@ TC 57000000 cycle: 5016838 ipc: 10.35
+@ TC 58000000 cycle: 5103248 ipc: 10.3538
+@ TC 59000000 cycle: 5189722 ipc: 10.3574
+@ TC 60000000 cycle: 5276629 ipc: 10.36
+@ TC 61000000 cycle: 5362928 ipc: 10.3637
+@ TC 62000000 cycle: 5449120 ipc: 10.3675
+@ TC 63000000 cycle: 5535534 ipc: 10.3707
+@ TC 64000000 cycle: 5621597 ipc: 10.3746
+@ TC 65000000 cycle: 5708165 ipc: 10.3773
+@ TC 66000000 cycle: 5794851 ipc: 10.3798
+@ TC 67000000 cycle: 5880945 ipc: 10.3832
+@ TC 68000000 cycle: 5967357 ipc: 10.386
+@ TC 69000000 cycle: 6053769 ipc: 10.3887
+@ TC 70000000 cycle: 6139712 ipc: 10.3922
+@ TC 71000000 cycle: 6226268 ipc: 10.3945
+@ TC 72000000 cycle: 6312625 ipc: 10.397
+@ TC 73000000 cycle: 6398762 ipc: 10.3999
+@ TC 74000000 cycle: 6485031 ipc: 10.4025
+@ TC 75000000 cycle: 6571415 ipc: 10.4048
+@ TC 76000000 cycle: 6658026 ipc: 10.4067
+@ TC 77000000 cycle: 6744451 ipc: 10.4089
+@ TC 78000000 cycle: 6831009 ipc: 10.4108
+@ TC 79000000 cycle: 6917107 ipc: 10.4133
+@ TC 80000000 cycle: 7003495 ipc: 10.4154
+# Re_Exec::check_mode() trace end :80303008
+
+# print_result_data()
+trace count         : 80303008
+ nop count          : 30
+ call/return count  : 2983989
+ con branch count   : 10440239
+ other branch count : 1977803
+ load count         : 22512548
+ store count        : 14507995
+ other count        : 27880404
+inst (trace - nop)  : 80302978
+
+<func inline>
+ inline call count  : 1497193
+ inline return count: 1486796
+ inline other count : 2812606
+
+<perfect memory disambiguate (SP_REG, GP_REG)>
+ sp load count      : 9775662
+ sp store count     : 8443050
+ gp load count      : 2888498
+ gp store count     : 1463438
+
+<loop unroll>
+ loop unroll branch : 581115
+ loop induction val : 704386
+ (loop const val    : 2123070 )
+#fbb: 4/7 -> bedge, header, ave: 25682, 4386, 6.85545
+#fbb: 6/5 -> bedge, header, ave: 21458, 4386, 5.89238
+#fbb: 13/1 -> bedge, header, ave: 97439, 13165, 8.40137
+#fbb: 13/228 -> bedge, header, ave: 0, 2027, 1
+#fbb: 13/294 -> bedge, header, ave: 30074, 25013, 2.20233
+#fbb: 13/425 -> bedge, header, ave: 0, 2772, 1
+#fbb: 29/4 -> bedge, header, ave: 23, 11, 3.09091
+#fbb: 36/36 -> bedge, header, ave: 0, 2, 1
+#fbb: 37/23 -> bedge, header, ave: 0, 33, 1
+#fbb: 45/8 -> bedge, header, ave: 11, 4, 3.75
+#fbb: 45/40 -> bedge, header, ave: 0, 1, 1
+#fbb: 45/61 -> bedge, header, ave: 8, 4, 3
+#fbb: 47/4 -> bedge, header, ave: 0, 1, 1
+#fbb: 50/2 -> bedge, header, ave: 26, 9, 3.88889
+#fbb: 51/2 -> bedge, header, ave: 44, 64, 1.6875
+#fbb: 55/45 -> bedge, header, ave: 48, 69, 1.69565
+#fbb: 57/21 -> bedge, header, ave: 3, 4, 1.75
+#fbb: 63/9 -> bedge, header, ave: 1, 5, 1.2
+#fbb: 63/15 -> bedge, header, ave: 1, 1, 2
+#fbb: 75/3 -> bedge, header, ave: 4, 13, 1.30769
+#fbb: 79/27 -> bedge, header, ave: 6222, 1614, 4.85502
+#fbb: 85/42 -> bedge, header, ave: 0, 4388, 1
+#fbb: 86/2 -> bedge, header, ave: 25682, 4392, 6.84745
+#fbb: 86/7 -> bedge, header, ave: 8772, 8796, 1.99727
+#fbb: 86/17 -> bedge, header, ave: 21318, 4393, 5.85272
+#fbb: 95/3 -> bedge, header, ave: 0, 2, 1
+#fbb: 96/7 -> bedge, header, ave: 0, 2, 1
+#fbb: 119/134 -> bedge, header, ave: 0, 6, 1
+#fbb: 127/7 -> bedge, header, ave: 0, 1, 1
+#fbb: 131/10 -> bedge, header, ave: 0, 6, 1
+#fbb: 135/16 -> bedge, header, ave: 1, 6, 1.16667
+#fbb: 137/190 -> bedge, header, ave: 0, 1, 1
+#fbb: 137/192 -> bedge, header, ave: 0, 1, 1
+#fbb: 137/1185 -> bedge, header, ave: 0, 1614, 1
+#fbb: 142/19 -> bedge, header, ave: 0, 1, 1
+#fbb: 142/292 -> bedge, header, ave: 0, 1, 1
+#fbb: 145/3 -> bedge, header, ave: 0, 1, 1
+#fbb: 151/22 -> bedge, header, ave: 3, 2, 2.5
+#fbb: 151/34 -> bedge, header, ave: 0, 2, 1
+#fbb: 151/61 -> bedge, header, ave: 2, 2, 2
+#fbb: 152/27 -> bedge, header, ave: 4, 6, 1.66667
+#fbb: 153/4 -> bedge, header, ave: 2, 6, 1.33333
+#fbb: 156/5 -> bedge, header, ave: 124, 4, 32
+#fbb: 156/94 -> bedge, header, ave: 100, 4, 26
+#fbb: 160/3 -> bedge, header, ave: 34, 1, 35
+#fbb: 160/5 -> bedge, header, ave: 0, 1, 1
+#fbb: 161/2 -> bedge, header, ave: 1, 4, 1.25
+#fbb: 162/5 -> bedge, header, ave: 2, 3, 1.66667
+#fbb: 165/96 -> bedge, header, ave: 16758, 2025, 9.27556
+#fbb: 166/2 -> bedge, header, ave: 6, 6, 2
+#fbb: 167/2 -> bedge, header, ave: 14, 25, 1.56
+#fbb: 168/15 -> bedge, header, ave: 28, 6, 5.66667
+#fbb: 178/25 -> bedge, header, ave: 261, 120, 3.175
+#fbb: 196/16 -> bedge, header, ave: 86, 10, 9.6
+#fbb: 205/11 -> bedge, header, ave: 0, 2100, 1
+#fbb: 205/12 -> bedge, header, ave: 19832, 2100, 10.4438
+#fbb: 207/37 -> bedge, header, ave: 7, 1, 8
+#fbb: 207/265 -> bedge, header, ave: 2, 1, 3
+#fbb: 221/1 -> bedge, header, ave: 0, 256, 1
+#fbb: 221/2 -> bedge, header, ave: 267, 256, 2.04297
+#fbb: 221/43 -> bedge, header, ave: 0, 73, 1
+#fbb: 221/115 -> bedge, header, ave: 0, 1, 1
+#fbb: 221/258 -> bedge, header, ave: 0, 4, 1
+#fbb: 221/319 -> bedge, header, ave: 1, 1, 2
+#fbb: 221/562 -> bedge, header, ave: 1, 1, 2
+#fbb: 221/606 -> bedge, header, ave: 1, 1, 2
+#fbb: 221/677 -> bedge, header, ave: 1, 2, 1.5
+#fbb: 221/1084 -> bedge, header, ave: 1, 1, 2
+#fbb: 221/1355 -> bedge, header, ave: 1, 1, 2
+#fbb: 221/1365 -> bedge, header, ave: 3, 1, 4
+#fbb: 221/1394 -> bedge, header, ave: 0, 1, 1
+#fbb: 221/1440 -> bedge, header, ave: 3, 3, 2
+#fbb: 221/1451 -> bedge, header, ave: 18, 3, 7
+#fbb: 221/1707 -> bedge, header, ave: 2, 2, 2
+#fbb: 222/16 -> bedge, header, ave: 2, 2, 2
+#fbb: 222/22 -> bedge, header, ave: 0, 2, 1
+#fbb: 222/29 -> bedge, header, ave: 2, 1, 3
+#fbb: 222/34 -> bedge, header, ave: 0, 1, 1
+#fbb: 223/6 -> bedge, header, ave: 143, 52, 3.75
+#fbb: 223/12 -> bedge, header, ave: 0, 42, 1
+#fbb: 224/12 -> bedge, header, ave: 0, 2, 1
+#fbb: 225/32 -> bedge, header, ave: 12, 2, 7
+#fbb: 229/12 -> bedge, header, ave: 3, 3, 2
+#fbb: 229/26 -> bedge, header, ave: 0, 2, 1
+#fbb: 229/94 -> bedge, header, ave: 3, 1, 4
+#fbb: 229/184 -> bedge, header, ave: 57, 2, 29.5
+#fbb: 229/244 -> bedge, header, ave: 13, 3, 5.33333
+#fbb: 235/2 -> bedge, header, ave: 4, 2, 3
+#fbb: 237/5 -> bedge, header, ave: 14, 2, 8
+#fbb: 255/5 -> bedge, header, ave: 84, 28, 4
+#fbb: 260/10 -> bedge, header, ave: 24595, 3634, 7.76802
+#fbb: 260/12 -> bedge, header, ave: 1632, 2452, 1.66558
+#fbb: 261/15 -> bedge, header, ave: 1002, 1379, 1.72661
+#fbb: 263/6 -> bedge, header, ave: 2032, 8, 255
+#fbb: 263/8 -> bedge, header, ave: 1662, 1630, 2.01963
+#fbb: 268/3 -> bedge, header, ave: 1, 5, 1.2
+#fbb: 271/5 -> bedge, header, ave: 86, 13, 7.61538
+#fbb: 274/1 -> bedge, header, ave: 431, 2, 216.5
+#fbb: 274/2 -> bedge, header, ave: 325, 433, 1.75058
+#fbb: 274/7 -> bedge, header, ave: 0, 758, 1
+#fbb: 274/24 -> bedge, header, ave: 122, 12, 11.1667
+#fbb: 274/28 -> bedge, header, ave: 0, 14, 1
+====
+ dynamic loop num   : 8.46194 (sum_ave/num: 863.118/102)
+ loop num (weighted): 4.23705
+max loop ave: 255
+====
+#fbb: 280/2 -> bedge, header, ave: 0, 1, 1
+#fbb: 280/4 -> bedge, header, ave: 0, 1, 1
+#fbb: 282/10 -> bedge, header, ave: 54919, 71069, 1.77276
+#fbb: 283/5 -> bedge, header, ave: 672, 15629, 1.043
+#fbb: 283/7 -> bedge, header, ave: 18329, 4640, 4.95022
+#fbb: 283/10 -> bedge, header, ave: 11760, 3920, 4
+#fbb: 284/9 -> bedge, header, ave: 17107, 2443, 8.00246
+#fbb: 285/0 -> bedge, header, ave: 8302, 1711, 5.85213
+#fbb: 287/69 -> bedge, header, ave: 152, 17896, 1.00849
+#fbb: 289/1 -> bedge, header, ave: 3, 3, 2
+#fbb: 289/4 -> bedge, header, ave: 43, 28, 2.53571
+#fbb: 291/2 -> bedge, header, ave: 0, 44, 1
+#fbb: 303/1 -> bedge, header, ave: 11, 13, 1.84615
+#fbb: 303/5 -> bedge, header, ave: 75, 38, 2.97368
+#fbb: 305/1 -> bedge, header, ave: 98, 13, 8.53846
+#fbb: 308/3 -> bedge, header, ave: 3, 1, 4
+#fbb: 313/12 -> bedge, header, ave: 0, 3, 1
+#fbb: 323/25 -> bedge, header, ave: 8, 11, 1.72727
+#fbb: 324/18 -> bedge, header, ave: 0, 1, 1
+#fbb: 325/16 -> bedge, header, ave: 0, 3, 1
+#fbb: 330/48 -> bedge, header, ave: 0, 1, 1
+#fbb: 330/49 -> bedge, header, ave: 0, 1, 1
+#fbb: 330/53 -> bedge, header, ave: 12, 1, 13
+#fbb: 351/6 -> bedge, header, ave: 40, 1, 41
+#fbb: 353/12 -> bedge, header, ave: 2, 2, 2
+#fbb: 357/2 -> bedge, header, ave: 0, 1, 1
+#fbb: 361/10 -> bedge, header, ave: 153076, 65961, 3.3207
+#fbb: 361/23 -> bedge, header, ave: 9606, 60, 161.1
+#fbb: 361/31 -> bedge, header, ave: 2, 61, 1.03279
+#fbb: 363/8 -> bedge, header, ave: 0, 8, 1
+#fbb: 363/25 -> bedge, header, ave: 256, 3, 86.3333
+#fbb: 365/4 -> bedge, header, ave: 7, 1, 8
+#fbb: 367/1 -> bedge, header, ave: 0, 1, 1
+#fbb: 387/1 -> bedge, header, ave: 0, 1, 1
+#fbb: 393/37 -> bedge, header, ave: 6, 3, 3
+#fbb: 393/72 -> bedge, header, ave: 0, 2, 1
+#fbb: 393/81 -> bedge, header, ave: 2, 2, 2
+#fbb: 393/132 -> bedge, header, ave: 2, 2, 2
+#fbb: 393/143 -> bedge, header, ave: 0, 1, 1
+#fbb: 393/203 -> bedge, header, ave: 2, 3, 1.66667
+#fbb: 393/263 -> bedge, header, ave: 11, 2, 6.5
+#fbb: 397/2 -> bedge, header, ave: 2, 3, 1.66667
+ dynamic loop num   : 8.74992 (sum_ave/num: 1259.99/144)
+ loop num (weighted): 3.08804
+
+instance count      : 73220882
+clock cycle         : 7029578
+<branch predict>
+branch prediction : 89.6887 (8930556/9957283)
+ipc (instance/clock): 10.4161
+
+# Bb_Statistic::print() statistic
+return 0
