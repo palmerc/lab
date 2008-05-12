@@ -1,0 +1,797 @@
+/home/palmerc/Development/nakajima/newsim/src/newsim -dir /home/palmerc/Development/nakajima/newsim/data/go -sim_type sp -sp_reorder -statistic -updrive /bin/sh -c '/home/palmerc/Development/nakajima/newsim/SS/sim-bpred -redir:prog /home/palmerc/Development/nakajima/newsim/log/go/prog -redir:sim /home/palmerc/Development/nakajima/newsim/log/go/sim /home/palmerc/Development/nakajima/newsim/ss_precompiled_spec/go.ss 6 9 2stone9.in'
+
+# set dir: /home/palmerc/Development/nakajima/newsim/data/go/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/02/12 16:08:12>	 ADD: MD predict, FIXED: setjmp/longjmp, unroll
+$            FIX: 
+$ NO REEXEC MODE
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ 2lev brn_pred
+$ simulation type: sp
+$ print statistic
+$ SP reorder
+$ reg perfect
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+$ Branch_Predict::allocate() pa_i:15, pa_j:15, pa_k:2
+# Brnach_Predict::allocate() allocate BHT PHT end
+# Loop::allocate_loop_c() init end
+# Loop::file_read() init end
+
+@ TC 1000000 cycle: 115043 ipc: 6.71402
+@ TC 2000000 cycle: 375931 ipc: 4.54909
+@ TC 3000000 cycle: 513718 ipc: 5.14094
+@ TC 4000000 cycle: 688320 ipc: 5.1749
+@ TC 5000000 cycle: 873659 ipc: 5.13314
+@ TC 6000000 cycle: 1035998 ipc: 5.22152
+@ TC 7000000 cycle: 1209010 ipc: 5.24161
+@ TC 8000000 cycle: 1382884 ipc: 5.2527
+@ TC 9000000 cycle: 1570762 ipc: 5.21548
+@ TC 10000000 cycle: 1767104 ipc: 5.15981
+@ TC 11000000 cycle: 1992671 ipc: 5.03965
+@ TC 12000000 cycle: 2192116 ipc: 5.00513
+@ TC 13000000 cycle: 2415066 ipc: 4.92596
+@ TC 14000000 cycle: 2621094 ipc: 4.89304
+@ TC 15000000 cycle: 2837742 ipc: 4.84469
+@ TC 16000000 cycle: 3044392 ipc: 4.81967
+@ TC 17000000 cycle: 3241312 ipc: 4.81209
+@ TC 18000000 cycle: 3461523 ipc: 4.77325
+@ TC 19000000 cycle: 3688897 ipc: 4.72949
+@ TC 20000000 cycle: 3897294 ipc: 4.71432
+@ TC 21000000 cycle: 4122181 ipc: 4.68099
+@ TC 22000000 cycle: 4341096 ipc: 4.65934
+@ TC 23000000 cycle: 4584688 ipc: 4.61303
+@ TC 24000000 cycle: 4791109 ipc: 4.60913
+@ TC 25000000 cycle: 5015305 ipc: 4.58677
+@ TC 26000000 cycle: 5221612 ipc: 4.58372
+@ TC 27000000 cycle: 5457819 ipc: 4.55434
+@ TC 28000000 cycle: 5696813 ipc: 4.52511
+@ TC 29000000 cycle: 5902134 ipc: 4.52596
+@ TC 30000000 cycle: 6133090 ipc: 4.50584
+@ TC 31000000 cycle: 6347978 ipc: 4.49942
+@ TC 32000000 cycle: 6586572 ipc: 4.47682
+@ TC 33000000 cycle: 6796723 ipc: 4.47506
+@ TC 34000000 cycle: 7029514 ipc: 4.45847
+@ TC 35000000 cycle: 7249234 ipc: 4.45122
+@ TC 36000000 cycle: 7497974 ipc: 4.42705
+@ TC 37000000 cycle: 7717230 ipc: 4.42125
+@ TC 38000000 cycle: 7945302 ipc: 4.41084
+@ TC 39000000 cycle: 8192887 ipc: 4.39051
+@ TC 40000000 cycle: 8420118 ipc: 4.3831
+@ TC 41000000 cycle: 8655971 ipc: 4.37016
+@ TC 42000000 cycle: 8901654 ipc: 4.35325
+@ TC 43000000 cycle: 9125015 ipc: 4.34846
+@ TC 44000000 cycle: 9341839 ipc: 4.34761
+@ TC 45000000 cycle: 9583928 ipc: 4.33413
+@ TC 46000000 cycle: 9799413 ipc: 4.33449
+@ TC 47000000 cycle: 10040778 ipc: 4.32219
+@ TC 48000000 cycle: 10252025 ipc: 4.32471
+@ TC 49000000 cycle: 10498173 ipc: 4.31114
+@ TC 50000000 cycle: 10723712 ipc: 4.30761
+@ TC 51000000 cycle: 10976139 ipc: 4.2926
+@ TC 52000000 cycle: 11229552 ipc: 4.27801
+@ TC 53000000 cycle: 11482778 ipc: 4.26418
+@ TC 54000000 cycle: 11711171 ipc: 4.26019
+@ TC 55000000 cycle: 11968499 ipc: 4.24605
+@ TC 56000000 cycle: 12180574 ipc: 4.24914
+@ TC 57000000 cycle: 12419728 ipc: 4.2419
+@ TC 58000000 cycle: 12643725 ipc: 4.24
+@ TC 59000000 cycle: 12879808 ipc: 4.23407
+@ TC 60000000 cycle: 13091705 ipc: 4.23689
+@ TC 61000000 cycle: 13300014 ipc: 4.24106
+@ TC 62000000 cycle: 13508923 ipc: 4.24466
+@ TC 63000000 cycle: 13745792 ipc: 4.23859
+@ TC 64000000 cycle: 13969122 ipc: 4.2378
+@ TC 65000000 cycle: 14180615 ipc: 4.24039
+@ TC 66000000 cycle: 14415336 ipc: 4.23528
+@ TC 67000000 cycle: 14640100 ipc: 4.23361
+@ TC 68000000 cycle: 14861653 ipc: 4.23273
+@ TC 69000000 cycle: 15089242 ipc: 4.22989
+@ TC 70000000 cycle: 15308484 ipc: 4.2297
+@ TC 71000000 cycle: 15542485 ipc: 4.22587
+@ TC 72000000 cycle: 15763366 ipc: 4.22502
+@ TC 73000000 cycle: 15992601 ipc: 4.22211
+@ TC 74000000 cycle: 16221855 ipc: 4.21915
+@ TC 75000000 cycle: 16431382 ipc: 4.2215
+# Re_Exec::check_mode() trace end :75824557
+
+# print_result_data()
+trace count         : 75824557
+ nop count          : 11
+ call/return count  : 1474428
+ con branch count   : 9168097
+ other branch count : 835610
+ load count         : 15464790
+ store count        : 4931177
+ other count        : 43950444
+inst (trace - nop)  : 75824546
+
+<func inline>
+ inline call count  : 737216
+ inline return count: 737212
+ inline other count : 1290384
+
+<perfect memory disambiguate (SP_REG, GP_REG)>
+ sp load count      : 3434518
+ sp store count     : 2682414
+ gp load count      : 1008163
+ gp store count     : 480179
+
+<loop unroll>
+ loop unroll branch : 1408275
+ loop induction val : 1531575
+ (loop const val    : 6124250 )
+#fbb: 1/11 -> bedge, header, ave: 49, 1, 50
+#fbb: 2/6 -> bedge, header, ave: 3, 1, 4
+#fbb: 2/10 -> bedge, header, ave: 12, 3, 5
+#fbb: 4/1 -> bedge, header, ave: 0, 50, 1
+#fbb: 13/2 -> bedge, header, ave: 90, 575, 1.15652
+#fbb: 13/4 -> bedge, header, ave: 1349, 665, 3.02857
+#fbb: 14/6 -> bedge, header, ave: 5, 570, 1.00877
+#fbb: 14/13 -> bedge, header, ave: 1027, 1827, 1.56212
+#fbb: 14/18 -> bedge, header, ave: 1311, 2624, 1.49962
+#fbb: 14/23 -> bedge, header, ave: 95, 653, 1.14548
+#fbb: 14/32 -> bedge, header, ave: 7096, 3606, 2.96783
+#fbb: 14/60 -> bedge, header, ave: 1283, 642, 2.99844
+#fbb: 15/2 -> bedge, header, ave: 1362, 1061, 2.28369
+#fbb: 15/8 -> bedge, header, ave: 1911, 1060, 2.80283
+#fbb: 15/14 -> bedge, header, ave: 5156, 1061, 5.85957
+#fbb: 15/21 -> bedge, header, ave: 1362, 1061, 2.28369
+#fbb: 15/23 -> bedge, header, ave: 1859, 2150, 1.86465
+#fbb: 16/6 -> bedge, header, ave: 13634, 5736, 3.37692
+#fbb: 17/8 -> bedge, header, ave: 16551, 6972, 3.37392
+#fbb: 17/26 -> bedge, header, ave: 1027, 1827, 1.56212
+#fbb: 17/31 -> bedge, header, ave: 3867, 2855, 2.35447
+#fbb: 17/41 -> bedge, header, ave: 442, 1981, 1.22312
+#fbb: 17/48 -> bedge, header, ave: 1724, 2847, 1.60555
+#fbb: 17/56 -> bedge, header, ave: 26, 383, 1.06789
+#fbb: 17/62 -> bedge, header, ave: 44, 673, 1.06538
+#fbb: 18/2 -> bedge, header, ave: 437, 575, 1.76
+#fbb: 18/7 -> bedge, header, ave: 90, 575, 1.15652
+#fbb: 18/9 -> bedge, header, ave: 1349, 665, 3.02857
+#fbb: 19/2 -> bedge, header, ave: 1362, 1061, 2.28369
+#fbb: 19/5 -> bedge, header, ave: 1859, 2150, 1.86465
+#fbb: 19/13 -> bedge, header, ave: 301, 1061, 1.28369
+#fbb: 19/17 -> bedge, header, ave: 1409, 673, 3.09361
+#fbb: 19/21 -> bedge, header, ave: 1712, 1061, 2.61357
+#fbb: 25/1 -> bedge, header, ave: 3, 3, 2
+#fbb: 51/2 -> bedge, header, ave: 729, 48, 16.1875
+#fbb: 52/10 -> bedge, header, ave: 72, 36, 3
+#fbb: 52/13 -> bedge, header, ave: 72, 36, 3
+#fbb: 53/11 -> bedge, header, ave: 3, 11, 1.27273
+#fbb: 53/17 -> bedge, header, ave: 11, 11, 2
+#fbb: 53/39 -> bedge, header, ave: 7, 7, 2
+#fbb: 54/2 -> bedge, header, ave: 15, 31, 1.48387
+#fbb: 54/6 -> bedge, header, ave: 27, 31, 1.87097
+#fbb: 54/9 -> bedge, header, ave: 81, 27, 4
+#fbb: 54/15 -> bedge, header, ave: 3, 31, 1.09677
+#fbb: 54/17 -> bedge, header, ave: 0, 3, 1
+#fbb: 55/12 -> bedge, header, ave: 8, 18, 1.44444
+#fbb: 55/26 -> bedge, header, ave: 16, 18, 1.88889
+#fbb: 55/32 -> bedge, header, ave: 17, 22, 1.77273
+#fbb: 55/41 -> bedge, header, ave: 16, 6, 3.66667
+#fbb: 55/46 -> bedge, header, ave: 38, 13, 3.92308
+#fbb: 55/55 -> bedge, header, ave: 27, 18, 2.5
+#fbb: 57/2 -> bedge, header, ave: 729, 48, 16.1875
+#fbb: 57/13 -> bedge, header, ave: 2, 12, 1.16667
+#fbb: 58/2 -> bedge, header, ave: 8, 4, 3
+#fbb: 58/17 -> bedge, header, ave: 98, 19, 6.15789
+#fbb: 58/20 -> bedge, header, ave: 24, 24, 2
+#fbb: 58/22 -> bedge, header, ave: 98, 48, 3.04167
+#fbb: 59/9 -> bedge, header, ave: 7, 2, 4.5
+#fbb: 59/11 -> bedge, header, ave: 5, 9, 1.55556
+#fbb: 59/24 -> bedge, header, ave: 44, 10, 5.4
+#fbb: 59/26 -> bedge, header, ave: 33, 49, 1.67347
+#fbb: 59/39 -> bedge, header, ave: 49, 12, 5.08333
+#fbb: 59/43 -> bedge, header, ave: 120, 12, 11
+#fbb: 59/56 -> bedge, header, ave: 6, 12, 1.5
+#fbb: 59/58 -> bedge, header, ave: 2, 9, 1.22222
+#fbb: 59/64 -> bedge, header, ave: 121, 12, 11.0833
+#fbb: 62/8 -> bedge, header, ave: 28, 4, 8
+#fbb: 64/6 -> bedge, header, ave: 1, 1, 2
+#fbb: 64/14 -> bedge, header, ave: 8, 2, 5
+#fbb: 64/19 -> bedge, header, ave: 8, 7, 2.14286
+#fbb: 66/2 -> bedge, header, ave: 729, 48, 16.1875
+#fbb: 66/11 -> bedge, header, ave: 32, 32, 2
+#fbb: 66/25 -> bedge, header, ave: 1, 6, 1.16667
+#fbb: 67/3 -> bedge, header, ave: 26, 7, 4.71429
+#fbb: 67/6 -> bedge, header, ave: 16, 32, 1.5
+#fbb: 71/2 -> bedge, header, ave: 8, 8, 2
+#fbb: 72/2 -> bedge, header, ave: 8, 8, 2
+#fbb: 73/4 -> bedge, header, ave: 2, 13, 1.15385
+#fbb: 73/10 -> bedge, header, ave: 7, 13, 1.53846
+#fbb: 73/32 -> bedge, header, ave: 7, 6, 2.16667
+#fbb: 73/37 -> bedge, header, ave: 9, 6, 2.5
+#fbb: 76/3 -> bedge, header, ave: 30, 106, 1.28302
+#fbb: 76/5 -> bedge, header, ave: 408, 136, 4
+#fbb: 79/1 -> bedge, header, ave: 21552, 48, 450
+#fbb: 80/6 -> bedge, header, ave: 115, 139, 1.82734
+#fbb: 81/7 -> bedge, header, ave: 152, 90, 2.68889
+#fbb: 81/15 -> bedge, header, ave: 254, 90, 3.82222
+#fbb: 81/18 -> bedge, header, ave: 400, 213, 2.87793
+#fbb: 85/5 -> bedge, header, ave: 69, 39, 2.76923
+#fbb: 85/23 -> bedge, header, ave: 20, 53, 1.37736
+#fbb: 87/2 -> bedge, header, ave: 59, 20, 3.95
+#fbb: 87/39 -> bedge, header, ave: 0, 9, 1
+#fbb: 88/2 -> bedge, header, ave: 3840, 48, 81
+#fbb: 88/6 -> bedge, header, ave: 213, 71, 4
+#fbb: 89/2 -> bedge, header, ave: 486, 24, 21.25
+#fbb: 89/7 -> bedge, header, ave: 370, 115, 4.21739
+#fbb: 89/16 -> bedge, header, ave: 1058, 410, 3.58049
+#fbb: 90/2 -> bedge, header, ave: 4000, 50, 81
+#fbb: 90/6 -> bedge, header, ave: 732, 50, 15.64
+#fbb: 90/15 -> bedge, header, ave: 150, 50, 4
+#fbb: 90/22 -> bedge, header, ave: 6, 2, 4
+#fbb: 91/2 -> bedge, header, ave: 357, 21, 18
+#fbb: 91/11 -> bedge, header, ave: 1, 1, 2
+#fbb: 92/2 -> bedge, header, ave: 146, 52, 3.80769
+#fbb: 93/7 -> bedge, header, ave: 320, 20, 17
+#fbb: 93/13 -> bedge, header, ave: 7, 7, 2
+#fbb: 93/38 -> bedge, header, ave: 0, 5, 1
+#fbb: 93/41 -> bedge, header, ave: 18, 5, 4.6
+#fbb: 93/44 -> bedge, header, ave: 11, 8, 2.375
+#fbb: 97/2 -> bedge, header, ave: 3840, 48, 81
+#fbb: 97/10 -> bedge, header, ave: 36, 18, 3
+#fbb: 98/2 -> bedge, header, ave: 6, 2, 4
+#fbb: 100/1 -> bedge, header, ave: 144, 48, 4
+#fbb: 101/7 -> bedge, header, ave: 774, 258, 4
+#fbb: 103/1 -> bedge, header, ave: 177, 23, 8.69565
+#fbb: 103/3 -> bedge, header, ave: 2876, 200, 15.38
+#fbb: 104/2 -> bedge, header, ave: 4000, 50, 81
+#fbb: 107/1 -> bedge, header, ave: 121, 50, 3.42
+#fbb: 107/7 -> bedge, header, ave: 491, 25, 20.64
+#fbb: 108/3 -> bedge, header, ave: 732, 50, 15.64
+#fbb: 108/20 -> bedge, header, ave: 4, 11, 1.36364
+#fbb: 109/3 -> bedge, header, ave: 4000, 50, 81
+#fbb: 109/15 -> bedge, header, ave: 218, 47, 5.6383
+#fbb: 109/25 -> bedge, header, ave: 4000, 50, 81
+#fbb: 111/2 -> bedge, header, ave: 365, 218, 2.67431
+#fbb: 111/8 -> bedge, header, ave: 2898, 215, 14.4791
+#fbb: 111/19 -> bedge, header, ave: 0, 5, 1
+#fbb: 113/2 -> bedge, header, ave: 4413, 322, 14.705
+#fbb: 113/6 -> bedge, header, ave: 0, 126, 1
+#fbb: 113/26 -> bedge, header, ave: 15, 99, 1.15152
+#fbb: 114/2 -> bedge, header, ave: 2890, 216, 14.3796
+#fbb: 115/2 -> bedge, header, ave: 7, 18, 1.38889
+#fbb: 115/4 -> bedge, header, ave: 3, 7, 1.42857
+#fbb: 117/20 -> bedge, header, ave: 395, 258, 2.53101
+#fbb: 117/36 -> bedge, header, ave: 400, 258, 2.55039
+#fbb: 118/2 -> bedge, header, ave: 2, 21, 1.09524
+#fbb: 120/9 -> bedge, header, ave: 25, 1, 26
+#fbb: 120/11 -> bedge, header, ave: 52, 26, 3
+#fbb: 120/22 -> bedge, header, ave: 26, 26, 2
+#fbb: 120/33 -> bedge, header, ave: 3, 1, 4
+#fbb: 121/3 -> bedge, header, ave: 4409, 312, 15.1314
+#fbb: 121/8 -> bedge, header, ave: 3730, 2837, 2.31477
+#fbb: 122/2 -> bedge, header, ave: 4409, 312, 15.1314
+#fbb: 122/6 -> bedge, header, ave: 175, 275, 1.63636
+#fbb: 123/2 -> bedge, header, ave: 24960, 312, 81
+#fbb: 124/2 -> bedge, header, ave: 24960, 312, 81
+#fbb: 125/2 -> bedge, header, ave: 1239, 1239, 2
+#fbb: 126/1 -> bedge, header, ave: 16032, 5344, 4
+#fbb: 126/3 -> bedge, header, ave: 7035, 12140, 1.57949
+#fbb: 126/13 -> bedge, header, ave: 0, 5991, 1
+#fbb: 127/2 -> bedge, header, ave: 316, 269, 2.17472
+#fbb: 127/10 -> bedge, header, ave: 1556, 585, 3.65983
+#fbb: 127/18 -> bedge, header, ave: 3064, 1196, 3.56187
+#fbb: 127/33 -> bedge, header, ave: 1364, 268, 6.08955
+#fbb: 127/37 -> bedge, header, ave: 6700, 270, 25.8148
+#fbb: 128/7 -> bedge, header, ave: 12409, 4860, 3.55329
+#fbb: 129/11 -> bedge, header, ave: 17551, 7497, 3.34107
+#fbb: 129/13 -> bedge, header, ave: 8512, 7861, 2.08281
+#fbb: 129/25 -> bedge, header, ave: 2051, 6527, 1.31423
+#fbb: 130/2 -> bedge, header, ave: 1172, 270, 5.34074
+#fbb: 130/16 -> bedge, header, ave: 410, 309, 2.32686
+#fbb: 130/19 -> bedge, header, ave: 1839, 719, 3.55772
+#fbb: 130/23 -> bedge, header, ave: 3555, 1429, 3.48775
+#fbb: 130/27 -> bedge, header, ave: 13182, 4984, 3.64486
+#fbb: 130/36 -> bedge, header, ave: 237, 374, 1.63369
+#fbb: 131/2 -> bedge, header, ave: 2809, 742, 4.78571
+#fbb: 132/3 -> bedge, header, ave: 729, 1314, 1.55479
+#fbb: 132/12 -> bedge, header, ave: 226, 101, 3.23762
+#fbb: 132/24 -> bedge, header, ave: 473, 1310, 1.36107
+#fbb: 132/27 -> bedge, header, ave: 1139, 1162, 1.98021
+#fbb: 135/2 -> bedge, header, ave: 4409, 312, 15.1314
+#fbb: 135/24 -> bedge, header, ave: 0, 115, 1
+#fbb: 135/26 -> bedge, header, ave: 0, 115, 1
+#fbb: 135/32 -> bedge, header, ave: 0, 115, 1
+#fbb: 136/3 -> bedge, header, ave: 4409, 312, 15.1314
+#fbb: 136/19 -> bedge, header, ave: 3337, 794, 5.20277
+#fbb: 137/15 -> bedge, header, ave: 258, 276, 1.93478
+#fbb: 137/22 -> bedge, header, ave: 119, 163, 1.73006
+#fbb: 137/24 -> bedge, header, ave: 401, 282, 2.42199
+#fbb: 138/2 -> bedge, header, ave: 328, 321, 2.02181
+#fbb: 138/12 -> bedge, header, ave: 286, 427, 1.66979
+#fbb: 138/22 -> bedge, header, ave: 1125, 713, 2.57784
+#fbb: 138/31 -> bedge, header, ave: 93, 321, 1.28972
+#fbb: 138/36 -> bedge, header, ave: 1145, 414, 3.7657
+#fbb: 139/3 -> bedge, header, ave: 22, 42, 1.52381
+#fbb: 139/5 -> bedge, header, ave: 88, 64, 2.375
+#fbb: 139/12 -> bedge, header, ave: 19, 39, 1.48718
+#fbb: 140/7 -> bedge, header, ave: 0, 3, 1
+#fbb: 141/2 -> bedge, header, ave: 213, 168, 2.26786
+#fbb: 141/7 -> bedge, header, ave: 200, 127, 2.5748
+#fbb: 141/13 -> bedge, header, ave: 69, 211, 1.32701
+#fbb: 143/2 -> bedge, header, ave: 4409, 312, 15.1314
+#fbb: 143/13 -> bedge, header, ave: 2, 45, 1.04444
+#fbb: 143/20 -> bedge, header, ave: 43, 45, 1.95556
+#fbb: 143/25 -> bedge, header, ave: 0, 1, 1
+#fbb: 143/48 -> bedge, header, ave: 73, 161, 1.45342
+#fbb: 144/2 -> bedge, header, ave: 4409, 312, 15.1314
+#fbb: 144/13 -> bedge, header, ave: 4409, 312, 15.1314
+#fbb: 144/36 -> bedge, header, ave: 617, 312, 2.97756
+#fbb: 144/44 -> bedge, header, ave: 164, 220, 1.74545
+#fbb: 144/49 -> bedge, header, ave: 164, 220, 1.74545
+#fbb: 144/54 -> bedge, header, ave: 164, 220, 1.74545
+#fbb: 144/58 -> bedge, header, ave: 164, 220, 1.74545
+#fbb: 145/1 -> bedge, header, ave: 7924, 1132, 8
+#fbb: 146/6 -> bedge, header, ave: 647, 514, 2.25875
+#fbb: 147/2 -> bedge, header, ave: 7672, 1053, 8.28585
+#fbb: 147/4 -> bedge, header, ave: 2032, 3011, 1.67486
+#fbb: 147/11 -> bedge, header, ave: 1066, 1559, 1.68377
+#fbb: 147/42 -> bedge, header, ave: 375, 230, 2.63043
+#fbb: 147/49 -> bedge, header, ave: 873, 572, 2.52622
+#fbb: 148/2 -> bedge, header, ave: 8668, 1132, 8.65724
+#fbb: 148/10 -> bedge, header, ave: 2336, 2336, 2
+#fbb: 149/2 -> bedge, header, ave: 115, 393, 1.29262
+#fbb: 149/4 -> bedge, header, ave: 181, 385, 1.47013
+#fbb: 149/8 -> bedge, header, ave: 997, 508, 2.9626
+#fbb: 149/11 -> bedge, header, ave: 1805, 613, 3.94454
+#fbb: 150/3 -> bedge, header, ave: 1445, 746, 2.937
+#fbb: 151/2 -> bedge, header, ave: 180, 131, 2.37405
+#fbb: 152/2 -> bedge, header, ave: 1429, 929, 2.53821
+#fbb: 152/4 -> bedge, header, ave: 937, 1275, 1.7349
+#fbb: 152/10 -> bedge, header, ave: 6108, 929, 7.57481
+#fbb: 152/13 -> bedge, header, ave: 6198, 2088, 3.96839
+#fbb: 152/20 -> bedge, header, ave: 5, 126, 1.03968
+#fbb: 153/2 -> bedge, header, ave: 180, 131, 2.37405
+#fbb: 153/7 -> bedge, header, ave: 160, 248, 1.64516
+#fbb: 154/2 -> bedge, header, ave: 57, 128, 1.44531
+#fbb: 154/10 -> bedge, header, ave: 180, 131, 2.37405
+#fbb: 154/13 -> bedge, header, ave: 563, 195, 3.88718
+#fbb: 156/2 -> bedge, header, ave: 2191, 1132, 2.93551
+#fbb: 156/4 -> bedge, header, ave: 1421, 2135, 1.66557
+#fbb: 157/4 -> bedge, header, ave: 5026, 718, 8
+#fbb: 157/7 -> bedge, header, ave: 5909, 718, 9.22981
+#fbb: 159/1 -> bedge, header, ave: 666, 332, 3.00602
+#fbb: 160/14 -> bedge, header, ave: 0, 2, 1
+#fbb: 161/1 -> bedge, header, ave: 10425, 9017, 2.15615
+#fbb: 162/2 -> bedge, header, ave: 6108, 929, 7.57481
+#fbb: 164/2 -> bedge, header, ave: 1429, 929, 2.53821
+#fbb: 164/4 -> bedge, header, ave: 2959, 2222, 2.33168
+#fbb: 164/22 -> bedge, header, ave: 22, 29, 1.75862
+#fbb: 165/6 -> bedge, header, ave: 455, 166, 3.74096
+#fbb: 166/4 -> bedge, header, ave: 1174, 533, 3.20263
+#fbb: 167/2 -> bedge, header, ave: 379, 390, 1.97179
+#fbb: 167/4 -> bedge, header, ave: 515, 404, 2.27475
+#fbb: 167/5 -> bedge, header, ave: 1145, 868, 2.31912
+#fbb: 167/15 -> bedge, header, ave: 154, 154, 2
+#fbb: 168/6 -> bedge, header, ave: 50, 50, 2
+#fbb: 168/14 -> bedge, header, ave: 165, 111, 2.48649
+#fbb: 168/21 -> bedge, header, ave: 159, 92, 2.72826
+#fbb: 168/34 -> bedge, header, ave: 26, 38, 1.68421
+#fbb: 169/2 -> bedge, header, ave: 78, 347, 1.22478
+#fbb: 169/4 -> bedge, header, ave: 346, 310, 2.11613
+#fbb: 170/2 -> bedge, header, ave: 896, 384, 3.33333
+#fbb: 172/2 -> bedge, header, ave: 1126, 379, 3.97098
+#fbb: 172/13 -> bedge, header, ave: 6373, 1420, 5.48803
+#fbb: 173/2 -> bedge, header, ave: 3765, 921, 5.08795
+#fbb: 174/2 -> bedge, header, ave: 1481, 327, 5.52905
+#fbb: 174/25 -> bedge, header, ave: 1481, 327, 5.52905
+#fbb: 175/2 -> bedge, header, ave: 8, 5, 2.6
+#fbb: 176/20 -> bedge, header, ave: 6, 3, 3
+#fbb: 176/27 -> bedge, header, ave: 20, 10, 3
+#fbb: 176/50 -> bedge, header, ave: 0, 2, 1
+#fbb: 176/55 -> bedge, header, ave: 6, 2, 4
+#fbb: 176/64 -> bedge, header, ave: 673, 491, 2.37067
+#fbb: 176/68 -> bedge, header, ave: 1351, 913, 2.47974
+#fbb: 177/3 -> bedge, header, ave: 414, 207, 3
+#fbb: 177/12 -> bedge, header, ave: 532, 325, 2.63692
+#fbb: 177/31 -> bedge, header, ave: 107, 56, 2.91071
+#fbb: 178/6 -> bedge, header, ave: 916, 717, 2.27755
+#fbb: 180/5 -> bedge, header, ave: 10, 10, 2
+#fbb: 180/11 -> bedge, header, ave: 428, 215, 2.9907
+#fbb: 180/14 -> bedge, header, ave: 63, 176, 1.35795
+#fbb: 181/3 -> bedge, header, ave: 1384, 890, 2.55506
+#fbb: 181/14 -> bedge, header, ave: 2095, 936, 3.23825
+#fbb: 181/18 -> bedge, header, ave: 116, 116, 2
+#fbb: 181/27 -> bedge, header, ave: 1012, 936, 2.0812
+#fbb: 181/39 -> bedge, header, ave: 922, 1190, 1.77479
+#fbb: 181/53 -> bedge, header, ave: 1763, 2586, 1.68175
+#fbb: 181/66 -> bedge, header, ave: 1067, 552, 2.93297
+#fbb: 182/1 -> bedge, header, ave: 2059, 1403, 2.46757
+#fbb: 182/2 -> bedge, header, ave: 10386, 3462, 4
+#fbb: 183/4 -> bedge, header, ave: 163, 376, 1.43351
+#fbb: 185/2 -> bedge, header, ave: 317, 106, 3.99057
+#fbb: 185/11 -> bedge, header, ave: 27, 106, 1.25472
+#fbb: 185/30 -> bedge, header, ave: 119, 106, 2.12264
+#fbb: 185/37 -> bedge, header, ave: 33, 29, 2.13793
+#fbb: 185/42 -> bedge, header, ave: 530, 106, 6
+#fbb: 187/4 -> bedge, header, ave: 115, 109, 2.05505
+#fbb: 188/4 -> bedge, header, ave: 57, 53, 2.07547
+#fbb: 189/4 -> bedge, header, ave: 0, 4, 1
+#fbb: 189/15 -> bedge, header, ave: 20, 9, 3.22222
+#fbb: 189/22 -> bedge, header, ave: 4, 12, 1.33333
+#fbb: 191/2 -> bedge, header, ave: 566, 367, 2.54223
+#fbb: 193/2 -> bedge, header, ave: 2293, 1516, 2.51253
+#fbb: 194/5 -> bedge, header, ave: 77, 102, 1.7549
+#fbb: 195/2 -> bedge, header, ave: 4810, 1688, 3.84953
+#fbb: 195/32 -> bedge, header, ave: 0, 535, 1
+#fbb: 196/3 -> bedge, header, ave: 618, 206, 4
+#fbb: 196/13 -> bedge, header, ave: 204, 204, 2
+#fbb: 196/29 -> bedge, header, ave: 132, 203, 1.65025
+#fbb: 197/2 -> bedge, header, ave: 440, 148, 3.97297
+#fbb: 197/8 -> bedge, header, ave: 442, 148, 3.98649
+#fbb: 198/12 -> bedge, header, ave: 159, 127, 2.25197
+#fbb: 198/17 -> bedge, header, ave: 181, 110, 2.64545
+#fbb: 198/43 -> bedge, header, ave: 3, 1, 4
+#fbb: 198/47 -> bedge, header, ave: 3, 1, 4
+#fbb: 205/5 -> bedge, header, ave: 143, 291, 1.49141
+#fbb: 205/10 -> bedge, header, ave: 267, 197, 2.35533
+#fbb: 205/22 -> bedge, header, ave: 492, 168, 3.92857
+#fbb: 206/2 -> bedge, header, ave: 2652, 305, 9.69508
+#fbb: 206/5 -> bedge, header, ave: 1423, 672, 3.11756
+#fbb: 207/3 -> bedge, header, ave: 208, 185, 2.12432
+#fbb: 207/6 -> bedge, header, ave: 0, 6, 1
+#fbb: 208/2 -> bedge, header, ave: 1024, 280, 4.65714
+#fbb: 208/12 -> bedge, header, ave: 470, 351, 2.33903
+#fbb: 208/14 -> bedge, header, ave: 462, 821, 1.56273
+#fbb: 208/16 -> bedge, header, ave: 1879, 1278, 2.47027
+#fbb: 208/24 -> bedge, header, ave: 499, 939, 1.53142
+#fbb: 208/29 -> bedge, header, ave: 114, 114, 2
+#fbb: 209/6 -> bedge, header, ave: 3000, 1124, 3.66904
+#fbb: 210/2 -> bedge, header, ave: 1444, 590, 3.44746
+#fbb: 211/6 -> bedge, header, ave: 934, 371, 3.51752
+#fbb: 211/17 -> bedge, header, ave: 934, 371, 3.51752
+#fbb: 212/6 -> bedge, header, ave: 837, 314, 3.66561
+#fbb: 212/13 -> bedge, header, ave: 746, 301, 3.47841
+#fbb: 214/2 -> bedge, header, ave: 719, 271, 3.65314
+#fbb: 214/11 -> bedge, header, ave: 617, 353, 2.74788
+#fbb: 214/20 -> bedge, header, ave: 307, 150, 3.04667
+#fbb: 214/31 -> bedge, header, ave: 719, 271, 3.65314
+#fbb: 215/2 -> bedge, header, ave: 406, 136, 3.98529
+#fbb: 216/2 -> bedge, header, ave: 509, 171, 3.97661
+#fbb: 217/18 -> bedge, header, ave: 2456, 310, 8.92258
+#fbb: 217/20 -> bedge, header, ave: 22036, 2766, 8.96674
+#fbb: 219/9 -> bedge, header, ave: 8, 9, 1.88889
+#fbb: 220/2 -> bedge, header, ave: 9784, 1231, 8.94801
+#fbb: 220/32 -> bedge, header, ave: 4930, 2573, 2.91605
+#fbb: 220/82 -> bedge, header, ave: 0, 2905, 1
+#fbb: 220/85 -> bedge, header, ave: 10522, 3572, 3.94569
+#fbb: 220/137 -> bedge, header, ave: 2050, 2302, 1.89053
+#fbb: 220/140 -> bedge, header, ave: 8911, 3219, 3.76825
+#fbb: 221/10 -> bedge, header, ave: 837, 314, 3.66561
+#fbb: 221/11 -> bedge, header, ave: 1141, 1151, 1.99131
+#fbb: 222/11 -> bedge, header, ave: 719, 271, 3.65314
+#fbb: 222/12 -> bedge, header, ave: 978, 990, 1.98788
+#fbb: 222/43 -> bedge, header, ave: 628, 268, 3.34328
+#fbb: 222/46 -> bedge, header, ave: 201, 449, 1.44766
+#fbb: 223/2 -> bedge, header, ave: 1088, 394, 3.76142
+#fbb: 223/5 -> bedge, header, ave: 1957, 743, 3.63392
+#fbb: 223/13 -> bedge, header, ave: 1974, 658, 4
+#fbb: 224/2 -> bedge, header, ave: 44, 38, 2.15789
+#fbb: 224/13 -> bedge, header, ave: 11, 32, 1.34375
+#fbb: 224/21 -> bedge, header, ave: 1, 4, 1.25
+#fbb: 225/3 -> bedge, header, ave: 135, 266, 1.50752
+#fbb: 226/2 -> bedge, header, ave: 119, 75, 2.58667
+#fbb: 226/10 -> bedge, header, ave: 51, 75, 1.68
+#fbb: 226/14 -> bedge, header, ave: 0, 18, 1
+#fbb: 226/27 -> bedge, header, ave: 119, 116, 2.02586
+#fbb: 226/44 -> bedge, header, ave: 25, 77, 1.32468
+#fbb: 226/53 -> bedge, header, ave: 5, 25, 1.2
+#fbb: 226/62 -> bedge, header, ave: 0, 7, 1
+#fbb: 227/2 -> bedge, header, ave: 544, 204, 3.66667
+#fbb: 227/8 -> bedge, header, ave: 90, 127, 1.70866
+#fbb: 227/10 -> bedge, header, ave: 116, 217, 1.53456
+#fbb: 227/15 -> bedge, header, ave: 612, 204, 4
+#fbb: 227/19 -> bedge, header, ave: 28, 36, 1.77778
+#fbb: 227/27 -> bedge, header, ave: 6, 4, 2.5
+#fbb: 228/3 -> bedge, header, ave: 614, 555, 2.10631
+#fbb: 229/1 -> bedge, header, ave: 1329, 443, 4
+#fbb: 229/4 -> bedge, header, ave: 1223, 443, 3.76072
+#fbb: 229/6 -> bedge, header, ave: 2550, 850, 4
+#fbb: 229/15 -> bedge, header, ave: 2246, 850, 3.64235
+#fbb: 229/19 -> bedge, header, ave: 42, 251, 1.16733
+#fbb: 229/30 -> bedge, header, ave: 220, 452, 1.48673
+#fbb: 230/2 -> bedge, header, ave: 581, 214, 3.71495
+#fbb: 231/2 -> bedge, header, ave: 338, 119, 3.84034
+#fbb: 232/2 -> bedge, header, ave: 564, 208, 3.71154
+#fbb: 232/8 -> bedge, header, ave: 24, 116, 1.2069
+#fbb: 233/2 -> bedge, header, ave: 342, 121, 3.82645
+#fbb: 233/8 -> bedge, header, ave: 25, 53, 1.4717
+#fbb: 234/2 -> bedge, header, ave: 406, 136, 3.98529
+#fbb: 234/3 -> bedge, header, ave: 223, 542, 1.41144
+#fbb: 234/9 -> bedge, header, ave: 63, 21, 4
+#fbb: 234/16 -> bedge, header, ave: 3, 19, 1.15789
+#fbb: 234/21 -> bedge, header, ave: 63, 21, 4
+#fbb: 234/32 -> bedge, header, ave: 24, 8, 4
+#fbb: 234/39 -> bedge, header, ave: 5, 5, 2
+#fbb: 234/44 -> bedge, header, ave: 24, 8, 4
+#fbb: 235/3 -> bedge, header, ave: 375, 149, 3.51678
+#fbb: 235/7 -> bedge, header, ave: 447, 149, 4
+#fbb: 235/15 -> bedge, header, ave: 164, 149, 2.10067
+#fbb: 236/3 -> bedge, header, ave: 249, 87, 3.86207
+#fbb: 236/7 -> bedge, header, ave: 261, 87, 4
+#fbb: 236/15 -> bedge, header, ave: 99, 87, 2.13793
+#fbb: 237/3 -> bedge, header, ave: 207, 79, 3.62025
+#fbb: 237/5 -> bedge, header, ave: 24, 8, 4
+#fbb: 237/12 -> bedge, header, ave: 60, 79, 1.75949
+#fbb: 238/3 -> bedge, header, ave: 67, 25, 3.68
+#fbb: 238/12 -> bedge, header, ave: 41, 25, 2.64
+#fbb: 240/3 -> bedge, header, ave: 155, 242, 1.6405
+#fbb: 241/3 -> bedge, header, ave: 76, 108, 1.7037
+#fbb: 242/8 -> bedge, header, ave: 730, 991, 1.73663
+#fbb: 242/14 -> bedge, header, ave: 10428, 1338, 8.79372
+#fbb: 242/35 -> bedge, header, ave: 108, 5262, 1.02052
+#fbb: 242/59 -> bedge, header, ave: 51, 1911, 1.02669
+#fbb: 243/2 -> bedge, header, ave: 1225, 932, 2.31438
+#fbb: 243/12 -> bedge, header, ave: 970, 538, 2.80297
+#fbb: 244/5 -> bedge, header, ave: 5882, 2519, 3.33505
+#fbb: 244/10 -> bedge, header, ave: 130, 109, 2.19266
+#fbb: 244/16 -> bedge, header, ave: 229, 109, 3.10092
+#fbb: 244/27 -> bedge, header, ave: 130, 109, 2.19266
+#fbb: 244/35 -> bedge, header, ave: 54, 108, 1.5
+#fbb: 245/7 -> bedge, header, ave: 8, 158, 1.05063
+#fbb: 245/14 -> bedge, header, ave: 1, 2, 1.5
+#fbb: 245/20 -> bedge, header, ave: 285, 439, 1.6492
+#fbb: 245/23 -> bedge, header, ave: 842, 383, 3.19843
+#fbb: 245/41 -> bedge, header, ave: 584, 293, 2.99317
+#fbb: 247/2 -> bedge, header, ave: 515, 469, 2.09808
+#fbb: 247/10 -> bedge, header, ave: 2390, 984, 3.42886
+#fbb: 247/63 -> bedge, header, ave: 15, 33, 1.45455
+#fbb: 247/65 -> bedge, header, ave: 59, 48, 2.22917
+#fbb: 247/80 -> bedge, header, ave: 9, 9, 2
+#fbb: 248/7 -> bedge, header, ave: 5567, 4657, 2.1954
+#fbb: 248/13 -> bedge, header, ave: 7855, 3243, 3.42214
+#fbb: 248/33 -> bedge, header, ave: 1251, 518, 3.41506
+#fbb: 248/68 -> bedge, header, ave: 3366, 3626, 1.9283
+#fbb: 249/2 -> bedge, header, ave: 149, 149, 2
+#fbb: 249/9 -> bedge, header, ave: 251, 91, 3.75824
+#fbb: 250/8 -> bedge, header, ave: 1874, 1706, 2.09848
+#fbb: 250/38 -> bedge, header, ave: 866, 469, 2.84648
+#fbb: 250/40 -> bedge, header, ave: 839, 866, 1.96882
+#fbb: 250/53 -> bedge, header, ave: 724, 469, 2.54371
+#fbb: 250/55 -> bedge, header, ave: 2717, 1193, 3.27745
+#fbb: 253/10 -> bedge, header, ave: 1239, 1239, 2
+#fbb: 253/12 -> bedge, header, ave: 5950, 2478, 3.40113
+#fbb: 253/20 -> bedge, header, ave: 386, 305, 2.26557
+#fbb: 253/71 -> bedge, header, ave: 1239, 1239, 2
+#fbb: 253/75 -> bedge, header, ave: 250, 165, 2.51515
+#fbb: 253/80 -> bedge, header, ave: 1239, 1239, 2
+#fbb: 253/85 -> bedge, header, ave: 292, 292, 2
+#fbb: 253/92 -> bedge, header, ave: 578, 548, 2.05474
+#fbb: 253/100 -> bedge, header, ave: 1076, 776, 2.3866
+#fbb: 254/2 -> bedge, header, ave: 2007, 1963, 2.02241
+#fbb: 254/35 -> bedge, header, ave: 330, 341, 1.96774
+#fbb: 254/39 -> bedge, header, ave: 1241, 1241, 2
+#fbb: 254/41 -> bedge, header, ave: 5411, 2482, 3.1801
+#fbb: 254/56 -> bedge, header, ave: 1241, 1241, 2
+#fbb: 254/84 -> bedge, header, ave: 1241, 1241, 2
+#fbb: 254/86 -> bedge, header, ave: 1241, 1241, 2
+#fbb: 254/120 -> bedge, header, ave: 312, 352, 1.88636
+#fbb: 255/6 -> bedge, header, ave: 3299, 2439, 2.3526
+#fbb: 255/8 -> bedge, header, ave: 1906, 3299, 1.57775
+#fbb: 255/21 -> bedge, header, ave: 2969, 2439, 2.2173
+#fbb: 255/23 -> bedge, header, ave: 9411, 5408, 2.7402
+#fbb: 256/2 -> bedge, header, ave: 1506, 958, 2.57203
+#fbb: 256/6 -> bedge, header, ave: 1059, 363, 3.91736
+#fbb: 256/18 -> bedge, header, ave: 3, 2, 2.5
+#fbb: 256/33 -> bedge, header, ave: 2480, 1429, 2.73548
+#fbb: 256/53 -> bedge, header, ave: 5983, 2447, 3.44503
+#fbb: 256/76 -> bedge, header, ave: 1095, 943, 2.16119
+#fbb: 256/87 -> bedge, header, ave: 104, 468, 1.22222
+#fbb: 256/96 -> bedge, header, ave: 488, 468, 2.04274
+#fbb: 256/101 -> bedge, header, ave: 56, 468, 1.11966
+#fbb: 256/105 -> bedge, header, ave: 1166, 524, 3.22519
+#fbb: 257/7 -> bedge, header, ave: 2995, 2401, 2.2474
+#fbb: 257/15 -> bedge, header, ave: 3685, 3053, 2.20701
+#fbb: 257/18 -> bedge, header, ave: 307, 990, 1.3101
+#fbb: 257/31 -> bedge, header, ave: 765, 690, 2.1087
+#fbb: 257/33 -> bedge, header, ave: 1317, 1455, 1.90515
+#fbb: 258/3 -> bedge, header, ave: 5238, 312, 17.7885
+#fbb: 258/8 -> bedge, header, ave: 5238, 312, 17.7885
+#fbb: 259/29 -> bedge, header, ave: 230, 83, 3.77108
+#fbb: 261/7 -> bedge, header, ave: 2261, 312, 8.24679
+#fbb: 261/10 -> bedge, header, ave: 916, 1257, 1.72872
+#fbb: 261/17 -> bedge, header, ave: 410, 309, 2.32686
+#fbb: 261/27 -> bedge, header, ave: 161, 171, 1.94152
+#fbb: 261/31 -> bedge, header, ave: 1839, 719, 3.55772
+#fbb: 261/34 -> bedge, header, ave: 376, 441, 1.85261
+#fbb: 261/42 -> bedge, header, ave: 6830, 2558, 3.67005
+#fbb: 261/45 -> bedge, header, ave: 1138, 1267, 1.89818
+#fbb: 264/1 -> bedge, header, ave: 936, 312, 4
+#fbb: 265/2 -> bedge, header, ave: 515, 1171, 1.4398
+#fbb: 265/4 -> bedge, header, ave: 3131, 1686, 2.85706
+#fbb: 265/12 -> bedge, header, ave: 533, 566, 1.9417
+#fbb: 266/2 -> bedge, header, ave: 2182, 1054, 3.07021
+#fbb: 266/11 -> bedge, header, ave: 2182, 1054, 3.07021
+#fbb: 266/20 -> bedge, header, ave: 10, 93, 1.10753
+#fbb: 266/27 -> bedge, header, ave: 5, 24, 1.20833
+#fbb: 266/39 -> bedge, header, ave: 1875, 715, 3.62238
+#fbb: 266/52 -> bedge, header, ave: 363, 314, 2.15605
+#fbb: 266/76 -> bedge, header, ave: 82, 105, 1.78095
+#fbb: 267/2 -> bedge, header, ave: 66, 22, 4
+#fbb: 267/6 -> bedge, header, ave: 44, 22, 3
+#fbb: 267/10 -> bedge, header, ave: 0, 22, 1
+#fbb: 267/14 -> bedge, header, ave: 66, 22, 4
+#fbb: 267/15 -> bedge, header, ave: 0, 88, 1
+#fbb: 267/20 -> bedge, header, ave: 22, 22, 2
+#fbb: 267/21 -> bedge, header, ave: 0, 44, 1
+#fbb: 267/27 -> bedge, header, ave: 3, 22, 1.13636
+#fbb: 267/29 -> bedge, header, ave: 75, 25, 4
+#fbb: 268/4 -> bedge, header, ave: 73, 276, 1.26449
+#fbb: 269/2 -> bedge, header, ave: 166, 246, 1.6748
+#fbb: 269/9 -> bedge, header, ave: 122, 45, 3.71111
+#fbb: 270/12 -> bedge, header, ave: 15, 12, 2.25
+#fbb: 272/3 -> bedge, header, ave: 35, 101, 1.34653
+#fbb: 272/8 -> bedge, header, ave: 55, 136, 1.40441
+#fbb: 272/73 -> bedge, header, ave: 136, 68, 3
+#fbb: 273/5 -> bedge, header, ave: 1273, 526, 3.42015
+#fbb: 273/36 -> bedge, header, ave: 368, 133, 3.76692
+#fbb: 275/2 -> bedge, header, ave: 147, 49, 4
+#fbb: 276/20 -> bedge, header, ave: 74, 63, 2.1746
+#fbb: 282/6 -> bedge, header, ave: 77227, 74, 1044.61
+#fbb: 284/1 -> bedge, header, ave: 144, 48, 4
+#fbb: 284/3 -> bedge, header, ave: 144, 48, 4
+#fbb: 284/6 -> bedge, header, ave: 1, 7, 1.14286
+#fbb: 290/1 -> bedge, header, ave: 9738, 6620, 2.471
+#fbb: 291/2 -> bedge, header, ave: 16577, 14137, 2.1726
+#fbb: 292/5 -> bedge, header, ave: 5604, 2501, 3.2407
+#fbb: 292/10 -> bedge, header, ave: 5604, 2501, 3.2407
+#fbb: 292/19 -> bedge, header, ave: 222007, 49053, 5.52586
+#fbb: 292/22 -> bedge, header, ave: 7451, 7870, 1.94676
+#fbb: 293/2 -> bedge, header, ave: 545, 551, 1.98911
+#fbb: 294/4 -> bedge, header, ave: 27958, 78440, 1.35643
+#fbb: 296/3 -> bedge, header, ave: 1233, 46618, 1.02645
+#fbb: 297/2 -> bedge, header, ave: 80634, 32345, 3.49294
+#fbb: 298/2 -> bedge, header, ave: 265, 119, 3.22689
+#fbb: 299/2 -> bedge, header, ave: 1020, 2803, 1.3639
+#fbb: 299/3 -> bedge, header, ave: 1367, 2652, 1.51546
+#fbb: 300/2 -> bedge, header, ave: 2520, 2733, 1.92206
+#fbb: 301/2 -> bedge, header, ave: 719, 271, 3.65314
+#fbb: 302/2 -> bedge, header, ave: 20, 7, 3.85714
+#fbb: 303/2 -> bedge, header, ave: 2024, 694, 3.91643
+#fbb: 304/2 -> bedge, header, ave: 403, 145, 3.77931
+#fbb: 304/9 -> bedge, header, ave: 23, 118, 1.19492
+#fbb: 304/12 -> bedge, header, ave: 4, 2, 3
+#fbb: 304/28 -> bedge, header, ave: 165, 87, 2.89655
+#fbb: 305/2 -> bedge, header, ave: 3, 4, 1.75
+#fbb: 306/2 -> bedge, header, ave: 11, 4, 3.75
+#fbb: 307/12 -> bedge, header, ave: 0, 4, 1
+#fbb: 307/16 -> bedge, header, ave: 15, 47, 1.31915
+#fbb: 307/56 -> bedge, header, ave: 9, 46, 1.19565
+#fbb: 307/61 -> bedge, header, ave: 366, 68, 6.38235
+#fbb: 307/68 -> bedge, header, ave: 141, 145, 1.97241
+#fbb: 308/1 -> bedge, header, ave: 3577, 511, 8
+#fbb: 308/6 -> bedge, header, ave: 0, 120, 1
+#fbb: 309/8 -> bedge, header, ave: 96, 62, 2.54839
+#fbb: 309/14 -> bedge, header, ave: 74, 62, 2.19355
+#fbb: 309/22 -> bedge, header, ave: 94, 62, 2.51613
+#fbb: 309/25 -> bedge, header, ave: 156, 62, 3.51613
+#fbb: 311/2 -> bedge, header, ave: 0, 3, 1
+#fbb: 311/4 -> bedge, header, ave: 3, 3, 2
+#fbb: 312/16 -> bedge, header, ave: 817, 307, 3.66124
+#fbb: 312/27 -> bedge, header, ave: 817, 307, 3.66124
+#fbb: 312/48 -> bedge, header, ave: 101, 73, 2.38356
+#fbb: 312/57 -> bedge, header, ave: 0, 7, 1
+#fbb: 313/5 -> bedge, header, ave: 348, 138, 3.52174
+#fbb: 313/20 -> bedge, header, ave: 15, 56, 1.26786
+#fbb: 314/6 -> bedge, header, ave: 19, 7, 3.71429
+#fbb: 314/14 -> bedge, header, ave: 9, 2, 5.5
+#fbb: 314/19 -> bedge, header, ave: 6, 7, 1.85714
+#fbb: 315/4 -> bedge, header, ave: 3, 5, 1.6
+#fbb: 315/6 -> bedge, header, ave: 11, 8, 2.375
+#fbb: 315/37 -> bedge, header, ave: 38, 63, 1.60317
+#fbb: 315/42 -> bedge, header, ave: 66, 22, 4
+#fbb: 315/47 -> bedge, header, ave: 129, 75, 2.72
+#fbb: 315/50 -> bedge, header, ave: 96, 75, 2.28
+#fbb: 317/9 -> bedge, header, ave: 51, 1, 52
+#fbb: 317/11 -> bedge, header, ave: 4, 1, 5
+#fbb: 317/12 -> bedge, header, ave: 10, 5, 3
+#fbb: 317/18 -> bedge, header, ave: 8, 1, 9
+#fbb: 317/19 -> bedge, header, ave: 27, 9, 4
+#fbb: 317/25 -> bedge, header, ave: 3, 1, 4
+#fbb: 317/26 -> bedge, header, ave: 16, 4, 5
+#fbb: 317/32 -> bedge, header, ave: 51, 1, 52
+#fbb: 317/48 -> bedge, header, ave: 80, 1, 81
+#fbb: 319/1 -> bedge, header, ave: 13593, 1, 13594
+#fbb: 319/3 -> bedge, header, ave: 125, 1, 126
+#fbb: 319/6 -> bedge, header, ave: 126, 1, 127
+#fbb: 319/9 -> bedge, header, ave: 80, 1, 81
+#fbb: 319/11 -> bedge, header, ave: 3, 1, 4
+#fbb: 319/13 -> bedge, header, ave: 799, 1, 800
+#fbb: 319/15 -> bedge, header, ave: 449, 1, 450
+#fbb: 319/18 -> bedge, header, ave: 448, 1, 449
+#fbb: 319/21 -> bedge, header, ave: 449, 1, 450
+#fbb: 319/22 -> bedge, header, ave: 3150, 450, 8
+#fbb: 319/25 -> bedge, header, ave: 799, 1, 800
+#fbb: 319/28 -> bedge, header, ave: 80, 1, 81
+#fbb: 319/30 -> bedge, header, ave: 207, 81, 3.55556
+#fbb: 319/38 -> bedge, header, ave: 243, 81, 4
+#fbb: 319/41 -> bedge, header, ave: 2040, 1, 2041
+#fbb: 319/43 -> bedge, header, ave: 449, 1, 450
+#fbb: 319/45 -> bedge, header, ave: 749, 1, 750
+#fbb: 350/22 -> bedge, header, ave: 1, 1, 2
+#fbb: 361/1 -> bedge, header, ave: 7, 1, 8
+#fbb: 362/17 -> bedge, header, ave: 4, 19, 1.21053
+#fbb: 364/1 -> bedge, header, ave: 57, 1, 58
+#fbb: 364/6 -> bedge, header, ave: 390, 58, 7.72414
+#fbb: 364/15 -> bedge, header, ave: 425, 1, 426
+#fbb: 365/1 -> bedge, header, ave: 852, 426, 3
+#fbb: 365/3 -> bedge, header, ave: 14978, 1278, 12.7199
+#fbb: 366/1 -> bedge, header, ave: 186, 84, 3.21429
+#fbb: 367/2 -> bedge, header, ave: 475, 270, 2.75926
+#fbb: 367/4 -> bedge, header, ave: 5523, 745, 8.41342
+#fbb: 368/6 -> bedge, header, ave: 1680, 448, 4.75
+#fbb: 368/9 -> bedge, header, ave: 1716, 448, 4.83036
+#fbb: 368/13 -> bedge, header, ave: 1256, 448, 3.80357
+#fbb: 368/15 -> bedge, header, ave: 5264, 1704, 4.0892
+#fbb: 369/2 -> bedge, header, ave: 20825, 49, 426
+#fbb: 369/16 -> bedge, header, ave: 82402, 10290, 9.00797
+#fbb: 369/33 -> bedge, header, ave: 2022, 1298, 2.55778
+#fbb: 369/48 -> bedge, header, ave: 1817, 792, 3.29419
+#fbb: 369/63 -> bedge, header, ave: 3207, 1276, 3.51332
+#fbb: 369/78 -> bedge, header, ave: 1697, 936, 2.81303
+#fbb: 370/2 -> bedge, header, ave: 10139, 24042, 1.42172
+#fbb: 371/2 -> bedge, header, ave: 9753, 23411, 1.4166
+#fbb: 372/2 -> bedge, header, ave: 3840, 48, 81
+#fbb: 372/4 -> bedge, header, ave: 178, 298, 1.59732
+====
+ dynamic loop num   : 41.5815 (sum_ave/num: 25572.6/615)
+ loop num (weighted): 3.12008
+max loop ave: 13594
+====
+#fbb: 377/2 -> bedge, header, ave: 0, 1, 1
+#fbb: 377/4 -> bedge, header, ave: 0, 1, 1
+#fbb: 379/26 -> bedge, header, ave: 0, 4, 1
+#fbb: 381/12 -> bedge, header, ave: 0, 1, 1
+#fbb: 383/39 -> bedge, header, ave: 0, 4, 1
+#fbb: 384/2 -> bedge, header, ave: 0, 3, 1
+#fbb: 386/3 -> bedge, header, ave: 3, 1, 4
+#fbb: 389/1 -> bedge, header, ave: 0, 1, 1
+#fbb: 392/37 -> bedge, header, ave: 9, 210, 1.04286
+#fbb: 392/72 -> bedge, header, ave: 0, 53, 1
+#fbb: 392/132 -> bedge, header, ave: 44, 102, 1.43137
+#fbb: 392/203 -> bedge, header, ave: 44, 102, 1.43137
+#fbb: 392/263 -> bedge, header, ave: 119, 54, 3.2037
+#fbb: 394/5 -> bedge, header, ave: 439, 57, 8.70175
+#fbb: 394/7 -> bedge, header, ave: 168, 56, 4
+#fbb: 394/10 -> bedge, header, ave: 3, 1, 4
+#fbb: 395/2 -> bedge, header, ave: 2, 1, 3
+#fbb: 397/1 -> bedge, header, ave: 0, 1, 1
+#fbb: 406/25 -> bedge, header, ave: 1, 2, 1.5
+#fbb: 407/18 -> bedge, header, ave: 0, 1, 1
+#fbb: 408/16 -> bedge, header, ave: 0, 1, 1
+#fbb: 410/1 -> bedge, header, ave: 25, 3, 9.33333
+#fbb: 412/5 -> bedge, header, ave: 0, 1, 1
+#fbb: 412/8 -> bedge, header, ave: 0, 1, 1
+#fbb: 417/10 -> bedge, header, ave: 5, 1, 6
+#fbb: 417/23 -> bedge, header, ave: 30, 1, 31
+#fbb: 417/31 -> bedge, header, ave: 0, 3, 1
+#fbb: 418/4 -> bedge, header, ave: 7, 1, 8
+#fbb: 422/1 -> bedge, header, ave: 0, 2, 1
+#fbb: 422/4 -> bedge, header, ave: 6, 58, 1.10345
+#fbb: 423/1 -> bedge, header, ave: 13, 322, 1.04037
+#fbb: 423/5 -> bedge, header, ave: 15, 64, 1.23438
+#fbb: 424/48 -> bedge, header, ave: 0, 1, 1
+#fbb: 424/49 -> bedge, header, ave: 0, 1, 1
+#fbb: 435/19 -> bedge, header, ave: 0, 2, 1
+#fbb: 435/200 -> bedge, header, ave: 2, 2, 2
+#fbb: 437/9 -> bedge, header, ave: 1, 1, 2
+ dynamic loop num   : 39.3936 (sum_ave/num: 25684.7/652)
+ loop num (weighted): 3.11791
+
+instance count      : 70119884
+clock cycle         : 16618209
+<branch predict>
+branch prediction : 75.8522 (5910300/7791859)
+ipc (instance/clock): 4.21946
+
+# Bb_Statistic::print() statistic
+return 0
