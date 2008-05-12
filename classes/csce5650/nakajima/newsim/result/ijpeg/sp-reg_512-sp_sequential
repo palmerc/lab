@@ -1,0 +1,169 @@
+/home/palmerc/Development/nakajima/newsim/src/newsim -dir /home/palmerc/Development/nakajima/newsim/data/ijpeg -sim_type sp -fastfwd 50000000 -sp_sequential -reg_finite 512 -updrive /bin/sh -c '/home/palmerc/Development/nakajima/newsim/SS/sim-bpred -redir:prog /home/palmerc/Development/nakajima/newsim/log/ijpeg/prog -redir:sim /home/palmerc/Development/nakajima/newsim/log/ijpeg/sim /home/palmerc/Development/nakajima/newsim/ss_precompiled_spec/ijpeg.ss -image_file specmun.ppm -compression.quality 50 -compression.optimize_coding 0  -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp'
+
+# set dir: /home/palmerc/Development/nakajima/newsim/data/ijpeg/
+
+$ ------Sim_Model::print_argment()-----
+$ <04/02/12 16:08:12>	 ADD: MD predict, FIXED: setjmp/longjmp, unroll
+$            FIX: 
+$ NO REEXEC MODE
+$ trace limit: 100000000
+$ print freq: 1000000
+$ func_call_inline
+$ loop unroll
+$ perfect disambiguate (SP_REG, GP_REG)
+$ 2lev brn_pred
+$ simulation type: sp
+$ SP sequential
+$ reg finite register: 512
+$ -------------------------------------
+
+# Program_Info::file_read() init end
+$ Branch_Predict::allocate() pa_i:15, pa_j:15, pa_k:2
+# Brnach_Predict::allocate() allocate BHT PHT end
+# Loop::allocate_loop_c() init end
+# Loop::file_read() init end
+# Func_Stack::init_trace_skip() 50000000 .......... skip end
+
+@ TC 1000000 cycle: 417457 ipc: 2.08873
+@ TC 2000000 cycle: 644905 ipc: 2.71122
+@ TC 3000000 cycle: 859746 ipc: 3.0539
+@ TC 4000000 cycle: 1258769 ipc: 2.77516
+@ TC 5000000 cycle: 1575717 ipc: 2.77232
+@ TC 6000000 cycle: 1794477 ipc: 2.92424
+@ TC 7000000 cycle: 2105959 ipc: 2.90709
+@ TC 8000000 cycle: 2506175 ipc: 2.78855
+@ TC 9000000 cycle: 2728375 ipc: 2.88425
+@ TC 10000000 cycle: 2947695 ipc: 2.96639
+@ TC 11000000 cycle: 3363444 ipc: 2.85928
+@ TC 12000000 cycle: 3657900 ipc: 2.86739
+@ TC 13000000 cycle: 3873462 ipc: 2.93447
+@ TC 14000000 cycle: 4211401 ipc: 2.90522
+@ TC 15000000 cycle: 4586066 ipc: 2.85814
+@ TC 16000000 cycle: 4803575 ipc: 2.9116
+@ TC 17000000 cycle: 5057200 ipc: 2.93829
+@ TC 18000000 cycle: 5473625 ipc: 2.87428
+@ TC 19000000 cycle: 5733141 ipc: 2.89646
+@ TC 20000000 cycle: 5945615 ipc: 2.9403
+@ TC 21000000 cycle: 6322713 ipc: 2.90218
+@ TC 22000000 cycle: 6661079 ipc: 2.8861
+@ TC 23000000 cycle: 6875908 ipc: 2.92357
+@ TC 24000000 cycle: 7168832 ipc: 2.92569
+@ TC 25000000 cycle: 7583287 ipc: 2.88085
+@ TC 26000000 cycle: 7805372 ipc: 2.91101
+@ TC 27000000 cycle: 8019001 ipc: 2.94281
+@ TC 28000000 cycle: 8433374 ipc: 2.90104
+@ TC 29000000 cycle: 8734048 ipc: 2.90141
+@ TC 30000000 cycle: 8951447 ipc: 2.92902
+@ TC 31000000 cycle: 9274679 ipc: 2.92095
+@ TC 32000000 cycle: 9665132 ipc: 2.893
+@ TC 33000000 cycle: 9883194 ipc: 2.91806
+@ TC 34000000 cycle: 10124053 ipc: 2.93533
+@ TC 35000000 cycle: 10534374 ipc: 2.90323
+@ TC 36000000 cycle: 10814080 ipc: 2.90919
+@ TC 37000000 cycle: 11031932 ipc: 2.93137
+@ TC 38000000 cycle: 11382354 ipc: 2.91798
+@ TC 39000000 cycle: 11745253 ipc: 2.90166
+@ TC 40000000 cycle: 11962543 ipc: 2.92234
+@ TC 41000000 cycle: 12226087 ipc: 2.93085
+@ TC 42000000 cycle: 12638772 ipc: 2.90414
+@ TC 43000000 cycle: 12894297 ipc: 2.91439
+@ TC 44000000 cycle: 13110216 ipc: 2.93333
+@ TC 45000000 cycle: 13488841 ipc: 2.91539
+@ TC 46000000 cycle: 13822676 ipc: 2.90812
+@ TC 47000000 cycle: 14040930 ipc: 2.92548
+@ TC 48000000 cycle: 14333977 ipc: 2.9265
+@ TC 49000000 cycle: 14748730 ipc: 2.90337
+@ TC 50000000 cycle: 14968580 ipc: 2.91911
+@ TC 51000000 cycle: 15187097 ipc: 2.93499
+@ TC 52000000 cycle: 15595756 ipc: 2.91362
+@ TC 53000000 cycle: 15899243 ipc: 2.91304
+@ TC 54000000 cycle: 16115781 ipc: 2.92838
+@ TC 55000000 cycle: 16441161 ipc: 2.92344
+@ TC 56000000 cycle: 16829417 ipc: 2.90768
+@ TC 57000000 cycle: 17045362 ipc: 2.92233
+@ TC 58000000 cycle: 17293035 ipc: 2.93119
+@ TC 59000000 cycle: 17709690 ipc: 2.9111
+@ TC 60000000 cycle: 17973837 ipc: 2.91708
+@ TC 61000000 cycle: 18188529 ipc: 2.93085
+@ TC 62000000 cycle: 18559150 ipc: 2.91911
+@ TC 63000000 cycle: 18900945 ipc: 2.91251
+@ TC 64000000 cycle: 19117159 ipc: 2.92549
+@ TC 65000000 cycle: 19405489 ipc: 2.92702
+@ TC 66000000 cycle: 19823009 ipc: 2.90935
+@ TC 67000000 cycle: 20046523 ipc: 2.92052
+@ TC 68000000 cycle: 20265149 ipc: 2.93239
+@ TC 69000000 cycle: 20666010 ipc: 2.91748
+@ TC 70000000 cycle: 20978274 ipc: 2.91572
+@ TC 71000000 cycle: 21197925 ipc: 2.92697
+@ TC 72000000 cycle: 21511582 ipc: 2.92498
+@ TC 73000000 cycle: 21913378 ipc: 2.91093
+@ TC 74000000 cycle: 22129540 ipc: 2.92217
+@ TC 75000000 cycle: 22353341 ipc: 2.93216
+@ TC 76000000 cycle: 22769576 ipc: 2.91691
+@ TC 77000000 cycle: 23060356 ipc: 2.91784
+@ TC 78000000 cycle: 23277794 ipc: 2.9283
+@ TC 79000000 cycle: 23618450 ipc: 2.92287
+@ TC 80000000 cycle: 23991011 ipc: 2.91385
+@ TC 81000000 cycle: 24207859 ipc: 2.92403
+@ TC 82000000 cycle: 24459273 ipc: 2.92979
+@ TC 83000000 cycle: 24877481 ipc: 2.91549
+@ TC 84000000 cycle: 25138897 ipc: 2.91995
+@ TC 85000000 cycle: 25356718 ipc: 2.92952
+@ TC 86000000 cycle: 25719985 ipc: 2.92194
+@ TC 87000000 cycle: 26069663 ipc: 2.9162
+@ TC 88000000 cycle: 26288004 ipc: 2.92541
+@ TC 89000000 cycle: 26568055 ipc: 2.92762
+@ TC 90000000 cycle: 26980039 ipc: 2.91491
+@ TC 91000000 cycle: 27217498 ipc: 2.92174
+@ TC 92000000 cycle: 27436749 ipc: 2.93044
+@ TC 93000000 cycle: 27824593 ipc: 2.92096
+@ TC 94000000 cycle: 28150893 ipc: 2.91799
+@ TC 95000000 cycle: 28368203 ipc: 2.92657
+@ TC 96000000 cycle: 28672035 ipc: 2.92596
+@ TC 97000000 cycle: 29081115 ipc: 2.91474
+@ TC 98000000 cycle: 29298214 ipc: 2.92309
+@ TC 99000000 cycle: 29515614 ipc: 2.93132
+@ TC 100000000 cycle: 29932347 ipc: 2.91953
+# Re_Exec::check_mode() trace lim :100000000
+
+# print_result_data()
+trace count         : 100000000
+ nop count          : 0
+ call/return count  : 269501
+ con branch count   : 5797700
+ other branch count : 1050359
+ load count         : 18387428
+ store count        : 6378157
+ other count        : 68116855
+inst (trace - nop)  : 100000000
+
+<func inline>
+ inline call count  : 134751
+ inline return count: 134750
+ inline other count : 269501
+
+<perfect memory disambiguate (SP_REG, GP_REG)>
+ sp load count      : 1056309
+ sp store count     : 1027950
+ gp load count      : 0
+ gp store count     : 0
+
+<loop unroll>
+ loop unroll branch : 2388861
+ loop induction val : 9683746
+ (loop const val    : 591946 )
+====
+ dynamic loop num   : 89.2203 (sum_ave/num: 1784.41/20)
+ loop num (weighted): 19.5653
+max loop ave: 1025.52
+====
+ dynamic loop num   : 89.2203 (sum_ave/num: 1784.41/20)
+ loop num (weighted): 19.5653
+
+instance count      : 87388391
+clock cycle         : 29932347
+<branch predict>
+branch prediction : 81.9317 (2793308/3409311)
+ipc (instance/clock): 2.91953
+
+return 0
