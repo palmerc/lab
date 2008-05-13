@@ -1,0 +1,1926 @@
+total inst: 73059734
+total func: 737217
+
+====== func statistic ======
+0(__start)
+	inst: 2.18999e-05 %		func_inst: 16
+1(main)
+	inst: 0.000238161 %		func_inst: 174
+2(readfile)
+	inst: 0.000335342 %		func_inst: 245
+3(check)
+	inst: 0.00539558 %		func_inst: 3942
+4(getmove)
+	inst: 0.00267726 %		func_inst: 1956
+5(init)
+	inst: 2.73749e-06 %		func_inst: 2
+6(g2exit)
+	inst: 1.36874e-06 %		func_inst: 1
+7(fixplaylevel)
+	inst: 0 %		func_inst: 0
+8(initinit)
+	inst: 6.98059e-05 %		func_inst: 51
+9(turnoffcplay)
+	inst: 4.10623e-06 %		func_inst: 3
+10(outerror)
+	inst: 0 %		func_inst: 0
+11(psqr)
+	inst: 0.000362717 %		func_inst: 265
+12(ssqr)
+	inst: 0.00258282 %		func_inst: 1887
+13(lresurrect)
+	inst: 0.174322 %		func_inst: 127359
+14(ldndate)
+	inst: 2.11005 %		func_inst: 1541598
+15(lsplit)
+	inst: 0.452742 %		func_inst: 330772
+16(upldrflags)
+	inst: 0.942694 %		func_inst: 688730
+17(lupdate)
+	inst: 2.93457 %		func_inst: 2143990
+18(lkilgrp)
+	inst: 0.180648 %		func_inst: 131981
+19(lcombine)
+	inst: 0.489289 %		func_inst: 357473
+20(fire_strat_rule)
+	inst: 0.0119943 %		func_inst: 8763
+21(fire_strat_score)
+	inst: 0.000849989 %		func_inst: 621
+22(rule_fired)
+	inst: 0 %		func_inst: 0
+23(empty_corner)
+	inst: 0 %		func_inst: 0
+24(threethreecorner)
+	inst: 0.000136874 %		func_inst: 100
+25(threefourcorner)
+	inst: 0.000410623 %		func_inst: 300
+26(fourfourcorner)
+	inst: 0 %		func_inst: 0
+27(stoneon44point)
+	inst: 0.000306598 %		func_inst: 224
+28(stoneon34point)
+	inst: 0 %		func_inst: 0
+29(stoneonhighpoint)
+	inst: 0 %		func_inst: 0
+30(cornercolor)
+	inst: 9.0337e-05 %		func_inst: 66
+31(stonefacing)
+	inst: 0.00056666 %		func_inst: 414
+32(pincerstonefacing)
+	inst: 0 %		func_inst: 0
+33(highpoint)
+	inst: 0 %		func_inst: 0
+34(lowpoint)
+	inst: 0 %		func_inst: 0
+35(spiral)
+	inst: 0.000498222 %		func_inst: 364
+36(emptycorner)
+	inst: 0.00229128 %		func_inst: 1674
+37(fourfourpoint)
+	inst: 0 %		func_inst: 0
+38(threefourpoint)
+	inst: 7.39121e-05 %		func_inst: 54
+39(reflect)
+	inst: 0.00339996 %		func_inst: 2484
+40(which_corner)
+	inst: 0.000229949 %		func_inst: 168
+41(shimari_kakari)
+	inst: 0.00151109 %		func_inst: 1104
+42(is_shimari)
+	inst: 0 %		func_inst: 0
+43(makekakari)
+	inst: 0 %		func_inst: 0
+44(makeshimari)
+	inst: 0 %		func_inst: 0
+45(edge_shimari)
+	inst: 0 %		func_inst: 0
+46(extedge)
+	inst: 0 %		func_inst: 0
+47(urgextend)
+	inst: 0 %		func_inst: 0
+48(findbestextension)
+	inst: 0 %		func_inst: 0
+49(ext_to_enemy)
+	inst: 0 %		func_inst: 0
+50(extend)
+	inst: 0 %		func_inst: 0
+51(contactfight)
+	inst: 0.0241022 %		func_inst: 17609
+52(threelibextend)
+	inst: 0.00963595 %		func_inst: 7040
+53(twolibextend)
+	inst: 0.00693816 %		func_inst: 5069
+54(cut_stones_val)
+	inst: 0.00831511 %		func_inst: 6075
+55(save_th_group)
+	inst: 0.0121147 %		func_inst: 8851
+56(canbecaptured)
+	inst: 0.00758831 %		func_inst: 5544
+57(savegroup)
+	inst: 0.0190789 %		func_inst: 13939
+58(make_eye_shape)
+	inst: 0.013608 %		func_inst: 9942
+59(save_unsettled_army)
+	inst: 0.0204381 %		func_inst: 14932
+60(filloutside)
+	inst: 0 %		func_inst: 0
+61(save_semeai)
+	inst: 0 %		func_inst: 0
+62(runaway)
+	inst: 0.000667947 %		func_inst: 488
+63(runhere)
+	inst: 0 %		func_inst: 0
+64(save_weak_army)
+	inst: 0.00183548 %		func_inst: 1341
+65(remove_dead_stones)
+	inst: 0 %		func_inst: 0
+66(killgroup)
+	inst: 0.0253094 %		func_inst: 18491
+67(attack_weak_army)
+	inst: 0.00542159 %		func_inst: 3961
+68(surround)
+	inst: 0 %		func_inst: 0
+69(poke_eye)
+	inst: 0.000142349 %		func_inst: 104
+70(poke_eye_ko)
+	inst: 0 %		func_inst: 0
+71(getamoves)
+	inst: 0.000777446 %		func_inst: 568
+72(approachmoves)
+	inst: 0.00089242 %		func_inst: 652
+73(kill_th_group)
+	inst: 0.00440051 %		func_inst: 3215
+74(kothreat)
+	inst: 0 %		func_inst: 0
+75(badkothreat)
+	inst: 0 %		func_inst: 0
+76(connect_bamboo)
+	inst: 0.0224638 %		func_inst: 16412
+77(try_connect)
+	inst: 0.00603342 %		func_inst: 4408
+78(connect_2_links)
+	inst: 5.74872e-05 %		func_inst: 42
+79(cut_connect)
+	inst: 0.30739 %		func_inst: 224578
+80(canconnlkg)
+	inst: 0.0253354 %		func_inst: 18510
+81(canconnlink)
+	inst: 0.0386109 %		func_inst: 28209
+82(onelink_cut)
+	inst: 0.000280592 %		func_inst: 205
+83(conn_val)
+	inst: 0.00845609 %		func_inst: 6178
+84(cut_val)
+	inst: 0.00499865 %		func_inst: 3652
+85(def_val)
+	inst: 0.0141254 %		func_inst: 10320
+86(atk_val)
+	inst: 0.00442925 %		func_inst: 3236
+87(direct_cut)
+	inst: 0.00925544 %		func_inst: 6762
+88(block_move)
+	inst: 0.108897 %		func_inst: 79560
+89(filldame)
+	inst: 0.119902 %		func_inst: 87600
+90(get_reasons_for_moves)
+	inst: 0.0980732 %		func_inst: 71652
+91(squirm)
+	inst: 0.0105215 %		func_inst: 7687
+92(play_inside)
+	inst: 0.00795377 %		func_inst: 5811
+93(play_safe)
+	inst: 0.0148837 %		func_inst: 10874
+94(squirm_capture)
+	inst: 0 %		func_inst: 0
+95(safe_capture)
+	inst: 0 %		func_inst: 0
+96(hasaneye)
+	inst: 0 %		func_inst: 0
+97(center)
+	inst: 0.121687 %		func_inst: 88904
+98(isjunc)
+	inst: 0.000317548 %		func_inst: 232
+99(threethreepoint)
+	inst: 6.02247e-05 %		func_inst: 44
+100(close_corner)
+	inst: 0.00981526 %		func_inst: 7171
+101(isbadmove)
+	inst: 0.0220176 %		func_inst: 16086
+102(incorner)
+	inst: 0.0353136 %		func_inst: 25800
+103(sortnextmove)
+	inst: 0.0942475 %		func_inst: 68857
+104(getmovestotry)
+	inst: 0.0748169 %		func_inst: 54661
+105(tryamove)
+	inst: 0.0252574 %		func_inst: 18453
+106(bestmove)
+	inst: 0 %		func_inst: 0
+107(strategy)
+	inst: 0.0134438 %		func_inst: 9822
+108(fixurgdefarmies)
+	inst: 0.0229251 %		func_inst: 16749
+109(compmove)
+	inst: 0.0755834 %		func_inst: 55221
+110(badmove)
+	inst: 0 %		func_inst: 0
+111(check_killed)
+	inst: 0.100301 %		func_inst: 73280
+112(deadinsidedead)
+	inst: 0 %		func_inst: 0
+113(check_threatened)
+	inst: 0.236101 %		func_inst: 172495
+114(check_sente)
+	inst: 0.125811 %		func_inst: 91917
+115(cut_stones_th_val)
+	inst: 0.00233371 %		func_inst: 1705
+116(rule_applied)
+	inst: 0.0244006 %		func_inst: 17827
+117(stval)
+	inst: 0.100533 %		func_inst: 73449
+118(new_th_group)
+	inst: 0.00220368 %		func_inst: 1610
+119(getscore)
+	inst: 0.0206352 %		func_inst: 15076
+120(initrtval)
+	inst: 0.00619356 %		func_inst: 4525
+121(radiateterr)
+	inst: 0.382038 %		func_inst: 279116
+122(radiateweak)
+	inst: 0.128795 %		func_inst: 94097
+123(radiateclear)
+	inst: 0.279716 %		func_inst: 204360
+124(radiatescore)
+	inst: 0.672474 %		func_inst: 491308
+125(radiatecorner)
+	inst: 0.0797799 %		func_inst: 58287
+126(radiatepiece)
+	inst: 2.80266 %		func_inst: 2047616
+127(cntterr)
+	inst: 0.488941 %		func_inst: 357219
+128(evallibsterr)
+	inst: 1.43922 %		func_inst: 1051493
+129(markspot)
+	inst: 3.2437 %		func_inst: 2369842
+130(markpcls)
+	inst: 0.542319 %		func_inst: 396217
+131(kill_ldrflags)
+	inst: 0.0762431 %		func_inst: 55703
+132(cantbecaptured)
+	inst: 0.331533 %		func_inst: 242217
+133(canbethreatened)
+	inst: 0 %		func_inst: 0
+134(cutstone)
+	inst: 0 %		func_inst: 0
+135(findcaptured)
+	inst: 0.22342 %		func_inst: 163230
+136(bdead)
+	inst: 0.293129 %		func_inst: 214159
+137(newdeadgroup)
+	inst: 0.0784276 %		func_inst: 57299
+138(markgroup)
+	inst: 0.193933 %		func_inst: 141687
+139(fixwasthgroup)
+	inst: 0.00766496 %		func_inst: 5600
+140(fixwasdeadgroup)
+	inst: 0.000291542 %		func_inst: 213
+141(fixarmies)
+	inst: 0.0305298 %		func_inst: 22305
+142(life)
+	inst: 0.00170819 %		func_inst: 1248
+143(fixsmothered)
+	inst: 0.176179 %		func_inst: 128716
+144(fixgralive)
+	inst: 0.323976 %		func_inst: 236696
+145(initarmyalive)
+	inst: 0.16737 %		func_inst: 122280
+146(startalive)
+	inst: 0.111065 %		func_inst: 81144
+147(getterr)
+	inst: 0.761559 %		func_inst: 556393
+148(pointeyes)
+	inst: 0.683089 %		func_inst: 499063
+149(getarmynbp)
+	inst: 0.167716 %		func_inst: 122533
+150(getarmylibs)
+	inst: 0.12641 %		func_inst: 92355
+151(th_run)
+	inst: 0.00908435 %		func_inst: 6637
+152(getarmyth_pot)
+	inst: 0.569769 %		func_inst: 416272
+153(th_terr)
+	inst: 0.0328772 %		func_inst: 24020
+154(th_conns)
+	inst: 0.0519246 %		func_inst: 37936
+155(getnumeyes)
+	inst: 0.0201424 %		func_inst: 14716
+156(deadgroups)
+	inst: 0.214802 %		func_inst: 156934
+157(getarmyex_pot)
+	inst: 0.555785 %		func_inst: 406055
+158(check_ex)
+	inst: 0.525774 %		func_inst: 384129
+159(ucutdist)
+	inst: 0.0339161 %		func_inst: 24779
+160(canundercut)
+	inst: 0.117335 %		func_inst: 85725
+161(undercut)
+	inst: 2.81124 %		func_inst: 2053888
+162(getarmyuc_pot)
+	inst: 0.371066 %		func_inst: 271100
+163(doubleconnect)
+	inst: 0 %		func_inst: 0
+164(getarmycn_pot)
+	inst: 0.361507 %		func_inst: 264116
+165(cnthreat)
+	inst: 0.0433741 %		func_inst: 31689
+166(geteyespace)
+	inst: 0.0769097 %		func_inst: 56190
+167(getarmytv_pot)
+	inst: 0.301267 %		func_inst: 220105
+168(canrunhere)
+	inst: 0.104034 %		func_inst: 76007
+169(connect_run)
+	inst: 0.0510911 %		func_inst: 37327
+170(getarmyrn_pot)
+	inst: 0.0480812 %		func_inst: 35128
+171(miaialive)
+	inst: 0.0833934 %		func_inst: 60927
+172(bestpot)
+	inst: 0.514818 %		func_inst: 376125
+173(totalpot)
+	inst: 0.167067 %		func_inst: 122059
+174(secondbestpot)
+	inst: 0.18697 %		func_inst: 136600
+175(moveispoteye)
+	inst: 0.000394198 %		func_inst: 288
+176(adpot)
+	inst: 0.515356 %		func_inst: 376518
+177(extendforeyes)
+	inst: 0.0726857 %		func_inst: 53104
+178(rmpot)
+	inst: 0.507266 %		func_inst: 370607
+179(rmconnect)
+	inst: 0.0857312 %		func_inst: 62635
+180(blockextend)
+	inst: 0.0546306 %		func_inst: 39913
+181(blockuc)
+	inst: 1.04118 %		func_inst: 760680
+182(findblock)
+	inst: 0.685627 %		func_inst: 500917
+183(getarmywk_pot)
+	inst: 0.029105 %		func_inst: 21264
+184(isseki)
+	inst: 0.0121777 %		func_inst: 8897
+185(semeailibs)
+	inst: 0.0554656 %		func_inst: 40523
+186(semeai_result)
+	inst: 0.00795513 %		func_inst: 5812
+187(win_semeai)
+	inst: 0.0147934 %		func_inst: 10808
+188(uns_semeai)
+	inst: 0.00693131 %		func_inst: 5064
+189(eyesifcapture)
+	inst: 0.0018875 %		func_inst: 1379
+190(semeaialive)
+	inst: 0.00833838 %		func_inst: 6092
+191(conntoalive)
+	inst: 0.0341803 %		func_inst: 24972
+192(weakalive)
+	inst: 0.0339517 %		func_inst: 24805
+193(newalive)
+	inst: 0.211994 %		func_inst: 154882
+194(otherweakconn)
+	inst: 0.0122242 %		func_inst: 8931
+195(cnoneconn)
+	inst: 0.404421 %		func_inst: 295469
+196(cnonepoint)
+	inst: 0.117642 %		func_inst: 85949
+197(can_def_peep)
+	inst: 0.0543268 %		func_inst: 39691
+198(prot_two_point)
+	inst: 0.0297359 %		func_inst: 21725
+199(twoenemytwopoint)
+	inst: 3.28498e-05 %		func_inst: 24
+200(cntwolkgs)
+	inst: 0.0028333 %		func_inst: 2070
+201(threepointjump)
+	inst: 0.00175336 %		func_inst: 1281
+202(largeknight)
+	inst: 0.000401042 %		func_inst: 293
+203(cntwolinks)
+	inst: 0.0519164 %		func_inst: 37930
+204(checkpush)
+	inst: 0.000168355 %		func_inst: 123
+205(protdiag)
+	inst: 0.0971602 %		func_inst: 70985
+206(fixcnprot)
+	inst: 0.520203 %		func_inst: 380059
+207(combinearmy)
+	inst: 0.021711 %		func_inst: 15862
+208(splitarmy)
+	inst: 0.302506 %		func_inst: 221010
+209(cntplyhere)
+	inst: 0.266167 %		func_inst: 194461
+210(dnn1)
+	inst: 0.0711473 %		func_inst: 51980
+211(upn1)
+	inst: 0.0956368 %		func_inst: 69872
+212(uscan)
+	inst: 0.0974709 %		func_inst: 71212
+213(incn1)
+	inst: 0.00439503 %		func_inst: 3211
+214(dscan)
+	inst: 0.114305 %		func_inst: 83511
+215(cscan)
+	inst: 0.01121 %		func_inst: 8190
+216(cuscan)
+	inst: 0.0160198 %		func_inst: 11704
+217(upltr)
+	inst: 1.1189 %		func_inst: 817466
+218(chckcorner)
+	inst: 0.078778 %		func_inst: 57555
+219(edgeofterr)
+	inst: 0.901174 %		func_inst: 658395
+220(chckside)
+	inst: 4.07492 %		func_inst: 2977126
+221(upxy)
+	inst: 0.254697 %		func_inst: 186081
+222(dnxy)
+	inst: 0.279496 %		func_inst: 204199
+223(dncons)
+	inst: 0.214043 %		func_inst: 156379
+224(brkconns)
+	inst: 0.026425 %		func_inst: 19306
+225(brconn)
+	inst: 0.0339599 %		func_inst: 24811
+226(moveconns)
+	inst: 0.0377116 %		func_inst: 27552
+227(adcons)
+	inst: 0.0587834 %		func_inst: 42947
+228(addconn)
+	inst: 0.0764689 %		func_inst: 55868
+229(chkcon)
+	inst: 0.277654 %		func_inst: 202853
+230(addlks)
+	inst: 0.0291994 %		func_inst: 21333
+231(addlkgs)
+	inst: 0.0167124 %		func_inst: 12210
+232(brklks)
+	inst: 0.0316317 %		func_inst: 23110
+233(brklkgs)
+	inst: 0.0186943 %		func_inst: 13658
+234(rstrlks)
+	inst: 0.0665264 %		func_inst: 48604
+235(brklink)
+	inst: 0.0385137 %		func_inst: 28138
+236(brklkg)
+	inst: 0.0228813 %		func_inst: 16717
+237(realbrklink)
+	inst: 0.0152013 %		func_inst: 11106
+238(realbrklkg)
+	inst: 0.00513279 %		func_inst: 3750
+239(delconnrec)
+	inst: 0.0245416 %		func_inst: 17930
+240(addlink)
+	inst: 0.0334384 %		func_inst: 24430
+241(addlkg)
+	inst: 0.0144183 %		func_inst: 10534
+242(iscaptured)
+	inst: 1.64709 %		func_inst: 1203361
+243(defonelib)
+	inst: 0.259924 %		func_inst: 189900
+244(defatari)
+	inst: 0.448515 %		func_inst: 327684
+245(def_atk_nbr)
+	inst: 0.212939 %		func_inst: 155573
+246(jump_to_escape)
+	inst: 0 %		func_inst: 0
+247(play_next_to_group)
+	inst: 0.423462 %		func_inst: 309380
+248(getefflibs)
+	inst: 3.26082 %		func_inst: 2382343
+249(attack2libs)
+	inst: 0.0409282 %		func_inst: 29902
+250(gendefmoves)
+	inst: 0.595826 %		func_inst: 435309
+251(def_two_stone_wall)
+	inst: 0.000595403 %		func_inst: 435
+252(jump)
+	inst: 0 %		func_inst: 0
+253(deftwolibs)
+	inst: 0.96485 %		func_inst: 704917
+254(atktwolibs)
+	inst: 0.999698 %		func_inst: 730377
+255(genatkmoves)
+	inst: 0.933228 %		func_inst: 681814
+256(genrestatk)
+	inst: 1.08169 %		func_inst: 790279
+257(livesordies)
+	inst: 1.221 %		func_inst: 892062
+258(fixli)
+	inst: 0.349841 %		func_inst: 255593
+259(evalopenlineeye)
+	inst: 0.0380853 %		func_inst: 27825
+260(addeyerec)
+	inst: 0 %		func_inst: 0
+261(findeyelist)
+	inst: 0.496963 %		func_inst: 363080
+262(can_be_eye)
+	inst: 0.0969754 %		func_inst: 70850
+263(evalonepteye)
+	inst: 0.0113168 %		func_inst: 8268
+264(evalcornereyes)
+	inst: 0.0900961 %		func_inst: 65824
+265(deallocate_eye)
+	inst: 0.259143 %		func_inst: 189329
+266(getcount)
+	inst: 0.41906 %		func_inst: 306164
+267(deadshape)
+	inst: 0.00947855 %		func_inst: 6925
+268(evaldeadgroupeye)
+	inst: 0.038589 %		func_inst: 28193
+269(evaloneptdeadeye)
+	inst: 0.0452506 %		func_inst: 33060
+270(evalmanyeyespots)
+	inst: 0.00225569 %		func_inst: 1648
+271(eval2pointeye)
+	inst: 0.00365454 %		func_inst: 2670
+272(eval_line_eye)
+	inst: 0.0352794 %		func_inst: 25775
+273(evalbigeye)
+	inst: 0.208217 %		func_inst: 152123
+274(onelibnbr)
+	inst: 0 %		func_inst: 0
+275(jupdate)
+	inst: 0.00248153 %		func_inst: 1813
+276(jupdatec)
+	inst: 0.024209 %		func_inst: 17687
+277(getlastcolor)
+	inst: 0.0093403 %		func_inst: 6824
+278(getflag)
+	inst: 0.00211471 %		func_inst: 1545
+279(getxyjlib)
+	inst: 0.00728719 %		func_inst: 5324
+280(j2next)
+	inst: 0.003118 %		func_inst: 2278
+281(j2skip)
+	inst: 0 %		func_inst: 0
+282(j2more)
+	inst: 1.5108 %		func_inst: 1103783
+283(sibling)
+	inst: 0.00345608 %		func_inst: 2525
+284(joseki)
+	inst: 0.00498222 %		func_inst: 3640
+285(findurgentjoseki)
+	inst: 0 %		func_inst: 0
+286(fire_joseki)
+	inst: 0 %		func_inst: 0
+287(notjoseki)
+	inst: 0 %		func_inst: 0
+288(evaljoseki)
+	inst: 0 %		func_inst: 0
+289(gtflist)
+	inst: 0.051191 %		func_inst: 37400
+290(comlist)
+	inst: 0.282602 %		func_inst: 206468
+291(cpylist)
+	inst: 0.743362 %		func_inst: 543098
+292(mrglist)
+	inst: 9.05722 %		func_inst: 6617180
+293(andlist)
+	inst: 0.0392268 %		func_inst: 28659
+294(addlist)
+	inst: 8.58313 %		func_inst: 6270813
+295(adflist)
+	inst: 0.956779 %		func_inst: 699020
+296(dellist)
+	inst: 3.01796 %		func_inst: 2204917
+297(killist)
+	inst: 2.5647 %		func_inst: 1873763
+298(cntlist)
+	inst: 0.00453328 %		func_inst: 3312
+299(newlist)
+	inst: 0.180693 %		func_inst: 132014
+300(inlist)
+	inst: 0.0923176 %		func_inst: 67447
+301(adplib)
+	inst: 0.0575023 %		func_inst: 42011
+302(deplib)
+	inst: 0.0021065 %		func_inst: 1539
+303(adlibs)
+	inst: 0.124145 %		func_inst: 90700
+304(delibs)
+	inst: 0.0460911 %		func_inst: 33674
+305(resurrect)
+	inst: 0.000603616 %		func_inst: 441
+306(newgrouparmy)
+	inst: 0.000492747 %		func_inst: 360
+307(dndate)
+	inst: 0.0819959 %		func_inst: 59906
+308(make_army_free)
+	inst: 0.0666044 %		func_inst: 48661
+309(split)
+	inst: 0.0199015 %		func_inst: 14540
+310(real_update)
+	inst: 0.00142897 %		func_inst: 1044
+311(finds)
+	inst: 0.00161375 %		func_inst: 1179
+312(update)
+	inst: 0.175974 %		func_inst: 128566
+313(makenewgroup)
+	inst: 0.0367412 %		func_inst: 26843
+314(kilgrp)
+	inst: 0.00235013 %		func_inst: 1717
+315(combine)
+	inst: 0.0294978 %		func_inst: 21551
+316(initkomi)
+	inst: 0 %		func_inst: 0
+317(initbsizeconst)
+	inst: 0.00888725 %		func_inst: 6493
+318(initjflags)
+	inst: 0 %		func_inst: 0
+319(initvars)
+	inst: 0.2866 %		func_inst: 209389
+320(callfunc)
+	inst: 0.0371025 %		func_inst: 27107
+321(p_push_once)
+	inst: 0 %		func_inst: 0
+322(p_break_out)
+	inst: 0 %		func_inst: 0
+323(p_edge_connect)
+	inst: 0 %		func_inst: 0
+324(p_clampkill)
+	inst: 0 %		func_inst: 0
+325(p_crosscut)
+	inst: 0 %		func_inst: 0
+326(extend_to_friend)
+	inst: 0 %		func_inst: 0
+327(extend_along_edge)
+	inst: 0 %		func_inst: 0
+328(cross_capture)
+	inst: 0 %		func_inst: 0
+329(p_eyeprotect)
+	inst: 0 %		func_inst: 0
+330(p_pullback)
+	inst: 0 %		func_inst: 0
+331(p_two_point_edge)
+	inst: 0.00114564 %		func_inst: 837
+332(p_twopoint)
+	inst: 0 %		func_inst: 0
+333(p_jump_in_center)
+	inst: 0 %		func_inst: 0
+334(p_knight_in_center)
+	inst: 6.84372e-05 %		func_inst: 50
+335(p_outside_hane)
+	inst: 0 %		func_inst: 0
+336(p_extend_3_libs)
+	inst: 0 %		func_inst: 0
+337(p_overcut)
+	inst: 0.000171093 %		func_inst: 125
+338(p_knights_from_behind)
+	inst: 0 %		func_inst: 0
+339(cross_sector)
+	inst: 0 %		func_inst: 0
+340(p_cross_sector_nodef)
+	inst: 0 %		func_inst: 0
+341(p_cross_sector)
+	inst: 0 %		func_inst: 0
+342(p_cross_def_sector)
+	inst: 0 %		func_inst: 0
+343(p_invade3)
+	inst: 0 %		func_inst: 0
+344(p_clamp)
+	inst: 0 %		func_inst: 0
+345(p_defend_wall)
+	inst: 0.00120039 %		func_inst: 877
+346(p_knightsmove)
+	inst: 0.00156721 %		func_inst: 1145
+347(p_edge_cut3)
+	inst: 0.000474954 %		func_inst: 347
+348(p_edge_cut)
+	inst: 0.00234603 %		func_inst: 1714
+349(p_edge_cut2)
+	inst: 0 %		func_inst: 0
+350(p_first_line)
+	inst: 0.000218999 %		func_inst: 160
+351(p_jump_wall)
+	inst: 0.000136874 %		func_inst: 100
+352(p_block_knights)
+	inst: 0 %		func_inst: 0
+353(p_block_second)
+	inst: 5.61185e-05 %		func_inst: 41
+354(p_edge_knights)
+	inst: 0.00194635 %		func_inst: 1422
+355(p_monkey_jump)
+	inst: 0.000574872 %		func_inst: 420
+356(p_edge_hane)
+	inst: 0.00366549 %		func_inst: 2678
+357(p_double_diag)
+	inst: 0.00378047 %		func_inst: 2762
+358(p_edge_kosumi)
+	inst: 0 %		func_inst: 0
+359(p_hane)
+	inst: 0.000458529 %		func_inst: 335
+360(p_stophane)
+	inst: 0.000581716 %		func_inst: 425
+361(groupcanrunhere)
+	inst: 8.62308e-05 %		func_inst: 63
+362(p_pushthru)
+	inst: 0.00779499 %		func_inst: 5695
+363(p_connect_hane)
+	inst: 0.00149193 %		func_inst: 1090
+364(initshapes)
+	inst: 0.0182098 %		func_inst: 13304
+365(sortshape)
+	inst: 0.199179 %		func_inst: 145520
+366(newshape)
+	inst: 0.00360253 %		func_inst: 2632
+367(sameshape)
+	inst: 0.0923765 %		func_inst: 67490
+368(copyshape)
+	inst: 0.568094 %		func_inst: 415048
+369(findshapes)
+	inst: 8.90972 %		func_inst: 6509421
+370(match)
+	inst: 1.91764 %		func_inst: 1401021
+371(match2)
+	inst: 1.86385 %		func_inst: 1361725
+372(evalshapes)
+	inst: 0.0441255 %		func_inst: 32238
+373(__do_global_dtors)
+	inst: 1.09499e-05 %		func_inst: 8
+374(__do_global_ctors)
+	inst: 2.05311e-05 %		func_inst: 15
+375(__main)
+	inst: 8.21246e-06 %		func_inst: 6
+376(__libc_init)
+	inst: 2.73749e-06 %		func_inst: 2
+377(exit)
+	inst: 4.51685e-05 %		func_inst: 33
+378(_cleanup)
+	inst: 4.10623e-06 %		func_inst: 3
+379(strtol)
+	inst: 0.000347661 %		func_inst: 254
+380(printf)
+	inst: 0.00198331 %		func_inst: 1449
+381(__getmode)
+	inst: 5.06435e-05 %		func_inst: 37
+382(fopen)
+	inst: 2.87436e-05 %		func_inst: 21
+383(fgets)
+	inst: 0.000394198 %		func_inst: 288
+384(strncmp)
+	inst: 9.17058e-05 %		func_inst: 67
+385(sscanf)
+	inst: 1.64249e-05 %		func_inst: 12
+386(fclose)
+	inst: 0.000249111 %		func_inst: 182
+387(sprintf)
+	inst: 0.00040241 %		func_inst: 294
+388(atexit)
+	inst: 1.64249e-05 %		func_inst: 12
+389(__new_exitfn)
+	inst: 2.46374e-05 %		func_inst: 18
+390(__init_misc)
+	inst: 1.64249e-05 %		func_inst: 12
+391(_exit)
+	inst: 1.36874e-06 %		func_inst: 1
+392(vfprintf)
+	inst: 0.0903904 %		func_inst: 66039
+393(printf_unknown)
+	inst: 0 %		func_inst: 0
+394(memset)
+	inst: 0.0108842 %		func_inst: 7952
+395(__newstream)
+	inst: 5.88559e-05 %		func_inst: 43
+396(__stdio_read)
+	inst: 5.47497e-06 %		func_inst: 4
+397(__stdio_write)
+	inst: 3.28498e-05 %		func_inst: 24
+398(__stdio_seek)
+	inst: 2.73749e-05 %		func_inst: 20
+399(__stdio_close)
+	inst: 8.21246e-06 %		func_inst: 6
+400(__stdio_fileno)
+	inst: 0 %		func_inst: 0
+401(__stdio_open)
+	inst: 3.14811e-05 %		func_inst: 23
+402(__stdio_reopen)
+	inst: 0 %		func_inst: 0
+403(__stdio_check_funcs)
+	inst: 0 %		func_inst: 0
+404(__stdio_check_offset)
+	inst: 0.000147824 %		func_inst: 108
+405(flushbuf)
+	inst: 0.000284699 %		func_inst: 208
+406(fillbuf)
+	inst: 0.000192993 %		func_inst: 141
+407(__flshfp)
+	inst: 0.000324392 %		func_inst: 237
+408(__fillbf)
+	inst: 0.000216261 %		func_inst: 158
+409(__invalidate)
+	inst: 7.52809e-05 %		func_inst: 55
+410(__memccpy)
+	inst: 0.00039146 %		func_inst: 286
+411(__vsscanf)
+	inst: 0.000101287 %		func_inst: 74
+412(_free_internal)
+	inst: 0.000253217 %		func_inst: 185
+413(free)
+	inst: 1.91624e-05 %		func_inst: 14
+414(vsprintf)
+	inst: 0.00241446 %		func_inst: 1764
+415(initialize)
+	inst: 5.61185e-05 %		func_inst: 41
+416(morecore)
+	inst: 0.000156037 %		func_inst: 114
+417(malloc)
+	inst: 0.00101424 %		func_inst: 741
+418(strrchr)
+	inst: 6.43309e-05 %		func_inst: 47
+419(syscall_error)
+	inst: 0 %		func_inst: 0
+420(register_printf_function)
+	inst: 0 %		func_inst: 0
+421(mbtowc)
+	inst: 0.00610733 %		func_inst: 4462
+422(strlen)
+	inst: 0.00189571 %		func_inst: 1385
+423(strchr)
+	inst: 0.00537779 %		func_inst: 3929
+424(fwrite)
+	inst: 0.000136874 %		func_inst: 100
+425(_itoa)
+	inst: 0 %		func_inst: 0
+426(__printf_fp)
+	inst: 0 %		func_inst: 0
+427(fflush)
+	inst: 0 %		func_inst: 0
+428(__read)
+	inst: 8.21246e-06 %		func_inst: 6
+429(__write)
+	inst: 4.10623e-06 %		func_inst: 3
+430(__lseek)
+	inst: 8.21246e-06 %		func_inst: 6
+431(__close)
+	inst: 1.23187e-05 %		func_inst: 9
+432(__open)
+	inst: 4.10623e-06 %		func_inst: 3
+433(__dup2)
+	inst: 0 %		func_inst: 0
+434(__stdio_init_stream)
+	inst: 8.34933e-05 %		func_inst: 61
+435(__vfscanf)
+	inst: 0.000665209 %		func_inst: 486
+436(__default_morecore)
+	inst: 4.10623e-05 %		func_inst: 30
+437(memcpy)
+	inst: 6.43309e-05 %		func_inst: 47
+438(memchr)
+	inst: 0 %		func_inst: 0
+439(__isnan)
+	inst: 0 %		func_inst: 0
+440(__isinf)
+	inst: 0 %		func_inst: 0
+441(__mpn_extract_double)
+	inst: 0 %		func_inst: 0
+442(__mpn_lshift)
+	inst: 0 %		func_inst: 0
+443(__mpn_cmp)
+	inst: 0 %		func_inst: 0
+444(__mpn_divmod_1)
+	inst: 0 %		func_inst: 0
+445(abort)
+	inst: 0 %		func_inst: 0
+446(__mpn_mul_1)
+	inst: 0 %		func_inst: 0
+447(__mpn_add_n)
+	inst: 0 %		func_inst: 0
+448(__mpn_divmod)
+	inst: 0 %		func_inst: 0
+449(__mpn_rshift)
+	inst: 0 %		func_inst: 0
+450(__mpn_sub_n)
+	inst: 0 %		func_inst: 0
+451(__fstat)
+	inst: 8.21246e-06 %		func_inst: 6
+452(__isatty)
+	inst: 0 %		func_inst: 0
+453(realloc)
+	inst: 0 %		func_inst: 0
+454(strtoul)
+	inst: 0 %		func_inst: 0
+455(strtod)
+	inst: 0 %		func_inst: 0
+456(ungetc)
+	inst: 0.000125924 %		func_inst: 92
+457(__sbrk)
+	inst: 7.52809e-05 %		func_inst: 55
+458(_wordcopy_fwd_aligned)
+	inst: 3.55873e-05 %		func_inst: 26
+459(_wordcopy_fwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+460(_wordcopy_bwd_aligned)
+	inst: 0 %		func_inst: 0
+461(_wordcopy_bwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+462(__mpn_submul_1)
+	inst: 0 %		func_inst: 0
+463(__ioctl)
+	inst: 0 %		func_inst: 0
+464(memmove)
+	inst: 0 %		func_inst: 0
+465(pow)
+	inst: 0 %		func_inst: 0
+466(pow_P)
+	inst: 0 %		func_inst: 0
+467(__brk)
+	inst: 5.47497e-05 %		func_inst: 40
+468(__finite)
+	inst: 0 %		func_inst: 0
+469(__copysign)
+	inst: 0 %		func_inst: 0
+470(__drem)
+	inst: 0 %		func_inst: 0
+471(log)
+	inst: 0 %		func_inst: 0
+472(__log__D)
+	inst: 0 %		func_inst: 0
+473(exp)
+	inst: 0 %		func_inst: 0
+474(__exp__D)
+	inst: 0 %		func_inst: 0
+475(ldexp)
+	inst: 0 %		func_inst: 0
+476(__logb)
+	inst: 0 %		func_inst: 0
+477(__umoddi3)
+	inst: 0.000999182 %		func_inst: 730
+478(__udivdi3)
+	inst: 0.000599509 %		func_inst: 438
+479(__udivmoddi4)
+	inst: 0.0279771 %		func_inst: 20440
+
+====== inst statistic ======
+0(__start)
+	func: 0.000135645 %		call: 1
+1(main)
+	func: 0.000135645 %		call: 1
+2(readfile)
+	func: 0.000135645 %		call: 1
+3(check)
+	func: 0.0071892 %		call: 53
+4(getmove)
+	func: 0.00678226 %		call: 50
+5(init)
+	func: 0.000135645 %		call: 1
+6(g2exit)
+	func: 0.000135645 %		call: 1
+7(fixplaylevel)
+	func: 0 %		call: 0
+8(initinit)
+	func: 0.000135645 %		call: 1
+9(turnoffcplay)
+	func: 0.000135645 %		call: 1
+10(outerror)
+	func: 0 %		call: 0
+11(psqr)
+	func: 0.0071892 %		call: 53
+12(ssqr)
+	func: 0.0071892 %		call: 53
+13(lresurrect)
+	func: 0.077996 %		call: 575
+14(ldndate)
+	func: 0.945719 %		call: 6972
+15(lsplit)
+	func: 0.14392 %		call: 1061
+16(upldrflags)
+	func: 0.778061 %		call: 5736
+17(lupdate)
+	func: 0.945719 %		call: 6972
+18(lkilgrp)
+	func: 0.077996 %		call: 575
+19(lcombine)
+	func: 0.14392 %		call: 1061
+20(fire_strat_rule)
+	func: 0.02523 %		call: 186
+21(fire_strat_score)
+	func: 0.00122081 %		call: 9
+22(rule_fired)
+	func: 0 %		call: 0
+23(empty_corner)
+	func: 0 %		call: 0
+24(threethreecorner)
+	func: 0.000406936 %		call: 3
+25(threefourcorner)
+	func: 0.000406936 %		call: 3
+26(fourfourcorner)
+	func: 0 %		call: 0
+27(stoneon44point)
+	func: 0.00189903 %		call: 14
+28(stoneon34point)
+	func: 0 %		call: 0
+29(stoneonhighpoint)
+	func: 0 %		call: 0
+30(cornercolor)
+	func: 0.000813872 %		call: 6
+31(stonefacing)
+	func: 0.00244161 %		call: 18
+32(pincerstonefacing)
+	func: 0 %		call: 0
+33(highpoint)
+	func: 0 %		call: 0
+34(lowpoint)
+	func: 0 %		call: 0
+35(spiral)
+	func: 0.000813872 %		call: 6
+36(emptycorner)
+	func: 0.0290281 %		call: 214
+37(fourfourpoint)
+	func: 0 %		call: 0
+38(threefourpoint)
+	func: 0.000813872 %		call: 6
+39(reflect)
+	func: 0.0268578 %		call: 198
+40(which_corner)
+	func: 0.00108516 %		call: 8
+41(shimari_kakari)
+	func: 0.00651097 %		call: 48
+42(is_shimari)
+	func: 0 %		call: 0
+43(makekakari)
+	func: 0 %		call: 0
+44(makeshimari)
+	func: 0 %		call: 0
+45(edge_shimari)
+	func: 0 %		call: 0
+46(extedge)
+	func: 0 %		call: 0
+47(urgextend)
+	func: 0 %		call: 0
+48(findbestextension)
+	func: 0 %		call: 0
+49(ext_to_enemy)
+	func: 0 %		call: 0
+50(extend)
+	func: 0 %		call: 0
+51(contactfight)
+	func: 0.00651097 %		call: 48
+52(threelibextend)
+	func: 0.00596839 %		call: 44
+53(twolibextend)
+	func: 0.00447629 %		call: 33
+54(cut_stones_val)
+	func: 0.004205 %		call: 31
+55(save_th_group)
+	func: 0.00244161 %		call: 18
+56(canbecaptured)
+	func: 0.0179052 %		call: 132
+57(savegroup)
+	func: 0.00651097 %		call: 48
+58(make_eye_shape)
+	func: 0.00257726 %		call: 19
+59(save_unsettled_army)
+	func: 0.00162774 %		call: 12
+60(filloutside)
+	func: 0 %		call: 0
+61(save_semeai)
+	func: 0 %		call: 0
+62(runaway)
+	func: 0.000542581 %		call: 4
+63(runhere)
+	func: 0 %		call: 0
+64(save_weak_army)
+	func: 0.000271291 %		call: 2
+65(remove_dead_stones)
+	func: 0 %		call: 0
+66(killgroup)
+	func: 0.00651097 %		call: 48
+67(attack_weak_army)
+	func: 0.000949517 %		call: 7
+68(surround)
+	func: 0 %		call: 0
+69(poke_eye)
+	func: 0.000542581 %		call: 4
+70(poke_eye_ko)
+	func: 0 %		call: 0
+71(getamoves)
+	func: 0.00108516 %		call: 8
+72(approachmoves)
+	func: 0.00108516 %		call: 8
+73(kill_th_group)
+	func: 0.00176339 %		call: 13
+74(kothreat)
+	func: 0 %		call: 0
+75(badkothreat)
+	func: 0 %		call: 0
+76(connect_bamboo)
+	func: 0.0815228 %		call: 601
+77(try_connect)
+	func: 0.00623968 %		call: 46
+78(connect_2_links)
+	func: 0.000406936 %		call: 3
+79(cut_connect)
+	func: 0.00651097 %		call: 48
+80(canconnlkg)
+	func: 0.0188547 %		call: 139
+81(canconnlink)
+	func: 0.0122081 %		call: 90
+82(onelink_cut)
+	func: 0.00108516 %		call: 8
+83(conn_val)
+	func: 0.00786743 %		call: 58
+84(cut_val)
+	func: 0.00637533 %		call: 47
+85(def_val)
+	func: 0.0116655 %		call: 86
+86(atk_val)
+	func: 0.0113942 %		call: 84
+87(direct_cut)
+	func: 0.00271291 %		call: 20
+88(block_move)
+	func: 0.00651097 %		call: 48
+89(filldame)
+	func: 0.00325549 %		call: 24
+90(get_reasons_for_moves)
+	func: 0.00678226 %		call: 50
+91(squirm)
+	func: 0.00284855 %		call: 21
+92(play_inside)
+	func: 0.00705355 %		call: 52
+93(play_safe)
+	func: 0.00271291 %		call: 20
+94(squirm_capture)
+	func: 0 %		call: 0
+95(safe_capture)
+	func: 0 %		call: 0
+96(hasaneye)
+	func: 0 %		call: 0
+97(center)
+	func: 0.00651097 %		call: 48
+98(isjunc)
+	func: 0.000271291 %		call: 2
+99(threethreepoint)
+	func: 0.000406936 %		call: 3
+100(close_corner)
+	func: 0.00651097 %		call: 48
+101(isbadmove)
+	func: 0.0358104 %		call: 264
+102(incorner)
+	func: 0.139986 %		call: 1032
+103(sortnextmove)
+	func: 0.00311984 %		call: 23
+104(getmovestotry)
+	func: 0.00678226 %		call: 50
+105(tryamove)
+	func: 0.0358104 %		call: 264
+106(bestmove)
+	func: 0 %		call: 0
+107(strategy)
+	func: 0.00678226 %		call: 50
+108(fixurgdefarmies)
+	func: 0.00678226 %		call: 50
+109(compmove)
+	func: 0.00678226 %		call: 50
+110(badmove)
+	func: 0 %		call: 0
+111(check_killed)
+	func: 0.0295707 %		call: 218
+112(deadinsidedead)
+	func: 0 %		call: 0
+113(check_threatened)
+	func: 0.0436778 %		call: 322
+114(check_sente)
+	func: 0.0292994 %		call: 216
+115(cut_stones_th_val)
+	func: 0.00447629 %		call: 33
+116(rule_applied)
+	func: 0.0885764 %		call: 653
+117(stval)
+	func: 0.0349965 %		call: 258
+118(new_th_group)
+	func: 0.0029842 %		call: 22
+119(getscore)
+	func: 0.0436778 %		call: 322
+120(initrtval)
+	func: 0.000135645 %		call: 1
+121(radiateterr)
+	func: 0.0423213 %		call: 312
+122(radiateweak)
+	func: 0.0423213 %		call: 312
+123(radiateclear)
+	func: 0.0423213 %		call: 312
+124(radiatescore)
+	func: 0.0423213 %		call: 312
+125(radiatecorner)
+	func: 0.169285 %		call: 1248
+126(radiatepiece)
+	func: 0.724888 %		call: 5344
+127(cntterr)
+	func: 0.0436778 %		call: 322
+128(evallibsterr)
+	func: 0.942599 %		call: 6949
+129(markspot)
+	func: 3.5847 %		call: 26427
+130(markpcls)
+	func: 0.0423213 %		call: 312
+131(kill_ldrflags)
+	func: 0.100649 %		call: 742
+132(cantbecaptured)
+	func: 0.191395 %		call: 1411
+133(canbethreatened)
+	func: 0 %		call: 0
+134(cutstone)
+	func: 0 %		call: 0
+135(findcaptured)
+	func: 0.0423213 %		call: 312
+136(bdead)
+	func: 0.0423213 %		call: 312
+137(newdeadgroup)
+	func: 0.0374381 %		call: 276
+138(markgroup)
+	func: 0.0435421 %		call: 321
+139(fixwasthgroup)
+	func: 0.0056971 %		call: 42
+140(fixwasdeadgroup)
+	func: 0.000406936 %		call: 3
+141(fixarmies)
+	func: 0.0423213 %		call: 312
+142(life)
+	func: 0.0423213 %		call: 312
+143(fixsmothered)
+	func: 0.0423213 %		call: 312
+144(fixgralive)
+	func: 0.0423213 %		call: 312
+145(initarmyalive)
+	func: 0.15355 %		call: 1132
+146(startalive)
+	func: 0.15355 %		call: 1132
+147(getterr)
+	func: 0.142834 %		call: 1053
+148(pointeyes)
+	func: 0.15355 %		call: 1132
+149(getarmynbp)
+	func: 0.0533086 %		call: 393
+150(getarmylibs)
+	func: 0.15355 %		call: 1132
+151(th_run)
+	func: 0.0177695 %		call: 131
+152(getarmyth_pot)
+	func: 0.126014 %		call: 929
+153(th_terr)
+	func: 0.0177695 %		call: 131
+154(th_conns)
+	func: 0.0177695 %		call: 131
+155(getnumeyes)
+	func: 0.15355 %		call: 1132
+156(deadgroups)
+	func: 0.15355 %		call: 1132
+157(getarmyex_pot)
+	func: 0.126014 %		call: 929
+158(check_ex)
+	func: 0.560079 %		call: 4129
+159(ucutdist)
+	func: 0.0450342 %		call: 332
+160(canundercut)
+	func: 0.225985 %		call: 1666
+161(undercut)
+	func: 1.22311 %		call: 9017
+162(getarmyuc_pot)
+	func: 0.126014 %		call: 929
+163(doubleconnect)
+	func: 0 %		call: 0
+164(getarmycn_pot)
+	func: 0.126014 %		call: 929
+165(cnthreat)
+	func: 0.0250944 %		call: 185
+166(geteyespace)
+	func: 0.111636 %		call: 823
+167(getarmytv_pot)
+	func: 0.126014 %		call: 929
+168(canrunhere)
+	func: 0.173626 %		call: 1280
+169(connect_run)
+	func: 0.0470689 %		call: 347
+170(getarmyrn_pot)
+	func: 0.0520878 %		call: 384
+171(miaialive)
+	func: 0.126014 %		call: 929
+172(bestpot)
+	func: 0.0524947 %		call: 387
+173(totalpot)
+	func: 0.126014 %		call: 929
+174(secondbestpot)
+	func: 0.044356 %		call: 327
+175(moveispoteye)
+	func: 0.000678226 %		call: 5
+176(adpot)
+	func: 0.861619 %		call: 6352
+177(extendforeyes)
+	func: 0.0440847 %		call: 325
+178(rmpot)
+	func: 1.13522 %		call: 8369
+179(rmconnect)
+	func: 0.326634 %		call: 2408
+180(blockextend)
+	func: 0.0402866 %		call: 297
+181(blockuc)
+	func: 0.529966 %		call: 3907
+182(findblock)
+	func: 0.19031 %		call: 1403
+183(getarmywk_pot)
+	func: 0.0520878 %		call: 384
+184(isseki)
+	func: 0.0581918 %		call: 429
+185(semeailibs)
+	func: 0.0143784 %		call: 106
+186(semeai_result)
+	func: 0.014921 %		call: 110
+187(win_semeai)
+	func: 0.0147853 %		call: 109
+188(uns_semeai)
+	func: 0.0071892 %		call: 53
+189(eyesifcapture)
+	func: 0.00176339 %		call: 13
+190(semeaialive)
+	func: 0.0520878 %		call: 384
+191(conntoalive)
+	func: 0.050867 %		call: 375
+192(weakalive)
+	func: 0.0520878 %		call: 384
+193(newalive)
+	func: 0.205638 %		call: 1516
+194(otherweakconn)
+	func: 0.0398797 %		call: 294
+195(cnoneconn)
+	func: 0.228969 %		call: 1688
+196(cnonepoint)
+	func: 0.0976646 %		call: 720
+197(can_def_peep)
+	func: 0.0200755 %		call: 148
+198(prot_two_point)
+	func: 0.0173626 %		call: 128
+199(twoenemytwopoint)
+	func: 0.000135645 %		call: 1
+200(cntwolkgs)
+	func: 0.004205 %		call: 31
+201(threepointjump)
+	func: 0.00339113 %		call: 25
+202(largeknight)
+	func: 0.000678226 %		call: 5
+203(cntwolinks)
+	func: 0.0389302 %		call: 287
+204(checkpush)
+	func: 0.000135645 %		call: 1
+205(protdiag)
+	func: 0.0839644 %		call: 619
+206(fixcnprot)
+	func: 0.0423213 %		call: 312
+207(combinearmy)
+	func: 0.0562928 %		call: 415
+208(splitarmy)
+	func: 0.0379807 %		call: 280
+209(cntplyhere)
+	func: 0.152737 %		call: 1126
+210(dnn1)
+	func: 0.0800307 %		call: 590
+211(upn1)
+	func: 0.0503244 %		call: 371
+212(uscan)
+	func: 0.0425926 %		call: 314
+213(incn1)
+	func: 0.0389302 %		call: 287
+214(dscan)
+	func: 0.0367599 %		call: 271
+215(cscan)
+	func: 0.0184478 %		call: 136
+216(cuscan)
+	func: 0.0231953 %		call: 171
+217(upltr)
+	func: 0.0423213 %		call: 312
+218(chckcorner)
+	func: 0.165894 %		call: 1223
+219(edgeofterr)
+	func: 1.82945 %		call: 13487
+220(chckside)
+	func: 0.166979 %		call: 1231
+221(upxy)
+	func: 0.0425926 %		call: 314
+222(dnxy)
+	func: 0.0367599 %		call: 271
+223(dncons)
+	func: 0.0534442 %		call: 394
+224(brkconns)
+	func: 0.0425926 %		call: 314
+225(brconn)
+	func: 0.0360816 %		call: 266
+226(moveconns)
+	func: 0.0101734 %		call: 75
+227(adcons)
+	func: 0.0276716 %		call: 204
+228(addconn)
+	func: 0.0819297 %		call: 604
+229(chkcon)
+	func: 0.0600909 %		call: 443
+230(addlks)
+	func: 0.0290281 %		call: 214
+231(addlkgs)
+	func: 0.0161418 %		call: 119
+232(brklks)
+	func: 0.0282142 %		call: 208
+233(brklkgs)
+	func: 0.0164131 %		call: 121
+234(rstrlks)
+	func: 0.0184478 %		call: 136
+235(brklink)
+	func: 0.0219745 %		call: 162
+236(brklkg)
+	func: 0.0119368 %		call: 88
+237(realbrklink)
+	func: 0.0130219 %		call: 96
+238(realbrklkg)
+	func: 0.00352678 %		call: 26
+239(delconnrec)
+	func: 0.0457125 %		call: 337
+240(addlink)
+	func: 0.042457 %		call: 313
+241(addlkg)
+	func: 0.0162774 %		call: 120
+242(iscaptured)
+	func: 0.229919 %		call: 1695
+243(defonelib)
+	func: 0.126421 %		call: 932
+244(defatari)
+	func: 0.34169 %		call: 2519
+245(def_atk_nbr)
+	func: 0.0595483 %		call: 439
+246(jump_to_escape)
+	func: 0 %		call: 0
+247(play_next_to_group)
+	func: 0.0636176 %		call: 469
+248(getefflibs)
+	func: 1.48301 %		call: 10933
+249(attack2libs)
+	func: 0.0202111 %		call: 149
+250(gendefmoves)
+	func: 0.372753 %		call: 2748
+251(def_two_stone_wall)
+	func: 0.00203468 %		call: 15
+252(jump)
+	func: 0 %		call: 0
+253(deftwolibs)
+	func: 0.168064 %		call: 1239
+254(atktwolibs)
+	func: 0.266679 %		call: 1966
+255(genatkmoves)
+	func: 0.341012 %		call: 2514
+256(genrestatk)
+	func: 0.129948 %		call: 958
+257(livesordies)
+	func: 0.850631 %		call: 6271
+258(fixli)
+	func: 0.0423213 %		call: 312
+259(evalopenlineeye)
+	func: 0.0122081 %		call: 90
+260(addeyerec)
+	func: 0 %		call: 0
+261(findeyelist)
+	func: 0.0423213 %		call: 312
+262(can_be_eye)
+	func: 0.752831 %		call: 5550
+263(evalonepteye)
+	func: 0.0215676 %		call: 159
+264(evalcornereyes)
+	func: 0.0423213 %		call: 312
+265(deallocate_eye)
+	func: 0.158841 %		call: 1171
+266(getcount)
+	func: 0.14297 %		call: 1054
+267(deadshape)
+	func: 0.0029842 %		call: 22
+268(evaldeadgroupeye)
+	func: 0.0374381 %		call: 276
+269(evaloneptdeadeye)
+	func: 0.0335044 %		call: 247
+270(evalmanyeyespots)
+	func: 0.00162774 %		call: 12
+271(eval2pointeye)
+	func: 0.00311984 %		call: 23
+272(eval_line_eye)
+	func: 0.0137002 %		call: 101
+273(evalbigeye)
+	func: 0.0713494 %		call: 526
+274(onelibnbr)
+	func: 0 %		call: 0
+275(jupdate)
+	func: 0.00664662 %		call: 49
+276(jupdatec)
+	func: 0.0265865 %		call: 196
+277(getlastcolor)
+	func: 0.0138358 %		call: 102
+278(getflag)
+	func: 0.0150566 %		call: 111
+279(getxyjlib)
+	func: 0.034047 %		call: 251
+280(j2next)
+	func: 0.0162774 %		call: 120
+281(j2skip)
+	func: 0 %		call: 0
+282(j2more)
+	func: 0.0173626 %		call: 128
+283(sibling)
+	func: 0.0173626 %		call: 128
+284(joseki)
+	func: 0.00651097 %		call: 48
+285(findurgentjoseki)
+	func: 0 %		call: 0
+286(fire_joseki)
+	func: 0 %		call: 0
+287(notjoseki)
+	func: 0 %		call: 0
+288(evaljoseki)
+	func: 0 %		call: 0
+289(gtflist)
+	func: 0.29842 %		call: 2200
+290(comlist)
+	func: 0.897972 %		call: 6620
+291(cpylist)
+	func: 2.249 %		call: 16580
+292(mrglist)
+	func: 10.664 %		call: 78617
+293(andlist)
+	func: 0.0747405 %		call: 551
+294(addlist)
+	func: 22.1738 %		call: 163469
+295(adflist)
+	func: 4.74094 %		call: 34951
+296(dellist)
+	func: 12.1751 %		call: 89757
+297(killist)
+	func: 9.81543 %		call: 72361
+298(cntlist)
+	func: 0.0280786 %		call: 207
+299(newlist)
+	func: 0.475979 %		call: 3509
+300(inlist)
+	func: 0.469333 %		call: 3460
+301(adplib)
+	func: 0.0367599 %		call: 271
+302(deplib)
+	func: 0.000949517 %		call: 7
+303(adlibs)
+	func: 0.0941378 %		call: 694
+304(delibs)
+	func: 0.0196686 %		call: 145
+305(resurrect)
+	func: 0.000542581 %		call: 4
+306(newgrouparmy)
+	func: 0.000542581 %		call: 4
+307(dndate)
+	func: 0.0417787 %		call: 308
+308(make_army_free)
+	func: 0.0693147 %		call: 511
+309(split)
+	func: 0.00841001 %		call: 62
+310(real_update)
+	func: 0.0071892 %		call: 53
+311(finds)
+	func: 0.00664662 %		call: 49
+312(update)
+	func: 0.0489679 %		call: 361
+313(makenewgroup)
+	func: 0.018719 %		call: 138
+314(kilgrp)
+	func: 0.000949517 %		call: 7
+315(combine)
+	func: 0.010716 %		call: 79
+316(initkomi)
+	func: 0 %		call: 0
+317(initbsizeconst)
+	func: 0.000135645 %		call: 1
+318(initjflags)
+	func: 0 %		call: 0
+319(initvars)
+	func: 0.000135645 %		call: 1
+320(callfunc)
+	func: 0.0645671 %		call: 476
+321(p_push_once)
+	func: 0 %		call: 0
+322(p_break_out)
+	func: 0 %		call: 0
+323(p_edge_connect)
+	func: 0 %		call: 0
+324(p_clampkill)
+	func: 0 %		call: 0
+325(p_crosscut)
+	func: 0 %		call: 0
+326(extend_to_friend)
+	func: 0 %		call: 0
+327(extend_along_edge)
+	func: 0 %		call: 0
+328(cross_capture)
+	func: 0 %		call: 0
+329(p_eyeprotect)
+	func: 0 %		call: 0
+330(p_pullback)
+	func: 0 %		call: 0
+331(p_two_point_edge)
+	func: 0.0029842 %		call: 22
+332(p_twopoint)
+	func: 0 %		call: 0
+333(p_jump_in_center)
+	func: 0 %		call: 0
+334(p_knight_in_center)
+	func: 0.000135645 %		call: 1
+335(p_outside_hane)
+	func: 0 %		call: 0
+336(p_extend_3_libs)
+	func: 0 %		call: 0
+337(p_overcut)
+	func: 0.000135645 %		call: 1
+338(p_knights_from_behind)
+	func: 0 %		call: 0
+339(cross_sector)
+	func: 0 %		call: 0
+340(p_cross_sector_nodef)
+	func: 0 %		call: 0
+341(p_cross_sector)
+	func: 0 %		call: 0
+342(p_cross_def_sector)
+	func: 0 %		call: 0
+343(p_invade3)
+	func: 0 %		call: 0
+344(p_clamp)
+	func: 0 %		call: 0
+345(p_defend_wall)
+	func: 0.00135645 %		call: 10
+346(p_knightsmove)
+	func: 0.00311984 %		call: 23
+347(p_edge_cut3)
+	func: 0.000678226 %		call: 5
+348(p_edge_cut)
+	func: 0.00434065 %		call: 32
+349(p_edge_cut2)
+	func: 0 %		call: 0
+350(p_first_line)
+	func: 0.000135645 %		call: 1
+351(p_jump_wall)
+	func: 0.000135645 %		call: 1
+352(p_block_knights)
+	func: 0 %		call: 0
+353(p_block_second)
+	func: 0.000135645 %		call: 1
+354(p_edge_knights)
+	func: 0.00257726 %		call: 19
+355(p_monkey_jump)
+	func: 0.000813872 %		call: 6
+356(p_edge_hane)
+	func: 0.0219745 %		call: 162
+357(p_double_diag)
+	func: 0.00651097 %		call: 48
+358(p_edge_kosumi)
+	func: 0 %		call: 0
+359(p_hane)
+	func: 0.000406936 %		call: 3
+360(p_stophane)
+	func: 0.000406936 %		call: 3
+361(groupcanrunhere)
+	func: 0.000135645 %		call: 1
+362(p_pushthru)
+	func: 0.0143784 %		call: 106
+363(p_connect_hane)
+	func: 0.00217032 %		call: 16
+364(initshapes)
+	func: 0.000135645 %		call: 1
+365(sortshape)
+	func: 0.0577849 %		call: 426
+366(newshape)
+	func: 0.0130219 %		call: 96
+367(sameshape)
+	func: 0.0366242 %		call: 270
+368(copyshape)
+	func: 0.0607691 %		call: 448
+369(findshapes)
+	func: 0.00664662 %		call: 49
+370(match)
+	func: 3.26118 %		call: 24042
+371(match2)
+	func: 3.17559 %		call: 23411
+372(evalshapes)
+	func: 0.00651097 %		call: 48
+373(__do_global_dtors)
+	func: 0.000135645 %		call: 1
+374(__do_global_ctors)
+	func: 0.000135645 %		call: 1
+375(__main)
+	func: 0.000135645 %		call: 1
+376(__libc_init)
+	func: 0.000135645 %		call: 1
+377(exit)
+	func: 0.000135645 %		call: 1
+378(_cleanup)
+	func: 0.000135645 %		call: 1
+379(strtol)
+	func: 0.000542581 %		call: 4
+380(printf)
+	func: 0.0218389 %		call: 161
+381(__getmode)
+	func: 0.000135645 %		call: 1
+382(fopen)
+	func: 0.000135645 %		call: 1
+383(fgets)
+	func: 0.000542581 %		call: 4
+384(strncmp)
+	func: 0.000406936 %		call: 3
+385(sscanf)
+	func: 0.000271291 %		call: 2
+386(fclose)
+	func: 0.000678226 %		call: 5
+387(sprintf)
+	func: 0.00664662 %		call: 49
+388(atexit)
+	func: 0.000135645 %		call: 1
+389(__new_exitfn)
+	func: 0.000135645 %		call: 1
+390(__init_misc)
+	func: 0.000135645 %		call: 1
+391(_exit)
+	func: 0.000135645 %		call: 1
+392(vfprintf)
+	func: 0.0284855 %		call: 210
+393(printf_unknown)
+	func: 0 %		call: 0
+394(memset)
+	func: 0.00786743 %		call: 58
+395(__newstream)
+	func: 0.000135645 %		call: 1
+396(__stdio_read)
+	func: 0.000271291 %		call: 2
+397(__stdio_write)
+	func: 0.000135645 %		call: 1
+398(__stdio_seek)
+	func: 0.000271291 %		call: 2
+399(__stdio_close)
+	func: 0.000406936 %		call: 3
+400(__stdio_fileno)
+	func: 0 %		call: 0
+401(__stdio_open)
+	func: 0.000135645 %		call: 1
+402(__stdio_reopen)
+	func: 0 %		call: 0
+403(__stdio_check_funcs)
+	func: 0 %		call: 0
+404(__stdio_check_offset)
+	func: 0.000542581 %		call: 4
+405(flushbuf)
+	func: 0.000406936 %		call: 3
+406(fillbuf)
+	func: 0.000271291 %		call: 2
+407(__flshfp)
+	func: 0.000406936 %		call: 3
+408(__fillbf)
+	func: 0.000271291 %		call: 2
+409(__invalidate)
+	func: 0.000678226 %		call: 5
+410(__memccpy)
+	func: 0.000406936 %		call: 3
+411(__vsscanf)
+	func: 0.000271291 %		call: 2
+412(_free_internal)
+	func: 0.000271291 %		call: 2
+413(free)
+	func: 0.000271291 %		call: 2
+414(vsprintf)
+	func: 0.00664662 %		call: 49
+415(initialize)
+	func: 0.000135645 %		call: 1
+416(morecore)
+	func: 0.000406936 %		call: 3
+417(malloc)
+	func: 0.000542581 %		call: 4
+418(strrchr)
+	func: 0.000135645 %		call: 1
+419(syscall_error)
+	func: 0 %		call: 0
+420(register_printf_function)
+	func: 0 %		call: 0
+421(mbtowc)
+	func: 0.0287568 %		call: 212
+422(strlen)
+	func: 0.00786743 %		call: 58
+423(strchr)
+	func: 0.0510026 %		call: 376
+424(fwrite)
+	func: 0.000135645 %		call: 1
+425(_itoa)
+	func: 0 %		call: 0
+426(__printf_fp)
+	func: 0 %		call: 0
+427(fflush)
+	func: 0 %		call: 0
+428(__read)
+	func: 0.000271291 %		call: 2
+429(__write)
+	func: 0.000135645 %		call: 1
+430(__lseek)
+	func: 0.000271291 %		call: 2
+431(__close)
+	func: 0.000406936 %		call: 3
+432(__open)
+	func: 0.000135645 %		call: 1
+433(__dup2)
+	func: 0 %		call: 0
+434(__stdio_init_stream)
+	func: 0.000406936 %		call: 3
+435(__vfscanf)
+	func: 0.000271291 %		call: 2
+436(__default_morecore)
+	func: 0.000678226 %		call: 5
+437(memcpy)
+	func: 0.000135645 %		call: 1
+438(memchr)
+	func: 0 %		call: 0
+439(__isnan)
+	func: 0 %		call: 0
+440(__isinf)
+	func: 0 %		call: 0
+441(__mpn_extract_double)
+	func: 0 %		call: 0
+442(__mpn_lshift)
+	func: 0 %		call: 0
+443(__mpn_cmp)
+	func: 0 %		call: 0
+444(__mpn_divmod_1)
+	func: 0 %		call: 0
+445(abort)
+	func: 0 %		call: 0
+446(__mpn_mul_1)
+	func: 0 %		call: 0
+447(__mpn_add_n)
+	func: 0 %		call: 0
+448(__mpn_divmod)
+	func: 0 %		call: 0
+449(__mpn_rshift)
+	func: 0 %		call: 0
+450(__mpn_sub_n)
+	func: 0 %		call: 0
+451(__fstat)
+	func: 0.000271291 %		call: 2
+452(__isatty)
+	func: 0 %		call: 0
+453(realloc)
+	func: 0 %		call: 0
+454(strtoul)
+	func: 0 %		call: 0
+455(strtod)
+	func: 0 %		call: 0
+456(ungetc)
+	func: 0.000271291 %		call: 2
+457(__sbrk)
+	func: 0.000678226 %		call: 5
+458(_wordcopy_fwd_aligned)
+	func: 0.000135645 %		call: 1
+459(_wordcopy_fwd_dest_aligned)
+	func: 0 %		call: 0
+460(_wordcopy_bwd_aligned)
+	func: 0 %		call: 0
+461(_wordcopy_bwd_dest_aligned)
+	func: 0 %		call: 0
+462(__mpn_submul_1)
+	func: 0 %		call: 0
+463(__ioctl)
+	func: 0 %		call: 0
+464(memmove)
+	func: 0 %		call: 0
+465(pow)
+	func: 0 %		call: 0
+466(pow_P)
+	func: 0 %		call: 0
+467(__brk)
+	func: 0.000678226 %		call: 5
+468(__finite)
+	func: 0 %		call: 0
+469(__copysign)
+	func: 0 %		call: 0
+470(__drem)
+	func: 0 %		call: 0
+471(log)
+	func: 0 %		call: 0
+472(__log__D)
+	func: 0 %		call: 0
+473(exp)
+	func: 0 %		call: 0
+474(__exp__D)
+	func: 0 %		call: 0
+475(ldexp)
+	func: 0 %		call: 0
+476(__logb)
+	func: 0 %		call: 0
+477(__umoddi3)
+	func: 0.0198042 %		call: 146
+478(__udivdi3)
+	func: 0.0198042 %		call: 146
+479(__udivmoddi4)
+	func: 0.0396084 %		call: 292

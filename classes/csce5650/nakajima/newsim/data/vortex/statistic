@@ -1,0 +1,4310 @@
+total inst: 91943328
+total func: 2034162
+
+====== func statistic ======
+0(__start)
+	inst: 0 %		func_inst: 0
+1(BitVec_Create)
+	inst: 0 %		func_inst: 0
+2(BitVec_PutBit)
+	inst: 0 %		func_inst: 0
+3(BitVec_GetBit)
+	inst: 0 %		func_inst: 0
+4(BMT_Test)
+	inst: 0 %		func_inst: 0
+5(BMT_Init)
+	inst: 0 %		func_inst: 0
+6(BMT_ConfigAllClasses)
+	inst: 0 %		func_inst: 0
+7(main)
+	inst: 0 %		func_inst: 0
+8(BMT_CreateParts)
+	inst: 0.170718 %		func_inst: 156964
+9(BMT_Validate)
+	inst: 0 %		func_inst: 0
+10(BMT_ValidateNamedDrawObjs)
+	inst: 0 %		func_inst: 0
+11(BMT_QueryOn)
+	inst: 0 %		func_inst: 0
+12(BMT_DbTransaction)
+	inst: 0 %		func_inst: 0
+13(BMT_CommitPartDrawObj)
+	inst: 0 %		func_inst: 0
+14(BMT_DeletePartDrawObj)
+	inst: 0 %		func_inst: 0
+15(BMT_TraverseSets)
+	inst: 0 %		func_inst: 0
+16(BMT_Iter1)
+	inst: 0 %		func_inst: 0
+17(BMT_Iter2)
+	inst: 0 %		func_inst: 0
+18(BMT_Iter3)
+	inst: 0 %		func_inst: 0
+19(BMT_Iter4)
+	inst: 0 %		func_inst: 0
+20(BMT_ExportPart)
+	inst: 0 %		func_inst: 0
+21(BMT_ImportPart)
+	inst: 0 %		func_inst: 0
+22(BMT_BuildPersonLib)
+	inst: 0 %		func_inst: 0
+23(BMT_InitQuerys)
+	inst: 0 %		func_inst: 0
+24(BMT_LookUpParts)
+	inst: 0 %		func_inst: 0
+25(BMT_CommitParts)
+	inst: 0 %		func_inst: 0
+26(BMT_DeleteParts)
+	inst: 0 %		func_inst: 0
+27(BMT_DeleteAllObjects)
+	inst: 0 %		func_inst: 0
+28(BMT_DeleteTestObjs)
+	inst: 0 %		func_inst: 0
+29(PartLib_Init)
+	inst: 0 %		func_inst: 0
+30(PartLib_Create)
+	inst: 0 %		func_inst: 0
+31(PartLib_ActivateDb)
+	inst: 0 %		func_inst: 0
+32(PartLib_Topology)
+	inst: 0 %		func_inst: 0
+33(DrawPartPair_InitClass)
+	inst: 0 %		func_inst: 0
+34(Part_InitClass)
+	inst: 0 %		func_inst: 0
+35(Part_Create)
+	inst: 0.119594 %		func_inst: 109959
+36(Part_GetToken)
+	inst: 0 %		func_inst: 0
+37(Part_Connect)
+	inst: 0 %		func_inst: 0
+38(Part_Traverse)
+	inst: 0 %		func_inst: 0
+39(Part_Reverse)
+	inst: 0 %		func_inst: 0
+40(Part_ExportTo)
+	inst: 0 %		func_inst: 0
+41(Part_ImportFrom)
+	inst: 0 %		func_inst: 0
+42(Part_DisConnect)
+	inst: 0 %		func_inst: 0
+43(Part_Delete)
+	inst: 0 %		func_inst: 0
+44(Part_Topology)
+	inst: 0 %		func_inst: 0
+45(Core_SetPageSize)
+	inst: 0 %		func_inst: 0
+46(Void_ExtendCore)
+	inst: 0.431382 %		func_inst: 396627
+47(Void_FreeCore)
+	inst: 0.00325092 %		func_inst: 2989
+48(Void_SysFarCoreLeft)
+	inst: 0.130841 %		func_inst: 120300
+49(Core_MoreCore)
+	inst: 0.137432 %		func_inst: 126360
+50(Core_FreeCoreSpace)
+	inst: 0.00343364 %		func_inst: 3157
+51(Core0_MoreCore)
+	inst: 0.123745 %		func_inst: 113775
+52(Core0_FreeCoreSpace)
+	inst: 0 %		func_inst: 0
+53(Core0_AllocString)
+	inst: 0 %		func_inst: 0
+54(Core0_FreeString)
+	inst: 0 %		func_inst: 0
+55(Core_AssignChunks)
+	inst: 0 %		func_inst: 0
+56(Core_MoveBytes)
+	inst: 0 %		func_inst: 0
+57(Core_ShowStats)
+	inst: 0 %		func_inst: 0
+58(Ut_MoveBytes)
+	inst: 0.807754 %		func_inst: 742676
+59(Ut_CompareBytes)
+	inst: 0 %		func_inst: 0
+60(DbmCreateDb)
+	inst: 0 %		func_inst: 0
+61(Dbm_DeCacheDbs)
+	inst: 0 %		func_inst: 0
+62(Dbm_CommitDb)
+	inst: 0 %		func_inst: 0
+63(Dbm_SetDefaults)
+	inst: 0 %		func_inst: 0
+64(Dbm_GetDefaults)
+	inst: 0 %		func_inst: 0
+65(Dbm_LoadDb)
+	inst: 0 %		func_inst: 0
+66(Dbm_LoadDbHdr)
+	inst: 0 %		func_inst: 0
+67(Dbm_FileInBlkHdr)
+	inst: 0 %		func_inst: 0
+68(Dbm_FileInDbHdr)
+	inst: 0 %		func_inst: 0
+69(Dbm_FreeDb)
+	inst: 0 %		func_inst: 0
+70(Domain_ImplodeMemory)
+	inst: 0 %		func_inst: 0
+71(Domain_BeHereNow)
+	inst: 0 %		func_inst: 0
+72(Domain_MmiInvoke)
+	inst: 0 %		func_inst: 0
+73(Domain_Omi0Invoke)
+	inst: 0 %		func_inst: 0
+74(Domain_OmiInvoke)
+	inst: 0 %		func_inst: 0
+75(Domain_Enter)
+	inst: 0 %		func_inst: 0
+76(Domain_Exit)
+	inst: 0 %		func_inst: 0
+77(Draw7_Init)
+	inst: 0 %		func_inst: 0
+78(TestObj_InitClass)
+	inst: 0 %		func_inst: 0
+79(TestObj_new0)
+	inst: 0 %		func_inst: 0
+80(TestObj_new1)
+	inst: 0 %		func_inst: 0
+81(TestObj_show)
+	inst: 0 %		func_inst: 0
+82(TestObj_Topology)
+	inst: 0 %		func_inst: 0
+83(TestObj_delete)
+	inst: 0 %		func_inst: 0
+84(Draw7)
+	inst: 0 %		func_inst: 0
+85(DrawLib_InitLibrary)
+	inst: 0 %		func_inst: 0
+86(DrawLib_InitClass)
+	inst: 0 %		func_inst: 0
+87(DrawLib_InitDb)
+	inst: 0 %		func_inst: 0
+88(DrawLib_QueryDb)
+	inst: 0 %		func_inst: 0
+89(DrawLib_CreateDb)
+	inst: 0 %		func_inst: 0
+90(DrawLib_ActivateDbByName)
+	inst: 0 %		func_inst: 0
+91(DrawLib_ActivateDbByToken)
+	inst: 0 %		func_inst: 0
+92(DrawLib_DeleteDb)
+	inst: 0 %		func_inst: 0
+93(DrawLib_NewId)
+	inst: 0.0482906 %		func_inst: 44400
+94(DrawObj_InitClass)
+	inst: 0 %		func_inst: 0
+95(DrawObj_new0)
+	inst: 0 %		func_inst: 0
+96(DrawObj_new1)
+	inst: 0 %		func_inst: 0
+97(DrawObj_new2)
+	inst: 0 %		func_inst: 0
+98(DrawObj_import)
+	inst: 0 %		func_inst: 0
+99(DrawObj_export)
+	inst: 0 %		func_inst: 0
+100(DrawObj_draw)
+	inst: 0 %		func_inst: 0
+101(DrawObj_area)
+	inst: 0 %		func_inst: 0
+102(DrawObj_delete)
+	inst: 0 %		func_inst: 0
+103(DrawObj_Create0)
+	inst: 0 %		func_inst: 0
+104(DrawObj_Create1)
+	inst: 0 %		func_inst: 0
+105(DrawObj_Import)
+	inst: 0 %		func_inst: 0
+106(DrawObj_Export)
+	inst: 0 %		func_inst: 0
+107(DrawObjs_InitClass)
+	inst: 0 %		func_inst: 0
+108(OwnerOfDrawObjs)
+	inst: 0 %		func_inst: 0
+109(DrawObjs_AddInto)
+	inst: 0.0265598 %		func_inst: 24420
+110(DrawObjs_FindIn)
+	inst: 0 %		func_inst: 0
+111(DrawObjs_IterateOn)
+	inst: 0 %		func_inst: 0
+112(NamedDrawObj_InitClass)
+	inst: 0 %		func_inst: 0
+113(NamedDrawObj_new0)
+	inst: 0 %		func_inst: 0
+114(NamedDrawObj_new1)
+	inst: 0 %		func_inst: 0
+115(NamedDrawObj_new2)
+	inst: 0 %		func_inst: 0
+116(NamedDrawObj_Create0)
+	inst: 0 %		func_inst: 0
+117(NamedDrawObj_Create1)
+	inst: 0 %		func_inst: 0
+118(NamedDrawObj_ExportFunc)
+	inst: 0 %		func_inst: 0
+119(NamedDrawObj_delete)
+	inst: 0 %		func_inst: 0
+120(NamedDrawObjs_InitClass)
+	inst: 0 %		func_inst: 0
+121(NamedDrawObjs_AddInto)
+	inst: 0.00332596 %		func_inst: 3058
+122(NamedDrawObjs_FindIn)
+	inst: 0 %		func_inst: 0
+123(NamedDrawObjs_IterateOn)
+	inst: 0 %		func_inst: 0
+124(PersonLib_InitLibrary)
+	inst: 0 %		func_inst: 0
+125(PersonLib_InitClass)
+	inst: 0 %		func_inst: 0
+126(Person_InitDb)
+	inst: 0 %		func_inst: 0
+127(PersonLib_QueryDb)
+	inst: 0 %		func_inst: 0
+128(PersonLib_CreateDb)
+	inst: 0 %		func_inst: 0
+129(PersonLib_ActivateDbByName)
+	inst: 0 %		func_inst: 0
+130(PersonLib_ActivateDbByToken)
+	inst: 0 %		func_inst: 0
+131(PersonLib_DeleteDb)
+	inst: 0 %		func_inst: 0
+132(PersonObjs_InitClass)
+	inst: 0 %		func_inst: 0
+133(PersonObjs_AddInto)
+	inst: 0 %		func_inst: 0
+134(PersonObjs_FindIn)
+	inst: 0.0289744 %		func_inst: 26640
+135(PersonObjs_IterateOn)
+	inst: 0 %		func_inst: 0
+136(PersonNames_InitClass)
+	inst: 0 %		func_inst: 0
+137(PersonNames_AddInto)
+	inst: 0 %		func_inst: 0
+138(PersonNames_FindIn)
+	inst: 0 %		func_inst: 0
+139(PersonNames_IterateOn)
+	inst: 0 %		func_inst: 0
+140(Address_InitClass)
+	inst: 0 %		func_inst: 0
+141(Person_InitClass)
+	inst: 0 %		func_inst: 0
+142(Person_new0)
+	inst: 0 %		func_inst: 0
+143(Person_new1)
+	inst: 0 %		func_inst: 0
+144(Person_new2)
+	inst: 0 %		func_inst: 0
+145(Person_Create0)
+	inst: 0 %		func_inst: 0
+146(Person_Create1)
+	inst: 0 %		func_inst: 0
+147(Person_Import)
+	inst: 0 %		func_inst: 0
+148(Person_Export)
+	inst: 0 %		func_inst: 0
+149(Person_delete)
+	inst: 0 %		func_inst: 0
+150(PersonParts_InitClass)
+	inst: 0 %		func_inst: 0
+151(PersonParts_OwnerOf)
+	inst: 0 %		func_inst: 0
+152(PersonParts_AddInto)
+	inst: 0.0265838 %		func_inst: 24442
+153(PersonParts_FindIn)
+	inst: 0 %		func_inst: 0
+154(PersonParts_IterateOn)
+	inst: 0 %		func_inst: 0
+155(VORTEx)
+	inst: 0 %		func_inst: 0
+156(CreateImage)
+	inst: 0 %		func_inst: 0
+157(ImplodeTheOry)
+	inst: 0 %		func_inst: 0
+158(CreateKernel)
+	inst: 0 %		func_inst: 0
+159(LoadKernel)
+	inst: 0 %		func_inst: 0
+160(LoadEnv0)
+	inst: 0 %		func_inst: 0
+161(LoadObj0)
+	inst: 0 %		func_inst: 0
+162(Env_GetTypeId)
+	inst: 0 %		func_inst: 0
+163(Env_GetClassId)
+	inst: 0 %		func_inst: 0
+164(Env_GetAttrId)
+	inst: 0 %		func_inst: 0
+165(Env_NewFieldStruc)
+	inst: 0 %		func_inst: 0
+166(Env_GetFieldStruc)
+	inst: 0 %		func_inst: 0
+167(Env_DeleteFieldStruc)
+	inst: 0 %		func_inst: 0
+168(Env_GetSetId)
+	inst: 0 %		func_inst: 0
+169(Env_GetTupleId)
+	inst: 0 %		func_inst: 0
+170(Env_GetMatrixId)
+	inst: 0 %		func_inst: 0
+171(Env_LoadCreateCode)
+	inst: 0 %		func_inst: 0
+172(Env_LoadGetTknCode)
+	inst: 0 %		func_inst: 0
+173(Env_InitClassMap)
+	inst: 0 %		func_inst: 0
+174(Env_AppendToMap)
+	inst: 0 %		func_inst: 0
+175(Env_InvokeMap)
+	inst: 0 %		func_inst: 0
+176(Env_GetClassMap)
+	inst: 0 %		func_inst: 0
+177(Env_GetAttrInfo)
+	inst: 0.00964072 %		func_inst: 8864
+178(Env_IsValidToken)
+	inst: 0 %		func_inst: 0
+179(Env_TokenIsEquiv)
+	inst: 0 %		func_inst: 0
+180(Env_ReclaimHandles)
+	inst: 0 %		func_inst: 0
+181(Env_GenerateRandomNumbers)
+	inst: 0 %		func_inst: 0
+182(Env_Random)
+	inst: 0 %		func_inst: 0
+183(EnvNewObjDesc)
+	inst: 0 %		func_inst: 0
+184(EnvFetchObjNum)
+	inst: 0 %		func_inst: 0
+185(EnvFetchObjHandle)
+	inst: 0 %		func_inst: 0
+186(EnvPairObjHandle)
+	inst: 0 %		func_inst: 0
+187(EnvFetchObjSize)
+	inst: 0.710764 %		func_inst: 653500
+188(EnvFetchObjName)
+	inst: 0 %		func_inst: 0
+189(EnvFetchClassSize)
+	inst: 0 %		func_inst: 0
+190(EnvFetchLastObjCount)
+	inst: 0 %		func_inst: 0
+191(EnvFetchObjCestrs)
+	inst: 0 %		func_inst: 0
+192(Env_FetchObjCendents)
+	inst: 0 %		func_inst: 0
+193(EnvFetchSchemaObjs)
+	inst: 0 %		func_inst: 0
+194(DeleteObjDesc)
+	inst: 0 %		func_inst: 0
+195(EnvBldObjHdr)
+	inst: 0 %		func_inst: 0
+196(EnvInstallObjHdr)
+	inst: 0 %		func_inst: 0
+197(InstallObjChunks)
+	inst: 0 %		func_inst: 0
+198(EnvBldObjImage)
+	inst: 0 %		func_inst: 0
+199(EnvNewObjHdr)
+	inst: 0 %		func_inst: 0
+200(EnvInstallAttr)
+	inst: 0 %		func_inst: 0
+201(EnvFetchLocalAttrNum)
+	inst: 0 %		func_inst: 0
+202(EnvFetchAttrHandle)
+	inst: 0.567124 %		func_inst: 521433
+203(EnvFetchAttrSize)
+	inst: 0 %		func_inst: 0
+204(CppEnvGetThatTkn)
+	inst: 0 %		func_inst: 0
+205(EnvFetchAttrOffset)
+	inst: 1.22499 %		func_inst: 1126298
+206(Env_FetchObj0AttrOffset)
+	inst: 0 %		func_inst: 0
+207(Env_FetchObjAttrOffset)
+	inst: 0 %		func_inst: 0
+208(Env_FetchObjAttrSpec)
+	inst: 0 %		func_inst: 0
+209(Env_FetchFieldOffset)
+	inst: 0 %		func_inst: 0
+210(Env_FetchObjFieldSpec)
+	inst: 0 %		func_inst: 0
+211(EnvFetchOffsetMap)
+	inst: 0 %		func_inst: 0
+212(EnvInitCodes)
+	inst: 0 %		func_inst: 0
+213(EnvMakeCodeChunks)
+	inst: 0 %		func_inst: 0
+214(EnvPairCode)
+	inst: 0 %		func_inst: 0
+215(EnvFetchCode)
+	inst: 0 %		func_inst: 0
+216(EnvAlignMember)
+	inst: 0 %		func_inst: 0
+217(EnvAlignStruc)
+	inst: 0 %		func_inst: 0
+218(TestEnv0)
+	inst: 0 %		func_inst: 0
+219(CreateObjDesc)
+	inst: 0 %		func_inst: 0
+220(File_GetSomeBytes)
+	inst: 0 %		func_inst: 0
+221(File_InBlk)
+	inst: 0 %		func_inst: 0
+222(File_InChunk)
+	inst: 0 %		func_inst: 0
+223(File_GetZeroedChunk)
+	inst: 0 %		func_inst: 0
+224(DbmLoadGrpHdr)
+	inst: 0 %		func_inst: 0
+225(DbmFileInGrpHdr)
+	inst: 0 %		func_inst: 0
+226(DbmFileInGrpRgnChunk)
+	inst: 0 %		func_inst: 0
+227(DbmDeleteGrpHdr)
+	inst: 0 %		func_inst: 0
+228(Grp_MakeHdrChunks)
+	inst: 0 %		func_inst: 0
+229(Grp_GetPacket)
+	inst: 0 %		func_inst: 0
+230(Grp_NewRegion)
+	inst: 0.0326114 %		func_inst: 29984
+231(Grp_GetRegion)
+	inst: 1.4701 %		func_inst: 1351656
+232(Grp_CleanRgnChunks)
+	inst: 0 %		func_inst: 0
+233(Grp_DeleteRgn)
+	inst: 0 %		func_inst: 0
+234(Grp_RgnSwapTopAndPop)
+	inst: 0 %		func_inst: 0
+235(Grp_NewPacket)
+	inst: 0 %		func_inst: 0
+236(Grp_SetPacketCache)
+	inst: 0 %		func_inst: 0
+237(Grp_SetPacketAccess)
+	inst: 0 %		func_inst: 0
+238(Grp_FreezePacket)
+	inst: 0 %		func_inst: 0
+239(Grp_ThawPacket)
+	inst: 0 %		func_inst: 0
+240(Grp_DefrostPacket)
+	inst: 0 %		func_inst: 0
+241(Grp_FreePacket)
+	inst: 0 %		func_inst: 0
+242(Grp_CommitPacket)
+	inst: 0 %		func_inst: 0
+243(Grp_DeletePacket)
+	inst: 0 %		func_inst: 0
+244(Grp_ShowStats)
+	inst: 0 %		func_inst: 0
+245(Grp_DumpStruct)
+	inst: 0 %		func_inst: 0
+246(Grp_DumpEntrys)
+	inst: 0 %		func_inst: 0
+247(Grp_EntryCount)
+	inst: 0 %		func_inst: 0
+248(Grp_CreateEntry)
+	inst: 0.00682159 %		func_inst: 6272
+249(Grp_NewEntry)
+	inst: 0 %		func_inst: 0
+250(Grp_PutNewEntry)
+	inst: 0.525863 %		func_inst: 483496
+251(Grp_PutEntry)
+	inst: 0.151027 %		func_inst: 138859
+252(Grp_GetBaseRegion)
+	inst: 0 %		func_inst: 0
+253(Grp_GetEntry)
+	inst: 0.0880706 %		func_inst: 80975
+254(Grp_GetInLineEntry)
+	inst: 0 %		func_inst: 0
+255(Grp_GetFrozenEntry)
+	inst: 0.439684 %		func_inst: 404260
+256(Grp_FreezeEntry)
+	inst: 0 %		func_inst: 0
+257(Grp_DefrostEntry)
+	inst: 0.343168 %		func_inst: 315520
+258(Grp_EntryIsFrosted)
+	inst: 0 %		func_inst: 0
+259(Grp_FrostStatus)
+	inst: 0 %		func_inst: 0
+260(Grp_DeleteEntry)
+	inst: 0 %		func_inst: 0
+261(Hm_SetDRIswi)
+	inst: 0 %		func_inst: 0
+262(Hm_DRIswi)
+	inst: 0 %		func_inst: 0
+263(Hm_SetDefaults)
+	inst: 0 %		func_inst: 0
+264(Hm_GetDefaults)
+	inst: 0 %		func_inst: 0
+265(Hm_MakeDbHdr)
+	inst: 0 %		func_inst: 0
+266(Hm_GetObjNum)
+	inst: 0.597917 %		func_inst: 549745
+267(Hm_IncrementMemRef)
+	inst: 0 %		func_inst: 0
+268(Hm_DecrementMemRef)
+	inst: 0 %		func_inst: 0
+269(Hm_NewHandle)
+	inst: 0.496718 %		func_inst: 456699
+270(Hm_PairDbObject)
+	inst: 0.295567 %		func_inst: 271754
+271(Hm_FetchDbObject)
+	inst: 2.13555 %		func_inst: 1963497
+272(Hm_ClearObject)
+	inst: 0 %		func_inst: 0
+273(Hm_PointToInnerRealm)
+	inst: 0.00525324 %		func_inst: 4830
+274(Hm_FreeHandle)
+	inst: 0 %		func_inst: 0
+275(Hm_NextFreeHandle)
+	inst: 0.188627 %		func_inst: 173430
+276(HmReclaimHandles)
+	inst: 0 %		func_inst: 0
+277(Hm_DumpDbHdr)
+	inst: 0 %		func_inst: 0
+278(ImagePutAttrValue)
+	inst: 0 %		func_inst: 0
+279(ImageGetAttrValue)
+	inst: 0 %		func_inst: 0
+280(ImageCompareAttr)
+	inst: 0 %		func_inst: 0
+281(ImagePutObjTkn)
+	inst: 0 %		func_inst: 0
+282(ImageGetObjTkn)
+	inst: 0 %		func_inst: 0
+283(ImageRefTknPut)
+	inst: 0 %		func_inst: 0
+284(ImageTokenToRef)
+	inst: 0 %		func_inst: 0
+285(ImageNewString)
+	inst: 0 %		func_inst: 0
+286(ImageGetString)
+	inst: 0 %		func_inst: 0
+287(ImageGetAttrUnitSize)
+	inst: 0 %		func_inst: 0
+288(ImageCreateArray)
+	inst: 0.130508 %		func_inst: 119993
+289(ImageCreateSubArray)
+	inst: 0.0353761 %		func_inst: 32526
+290(ImageArrayActivate)
+	inst: 0 %		func_inst: 0
+291(ImageArrayDeActivate)
+	inst: 0 %		func_inst: 0
+292(ImageArrayGetSize)
+	inst: 0 %		func_inst: 0
+293(ImageSubArrayGetSize)
+	inst: 0 %		func_inst: 0
+294(ImageArrayAssertSize)
+	inst: 0 %		func_inst: 0
+295(ImageSubArrayAssertSize)
+	inst: 0 %		func_inst: 0
+296(ImageArrayDelete)
+	inst: 0 %		func_inst: 0
+297(ImageSubArrayDelete)
+	inst: 0 %		func_inst: 0
+298(ImageCreateVarray)
+	inst: 0 %		func_inst: 0
+299(ImageGetVarray)
+	inst: 0 %		func_inst: 0
+300(ImagePutVarrayStackPtr)
+	inst: 0 %		func_inst: 0
+301(ImageGetVarrayStackPtr)
+	inst: 0 %		func_inst: 0
+302(ImagePutFieldValue)
+	inst: 0 %		func_inst: 0
+303(ImageGetFieldValue)
+	inst: 0 %		func_inst: 0
+304(ImageCreateDb)
+	inst: 0 %		func_inst: 0
+305(ImageConfigClass)
+	inst: 0 %		func_inst: 0
+306(ImageDbCreate)
+	inst: 0.0158511 %		func_inst: 14574
+307(ImageNewObject)
+	inst: 0.0882522 %		func_inst: 81142
+308(ImageGetObject)
+	inst: 0.100679 %		func_inst: 92568
+309(ImageCreateObject)
+	inst: 0 %		func_inst: 0
+310(Image_IsActive)
+	inst: 0 %		func_inst: 0
+311(ImageCommitObject)
+	inst: 0 %		func_inst: 0
+312(ImageDeleteObject)
+	inst: 0 %		func_inst: 0
+313(ImageDumpObject)
+	inst: 0 %		func_inst: 0
+314(ImageDumpPseudo)
+	inst: 0 %		func_inst: 0
+315(ImageInitClassMap)
+	inst: 0 %		func_inst: 0
+316(ImageAppendToMap)
+	inst: 0 %		func_inst: 0
+317(ImageInvokeMap)
+	inst: 0 %		func_inst: 0
+318(ImageGetClassMap)
+	inst: 0 %		func_inst: 0
+319(ImageFreeClassById)
+	inst: 0 %		func_inst: 0
+320(ImageFreeClass)
+	inst: 0 %		func_inst: 0
+321(ImageCommitClass)
+	inst: 0 %		func_inst: 0
+322(Image_GetClassObjectCount)
+	inst: 0 %		func_inst: 0
+323(ImageFaxToThis)
+	inst: 0 %		func_inst: 0
+324(ImageAssertToThis)
+	inst: 0 %		func_inst: 0
+325(ImageGetActiveObject)
+	inst: 0 %		func_inst: 0
+326(ImageReFaxToDb)
+	inst: 0 %		func_inst: 0
+327(ImageFreeDbObject)
+	inst: 0 %		func_inst: 0
+328(ImageFreeCppObject)
+	inst: 0 %		func_inst: 0
+329(ImageRevokeObject)
+	inst: 0 %		func_inst: 0
+330(KernelCreateDb)
+	inst: 0 %		func_inst: 0
+331(KernelLoadDbHdr)
+	inst: 0 %		func_inst: 0
+332(KernelFreezeObjClass)
+	inst: 0 %		func_inst: 0
+333(Kernel_GetClassObjectCount)
+	inst: 0 %		func_inst: 0
+334(KernelNew)
+	inst: 0 %		func_inst: 0
+335(KernelCreateObject)
+	inst: 0.0150963 %		func_inst: 13880
+336(KernelNewObject)
+	inst: 0 %		func_inst: 0
+337(KernelCreateArray)
+	inst: 0 %		func_inst: 0
+338(KernelCreateVarray)
+	inst: 0 %		func_inst: 0
+339(KernelIamA)
+	inst: 0 %		func_inst: 0
+340(KernelWhatAmI)
+	inst: 0 %		func_inst: 0
+341(KernelGet)
+	inst: 0 %		func_inst: 0
+342(KernelGetObject)
+	inst: 0 %		func_inst: 0
+343(KernelPutObject)
+	inst: 0 %		func_inst: 0
+344(KernelGetAttrInfo)
+	inst: 0.0256082 %		func_inst: 23545
+345(Kernel_GetFieldStruc)
+	inst: 0 %		func_inst: 0
+346(KernelGetFieldInfo)
+	inst: 0 %		func_inst: 0
+347(KernelPutAttr)
+	inst: 0.12842 %		func_inst: 118074
+348(KernelGetAttr)
+	inst: 0.0706392 %		func_inst: 64948
+349(KernelPutField)
+	inst: 0 %		func_inst: 0
+350(KernelGetField)
+	inst: 0 %		func_inst: 0
+351(KernelCompare)
+	inst: 0 %		func_inst: 0
+352(KernelFieldCompare)
+	inst: 0 %		func_inst: 0
+353(KernelCreateBitField)
+	inst: 0 %		func_inst: 0
+354(KernelDeleteBitField)
+	inst: 0 %		func_inst: 0
+355(KernelPutBit)
+	inst: 0 %		func_inst: 0
+356(KernelGetBit)
+	inst: 0 %		func_inst: 0
+357(KernelFirstBit)
+	inst: 0 %		func_inst: 0
+358(KernelNextBit)
+	inst: 0 %		func_inst: 0
+359(KernelOwnerOf)
+	inst: 0 %		func_inst: 0
+360(KernelFirstOf)
+	inst: 0 %		func_inst: 0
+361(KernelNextOf)
+	inst: 0 %		func_inst: 0
+362(KernelAddInto)
+	inst: 0.0181253 %		func_inst: 16665
+363(KernelFindIn)
+	inst: 0.0205235 %		func_inst: 18870
+364(List01_Init)
+	inst: 0 %		func_inst: 0
+365(List01_Create)
+	inst: 0 %		func_inst: 0
+366(List01_FindListHead)
+	inst: 0 %		func_inst: 0
+367(List01_CreateNode)
+	inst: 0 %		func_inst: 0
+368(Is_List01Head)
+	inst: 0 %		func_inst: 0
+369(Is_List01Node)
+	inst: 0 %		func_inst: 0
+370(Is_List01Member)
+	inst: 0 %		func_inst: 0
+371(List01_GetCount)
+	inst: 0 %		func_inst: 0
+372(List01_Reset)
+	inst: 0 %		func_inst: 0
+373(List01_SetCurrent)
+	inst: 0 %		func_inst: 0
+374(List01_GetCurrent)
+	inst: 0 %		func_inst: 0
+375(List01_IsEmpty)
+	inst: 0 %		func_inst: 0
+376(List01_Append)
+	inst: 0.0208629 %		func_inst: 19182
+377(List01_FirstIn)
+	inst: 0 %		func_inst: 0
+378(List01_NextIn)
+	inst: 0 %		func_inst: 0
+379(List01_IterateOn)
+	inst: 0 %		func_inst: 0
+380(Mem_Init)
+	inst: 0 %		func_inst: 0
+381(Mem_MakeOry)
+	inst: 0 %		func_inst: 0
+382(Mem_NewOry)
+	inst: 0 %		func_inst: 0
+383(Mem_MakeOryChunks)
+	inst: 0 %		func_inst: 0
+384(MemMakeKrnlChunk)
+	inst: 0 %		func_inst: 0
+385(Mem_TestTheOry)
+	inst: 0 %		func_inst: 0
+386(Mem_NewRegion)
+	inst: 0 %		func_inst: 0
+387(Mem_InitBlocks)
+	inst: 0 %		func_inst: 0
+388(Mem_BlockCount)
+	inst: 0 %		func_inst: 0
+389(Mem_NewChunkChunk)
+	inst: 0.313055 %		func_inst: 287833
+390(Mem_FreeChunkChunk)
+	inst: 0 %		func_inst: 0
+391(Mem_ExpandChunkTables)
+	inst: 0 %		func_inst: 0
+392(Mem_DumpChunkChunk)
+	inst: 0 %		func_inst: 0
+393(Chunk_MakeChunk)
+	inst: 0.21673 %		func_inst: 199269
+394(Chunk_NewChunk)
+	inst: 0.258012 %		func_inst: 237225
+395(Chunk_InitChunk)
+	inst: 0.302734 %		func_inst: 278344
+396(Mem_NewChunkBlk)
+	inst: 0 %		func_inst: 0
+397(Mem_PutChunkStruc)
+	inst: 0 %		func_inst: 0
+398(Chunk_GrowNumericChunk)
+	inst: 0 %		func_inst: 0
+399(Chunk_GrowTextChunk)
+	inst: 0 %		func_inst: 0
+400(Chunk_ExpandChunk)
+	inst: 0.00929594 %		func_inst: 8547
+401(Mem_ExpandKrnlChunk)
+	inst: 0 %		func_inst: 0
+402(ChkPushChunk)
+	inst: 1.06318 %		func_inst: 977522
+403(Chunk_ChkPutChunk)
+	inst: 1.87873 %		func_inst: 1727364
+404(Chunk_ChkPopChunk)
+	inst: 0 %		func_inst: 0
+405(Chunk_ChkGetChunk)
+	inst: 12.2482 %		func_inst: 11261406
+406(Mem_ShowStats)
+	inst: 0 %		func_inst: 0
+407(Mem_DumpStats)
+	inst: 0 %		func_inst: 0
+408(Mem_MakeChunk)
+	inst: 0.178888 %		func_inst: 164476
+409(Mem_MakeCppChunk)
+	inst: 0 %		func_inst: 0
+410(Mem_MakeStrChunk)
+	inst: 0 %		func_inst: 0
+411(Mem_DumpChunk)
+	inst: 0 %		func_inst: 0
+412(Mem_DumpChunkPart)
+	inst: 0 %		func_inst: 0
+413(Mem_FreeChunk)
+	inst: 0 %		func_inst: 0
+414(Mem_FreeChunkNum)
+	inst: 0 %		func_inst: 0
+415(Mem_ClearChunkSpace)
+	inst: 0 %		func_inst: 0
+416(Mem_FreeChunkSpace)
+	inst: 0 %		func_inst: 0
+417(Mem_SwapOutChunk)
+	inst: 0 %		func_inst: 0
+418(Mem_SwapInChunk)
+	inst: 0 %		func_inst: 0
+419(Mem_CopyOutChunk)
+	inst: 0 %		func_inst: 0
+420(Mem_CopyInChunk)
+	inst: 0 %		func_inst: 0
+421(Mem_MoveChunk)
+	inst: 0 %		func_inst: 0
+422(Mem_MakeXmemChunks)
+	inst: 0 %		func_inst: 0
+423(Mem_AssignXmemFile)
+	inst: 0 %		func_inst: 0
+424(Mem_CloseXmemFile)
+	inst: 0 %		func_inst: 0
+425(Mem_GetFileBlk)
+	inst: 0 %		func_inst: 0
+426(Mem_FreeFileBlk)
+	inst: 0 %		func_inst: 0
+427(Mem_NewXmemBlk)
+	inst: 0 %		func_inst: 0
+428(Mem_FreeXmemBlk)
+	inst: 0 %		func_inst: 0
+429(Mem_ShowXmemStats)
+	inst: 0 %		func_inst: 0
+430(Mem_FreezeChunk)
+	inst: 0 %		func_inst: 0
+431(Mem_DefrostChunk)
+	inst: 0 %		func_inst: 0
+432(Mem_GetChunkSize)
+	inst: 0.00404597 %		func_inst: 3720
+433(Mem_GetChunkStruc)
+	inst: 0.0317478 %		func_inst: 29190
+434(Mem_DumpChunkStruc)
+	inst: 0 %		func_inst: 0
+435(Mem_PutChunkAddr)
+	inst: 0 %		func_inst: 0
+436(Mem_GetChunkAddr)
+	inst: 1.07317 %		func_inst: 986706
+437(Mem_PutStackPtr)
+	inst: 0.627285 %		func_inst: 576747
+438(Mem_AssertStackPtr)
+	inst: 0 %		func_inst: 0
+439(Mem_GetStackPtr)
+	inst: 0.0548447 %		func_inst: 50426
+440(Mem_PushEntity)
+	inst: 0 %		func_inst: 0
+441(Mem_PutEntity)
+	inst: 0 %		func_inst: 0
+442(Mem_ExtractEntity)
+	inst: 0 %		func_inst: 0
+443(Mem_GetEntity)
+	inst: 0 %		func_inst: 0
+444(Mem_NewBitChunk)
+	inst: 0 %		func_inst: 0
+445(Mem_PushBit)
+	inst: 0 %		func_inst: 0
+446(Mem_PutBit)
+	inst: 2.07833 %		func_inst: 1910884
+447(Mem_PopBit)
+	inst: 0 %		func_inst: 0
+448(Mem_GetBit)
+	inst: 3.11511 %		func_inst: 2864136
+449(Mem_PushShort)
+	inst: 0.282941 %		func_inst: 260145
+450(Mem_PutShort)
+	inst: 0.264124 %		func_inst: 242844
+451(Mem_PopShort)
+	inst: 0 %		func_inst: 0
+452(Mem_GetShort)
+	inst: 0 %		func_inst: 0
+453(Mem_PushWord)
+	inst: 0.611398 %		func_inst: 562140
+454(Mem_PutWord)
+	inst: 0.440361 %		func_inst: 404883
+455(Mem_PopWord)
+	inst: 0 %		func_inst: 0
+456(Mem_GetWord)
+	inst: 11.4818 %		func_inst: 10556764
+457(Mem_PushLong)
+	inst: 0 %		func_inst: 0
+458(Mem_PutLong)
+	inst: 0 %		func_inst: 0
+459(Mem_PopLong)
+	inst: 0 %		func_inst: 0
+460(Mem_GetLong)
+	inst: 0 %		func_inst: 0
+461(Mem_PushAddr)
+	inst: 0.25779 %		func_inst: 237021
+462(Mem_PutAddr)
+	inst: 0.380527 %		func_inst: 349869
+463(Mem_PopAddr)
+	inst: 0 %		func_inst: 0
+464(Mem_GetAddr)
+	inst: 6.38585 %		func_inst: 5871364
+465(Mem_PushToken)
+	inst: 0 %		func_inst: 0
+466(Mem_PutToken)
+	inst: 0 %		func_inst: 0
+467(Mem_PopToken)
+	inst: 0 %		func_inst: 0
+468(Mem_GetToken)
+	inst: 0 %		func_inst: 0
+469(Mem_PushSomeBytes)
+	inst: 0 %		func_inst: 0
+470(Mem_PutSomeBytes)
+	inst: 0.00634956 %		func_inst: 5838
+471(Mem_PopSomeBytes)
+	inst: 0 %		func_inst: 0
+472(Mem_GetSomeBytes)
+	inst: 0.0434779 %		func_inst: 39975
+473(Mem_PushFuncPtr)
+	inst: 0 %		func_inst: 0
+474(Mem_PutFuncPtr)
+	inst: 0 %		func_inst: 0
+475(Mem_PopFuncPtr)
+	inst: 0 %		func_inst: 0
+476(Mem_GetFuncPtr)
+	inst: 0 %		func_inst: 0
+477(Mem_NewString)
+	inst: 0 %		func_inst: 0
+478(Mem_DeleteString)
+	inst: 0 %		func_inst: 0
+479(Mem_PushString)
+	inst: 0 %		func_inst: 0
+480(Mem_PutString)
+	inst: 0 %		func_inst: 0
+481(Mem_PopString)
+	inst: 0 %		func_inst: 0
+482(Mem_GetString)
+	inst: 0 %		func_inst: 0
+483(OaCreateDb)
+	inst: 0 %		func_inst: 0
+484(OaInstallObjHdr)
+	inst: 0 %		func_inst: 0
+485(OaGetObjClass)
+	inst: 0 %		func_inst: 0
+486(OaConfigClass)
+	inst: 0 %		func_inst: 0
+487(OaFreezeObjClass)
+	inst: 0 %		func_inst: 0
+488(OaThawObjClass)
+	inst: 0 %		func_inst: 0
+489(OaCreateObject)
+	inst: 0.641355 %		func_inst: 589683
+490(OaNewObject)
+	inst: 0.530959 %		func_inst: 488181
+491(OaGetObject)
+	inst: 2.72836 %		func_inst: 2508549
+492(OaRevokeCppObject)
+	inst: 0.00585361 %		func_inst: 5382
+493(OaInvokeCppObject)
+	inst: 0.0398158 %		func_inst: 36608
+494(OaUpdateObject)
+	inst: 1.169 %		func_inst: 1074816
+495(OaChkImage)
+	inst: 0 %		func_inst: 0
+496(OaFreeObject)
+	inst: 0 %		func_inst: 0
+497(OaDeleteObject)
+	inst: 0 %		func_inst: 0
+498(OaGetObjHandles)
+	inst: 0 %		func_inst: 0
+499(OaReclaimHandles)
+	inst: 0 %		func_inst: 0
+500(OaIamA)
+	inst: 0 %		func_inst: 0
+501(ForeignCreate)
+	inst: 0 %		func_inst: 0
+502(OaInitObject)
+	inst: 0 %		func_inst: 0
+503(OaCopy)
+	inst: 0 %		func_inst: 0
+504(OaGetDbObjNums)
+	inst: 0 %		func_inst: 0
+505(OaDelete)
+	inst: 0 %		func_inst: 0
+506(OaDeleteFields)
+	inst: 0 %		func_inst: 0
+507(OaDeleteEmbedded)
+	inst: 0 %		func_inst: 0
+508(OaCreateArray)
+	inst: 0 %		func_inst: 0
+509(OaCreateVarray)
+	inst: 0 %		func_inst: 0
+510(OaPut)
+	inst: 1.70365 %		func_inst: 1566392
+511(OaPutString)
+	inst: 0 %		func_inst: 0
+512(OaPutToEmbedded)
+	inst: 0 %		func_inst: 0
+513(OaPutField)
+	inst: 0 %		func_inst: 0
+514(OaGet)
+	inst: 2.10475 %		func_inst: 1935180
+515(OaGetString)
+	inst: 0 %		func_inst: 0
+516(OaGetField)
+	inst: 0 %		func_inst: 0
+517(OaChkForAttr)
+	inst: 0 %		func_inst: 0
+518(OaGetAttrSize)
+	inst: 0.184767 %		func_inst: 169881
+519(OaCompare)
+	inst: 0.421177 %		func_inst: 387244
+520(OaCompareField)
+	inst: 0 %		func_inst: 0
+521(OaDumpObjHdr)
+	inst: 0 %		func_inst: 0
+522(OaDumpObjHndls)
+	inst: 0 %		func_inst: 0
+523(OaDumpObject)
+	inst: 0 %		func_inst: 0
+524(OaDumpEmbedded)
+	inst: 0 %		func_inst: 0
+525(Object_Create)
+	inst: 0.0226553 %		func_inst: 20830
+526(Object_Dump)
+	inst: 0 %		func_inst: 0
+527(Object_IsA)
+	inst: 0 %		func_inst: 0
+528(Object_IsKindOf)
+	inst: 0 %		func_inst: 0
+529(Object_Delete)
+	inst: 0 %		func_inst: 0
+530(Object_NewImage)
+	inst: 0.0520408 %		func_inst: 47848
+531(Object_GetImage)
+	inst: 0.0694341 %		func_inst: 63840
+532(Object_ImageIsActive)
+	inst: 0 %		func_inst: 0
+533(Object_PutImage)
+	inst: 0 %		func_inst: 0
+534(Object_FreeImage)
+	inst: 0 %		func_inst: 0
+535(Object_CommitImage)
+	inst: 0 %		func_inst: 0
+536(Image_DumpPseudo)
+	inst: 0 %		func_inst: 0
+537(Attr_ValuePut)
+	inst: 0 %		func_inst: 0
+538(Attr_ValueGet)
+	inst: 0 %		func_inst: 0
+539(Attr_ValueCompare)
+	inst: 0 %		func_inst: 0
+540(Attr_ObjTknPut)
+	inst: 0 %		func_inst: 0
+541(Attr_ObjTknGet)
+	inst: 0 %		func_inst: 0
+542(Attr_RefTknPut)
+	inst: 0 %		func_inst: 0
+543(Attr_TokenToRef)
+	inst: 0 %		func_inst: 0
+544(Attr_StringCreate)
+	inst: 0 %		func_inst: 0
+545(Attr_StringGet)
+	inst: 0 %		func_inst: 0
+546(Attr_StrCpyGet)
+	inst: 0 %		func_inst: 0
+547(Attr_StrCpyFree)
+	inst: 0 %		func_inst: 0
+548(Attr_ArrayCreate)
+	inst: 0.0232339 %		func_inst: 21362
+549(Attr_SubArrayCreate)
+	inst: 0.00725664 %		func_inst: 6672
+550(Attr0_ArrayActivate)
+	inst: 0 %		func_inst: 0
+551(Attr0_ArrayDeActivate)
+	inst: 0 %		func_inst: 0
+552(Attr_ArrayGetSize)
+	inst: 0 %		func_inst: 0
+553(Attr_SubArrayGetSize)
+	inst: 0 %		func_inst: 0
+554(Attr_ArrayAssertSize)
+	inst: 0 %		func_inst: 0
+555(Attr_SubArrayAssertSize)
+	inst: 0 %		func_inst: 0
+556(Attr_ArrayDelete)
+	inst: 0 %		func_inst: 0
+557(Attr_SubArrayDelete)
+	inst: 0 %		func_inst: 0
+558(Field_ValuePut)
+	inst: 0 %		func_inst: 0
+559(Field_ValueGet)
+	inst: 0 %		func_inst: 0
+560(Owner_SetIterateOn)
+	inst: 0 %		func_inst: 0
+561(Owner_SetFirstOf)
+	inst: 0 %		func_inst: 0
+562(Owner_KeySetFindIn)
+	inst: 0.0205235 %		func_inst: 18870
+563(Owner_KeySetFindInBy2aryKey)
+	inst: 0 %		func_inst: 0
+564(Member_SetOwnerOf)
+	inst: 0 %		func_inst: 0
+565(Member_SetNextOf)
+	inst: 0 %		func_inst: 0
+566(Member_KeySetAddInto)
+	inst: 0.0181253 %		func_inst: 16665
+567(DbmLoadObjHdr)
+	inst: 0 %		func_inst: 0
+568(DbmFileInObjHdr)
+	inst: 0 %		func_inst: 0
+569(DbmFileInRegionChunk)
+	inst: 0 %		func_inst: 0
+570(DbmPairRgnObjects)
+	inst: 0 %		func_inst: 0
+571(DbmUnPairRgnObjects)
+	inst: 0 %		func_inst: 0
+572(DbmDumpObjHdr)
+	inst: 0 %		func_inst: 0
+573(Grp_NewObject)
+	inst: 0.838432 %		func_inst: 770882
+574(Grp_GetObject)
+	inst: 0.0103564 %		func_inst: 9522
+575(Grp_DeleteObject)
+	inst: 0 %		func_inst: 0
+576(OmSetConfig)
+	inst: 0 %		func_inst: 0
+577(OmConfigClass)
+	inst: 0 %		func_inst: 0
+578(OmNewObjHdr)
+	inst: 0 %		func_inst: 0
+579(OmMakeObjChunks)
+	inst: 0 %		func_inst: 0
+580(OmPutHandleOffset)
+	inst: 0 %		func_inst: 0
+581(OmGetObjHdr)
+	inst: 1.40524 %		func_inst: 1292021
+582(OmNextAvailObject)
+	inst: 0 %		func_inst: 0
+583(OmNewObject)
+	inst: 0.352104 %		func_inst: 323736
+584(OmNewObjRegion)
+	inst: 0 %		func_inst: 0
+585(OmPairDbObject)
+	inst: 0.421308 %		func_inst: 387365
+586(OmUnPairRgnObjects)
+	inst: 0 %		func_inst: 0
+587(OmPairRgnObjects)
+	inst: 0 %		func_inst: 0
+588(OmGetRegion)
+	inst: 0 %		func_inst: 0
+589(OmGetObject)
+	inst: 0.0193619 %		func_inst: 17802
+590(OmDeleteObject)
+	inst: 0 %		func_inst: 0
+591(OmChkImage)
+	inst: 0 %		func_inst: 0
+592(OmGetObjHandles)
+	inst: 0 %		func_inst: 0
+593(Point_InitClass)
+	inst: 0 %		func_inst: 0
+594(Point_GetToken)
+	inst: 0 %		func_inst: 0
+595(Point_x)
+	inst: 0 %		func_inst: 0
+596(Point_y)
+	inst: 0 %		func_inst: 0
+597(Point_Theta)
+	inst: 0 %		func_inst: 0
+598(Point_Radius)
+	inst: 0 %		func_inst: 0
+599(CartesianPoint_InitClass)
+	inst: 0 %		func_inst: 0
+600(CartesianPoint_New)
+	inst: 0 %		func_inst: 0
+601(CartesianPoint_new0)
+	inst: 0.0385629 %		func_inst: 35456
+602(CartesianPoint_new1)
+	inst: 0 %		func_inst: 0
+603(CartesianPoint_x)
+	inst: 0 %		func_inst: 0
+604(CartesianPoint_y)
+	inst: 0 %		func_inst: 0
+605(CartesianPoint_Radius)
+	inst: 0 %		func_inst: 0
+606(CartesianPoint_Theta)
+	inst: 0 %		func_inst: 0
+607(CartesianPoint_show)
+	inst: 0 %		func_inst: 0
+608(CartesianPoint_delete)
+	inst: 0 %		func_inst: 0
+609(PolarPoint_InitClass)
+	inst: 0 %		func_inst: 0
+610(PolarPoint_New)
+	inst: 0 %		func_inst: 0
+611(PolarPoint_new0)
+	inst: 0 %		func_inst: 0
+612(PolarPoint_new1)
+	inst: 0 %		func_inst: 0
+613(PolarPoint_x)
+	inst: 0 %		func_inst: 0
+614(PolarPoint_y)
+	inst: 0 %		func_inst: 0
+615(PolarPoint_Radius)
+	inst: 0 %		func_inst: 0
+616(PolarPoint_Theta)
+	inst: 0 %		func_inst: 0
+617(PolarPoint_show)
+	inst: 0 %		func_inst: 0
+618(PolarPoint_delete)
+	inst: 0 %		func_inst: 0
+619(Primal_CreateDb)
+	inst: 0 %		func_inst: 0
+620(Primal_ActivateDbByName)
+	inst: 0 %		func_inst: 0
+621(Primal_ActivateDbByToken)
+	inst: 0 %		func_inst: 0
+622(Primal_FreeDb)
+	inst: 0 %		func_inst: 0
+623(Primal_CommitDb)
+	inst: 0 %		func_inst: 0
+624(Primal_DeleteDb)
+	inst: 0 %		func_inst: 0
+625(Primal_ConfigYourClass)
+	inst: 0 %		func_inst: 0
+626(Primal_GetClassObjectCount)
+	inst: 0 %		func_inst: 0
+627(Primal_IterateOnClassObjects)
+	inst: 0 %		func_inst: 0
+628(Primal_FreezeClass)
+	inst: 0 %		func_inst: 0
+629(Primal_FreeClass)
+	inst: 0 %		func_inst: 0
+630(CppCreateObject)
+	inst: 0 %		func_inst: 0
+631(CppRefToTkn)
+	inst: 0 %		func_inst: 0
+632(CppCastObject)
+	inst: 0 %		func_inst: 0
+633(Image01_GetFreeStoreAddr)
+	inst: 0 %		func_inst: 0
+634(Query_Create)
+	inst: 0 %		func_inst: 0
+635(Query_BeginBuild)
+	inst: 0 %		func_inst: 0
+636(Query_ScopeOn)
+	inst: 0 %		func_inst: 0
+637(Query1_ScopeOn)
+	inst: 0 %		func_inst: 0
+638(Query_SortBy)
+	inst: 0 %		func_inst: 0
+639(Query1_SortBy)
+	inst: 0 %		func_inst: 0
+640(Query_OpenParen)
+	inst: 0 %		func_inst: 0
+641(Query_AffixCompare)
+	inst: 0 %		func_inst: 0
+642(Query1_AffixCompare)
+	inst: 0 %		func_inst: 0
+643(Query2_AffixCompare)
+	inst: 0 %		func_inst: 0
+644(Query_AffixRefQuery)
+	inst: 0 %		func_inst: 0
+645(Query1_AffixRefQuery)
+	inst: 0 %		func_inst: 0
+646(Query_AffixBoolOp)
+	inst: 0 %		func_inst: 0
+647(Query_CloseParen)
+	inst: 0 %		func_inst: 0
+648(Query_EndBuild)
+	inst: 0 %		func_inst: 0
+649(Query_AssertOnObject)
+	inst: 0 %		func_inst: 0
+650(Query_AssertOnDb)
+	inst: 0 %		func_inst: 0
+651(Query_CompareValue)
+	inst: 0 %		func_inst: 0
+652(Query_CompareWild)
+	inst: 0 %		func_inst: 0
+653(Query_CheckType)
+	inst: 0 %		func_inst: 0
+654(Query_GetClassList)
+	inst: 0 %		func_inst: 0
+655(Query_Dump)
+	inst: 0 %		func_inst: 0
+656(Query_DumpComdObj)
+	inst: 0 %		func_inst: 0
+657(Query_DumpSortObj)
+	inst: 0 %		func_inst: 0
+658(Query_DumpFieldObj)
+	inst: 0 %		func_inst: 0
+659(Rectangle_InitClass)
+	inst: 0 %		func_inst: 0
+660(Rectangle_new0)
+	inst: 0 %		func_inst: 0
+661(Rectangle_new1)
+	inst: 0.0124577 %		func_inst: 11454
+662(Rectangle_new2)
+	inst: 0 %		func_inst: 0
+663(Rectangle_new3)
+	inst: 0 %		func_inst: 0
+664(Rectangle_new4)
+	inst: 0 %		func_inst: 0
+665(Rectangle_area)
+	inst: 0 %		func_inst: 0
+666(Rectangle_draw)
+	inst: 0 %		func_inst: 0
+667(Rectangle_show)
+	inst: 0 %		func_inst: 0
+668(Rectangle_error)
+	inst: 0 %		func_inst: 0
+669(Rectangle_delete)
+	inst: 0 %		func_inst: 0
+670(LibRectangles_InitClass)
+	inst: 0 %		func_inst: 0
+671(OwnerOfLibRectangles)
+	inst: 0 %		func_inst: 0
+672(LibRectangles_AddInto)
+	inst: 0.00330203 %		func_inst: 3036
+673(LibRectangles_FindIn)
+	inst: 0 %		func_inst: 0
+674(LibRectangles_IterateOn)
+	inst: 0 %		func_inst: 0
+675(Rects_InitLibrary)
+	inst: 0 %		func_inst: 0
+676(XyRect_InitClass)
+	inst: 0 %		func_inst: 0
+677(XyRect_new0)
+	inst: 0.0122456 %		func_inst: 11259
+678(XyRect_new1)
+	inst: 0 %		func_inst: 0
+679(XyRect_area)
+	inst: 0 %		func_inst: 0
+680(XyRect_draw)
+	inst: 0 %		func_inst: 0
+681(XyRect_dump)
+	inst: 0 %		func_inst: 0
+682(XyRect_error)
+	inst: 0 %		func_inst: 0
+683(XyRect_show)
+	inst: 0 %		func_inst: 0
+684(XyRect_delete)
+	inst: 0 %		func_inst: 0
+685(NamedXyRect_InitClass)
+	inst: 0 %		func_inst: 0
+686(NamedXyRect_new0)
+	inst: 0.0164786 %		func_inst: 15151
+687(NamedXyRect_new1)
+	inst: 0 %		func_inst: 0
+688(NamedXyRect_area)
+	inst: 0 %		func_inst: 0
+689(NamedXyRect_draw)
+	inst: 0 %		func_inst: 0
+690(NamedXyRect_dump)
+	inst: 0 %		func_inst: 0
+691(NamedXyRect_error)
+	inst: 0 %		func_inst: 0
+692(NamedXyRect_show)
+	inst: 0 %		func_inst: 0
+693(NamedXyRect_delete)
+	inst: 0 %		func_inst: 0
+694(ArrayRect_InitClass)
+	inst: 0 %		func_inst: 0
+695(ArrayRect_new0)
+	inst: 0.0190976 %		func_inst: 17559
+696(ArrayRect_new1)
+	inst: 0 %		func_inst: 0
+697(ArrayRect_area)
+	inst: 0 %		func_inst: 0
+698(ArrayRect_draw)
+	inst: 0 %		func_inst: 0
+699(ArrayRect_dump)
+	inst: 0 %		func_inst: 0
+700(ArrayRect_error)
+	inst: 0 %		func_inst: 0
+701(ArrayRect_show)
+	inst: 0 %		func_inst: 0
+702(ArrayRect_delete)
+	inst: 0 %		func_inst: 0
+703(DblPtrRect_InitClass)
+	inst: 0 %		func_inst: 0
+704(DblPtrRect_new0)
+	inst: 0.02434 %		func_inst: 22379
+705(DblPtrRect_new1)
+	inst: 0 %		func_inst: 0
+706(DblPtrRect_area)
+	inst: 0 %		func_inst: 0
+707(DblPtrRect_draw)
+	inst: 0 %		func_inst: 0
+708(DblPtrRect_dump)
+	inst: 0 %		func_inst: 0
+709(DblPtrRect_error)
+	inst: 0 %		func_inst: 0
+710(DblPtrRect_show)
+	inst: 0 %		func_inst: 0
+711(DblPtrRect_delete)
+	inst: 0 %		func_inst: 0
+712(VarrayRect_InitClass)
+	inst: 0 %		func_inst: 0
+713(VarrayRect_new0)
+	inst: 0.021014 %		func_inst: 19321
+714(VarrayRect_new1)
+	inst: 0 %		func_inst: 0
+715(VarrayRect_area)
+	inst: 0 %		func_inst: 0
+716(VarrayRect_draw)
+	inst: 0 %		func_inst: 0
+717(VarrayRect_dump)
+	inst: 0 %		func_inst: 0
+718(VarrayRect_error)
+	inst: 0 %		func_inst: 0
+719(VarrayRect_show)
+	inst: 0 %		func_inst: 0
+720(VarrayRect_delete)
+	inst: 0 %		func_inst: 0
+721(IntChunkRect_InitClass)
+	inst: 0 %		func_inst: 0
+722(IntChunkRect_new0)
+	inst: 0.021014 %		func_inst: 19321
+723(IntChunkRect_new1)
+	inst: 0 %		func_inst: 0
+724(IntChunkRect_area)
+	inst: 0 %		func_inst: 0
+725(IntChunkRect_draw)
+	inst: 0 %		func_inst: 0
+726(IntChunkRect_dump)
+	inst: 0 %		func_inst: 0
+727(IntChunkRect_error)
+	inst: 0 %		func_inst: 0
+728(IntChunkRect_show)
+	inst: 0 %		func_inst: 0
+729(IntChunkRect_delete)
+	inst: 0 %		func_inst: 0
+730(VchunkRect_InitClass)
+	inst: 0 %		func_inst: 0
+731(VchunkRect_new0)
+	inst: 0 %		func_inst: 0
+732(VchunkRect_new1)
+	inst: 0 %		func_inst: 0
+733(VchunkRect_area)
+	inst: 0 %		func_inst: 0
+734(VchunkRect_draw)
+	inst: 0 %		func_inst: 0
+735(VchunkRect_dump)
+	inst: 0 %		func_inst: 0
+736(VchunkRect_error)
+	inst: 0 %		func_inst: 0
+737(VchunkRect_show)
+	inst: 0 %		func_inst: 0
+738(VchunkRect_delete)
+	inst: 0 %		func_inst: 0
+739(RefRect_InitClass)
+	inst: 0 %		func_inst: 0
+740(RefRect_new0)
+	inst: 0 %		func_inst: 0
+741(RefRect_new1)
+	inst: 0.0133038 %		func_inst: 12232
+742(RefRect_new2)
+	inst: 0 %		func_inst: 0
+743(RefRect_new3)
+	inst: 0 %		func_inst: 0
+744(RefRect_area)
+	inst: 0 %		func_inst: 0
+745(RefRect_draw)
+	inst: 0 %		func_inst: 0
+746(RefRect_dump)
+	inst: 0 %		func_inst: 0
+747(RefRect_error)
+	inst: 0 %		func_inst: 0
+748(RefRect_show)
+	inst: 0 %		func_inst: 0
+749(RefRect_delete)
+	inst: 0 %		func_inst: 0
+750(PortRect_InitClass)
+	inst: 0 %		func_inst: 0
+751(SetInitSetHeads)
+	inst: 0 %		func_inst: 0
+752(SaAddInto)
+	inst: 0.804399 %		func_inst: 739591
+753(SaFindIn)
+	inst: 0 %		func_inst: 0
+754(SaPutRootNode)
+	inst: 0.346287 %		func_inst: 318388
+755(SaGetRootNode)
+	inst: 0 %		func_inst: 0
+756(SaDeleteNode)
+	inst: 0 %		func_inst: 0
+757(SaAdjustRootNode)
+	inst: 0 %		func_inst: 0
+758(SaDeleteSetHead)
+	inst: 0 %		func_inst: 0
+759(ShellLoadObjCode)
+	inst: 0 %		func_inst: 0
+760(ShellGetObjCode)
+	inst: 0 %		func_inst: 0
+761(ShellLoadTokenCode)
+	inst: 0 %		func_inst: 0
+762(ShellGetTokenCode)
+	inst: 0 %		func_inst: 0
+763(SetInitSet)
+	inst: 0 %		func_inst: 0
+764(SetAddInto)
+	inst: 0.152447 %		func_inst: 140165
+765(SetFindIn)
+	inst: 0.0905449 %		func_inst: 83250
+766(SetIterateOn)
+	inst: 0 %		func_inst: 0
+767(SetDeleteFrom)
+	inst: 0 %		func_inst: 0
+768(SetDeleteSet)
+	inst: 0 %		func_inst: 0
+769(SetFirstOf)
+	inst: 0 %		func_inst: 0
+770(SetNextOf)
+	inst: 0 %		func_inst: 0
+771(Draw701)
+	inst: 0 %		func_inst: 0
+772(TmNewCoreDb)
+	inst: 0 %		func_inst: 0
+773(TmRenvToken)
+	inst: 0 %		func_inst: 0
+774(TmWenvToken)
+	inst: 0 %		func_inst: 0
+775(TmFetchCoreDb)
+	inst: 5.24731 %		func_inst: 4824556
+776(TmMakeToken)
+	inst: 0.0943135 %		func_inst: 86715
+777(TmIsValid)
+	inst: 1.04199 %		func_inst: 958040
+778(TmGetObject)
+	inst: 2.79793 %		func_inst: 2572506
+779(TmFreeToken)
+	inst: 0 %		func_inst: 0
+780(TmReclaimHandles)
+	inst: 0 %		func_inst: 0
+781(TransInitMap)
+	inst: 0 %		func_inst: 0
+782(TransAppendToMap)
+	inst: 0 %		func_inst: 0
+783(TransInvokeMap)
+	inst: 0 %		func_inst: 0
+784(TransBuildMap)
+	inst: 0 %		func_inst: 0
+785(TransGetMap)
+	inst: 0 %		func_inst: 0
+786(Trans_DumpMap)
+	inst: 0 %		func_inst: 0
+787(Trans_MapIsActive)
+	inst: 0 %		func_inst: 0
+788(TransCreateMapDirs)
+	inst: 0 %		func_inst: 0
+789(TransNewImageMap)
+	inst: 0 %		func_inst: 0
+790(TransBuildFields)
+	inst: 0 %		func_inst: 0
+791(TransBuildMapField)
+	inst: 0 %		func_inst: 0
+792(Trans_FetchAttrOffset)
+	inst: 1.26516 %		func_inst: 1163230
+793(Trans_FetchAttrOffsets)
+	inst: 0 %		func_inst: 0
+794(Trans_FetchFieldOffsets)
+	inst: 0 %		func_inst: 0
+795(Trans_FetchFieldOffset)
+	inst: 0 %		func_inst: 0
+796(Trans_FetchObjFieldSpec)
+	inst: 0 %		func_inst: 0
+797(C_GetObjectImage)
+	inst: 0.220531 %		func_inst: 202764
+798(C_ObjectNewImage)
+	inst: 0.230862 %		func_inst: 212262
+799(C_InvokeAtThis)
+	inst: 0 %		func_inst: 0
+800(C_FaxToThis)
+	inst: 0.144169 %		func_inst: 132554
+801(C_FaxToClassFields)
+	inst: 0.693694 %		func_inst: 637805
+802(C_MapRefToAddr)
+	inst: 0 %		func_inst: 0
+803(C_RefToAddr)
+	inst: 0 %		func_inst: 0
+804(C_CreateArray)
+	inst: 0.291755 %		func_inst: 268249
+805(C_CreateSubArray)
+	inst: 0.0801254 %		func_inst: 73670
+806(C_CreateFieldArray)
+	inst: 0 %		func_inst: 0
+807(C_CreateFieldSubArray)
+	inst: 0 %		func_inst: 0
+808(C_CreateObject)
+	inst: 0 %		func_inst: 0
+809(C_ReFaxToDb)
+	inst: 0 %		func_inst: 0
+810(C_GroupArrays)
+	inst: 0 %		func_inst: 0
+811(C_MapRefToDb)
+	inst: 0 %		func_inst: 0
+812(C_RefToTkn)
+	inst: 0 %		func_inst: 0
+813(C_CommitClass)
+	inst: 0 %		func_inst: 0
+814(C_FreeClass)
+	inst: 0 %		func_inst: 0
+815(C_FreeObject)
+	inst: 0 %		func_inst: 0
+816(C_DeleteObject)
+	inst: 0 %		func_inst: 0
+817(Tree_DeleteFrom)
+	inst: 0 %		func_inst: 0
+818(Tree_Adjust)
+	inst: 0 %		func_inst: 0
+819(Tree_Redistribute)
+	inst: 0 %		func_inst: 0
+820(Tree_Concatenate)
+	inst: 0 %		func_inst: 0
+821(Tree_DeleteNode)
+	inst: 0 %		func_inst: 0
+822(Test_Iterate)
+	inst: 0 %		func_inst: 0
+823(Tree_AddInto)
+	inst: 0.0742882 %		func_inst: 68303
+824(Tree_FindIn)
+	inst: 0.0929268 %		func_inst: 85440
+825(Tree_Traverse)
+	inst: 0 %		func_inst: 0
+826(Tree_IterateOn)
+	inst: 0 %		func_inst: 0
+827(Tree_Validate)
+	inst: 0 %		func_inst: 0
+828(Tree_Delete)
+	inst: 0 %		func_inst: 0
+829(Tree_PromoteRootNode)
+	inst: 0.000145742 %		func_inst: 134
+830(Tree_PromoteInternalNode)
+	inst: 0.011878 %		func_inst: 10921
+831(Tree_RecurseSearch)
+	inst: 0.737238 %		func_inst: 677841
+832(Tree_GetRecursePos)
+	inst: 0.41446 %		func_inst: 381068
+833(Tree_CreateNode)
+	inst: 0.00373056 %		func_inst: 3430
+834(Tree_GetFrozenNode)
+	inst: 0.281361 %		func_inst: 258693
+835(Tree_FreezeNode)
+	inst: 0 %		func_inst: 0
+836(Tree_DefrostNode)
+	inst: 0.171584 %		func_inst: 157760
+837(Tree_NodeIsFrosted)
+	inst: 0 %		func_inst: 0
+838(Tree_DumpNode)
+	inst: 0 %		func_inst: 0
+839(Tree_NewKey)
+	inst: 0.0116006 %		func_inst: 10666
+840(Tree_GetFrozenKey)
+	inst: 0 %		func_inst: 0
+841(Tree_DefrostKey)
+	inst: 0 %		func_inst: 0
+842(Tree_GetNodeInsertPos)
+	inst: 0.00491607 %		func_inst: 4520
+843(Tree_CompareKey)
+	inst: 1.55375 %		func_inst: 1428571
+844(SpclAddIntoTree)
+	inst: 0.0503125 %		func_inst: 46259
+845(SpclFindIn2aryTree)
+	inst: 0 %		func_inst: 0
+846(SpclFindInTree)
+	inst: 0.210064 %		func_inst: 193140
+847(SpclTraverseTree)
+	inst: 0 %		func_inst: 0
+848(Spcl_TreeIterateOn)
+	inst: 0 %		func_inst: 0
+849(SpclDeleteFromTree)
+	inst: 0 %		func_inst: 0
+850(SpclDeleteTree)
+	inst: 0 %		func_inst: 0
+851(Tree_Create)
+	inst: 0 %		func_inst: 0
+852(Tree_Compare2aryKey)
+	inst: 0 %		func_inst: 0
+853(pow2Round)
+	inst: 0 %		func_inst: 0
+854(Ut_PrintErr)
+	inst: 0.562417 %		func_inst: 517105
+855(Ut_SetWatch)
+	inst: 0 %		func_inst: 0
+856(Ut_StopWatch)
+	inst: 0 %		func_inst: 0
+857(Ut_SetBreak)
+	inst: 0 %		func_inst: 0
+858(Ut_VoidTrack)
+	inst: 0 %		func_inst: 0
+859(Ut_PrintTrack)
+	inst: 0 %		func_inst: 0
+860(Ut_StackTrack)
+	inst: 0.44264 %		func_inst: 406978
+861(Ut_TraceMsg)
+	inst: 1.7402e-05 %		func_inst: 16
+862(Ut_SendMsg)
+	inst: 0 %		func_inst: 0
+863(Ut_TraceBytes)
+	inst: 0 %		func_inst: 0
+864(Ut_TraceField)
+	inst: 0 %		func_inst: 0
+865(Ut_TraceValue)
+	inst: 0 %		func_inst: 0
+866(Ut_AlignMember)
+	inst: 0 %		func_inst: 0
+867(Ut_AlignStruc)
+	inst: 0.085792 %		func_inst: 78880
+868(Ut_StrToLower)
+	inst: 0 %		func_inst: 0
+869(Ut_StrToUpper)
+	inst: 0 %		func_inst: 0
+870(Ut_ReverseStr)
+	inst: 0 %		func_inst: 0
+871(Ut_IntToStr)
+	inst: 0.0136443 %		func_inst: 12545
+872(Ut_FindInList)
+	inst: 0 %		func_inst: 0
+873(Ut_CompareWild)
+	inst: 0 %		func_inst: 0
+874(Ut_CompareString)
+	inst: 0.0434344 %		func_inst: 39935
+875(Ut_Random)
+	inst: 0.135214 %		func_inst: 124320
+876(Vchunk_Create)
+	inst: 0.0487692 %		func_inst: 44840
+877(Vchunk_IsValidToken)
+	inst: 0 %		func_inst: 0
+878(Vchunk_GetVstruc)
+	inst: 0.0211652 %		func_inst: 19460
+879(Vchunk_DumpVstruc)
+	inst: 0 %		func_inst: 0
+880(Vchunk_Freeze)
+	inst: 0 %		func_inst: 0
+881(Vchunk_GetAddress)
+	inst: 0.0718704 %		func_inst: 66080
+882(Vchunk_PutAddress)
+	inst: 0 %		func_inst: 0
+883(Vchunk_GetStackPtr)
+	inst: 0.00846608 %		func_inst: 7784
+884(Vchunk_PutStackPtr)
+	inst: 0.13767 %		func_inst: 126578
+885(Vchunk_GetChunkSize)
+	inst: 0 %		func_inst: 0
+886(Vchunk_Copy)
+	inst: 0 %		func_inst: 0
+887(Vchunk_Dump)
+	inst: 0 %		func_inst: 0
+888(Vchunk_DumpPartial)
+	inst: 0 %		func_inst: 0
+889(Vchunk_Free)
+	inst: 0 %		func_inst: 0
+890(Vchunk_Commit)
+	inst: 0 %		func_inst: 0
+891(Vchunk_Delete)
+	inst: 0 %		func_inst: 0
+892(Vchunk_PushUnit)
+	inst: 0 %		func_inst: 0
+893(Vchunk_PutUnit)
+	inst: 0 %		func_inst: 0
+894(Vchunk_GetUnit)
+	inst: 0 %		func_inst: 0
+895(BitField_Create)
+	inst: 0 %		func_inst: 0
+896(BitField_Put)
+	inst: 0 %		func_inst: 0
+897(BitField_Get)
+	inst: 0 %		func_inst: 0
+898(DbmNewVchunk)
+	inst: 0.356602 %		func_inst: 327872
+899(DbmPutVchunkTkn)
+	inst: 0 %		func_inst: 0
+900(DbmFreeVchunk)
+	inst: 0 %		func_inst: 0
+901(DbmDeleteVchunk)
+	inst: 0 %		func_inst: 0
+902(DbmCommitVchunk)
+	inst: 0 %		func_inst: 0
+903(DbmInvokeVchunk)
+	inst: 0.437918 %		func_inst: 402636
+904(DbmGetVchunkTkn)
+	inst: 1.0888 %		func_inst: 1001076
+905(DbmDumpVchunkVchunk)
+	inst: 0 %		func_inst: 0
+906(DbmDumpVchunk)
+	inst: 0 %		func_inst: 0
+907(OaCreateVchunk)
+	inst: 0.0190291 %		func_inst: 17496
+908(OaFreezeVchunk)
+	inst: 0 %		func_inst: 0
+909(OaDumpVchunkVchunk)
+	inst: 0 %		func_inst: 0
+910(OaGetVchunkAddr)
+	inst: 0.109214 %		func_inst: 100415
+911(OaPutVchunkAddr)
+	inst: 0 %		func_inst: 0
+912(OaGetVchunkAllocQty)
+	inst: 0 %		func_inst: 0
+913(OaGetVchunkStackPtr)
+	inst: 0.0845466 %		func_inst: 77735
+914(OaPutVchunkStackPtr)
+	inst: 0.0253722 %		func_inst: 23328
+915(OaPushUnit)
+	inst: 0 %		func_inst: 0
+916(OaPutUnit)
+	inst: 0 %		func_inst: 0
+917(OaGetUnit)
+	inst: 0 %		func_inst: 0
+918(OaDumpVchunk)
+	inst: 0 %		func_inst: 0
+919(OaDeleteVchunk)
+	inst: 0 %		func_inst: 0
+920(OmNewVchunk)
+	inst: 0 %		func_inst: 0
+921(OmGetVchunkToken)
+	inst: 0.287077 %		func_inst: 263948
+922(OmGetVchunkStruc)
+	inst: 0 %		func_inst: 0
+923(OmDeleteVchunk)
+	inst: 0 %		func_inst: 0
+924(__do_global_dtors)
+	inst: 0 %		func_inst: 0
+925(__do_global_ctors)
+	inst: 0 %		func_inst: 0
+926(__main)
+	inst: 0 %		func_inst: 0
+927(__libc_init)
+	inst: 0 %		func_inst: 0
+928(exit)
+	inst: 0 %		func_inst: 0
+929(_cleanup)
+	inst: 0 %		func_inst: 0
+930(sprintf)
+	inst: 6.52576e-06 %		func_inst: 6
+931(fprintf)
+	inst: 6.52576e-06 %		func_inst: 6
+932(fflush)
+	inst: 0 %		func_inst: 0
+933(srand)
+	inst: 0 %		func_inst: 0
+934(strcpy)
+	inst: 0.0754356 %		func_inst: 69358
+935(__getmode)
+	inst: 0 %		func_inst: 0
+936(fopen)
+	inst: 0 %		func_inst: 0
+937(fgets)
+	inst: 0 %		func_inst: 0
+938(sscanf)
+	inst: 0 %		func_inst: 0
+939(strcat)
+	inst: 0 %		func_inst: 0
+940(strlen)
+	inst: 0.0072077 %		func_inst: 6627
+941(calloc)
+	inst: 0.0981311 %		func_inst: 90225
+942(_free_internal)
+	inst: 0.00542943 %		func_inst: 4992
+943(free)
+	inst: 0.000586231 %		func_inst: 539
+944(memcpy)
+	inst: 1.72144 %		func_inst: 1582751
+945(memcmp)
+	inst: 0 %		func_inst: 0
+946(time)
+	inst: 0 %		func_inst: 0
+947(ctime)
+	inst: 0 %		func_inst: 0
+948(fclose)
+	inst: 0 %		func_inst: 0
+949(strncpy)
+	inst: 0 %		func_inst: 0
+950(clock)
+	inst: 0 %		func_inst: 0
+951(strtol)
+	inst: 0 %		func_inst: 0
+952(rand)
+	inst: 0 %		func_inst: 0
+953(strcmp)
+	inst: 0 %		func_inst: 0
+954(fseek)
+	inst: 0 %		func_inst: 0
+955(fread)
+	inst: 0 %		func_inst: 0
+956(perror)
+	inst: 0 %		func_inst: 0
+957(memset)
+	inst: 7.62893 %		func_inst: 7014291
+958(strncmp)
+	inst: 0 %		func_inst: 0
+959(strpbrk)
+	inst: 0 %		func_inst: 0
+960(sqrt)
+	inst: 0 %		func_inst: 0
+961(atan)
+	inst: 0 %		func_inst: 0
+962(sin)
+	inst: 0 %		func_inst: 0
+963(cos)
+	inst: 0 %		func_inst: 0
+964(printf)
+	inst: 0 %		func_inst: 0
+965(atexit)
+	inst: 0 %		func_inst: 0
+966(__new_exitfn)
+	inst: 0 %		func_inst: 0
+967(__init_misc)
+	inst: 0 %		func_inst: 0
+968(_exit)
+	inst: 0 %		func_inst: 0
+969(vsprintf)
+	inst: 3.91546e-05 %		func_inst: 36
+970(vfprintf)
+	inst: 0.00191966 %		func_inst: 1765
+971(printf_unknown)
+	inst: 0 %		func_inst: 0
+972(__stdio_check_funcs)
+	inst: 0 %		func_inst: 0
+973(__stdio_check_offset)
+	inst: 2.28402e-05 %		func_inst: 21
+974(flushbuf)
+	inst: 0 %		func_inst: 0
+975(fillbuf)
+	inst: 0 %		func_inst: 0
+976(__flshfp)
+	inst: 0 %		func_inst: 0
+977(__fillbf)
+	inst: 0 %		func_inst: 0
+978(__invalidate)
+	inst: 0 %		func_inst: 0
+979(__srandom)
+	inst: 0 %		func_inst: 0
+980(__initstate)
+	inst: 0 %		func_inst: 0
+981(__setstate)
+	inst: 0 %		func_inst: 0
+982(__random)
+	inst: 0 %		func_inst: 0
+983(__newstream)
+	inst: 0 %		func_inst: 0
+984(__stdio_read)
+	inst: 0 %		func_inst: 0
+985(__stdio_write)
+	inst: 0 %		func_inst: 0
+986(__stdio_seek)
+	inst: 0 %		func_inst: 0
+987(__stdio_close)
+	inst: 0 %		func_inst: 0
+988(__stdio_fileno)
+	inst: 0 %		func_inst: 0
+989(__stdio_open)
+	inst: 0 %		func_inst: 0
+990(__stdio_reopen)
+	inst: 0 %		func_inst: 0
+991(__memccpy)
+	inst: 0 %		func_inst: 0
+992(__vsscanf)
+	inst: 0 %		func_inst: 0
+993(initialize)
+	inst: 0 %		func_inst: 0
+994(morecore)
+	inst: 0.0110764 %		func_inst: 10184
+995(malloc)
+	inst: 0.688673 %		func_inst: 633189
+996(_wordcopy_fwd_aligned)
+	inst: 0.05156 %		func_inst: 47406
+997(_wordcopy_fwd_dest_aligned)
+	inst: 8.59225e-05 %		func_inst: 79
+998(_wordcopy_bwd_aligned)
+	inst: 0 %		func_inst: 0
+999(_wordcopy_bwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+1000(__gettimeofday)
+	inst: 0 %		func_inst: 0
+1001(localtime)
+	inst: 0 %		func_inst: 0
+1002(asctime)
+	inst: 0 %		func_inst: 0
+1003(__getrusage)
+	inst: 0 %		func_inst: 0
+1004(_strerror_internal)
+	inst: 0 %		func_inst: 0
+1005(strchr)
+	inst: 0.000237103 %		func_inst: 218
+1006(__isnan)
+	inst: 0 %		func_inst: 0
+1007(__isinf)
+	inst: 0 %		func_inst: 0
+1008(__logb)
+	inst: 0 %		func_inst: 0
+1009(ldexp)
+	inst: 0 %		func_inst: 0
+1010(atan2)
+	inst: 0 %		func_inst: 0
+1011(__finite)
+	inst: 0 %		func_inst: 0
+1012(__drem)
+	inst: 0 %		func_inst: 0
+1013(__copysign)
+	inst: 0 %		func_inst: 0
+1014(strrchr)
+	inst: 0 %		func_inst: 0
+1015(syscall_error)
+	inst: 0 %		func_inst: 0
+1016(register_printf_function)
+	inst: 0 %		func_inst: 0
+1017(mbtowc)
+	inst: 4.56803e-05 %		func_inst: 42
+1018(fwrite)
+	inst: 0.000108763 %		func_inst: 100
+1019(_itoa)
+	inst: 0 %		func_inst: 0
+1020(__printf_fp)
+	inst: 0 %		func_inst: 0
+1021(__stdio_init_stream)
+	inst: 0 %		func_inst: 0
+1022(__read)
+	inst: 0 %		func_inst: 0
+1023(__write)
+	inst: 0 %		func_inst: 0
+1024(__lseek)
+	inst: 0 %		func_inst: 0
+1025(__close)
+	inst: 0 %		func_inst: 0
+1026(__open)
+	inst: 0 %		func_inst: 0
+1027(__dup2)
+	inst: 0 %		func_inst: 0
+1028(__vfscanf)
+	inst: 0 %		func_inst: 0
+1029(__default_morecore)
+	inst: 0.0017489 %		func_inst: 1608
+1030(__tzset)
+	inst: 0 %		func_inst: 0
+1031(__tzname_max)
+	inst: 0 %		func_inst: 0
+1032(compute_change)
+	inst: 0 %		func_inst: 0
+1033(__tz_compute)
+	inst: 0 %		func_inst: 0
+1034(__tzfile_read)
+	inst: 0 %		func_inst: 0
+1035(__tzfile_default)
+	inst: 0 %		func_inst: 0
+1036(__tzfile_compute)
+	inst: 0 %		func_inst: 0
+1037(compute_tzname_max)
+	inst: 0 %		func_inst: 0
+1038(gmtime)
+	inst: 0 %		func_inst: 0
+1039(__offtime)
+	inst: 0 %		func_inst: 0
+1040(memchr)
+	inst: 0 %		func_inst: 0
+1041(__mpn_extract_double)
+	inst: 0 %		func_inst: 0
+1042(__mpn_lshift)
+	inst: 0 %		func_inst: 0
+1043(__mpn_cmp)
+	inst: 0 %		func_inst: 0
+1044(__mpn_divmod_1)
+	inst: 0 %		func_inst: 0
+1045(abort)
+	inst: 0 %		func_inst: 0
+1046(__mpn_mul_1)
+	inst: 0 %		func_inst: 0
+1047(__mpn_add_n)
+	inst: 0 %		func_inst: 0
+1048(__mpn_divmod)
+	inst: 0 %		func_inst: 0
+1049(__mpn_rshift)
+	inst: 0 %		func_inst: 0
+1050(__mpn_sub_n)
+	inst: 0 %		func_inst: 0
+1051(__fstat)
+	inst: 0 %		func_inst: 0
+1052(__isatty)
+	inst: 0 %		func_inst: 0
+1053(realloc)
+	inst: 0 %		func_inst: 0
+1054(strtoul)
+	inst: 0 %		func_inst: 0
+1055(strtod)
+	inst: 0 %		func_inst: 0
+1056(ungetc)
+	inst: 0 %		func_inst: 0
+1057(__sbrk)
+	inst: 0.00320632 %		func_inst: 2948
+1058(dist_tm)
+	inst: 0 %		func_inst: 0
+1059(do_normalization)
+	inst: 0 %		func_inst: 0
+1060(_mktime_internal)
+	inst: 0 %		func_inst: 0
+1061(mktime)
+	inst: 0 %		func_inst: 0
+1062(getenv)
+	inst: 0 %		func_inst: 0
+1063(__mpn_submul_1)
+	inst: 0 %		func_inst: 0
+1064(__ioctl)
+	inst: 0 %		func_inst: 0
+1065(memmove)
+	inst: 0 %		func_inst: 0
+1066(pow)
+	inst: 0 %		func_inst: 0
+1067(pow_P)
+	inst: 0 %		func_inst: 0
+1068(__brk)
+	inst: 0.00233187 %		func_inst: 2144
+1069(log)
+	inst: 0 %		func_inst: 0
+1070(__log__D)
+	inst: 0 %		func_inst: 0
+1071(exp)
+	inst: 0 %		func_inst: 0
+1072(__exp__D)
+	inst: 0 %		func_inst: 0
+1073(__umoddi3)
+	inst: 4.89432e-05 %		func_inst: 45
+1074(__udivdi3)
+	inst: 2.93659e-05 %		func_inst: 27
+1075(__udivmoddi4)
+	inst: 0.00137041 %		func_inst: 1260
+
+====== inst statistic ======
+0(__start)
+	func: 0 %		call: 0
+1(BitVec_Create)
+	func: 0 %		call: 0
+2(BitVec_PutBit)
+	func: 0 %		call: 0
+3(BitVec_GetBit)
+	func: 0 %		call: 0
+4(BMT_Test)
+	func: 0 %		call: 0
+5(BMT_Init)
+	func: 0 %		call: 0
+6(BMT_ConfigAllClasses)
+	func: 0 %		call: 0
+7(main)
+	func: 0 %		call: 0
+8(BMT_CreateParts)
+	func: 0 %		call: 0
+9(BMT_Validate)
+	func: 0 %		call: 0
+10(BMT_ValidateNamedDrawObjs)
+	func: 0 %		call: 0
+11(BMT_QueryOn)
+	func: 0 %		call: 0
+12(BMT_DbTransaction)
+	func: 0 %		call: 0
+13(BMT_CommitPartDrawObj)
+	func: 0 %		call: 0
+14(BMT_DeletePartDrawObj)
+	func: 0 %		call: 0
+15(BMT_TraverseSets)
+	func: 0 %		call: 0
+16(BMT_Iter1)
+	func: 0 %		call: 0
+17(BMT_Iter2)
+	func: 0 %		call: 0
+18(BMT_Iter3)
+	func: 0 %		call: 0
+19(BMT_Iter4)
+	func: 0 %		call: 0
+20(BMT_ExportPart)
+	func: 0 %		call: 0
+21(BMT_ImportPart)
+	func: 0 %		call: 0
+22(BMT_BuildPersonLib)
+	func: 0 %		call: 0
+23(BMT_InitQuerys)
+	func: 0 %		call: 0
+24(BMT_LookUpParts)
+	func: 0 %		call: 0
+25(BMT_CommitParts)
+	func: 0 %		call: 0
+26(BMT_DeleteParts)
+	func: 0 %		call: 0
+27(BMT_DeleteAllObjects)
+	func: 0 %		call: 0
+28(BMT_DeleteTestObjs)
+	func: 0 %		call: 0
+29(PartLib_Init)
+	func: 0 %		call: 0
+30(PartLib_Create)
+	func: 0 %		call: 0
+31(PartLib_ActivateDb)
+	func: 0 %		call: 0
+32(PartLib_Topology)
+	func: 0 %		call: 0
+33(DrawPartPair_InitClass)
+	func: 0 %		call: 0
+34(Part_InitClass)
+	func: 0 %		call: 0
+35(Part_Create)
+	func: 0.0545679 %		call: 1110
+36(Part_GetToken)
+	func: 0 %		call: 0
+37(Part_Connect)
+	func: 0 %		call: 0
+38(Part_Traverse)
+	func: 0 %		call: 0
+39(Part_Reverse)
+	func: 0 %		call: 0
+40(Part_ExportTo)
+	func: 0 %		call: 0
+41(Part_ImportFrom)
+	func: 0 %		call: 0
+42(Part_DisConnect)
+	func: 0 %		call: 0
+43(Part_Delete)
+	func: 0 %		call: 0
+44(Part_Topology)
+	func: 0 %		call: 0
+45(Core_SetPageSize)
+	func: 0 %		call: 0
+46(Void_ExtendCore)
+	func: 0.295699 %		call: 6015
+47(Void_FreeCore)
+	func: 0.00378534 %		call: 77
+48(Void_SysFarCoreLeft)
+	func: 0.295699 %		call: 6015
+49(Core_MoreCore)
+	func: 0.159279 %		call: 3240
+50(Core_FreeCoreSpace)
+	func: 0.00378534 %		call: 77
+51(Core0_MoreCore)
+	func: 0.13642 %		call: 2775
+52(Core0_FreeCoreSpace)
+	func: 0 %		call: 0
+53(Core0_AllocString)
+	func: 0 %		call: 0
+54(Core0_FreeString)
+	func: 0 %		call: 0
+55(Core_AssignChunks)
+	func: 0 %		call: 0
+56(Core_MoveBytes)
+	func: 0 %		call: 0
+57(Core_ShowStats)
+	func: 0 %		call: 0
+58(Ut_MoveBytes)
+	func: 1.65955 %		call: 33758
+59(Ut_CompareBytes)
+	func: 0 %		call: 0
+60(DbmCreateDb)
+	func: 0 %		call: 0
+61(Dbm_DeCacheDbs)
+	func: 0 %		call: 0
+62(Dbm_CommitDb)
+	func: 0 %		call: 0
+63(Dbm_SetDefaults)
+	func: 0 %		call: 0
+64(Dbm_GetDefaults)
+	func: 0 %		call: 0
+65(Dbm_LoadDb)
+	func: 0 %		call: 0
+66(Dbm_LoadDbHdr)
+	func: 0 %		call: 0
+67(Dbm_FileInBlkHdr)
+	func: 0 %		call: 0
+68(Dbm_FileInDbHdr)
+	func: 0 %		call: 0
+69(Dbm_FreeDb)
+	func: 0 %		call: 0
+70(Domain_ImplodeMemory)
+	func: 0 %		call: 0
+71(Domain_BeHereNow)
+	func: 0 %		call: 0
+72(Domain_MmiInvoke)
+	func: 0 %		call: 0
+73(Domain_Omi0Invoke)
+	func: 0 %		call: 0
+74(Domain_OmiInvoke)
+	func: 0 %		call: 0
+75(Domain_Enter)
+	func: 0 %		call: 0
+76(Domain_Exit)
+	func: 0 %		call: 0
+77(Draw7_Init)
+	func: 0 %		call: 0
+78(TestObj_InitClass)
+	func: 0 %		call: 0
+79(TestObj_new0)
+	func: 0 %		call: 0
+80(TestObj_new1)
+	func: 0 %		call: 0
+81(TestObj_show)
+	func: 0 %		call: 0
+82(TestObj_Topology)
+	func: 0 %		call: 0
+83(TestObj_delete)
+	func: 0 %		call: 0
+84(Draw7)
+	func: 0 %		call: 0
+85(DrawLib_InitLibrary)
+	func: 0 %		call: 0
+86(DrawLib_InitClass)
+	func: 0 %		call: 0
+87(DrawLib_InitDb)
+	func: 0 %		call: 0
+88(DrawLib_QueryDb)
+	func: 0 %		call: 0
+89(DrawLib_CreateDb)
+	func: 0 %		call: 0
+90(DrawLib_ActivateDbByName)
+	func: 0 %		call: 0
+91(DrawLib_ActivateDbByToken)
+	func: 0 %		call: 0
+92(DrawLib_DeleteDb)
+	func: 0 %		call: 0
+93(DrawLib_NewId)
+	func: 0.0545679 %		call: 1110
+94(DrawObj_InitClass)
+	func: 0 %		call: 0
+95(DrawObj_new0)
+	func: 0 %		call: 0
+96(DrawObj_new1)
+	func: 0 %		call: 0
+97(DrawObj_new2)
+	func: 0 %		call: 0
+98(DrawObj_import)
+	func: 0 %		call: 0
+99(DrawObj_export)
+	func: 0 %		call: 0
+100(DrawObj_draw)
+	func: 0 %		call: 0
+101(DrawObj_area)
+	func: 0 %		call: 0
+102(DrawObj_delete)
+	func: 0 %		call: 0
+103(DrawObj_Create0)
+	func: 0 %		call: 0
+104(DrawObj_Create1)
+	func: 0 %		call: 0
+105(DrawObj_Import)
+	func: 0 %		call: 0
+106(DrawObj_Export)
+	func: 0 %		call: 0
+107(DrawObjs_InitClass)
+	func: 0 %		call: 0
+108(OwnerOfDrawObjs)
+	func: 0 %		call: 0
+109(DrawObjs_AddInto)
+	func: 0.0545679 %		call: 1110
+110(DrawObjs_FindIn)
+	func: 0 %		call: 0
+111(DrawObjs_IterateOn)
+	func: 0 %		call: 0
+112(NamedDrawObj_InitClass)
+	func: 0 %		call: 0
+113(NamedDrawObj_new0)
+	func: 0 %		call: 0
+114(NamedDrawObj_new1)
+	func: 0 %		call: 0
+115(NamedDrawObj_new2)
+	func: 0 %		call: 0
+116(NamedDrawObj_Create0)
+	func: 0 %		call: 0
+117(NamedDrawObj_Create1)
+	func: 0 %		call: 0
+118(NamedDrawObj_ExportFunc)
+	func: 0 %		call: 0
+119(NamedDrawObj_delete)
+	func: 0 %		call: 0
+120(NamedDrawObjs_InitClass)
+	func: 0 %		call: 0
+121(NamedDrawObjs_AddInto)
+	func: 0.00683328 %		call: 139
+122(NamedDrawObjs_FindIn)
+	func: 0 %		call: 0
+123(NamedDrawObjs_IterateOn)
+	func: 0 %		call: 0
+124(PersonLib_InitLibrary)
+	func: 0 %		call: 0
+125(PersonLib_InitClass)
+	func: 0 %		call: 0
+126(Person_InitDb)
+	func: 0 %		call: 0
+127(PersonLib_QueryDb)
+	func: 0 %		call: 0
+128(PersonLib_CreateDb)
+	func: 0 %		call: 0
+129(PersonLib_ActivateDbByName)
+	func: 0 %		call: 0
+130(PersonLib_ActivateDbByToken)
+	func: 0 %		call: 0
+131(PersonLib_DeleteDb)
+	func: 0 %		call: 0
+132(PersonObjs_InitClass)
+	func: 0 %		call: 0
+133(PersonObjs_AddInto)
+	func: 0 %		call: 0
+134(PersonObjs_FindIn)
+	func: 0.0545679 %		call: 1110
+135(PersonObjs_IterateOn)
+	func: 0 %		call: 0
+136(PersonNames_InitClass)
+	func: 0 %		call: 0
+137(PersonNames_AddInto)
+	func: 0 %		call: 0
+138(PersonNames_FindIn)
+	func: 0 %		call: 0
+139(PersonNames_IterateOn)
+	func: 0 %		call: 0
+140(Address_InitClass)
+	func: 0 %		call: 0
+141(Person_InitClass)
+	func: 0 %		call: 0
+142(Person_new0)
+	func: 0 %		call: 0
+143(Person_new1)
+	func: 0 %		call: 0
+144(Person_new2)
+	func: 0 %		call: 0
+145(Person_Create0)
+	func: 0 %		call: 0
+146(Person_Create1)
+	func: 0 %		call: 0
+147(Person_Import)
+	func: 0 %		call: 0
+148(Person_Export)
+	func: 0 %		call: 0
+149(Person_delete)
+	func: 0 %		call: 0
+150(PersonParts_InitClass)
+	func: 0 %		call: 0
+151(PersonParts_OwnerOf)
+	func: 0 %		call: 0
+152(PersonParts_AddInto)
+	func: 0.0546171 %		call: 1111
+153(PersonParts_FindIn)
+	func: 0 %		call: 0
+154(PersonParts_IterateOn)
+	func: 0 %		call: 0
+155(VORTEx)
+	func: 0 %		call: 0
+156(CreateImage)
+	func: 0 %		call: 0
+157(ImplodeTheOry)
+	func: 0 %		call: 0
+158(CreateKernel)
+	func: 0 %		call: 0
+159(LoadKernel)
+	func: 0 %		call: 0
+160(LoadEnv0)
+	func: 0 %		call: 0
+161(LoadObj0)
+	func: 0 %		call: 0
+162(Env_GetTypeId)
+	func: 0 %		call: 0
+163(Env_GetClassId)
+	func: 0 %		call: 0
+164(Env_GetAttrId)
+	func: 0 %		call: 0
+165(Env_NewFieldStruc)
+	func: 0 %		call: 0
+166(Env_GetFieldStruc)
+	func: 0 %		call: 0
+167(Env_DeleteFieldStruc)
+	func: 0 %		call: 0
+168(Env_GetSetId)
+	func: 0 %		call: 0
+169(Env_GetTupleId)
+	func: 0 %		call: 0
+170(Env_GetMatrixId)
+	func: 0 %		call: 0
+171(Env_LoadCreateCode)
+	func: 0 %		call: 0
+172(Env_LoadGetTknCode)
+	func: 0 %		call: 0
+173(Env_InitClassMap)
+	func: 0 %		call: 0
+174(Env_AppendToMap)
+	func: 0 %		call: 0
+175(Env_InvokeMap)
+	func: 0 %		call: 0
+176(Env_GetClassMap)
+	func: 0 %		call: 0
+177(Env_GetAttrInfo)
+	func: 0.0136174 %		call: 277
+178(Env_IsValidToken)
+	func: 0 %		call: 0
+179(Env_TokenIsEquiv)
+	func: 0 %		call: 0
+180(Env_ReclaimHandles)
+	func: 0 %		call: 0
+181(Env_GenerateRandomNumbers)
+	func: 0 %		call: 0
+182(Env_Random)
+	func: 0 %		call: 0
+183(EnvNewObjDesc)
+	func: 0 %		call: 0
+184(EnvFetchObjNum)
+	func: 0 %		call: 0
+185(EnvFetchObjHandle)
+	func: 0 %		call: 0
+186(EnvPairObjHandle)
+	func: 0 %		call: 0
+187(EnvFetchObjSize)
+	func: 0.642525 %		call: 13070
+188(EnvFetchObjName)
+	func: 0 %		call: 0
+189(EnvFetchClassSize)
+	func: 0 %		call: 0
+190(EnvFetchLastObjCount)
+	func: 0 %		call: 0
+191(EnvFetchObjCestrs)
+	func: 0 %		call: 0
+192(Env_FetchObjCendents)
+	func: 0 %		call: 0
+193(EnvFetchSchemaObjs)
+	func: 0 %		call: 0
+194(DeleteObjDesc)
+	func: 0 %		call: 0
+195(EnvBldObjHdr)
+	func: 0 %		call: 0
+196(EnvInstallObjHdr)
+	func: 0 %		call: 0
+197(InstallObjChunks)
+	func: 0 %		call: 0
+198(EnvBldObjImage)
+	func: 0 %		call: 0
+199(EnvNewObjHdr)
+	func: 0 %		call: 0
+200(EnvInstallAttr)
+	func: 0 %		call: 0
+201(EnvFetchLocalAttrNum)
+	func: 0 %		call: 0
+202(EnvFetchAttrHandle)
+	func: 1.11451 %		call: 22671
+203(EnvFetchAttrSize)
+	func: 0 %		call: 0
+204(CppEnvGetThatTkn)
+	func: 0 %		call: 0
+205(EnvFetchAttrOffset)
+	func: 0.906368 %		call: 18437
+206(Env_FetchObj0AttrOffset)
+	func: 0 %		call: 0
+207(Env_FetchObjAttrOffset)
+	func: 0 %		call: 0
+208(Env_FetchObjAttrSpec)
+	func: 0 %		call: 0
+209(Env_FetchFieldOffset)
+	func: 0 %		call: 0
+210(Env_FetchObjFieldSpec)
+	func: 0 %		call: 0
+211(EnvFetchOffsetMap)
+	func: 0 %		call: 0
+212(EnvInitCodes)
+	func: 0 %		call: 0
+213(EnvMakeCodeChunks)
+	func: 0 %		call: 0
+214(EnvPairCode)
+	func: 0 %		call: 0
+215(EnvFetchCode)
+	func: 0 %		call: 0
+216(EnvAlignMember)
+	func: 0 %		call: 0
+217(EnvAlignStruc)
+	func: 0 %		call: 0
+218(TestEnv0)
+	func: 0 %		call: 0
+219(CreateObjDesc)
+	func: 0 %		call: 0
+220(File_GetSomeBytes)
+	func: 0 %		call: 0
+221(File_InBlk)
+	func: 0 %		call: 0
+222(File_InChunk)
+	func: 0 %		call: 0
+223(File_GetZeroedChunk)
+	func: 0 %		call: 0
+224(DbmLoadGrpHdr)
+	func: 0 %		call: 0
+225(DbmFileInGrpHdr)
+	func: 0 %		call: 0
+226(DbmFileInGrpRgnChunk)
+	func: 0 %		call: 0
+227(DbmDeleteGrpHdr)
+	func: 0 %		call: 0
+228(Grp_MakeHdrChunks)
+	func: 0 %		call: 0
+229(Grp_GetPacket)
+	func: 0 %		call: 0
+230(Grp_NewRegion)
+	func: 0.00761985 %		call: 155
+231(Grp_GetRegion)
+	func: 0.922886 %		call: 18773
+232(Grp_CleanRgnChunks)
+	func: 0 %		call: 0
+233(Grp_DeleteRgn)
+	func: 0 %		call: 0
+234(Grp_RgnSwapTopAndPop)
+	func: 0 %		call: 0
+235(Grp_NewPacket)
+	func: 0 %		call: 0
+236(Grp_SetPacketCache)
+	func: 0 %		call: 0
+237(Grp_SetPacketAccess)
+	func: 0 %		call: 0
+238(Grp_FreezePacket)
+	func: 0 %		call: 0
+239(Grp_ThawPacket)
+	func: 0 %		call: 0
+240(Grp_DefrostPacket)
+	func: 0 %		call: 0
+241(Grp_FreePacket)
+	func: 0 %		call: 0
+242(Grp_CommitPacket)
+	func: 0 %		call: 0
+243(Grp_DeletePacket)
+	func: 0 %		call: 0
+244(Grp_ShowStats)
+	func: 0 %		call: 0
+245(Grp_DumpStruct)
+	func: 0 %		call: 0
+246(Grp_DumpEntrys)
+	func: 0 %		call: 0
+247(Grp_EntryCount)
+	func: 0 %		call: 0
+248(Grp_CreateEntry)
+	func: 0.00240885 %		call: 49
+249(Grp_NewEntry)
+	func: 0 %		call: 0
+250(Grp_PutNewEntry)
+	func: 0.154707 %		call: 3147
+251(Grp_PutEntry)
+	func: 0.0546171 %		call: 1111
+252(Grp_GetBaseRegion)
+	func: 0 %		call: 0
+253(Grp_GetEntry)
+	func: 0.0503893 %		call: 1025
+254(Grp_GetInLineEntry)
+	func: 0 %		call: 0
+255(Grp_GetFrozenEntry)
+	func: 0.24236 %		call: 4930
+256(Grp_FreezeEntry)
+	func: 0 %		call: 0
+257(Grp_DefrostEntry)
+	func: 0.24236 %		call: 4930
+258(Grp_EntryIsFrosted)
+	func: 0 %		call: 0
+259(Grp_FrostStatus)
+	func: 0 %		call: 0
+260(Grp_DeleteEntry)
+	func: 0 %		call: 0
+261(Hm_SetDRIswi)
+	func: 0 %		call: 0
+262(Hm_DRIswi)
+	func: 0 %		call: 0
+263(Hm_SetDefaults)
+	func: 0 %		call: 0
+264(Hm_GetDefaults)
+	func: 0 %		call: 0
+265(Hm_MakeDbHdr)
+	func: 0 %		call: 0
+266(Hm_GetObjNum)
+	func: 0.772161 %		call: 15707
+267(Hm_IncrementMemRef)
+	func: 0 %		call: 0
+268(Hm_DecrementMemRef)
+	func: 0 %		call: 0
+269(Hm_NewHandle)
+	func: 0.284196 %		call: 5781
+270(Hm_PairDbObject)
+	func: 0.284245 %		call: 5782
+271(Hm_FetchDbObject)
+	func: 3.32732 %		call: 67683
+272(Hm_ClearObject)
+	func: 0 %		call: 0
+273(Hm_PointToInnerRealm)
+	func: 0.00678412 %		call: 138
+274(Hm_FreeHandle)
+	func: 0 %		call: 0
+275(Hm_NextFreeHandle)
+	func: 0.284196 %		call: 5781
+276(HmReclaimHandles)
+	func: 0 %		call: 0
+277(Hm_DumpDbHdr)
+	func: 0 %		call: 0
+278(ImagePutAttrValue)
+	func: 0 %		call: 0
+279(ImageGetAttrValue)
+	func: 0 %		call: 0
+280(ImageCompareAttr)
+	func: 0 %		call: 0
+281(ImagePutObjTkn)
+	func: 0 %		call: 0
+282(ImageGetObjTkn)
+	func: 0 %		call: 0
+283(ImageRefTknPut)
+	func: 0 %		call: 0
+284(ImageTokenToRef)
+	func: 0 %		call: 0
+285(ImageNewString)
+	func: 0 %		call: 0
+286(ImageGetString)
+	func: 0 %		call: 0
+287(ImageGetAttrUnitSize)
+	func: 0 %		call: 0
+288(ImageCreateArray)
+	func: 0.0477346 %		call: 971
+289(ImageCreateSubArray)
+	func: 0.0136666 %		call: 278
+290(ImageArrayActivate)
+	func: 0 %		call: 0
+291(ImageArrayDeActivate)
+	func: 0 %		call: 0
+292(ImageArrayGetSize)
+	func: 0 %		call: 0
+293(ImageSubArrayGetSize)
+	func: 0 %		call: 0
+294(ImageArrayAssertSize)
+	func: 0 %		call: 0
+295(ImageSubArrayAssertSize)
+	func: 0 %		call: 0
+296(ImageArrayDelete)
+	func: 0 %		call: 0
+297(ImageSubArrayDelete)
+	func: 0 %		call: 0
+298(ImageCreateVarray)
+	func: 0 %		call: 0
+299(ImageGetVarray)
+	func: 0 %		call: 0
+300(ImagePutVarrayStackPtr)
+	func: 0 %		call: 0
+301(ImageGetVarrayStackPtr)
+	func: 0 %		call: 0
+302(ImagePutFieldValue)
+	func: 0 %		call: 0
+303(ImageGetFieldValue)
+	func: 0 %		call: 0
+304(ImageCreateDb)
+	func: 0 %		call: 0
+305(ImageConfigClass)
+	func: 0 %		call: 0
+306(ImageDbCreate)
+	func: 0.0341172 %		call: 694
+307(ImageNewObject)
+	func: 0.102253 %		call: 2080
+308(ImageGetObject)
+	func: 0.15692 %		call: 3192
+309(ImageCreateObject)
+	func: 0 %		call: 0
+310(Image_IsActive)
+	func: 0 %		call: 0
+311(ImageCommitObject)
+	func: 0 %		call: 0
+312(ImageDeleteObject)
+	func: 0 %		call: 0
+313(ImageDumpObject)
+	func: 0 %		call: 0
+314(ImageDumpPseudo)
+	func: 0 %		call: 0
+315(ImageInitClassMap)
+	func: 0 %		call: 0
+316(ImageAppendToMap)
+	func: 0 %		call: 0
+317(ImageInvokeMap)
+	func: 0 %		call: 0
+318(ImageGetClassMap)
+	func: 0 %		call: 0
+319(ImageFreeClassById)
+	func: 0 %		call: 0
+320(ImageFreeClass)
+	func: 0 %		call: 0
+321(ImageCommitClass)
+	func: 0 %		call: 0
+322(Image_GetClassObjectCount)
+	func: 0 %		call: 0
+323(ImageFaxToThis)
+	func: 0 %		call: 0
+324(ImageAssertToThis)
+	func: 0 %		call: 0
+325(ImageGetActiveObject)
+	func: 0 %		call: 0
+326(ImageReFaxToDb)
+	func: 0 %		call: 0
+327(ImageFreeDbObject)
+	func: 0 %		call: 0
+328(ImageFreeCppObject)
+	func: 0 %		call: 0
+329(ImageRevokeObject)
+	func: 0 %		call: 0
+330(KernelCreateDb)
+	func: 0 %		call: 0
+331(KernelLoadDbHdr)
+	func: 0 %		call: 0
+332(KernelFreezeObjClass)
+	func: 0 %		call: 0
+333(Kernel_GetClassObjectCount)
+	func: 0 %		call: 0
+334(KernelNew)
+	func: 0 %		call: 0
+335(KernelCreateObject)
+	func: 0.0341172 %		call: 694
+336(KernelNewObject)
+	func: 0 %		call: 0
+337(KernelCreateArray)
+	func: 0 %		call: 0
+338(KernelCreateVarray)
+	func: 0 %		call: 0
+339(KernelIamA)
+	func: 0 %		call: 0
+340(KernelWhatAmI)
+	func: 0 %		call: 0
+341(KernelGet)
+	func: 0 %		call: 0
+342(KernelGetObject)
+	func: 0 %		call: 0
+343(KernelPutObject)
+	func: 0 %		call: 0
+344(KernelGetAttrInfo)
+	func: 0.0136174 %		call: 277
+345(Kernel_GetFieldStruc)
+	func: 0 %		call: 0
+346(KernelGetFieldInfo)
+	func: 0 %		call: 0
+347(KernelPutAttr)
+	func: 0.263843 %		call: 5367
+348(KernelGetAttr)
+	func: 0.122802 %		call: 2498
+349(KernelPutField)
+	func: 0 %		call: 0
+350(KernelGetField)
+	func: 0 %		call: 0
+351(KernelCompare)
+	func: 0 %		call: 0
+352(KernelFieldCompare)
+	func: 0 %		call: 0
+353(KernelCreateBitField)
+	func: 0 %		call: 0
+354(KernelDeleteBitField)
+	func: 0 %		call: 0
+355(KernelPutBit)
+	func: 0 %		call: 0
+356(KernelGetBit)
+	func: 0 %		call: 0
+357(KernelFirstBit)
+	func: 0 %		call: 0
+358(KernelNextBit)
+	func: 0 %		call: 0
+359(KernelOwnerOf)
+	func: 0 %		call: 0
+360(KernelFirstOf)
+	func: 0 %		call: 0
+361(KernelNextOf)
+	func: 0 %		call: 0
+362(KernelAddInto)
+	func: 0.0546171 %		call: 1111
+363(KernelFindIn)
+	func: 0.0545679 %		call: 1110
+364(List01_Init)
+	func: 0 %		call: 0
+365(List01_Create)
+	func: 0 %		call: 0
+366(List01_FindListHead)
+	func: 0 %		call: 0
+367(List01_CreateNode)
+	func: 0 %		call: 0
+368(Is_List01Head)
+	func: 0 %		call: 0
+369(Is_List01Node)
+	func: 0 %		call: 0
+370(Is_List01Member)
+	func: 0 %		call: 0
+371(List01_GetCount)
+	func: 0 %		call: 0
+372(List01_Reset)
+	func: 0 %		call: 0
+373(List01_SetCurrent)
+	func: 0 %		call: 0
+374(List01_GetCurrent)
+	func: 0 %		call: 0
+375(List01_IsEmpty)
+	func: 0 %		call: 0
+376(List01_Append)
+	func: 0.00678412 %		call: 138
+377(List01_FirstIn)
+	func: 0 %		call: 0
+378(List01_NextIn)
+	func: 0 %		call: 0
+379(List01_IterateOn)
+	func: 0 %		call: 0
+380(Mem_Init)
+	func: 0 %		call: 0
+381(Mem_MakeOry)
+	func: 0 %		call: 0
+382(Mem_NewOry)
+	func: 0 %		call: 0
+383(Mem_MakeOryChunks)
+	func: 0 %		call: 0
+384(MemMakeKrnlChunk)
+	func: 0 %		call: 0
+385(Mem_TestTheOry)
+	func: 0 %		call: 0
+386(Mem_NewRegion)
+	func: 0 %		call: 0
+387(Mem_InitBlocks)
+	func: 0 %		call: 0
+388(Mem_BlockCount)
+	func: 0 %		call: 0
+389(Mem_NewChunkChunk)
+	func: 0.155494 %		call: 3163
+390(Mem_FreeChunkChunk)
+	func: 0 %		call: 0
+391(Mem_ExpandChunkTables)
+	func: 0 %		call: 0
+392(Mem_DumpChunkChunk)
+	func: 0 %		call: 0
+393(Chunk_MakeChunk)
+	func: 0.155494 %		call: 3163
+394(Chunk_NewChunk)
+	func: 0.155494 %		call: 3163
+395(Chunk_InitChunk)
+	func: 0.155494 %		call: 3163
+396(Mem_NewChunkBlk)
+	func: 0 %		call: 0
+397(Mem_PutChunkStruc)
+	func: 0 %		call: 0
+398(Chunk_GrowNumericChunk)
+	func: 0 %		call: 0
+399(Chunk_GrowTextChunk)
+	func: 0 %		call: 0
+400(Chunk_ExpandChunk)
+	func: 0.00378534 %		call: 77
+401(Mem_ExpandKrnlChunk)
+	func: 0 %		call: 0
+402(ChkPushChunk)
+	func: 1.33382 %		call: 27132
+403(Chunk_ChkPutChunk)
+	func: 2.81546 %		call: 57271
+404(Chunk_ChkPopChunk)
+	func: 0 %		call: 0
+405(Chunk_ChkGetChunk)
+	func: 21.2928 %		call: 433131
+406(Mem_ShowStats)
+	func: 0 %		call: 0
+407(Mem_DumpStats)
+	func: 0 %		call: 0
+408(Mem_MakeChunk)
+	func: 0.155494 %		call: 3163
+409(Mem_MakeCppChunk)
+	func: 0 %		call: 0
+410(Mem_MakeStrChunk)
+	func: 0 %		call: 0
+411(Mem_DumpChunk)
+	func: 0 %		call: 0
+412(Mem_DumpChunkPart)
+	func: 0 %		call: 0
+413(Mem_FreeChunk)
+	func: 0 %		call: 0
+414(Mem_FreeChunkNum)
+	func: 0 %		call: 0
+415(Mem_ClearChunkSpace)
+	func: 0 %		call: 0
+416(Mem_FreeChunkSpace)
+	func: 0 %		call: 0
+417(Mem_SwapOutChunk)
+	func: 0 %		call: 0
+418(Mem_SwapInChunk)
+	func: 0 %		call: 0
+419(Mem_CopyOutChunk)
+	func: 0 %		call: 0
+420(Mem_CopyInChunk)
+	func: 0 %		call: 0
+421(Mem_MoveChunk)
+	func: 0 %		call: 0
+422(Mem_MakeXmemChunks)
+	func: 0 %		call: 0
+423(Mem_AssignXmemFile)
+	func: 0 %		call: 0
+424(Mem_CloseXmemFile)
+	func: 0 %		call: 0
+425(Mem_GetFileBlk)
+	func: 0 %		call: 0
+426(Mem_FreeFileBlk)
+	func: 0 %		call: 0
+427(Mem_NewXmemBlk)
+	func: 0 %		call: 0
+428(Mem_FreeXmemBlk)
+	func: 0 %		call: 0
+429(Mem_ShowXmemStats)
+	func: 0 %		call: 0
+430(Mem_FreezeChunk)
+	func: 0 %		call: 0
+431(Mem_DefrostChunk)
+	func: 0 %		call: 0
+432(Mem_GetChunkSize)
+	func: 0.00761985 %		call: 155
+433(Mem_GetChunkStruc)
+	func: 0.0341664 %		call: 695
+434(Mem_DumpChunkStruc)
+	func: 0 %		call: 0
+435(Mem_PutChunkAddr)
+	func: 0 %		call: 0
+436(Mem_GetChunkAddr)
+	func: 2.30985 %		call: 46986
+437(Mem_PutStackPtr)
+	func: 0.691538 %		call: 14067
+438(Mem_AssertStackPtr)
+	func: 0 %		call: 0
+439(Mem_GetStackPtr)
+	func: 0.130471 %		call: 2654
+440(Mem_PushEntity)
+	func: 0 %		call: 0
+441(Mem_PutEntity)
+	func: 0 %		call: 0
+442(Mem_ExtractEntity)
+	func: 0 %		call: 0
+443(Mem_GetEntity)
+	func: 0 %		call: 0
+444(Mem_NewBitChunk)
+	func: 0 %		call: 0
+445(Mem_PushBit)
+	func: 0 %		call: 0
+446(Mem_PutBit)
+	func: 1.64284 %		call: 33418
+447(Mem_PopBit)
+	func: 0 %		call: 0
+448(Mem_GetBit)
+	func: 2.13336 %		call: 43396
+449(Mem_PushShort)
+	func: 0.284196 %		call: 5781
+450(Mem_PutShort)
+	func: 0.284245 %		call: 5782
+451(Mem_PopShort)
+	func: 0 %		call: 0
+452(Mem_GetShort)
+	func: 0 %		call: 0
+453(Mem_PushWord)
+	func: 0.61411 %		call: 12492
+454(Mem_PutWord)
+	func: 0.440525 %		call: 8961
+455(Mem_PopWord)
+	func: 0 %		call: 0
+456(Mem_GetWord)
+	func: 12.0692 %		call: 245507
+457(Mem_PushLong)
+	func: 0 %		call: 0
+458(Mem_PutLong)
+	func: 0 %		call: 0
+459(Mem_PopLong)
+	func: 0 %		call: 0
+460(Mem_GetLong)
+	func: 0 %		call: 0
+461(Mem_PushAddr)
+	func: 0.284196 %		call: 5781
+462(Mem_PutAddr)
+	func: 0.441017 %		call: 8971
+463(Mem_PopAddr)
+	func: 0 %		call: 0
+464(Mem_GetAddr)
+	func: 7.03995 %		call: 143204
+465(Mem_PushToken)
+	func: 0 %		call: 0
+466(Mem_PutToken)
+	func: 0 %		call: 0
+467(Mem_PopToken)
+	func: 0 %		call: 0
+468(Mem_GetToken)
+	func: 0 %		call: 0
+469(Mem_PushSomeBytes)
+	func: 0 %		call: 0
+470(Mem_PutSomeBytes)
+	func: 0.00683328 %		call: 139
+471(Mem_PopSomeBytes)
+	func: 0 %		call: 0
+472(Mem_GetSomeBytes)
+	func: 0.0503893 %		call: 1025
+473(Mem_PushFuncPtr)
+	func: 0 %		call: 0
+474(Mem_PutFuncPtr)
+	func: 0 %		call: 0
+475(Mem_PopFuncPtr)
+	func: 0 %		call: 0
+476(Mem_GetFuncPtr)
+	func: 0 %		call: 0
+477(Mem_NewString)
+	func: 0 %		call: 0
+478(Mem_DeleteString)
+	func: 0 %		call: 0
+479(Mem_PushString)
+	func: 0 %		call: 0
+480(Mem_PutString)
+	func: 0 %		call: 0
+481(Mem_PopString)
+	func: 0 %		call: 0
+482(Mem_GetString)
+	func: 0 %		call: 0
+483(OaCreateDb)
+	func: 0 %		call: 0
+484(OaInstallObjHdr)
+	func: 0 %		call: 0
+485(OaGetObjClass)
+	func: 0 %		call: 0
+486(OaConfigClass)
+	func: 0 %		call: 0
+487(OaFreezeObjClass)
+	func: 0 %		call: 0
+488(OaThawObjClass)
+	func: 0 %		call: 0
+489(OaCreateObject)
+	func: 0.284196 %		call: 5781
+490(OaNewObject)
+	func: 0.284196 %		call: 5781
+491(OaGetObject)
+	func: 3.32732 %		call: 67683
+492(OaRevokeCppObject)
+	func: 0.00678412 %		call: 138
+493(OaInvokeCppObject)
+	func: 0.0409014 %		call: 832
+494(OaUpdateObject)
+	func: 0.550399 %		call: 11196
+495(OaChkImage)
+	func: 0 %		call: 0
+496(OaFreeObject)
+	func: 0 %		call: 0
+497(OaDeleteObject)
+	func: 0 %		call: 0
+498(OaGetObjHandles)
+	func: 0 %		call: 0
+499(OaReclaimHandles)
+	func: 0 %		call: 0
+500(OaIamA)
+	func: 0 %		call: 0
+501(ForeignCreate)
+	func: 0 %		call: 0
+502(OaInitObject)
+	func: 0 %		call: 0
+503(OaCopy)
+	func: 0 %		call: 0
+504(OaGetDbObjNums)
+	func: 0 %		call: 0
+505(OaDelete)
+	func: 0 %		call: 0
+506(OaDeleteFields)
+	func: 0 %		call: 0
+507(OaDeleteEmbedded)
+	func: 0 %		call: 0
+508(OaCreateArray)
+	func: 0 %		call: 0
+509(OaCreateVarray)
+	func: 0 %		call: 0
+510(OaPut)
+	func: 0.418502 %		call: 8513
+511(OaPutString)
+	func: 0 %		call: 0
+512(OaPutToEmbedded)
+	func: 0 %		call: 0
+513(OaPutField)
+	func: 0 %		call: 0
+514(OaGet)
+	func: 0.487867 %		call: 9924
+515(OaGetString)
+	func: 0 %		call: 0
+516(OaGetField)
+	func: 0 %		call: 0
+517(OaChkForAttr)
+	func: 0 %		call: 0
+518(OaGetAttrSize)
+	func: 0.163753 %		call: 3331
+519(OaCompare)
+	func: 0.133126 %		call: 2708
+520(OaCompareField)
+	func: 0 %		call: 0
+521(OaDumpObjHdr)
+	func: 0 %		call: 0
+522(OaDumpObjHndls)
+	func: 0 %		call: 0
+523(OaDumpObject)
+	func: 0 %		call: 0
+524(OaDumpEmbedded)
+	func: 0 %		call: 0
+525(Object_Create)
+	func: 0.0341664 %		call: 695
+526(Object_Dump)
+	func: 0 %		call: 0
+527(Object_IsA)
+	func: 0 %		call: 0
+528(Object_IsKindOf)
+	func: 0 %		call: 0
+529(Object_Delete)
+	func: 0 %		call: 0
+530(Object_NewImage)
+	func: 0.102253 %		call: 2080
+531(Object_GetImage)
+	func: 0.15692 %		call: 3192
+532(Object_ImageIsActive)
+	func: 0 %		call: 0
+533(Object_PutImage)
+	func: 0 %		call: 0
+534(Object_FreeImage)
+	func: 0 %		call: 0
+535(Object_CommitImage)
+	func: 0 %		call: 0
+536(Image_DumpPseudo)
+	func: 0 %		call: 0
+537(Attr_ValuePut)
+	func: 0 %		call: 0
+538(Attr_ValueGet)
+	func: 0 %		call: 0
+539(Attr_ValueCompare)
+	func: 0 %		call: 0
+540(Attr_ObjTknPut)
+	func: 0 %		call: 0
+541(Attr_ObjTknGet)
+	func: 0 %		call: 0
+542(Attr_RefTknPut)
+	func: 0 %		call: 0
+543(Attr_TokenToRef)
+	func: 0 %		call: 0
+544(Attr_StringCreate)
+	func: 0 %		call: 0
+545(Attr_StringGet)
+	func: 0 %		call: 0
+546(Attr_StrCpyGet)
+	func: 0 %		call: 0
+547(Attr_StrCpyFree)
+	func: 0 %		call: 0
+548(Attr_ArrayCreate)
+	func: 0.0477346 %		call: 971
+549(Attr_SubArrayCreate)
+	func: 0.0136666 %		call: 278
+550(Attr0_ArrayActivate)
+	func: 0 %		call: 0
+551(Attr0_ArrayDeActivate)
+	func: 0 %		call: 0
+552(Attr_ArrayGetSize)
+	func: 0 %		call: 0
+553(Attr_SubArrayGetSize)
+	func: 0 %		call: 0
+554(Attr_ArrayAssertSize)
+	func: 0 %		call: 0
+555(Attr_SubArrayAssertSize)
+	func: 0 %		call: 0
+556(Attr_ArrayDelete)
+	func: 0 %		call: 0
+557(Attr_SubArrayDelete)
+	func: 0 %		call: 0
+558(Field_ValuePut)
+	func: 0 %		call: 0
+559(Field_ValueGet)
+	func: 0 %		call: 0
+560(Owner_SetIterateOn)
+	func: 0 %		call: 0
+561(Owner_SetFirstOf)
+	func: 0 %		call: 0
+562(Owner_KeySetFindIn)
+	func: 0.0545679 %		call: 1110
+563(Owner_KeySetFindInBy2aryKey)
+	func: 0 %		call: 0
+564(Member_SetOwnerOf)
+	func: 0 %		call: 0
+565(Member_SetNextOf)
+	func: 0 %		call: 0
+566(Member_KeySetAddInto)
+	func: 0.0546171 %		call: 1111
+567(DbmLoadObjHdr)
+	func: 0 %		call: 0
+568(DbmFileInObjHdr)
+	func: 0 %		call: 0
+569(DbmFileInRegionChunk)
+	func: 0 %		call: 0
+570(DbmPairRgnObjects)
+	func: 0 %		call: 0
+571(DbmUnPairRgnObjects)
+	func: 0 %		call: 0
+572(DbmDumpObjHdr)
+	func: 0 %		call: 0
+573(Grp_NewObject)
+	func: 0.284196 %		call: 5781
+574(Grp_GetObject)
+	func: 0.00678412 %		call: 138
+575(Grp_DeleteObject)
+	func: 0 %		call: 0
+576(OmSetConfig)
+	func: 0 %		call: 0
+577(OmConfigClass)
+	func: 0 %		call: 0
+578(OmNewObjHdr)
+	func: 0 %		call: 0
+579(OmMakeObjChunks)
+	func: 0 %		call: 0
+580(OmPutHandleOffset)
+	func: 0 %		call: 0
+581(OmGetObjHdr)
+	func: 1.47712 %		call: 30047
+582(OmNextAvailObject)
+	func: 0 %		call: 0
+583(OmNewObject)
+	func: 0.284196 %		call: 5781
+584(OmNewObjRegion)
+	func: 0 %		call: 0
+585(OmPairDbObject)
+	func: 0.284196 %		call: 5781
+586(OmUnPairRgnObjects)
+	func: 0 %		call: 0
+587(OmPairRgnObjects)
+	func: 0 %		call: 0
+588(OmGetRegion)
+	func: 0 %		call: 0
+589(OmGetObject)
+	func: 0.00678412 %		call: 138
+590(OmDeleteObject)
+	func: 0 %		call: 0
+591(OmChkImage)
+	func: 0 %		call: 0
+592(OmGetObjHandles)
+	func: 0 %		call: 0
+593(Point_InitClass)
+	func: 0 %		call: 0
+594(Point_GetToken)
+	func: 0 %		call: 0
+595(Point_x)
+	func: 0 %		call: 0
+596(Point_y)
+	func: 0 %		call: 0
+597(Point_Theta)
+	func: 0 %		call: 0
+598(Point_Radius)
+	func: 0 %		call: 0
+599(CartesianPoint_InitClass)
+	func: 0 %		call: 0
+600(CartesianPoint_New)
+	func: 0 %		call: 0
+601(CartesianPoint_new0)
+	func: 0.0272348 %		call: 554
+602(CartesianPoint_new1)
+	func: 0 %		call: 0
+603(CartesianPoint_x)
+	func: 0 %		call: 0
+604(CartesianPoint_y)
+	func: 0 %		call: 0
+605(CartesianPoint_Radius)
+	func: 0 %		call: 0
+606(CartesianPoint_Theta)
+	func: 0 %		call: 0
+607(CartesianPoint_show)
+	func: 0 %		call: 0
+608(CartesianPoint_delete)
+	func: 0 %		call: 0
+609(PolarPoint_InitClass)
+	func: 0 %		call: 0
+610(PolarPoint_New)
+	func: 0 %		call: 0
+611(PolarPoint_new0)
+	func: 0 %		call: 0
+612(PolarPoint_new1)
+	func: 0 %		call: 0
+613(PolarPoint_x)
+	func: 0 %		call: 0
+614(PolarPoint_y)
+	func: 0 %		call: 0
+615(PolarPoint_Radius)
+	func: 0 %		call: 0
+616(PolarPoint_Theta)
+	func: 0 %		call: 0
+617(PolarPoint_show)
+	func: 0 %		call: 0
+618(PolarPoint_delete)
+	func: 0 %		call: 0
+619(Primal_CreateDb)
+	func: 0 %		call: 0
+620(Primal_ActivateDbByName)
+	func: 0 %		call: 0
+621(Primal_ActivateDbByToken)
+	func: 0 %		call: 0
+622(Primal_FreeDb)
+	func: 0 %		call: 0
+623(Primal_CommitDb)
+	func: 0 %		call: 0
+624(Primal_DeleteDb)
+	func: 0 %		call: 0
+625(Primal_ConfigYourClass)
+	func: 0 %		call: 0
+626(Primal_GetClassObjectCount)
+	func: 0 %		call: 0
+627(Primal_IterateOnClassObjects)
+	func: 0 %		call: 0
+628(Primal_FreezeClass)
+	func: 0 %		call: 0
+629(Primal_FreeClass)
+	func: 0 %		call: 0
+630(CppCreateObject)
+	func: 0 %		call: 0
+631(CppRefToTkn)
+	func: 0 %		call: 0
+632(CppCastObject)
+	func: 0 %		call: 0
+633(Image01_GetFreeStoreAddr)
+	func: 0 %		call: 0
+634(Query_Create)
+	func: 0 %		call: 0
+635(Query_BeginBuild)
+	func: 0 %		call: 0
+636(Query_ScopeOn)
+	func: 0 %		call: 0
+637(Query1_ScopeOn)
+	func: 0 %		call: 0
+638(Query_SortBy)
+	func: 0 %		call: 0
+639(Query1_SortBy)
+	func: 0 %		call: 0
+640(Query_OpenParen)
+	func: 0 %		call: 0
+641(Query_AffixCompare)
+	func: 0 %		call: 0
+642(Query1_AffixCompare)
+	func: 0 %		call: 0
+643(Query2_AffixCompare)
+	func: 0 %		call: 0
+644(Query_AffixRefQuery)
+	func: 0 %		call: 0
+645(Query1_AffixRefQuery)
+	func: 0 %		call: 0
+646(Query_AffixBoolOp)
+	func: 0 %		call: 0
+647(Query_CloseParen)
+	func: 0 %		call: 0
+648(Query_EndBuild)
+	func: 0 %		call: 0
+649(Query_AssertOnObject)
+	func: 0 %		call: 0
+650(Query_AssertOnDb)
+	func: 0 %		call: 0
+651(Query_CompareValue)
+	func: 0 %		call: 0
+652(Query_CompareWild)
+	func: 0 %		call: 0
+653(Query_CheckType)
+	func: 0 %		call: 0
+654(Query_GetClassList)
+	func: 0 %		call: 0
+655(Query_Dump)
+	func: 0 %		call: 0
+656(Query_DumpComdObj)
+	func: 0 %		call: 0
+657(Query_DumpSortObj)
+	func: 0 %		call: 0
+658(Query_DumpFieldObj)
+	func: 0 %		call: 0
+659(Rectangle_InitClass)
+	func: 0 %		call: 0
+660(Rectangle_new0)
+	func: 0 %		call: 0
+661(Rectangle_new1)
+	func: 0.00678412 %		call: 138
+662(Rectangle_new2)
+	func: 0 %		call: 0
+663(Rectangle_new3)
+	func: 0 %		call: 0
+664(Rectangle_new4)
+	func: 0 %		call: 0
+665(Rectangle_area)
+	func: 0 %		call: 0
+666(Rectangle_draw)
+	func: 0 %		call: 0
+667(Rectangle_show)
+	func: 0 %		call: 0
+668(Rectangle_error)
+	func: 0 %		call: 0
+669(Rectangle_delete)
+	func: 0 %		call: 0
+670(LibRectangles_InitClass)
+	func: 0 %		call: 0
+671(OwnerOfLibRectangles)
+	func: 0 %		call: 0
+672(LibRectangles_AddInto)
+	func: 0.00678412 %		call: 138
+673(LibRectangles_FindIn)
+	func: 0 %		call: 0
+674(LibRectangles_IterateOn)
+	func: 0 %		call: 0
+675(Rects_InitLibrary)
+	func: 0 %		call: 0
+676(XyRect_InitClass)
+	func: 0 %		call: 0
+677(XyRect_new0)
+	func: 0.00683328 %		call: 139
+678(XyRect_new1)
+	func: 0 %		call: 0
+679(XyRect_area)
+	func: 0 %		call: 0
+680(XyRect_draw)
+	func: 0 %		call: 0
+681(XyRect_dump)
+	func: 0 %		call: 0
+682(XyRect_error)
+	func: 0 %		call: 0
+683(XyRect_show)
+	func: 0 %		call: 0
+684(XyRect_delete)
+	func: 0 %		call: 0
+685(NamedXyRect_InitClass)
+	func: 0 %		call: 0
+686(NamedXyRect_new0)
+	func: 0.00683328 %		call: 139
+687(NamedXyRect_new1)
+	func: 0 %		call: 0
+688(NamedXyRect_area)
+	func: 0 %		call: 0
+689(NamedXyRect_draw)
+	func: 0 %		call: 0
+690(NamedXyRect_dump)
+	func: 0 %		call: 0
+691(NamedXyRect_error)
+	func: 0 %		call: 0
+692(NamedXyRect_show)
+	func: 0 %		call: 0
+693(NamedXyRect_delete)
+	func: 0 %		call: 0
+694(ArrayRect_InitClass)
+	func: 0 %		call: 0
+695(ArrayRect_new0)
+	func: 0.00683328 %		call: 139
+696(ArrayRect_new1)
+	func: 0 %		call: 0
+697(ArrayRect_area)
+	func: 0 %		call: 0
+698(ArrayRect_draw)
+	func: 0 %		call: 0
+699(ArrayRect_dump)
+	func: 0 %		call: 0
+700(ArrayRect_error)
+	func: 0 %		call: 0
+701(ArrayRect_show)
+	func: 0 %		call: 0
+702(ArrayRect_delete)
+	func: 0 %		call: 0
+703(DblPtrRect_InitClass)
+	func: 0 %		call: 0
+704(DblPtrRect_new0)
+	func: 0.00683328 %		call: 139
+705(DblPtrRect_new1)
+	func: 0 %		call: 0
+706(DblPtrRect_area)
+	func: 0 %		call: 0
+707(DblPtrRect_draw)
+	func: 0 %		call: 0
+708(DblPtrRect_dump)
+	func: 0 %		call: 0
+709(DblPtrRect_error)
+	func: 0 %		call: 0
+710(DblPtrRect_show)
+	func: 0 %		call: 0
+711(DblPtrRect_delete)
+	func: 0 %		call: 0
+712(VarrayRect_InitClass)
+	func: 0 %		call: 0
+713(VarrayRect_new0)
+	func: 0.00683328 %		call: 139
+714(VarrayRect_new1)
+	func: 0 %		call: 0
+715(VarrayRect_area)
+	func: 0 %		call: 0
+716(VarrayRect_draw)
+	func: 0 %		call: 0
+717(VarrayRect_dump)
+	func: 0 %		call: 0
+718(VarrayRect_error)
+	func: 0 %		call: 0
+719(VarrayRect_show)
+	func: 0 %		call: 0
+720(VarrayRect_delete)
+	func: 0 %		call: 0
+721(IntChunkRect_InitClass)
+	func: 0 %		call: 0
+722(IntChunkRect_new0)
+	func: 0.00683328 %		call: 139
+723(IntChunkRect_new1)
+	func: 0 %		call: 0
+724(IntChunkRect_area)
+	func: 0 %		call: 0
+725(IntChunkRect_draw)
+	func: 0 %		call: 0
+726(IntChunkRect_dump)
+	func: 0 %		call: 0
+727(IntChunkRect_error)
+	func: 0 %		call: 0
+728(IntChunkRect_show)
+	func: 0 %		call: 0
+729(IntChunkRect_delete)
+	func: 0 %		call: 0
+730(VchunkRect_InitClass)
+	func: 0 %		call: 0
+731(VchunkRect_new0)
+	func: 0 %		call: 0
+732(VchunkRect_new1)
+	func: 0 %		call: 0
+733(VchunkRect_area)
+	func: 0 %		call: 0
+734(VchunkRect_draw)
+	func: 0 %		call: 0
+735(VchunkRect_dump)
+	func: 0 %		call: 0
+736(VchunkRect_error)
+	func: 0 %		call: 0
+737(VchunkRect_show)
+	func: 0 %		call: 0
+738(VchunkRect_delete)
+	func: 0 %		call: 0
+739(RefRect_InitClass)
+	func: 0 %		call: 0
+740(RefRect_new0)
+	func: 0 %		call: 0
+741(RefRect_new1)
+	func: 0.00683328 %		call: 139
+742(RefRect_new2)
+	func: 0 %		call: 0
+743(RefRect_new3)
+	func: 0 %		call: 0
+744(RefRect_area)
+	func: 0 %		call: 0
+745(RefRect_draw)
+	func: 0 %		call: 0
+746(RefRect_dump)
+	func: 0 %		call: 0
+747(RefRect_error)
+	func: 0 %		call: 0
+748(RefRect_show)
+	func: 0 %		call: 0
+749(RefRect_delete)
+	func: 0 %		call: 0
+750(PortRect_InitClass)
+	func: 0 %		call: 0
+751(SetInitSetHeads)
+	func: 0 %		call: 0
+752(SaAddInto)
+	func: 0.109185 %		call: 2221
+753(SaFindIn)
+	func: 0 %		call: 0
+754(SaPutRootNode)
+	func: 0.109185 %		call: 2221
+755(SaGetRootNode)
+	func: 0 %		call: 0
+756(SaDeleteNode)
+	func: 0 %		call: 0
+757(SaAdjustRootNode)
+	func: 0 %		call: 0
+758(SaDeleteSetHead)
+	func: 0 %		call: 0
+759(ShellLoadObjCode)
+	func: 0 %		call: 0
+760(ShellGetObjCode)
+	func: 0 %		call: 0
+761(ShellLoadTokenCode)
+	func: 0 %		call: 0
+762(ShellGetTokenCode)
+	func: 0 %		call: 0
+763(SetInitSet)
+	func: 0 %		call: 0
+764(SetAddInto)
+	func: 0.122802 %		call: 2498
+765(SetFindIn)
+	func: 0.0545679 %		call: 1110
+766(SetIterateOn)
+	func: 0 %		call: 0
+767(SetDeleteFrom)
+	func: 0 %		call: 0
+768(SetDeleteSet)
+	func: 0 %		call: 0
+769(SetFirstOf)
+	func: 0 %		call: 0
+770(SetNextOf)
+	func: 0 %		call: 0
+771(Draw701)
+	func: 0 %		call: 0
+772(TmNewCoreDb)
+	func: 0 %		call: 0
+773(TmRenvToken)
+	func: 0 %		call: 0
+774(TmWenvToken)
+	func: 0 %		call: 0
+775(TmFetchCoreDb)
+	func: 5.39038 %		call: 109649
+776(TmMakeToken)
+	func: 0.284196 %		call: 5781
+777(TmIsValid)
+	func: 1.09529 %		call: 22280
+778(TmGetObject)
+	func: 3.32732 %		call: 67683
+779(TmFreeToken)
+	func: 0 %		call: 0
+780(TmReclaimHandles)
+	func: 0 %		call: 0
+781(TransInitMap)
+	func: 0 %		call: 0
+782(TransAppendToMap)
+	func: 0 %		call: 0
+783(TransInvokeMap)
+	func: 0 %		call: 0
+784(TransBuildMap)
+	func: 0 %		call: 0
+785(TransGetMap)
+	func: 0 %		call: 0
+786(Trans_DumpMap)
+	func: 0 %		call: 0
+787(Trans_MapIsActive)
+	func: 0 %		call: 0
+788(TransCreateMapDirs)
+	func: 0 %		call: 0
+789(TransNewImageMap)
+	func: 0 %		call: 0
+790(TransBuildFields)
+	func: 0 %		call: 0
+791(TransBuildMapField)
+	func: 0 %		call: 0
+792(Trans_FetchAttrOffset)
+	func: 0.642525 %		call: 13070
+793(Trans_FetchAttrOffsets)
+	func: 0 %		call: 0
+794(Trans_FetchFieldOffsets)
+	func: 0 %		call: 0
+795(Trans_FetchFieldOffset)
+	func: 0 %		call: 0
+796(Trans_FetchObjFieldSpec)
+	func: 0 %		call: 0
+797(C_GetObjectImage)
+	func: 0.15692 %		call: 3192
+798(C_ObjectNewImage)
+	func: 0.102303 %		call: 2081
+799(C_InvokeAtThis)
+	func: 0 %		call: 0
+800(C_FaxToThis)
+	func: 0.0341172 %		call: 694
+801(C_FaxToClassFields)
+	func: 0.0341172 %		call: 694
+802(C_MapRefToAddr)
+	func: 0 %		call: 0
+803(C_RefToAddr)
+	func: 0 %		call: 0
+804(C_CreateArray)
+	func: 0.0477346 %		call: 971
+805(C_CreateSubArray)
+	func: 0.0136666 %		call: 278
+806(C_CreateFieldArray)
+	func: 0 %		call: 0
+807(C_CreateFieldSubArray)
+	func: 0 %		call: 0
+808(C_CreateObject)
+	func: 0 %		call: 0
+809(C_ReFaxToDb)
+	func: 0 %		call: 0
+810(C_GroupArrays)
+	func: 0 %		call: 0
+811(C_MapRefToDb)
+	func: 0 %		call: 0
+812(C_RefToTkn)
+	func: 0 %		call: 0
+813(C_CommitClass)
+	func: 0 %		call: 0
+814(C_FreeClass)
+	func: 0 %		call: 0
+815(C_FreeObject)
+	func: 0 %		call: 0
+816(C_DeleteObject)
+	func: 0 %		call: 0
+817(Tree_DeleteFrom)
+	func: 0 %		call: 0
+818(Tree_Adjust)
+	func: 0 %		call: 0
+819(Tree_Redistribute)
+	func: 0 %		call: 0
+820(Tree_Concatenate)
+	func: 0 %		call: 0
+821(Tree_DeleteNode)
+	func: 0 %		call: 0
+822(Test_Iterate)
+	func: 0 %		call: 0
+823(Tree_AddInto)
+	func: 0.0136174 %		call: 277
+824(Tree_FindIn)
+	func: 0.0681853 %		call: 1387
+825(Tree_Traverse)
+	func: 0 %		call: 0
+826(Tree_IterateOn)
+	func: 0 %		call: 0
+827(Tree_Validate)
+	func: 0 %		call: 0
+828(Tree_Delete)
+	func: 0 %		call: 0
+829(Tree_PromoteRootNode)
+	func: 9.83206e-05 %		call: 2
+830(Tree_PromoteInternalNode)
+	func: 0.00201557 %		call: 41
+831(Tree_RecurseSearch)
+	func: 0.236166 %		call: 4804
+832(Tree_GetRecursePos)
+	func: 0.236166 %		call: 4804
+833(Tree_CreateNode)
+	func: 0.00240885 %		call: 49
+834(Tree_GetFrozenNode)
+	func: 0.239951 %		call: 4881
+835(Tree_FreezeNode)
+	func: 0 %		call: 0
+836(Tree_DefrostNode)
+	func: 0.24236 %		call: 4930
+837(Tree_NodeIsFrosted)
+	func: 0 %		call: 0
+838(Tree_DumpNode)
+	func: 0 %		call: 0
+839(Tree_NewKey)
+	func: 0.0136174 %		call: 277
+840(Tree_GetFrozenKey)
+	func: 0 %		call: 0
+841(Tree_DefrostKey)
+	func: 0 %		call: 0
+842(Tree_GetNodeInsertPos)
+	func: 0.00201557 %		call: 41
+843(Tree_CompareKey)
+	func: 0.766999 %		call: 15602
+844(SpclAddIntoTree)
+	func: 0.0136174 %		call: 277
+845(SpclFindIn2aryTree)
+	func: 0 %		call: 0
+846(SpclFindInTree)
+	func: 0.0545679 %		call: 1110
+847(SpclTraverseTree)
+	func: 0 %		call: 0
+848(Spcl_TreeIterateOn)
+	func: 0 %		call: 0
+849(SpclDeleteFromTree)
+	func: 0 %		call: 0
+850(SpclDeleteTree)
+	func: 0 %		call: 0
+851(Tree_Create)
+	func: 0 %		call: 0
+852(Tree_Compare2aryKey)
+	func: 0 %		call: 0
+853(pow2Round)
+	func: 0 %		call: 0
+854(Ut_PrintErr)
+	func: 1.68566 %		call: 34289
+855(Ut_SetWatch)
+	func: 0 %		call: 0
+856(Ut_StopWatch)
+	func: 0 %		call: 0
+857(Ut_SetBreak)
+	func: 0 %		call: 0
+858(Ut_VoidTrack)
+	func: 0 %		call: 0
+859(Ut_PrintTrack)
+	func: 0 %		call: 0
+860(Ut_StackTrack)
+	func: 1.81883 %		call: 36998
+861(Ut_TraceMsg)
+	func: 4.91603e-05 %		call: 1
+862(Ut_SendMsg)
+	func: 0 %		call: 0
+863(Ut_TraceBytes)
+	func: 0 %		call: 0
+864(Ut_TraceField)
+	func: 0 %		call: 0
+865(Ut_TraceValue)
+	func: 0 %		call: 0
+866(Ut_AlignMember)
+	func: 0 %		call: 0
+867(Ut_AlignStruc)
+	func: 0.24236 %		call: 4930
+868(Ut_StrToLower)
+	func: 0 %		call: 0
+869(Ut_StrToUpper)
+	func: 0 %		call: 0
+870(Ut_ReverseStr)
+	func: 0 %		call: 0
+871(Ut_IntToStr)
+	func: 0.00683328 %		call: 139
+872(Ut_FindInList)
+	func: 0 %		call: 0
+873(Ut_CompareWild)
+	func: 0 %		call: 0
+874(Ut_CompareString)
+	func: 0.0503893 %		call: 1025
+875(Ut_Random)
+	func: 0.381975 %		call: 7770
+876(Vchunk_Create)
+	func: 0.116018 %		call: 2360
+877(Vchunk_IsValidToken)
+	func: 0 %		call: 0
+878(Vchunk_GetVstruc)
+	func: 0.0341664 %		call: 695
+879(Vchunk_DumpVstruc)
+	func: 0 %		call: 0
+880(Vchunk_Freeze)
+	func: 0 %		call: 0
+881(Vchunk_GetAddress)
+	func: 0.116018 %		call: 2360
+882(Vchunk_PutAddress)
+	func: 0 %		call: 0
+883(Vchunk_GetStackPtr)
+	func: 0.0136666 %		call: 278
+884(Vchunk_PutStackPtr)
+	func: 0.163753 %		call: 3331
+885(Vchunk_GetChunkSize)
+	func: 0 %		call: 0
+886(Vchunk_Copy)
+	func: 0 %		call: 0
+887(Vchunk_Dump)
+	func: 0 %		call: 0
+888(Vchunk_DumpPartial)
+	func: 0 %		call: 0
+889(Vchunk_Free)
+	func: 0 %		call: 0
+890(Vchunk_Commit)
+	func: 0 %		call: 0
+891(Vchunk_Delete)
+	func: 0 %		call: 0
+892(Vchunk_PushUnit)
+	func: 0 %		call: 0
+893(Vchunk_PutUnit)
+	func: 0 %		call: 0
+894(Vchunk_GetUnit)
+	func: 0 %		call: 0
+895(BitField_Create)
+	func: 0 %		call: 0
+896(BitField_Put)
+	func: 0 %		call: 0
+897(BitField_Get)
+	func: 0 %		call: 0
+898(DbmNewVchunk)
+	func: 0.147874 %		call: 3008
+899(DbmPutVchunkTkn)
+	func: 0 %		call: 0
+900(DbmFreeVchunk)
+	func: 0 %		call: 0
+901(DbmDeleteVchunk)
+	func: 0 %		call: 0
+902(DbmCommitVchunk)
+	func: 0 %		call: 0
+903(DbmInvokeVchunk)
+	func: 0.341271 %		call: 6942
+904(DbmGetVchunkTkn)
+	func: 0.623353 %		call: 12680
+905(DbmDumpVchunkVchunk)
+	func: 0 %		call: 0
+906(DbmDumpVchunk)
+	func: 0 %		call: 0
+907(OaCreateVchunk)
+	func: 0.0318559 %		call: 648
+908(OaFreezeVchunk)
+	func: 0 %		call: 0
+909(OaDumpVchunkVchunk)
+	func: 0 %		call: 0
+910(OaGetVchunkAddr)
+	func: 0.141041 %		call: 2869
+911(OaPutVchunkAddr)
+	func: 0 %		call: 0
+912(OaGetVchunkAllocQty)
+	func: 0 %		call: 0
+913(OaGetVchunkStackPtr)
+	func: 0.109185 %		call: 2221
+914(OaPutVchunkStackPtr)
+	func: 0.0318559 %		call: 648
+915(OaPushUnit)
+	func: 0 %		call: 0
+916(OaPutUnit)
+	func: 0 %		call: 0
+917(OaGetUnit)
+	func: 0 %		call: 0
+918(OaDumpVchunk)
+	func: 0 %		call: 0
+919(OaDeleteVchunk)
+	func: 0 %		call: 0
+920(OmNewVchunk)
+	func: 0 %		call: 0
+921(OmGetVchunkToken)
+	func: 0.282082 %		call: 5738
+922(OmGetVchunkStruc)
+	func: 0 %		call: 0
+923(OmDeleteVchunk)
+	func: 0 %		call: 0
+924(__do_global_dtors)
+	func: 0 %		call: 0
+925(__do_global_ctors)
+	func: 0 %		call: 0
+926(__main)
+	func: 0 %		call: 0
+927(__libc_init)
+	func: 0 %		call: 0
+928(exit)
+	func: 0 %		call: 0
+929(_cleanup)
+	func: 0 %		call: 0
+930(sprintf)
+	func: 4.91603e-05 %		call: 1
+931(fprintf)
+	func: 4.91603e-05 %		call: 1
+932(fflush)
+	func: 0 %		call: 0
+933(srand)
+	func: 0 %		call: 0
+934(strcpy)
+	func: 0.0750678 %		call: 1527
+935(__getmode)
+	func: 0 %		call: 0
+936(fopen)
+	func: 0 %		call: 0
+937(fgets)
+	func: 0 %		call: 0
+938(sscanf)
+	func: 0 %		call: 0
+939(strcat)
+	func: 0 %		call: 0
+940(strlen)
+	func: 0.0137157 %		call: 279
+941(calloc)
+	func: 0.295699 %		call: 6015
+942(_free_internal)
+	func: 0.00378534 %		call: 77
+943(free)
+	func: 0.00378534 %		call: 77
+944(memcpy)
+	func: 1.66339 %		call: 33836
+945(memcmp)
+	func: 0 %		call: 0
+946(time)
+	func: 0 %		call: 0
+947(ctime)
+	func: 0 %		call: 0
+948(fclose)
+	func: 0 %		call: 0
+949(strncpy)
+	func: 0 %		call: 0
+950(clock)
+	func: 0 %		call: 0
+951(strtol)
+	func: 0 %		call: 0
+952(rand)
+	func: 0 %		call: 0
+953(strcmp)
+	func: 0 %		call: 0
+954(fseek)
+	func: 0 %		call: 0
+955(fread)
+	func: 0 %		call: 0
+956(perror)
+	func: 0 %		call: 0
+957(memset)
+	func: 1.42786 %		call: 29045
+958(strncmp)
+	func: 0 %		call: 0
+959(strpbrk)
+	func: 0 %		call: 0
+960(sqrt)
+	func: 0 %		call: 0
+961(atan)
+	func: 0 %		call: 0
+962(sin)
+	func: 0 %		call: 0
+963(cos)
+	func: 0 %		call: 0
+964(printf)
+	func: 0 %		call: 0
+965(atexit)
+	func: 0 %		call: 0
+966(__new_exitfn)
+	func: 0 %		call: 0
+967(__init_misc)
+	func: 0 %		call: 0
+968(_exit)
+	func: 0 %		call: 0
+969(vsprintf)
+	func: 4.91603e-05 %		call: 1
+970(vfprintf)
+	func: 9.83206e-05 %		call: 2
+971(printf_unknown)
+	func: 0 %		call: 0
+972(__stdio_check_funcs)
+	func: 0 %		call: 0
+973(__stdio_check_offset)
+	func: 4.91603e-05 %		call: 1
+974(flushbuf)
+	func: 0 %		call: 0
+975(fillbuf)
+	func: 0 %		call: 0
+976(__flshfp)
+	func: 0 %		call: 0
+977(__fillbf)
+	func: 0 %		call: 0
+978(__invalidate)
+	func: 0 %		call: 0
+979(__srandom)
+	func: 0 %		call: 0
+980(__initstate)
+	func: 0 %		call: 0
+981(__setstate)
+	func: 0 %		call: 0
+982(__random)
+	func: 0 %		call: 0
+983(__newstream)
+	func: 0 %		call: 0
+984(__stdio_read)
+	func: 0 %		call: 0
+985(__stdio_write)
+	func: 0 %		call: 0
+986(__stdio_seek)
+	func: 0 %		call: 0
+987(__stdio_close)
+	func: 0 %		call: 0
+988(__stdio_fileno)
+	func: 0 %		call: 0
+989(__stdio_open)
+	func: 0 %		call: 0
+990(__stdio_reopen)
+	func: 0 %		call: 0
+991(__memccpy)
+	func: 0 %		call: 0
+992(__vsscanf)
+	func: 0 %		call: 0
+993(initialize)
+	func: 0 %		call: 0
+994(morecore)
+	func: 0.013175 %		call: 268
+995(malloc)
+	func: 0.306318 %		call: 6231
+996(_wordcopy_fwd_aligned)
+	func: 0.0678412 %		call: 1380
+997(_wordcopy_fwd_dest_aligned)
+	func: 4.91603e-05 %		call: 1
+998(_wordcopy_bwd_aligned)
+	func: 0 %		call: 0
+999(_wordcopy_bwd_dest_aligned)
+	func: 0 %		call: 0
+1000(__gettimeofday)
+	func: 0 %		call: 0
+1001(localtime)
+	func: 0 %		call: 0
+1002(asctime)
+	func: 0 %		call: 0
+1003(__getrusage)
+	func: 0 %		call: 0
+1004(_strerror_internal)
+	func: 0 %		call: 0
+1005(strchr)
+	func: 0.000245801 %		call: 5
+1006(__isnan)
+	func: 0 %		call: 0
+1007(__isinf)
+	func: 0 %		call: 0
+1008(__logb)
+	func: 0 %		call: 0
+1009(ldexp)
+	func: 0 %		call: 0
+1010(atan2)
+	func: 0 %		call: 0
+1011(__finite)
+	func: 0 %		call: 0
+1012(__drem)
+	func: 0 %		call: 0
+1013(__copysign)
+	func: 0 %		call: 0
+1014(strrchr)
+	func: 0 %		call: 0
+1015(syscall_error)
+	func: 0 %		call: 0
+1016(register_printf_function)
+	func: 0 %		call: 0
+1017(mbtowc)
+	func: 9.83206e-05 %		call: 2
+1018(fwrite)
+	func: 4.91603e-05 %		call: 1
+1019(_itoa)
+	func: 0 %		call: 0
+1020(__printf_fp)
+	func: 0 %		call: 0
+1021(__stdio_init_stream)
+	func: 0 %		call: 0
+1022(__read)
+	func: 0 %		call: 0
+1023(__write)
+	func: 0 %		call: 0
+1024(__lseek)
+	func: 0 %		call: 0
+1025(__close)
+	func: 0 %		call: 0
+1026(__open)
+	func: 0 %		call: 0
+1027(__dup2)
+	func: 0 %		call: 0
+1028(__vfscanf)
+	func: 0 %		call: 0
+1029(__default_morecore)
+	func: 0.013175 %		call: 268
+1030(__tzset)
+	func: 0 %		call: 0
+1031(__tzname_max)
+	func: 0 %		call: 0
+1032(compute_change)
+	func: 0 %		call: 0
+1033(__tz_compute)
+	func: 0 %		call: 0
+1034(__tzfile_read)
+	func: 0 %		call: 0
+1035(__tzfile_default)
+	func: 0 %		call: 0
+1036(__tzfile_compute)
+	func: 0 %		call: 0
+1037(compute_tzname_max)
+	func: 0 %		call: 0
+1038(gmtime)
+	func: 0 %		call: 0
+1039(__offtime)
+	func: 0 %		call: 0
+1040(memchr)
+	func: 0 %		call: 0
+1041(__mpn_extract_double)
+	func: 0 %		call: 0
+1042(__mpn_lshift)
+	func: 0 %		call: 0
+1043(__mpn_cmp)
+	func: 0 %		call: 0
+1044(__mpn_divmod_1)
+	func: 0 %		call: 0
+1045(abort)
+	func: 0 %		call: 0
+1046(__mpn_mul_1)
+	func: 0 %		call: 0
+1047(__mpn_add_n)
+	func: 0 %		call: 0
+1048(__mpn_divmod)
+	func: 0 %		call: 0
+1049(__mpn_rshift)
+	func: 0 %		call: 0
+1050(__mpn_sub_n)
+	func: 0 %		call: 0
+1051(__fstat)
+	func: 0 %		call: 0
+1052(__isatty)
+	func: 0 %		call: 0
+1053(realloc)
+	func: 0 %		call: 0
+1054(strtoul)
+	func: 0 %		call: 0
+1055(strtod)
+	func: 0 %		call: 0
+1056(ungetc)
+	func: 0 %		call: 0
+1057(__sbrk)
+	func: 0.013175 %		call: 268
+1058(dist_tm)
+	func: 0 %		call: 0
+1059(do_normalization)
+	func: 0 %		call: 0
+1060(_mktime_internal)
+	func: 0 %		call: 0
+1061(mktime)
+	func: 0 %		call: 0
+1062(getenv)
+	func: 0 %		call: 0
+1063(__mpn_submul_1)
+	func: 0 %		call: 0
+1064(__ioctl)
+	func: 0 %		call: 0
+1065(memmove)
+	func: 0 %		call: 0
+1066(pow)
+	func: 0 %		call: 0
+1067(pow_P)
+	func: 0 %		call: 0
+1068(__brk)
+	func: 0.013175 %		call: 268
+1069(log)
+	func: 0 %		call: 0
+1070(__log__D)
+	func: 0 %		call: 0
+1071(exp)
+	func: 0 %		call: 0
+1072(__exp__D)
+	func: 0 %		call: 0
+1073(__umoddi3)
+	func: 0.000442443 %		call: 9
+1074(__udivdi3)
+	func: 0.000442443 %		call: 9
+1075(__udivmoddi4)
+	func: 0.000884885 %		call: 18

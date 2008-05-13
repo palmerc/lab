@@ -1,0 +1,1894 @@
+total inst: 89142128
+total func: 2862854
+
+====== func statistic ======
+0(__start)
+	inst: 1.79489e-05 %		func_inst: 16
+1(xeval)
+	inst: 0 %		func_inst: 0
+2(xapply)
+	inst: 0 %		func_inst: 0
+3(xfuncall)
+	inst: 0 %		func_inst: 0
+4(xquote)
+	inst: 0.0197079 %		func_inst: 17568
+5(xfunction)
+	inst: 0 %		func_inst: 0
+6(xlambda)
+	inst: 0 %		func_inst: 0
+7(xbquote)
+	inst: 0 %		func_inst: 0
+8(bquote1)
+	inst: 0 %		func_inst: 0
+9(xset)
+	inst: 0 %		func_inst: 0
+10(xsetq)
+	inst: 0.0643242 %		func_inst: 57340
+11(xsetf)
+	inst: 0.00392407 %		func_inst: 3498
+12(placeform)
+	inst: 0.00368625 %		func_inst: 3286
+13(xdefun)
+	inst: 0.000100962 %		func_inst: 90
+14(xdefmacro)
+	inst: 4.37504e-05 %		func_inst: 39
+15(defun)
+	inst: 0.0015436 %		func_inst: 1376
+16(xgensym)
+	inst: 0 %		func_inst: 0
+17(xmakesymbol)
+	inst: 0 %		func_inst: 0
+18(xintern)
+	inst: 0 %		func_inst: 0
+19(makesymbol)
+	inst: 0 %		func_inst: 0
+20(xsymname)
+	inst: 0 %		func_inst: 0
+21(xsymvalue)
+	inst: 0 %		func_inst: 0
+22(xsymplist)
+	inst: 0 %		func_inst: 0
+23(xget)
+	inst: 0.0186668 %		func_inst: 16640
+24(xputprop)
+	inst: 0 %		func_inst: 0
+25(xremprop)
+	inst: 0 %		func_inst: 0
+26(xhash)
+	inst: 0 %		func_inst: 0
+27(xaref)
+	inst: 0 %		func_inst: 0
+28(xmkarray)
+	inst: 0 %		func_inst: 0
+29(xcond)
+	inst: 0.523564 %		func_inst: 466716
+30(xcase)
+	inst: 0 %		func_inst: 0
+31(keypresent)
+	inst: 0 %		func_inst: 0
+32(xand)
+	inst: 0.00356734 %		func_inst: 3180
+33(xor)
+	inst: 0 %		func_inst: 0
+34(xif)
+	inst: 0 %		func_inst: 0
+35(xlet)
+	inst: 0 %		func_inst: 0
+36(xletstar)
+	inst: 0 %		func_inst: 0
+37(let)
+	inst: 0 %		func_inst: 0
+38(xprog)
+	inst: 2.24361e-06 %		func_inst: 2
+39(xprogstar)
+	inst: 0 %		func_inst: 0
+40(prog)
+	inst: 2.69233e-05 %		func_inst: 24
+41(xgo)
+	inst: 0 %		func_inst: 0
+42(xreturn)
+	inst: 0 %		func_inst: 0
+43(xprog1)
+	inst: 0 %		func_inst: 0
+44(xprog2)
+	inst: 0 %		func_inst: 0
+45(progx)
+	inst: 0 %		func_inst: 0
+46(xprogn)
+	inst: 0.0276244 %		func_inst: 24625
+47(xdo)
+	inst: 0 %		func_inst: 0
+48(xdostar)
+	inst: 0 %		func_inst: 0
+49(doloop)
+	inst: 0 %		func_inst: 0
+50(xdolist)
+	inst: 0 %		func_inst: 0
+51(xdotimes)
+	inst: 0 %		func_inst: 0
+52(xcatch)
+	inst: 0 %		func_inst: 0
+53(xthrow)
+	inst: 0 %		func_inst: 0
+54(xerror)
+	inst: 0 %		func_inst: 0
+55(xcerror)
+	inst: 0 %		func_inst: 0
+56(xbreak)
+	inst: 0 %		func_inst: 0
+57(xcleanup)
+	inst: 0 %		func_inst: 0
+58(xcontinue)
+	inst: 0 %		func_inst: 0
+59(xerrset)
+	inst: 0 %		func_inst: 0
+60(xevalhook)
+	inst: 0 %		func_inst: 0
+61(dobindings)
+	inst: 7.29173e-05 %		func_inst: 65
+62(doupdates)
+	inst: 0 %		func_inst: 0
+63(tagblock)
+	inst: 5.60902e-05 %		func_inst: 50
+64(xlfail)
+	inst: 0 %		func_inst: 0
+65(xlabort)
+	inst: 0 %		func_inst: 0
+66(xlbreak)
+	inst: 0 %		func_inst: 0
+67(xlerror)
+	inst: 0 %		func_inst: 0
+68(xlcerror)
+	inst: 0 %		func_inst: 0
+69(xlerrprint)
+	inst: 0 %		func_inst: 0
+70(doerror)
+	inst: 0 %		func_inst: 0
+71(breakloop)
+	inst: 0 %		func_inst: 0
+72(stacktop)
+	inst: 0 %		func_inst: 0
+73(xlbaktrace)
+	inst: 0 %		func_inst: 0
+74(xldinit)
+	inst: 1.34616e-05 %		func_inst: 12
+75(cons)
+	inst: 0.29275 %		func_inst: 260964
+76(consa)
+	inst: 0.615863 %		func_inst: 548993
+77(consd)
+	inst: 0.261171 %		func_inst: 232813
+78(cvstring)
+	inst: 2.01925e-05 %		func_inst: 18
+79(cvcstring)
+	inst: 0 %		func_inst: 0
+80(cvsymbol)
+	inst: 0.00563594 %		func_inst: 5024
+81(cvcsymbol)
+	inst: 0.00631015 %		func_inst: 5625
+82(cvsubr)
+	inst: 0.00147629 %		func_inst: 1316
+83(cvfile)
+	inst: 3.58977e-05 %		func_inst: 32
+84(cvfixnum)
+	inst: 0.00906979 %		func_inst: 8085
+85(cvflonum)
+	inst: 0 %		func_inst: 0
+86(newstring)
+	inst: 0 %		func_inst: 0
+87(newobject)
+	inst: 2.24361e-05 %		func_inst: 20
+88(newvector)
+	inst: 0.000121155 %		func_inst: 108
+89(newnode)
+	inst: 2.63021 %		func_inst: 2344626
+90(stralloc)
+	inst: 0 %		func_inst: 0
+91(strsave)
+	inst: 0.00407664 %		func_inst: 3634
+92(findmem)
+	inst: 0.000620358 %		func_inst: 553
+93(gc)
+	inst: 0.220393 %		func_inst: 196463
+94(mark)
+	inst: 19.0076 %		func_inst: 16943819
+95(vmark)
+	inst: 0 %		func_inst: 0
+96(sweep)
+	inst: 8.70934 %		func_inst: 7763689
+97(addseg)
+	inst: 0.0542145 %		func_inst: 48328
+98(livecar)
+	inst: 12.2304 %		func_inst: 10902417
+99(livecdr)
+	inst: 9.01053 %		func_inst: 8032176
+100(stats)
+	inst: 0 %		func_inst: 0
+101(xlminit)
+	inst: 2.58015e-05 %		func_inst: 23
+102(xleval)
+	inst: 2.0949 %		func_inst: 1867436
+103(xlxeval)
+	inst: 0 %		func_inst: 0
+104(xlapply)
+	inst: 0.0354456 %		func_inst: 31597
+105(evform)
+	inst: 5.6506 %		func_inst: 5037064
+106(evalhook)
+	inst: 0 %		func_inst: 0
+107(xlevlist)
+	inst: 5.01019 %		func_inst: 4466189
+108(xlunbound)
+	inst: 0 %		func_inst: 0
+109(evfun)
+	inst: 0.763737 %		func_inst: 680811
+110(xlabind)
+	inst: 0.616115 %		func_inst: 549218
+111(iskeyword)
+	inst: 0.177631 %		func_inst: 158344
+112(xlsave)
+	inst: 11.273 %		func_inst: 10048956
+113(xread)
+	inst: 0 %		func_inst: 0
+114(xprint)
+	inst: 4.48722e-06 %		func_inst: 4
+115(xprin1)
+	inst: 0 %		func_inst: 0
+116(xprinc)
+	inst: 0 %		func_inst: 0
+117(xterpri)
+	inst: 0 %		func_inst: 0
+118(printit)
+	inst: 3.36541e-05 %		func_inst: 30
+119(xflatsize)
+	inst: 0 %		func_inst: 0
+120(xflatc)
+	inst: 0 %		func_inst: 0
+121(flatsize)
+	inst: 0 %		func_inst: 0
+122(xopeni)
+	inst: 0 %		func_inst: 0
+123(xopeno)
+	inst: 0 %		func_inst: 0
+124(openit)
+	inst: 0 %		func_inst: 0
+125(xclose)
+	inst: 0 %		func_inst: 0
+126(xrdchar)
+	inst: 0 %		func_inst: 0
+127(xpkchar)
+	inst: 0 %		func_inst: 0
+128(xwrchar)
+	inst: 0 %		func_inst: 0
+129(xreadline)
+	inst: 0 %		func_inst: 0
+130(xlinit)
+	inst: 0.0015077 %		func_inst: 1344
+131(xlgetc)
+	inst: 0.766587 %		func_inst: 683352
+132(xlpeek)
+	inst: 0.231294 %		func_inst: 206180
+133(xlputc)
+	inst: 0.00635165 %		func_inst: 5662
+134(xlflush)
+	inst: 0 %		func_inst: 0
+135(main)
+	inst: 3.70195e-05 %		func_inst: 33
+136(stdprint)
+	inst: 0 %		func_inst: 0
+137(stdputstr)
+	inst: 5.60902e-06 %		func_inst: 5
+138(xlbegin)
+	inst: 4.93594e-05 %		func_inst: 44
+139(xlend)
+	inst: 2.24361e-06 %		func_inst: 2
+140(xljump)
+	inst: 0 %		func_inst: 0
+141(xltoplevel)
+	inst: 0 %		func_inst: 0
+142(xlcleanup)
+	inst: 0 %		func_inst: 0
+143(xlcontinue)
+	inst: 0 %		func_inst: 0
+144(xlgo)
+	inst: 0 %		func_inst: 0
+145(xlreturn)
+	inst: 0 %		func_inst: 0
+146(xlthrow)
+	inst: 0 %		func_inst: 0
+147(xlsignal)
+	inst: 0 %		func_inst: 0
+148(findtarget)
+	inst: 0 %		func_inst: 0
+149(xcar)
+	inst: 0.0421451 %		func_inst: 37569
+150(xcdr)
+	inst: 0.0242242 %		func_inst: 21594
+151(xcaar)
+	inst: 0 %		func_inst: 0
+152(xcadr)
+	inst: 0.00467456 %		func_inst: 4167
+153(xcdar)
+	inst: 0 %		func_inst: 0
+154(xcddr)
+	inst: 0 %		func_inst: 0
+155(xcaaar)
+	inst: 0 %		func_inst: 0
+156(xcaadr)
+	inst: 0 %		func_inst: 0
+157(xcadar)
+	inst: 0 %		func_inst: 0
+158(xcaddr)
+	inst: 0.000114424 %		func_inst: 102
+159(xcdaar)
+	inst: 0 %		func_inst: 0
+160(xcdadr)
+	inst: 0 %		func_inst: 0
+161(xcddar)
+	inst: 0 %		func_inst: 0
+162(xcdddr)
+	inst: 0 %		func_inst: 0
+163(xcaaaar)
+	inst: 0 %		func_inst: 0
+164(xcaaadr)
+	inst: 0 %		func_inst: 0
+165(xcaadar)
+	inst: 0 %		func_inst: 0
+166(xcaaddr)
+	inst: 0 %		func_inst: 0
+167(xcadaar)
+	inst: 0 %		func_inst: 0
+168(xcadadr)
+	inst: 0 %		func_inst: 0
+169(xcaddar)
+	inst: 0 %		func_inst: 0
+170(xcadddr)
+	inst: 0 %		func_inst: 0
+171(xcdaaar)
+	inst: 0 %		func_inst: 0
+172(xcdaadr)
+	inst: 0 %		func_inst: 0
+173(xcdadar)
+	inst: 0 %		func_inst: 0
+174(xcdaddr)
+	inst: 0 %		func_inst: 0
+175(xcddaar)
+	inst: 0 %		func_inst: 0
+176(xcddadr)
+	inst: 0 %		func_inst: 0
+177(xcdddar)
+	inst: 0 %		func_inst: 0
+178(xcddddr)
+	inst: 0 %		func_inst: 0
+179(cxr)
+	inst: 0.721487 %		func_inst: 643149
+180(xcons)
+	inst: 0.0585335 %		func_inst: 52178
+181(xlist)
+	inst: 0 %		func_inst: 0
+182(xappend)
+	inst: 0 %		func_inst: 0
+183(xreverse)
+	inst: 0 %		func_inst: 0
+184(xlast)
+	inst: 0 %		func_inst: 0
+185(xmember)
+	inst: 0 %		func_inst: 0
+186(xassoc)
+	inst: 0.0333961 %		func_inst: 29770
+187(xsubst)
+	inst: 0 %		func_inst: 0
+188(subst)
+	inst: 0 %		func_inst: 0
+189(xsublis)
+	inst: 0 %		func_inst: 0
+190(sublis)
+	inst: 0 %		func_inst: 0
+191(assoc)
+	inst: 0 %		func_inst: 0
+192(xremove)
+	inst: 0 %		func_inst: 0
+193(dotest)
+	inst: 0.0131296 %		func_inst: 11704
+194(xnth)
+	inst: 0 %		func_inst: 0
+195(xnthcdr)
+	inst: 0 %		func_inst: 0
+196(nth)
+	inst: 0 %		func_inst: 0
+197(xlength)
+	inst: 0 %		func_inst: 0
+198(xmapc)
+	inst: 0 %		func_inst: 0
+199(xmapcar)
+	inst: 0 %		func_inst: 0
+200(xmapl)
+	inst: 0 %		func_inst: 0
+201(xmaplist)
+	inst: 0 %		func_inst: 0
+202(map)
+	inst: 0 %		func_inst: 0
+203(xrplca)
+	inst: 0 %		func_inst: 0
+204(xrplcd)
+	inst: 0 %		func_inst: 0
+205(xnconc)
+	inst: 0 %		func_inst: 0
+206(xdelete)
+	inst: 0 %		func_inst: 0
+207(xatom)
+	inst: 0.0976587 %		func_inst: 87055
+208(xsymbolp)
+	inst: 0 %		func_inst: 0
+209(xnumberp)
+	inst: 0 %		func_inst: 0
+210(xboundp)
+	inst: 0 %		func_inst: 0
+211(xnull)
+	inst: 0.0873773 %		func_inst: 77890
+212(xlistp)
+	inst: 0 %		func_inst: 0
+213(xconsp)
+	inst: 0 %		func_inst: 0
+214(xeq)
+	inst: 0.0102623 %		func_inst: 9148
+215(xeql)
+	inst: 0 %		func_inst: 0
+216(xequal)
+	inst: 0 %		func_inst: 0
+217(cequal)
+	inst: 0.0528381 %		func_inst: 47101
+218(xadd)
+	inst: 0 %		func_inst: 0
+219(xsub)
+	inst: 0 %		func_inst: 0
+220(xmul)
+	inst: 0 %		func_inst: 0
+221(xdiv)
+	inst: 0 %		func_inst: 0
+222(xrem)
+	inst: 0 %		func_inst: 0
+223(xmin)
+	inst: 0 %		func_inst: 0
+224(xmax)
+	inst: 0 %		func_inst: 0
+225(xexpt)
+	inst: 0 %		func_inst: 0
+226(xbitand)
+	inst: 0 %		func_inst: 0
+227(xbitior)
+	inst: 0 %		func_inst: 0
+228(xbitxor)
+	inst: 0 %		func_inst: 0
+229(binary)
+	inst: 0 %		func_inst: 0
+230(checkizero)
+	inst: 0 %		func_inst: 0
+231(checkfzero)
+	inst: 0 %		func_inst: 0
+232(checkfneg)
+	inst: 0 %		func_inst: 0
+233(xbitnot)
+	inst: 0 %		func_inst: 0
+234(xabs)
+	inst: 0 %		func_inst: 0
+235(xadd1)
+	inst: 0 %		func_inst: 0
+236(xsub1)
+	inst: 0 %		func_inst: 0
+237(xsin)
+	inst: 0 %		func_inst: 0
+238(xcos)
+	inst: 0 %		func_inst: 0
+239(xtan)
+	inst: 0 %		func_inst: 0
+240(xexp)
+	inst: 0 %		func_inst: 0
+241(xsqrt)
+	inst: 0 %		func_inst: 0
+242(xfix)
+	inst: 0 %		func_inst: 0
+243(xfloat)
+	inst: 0 %		func_inst: 0
+244(xrand)
+	inst: 0 %		func_inst: 0
+245(unary)
+	inst: 0 %		func_inst: 0
+246(xminusp)
+	inst: 0 %		func_inst: 0
+247(xzerop)
+	inst: 0 %		func_inst: 0
+248(xplusp)
+	inst: 0 %		func_inst: 0
+249(xevenp)
+	inst: 0 %		func_inst: 0
+250(xoddp)
+	inst: 0 %		func_inst: 0
+251(predicate)
+	inst: 0 %		func_inst: 0
+252(xlss)
+	inst: 0 %		func_inst: 0
+253(xleq)
+	inst: 0 %		func_inst: 0
+254(xequ)
+	inst: 0 %		func_inst: 0
+255(xneq)
+	inst: 0 %		func_inst: 0
+256(xgeq)
+	inst: 0 %		func_inst: 0
+257(xgtr)
+	inst: 0 %		func_inst: 0
+258(compare)
+	inst: 0 %		func_inst: 0
+259(badiop)
+	inst: 0 %		func_inst: 0
+260(badfop)
+	inst: 0 %		func_inst: 0
+261(xlclass)
+	inst: 0 %		func_inst: 0
+262(xladdivar)
+	inst: 0 %		func_inst: 0
+263(xladdmsg)
+	inst: 0 %		func_inst: 0
+264(xlsend)
+	inst: 0 %		func_inst: 0
+265(xlobgetvalue)
+	inst: 4.08255 %		func_inst: 3639268
+266(xlobsetvalue)
+	inst: 0.0759955 %		func_inst: 67744
+267(obshow)
+	inst: 0 %		func_inst: 0
+268(entermsg)
+	inst: 0.000241188 %		func_inst: 215
+269(findmsg)
+	inst: 0 %		func_inst: 0
+270(sendmsg)
+	inst: 0 %		func_inst: 0
+271(getivcnt)
+	inst: 0 %		func_inst: 0
+272(listlength)
+	inst: 0 %		func_inst: 0
+273(xloinit)
+	inst: 0.000196316 %		func_inst: 175
+274(obisnew)
+	inst: 0 %		func_inst: 0
+275(obclass)
+	inst: 0 %		func_inst: 0
+276(obsendsuper)
+	inst: 0 %		func_inst: 0
+277(clnew)
+	inst: 0 %		func_inst: 0
+278(clisnew)
+	inst: 0 %		func_inst: 0
+279(clanswer)
+	inst: 0 %		func_inst: 0
+280(xlprint)
+	inst: 0.0036941 %		func_inst: 3293
+281(xlterpri)
+	inst: 3.36541e-06 %		func_inst: 3
+282(xlputstr)
+	inst: 0.002063 %		func_inst: 1839
+283(putstring)
+	inst: 0 %		func_inst: 0
+284(putatm)
+	inst: 0 %		func_inst: 0
+285(putdec)
+	inst: 0 %		func_inst: 0
+286(putfloat)
+	inst: 0 %		func_inst: 0
+287(putoct)
+	inst: 0 %		func_inst: 0
+288(xlload)
+	inst: 0.00046667 %		func_inst: 416
+289(xlread)
+	inst: 0.00113751 %		func_inst: 1014
+290(readone)
+	inst: 0.00576719 %		func_inst: 5141
+291(rmhash)
+	inst: 0 %		func_inst: 0
+292(rmquote)
+	inst: 5.38466e-05 %		func_inst: 48
+293(rmdquote)
+	inst: 0.000436382 %		func_inst: 389
+294(rmbquote)
+	inst: 0.00032308 %		func_inst: 288
+295(rmcomma)
+	inst: 0.000673082 %		func_inst: 600
+296(rmlpar)
+	inst: 0.0277366 %		func_inst: 24725
+297(rmrpar)
+	inst: 0 %		func_inst: 0
+298(rmsemi)
+	inst: 0.00236925 %		func_inst: 2112
+299(phexnumber)
+	inst: 0 %		func_inst: 0
+300(plist)
+	inst: 0.148069 %		func_inst: 131992
+301(pvector)
+	inst: 0 %		func_inst: 0
+302(pquote)
+	inst: 0.000991675 %		func_inst: 884
+303(pname)
+	inst: 0.257135 %		func_inst: 229216
+304(tentry)
+	inst: 0.158874 %		func_inst: 141624
+305(nextch)
+	inst: 0.140103 %		func_inst: 124891
+306(checkeof)
+	inst: 0.000431895 %		func_inst: 385
+307(badeof)
+	inst: 0 %		func_inst: 0
+308(isnumber)
+	inst: 0.070023 %		func_inst: 62420
+309(defmacro)
+	inst: 0 %		func_inst: 0
+310(callmacro)
+	inst: 0.0393316 %		func_inst: 35061
+311(needsextension)
+	inst: 9.31097e-05 %		func_inst: 83
+312(xlrinit)
+	inst: 0.000816673 %		func_inst: 728
+313(xstrcat)
+	inst: 0 %		func_inst: 0
+314(xsubstr)
+	inst: 0 %		func_inst: 0
+315(xstring)
+	inst: 0 %		func_inst: 0
+316(xchar)
+	inst: 0 %		func_inst: 0
+317(xlsubr)
+	inst: 0.00232887 %		func_inst: 2076
+318(xlarg)
+	inst: 0.454055 %		func_inst: 404754
+319(xlmatch)
+	inst: 1.48242 %		func_inst: 1321465
+320(xlevarg)
+	inst: 1.42763 %		func_inst: 1272624
+321(xlevmatch)
+	inst: 0.00761032 %		func_inst: 6784
+322(xltest)
+	inst: 0.0285566 %		func_inst: 25456
+323(xlgetfile)
+	inst: 0.0279127 %		func_inst: 24882
+324(xllastarg)
+	inst: 0.155522 %		func_inst: 138636
+325(eq)
+	inst: 0.00513113 %		func_inst: 4574
+326(eql)
+	inst: 0 %		func_inst: 0
+327(equal)
+	inst: 0 %		func_inst: 0
+328(xlenter)
+	inst: 0.0902054 %		func_inst: 80411
+329(xlsenter)
+	inst: 0.0125653 %		func_inst: 11201
+330(xlmakesym)
+	inst: 0.00600838 %		func_inst: 5356
+331(xlframe)
+	inst: 0.0293531 %		func_inst: 26166
+332(xlbind)
+	inst: 0.377504 %		func_inst: 336515
+333(xlgetvalue)
+	inst: 1.12622 %		func_inst: 1003936
+334(xlxgetvalue)
+	inst: 3.32434 %		func_inst: 2963388
+335(xlygetvalue)
+	inst: 4.36585 %		func_inst: 3891808
+336(xlsetvalue)
+	inst: 0.0753112 %		func_inst: 67134
+337(xlgetprop)
+	inst: 0.00651095 %		func_inst: 5804
+338(xlputprop)
+	inst: 0.00271028 %		func_inst: 2416
+339(xlremprop)
+	inst: 0 %		func_inst: 0
+340(findprop)
+	inst: 0.0139059 %		func_inst: 12396
+341(hash)
+	inst: 0.102435 %		func_inst: 91313
+342(xlsinit)
+	inst: 0.000126764 %		func_inst: 113
+343(xload)
+	inst: 0 %		func_inst: 0
+344(xgc)
+	inst: 0 %		func_inst: 0
+345(xexpand)
+	inst: 0 %		func_inst: 0
+346(xalloc)
+	inst: 0 %		func_inst: 0
+347(xmem)
+	inst: 0 %		func_inst: 0
+348(xtype)
+	inst: 0 %		func_inst: 0
+349(xbaktrace)
+	inst: 0 %		func_inst: 0
+350(xexit)
+	inst: 0 %		func_inst: 0
+351(osinit)
+	inst: 4.48722e-06 %		func_inst: 4
+352(osrand)
+	inst: 0 %		func_inst: 0
+353(osgetc)
+	inst: 0.148769 %		func_inst: 132616
+354(osputc)
+	inst: 0.00401157 %		func_inst: 3576
+355(oscheck)
+	inst: 0 %		func_inst: 0
+356(osfinit)
+	inst: 0 %		func_inst: 0
+357(osfinish)
+	inst: 0 %		func_inst: 0
+358(__do_global_dtors)
+	inst: 0 %		func_inst: 0
+359(__do_global_ctors)
+	inst: 1.68271e-05 %		func_inst: 15
+360(__main)
+	inst: 6.73082e-06 %		func_inst: 6
+361(__libc_init)
+	inst: 2.24361e-06 %		func_inst: 2
+362(exit)
+	inst: 0 %		func_inst: 0
+363(_cleanup)
+	inst: 0 %		func_inst: 0
+364(strcpy)
+	inst: 0.00753516 %		func_inst: 6717
+365(sprintf)
+	inst: 6.73082e-06 %		func_inst: 6
+366(__setjmp)
+	inst: 1.68271e-05 %		func_inst: 15
+367(initialize)
+	inst: 4.5994e-05 %		func_inst: 41
+368(morecore)
+	inst: 0.000767314 %		func_inst: 684
+369(malloc)
+	inst: 0.0317908 %		func_inst: 28339
+370(printf)
+	inst: 1.00962e-05 %		func_inst: 9
+371(calloc)
+	inst: 0.000201925 %		func_inst: 180
+372(strlen)
+	inst: 0.0053869 %		func_inst: 4802
+373(fclose)
+	inst: 3.70195e-05 %		func_inst: 33
+374(_free_internal)
+	inst: 0 %		func_inst: 0
+375(free)
+	inst: 0 %		func_inst: 0
+376(__getmode)
+	inst: 8.30135e-05 %		func_inst: 74
+377(fopen)
+	inst: 4.71158e-05 %		func_inst: 42
+378(strcat)
+	inst: 0 %		func_inst: 0
+379(__longjmp)
+	inst: 0 %		func_inst: 0
+380(pow)
+	inst: 0 %		func_inst: 0
+381(pow_P)
+	inst: 0 %		func_inst: 0
+382(sin)
+	inst: 0 %		func_inst: 0
+383(cos)
+	inst: 0 %		func_inst: 0
+384(tan)
+	inst: 0 %		func_inst: 0
+385(exp)
+	inst: 0 %		func_inst: 0
+386(__exp__D)
+	inst: 0 %		func_inst: 0
+387(sqrt)
+	inst: 0 %		func_inst: 0
+388(strcmp)
+	inst: 0.104992 %		func_inst: 93592
+389(strtod)
+	inst: 0 %		func_inst: 0
+390(strtol)
+	inst: 0.00141347 %		func_inst: 1260
+391(rand)
+	inst: 0 %		func_inst: 0
+392(__stdio_check_funcs)
+	inst: 0 %		func_inst: 0
+393(__stdio_check_offset)
+	inst: 0.000144713 %		func_inst: 129
+394(flushbuf)
+	inst: 7.74045e-05 %		func_inst: 69
+395(fillbuf)
+	inst: 0.000341028 %		func_inst: 304
+396(__flshfp)
+	inst: 0.000107693 %		func_inst: 96
+397(__fillbf)
+	inst: 0.000309618 %		func_inst: 276
+398(__invalidate)
+	inst: 3.70195e-05 %		func_inst: 33
+399(atexit)
+	inst: 1.34616e-05 %		func_inst: 12
+400(__new_exitfn)
+	inst: 2.01925e-05 %		func_inst: 18
+401(__init_misc)
+	inst: 1.34616e-05 %		func_inst: 12
+402(_exit)
+	inst: 0 %		func_inst: 0
+403(vsprintf)
+	inst: 4.03849e-05 %		func_inst: 36
+404(__setjmp_aux)
+	inst: 0.000145835 %		func_inst: 130
+405(__default_morecore)
+	inst: 0.000134616 %		func_inst: 120
+406(memset)
+	inst: 0.0470271 %		func_inst: 41921
+407(memcpy)
+	inst: 3.92631e-05 %		func_inst: 35
+408(vfprintf)
+	inst: 0.000909783 %		func_inst: 811
+409(printf_unknown)
+	inst: 0 %		func_inst: 0
+410(__stdio_read)
+	inst: 8.97443e-06 %		func_inst: 8
+411(__stdio_write)
+	inst: 0 %		func_inst: 0
+412(__stdio_seek)
+	inst: 2.24361e-05 %		func_inst: 20
+413(__stdio_close)
+	inst: 0 %		func_inst: 0
+414(__stdio_fileno)
+	inst: 0 %		func_inst: 0
+415(__stdio_open)
+	inst: 4.93594e-05 %		func_inst: 44
+416(__stdio_reopen)
+	inst: 0 %		func_inst: 0
+417(__newstream)
+	inst: 7.40391e-05 %		func_inst: 66
+418(abort)
+	inst: 0 %		func_inst: 0
+419(__finite)
+	inst: 0 %		func_inst: 0
+420(__copysign)
+	inst: 0 %		func_inst: 0
+421(__drem)
+	inst: 0 %		func_inst: 0
+422(log)
+	inst: 0 %		func_inst: 0
+423(__log__D)
+	inst: 0 %		func_inst: 0
+424(ldexp)
+	inst: 0 %		func_inst: 0
+425(__isnan)
+	inst: 0 %		func_inst: 0
+426(__isinf)
+	inst: 0 %		func_inst: 0
+427(__logb)
+	inst: 0 %		func_inst: 0
+428(mbtowc)
+	inst: 4.71158e-05 %		func_inst: 42
+429(__srandom)
+	inst: 0 %		func_inst: 0
+430(__initstate)
+	inst: 0 %		func_inst: 0
+431(__setstate)
+	inst: 0 %		func_inst: 0
+432(__random)
+	inst: 0 %		func_inst: 0
+433(__stdio_init_stream)
+	inst: 5.38466e-05 %		func_inst: 48
+434(strrchr)
+	inst: 5.27248e-05 %		func_inst: 47
+435(syscall_error)
+	inst: 3.36541e-06 %		func_inst: 3
+436(__sbrk)
+	inst: 0.000246797 %		func_inst: 220
+437(_wordcopy_fwd_aligned)
+	inst: 5.1603e-05 %		func_inst: 46
+438(_wordcopy_fwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+439(_wordcopy_bwd_aligned)
+	inst: 0 %		func_inst: 0
+440(_wordcopy_bwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+441(register_printf_function)
+	inst: 0 %		func_inst: 0
+442(strchr)
+	inst: 0.000633819 %		func_inst: 565
+443(fwrite)
+	inst: 0.00011218 %		func_inst: 100
+444(_itoa)
+	inst: 0 %		func_inst: 0
+445(__printf_fp)
+	inst: 0 %		func_inst: 0
+446(fflush)
+	inst: 0 %		func_inst: 0
+447(__read)
+	inst: 1.34616e-05 %		func_inst: 12
+448(__write)
+	inst: 0 %		func_inst: 0
+449(__lseek)
+	inst: 6.73082e-06 %		func_inst: 6
+450(__close)
+	inst: 0 %		func_inst: 0
+451(__open)
+	inst: 7.85263e-06 %		func_inst: 7
+452(__dup2)
+	inst: 0 %		func_inst: 0
+453(strncmp)
+	inst: 0 %		func_inst: 0
+454(__fstat)
+	inst: 6.73082e-06 %		func_inst: 6
+455(__isatty)
+	inst: 0 %		func_inst: 0
+456(__brk)
+	inst: 0.000179489 %		func_inst: 160
+457(memchr)
+	inst: 0 %		func_inst: 0
+458(__mpn_extract_double)
+	inst: 0 %		func_inst: 0
+459(__mpn_lshift)
+	inst: 0 %		func_inst: 0
+460(__mpn_cmp)
+	inst: 0 %		func_inst: 0
+461(__mpn_divmod_1)
+	inst: 0 %		func_inst: 0
+462(__mpn_mul_1)
+	inst: 0 %		func_inst: 0
+463(__mpn_add_n)
+	inst: 0 %		func_inst: 0
+464(__mpn_divmod)
+	inst: 0 %		func_inst: 0
+465(__mpn_rshift)
+	inst: 0 %		func_inst: 0
+466(__mpn_sub_n)
+	inst: 0 %		func_inst: 0
+467(__ioctl)
+	inst: 0 %		func_inst: 0
+468(__mpn_submul_1)
+	inst: 0 %		func_inst: 0
+469(__umoddi3)
+	inst: 0 %		func_inst: 0
+470(__udivdi3)
+	inst: 0 %		func_inst: 0
+471(__udivmoddi4)
+	inst: 0 %		func_inst: 0
+
+====== inst statistic ======
+0(__start)
+	func: 3.49302e-05 %		call: 1
+1(xeval)
+	func: 0 %		call: 0
+2(xapply)
+	func: 0 %		call: 0
+3(xfuncall)
+	func: 0 %		call: 0
+4(xquote)
+	func: 0.0681837 %		call: 1952
+5(xfunction)
+	func: 0 %		call: 0
+6(xlambda)
+	func: 0 %		call: 0
+7(xbquote)
+	func: 0 %		call: 0
+8(bquote1)
+	func: 0 %		call: 0
+9(xset)
+	func: 0 %		call: 0
+10(xsetq)
+	func: 0.0801298 %		call: 2294
+11(xsetf)
+	func: 0.0037026 %		call: 106
+12(placeform)
+	func: 0.0037026 %		call: 106
+13(xdefun)
+	func: 0.00104791 %		call: 30
+14(xdefmacro)
+	func: 0.000454092 %		call: 13
+15(defun)
+	func: 0.001502 %		call: 43
+16(xgensym)
+	func: 0 %		call: 0
+17(xmakesymbol)
+	func: 0 %		call: 0
+18(xintern)
+	func: 0 %		call: 0
+19(makesymbol)
+	func: 0 %		call: 0
+20(xsymname)
+	func: 0 %		call: 0
+21(xsymvalue)
+	func: 0 %		call: 0
+22(xsymplist)
+	func: 0 %		call: 0
+23(xget)
+	func: 0.0363274 %		call: 1040
+24(xputprop)
+	func: 0 %		call: 0
+25(xremprop)
+	func: 0 %		call: 0
+26(xhash)
+	func: 0 %		call: 0
+27(xaref)
+	func: 0 %		call: 0
+28(xmkarray)
+	func: 0 %		call: 0
+29(xcond)
+	func: 0.432086 %		call: 12370
+30(xcase)
+	func: 0 %		call: 0
+31(keypresent)
+	func: 0 %		call: 0
+32(xand)
+	func: 0.0037026 %		call: 106
+33(xor)
+	func: 0 %		call: 0
+34(xif)
+	func: 0 %		call: 0
+35(xlet)
+	func: 0 %		call: 0
+36(xletstar)
+	func: 0 %		call: 0
+37(let)
+	func: 0 %		call: 0
+38(xprog)
+	func: 3.49302e-05 %		call: 1
+39(xprogstar)
+	func: 0 %		call: 0
+40(prog)
+	func: 3.49302e-05 %		call: 1
+41(xgo)
+	func: 0 %		call: 0
+42(xreturn)
+	func: 0 %		call: 0
+43(xprog1)
+	func: 0 %		call: 0
+44(xprog2)
+	func: 0 %		call: 0
+45(progx)
+	func: 0 %		call: 0
+46(xprogn)
+	func: 0.0374102 %		call: 1071
+47(xdo)
+	func: 0 %		call: 0
+48(xdostar)
+	func: 0 %		call: 0
+49(doloop)
+	func: 0 %		call: 0
+50(xdolist)
+	func: 0 %		call: 0
+51(xdotimes)
+	func: 0 %		call: 0
+52(xcatch)
+	func: 0 %		call: 0
+53(xthrow)
+	func: 0 %		call: 0
+54(xerror)
+	func: 0 %		call: 0
+55(xcerror)
+	func: 0 %		call: 0
+56(xbreak)
+	func: 0 %		call: 0
+57(xcleanup)
+	func: 0 %		call: 0
+58(xcontinue)
+	func: 0 %		call: 0
+59(xerrset)
+	func: 0 %		call: 0
+60(xevalhook)
+	func: 0 %		call: 0
+61(dobindings)
+	func: 3.49302e-05 %		call: 1
+62(doupdates)
+	func: 0 %		call: 0
+63(tagblock)
+	func: 3.49302e-05 %		call: 1
+64(xlfail)
+	func: 0 %		call: 0
+65(xlabort)
+	func: 0 %		call: 0
+66(xlbreak)
+	func: 0 %		call: 0
+67(xlerror)
+	func: 0 %		call: 0
+68(xlcerror)
+	func: 0 %		call: 0
+69(xlerrprint)
+	func: 0 %		call: 0
+70(doerror)
+	func: 0 %		call: 0
+71(breakloop)
+	func: 0 %		call: 0
+72(stacktop)
+	func: 0 %		call: 0
+73(xlbaktrace)
+	func: 0 %		call: 0
+74(xldinit)
+	func: 3.49302e-05 %		call: 1
+75(cons)
+	func: 0.828684 %		call: 23724
+76(consa)
+	func: 2.7395 %		call: 78428
+77(consd)
+	func: 1.16174 %		call: 33259
+78(cvstring)
+	func: 3.49302e-05 %		call: 1
+79(cvcstring)
+	func: 0 %		call: 0
+80(cvsymbol)
+	func: 0.00548404 %		call: 157
+81(cvcsymbol)
+	func: 0.00785929 %		call: 225
+82(cvsubr)
+	func: 0.00656687 %		call: 188
+83(cvfile)
+	func: 0.000139721 %		call: 4
+84(cvfixnum)
+	func: 0.0403444 %		call: 1155
+85(cvflonum)
+	func: 0 %		call: 0
+86(newstring)
+	func: 0 %		call: 0
+87(newobject)
+	func: 6.98604e-05 %		call: 2
+88(newvector)
+	func: 0.000139721 %		call: 4
+89(newnode)
+	func: 4.81719 %		call: 137909
+90(stralloc)
+	func: 0 %		call: 0
+91(strsave)
+	func: 0.00551897 %		call: 158
+92(findmem)
+	func: 0.00324851 %		call: 93
+93(gc)
+	func: 0.00324851 %		call: 93
+94(mark)
+	func: 2.63573 %		call: 75457
+95(vmark)
+	func: 0 %		call: 0
+96(sweep)
+	func: 0.00321358 %		call: 92
+97(addseg)
+	func: 0.000279441 %		call: 8
+98(livecar)
+	func: 17.655 %		call: 505437
+99(livecdr)
+	func: 17.6547 %		call: 505428
+100(stats)
+	func: 0 %		call: 0
+101(xlminit)
+	func: 3.49302e-05 %		call: 1
+102(xleval)
+	func: 2.05449 %		call: 58817
+103(xlxeval)
+	func: 0 %		call: 0
+104(xlapply)
+	func: 0.0580889 %		call: 1663
+105(evform)
+	func: 2.56967 %		call: 73566
+106(evalhook)
+	func: 0 %		call: 0
+107(xlevlist)
+	func: 1.94292 %		call: 55623
+108(xlunbound)
+	func: 0 %		call: 0
+109(evfun)
+	func: 0.456957 %		call: 13082
+110(xlabind)
+	func: 0.456957 %		call: 13082
+111(iskeyword)
+	func: 0.691373 %		call: 19793
+112(xlsave)
+	func: 7.75586 %		call: 222039
+113(xread)
+	func: 0 %		call: 0
+114(xprint)
+	func: 3.49302e-05 %		call: 1
+115(xprin1)
+	func: 0 %		call: 0
+116(xprinc)
+	func: 0 %		call: 0
+117(xterpri)
+	func: 0 %		call: 0
+118(printit)
+	func: 3.49302e-05 %		call: 1
+119(xflatsize)
+	func: 0 %		call: 0
+120(xflatc)
+	func: 0 %		call: 0
+121(flatsize)
+	func: 0 %		call: 0
+122(xopeni)
+	func: 0 %		call: 0
+123(xopeno)
+	func: 0 %		call: 0
+124(openit)
+	func: 0 %		call: 0
+125(xclose)
+	func: 0 %		call: 0
+126(xrdchar)
+	func: 0 %		call: 0
+127(xpkchar)
+	func: 0 %		call: 0
+128(xwrchar)
+	func: 0 %		call: 0
+129(xreadline)
+	func: 0 %		call: 0
+130(xlinit)
+	func: 3.49302e-05 %		call: 1
+131(xlgetc)
+	func: 1.06872 %		call: 30596
+132(xlpeek)
+	func: 0.553993 %		call: 15860
+133(xlputc)
+	func: 0.0104092 %		call: 298
+134(xlflush)
+	func: 0 %		call: 0
+135(main)
+	func: 3.49302e-05 %		call: 1
+136(stdprint)
+	func: 0 %		call: 0
+137(stdputstr)
+	func: 3.49302e-05 %		call: 1
+138(xlbegin)
+	func: 0.000139721 %		call: 4
+139(xlend)
+	func: 3.49302e-05 %		call: 1
+140(xljump)
+	func: 0 %		call: 0
+141(xltoplevel)
+	func: 0 %		call: 0
+142(xlcleanup)
+	func: 0 %		call: 0
+143(xlcontinue)
+	func: 0 %		call: 0
+144(xlgo)
+	func: 0 %		call: 0
+145(xlreturn)
+	func: 0 %		call: 0
+146(xlthrow)
+	func: 0 %		call: 0
+147(xlsignal)
+	func: 0 %		call: 0
+148(findtarget)
+	func: 0 %		call: 0
+149(xcar)
+	func: 0.437431 %		call: 12523
+150(xcdr)
+	func: 0.251427 %		call: 7198
+151(xcaar)
+	func: 0 %		call: 0
+152(xcadr)
+	func: 0.048518 %		call: 1389
+153(xcdar)
+	func: 0 %		call: 0
+154(xcddr)
+	func: 0 %		call: 0
+155(xcaaar)
+	func: 0 %		call: 0
+156(xcaadr)
+	func: 0 %		call: 0
+157(xcadar)
+	func: 0 %		call: 0
+158(xcaddr)
+	func: 0.00118763 %		call: 34
+159(xcdaar)
+	func: 0 %		call: 0
+160(xcdadr)
+	func: 0 %		call: 0
+161(xcddar)
+	func: 0 %		call: 0
+162(xcdddr)
+	func: 0 %		call: 0
+163(xcaaaar)
+	func: 0 %		call: 0
+164(xcaaadr)
+	func: 0 %		call: 0
+165(xcaadar)
+	func: 0 %		call: 0
+166(xcaaddr)
+	func: 0 %		call: 0
+167(xcadaar)
+	func: 0 %		call: 0
+168(xcadadr)
+	func: 0 %		call: 0
+169(xcaddar)
+	func: 0 %		call: 0
+170(xcadddr)
+	func: 0 %		call: 0
+171(xcdaaar)
+	func: 0 %		call: 0
+172(xcdaadr)
+	func: 0 %		call: 0
+173(xcdadar)
+	func: 0 %		call: 0
+174(xcdaddr)
+	func: 0 %		call: 0
+175(xcddaar)
+	func: 0 %		call: 0
+176(xcddadr)
+	func: 0 %		call: 0
+177(xcdddar)
+	func: 0 %		call: 0
+178(xcddddr)
+	func: 0 %		call: 0
+179(cxr)
+	func: 0.738564 %		call: 21144
+180(xcons)
+	func: 0.130185 %		call: 3727
+181(xlist)
+	func: 0 %		call: 0
+182(xappend)
+	func: 0 %		call: 0
+183(xreverse)
+	func: 0 %		call: 0
+184(xlast)
+	func: 0 %		call: 0
+185(xmember)
+	func: 0 %		call: 0
+186(xassoc)
+	func: 0.024032 %		call: 688
+187(xsubst)
+	func: 0 %		call: 0
+188(subst)
+	func: 0 %		call: 0
+189(xsublis)
+	func: 0 %		call: 0
+190(sublis)
+	func: 0 %		call: 0
+191(assoc)
+	func: 0 %		call: 0
+192(xremove)
+	func: 0 %		call: 0
+193(dotest)
+	func: 0.0185829 %		call: 532
+194(xnth)
+	func: 0 %		call: 0
+195(xnthcdr)
+	func: 0 %		call: 0
+196(nth)
+	func: 0 %		call: 0
+197(xlength)
+	func: 0 %		call: 0
+198(xmapc)
+	func: 0 %		call: 0
+199(xmapcar)
+	func: 0 %		call: 0
+200(xmapl)
+	func: 0 %		call: 0
+201(xmaplist)
+	func: 0 %		call: 0
+202(map)
+	func: 0 %		call: 0
+203(xrplca)
+	func: 0 %		call: 0
+204(xrplcd)
+	func: 0 %		call: 0
+205(xnconc)
+	func: 0 %		call: 0
+206(xdelete)
+	func: 0 %		call: 0
+207(xatom)
+	func: 0.22991 %		call: 6582
+208(xsymbolp)
+	func: 0 %		call: 0
+209(xnumberp)
+	func: 0 %		call: 0
+210(xboundp)
+	func: 0 %		call: 0
+211(xnull)
+	func: 0.263863 %		call: 7554
+212(xlistp)
+	func: 0 %		call: 0
+213(xconsp)
+	func: 0 %		call: 0
+214(xeq)
+	func: 0.0798853 %		call: 2287
+215(xeql)
+	func: 0 %		call: 0
+216(xequal)
+	func: 0 %		call: 0
+217(cequal)
+	func: 0.0798853 %		call: 2287
+218(xadd)
+	func: 0 %		call: 0
+219(xsub)
+	func: 0 %		call: 0
+220(xmul)
+	func: 0 %		call: 0
+221(xdiv)
+	func: 0 %		call: 0
+222(xrem)
+	func: 0 %		call: 0
+223(xmin)
+	func: 0 %		call: 0
+224(xmax)
+	func: 0 %		call: 0
+225(xexpt)
+	func: 0 %		call: 0
+226(xbitand)
+	func: 0 %		call: 0
+227(xbitior)
+	func: 0 %		call: 0
+228(xbitxor)
+	func: 0 %		call: 0
+229(binary)
+	func: 0 %		call: 0
+230(checkizero)
+	func: 0 %		call: 0
+231(checkfzero)
+	func: 0 %		call: 0
+232(checkfneg)
+	func: 0 %		call: 0
+233(xbitnot)
+	func: 0 %		call: 0
+234(xabs)
+	func: 0 %		call: 0
+235(xadd1)
+	func: 0 %		call: 0
+236(xsub1)
+	func: 0 %		call: 0
+237(xsin)
+	func: 0 %		call: 0
+238(xcos)
+	func: 0 %		call: 0
+239(xtan)
+	func: 0 %		call: 0
+240(xexp)
+	func: 0 %		call: 0
+241(xsqrt)
+	func: 0 %		call: 0
+242(xfix)
+	func: 0 %		call: 0
+243(xfloat)
+	func: 0 %		call: 0
+244(xrand)
+	func: 0 %		call: 0
+245(unary)
+	func: 0 %		call: 0
+246(xminusp)
+	func: 0 %		call: 0
+247(xzerop)
+	func: 0 %		call: 0
+248(xplusp)
+	func: 0 %		call: 0
+249(xevenp)
+	func: 0 %		call: 0
+250(xoddp)
+	func: 0 %		call: 0
+251(predicate)
+	func: 0 %		call: 0
+252(xlss)
+	func: 0 %		call: 0
+253(xleq)
+	func: 0 %		call: 0
+254(xequ)
+	func: 0 %		call: 0
+255(xneq)
+	func: 0 %		call: 0
+256(xgeq)
+	func: 0 %		call: 0
+257(xgtr)
+	func: 0 %		call: 0
+258(compare)
+	func: 0 %		call: 0
+259(badiop)
+	func: 0 %		call: 0
+260(badfop)
+	func: 0 %		call: 0
+261(xlclass)
+	func: 0 %		call: 0
+262(xladdivar)
+	func: 0 %		call: 0
+263(xladdmsg)
+	func: 0 %		call: 0
+264(xlsend)
+	func: 0 %		call: 0
+265(xlobgetvalue)
+	func: 4.38346 %		call: 125492
+266(xlobsetvalue)
+	func: 0.0815969 %		call: 2336
+267(obshow)
+	func: 0 %		call: 0
+268(entermsg)
+	func: 0.000244511 %		call: 7
+269(findmsg)
+	func: 0 %		call: 0
+270(sendmsg)
+	func: 0 %		call: 0
+271(getivcnt)
+	func: 0 %		call: 0
+272(listlength)
+	func: 0 %		call: 0
+273(xloinit)
+	func: 3.49302e-05 %		call: 1
+274(obisnew)
+	func: 0 %		call: 0
+275(obclass)
+	func: 0 %		call: 0
+276(obsendsuper)
+	func: 0 %		call: 0
+277(clnew)
+	func: 0 %		call: 0
+278(clisnew)
+	func: 0 %		call: 0
+279(clanswer)
+	func: 0 %		call: 0
+280(xlprint)
+	func: 0.00293413 %		call: 84
+281(xlterpri)
+	func: 3.49302e-05 %		call: 1
+282(xlputstr)
+	func: 0.00181637 %		call: 52
+283(putstring)
+	func: 0 %		call: 0
+284(putatm)
+	func: 0 %		call: 0
+285(putdec)
+	func: 0 %		call: 0
+286(putfloat)
+	func: 0 %		call: 0
+287(putoct)
+	func: 0 %		call: 0
+288(xlload)
+	func: 6.98604e-05 %		call: 2
+289(xlread)
+	func: 0.00157186 %		call: 45
+290(readone)
+	func: 0.00670659 %		call: 192
+291(rmhash)
+	func: 0 %		call: 0
+292(rmquote)
+	func: 6.98604e-05 %		call: 2
+293(rmdquote)
+	func: 3.49302e-05 %		call: 1
+294(rmbquote)
+	func: 0.000419162 %		call: 12
+295(rmcomma)
+	func: 0.000698604 %		call: 20
+296(rmlpar)
+	func: 0.0375499 %		call: 1075
+297(rmrpar)
+	func: 0 %		call: 0
+298(rmsemi)
+	func: 0.000733534 %		call: 21
+299(phexnumber)
+	func: 0 %		call: 0
+300(plist)
+	func: 0.0375499 %		call: 1075
+301(pvector)
+	func: 0 %		call: 0
+302(pquote)
+	func: 0.00118763 %		call: 34
+303(pname)
+	func: 0.0654592 %		call: 1874
+304(tentry)
+	func: 0.353354 %		call: 10116
+305(nextch)
+	func: 0.139022 %		call: 3980
+306(checkeof)
+	func: 0.00122256 %		call: 35
+307(badeof)
+	func: 0 %		call: 0
+308(isnumber)
+	func: 0.0654592 %		call: 1874
+309(defmacro)
+	func: 0 %		call: 0
+310(callmacro)
+	func: 0.039506 %		call: 1131
+311(needsextension)
+	func: 6.98604e-05 %		call: 2
+312(xlrinit)
+	func: 3.49302e-05 %		call: 1
+313(xstrcat)
+	func: 0 %		call: 0
+314(xsubstr)
+	func: 0 %		call: 0
+315(xstring)
+	func: 0 %		call: 0
+316(xchar)
+	func: 0 %		call: 0
+317(xlsubr)
+	func: 0.00604292 %		call: 173
+318(xlarg)
+	func: 1.00987 %		call: 28911
+319(xlmatch)
+	func: 1.85615 %		call: 53139
+320(xlevarg)
+	func: 2.02148 %		call: 57872
+321(xlevmatch)
+	func: 0.0074052 %		call: 212
+322(xltest)
+	func: 0.024032 %		call: 688
+323(xlgetfile)
+	func: 0.039506 %		call: 1131
+324(xllastarg)
+	func: 1.61419 %		call: 46212
+325(eq)
+	func: 0.0798853 %		call: 2287
+326(eql)
+	func: 0 %		call: 0
+327(equal)
+	func: 0 %		call: 0
+328(xlenter)
+	func: 0.0647606 %		call: 1854
+329(xlsenter)
+	func: 0.00834831 %		call: 239
+330(xlmakesym)
+	func: 0.0133084 %		call: 381
+331(xlframe)
+	func: 0.456992 %		call: 13083
+332(xlbind)
+	func: 0.691443 %		call: 19795
+333(xlgetvalue)
+	func: 4.38346 %		call: 125492
+334(xlxgetvalue)
+	func: 4.38346 %		call: 125492
+335(xlygetvalue)
+	func: 8.93011 %		call: 255656
+336(xlsetvalue)
+	func: 0.0815969 %		call: 2336
+337(xlgetprop)
+	func: 0.0363274 %		call: 1040
+338(xlputprop)
+	func: 0.0037026 %		call: 106
+339(xlremprop)
+	func: 0 %		call: 0
+340(findprop)
+	func: 0.04003 %		call: 1146
+341(hash)
+	func: 0.0723404 %		call: 2071
+342(xlsinit)
+	func: 3.49302e-05 %		call: 1
+343(xload)
+	func: 0 %		call: 0
+344(xgc)
+	func: 0 %		call: 0
+345(xexpand)
+	func: 0 %		call: 0
+346(xalloc)
+	func: 0 %		call: 0
+347(xmem)
+	func: 0 %		call: 0
+348(xtype)
+	func: 0 %		call: 0
+349(xbaktrace)
+	func: 0 %		call: 0
+350(xexit)
+	func: 0 %		call: 0
+351(osinit)
+	func: 3.49302e-05 %		call: 1
+352(osrand)
+	func: 0 %		call: 0
+353(osgetc)
+	func: 0.514731 %		call: 14736
+354(osputc)
+	func: 0.0104092 %		call: 298
+355(oscheck)
+	func: 0.071048 %		call: 2034
+356(osfinit)
+	func: 3.49302e-05 %		call: 1
+357(osfinish)
+	func: 0 %		call: 0
+358(__do_global_dtors)
+	func: 0 %		call: 0
+359(__do_global_ctors)
+	func: 3.49302e-05 %		call: 1
+360(__main)
+	func: 3.49302e-05 %		call: 1
+361(__libc_init)
+	func: 3.49302e-05 %		call: 1
+362(exit)
+	func: 0 %		call: 0
+363(_cleanup)
+	func: 0 %		call: 0
+364(strcpy)
+	func: 0.00551897 %		call: 158
+365(sprintf)
+	func: 3.49302e-05 %		call: 1
+366(__setjmp)
+	func: 0.000174651 %		call: 5
+367(initialize)
+	func: 3.49302e-05 %		call: 1
+368(morecore)
+	func: 0.000628743 %		call: 18
+369(malloc)
+	func: 0.00635729 %		call: 182
+370(printf)
+	func: 3.49302e-05 %		call: 1
+371(calloc)
+	func: 0.000419162 %		call: 12
+372(strlen)
+	func: 0.00628743 %		call: 180
+373(fclose)
+	func: 3.49302e-05 %		call: 1
+374(_free_internal)
+	func: 0 %		call: 0
+375(free)
+	func: 0 %		call: 0
+376(__getmode)
+	func: 6.98604e-05 %		call: 2
+377(fopen)
+	func: 6.98604e-05 %		call: 2
+378(strcat)
+	func: 0 %		call: 0
+379(__longjmp)
+	func: 0 %		call: 0
+380(pow)
+	func: 0 %		call: 0
+381(pow_P)
+	func: 0 %		call: 0
+382(sin)
+	func: 0 %		call: 0
+383(cos)
+	func: 0 %		call: 0
+384(tan)
+	func: 0 %		call: 0
+385(exp)
+	func: 0 %		call: 0
+386(__exp__D)
+	func: 0 %		call: 0
+387(sqrt)
+	func: 0 %		call: 0
+388(strcmp)
+	func: 0.172276 %		call: 4932
+389(strtod)
+	func: 0 %		call: 0
+390(strtol)
+	func: 0.000698604 %		call: 20
+391(rand)
+	func: 0 %		call: 0
+392(__stdio_check_funcs)
+	func: 0 %		call: 0
+393(__stdio_check_offset)
+	func: 0.000174651 %		call: 5
+394(flushbuf)
+	func: 3.49302e-05 %		call: 1
+395(fillbuf)
+	func: 0.000139721 %		call: 4
+396(__flshfp)
+	func: 3.49302e-05 %		call: 1
+397(__fillbf)
+	func: 0.000139721 %		call: 4
+398(__invalidate)
+	func: 0.000104791 %		call: 3
+399(atexit)
+	func: 3.49302e-05 %		call: 1
+400(__new_exitfn)
+	func: 3.49302e-05 %		call: 1
+401(__init_misc)
+	func: 3.49302e-05 %		call: 1
+402(_exit)
+	func: 0 %		call: 0
+403(vsprintf)
+	func: 3.49302e-05 %		call: 1
+404(__setjmp_aux)
+	func: 0.000174651 %		call: 5
+405(__default_morecore)
+	func: 0.000698604 %		call: 20
+406(memset)
+	func: 0.000663673 %		call: 19
+407(memcpy)
+	func: 3.49302e-05 %		call: 1
+408(vfprintf)
+	func: 6.98604e-05 %		call: 2
+409(printf_unknown)
+	func: 0 %		call: 0
+410(__stdio_read)
+	func: 0.000139721 %		call: 4
+411(__stdio_write)
+	func: 0 %		call: 0
+412(__stdio_seek)
+	func: 6.98604e-05 %		call: 2
+413(__stdio_close)
+	func: 0 %		call: 0
+414(__stdio_fileno)
+	func: 0 %		call: 0
+415(__stdio_open)
+	func: 6.98604e-05 %		call: 2
+416(__stdio_reopen)
+	func: 0 %		call: 0
+417(__newstream)
+	func: 6.98604e-05 %		call: 2
+418(abort)
+	func: 0 %		call: 0
+419(__finite)
+	func: 0 %		call: 0
+420(__copysign)
+	func: 0 %		call: 0
+421(__drem)
+	func: 0 %		call: 0
+422(log)
+	func: 0 %		call: 0
+423(__log__D)
+	func: 0 %		call: 0
+424(ldexp)
+	func: 0 %		call: 0
+425(__isnan)
+	func: 0 %		call: 0
+426(__isinf)
+	func: 0 %		call: 0
+427(__logb)
+	func: 0 %		call: 0
+428(mbtowc)
+	func: 6.98604e-05 %		call: 2
+429(__srandom)
+	func: 0 %		call: 0
+430(__initstate)
+	func: 0 %		call: 0
+431(__setstate)
+	func: 0 %		call: 0
+432(__random)
+	func: 0 %		call: 0
+433(__stdio_init_stream)
+	func: 6.98604e-05 %		call: 2
+434(strrchr)
+	func: 3.49302e-05 %		call: 1
+435(syscall_error)
+	func: 3.49302e-05 %		call: 1
+436(__sbrk)
+	func: 0.000698604 %		call: 20
+437(_wordcopy_fwd_aligned)
+	func: 3.49302e-05 %		call: 1
+438(_wordcopy_fwd_dest_aligned)
+	func: 0 %		call: 0
+439(_wordcopy_bwd_aligned)
+	func: 0 %		call: 0
+440(_wordcopy_bwd_dest_aligned)
+	func: 0 %		call: 0
+441(register_printf_function)
+	func: 0 %		call: 0
+442(strchr)
+	func: 0.000454092 %		call: 13
+443(fwrite)
+	func: 3.49302e-05 %		call: 1
+444(_itoa)
+	func: 0 %		call: 0
+445(__printf_fp)
+	func: 0 %		call: 0
+446(fflush)
+	func: 0 %		call: 0
+447(__read)
+	func: 0.000139721 %		call: 4
+448(__write)
+	func: 0 %		call: 0
+449(__lseek)
+	func: 6.98604e-05 %		call: 2
+450(__close)
+	func: 0 %		call: 0
+451(__open)
+	func: 6.98604e-05 %		call: 2
+452(__dup2)
+	func: 0 %		call: 0
+453(strncmp)
+	func: 0 %		call: 0
+454(__fstat)
+	func: 6.98604e-05 %		call: 2
+455(__isatty)
+	func: 0 %		call: 0
+456(__brk)
+	func: 0.000698604 %		call: 20
+457(memchr)
+	func: 0 %		call: 0
+458(__mpn_extract_double)
+	func: 0 %		call: 0
+459(__mpn_lshift)
+	func: 0 %		call: 0
+460(__mpn_cmp)
+	func: 0 %		call: 0
+461(__mpn_divmod_1)
+	func: 0 %		call: 0
+462(__mpn_mul_1)
+	func: 0 %		call: 0
+463(__mpn_add_n)
+	func: 0 %		call: 0
+464(__mpn_divmod)
+	func: 0 %		call: 0
+465(__mpn_rshift)
+	func: 0 %		call: 0
+466(__mpn_sub_n)
+	func: 0 %		call: 0
+467(__ioctl)
+	func: 0 %		call: 0
+468(__mpn_submul_1)
+	func: 0 %		call: 0
+469(__umoddi3)
+	func: 0 %		call: 0
+470(__udivdi3)
+	func: 0 %		call: 0
+471(__udivmoddi4)
+	func: 0 %		call: 0

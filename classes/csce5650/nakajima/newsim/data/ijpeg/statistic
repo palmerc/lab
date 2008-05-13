@@ -1,0 +1,2114 @@
+total inst: 99460998
+total func: 134752
+
+====== func statistic ======
+0(__start)
+	inst: 0 %		func_inst: 0
+1(pm_allocrow)
+	inst: 0 %		func_inst: 0
+2(pm_freerow)
+	inst: 0 %		func_inst: 0
+3(pm_allocarray)
+	inst: 0 %		func_inst: 0
+4(pm_freearray)
+	inst: 0 %		func_inst: 0
+5(pm_keymatch)
+	inst: 0 %		func_inst: 0
+6(pm_maxvaltobits)
+	inst: 0 %		func_inst: 0
+7(pm_bitstomaxval)
+	inst: 0 %		func_inst: 0
+8(pm_init)
+	inst: 0 %		func_inst: 0
+9(pbm_init)
+	inst: 0 %		func_inst: 0
+10(pm_usage)
+	inst: 0 %		func_inst: 0
+11(pm_perror)
+	inst: 0 %		func_inst: 0
+12(pm_message)
+	inst: 0 %		func_inst: 0
+13(pm_error)
+	inst: 0 %		func_inst: 0
+14(pm_openr)
+	inst: 0 %		func_inst: 0
+15(pm_openw)
+	inst: 0 %		func_inst: 0
+16(pm_close)
+	inst: 0 %		func_inst: 0
+17(pm_readbigshort)
+	inst: 0 %		func_inst: 0
+18(pm_writebigshort)
+	inst: 0 %		func_inst: 0
+19(pm_readbiglong)
+	inst: 0 %		func_inst: 0
+20(pm_writebiglong)
+	inst: 0 %		func_inst: 0
+21(pm_readlittleshort)
+	inst: 0 %		func_inst: 0
+22(pm_writelittleshort)
+	inst: 0 %		func_inst: 0
+23(pm_readlittlelong)
+	inst: 0 %		func_inst: 0
+24(pm_writelittlelong)
+	inst: 0 %		func_inst: 0
+25(pbm_readmagicnumber)
+	inst: 0 %		func_inst: 0
+26(pbm_readpbminitrest)
+	inst: 0 %		func_inst: 0
+27(pbm_readpbminit)
+	inst: 0 %		func_inst: 0
+28(pbm_readpbmrow)
+	inst: 0 %		func_inst: 0
+29(pbm_readpbm)
+	inst: 0 %		func_inst: 0
+30(pbm_writepbminit)
+	inst: 0 %		func_inst: 0
+31(pbm_writepbmrow)
+	inst: 0 %		func_inst: 0
+32(pbm_writepbm)
+	inst: 0 %		func_inst: 0
+33(pbm_getc)
+	inst: 0 %		func_inst: 0
+34(pbm_getrawbyte)
+	inst: 0 %		func_inst: 0
+35(pbm_getint)
+	inst: 0 %		func_inst: 0
+36(pbm_defaultfont)
+	inst: 0 %		func_inst: 0
+37(pbm_dissectfont)
+	inst: 0 %		func_inst: 0
+38(pbm_dumpfont)
+	inst: 0 %		func_inst: 0
+39(pgm_init)
+	inst: 0 %		func_inst: 0
+40(pgm_readpgminitrest)
+	inst: 0 %		func_inst: 0
+41(pgm_readpgminit)
+	inst: 0 %		func_inst: 0
+42(pgm_readpgmrow)
+	inst: 0 %		func_inst: 0
+43(pgm_readpgm)
+	inst: 0 %		func_inst: 0
+44(pgm_writepgminit)
+	inst: 0 %		func_inst: 0
+45(putus)
+	inst: 0 %		func_inst: 0
+46(pgm_writepgmrowplain)
+	inst: 0 %		func_inst: 0
+47(pgm_writepgmrow)
+	inst: 0 %		func_inst: 0
+48(pgm_writepgm)
+	inst: 0 %		func_inst: 0
+49(ppm_init)
+	inst: 0 %		func_inst: 0
+50(ppm_readppminitrest)
+	inst: 0 %		func_inst: 0
+51(ppm_readppminit)
+	inst: 0 %		func_inst: 0
+52(ppm_readppmrow)
+	inst: 0 %		func_inst: 0
+53(ppm_readppm)
+	inst: 0 %		func_inst: 0
+54(ppm_writeppminit)
+	inst: 0 %		func_inst: 0
+55(putus)
+	inst: 0 %		func_inst: 0
+56(ppm_writeppmrowplain)
+	inst: 0 %		func_inst: 0
+57(ppm_writeppmrow)
+	inst: 0 %		func_inst: 0
+58(ppm_writeppm)
+	inst: 0 %		func_inst: 0
+59(ppm_computecolorhist)
+	inst: 0 %		func_inst: 0
+60(ppm_addtocolorhist)
+	inst: 0 %		func_inst: 0
+61(ppm_computecolorhash)
+	inst: 0 %		func_inst: 0
+62(ppm_alloccolorhash)
+	inst: 0 %		func_inst: 0
+63(ppm_addtocolorhash)
+	inst: 0 %		func_inst: 0
+64(ppm_colorhashtocolorhist)
+	inst: 0 %		func_inst: 0
+65(ppm_colorhisttocolorhash)
+	inst: 0 %		func_inst: 0
+66(ppm_lookupcolor)
+	inst: 0 %		func_inst: 0
+67(ppm_freecolorhist)
+	inst: 0 %		func_inst: 0
+68(ppm_freecolorhash)
+	inst: 0 %		func_inst: 0
+69(ppm_parsecolor)
+	inst: 0 %		func_inst: 0
+70(ppm_colorname)
+	inst: 0 %		func_inst: 0
+71(ppmd_point_drawproc)
+	inst: 0 %		func_inst: 0
+72(ppmd_filledrectangle)
+	inst: 0 %		func_inst: 0
+73(ppmd_setlinetype)
+	inst: 0 %		func_inst: 0
+74(ppmd_setlineclip)
+	inst: 0 %		func_inst: 0
+75(ppmd_line)
+	inst: 0 %		func_inst: 0
+76(ppmd_spline3)
+	inst: 0 %		func_inst: 0
+77(ppmd_polyspline)
+	inst: 0 %		func_inst: 0
+78(ppmd_circle)
+	inst: 0 %		func_inst: 0
+79(ppmd_fill_init)
+	inst: 0 %		func_inst: 0
+80(ppmd_fill_drawproc)
+	inst: 0 %		func_inst: 0
+81(ppmd_fill)
+	inst: 0 %		func_inst: 0
+82(yx_compare)
+	inst: 0 %		func_inst: 0
+83(spec_view_image)
+	inst: 0 %		func_inst: 0
+84(spec_read_original_image)
+	inst: 0 %		func_inst: 0
+85(spec_allocate_similar_image)
+	inst: 0 %		func_inst: 0
+86(spec_free_image)
+	inst: 0 %		func_inst: 0
+87(spec_define_subimage_fp)
+	inst: 0 %		func_inst: 0
+88(spec_define_subimage_int)
+	inst: 0 %		func_inst: 0
+89(spec_free_subimage)
+	inst: 0 %		func_inst: 0
+90(spec_write_image)
+	inst: 0 %		func_inst: 0
+91(spec_difference_images)
+	inst: 0 %		func_inst: 0
+92(spec_checksum_image)
+	inst: 0 %		func_inst: 0
+93(spec_jpeg_mem_dest)
+	inst: 0 %		func_inst: 0
+94(jmd_init_destination)
+	inst: 0 %		func_inst: 0
+95(jmd_empty_output_buffer)
+	inst: 0 %		func_inst: 0
+96(jmd_term_destination)
+	inst: 0 %		func_inst: 0
+97(spec_jpeg_mem_src)
+	inst: 0 %		func_inst: 0
+98(jms_init_source)
+	inst: 0 %		func_inst: 0
+99(jms_fill_input_buffer)
+	inst: 0 %		func_inst: 0
+100(jms_skip_input_data)
+	inst: 0 %		func_inst: 0
+101(jms_term_source)
+	inst: 0 %		func_inst: 0
+102(go_execute_compression)
+	inst: 0 %		func_inst: 0
+103(go_execute_decompression)
+	inst: 0 %		func_inst: 0
+104(Usage)
+	inst: 0 %		func_inst: 0
+105(parse_args)
+	inst: 0 %		func_inst: 0
+106(main)
+	inst: 0 %		func_inst: 0
+107(read_pbm_integer)
+	inst: 0 %		func_inst: 0
+108(start_input_ppm)
+	inst: 0 %		func_inst: 0
+109(jinit_read_ppm)
+	inst: 0 %		func_inst: 0
+110(get_text_gray_row)
+	inst: 0 %		func_inst: 0
+111(get_text_rgb_row)
+	inst: 0 %		func_inst: 0
+112(get_scaled_gray_row)
+	inst: 0 %		func_inst: 0
+113(get_scaled_rgb_row)
+	inst: 0 %		func_inst: 0
+114(get_raw_row)
+	inst: 0 %		func_inst: 0
+115(finish_input_ppm)
+	inst: 0 %		func_inst: 0
+116(jinit_write_ppm)
+	inst: 0 %		func_inst: 0
+117(put_pixel_rows)
+	inst: 0 %		func_inst: 0
+118(copy_pixel_rows)
+	inst: 0 %		func_inst: 0
+119(put_demapped_rgb)
+	inst: 0 %		func_inst: 0
+120(put_demapped_gray)
+	inst: 0 %		func_inst: 0
+121(start_output_ppm)
+	inst: 0 %		func_inst: 0
+122(finish_output_ppm)
+	inst: 0 %		func_inst: 0
+123(GetCode)
+	inst: 0 %		func_inst: 0
+124(LZWReadByte)
+	inst: 0 %		func_inst: 0
+125(ReadColorMap)
+	inst: 0 %		func_inst: 0
+126(DoExtension)
+	inst: 0 %		func_inst: 0
+127(start_input_gif)
+	inst: 0 %		func_inst: 0
+128(get_pixel_rows)
+	inst: 0 %		func_inst: 0
+129(load_interlaced_image)
+	inst: 0 %		func_inst: 0
+130(get_interlaced_row)
+	inst: 0 %		func_inst: 0
+131(jinit_read_gif)
+	inst: 0 %		func_inst: 0
+132(finish_input_gif)
+	inst: 0 %		func_inst: 0
+133(output)
+	inst: 0 %		func_inst: 0
+134(compress_byte)
+	inst: 0 %		func_inst: 0
+135(compress_term)
+	inst: 0 %		func_inst: 0
+136(emit_header)
+	inst: 0 %		func_inst: 0
+137(jinit_write_gif)
+	inst: 0 %		func_inst: 0
+138(start_output_gif)
+	inst: 0 %		func_inst: 0
+139(put_pixel_rows)
+	inst: 0 %		func_inst: 0
+140(finish_output_gif)
+	inst: 0 %		func_inst: 0
+141(read_colormap)
+	inst: 0 %		func_inst: 0
+142(read_rle_pixel)
+	inst: 0 %		func_inst: 0
+143(start_input_tga)
+	inst: 0 %		func_inst: 0
+144(jinit_read_targa)
+	inst: 0 %		func_inst: 0
+145(read_non_rle_pixel)
+	inst: 0 %		func_inst: 0
+146(get_8bit_gray_row)
+	inst: 0 %		func_inst: 0
+147(get_8bit_row)
+	inst: 0 %		func_inst: 0
+148(get_16bit_row)
+	inst: 0 %		func_inst: 0
+149(get_24bit_row)
+	inst: 0 %		func_inst: 0
+150(preload_image)
+	inst: 0 %		func_inst: 0
+151(finish_input_tga)
+	inst: 0 %		func_inst: 0
+152(get_memory_row)
+	inst: 0 %		func_inst: 0
+153(start_output_tga)
+	inst: 0 %		func_inst: 0
+154(jinit_write_targa)
+	inst: 0 %		func_inst: 0
+155(put_pixel_rows)
+	inst: 0 %		func_inst: 0
+156(put_gray_rows)
+	inst: 0 %		func_inst: 0
+157(put_demapped_gray)
+	inst: 0 %		func_inst: 0
+158(finish_output_tga)
+	inst: 0 %		func_inst: 0
+159(read_colormap)
+	inst: 0 %		func_inst: 0
+160(preload_image)
+	inst: 0 %		func_inst: 0
+161(start_input_bmp)
+	inst: 0 %		func_inst: 0
+162(jinit_read_bmp)
+	inst: 0 %		func_inst: 0
+163(get_8bit_row)
+	inst: 0 %		func_inst: 0
+164(get_24bit_row)
+	inst: 0 %		func_inst: 0
+165(finish_input_bmp)
+	inst: 0 %		func_inst: 0
+166(write_bmp_header)
+	inst: 0 %		func_inst: 0
+167(write_os2_header)
+	inst: 0 %		func_inst: 0
+168(write_colormap)
+	inst: 0 %		func_inst: 0
+169(jinit_write_bmp)
+	inst: 0 %		func_inst: 0
+170(put_pixel_rows)
+	inst: 0 %		func_inst: 0
+171(put_gray_rows)
+	inst: 0 %		func_inst: 0
+172(start_output_bmp)
+	inst: 0 %		func_inst: 0
+173(finish_output_bmp)
+	inst: 0 %		func_inst: 0
+174(jpeg_create_compress)
+	inst: 0 %		func_inst: 0
+175(jpeg_destroy_compress)
+	inst: 0 %		func_inst: 0
+176(jpeg_suppress_tables)
+	inst: 0 %		func_inst: 0
+177(jpeg_start_compress)
+	inst: 0 %		func_inst: 0
+178(jpeg_write_scanlines)
+	inst: 0 %		func_inst: 0
+179(jpeg_write_raw_data)
+	inst: 0 %		func_inst: 0
+180(jpeg_finish_compress)
+	inst: 0 %		func_inst: 0
+181(jpeg_write_marker)
+	inst: 0 %		func_inst: 0
+182(jpeg_write_tables)
+	inst: 0 %		func_inst: 0
+183(jpeg_abort_compress)
+	inst: 0 %		func_inst: 0
+184(jpeg_add_quant_table)
+	inst: 0 %		func_inst: 0
+185(jpeg_set_linear_quality)
+	inst: 0 %		func_inst: 0
+186(jpeg_quality_scaling)
+	inst: 0 %		func_inst: 0
+187(jpeg_set_quality)
+	inst: 0 %		func_inst: 0
+188(std_huff_tables)
+	inst: 0 %		func_inst: 0
+189(jpeg_set_defaults)
+	inst: 0 %		func_inst: 0
+190(jpeg_default_colorspace)
+	inst: 0 %		func_inst: 0
+191(jpeg_set_colorspace)
+	inst: 0 %		func_inst: 0
+192(jpeg_stdio_dest)
+	inst: 0 %		func_inst: 0
+193(init_destination)
+	inst: 0 %		func_inst: 0
+194(empty_output_buffer)
+	inst: 0 %		func_inst: 0
+195(term_destination)
+	inst: 0 %		func_inst: 0
+196(initial_setup)
+	inst: 0 %		func_inst: 0
+197(per_scan_setup)
+	inst: 0 %		func_inst: 0
+198(prepare_for_pass)
+	inst: 0 %		func_inst: 0
+199(jinit_master_compress)
+	inst: 0 %		func_inst: 0
+200(pass_startup)
+	inst: 0 %		func_inst: 0
+201(finish_pass_master)
+	inst: 0 %		func_inst: 0
+202(emit_dqt)
+	inst: 0 %		func_inst: 0
+203(emit_dht)
+	inst: 0 %		func_inst: 0
+204(emit_dri)
+	inst: 0 %		func_inst: 0
+205(emit_sof)
+	inst: 0 %		func_inst: 0
+206(emit_sos)
+	inst: 0 %		func_inst: 0
+207(emit_jfif_app0)
+	inst: 0 %		func_inst: 0
+208(emit_adobe_app14)
+	inst: 0 %		func_inst: 0
+209(write_any_marker)
+	inst: 0 %		func_inst: 0
+210(write_tables_only)
+	inst: 0 %		func_inst: 0
+211(jinit_marker_writer)
+	inst: 0 %		func_inst: 0
+212(write_file_header)
+	inst: 0 %		func_inst: 0
+213(write_frame_header)
+	inst: 0 %		func_inst: 0
+214(write_scan_header)
+	inst: 0 %		func_inst: 0
+215(write_file_trailer)
+	inst: 0 %		func_inst: 0
+216(process_data_simple_main)
+	inst: 0.000962186 %		func_inst: 957
+217(jinit_c_main_controller)
+	inst: 0 %		func_inst: 0
+218(start_pass_main)
+	inst: 0 %		func_inst: 0
+219(pre_process_data)
+	inst: 0 %		func_inst: 0
+220(pre_process_context)
+	inst: 0.0193704 %		func_inst: 19266
+221(create_context_buffer)
+	inst: 0 %		func_inst: 0
+222(jinit_c_prep_controller)
+	inst: 0 %		func_inst: 0
+223(start_pass_prep)
+	inst: 0 %		func_inst: 0
+224(compress_data)
+	inst: 0.398578 %		func_inst: 396430
+225(compress_first_pass)
+	inst: 0 %		func_inst: 0
+226(compress_output)
+	inst: 0 %		func_inst: 0
+227(jinit_c_coef_controller)
+	inst: 0 %		func_inst: 0
+228(start_pass_coef)
+	inst: 0 %		func_inst: 0
+229(rgb_ycc_start)
+	inst: 0 %		func_inst: 0
+230(rgb_ycc_convert)
+	inst: 17.9821 %		func_inst: 17885219
+231(cmyk_ycck_convert)
+	inst: 0 %		func_inst: 0
+232(jinit_color_converter)
+	inst: 0 %		func_inst: 0
+233(rgb_gray_convert)
+	inst: 0 %		func_inst: 0
+234(grayscale_convert)
+	inst: 0 %		func_inst: 0
+235(null_convert)
+	inst: 0 %		func_inst: 0
+236(null_method)
+	inst: 0 %		func_inst: 0
+237(int_downsample)
+	inst: 0 %		func_inst: 0
+238(h2v2_smooth_downsample)
+	inst: 12.1109 %		func_inst: 12045630
+239(fullsize_smooth_downsample)
+	inst: 12.1302 %		func_inst: 12064864
+240(jinit_downsampler)
+	inst: 0 %		func_inst: 0
+241(start_pass_downsample)
+	inst: 0 %		func_inst: 0
+242(sep_downsample)
+	inst: 0.0203537 %		func_inst: 20244
+243(fullsize_downsample)
+	inst: 0 %		func_inst: 0
+244(h2v1_downsample)
+	inst: 0 %		func_inst: 0
+245(h2v2_downsample)
+	inst: 0 %		func_inst: 0
+246(start_pass_huff)
+	inst: 0 %		func_inst: 0
+247(fix_huff_tbl)
+	inst: 0 %		func_inst: 0
+248(emit_bits)
+	inst: 3.99871 %		func_inst: 3977160
+249(encode_one_block)
+	inst: 7.01871 %		func_inst: 6980876
+250(emit_restart)
+	inst: 0 %		func_inst: 0
+251(encode_mcu_huff)
+	inst: 0.427327 %		func_inst: 425024
+252(finish_pass_huff)
+	inst: 0 %		func_inst: 0
+253(htest_one_block)
+	inst: 0 %		func_inst: 0
+254(encode_mcu_gather)
+	inst: 0 %		func_inst: 0
+255(gen_huff_coding)
+	inst: 0 %		func_inst: 0
+256(finish_pass_gather)
+	inst: 0 %		func_inst: 0
+257(jinit_huff_encoder)
+	inst: 0 %		func_inst: 0
+258(start_pass_fdctmgr)
+	inst: 0 %		func_inst: 0
+259(forward_DCT)
+	inst: 18.1593 %		func_inst: 18061456
+260(forward_DCT_float)
+	inst: 0 %		func_inst: 0
+261(jinit_forward_dct)
+	inst: 0 %		func_inst: 0
+262(jpeg_fdct_ifast)
+	inst: 0 %		func_inst: 0
+263(jpeg_fdct_float)
+	inst: 0 %		func_inst: 0
+264(jpeg_fdct_islow)
+	inst: 27.7334 %		func_inst: 27583872
+265(jpeg_create_decompress)
+	inst: 0 %		func_inst: 0
+266(jpeg_destroy_decompress)
+	inst: 0 %		func_inst: 0
+267(jpeg_set_marker_processor)
+	inst: 0 %		func_inst: 0
+268(default_decompress_parms)
+	inst: 0 %		func_inst: 0
+269(jpeg_read_header)
+	inst: 0 %		func_inst: 0
+270(jpeg_start_decompress)
+	inst: 0 %		func_inst: 0
+271(jpeg_read_scanlines)
+	inst: 0 %		func_inst: 0
+272(jpeg_read_raw_data)
+	inst: 0 %		func_inst: 0
+273(jpeg_finish_decompress)
+	inst: 0 %		func_inst: 0
+274(jpeg_abort_decompress)
+	inst: 0 %		func_inst: 0
+275(jpeg_stdio_src)
+	inst: 0 %		func_inst: 0
+276(init_source)
+	inst: 0 %		func_inst: 0
+277(fill_input_buffer)
+	inst: 0 %		func_inst: 0
+278(skip_input_data)
+	inst: 0 %		func_inst: 0
+279(term_source)
+	inst: 0 %		func_inst: 0
+280(jpeg_calc_output_dimensions)
+	inst: 0 %		func_inst: 0
+281(per_scan_setup)
+	inst: 0 %		func_inst: 0
+282(master_selection)
+	inst: 0 %		func_inst: 0
+283(prepare_for_pass)
+	inst: 0 %		func_inst: 0
+284(jinit_master_decompress)
+	inst: 0 %		func_inst: 0
+285(finish_pass_master)
+	inst: 0 %		func_inst: 0
+286(get_sof)
+	inst: 0 %		func_inst: 0
+287(get_sos)
+	inst: 0 %		func_inst: 0
+288(get_app0)
+	inst: 0 %		func_inst: 0
+289(get_app14)
+	inst: 0 %		func_inst: 0
+290(get_dac)
+	inst: 0 %		func_inst: 0
+291(get_dht)
+	inst: 0 %		func_inst: 0
+292(get_dqt)
+	inst: 0 %		func_inst: 0
+293(get_dri)
+	inst: 0 %		func_inst: 0
+294(next_marker)
+	inst: 0 %		func_inst: 0
+295(read_markers)
+	inst: 0 %		func_inst: 0
+296(jpeg_resync_to_restart)
+	inst: 0 %		func_inst: 0
+297(jinit_marker_reader)
+	inst: 0 %		func_inst: 0
+298(skip_variable)
+	inst: 0 %		func_inst: 0
+299(read_restart_marker)
+	inst: 0 %		func_inst: 0
+300(reset_marker_reader)
+	inst: 0 %		func_inst: 0
+301(make_funny_pointers)
+	inst: 0 %		func_inst: 0
+302(set_wraparound_pointers)
+	inst: 0 %		func_inst: 0
+303(process_data_simple_main)
+	inst: 0 %		func_inst: 0
+304(process_data_context_main)
+	inst: 0 %		func_inst: 0
+305(process_data_input_only)
+	inst: 0 %		func_inst: 0
+306(process_data_crank_post)
+	inst: 0 %		func_inst: 0
+307(jinit_d_main_controller)
+	inst: 0 %		func_inst: 0
+308(start_pass_main)
+	inst: 0 %		func_inst: 0
+309(decompress_data)
+	inst: 0 %		func_inst: 0
+310(decompress_read)
+	inst: 0 %		func_inst: 0
+311(decompress_output)
+	inst: 0 %		func_inst: 0
+312(jinit_d_coef_controller)
+	inst: 0 %		func_inst: 0
+313(start_pass_coef)
+	inst: 0 %		func_inst: 0
+314(post_process_1pass)
+	inst: 0 %		func_inst: 0
+315(post_process_prepass)
+	inst: 0 %		func_inst: 0
+316(post_process_2pass)
+	inst: 0 %		func_inst: 0
+317(jinit_d_post_controller)
+	inst: 0 %		func_inst: 0
+318(start_pass_dpost)
+	inst: 0 %		func_inst: 0
+319(start_input_pass)
+	inst: 0 %		func_inst: 0
+320(jinit_inverse_dct)
+	inst: 0 %		func_inst: 0
+321(start_output_pass)
+	inst: 0 %		func_inst: 0
+322(jpeg_idct_ifast)
+	inst: 0 %		func_inst: 0
+323(jpeg_idct_float)
+	inst: 0 %		func_inst: 0
+324(jpeg_idct_islow)
+	inst: 0 %		func_inst: 0
+325(jpeg_idct_4x4)
+	inst: 0 %		func_inst: 0
+326(jpeg_idct_2x2)
+	inst: 0 %		func_inst: 0
+327(jpeg_idct_1x1)
+	inst: 0 %		func_inst: 0
+328(start_pass_huff_decoder)
+	inst: 0 %		func_inst: 0
+329(fix_huff_tbl)
+	inst: 0 %		func_inst: 0
+330(fill_bit_buffer)
+	inst: 0 %		func_inst: 0
+331(slow_DECODE)
+	inst: 0 %		func_inst: 0
+332(decode_mcu)
+	inst: 0 %		func_inst: 0
+333(jinit_huff_decoder)
+	inst: 0 %		func_inst: 0
+334(h2v2_fancy_upsample)
+	inst: 0 %		func_inst: 0
+335(jinit_upsampler)
+	inst: 0 %		func_inst: 0
+336(start_pass_upsample)
+	inst: 0 %		func_inst: 0
+337(sep_upsample)
+	inst: 0 %		func_inst: 0
+338(fullsize_upsample)
+	inst: 0 %		func_inst: 0
+339(noop_upsample)
+	inst: 0 %		func_inst: 0
+340(int_upsample)
+	inst: 0 %		func_inst: 0
+341(h2v1_upsample)
+	inst: 0 %		func_inst: 0
+342(h2v2_upsample)
+	inst: 0 %		func_inst: 0
+343(h2v1_fancy_upsample)
+	inst: 0 %		func_inst: 0
+344(ycc_rgb_start)
+	inst: 0 %		func_inst: 0
+345(jinit_color_deconverter)
+	inst: 0 %		func_inst: 0
+346(ycc_rgb_convert)
+	inst: 0 %		func_inst: 0
+347(null_convert)
+	inst: 0 %		func_inst: 0
+348(grayscale_convert)
+	inst: 0 %		func_inst: 0
+349(ycck_cmyk_convert)
+	inst: 0 %		func_inst: 0
+350(null_method)
+	inst: 0 %		func_inst: 0
+351(select_ncolors)
+	inst: 0 %		func_inst: 0
+352(create_colormap)
+	inst: 0 %		func_inst: 0
+353(quantize_fs_dither)
+	inst: 0 %		func_inst: 0
+354(jinit_1pass_quantizer)
+	inst: 0 %		func_inst: 0
+355(color_quantize)
+	inst: 0 %		func_inst: 0
+356(color_quantize3)
+	inst: 0 %		func_inst: 0
+357(quantize_ord_dither)
+	inst: 0 %		func_inst: 0
+358(quantize3_ord_dither)
+	inst: 0 %		func_inst: 0
+359(start_pass_1_quant)
+	inst: 0 %		func_inst: 0
+360(finish_pass_1_quant)
+	inst: 0 %		func_inst: 0
+361(update_box)
+	inst: 0 %		func_inst: 0
+362(median_cut)
+	inst: 0 %		func_inst: 0
+363(select_colors)
+	inst: 0 %		func_inst: 0
+364(find_nearby_colors)
+	inst: 0 %		func_inst: 0
+365(fill_inverse_cmap)
+	inst: 0 %		func_inst: 0
+366(pass2_fs_dither)
+	inst: 0 %		func_inst: 0
+367(jinit_2pass_quantizer)
+	inst: 0 %		func_inst: 0
+368(start_pass_2_quant)
+	inst: 0 %		func_inst: 0
+369(prescan_quantize)
+	inst: 0 %		func_inst: 0
+370(pass2_no_dither)
+	inst: 0 %		func_inst: 0
+371(finish_pass1)
+	inst: 0 %		func_inst: 0
+372(finish_pass2)
+	inst: 0 %		func_inst: 0
+373(start_pass_merged_upsample)
+	inst: 0 %		func_inst: 0
+374(h2v1_merged_upsample)
+	inst: 0 %		func_inst: 0
+375(h2v2_merged_upsample)
+	inst: 0 %		func_inst: 0
+376(jinit_merged_upsampler)
+	inst: 0 %		func_inst: 0
+377(merged_2v_upsample)
+	inst: 0 %		func_inst: 0
+378(merged_1v_upsample)
+	inst: 0 %		func_inst: 0
+379(jpeg_abort)
+	inst: 0 %		func_inst: 0
+380(jpeg_destroy)
+	inst: 0 %		func_inst: 0
+381(jpeg_alloc_quant_table)
+	inst: 0 %		func_inst: 0
+382(jpeg_alloc_huff_table)
+	inst: 0 %		func_inst: 0
+383(jdiv_round_up)
+	inst: 0 %		func_inst: 0
+384(jround_up)
+	inst: 0 %		func_inst: 0
+385(jcopy_sample_rows)
+	inst: 0 %		func_inst: 0
+386(jcopy_block_row)
+	inst: 0 %		func_inst: 0
+387(jzero_far)
+	inst: 0 %		func_inst: 0
+388(format_message)
+	inst: 0 %		func_inst: 0
+389(jpeg_std_error)
+	inst: 0 %		func_inst: 0
+390(error_exit)
+	inst: 0 %		func_inst: 0
+391(output_message)
+	inst: 0 %		func_inst: 0
+392(emit_message)
+	inst: 0 %		func_inst: 0
+393(reset_error_mgr)
+	inst: 0 %		func_inst: 0
+394(alloc_small)
+	inst: 0 %		func_inst: 0
+395(alloc_sarray)
+	inst: 0 %		func_inst: 0
+396(alloc_barray)
+	inst: 0 %		func_inst: 0
+397(realize_virt_arrays)
+	inst: 0 %		func_inst: 0
+398(access_virt_sarray)
+	inst: 0 %		func_inst: 0
+399(access_virt_barray)
+	inst: 0 %		func_inst: 0
+400(free_pool)
+	inst: 0 %		func_inst: 0
+401(jinit_memory_mgr)
+	inst: 0 %		func_inst: 0
+402(alloc_large)
+	inst: 0 %		func_inst: 0
+403(request_virt_sarray)
+	inst: 0 %		func_inst: 0
+404(request_virt_barray)
+	inst: 0 %		func_inst: 0
+405(self_destruct)
+	inst: 0 %		func_inst: 0
+406(jpeg_get_small)
+	inst: 0 %		func_inst: 0
+407(jpeg_free_small)
+	inst: 0 %		func_inst: 0
+408(jpeg_get_large)
+	inst: 0 %		func_inst: 0
+409(jpeg_free_large)
+	inst: 0 %		func_inst: 0
+410(jpeg_mem_available)
+	inst: 0 %		func_inst: 0
+411(jpeg_open_backing_store)
+	inst: 0 %		func_inst: 0
+412(jpeg_mem_init)
+	inst: 0 %		func_inst: 0
+413(jpeg_mem_term)
+	inst: 0 %		func_inst: 0
+414(__do_global_dtors)
+	inst: 0 %		func_inst: 0
+415(__do_global_ctors)
+	inst: 0 %		func_inst: 0
+416(__main)
+	inst: 0 %		func_inst: 0
+417(__libc_init)
+	inst: 0 %		func_inst: 0
+418(exit)
+	inst: 0 %		func_inst: 0
+419(_cleanup)
+	inst: 0 %		func_inst: 0
+420(initialize)
+	inst: 0 %		func_inst: 0
+421(morecore)
+	inst: 0 %		func_inst: 0
+422(malloc)
+	inst: 0 %		func_inst: 0
+423(_free_internal)
+	inst: 0 %		func_inst: 0
+424(free)
+	inst: 0 %		func_inst: 0
+425(strlen)
+	inst: 0 %		func_inst: 0
+426(strrchr)
+	inst: 0 %		func_inst: 0
+427(fprintf)
+	inst: 0 %		func_inst: 0
+428(vfprintf)
+	inst: 0 %		func_inst: 0
+429(printf_unknown)
+	inst: 0 %		func_inst: 0
+430(fputc)
+	inst: 0 %		func_inst: 0
+431(strcmp)
+	inst: 0 %		func_inst: 0
+432(__getmode)
+	inst: 0 %		func_inst: 0
+433(fopen)
+	inst: 0 %		func_inst: 0
+434(fflush)
+	inst: 0 %		func_inst: 0
+435(fclose)
+	inst: 0 %		func_inst: 0
+436(__stdio_check_funcs)
+	inst: 0 %		func_inst: 0
+437(__stdio_check_offset)
+	inst: 0 %		func_inst: 0
+438(flushbuf)
+	inst: 0 %		func_inst: 0
+439(fillbuf)
+	inst: 0 %		func_inst: 0
+440(__flshfp)
+	inst: 0 %		func_inst: 0
+441(__fillbf)
+	inst: 0 %		func_inst: 0
+442(__invalidate)
+	inst: 0 %		func_inst: 0
+443(printf)
+	inst: 0 %		func_inst: 0
+444(strncmp)
+	inst: 0 %		func_inst: 0
+445(sscanf)
+	inst: 0 %		func_inst: 0
+446(sprintf)
+	inst: 0 %		func_inst: 0
+447(realloc)
+	inst: 0 %		func_inst: 0
+448(msort_with_tmp)
+	inst: 0 %		func_inst: 0
+449(qsort)
+	inst: 0 %		func_inst: 0
+450(strtod)
+	inst: 0 %		func_inst: 0
+451(strtol)
+	inst: 0 %		func_inst: 0
+452(fread)
+	inst: 0 %		func_inst: 0
+453(fwrite)
+	inst: 0 %		func_inst: 0
+454(memset)
+	inst: 0 %		func_inst: 0
+455(memcpy)
+	inst: 0 %		func_inst: 0
+456(getenv)
+	inst: 0 %		func_inst: 0
+457(atexit)
+	inst: 0 %		func_inst: 0
+458(__new_exitfn)
+	inst: 0 %		func_inst: 0
+459(__init_misc)
+	inst: 0 %		func_inst: 0
+460(_exit)
+	inst: 0 %		func_inst: 0
+461(__default_morecore)
+	inst: 0 %		func_inst: 0
+462(strchr)
+	inst: 0 %		func_inst: 0
+463(register_printf_function)
+	inst: 0 %		func_inst: 0
+464(mbtowc)
+	inst: 0 %		func_inst: 0
+465(_itoa)
+	inst: 0 %		func_inst: 0
+466(__printf_fp)
+	inst: 0 %		func_inst: 0
+467(__newstream)
+	inst: 0 %		func_inst: 0
+468(__stdio_read)
+	inst: 0 %		func_inst: 0
+469(__stdio_write)
+	inst: 0 %		func_inst: 0
+470(__stdio_seek)
+	inst: 0 %		func_inst: 0
+471(__stdio_close)
+	inst: 0 %		func_inst: 0
+472(__stdio_fileno)
+	inst: 0 %		func_inst: 0
+473(__stdio_open)
+	inst: 0 %		func_inst: 0
+474(__stdio_reopen)
+	inst: 0 %		func_inst: 0
+475(__stdio_init_stream)
+	inst: 0 %		func_inst: 0
+476(__vsscanf)
+	inst: 0 %		func_inst: 0
+477(vsprintf)
+	inst: 0 %		func_inst: 0
+478(memmove)
+	inst: 0 %		func_inst: 0
+479(_quicksort)
+	inst: 0 %		func_inst: 0
+480(pow)
+	inst: 0 %		func_inst: 0
+481(pow_P)
+	inst: 0 %		func_inst: 0
+482(memchr)
+	inst: 0 %		func_inst: 0
+483(_wordcopy_fwd_aligned)
+	inst: 0 %		func_inst: 0
+484(_wordcopy_fwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+485(_wordcopy_bwd_aligned)
+	inst: 0 %		func_inst: 0
+486(_wordcopy_bwd_dest_aligned)
+	inst: 0 %		func_inst: 0
+487(syscall_error)
+	inst: 0 %		func_inst: 0
+488(__sbrk)
+	inst: 0 %		func_inst: 0
+489(__isnan)
+	inst: 0 %		func_inst: 0
+490(__isinf)
+	inst: 0 %		func_inst: 0
+491(__mpn_extract_double)
+	inst: 0 %		func_inst: 0
+492(__mpn_lshift)
+	inst: 0 %		func_inst: 0
+493(__mpn_cmp)
+	inst: 0 %		func_inst: 0
+494(__mpn_divmod_1)
+	inst: 0 %		func_inst: 0
+495(abort)
+	inst: 0 %		func_inst: 0
+496(__mpn_mul_1)
+	inst: 0 %		func_inst: 0
+497(__mpn_add_n)
+	inst: 0 %		func_inst: 0
+498(__mpn_divmod)
+	inst: 0 %		func_inst: 0
+499(__mpn_rshift)
+	inst: 0 %		func_inst: 0
+500(__mpn_sub_n)
+	inst: 0 %		func_inst: 0
+501(__read)
+	inst: 0 %		func_inst: 0
+502(__write)
+	inst: 0 %		func_inst: 0
+503(__lseek)
+	inst: 0 %		func_inst: 0
+504(__close)
+	inst: 0 %		func_inst: 0
+505(__open)
+	inst: 0 %		func_inst: 0
+506(__dup2)
+	inst: 0 %		func_inst: 0
+507(__fstat)
+	inst: 0 %		func_inst: 0
+508(__isatty)
+	inst: 0 %		func_inst: 0
+509(__vfscanf)
+	inst: 0 %		func_inst: 0
+510(__finite)
+	inst: 0 %		func_inst: 0
+511(__copysign)
+	inst: 0 %		func_inst: 0
+512(__drem)
+	inst: 0 %		func_inst: 0
+513(log)
+	inst: 0 %		func_inst: 0
+514(__log__D)
+	inst: 0 %		func_inst: 0
+515(exp)
+	inst: 0 %		func_inst: 0
+516(__exp__D)
+	inst: 0 %		func_inst: 0
+517(__brk)
+	inst: 0 %		func_inst: 0
+518(__mpn_submul_1)
+	inst: 0 %		func_inst: 0
+519(__ioctl)
+	inst: 0 %		func_inst: 0
+520(strtoul)
+	inst: 0 %		func_inst: 0
+521(ungetc)
+	inst: 0 %		func_inst: 0
+522(ldexp)
+	inst: 0 %		func_inst: 0
+523(__logb)
+	inst: 0 %		func_inst: 0
+524(__umoddi3)
+	inst: 0 %		func_inst: 0
+525(__udivdi3)
+	inst: 0 %		func_inst: 0
+526(__udivmoddi4)
+	inst: 0 %		func_inst: 0
+
+====== inst statistic ======
+0(__start)
+	func: 0 %		call: 0
+1(pm_allocrow)
+	func: 0 %		call: 0
+2(pm_freerow)
+	func: 0 %		call: 0
+3(pm_allocarray)
+	func: 0 %		call: 0
+4(pm_freearray)
+	func: 0 %		call: 0
+5(pm_keymatch)
+	func: 0 %		call: 0
+6(pm_maxvaltobits)
+	func: 0 %		call: 0
+7(pm_bitstomaxval)
+	func: 0 %		call: 0
+8(pm_init)
+	func: 0 %		call: 0
+9(pbm_init)
+	func: 0 %		call: 0
+10(pm_usage)
+	func: 0 %		call: 0
+11(pm_perror)
+	func: 0 %		call: 0
+12(pm_message)
+	func: 0 %		call: 0
+13(pm_error)
+	func: 0 %		call: 0
+14(pm_openr)
+	func: 0 %		call: 0
+15(pm_openw)
+	func: 0 %		call: 0
+16(pm_close)
+	func: 0 %		call: 0
+17(pm_readbigshort)
+	func: 0 %		call: 0
+18(pm_writebigshort)
+	func: 0 %		call: 0
+19(pm_readbiglong)
+	func: 0 %		call: 0
+20(pm_writebiglong)
+	func: 0 %		call: 0
+21(pm_readlittleshort)
+	func: 0 %		call: 0
+22(pm_writelittleshort)
+	func: 0 %		call: 0
+23(pm_readlittlelong)
+	func: 0 %		call: 0
+24(pm_writelittlelong)
+	func: 0 %		call: 0
+25(pbm_readmagicnumber)
+	func: 0 %		call: 0
+26(pbm_readpbminitrest)
+	func: 0 %		call: 0
+27(pbm_readpbminit)
+	func: 0 %		call: 0
+28(pbm_readpbmrow)
+	func: 0 %		call: 0
+29(pbm_readpbm)
+	func: 0 %		call: 0
+30(pbm_writepbminit)
+	func: 0 %		call: 0
+31(pbm_writepbmrow)
+	func: 0 %		call: 0
+32(pbm_writepbm)
+	func: 0 %		call: 0
+33(pbm_getc)
+	func: 0 %		call: 0
+34(pbm_getrawbyte)
+	func: 0 %		call: 0
+35(pbm_getint)
+	func: 0 %		call: 0
+36(pbm_defaultfont)
+	func: 0 %		call: 0
+37(pbm_dissectfont)
+	func: 0 %		call: 0
+38(pbm_dumpfont)
+	func: 0 %		call: 0
+39(pgm_init)
+	func: 0 %		call: 0
+40(pgm_readpgminitrest)
+	func: 0 %		call: 0
+41(pgm_readpgminit)
+	func: 0 %		call: 0
+42(pgm_readpgmrow)
+	func: 0 %		call: 0
+43(pgm_readpgm)
+	func: 0 %		call: 0
+44(pgm_writepgminit)
+	func: 0 %		call: 0
+45(putus)
+	func: 0 %		call: 0
+46(pgm_writepgmrowplain)
+	func: 0 %		call: 0
+47(pgm_writepgmrow)
+	func: 0 %		call: 0
+48(pgm_writepgm)
+	func: 0 %		call: 0
+49(ppm_init)
+	func: 0 %		call: 0
+50(ppm_readppminitrest)
+	func: 0 %		call: 0
+51(ppm_readppminit)
+	func: 0 %		call: 0
+52(ppm_readppmrow)
+	func: 0 %		call: 0
+53(ppm_readppm)
+	func: 0 %		call: 0
+54(ppm_writeppminit)
+	func: 0 %		call: 0
+55(putus)
+	func: 0 %		call: 0
+56(ppm_writeppmrowplain)
+	func: 0 %		call: 0
+57(ppm_writeppmrow)
+	func: 0 %		call: 0
+58(ppm_writeppm)
+	func: 0 %		call: 0
+59(ppm_computecolorhist)
+	func: 0 %		call: 0
+60(ppm_addtocolorhist)
+	func: 0 %		call: 0
+61(ppm_computecolorhash)
+	func: 0 %		call: 0
+62(ppm_alloccolorhash)
+	func: 0 %		call: 0
+63(ppm_addtocolorhash)
+	func: 0 %		call: 0
+64(ppm_colorhashtocolorhist)
+	func: 0 %		call: 0
+65(ppm_colorhisttocolorhash)
+	func: 0 %		call: 0
+66(ppm_lookupcolor)
+	func: 0 %		call: 0
+67(ppm_freecolorhist)
+	func: 0 %		call: 0
+68(ppm_freecolorhash)
+	func: 0 %		call: 0
+69(ppm_parsecolor)
+	func: 0 %		call: 0
+70(ppm_colorname)
+	func: 0 %		call: 0
+71(ppmd_point_drawproc)
+	func: 0 %		call: 0
+72(ppmd_filledrectangle)
+	func: 0 %		call: 0
+73(ppmd_setlinetype)
+	func: 0 %		call: 0
+74(ppmd_setlineclip)
+	func: 0 %		call: 0
+75(ppmd_line)
+	func: 0 %		call: 0
+76(ppmd_spline3)
+	func: 0 %		call: 0
+77(ppmd_polyspline)
+	func: 0 %		call: 0
+78(ppmd_circle)
+	func: 0 %		call: 0
+79(ppmd_fill_init)
+	func: 0 %		call: 0
+80(ppmd_fill_drawproc)
+	func: 0 %		call: 0
+81(ppmd_fill)
+	func: 0 %		call: 0
+82(yx_compare)
+	func: 0 %		call: 0
+83(spec_view_image)
+	func: 0 %		call: 0
+84(spec_read_original_image)
+	func: 0 %		call: 0
+85(spec_allocate_similar_image)
+	func: 0 %		call: 0
+86(spec_free_image)
+	func: 0 %		call: 0
+87(spec_define_subimage_fp)
+	func: 0 %		call: 0
+88(spec_define_subimage_int)
+	func: 0 %		call: 0
+89(spec_free_subimage)
+	func: 0 %		call: 0
+90(spec_write_image)
+	func: 0 %		call: 0
+91(spec_difference_images)
+	func: 0 %		call: 0
+92(spec_checksum_image)
+	func: 0 %		call: 0
+93(spec_jpeg_mem_dest)
+	func: 0 %		call: 0
+94(jmd_init_destination)
+	func: 0 %		call: 0
+95(jmd_empty_output_buffer)
+	func: 0 %		call: 0
+96(jmd_term_destination)
+	func: 0 %		call: 0
+97(spec_jpeg_mem_src)
+	func: 0 %		call: 0
+98(jms_init_source)
+	func: 0 %		call: 0
+99(jms_fill_input_buffer)
+	func: 0 %		call: 0
+100(jms_skip_input_data)
+	func: 0 %		call: 0
+101(jms_term_source)
+	func: 0 %		call: 0
+102(go_execute_compression)
+	func: 0 %		call: 0
+103(go_execute_decompression)
+	func: 0 %		call: 0
+104(Usage)
+	func: 0 %		call: 0
+105(parse_args)
+	func: 0 %		call: 0
+106(main)
+	func: 0 %		call: 0
+107(read_pbm_integer)
+	func: 0 %		call: 0
+108(start_input_ppm)
+	func: 0 %		call: 0
+109(jinit_read_ppm)
+	func: 0 %		call: 0
+110(get_text_gray_row)
+	func: 0 %		call: 0
+111(get_text_rgb_row)
+	func: 0 %		call: 0
+112(get_scaled_gray_row)
+	func: 0 %		call: 0
+113(get_scaled_rgb_row)
+	func: 0 %		call: 0
+114(get_raw_row)
+	func: 0 %		call: 0
+115(finish_input_ppm)
+	func: 0 %		call: 0
+116(jinit_write_ppm)
+	func: 0 %		call: 0
+117(put_pixel_rows)
+	func: 0 %		call: 0
+118(copy_pixel_rows)
+	func: 0 %		call: 0
+119(put_demapped_rgb)
+	func: 0 %		call: 0
+120(put_demapped_gray)
+	func: 0 %		call: 0
+121(start_output_ppm)
+	func: 0 %		call: 0
+122(finish_output_ppm)
+	func: 0 %		call: 0
+123(GetCode)
+	func: 0 %		call: 0
+124(LZWReadByte)
+	func: 0 %		call: 0
+125(ReadColorMap)
+	func: 0 %		call: 0
+126(DoExtension)
+	func: 0 %		call: 0
+127(start_input_gif)
+	func: 0 %		call: 0
+128(get_pixel_rows)
+	func: 0 %		call: 0
+129(load_interlaced_image)
+	func: 0 %		call: 0
+130(get_interlaced_row)
+	func: 0 %		call: 0
+131(jinit_read_gif)
+	func: 0 %		call: 0
+132(finish_input_gif)
+	func: 0 %		call: 0
+133(output)
+	func: 0 %		call: 0
+134(compress_byte)
+	func: 0 %		call: 0
+135(compress_term)
+	func: 0 %		call: 0
+136(emit_header)
+	func: 0 %		call: 0
+137(jinit_write_gif)
+	func: 0 %		call: 0
+138(start_output_gif)
+	func: 0 %		call: 0
+139(put_pixel_rows)
+	func: 0 %		call: 0
+140(finish_output_gif)
+	func: 0 %		call: 0
+141(read_colormap)
+	func: 0 %		call: 0
+142(read_rle_pixel)
+	func: 0 %		call: 0
+143(start_input_tga)
+	func: 0 %		call: 0
+144(jinit_read_targa)
+	func: 0 %		call: 0
+145(read_non_rle_pixel)
+	func: 0 %		call: 0
+146(get_8bit_gray_row)
+	func: 0 %		call: 0
+147(get_8bit_row)
+	func: 0 %		call: 0
+148(get_16bit_row)
+	func: 0 %		call: 0
+149(get_24bit_row)
+	func: 0 %		call: 0
+150(preload_image)
+	func: 0 %		call: 0
+151(finish_input_tga)
+	func: 0 %		call: 0
+152(get_memory_row)
+	func: 0 %		call: 0
+153(start_output_tga)
+	func: 0 %		call: 0
+154(jinit_write_targa)
+	func: 0 %		call: 0
+155(put_pixel_rows)
+	func: 0 %		call: 0
+156(put_gray_rows)
+	func: 0 %		call: 0
+157(put_demapped_gray)
+	func: 0 %		call: 0
+158(finish_output_tga)
+	func: 0 %		call: 0
+159(read_colormap)
+	func: 0 %		call: 0
+160(preload_image)
+	func: 0 %		call: 0
+161(start_input_bmp)
+	func: 0 %		call: 0
+162(jinit_read_bmp)
+	func: 0 %		call: 0
+163(get_8bit_row)
+	func: 0 %		call: 0
+164(get_24bit_row)
+	func: 0 %		call: 0
+165(finish_input_bmp)
+	func: 0 %		call: 0
+166(write_bmp_header)
+	func: 0 %		call: 0
+167(write_os2_header)
+	func: 0 %		call: 0
+168(write_colormap)
+	func: 0 %		call: 0
+169(jinit_write_bmp)
+	func: 0 %		call: 0
+170(put_pixel_rows)
+	func: 0 %		call: 0
+171(put_gray_rows)
+	func: 0 %		call: 0
+172(start_output_bmp)
+	func: 0 %		call: 0
+173(finish_output_bmp)
+	func: 0 %		call: 0
+174(jpeg_create_compress)
+	func: 0 %		call: 0
+175(jpeg_destroy_compress)
+	func: 0 %		call: 0
+176(jpeg_suppress_tables)
+	func: 0 %		call: 0
+177(jpeg_start_compress)
+	func: 0 %		call: 0
+178(jpeg_write_scanlines)
+	func: 0 %		call: 0
+179(jpeg_write_raw_data)
+	func: 0 %		call: 0
+180(jpeg_finish_compress)
+	func: 0 %		call: 0
+181(jpeg_write_marker)
+	func: 0 %		call: 0
+182(jpeg_write_tables)
+	func: 0 %		call: 0
+183(jpeg_abort_compress)
+	func: 0 %		call: 0
+184(jpeg_add_quant_table)
+	func: 0 %		call: 0
+185(jpeg_set_linear_quality)
+	func: 0 %		call: 0
+186(jpeg_quality_scaling)
+	func: 0 %		call: 0
+187(jpeg_set_quality)
+	func: 0 %		call: 0
+188(std_huff_tables)
+	func: 0 %		call: 0
+189(jpeg_set_defaults)
+	func: 0 %		call: 0
+190(jpeg_default_colorspace)
+	func: 0 %		call: 0
+191(jpeg_set_colorspace)
+	func: 0 %		call: 0
+192(jpeg_stdio_dest)
+	func: 0 %		call: 0
+193(init_destination)
+	func: 0 %		call: 0
+194(empty_output_buffer)
+	func: 0 %		call: 0
+195(term_destination)
+	func: 0 %		call: 0
+196(initial_setup)
+	func: 0 %		call: 0
+197(per_scan_setup)
+	func: 0 %		call: 0
+198(prepare_for_pass)
+	func: 0 %		call: 0
+199(jinit_master_compress)
+	func: 0 %		call: 0
+200(pass_startup)
+	func: 0 %		call: 0
+201(finish_pass_master)
+	func: 0 %		call: 0
+202(emit_dqt)
+	func: 0 %		call: 0
+203(emit_dht)
+	func: 0 %		call: 0
+204(emit_dri)
+	func: 0 %		call: 0
+205(emit_sof)
+	func: 0 %		call: 0
+206(emit_sos)
+	func: 0 %		call: 0
+207(emit_jfif_app0)
+	func: 0 %		call: 0
+208(emit_adobe_app14)
+	func: 0 %		call: 0
+209(write_any_marker)
+	func: 0 %		call: 0
+210(write_tables_only)
+	func: 0 %		call: 0
+211(jinit_marker_writer)
+	func: 0 %		call: 0
+212(write_file_header)
+	func: 0 %		call: 0
+213(write_frame_header)
+	func: 0 %		call: 0
+214(write_scan_header)
+	func: 0 %		call: 0
+215(write_file_trailer)
+	func: 0 %		call: 0
+216(process_data_simple_main)
+	func: 0 %		call: 0
+217(jinit_c_main_controller)
+	func: 0 %		call: 0
+218(start_pass_main)
+	func: 0 %		call: 0
+219(pre_process_data)
+	func: 0 %		call: 0
+220(pre_process_context)
+	func: 0.021521 %		call: 29
+221(create_context_buffer)
+	func: 0 %		call: 0
+222(jinit_c_prep_controller)
+	func: 0 %		call: 0
+223(start_pass_prep)
+	func: 0 %		call: 0
+224(compress_data)
+	func: 0.021521 %		call: 29
+225(compress_first_pass)
+	func: 0 %		call: 0
+226(compress_output)
+	func: 0 %		call: 0
+227(jinit_c_coef_controller)
+	func: 0 %		call: 0
+228(start_pass_coef)
+	func: 0 %		call: 0
+229(rgb_ycc_start)
+	func: 0 %		call: 0
+230(rgb_ycc_convert)
+	func: 0.175137 %		call: 236
+231(cmyk_ycck_convert)
+	func: 0 %		call: 0
+232(jinit_color_converter)
+	func: 0 %		call: 0
+233(rgb_gray_convert)
+	func: 0 %		call: 0
+234(grayscale_convert)
+	func: 0 %		call: 0
+235(null_convert)
+	func: 0 %		call: 0
+236(null_method)
+	func: 0 %		call: 0
+237(int_downsample)
+	func: 0 %		call: 0
+238(h2v2_smooth_downsample)
+	func: 0.348789 %		call: 470
+239(fullsize_smooth_downsample)
+	func: 0.175137 %		call: 236
+240(jinit_downsampler)
+	func: 0 %		call: 0
+241(start_pass_downsample)
+	func: 0 %		call: 0
+242(sep_downsample)
+	func: 0.175137 %		call: 236
+243(fullsize_downsample)
+	func: 0 %		call: 0
+244(h2v1_downsample)
+	func: 0 %		call: 0
+245(h2v2_downsample)
+	func: 0 %		call: 0
+246(start_pass_huff)
+	func: 0 %		call: 0
+247(fix_huff_tbl)
+	func: 0 %		call: 0
+248(emit_bits)
+	func: 75.6679 %		call: 101964
+249(encode_one_block)
+	func: 8.26407 %		call: 11136
+250(emit_restart)
+	func: 0 %		call: 0
+251(encode_mcu_huff)
+	func: 1.37735 %		call: 1856
+252(finish_pass_huff)
+	func: 0 %		call: 0
+253(htest_one_block)
+	func: 0 %		call: 0
+254(encode_mcu_gather)
+	func: 0 %		call: 0
+255(gen_huff_coding)
+	func: 0 %		call: 0
+256(finish_pass_gather)
+	func: 0 %		call: 0
+257(jinit_huff_encoder)
+	func: 0 %		call: 0
+258(start_pass_fdctmgr)
+	func: 0 %		call: 0
+259(forward_DCT)
+	func: 5.50938 %		call: 7424
+260(forward_DCT_float)
+	func: 0 %		call: 0
+261(jinit_forward_dct)
+	func: 0 %		call: 0
+262(jpeg_fdct_ifast)
+	func: 0 %		call: 0
+263(jpeg_fdct_float)
+	func: 0 %		call: 0
+264(jpeg_fdct_islow)
+	func: 8.26407 %		call: 11136
+265(jpeg_create_decompress)
+	func: 0 %		call: 0
+266(jpeg_destroy_decompress)
+	func: 0 %		call: 0
+267(jpeg_set_marker_processor)
+	func: 0 %		call: 0
+268(default_decompress_parms)
+	func: 0 %		call: 0
+269(jpeg_read_header)
+	func: 0 %		call: 0
+270(jpeg_start_decompress)
+	func: 0 %		call: 0
+271(jpeg_read_scanlines)
+	func: 0 %		call: 0
+272(jpeg_read_raw_data)
+	func: 0 %		call: 0
+273(jpeg_finish_decompress)
+	func: 0 %		call: 0
+274(jpeg_abort_decompress)
+	func: 0 %		call: 0
+275(jpeg_stdio_src)
+	func: 0 %		call: 0
+276(init_source)
+	func: 0 %		call: 0
+277(fill_input_buffer)
+	func: 0 %		call: 0
+278(skip_input_data)
+	func: 0 %		call: 0
+279(term_source)
+	func: 0 %		call: 0
+280(jpeg_calc_output_dimensions)
+	func: 0 %		call: 0
+281(per_scan_setup)
+	func: 0 %		call: 0
+282(master_selection)
+	func: 0 %		call: 0
+283(prepare_for_pass)
+	func: 0 %		call: 0
+284(jinit_master_decompress)
+	func: 0 %		call: 0
+285(finish_pass_master)
+	func: 0 %		call: 0
+286(get_sof)
+	func: 0 %		call: 0
+287(get_sos)
+	func: 0 %		call: 0
+288(get_app0)
+	func: 0 %		call: 0
+289(get_app14)
+	func: 0 %		call: 0
+290(get_dac)
+	func: 0 %		call: 0
+291(get_dht)
+	func: 0 %		call: 0
+292(get_dqt)
+	func: 0 %		call: 0
+293(get_dri)
+	func: 0 %		call: 0
+294(next_marker)
+	func: 0 %		call: 0
+295(read_markers)
+	func: 0 %		call: 0
+296(jpeg_resync_to_restart)
+	func: 0 %		call: 0
+297(jinit_marker_reader)
+	func: 0 %		call: 0
+298(skip_variable)
+	func: 0 %		call: 0
+299(read_restart_marker)
+	func: 0 %		call: 0
+300(reset_marker_reader)
+	func: 0 %		call: 0
+301(make_funny_pointers)
+	func: 0 %		call: 0
+302(set_wraparound_pointers)
+	func: 0 %		call: 0
+303(process_data_simple_main)
+	func: 0 %		call: 0
+304(process_data_context_main)
+	func: 0 %		call: 0
+305(process_data_input_only)
+	func: 0 %		call: 0
+306(process_data_crank_post)
+	func: 0 %		call: 0
+307(jinit_d_main_controller)
+	func: 0 %		call: 0
+308(start_pass_main)
+	func: 0 %		call: 0
+309(decompress_data)
+	func: 0 %		call: 0
+310(decompress_read)
+	func: 0 %		call: 0
+311(decompress_output)
+	func: 0 %		call: 0
+312(jinit_d_coef_controller)
+	func: 0 %		call: 0
+313(start_pass_coef)
+	func: 0 %		call: 0
+314(post_process_1pass)
+	func: 0 %		call: 0
+315(post_process_prepass)
+	func: 0 %		call: 0
+316(post_process_2pass)
+	func: 0 %		call: 0
+317(jinit_d_post_controller)
+	func: 0 %		call: 0
+318(start_pass_dpost)
+	func: 0 %		call: 0
+319(start_input_pass)
+	func: 0 %		call: 0
+320(jinit_inverse_dct)
+	func: 0 %		call: 0
+321(start_output_pass)
+	func: 0 %		call: 0
+322(jpeg_idct_ifast)
+	func: 0 %		call: 0
+323(jpeg_idct_float)
+	func: 0 %		call: 0
+324(jpeg_idct_islow)
+	func: 0 %		call: 0
+325(jpeg_idct_4x4)
+	func: 0 %		call: 0
+326(jpeg_idct_2x2)
+	func: 0 %		call: 0
+327(jpeg_idct_1x1)
+	func: 0 %		call: 0
+328(start_pass_huff_decoder)
+	func: 0 %		call: 0
+329(fix_huff_tbl)
+	func: 0 %		call: 0
+330(fill_bit_buffer)
+	func: 0 %		call: 0
+331(slow_DECODE)
+	func: 0 %		call: 0
+332(decode_mcu)
+	func: 0 %		call: 0
+333(jinit_huff_decoder)
+	func: 0 %		call: 0
+334(h2v2_fancy_upsample)
+	func: 0 %		call: 0
+335(jinit_upsampler)
+	func: 0 %		call: 0
+336(start_pass_upsample)
+	func: 0 %		call: 0
+337(sep_upsample)
+	func: 0 %		call: 0
+338(fullsize_upsample)
+	func: 0 %		call: 0
+339(noop_upsample)
+	func: 0 %		call: 0
+340(int_upsample)
+	func: 0 %		call: 0
+341(h2v1_upsample)
+	func: 0 %		call: 0
+342(h2v2_upsample)
+	func: 0 %		call: 0
+343(h2v1_fancy_upsample)
+	func: 0 %		call: 0
+344(ycc_rgb_start)
+	func: 0 %		call: 0
+345(jinit_color_deconverter)
+	func: 0 %		call: 0
+346(ycc_rgb_convert)
+	func: 0 %		call: 0
+347(null_convert)
+	func: 0 %		call: 0
+348(grayscale_convert)
+	func: 0 %		call: 0
+349(ycck_cmyk_convert)
+	func: 0 %		call: 0
+350(null_method)
+	func: 0 %		call: 0
+351(select_ncolors)
+	func: 0 %		call: 0
+352(create_colormap)
+	func: 0 %		call: 0
+353(quantize_fs_dither)
+	func: 0 %		call: 0
+354(jinit_1pass_quantizer)
+	func: 0 %		call: 0
+355(color_quantize)
+	func: 0 %		call: 0
+356(color_quantize3)
+	func: 0 %		call: 0
+357(quantize_ord_dither)
+	func: 0 %		call: 0
+358(quantize3_ord_dither)
+	func: 0 %		call: 0
+359(start_pass_1_quant)
+	func: 0 %		call: 0
+360(finish_pass_1_quant)
+	func: 0 %		call: 0
+361(update_box)
+	func: 0 %		call: 0
+362(median_cut)
+	func: 0 %		call: 0
+363(select_colors)
+	func: 0 %		call: 0
+364(find_nearby_colors)
+	func: 0 %		call: 0
+365(fill_inverse_cmap)
+	func: 0 %		call: 0
+366(pass2_fs_dither)
+	func: 0 %		call: 0
+367(jinit_2pass_quantizer)
+	func: 0 %		call: 0
+368(start_pass_2_quant)
+	func: 0 %		call: 0
+369(prescan_quantize)
+	func: 0 %		call: 0
+370(pass2_no_dither)
+	func: 0 %		call: 0
+371(finish_pass1)
+	func: 0 %		call: 0
+372(finish_pass2)
+	func: 0 %		call: 0
+373(start_pass_merged_upsample)
+	func: 0 %		call: 0
+374(h2v1_merged_upsample)
+	func: 0 %		call: 0
+375(h2v2_merged_upsample)
+	func: 0 %		call: 0
+376(jinit_merged_upsampler)
+	func: 0 %		call: 0
+377(merged_2v_upsample)
+	func: 0 %		call: 0
+378(merged_1v_upsample)
+	func: 0 %		call: 0
+379(jpeg_abort)
+	func: 0 %		call: 0
+380(jpeg_destroy)
+	func: 0 %		call: 0
+381(jpeg_alloc_quant_table)
+	func: 0 %		call: 0
+382(jpeg_alloc_huff_table)
+	func: 0 %		call: 0
+383(jdiv_round_up)
+	func: 0 %		call: 0
+384(jround_up)
+	func: 0 %		call: 0
+385(jcopy_sample_rows)
+	func: 0 %		call: 0
+386(jcopy_block_row)
+	func: 0 %		call: 0
+387(jzero_far)
+	func: 0 %		call: 0
+388(format_message)
+	func: 0 %		call: 0
+389(jpeg_std_error)
+	func: 0 %		call: 0
+390(error_exit)
+	func: 0 %		call: 0
+391(output_message)
+	func: 0 %		call: 0
+392(emit_message)
+	func: 0 %		call: 0
+393(reset_error_mgr)
+	func: 0 %		call: 0
+394(alloc_small)
+	func: 0 %		call: 0
+395(alloc_sarray)
+	func: 0 %		call: 0
+396(alloc_barray)
+	func: 0 %		call: 0
+397(realize_virt_arrays)
+	func: 0 %		call: 0
+398(access_virt_sarray)
+	func: 0 %		call: 0
+399(access_virt_barray)
+	func: 0 %		call: 0
+400(free_pool)
+	func: 0 %		call: 0
+401(jinit_memory_mgr)
+	func: 0 %		call: 0
+402(alloc_large)
+	func: 0 %		call: 0
+403(request_virt_sarray)
+	func: 0 %		call: 0
+404(request_virt_barray)
+	func: 0 %		call: 0
+405(self_destruct)
+	func: 0 %		call: 0
+406(jpeg_get_small)
+	func: 0 %		call: 0
+407(jpeg_free_small)
+	func: 0 %		call: 0
+408(jpeg_get_large)
+	func: 0 %		call: 0
+409(jpeg_free_large)
+	func: 0 %		call: 0
+410(jpeg_mem_available)
+	func: 0 %		call: 0
+411(jpeg_open_backing_store)
+	func: 0 %		call: 0
+412(jpeg_mem_init)
+	func: 0 %		call: 0
+413(jpeg_mem_term)
+	func: 0 %		call: 0
+414(__do_global_dtors)
+	func: 0 %		call: 0
+415(__do_global_ctors)
+	func: 0 %		call: 0
+416(__main)
+	func: 0 %		call: 0
+417(__libc_init)
+	func: 0 %		call: 0
+418(exit)
+	func: 0 %		call: 0
+419(_cleanup)
+	func: 0 %		call: 0
+420(initialize)
+	func: 0 %		call: 0
+421(morecore)
+	func: 0 %		call: 0
+422(malloc)
+	func: 0 %		call: 0
+423(_free_internal)
+	func: 0 %		call: 0
+424(free)
+	func: 0 %		call: 0
+425(strlen)
+	func: 0 %		call: 0
+426(strrchr)
+	func: 0 %		call: 0
+427(fprintf)
+	func: 0 %		call: 0
+428(vfprintf)
+	func: 0 %		call: 0
+429(printf_unknown)
+	func: 0 %		call: 0
+430(fputc)
+	func: 0 %		call: 0
+431(strcmp)
+	func: 0 %		call: 0
+432(__getmode)
+	func: 0 %		call: 0
+433(fopen)
+	func: 0 %		call: 0
+434(fflush)
+	func: 0 %		call: 0
+435(fclose)
+	func: 0 %		call: 0
+436(__stdio_check_funcs)
+	func: 0 %		call: 0
+437(__stdio_check_offset)
+	func: 0 %		call: 0
+438(flushbuf)
+	func: 0 %		call: 0
+439(fillbuf)
+	func: 0 %		call: 0
+440(__flshfp)
+	func: 0 %		call: 0
+441(__fillbf)
+	func: 0 %		call: 0
+442(__invalidate)
+	func: 0 %		call: 0
+443(printf)
+	func: 0 %		call: 0
+444(strncmp)
+	func: 0 %		call: 0
+445(sscanf)
+	func: 0 %		call: 0
+446(sprintf)
+	func: 0 %		call: 0
+447(realloc)
+	func: 0 %		call: 0
+448(msort_with_tmp)
+	func: 0 %		call: 0
+449(qsort)
+	func: 0 %		call: 0
+450(strtod)
+	func: 0 %		call: 0
+451(strtol)
+	func: 0 %		call: 0
+452(fread)
+	func: 0 %		call: 0
+453(fwrite)
+	func: 0 %		call: 0
+454(memset)
+	func: 0 %		call: 0
+455(memcpy)
+	func: 0 %		call: 0
+456(getenv)
+	func: 0 %		call: 0
+457(atexit)
+	func: 0 %		call: 0
+458(__new_exitfn)
+	func: 0 %		call: 0
+459(__init_misc)
+	func: 0 %		call: 0
+460(_exit)
+	func: 0 %		call: 0
+461(__default_morecore)
+	func: 0 %		call: 0
+462(strchr)
+	func: 0 %		call: 0
+463(register_printf_function)
+	func: 0 %		call: 0
+464(mbtowc)
+	func: 0 %		call: 0
+465(_itoa)
+	func: 0 %		call: 0
+466(__printf_fp)
+	func: 0 %		call: 0
+467(__newstream)
+	func: 0 %		call: 0
+468(__stdio_read)
+	func: 0 %		call: 0
+469(__stdio_write)
+	func: 0 %		call: 0
+470(__stdio_seek)
+	func: 0 %		call: 0
+471(__stdio_close)
+	func: 0 %		call: 0
+472(__stdio_fileno)
+	func: 0 %		call: 0
+473(__stdio_open)
+	func: 0 %		call: 0
+474(__stdio_reopen)
+	func: 0 %		call: 0
+475(__stdio_init_stream)
+	func: 0 %		call: 0
+476(__vsscanf)
+	func: 0 %		call: 0
+477(vsprintf)
+	func: 0 %		call: 0
+478(memmove)
+	func: 0 %		call: 0
+479(_quicksort)
+	func: 0 %		call: 0
+480(pow)
+	func: 0 %		call: 0
+481(pow_P)
+	func: 0 %		call: 0
+482(memchr)
+	func: 0 %		call: 0
+483(_wordcopy_fwd_aligned)
+	func: 0 %		call: 0
+484(_wordcopy_fwd_dest_aligned)
+	func: 0 %		call: 0
+485(_wordcopy_bwd_aligned)
+	func: 0 %		call: 0
+486(_wordcopy_bwd_dest_aligned)
+	func: 0 %		call: 0
+487(syscall_error)
+	func: 0 %		call: 0
+488(__sbrk)
+	func: 0 %		call: 0
+489(__isnan)
+	func: 0 %		call: 0
+490(__isinf)
+	func: 0 %		call: 0
+491(__mpn_extract_double)
+	func: 0 %		call: 0
+492(__mpn_lshift)
+	func: 0 %		call: 0
+493(__mpn_cmp)
+	func: 0 %		call: 0
+494(__mpn_divmod_1)
+	func: 0 %		call: 0
+495(abort)
+	func: 0 %		call: 0
+496(__mpn_mul_1)
+	func: 0 %		call: 0
+497(__mpn_add_n)
+	func: 0 %		call: 0
+498(__mpn_divmod)
+	func: 0 %		call: 0
+499(__mpn_rshift)
+	func: 0 %		call: 0
+500(__mpn_sub_n)
+	func: 0 %		call: 0
+501(__read)
+	func: 0 %		call: 0
+502(__write)
+	func: 0 %		call: 0
+503(__lseek)
+	func: 0 %		call: 0
+504(__close)
+	func: 0 %		call: 0
+505(__open)
+	func: 0 %		call: 0
+506(__dup2)
+	func: 0 %		call: 0
+507(__fstat)
+	func: 0 %		call: 0
+508(__isatty)
+	func: 0 %		call: 0
+509(__vfscanf)
+	func: 0 %		call: 0
+510(__finite)
+	func: 0 %		call: 0
+511(__copysign)
+	func: 0 %		call: 0
+512(__drem)
+	func: 0 %		call: 0
+513(log)
+	func: 0 %		call: 0
+514(__log__D)
+	func: 0 %		call: 0
+515(exp)
+	func: 0 %		call: 0
+516(__exp__D)
+	func: 0 %		call: 0
+517(__brk)
+	func: 0 %		call: 0
+518(__mpn_submul_1)
+	func: 0 %		call: 0
+519(__ioctl)
+	func: 0 %		call: 0
+520(strtoul)
+	func: 0 %		call: 0
+521(ungetc)
+	func: 0 %		call: 0
+522(ldexp)
+	func: 0 %		call: 0
+523(__logb)
+	func: 0 %		call: 0
+524(__umoddi3)
+	func: 0 %		call: 0
+525(__udivdi3)
+	func: 0 %		call: 0
+526(__udivmoddi4)
+	func: 0 %		call: 0
