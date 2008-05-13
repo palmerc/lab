@@ -3,6 +3,7 @@
 # This program will keep changing the HOST variable so the simulator
 # will run all tests on a single machine. You should be warned that it
 # took 48 days to run these tests in this fashion.
+# - Cameron Palmer, May 2008
 if [ ! -L $HOME/run ]; then
 	echo "Creating $HOME/run link."
 	ln -s $PWD/run $HOME/run
