@@ -1,5 +1,9 @@
 #!/usr/bin/perl -w
 
+# The other part of my little hack to list all the tests the simulator would
+# run given the original run file by nakajima.
+# - Cameron Palmer, May 2008
+
 #
 # run_newsim.pl
 #  Time-stamp: <04/01/04 19:55:46 nakajima>

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# A quick hack I did to list off all the different tests the simulator would
+# attempt.
+# - Cameron Palmer, May 2008
 if [ ! -L $HOME/run ]; then
 	echo "Creating $HOME/run link."
 	ln -s $PWD/run $HOME/run
