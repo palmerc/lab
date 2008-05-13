@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This program will keep changing the HOST variable so the simulator
+# will run all tests on a single machine. You should be warned that it
+# took 48 days to run these tests in this fashion.
 if [ ! -L $HOME/run ]; then
 	echo "Creating $HOME/run link."
 	ln -s $PWD/run $HOME/run
@@ -25,4 +28,4 @@ for (( i=0; i < HOSTS_COUNT; i+=1 )); do
 	./run_newsim.pl
 done
 
-echo 'Tests have finished.' | $HOME/mailx 9723751441@txt.att.net
+echo 'Tests have finished.' | $HOME/mailx user@example.com
