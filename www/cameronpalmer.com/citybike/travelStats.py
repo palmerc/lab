@@ -31,7 +31,7 @@ for td in soup.body.findAll('td'):
 			if counterre.search(str(img)):
 				m = counterre.search(str(img))
 				year += int(m.group(1))
-		print "Bike kilometers this year", year
+		print "Bike kilometers this year:", year
 		YEAR = 0
 	elif DAY == 1:
 		day = 0
