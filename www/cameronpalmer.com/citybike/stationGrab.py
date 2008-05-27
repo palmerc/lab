@@ -12,6 +12,7 @@ from BeautifulSoup import BeautifulSoup
 import re
 import sys
 import getopt
+import pickle
 
 stations = {}
 citybike_server = "http://dynamisch.citybikewien.at/"
@@ -170,10 +171,11 @@ def main(argv=None):
 		argv = sys.argv
 	report = 0
 	csv = 1
+	kosher = 0
 
 	try:
 		try:
-			opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'report', 'csv'])
+			opts, args = getopt.getopt(sys.argv[1:], '', ['file', 'help', 'report', 'csv', 'kosher'])
 		except getopt.error, msg:
 			raise Usage(msg)
 	except Usage, err:
@@ -191,6 +193,9 @@ def main(argv=None):
 		elif o in ('-c', '--csv'):
 			csv = 1
 
+		if o in ('-k', '--kosher'):
+			kosher = 1
+
 	page = None
 	req = Request(status_url)
 	try:
@@ -207,6 +212,11 @@ def main(argv=None):
 		toString()
 	elif csv == 1:
 		toCSV()
+
+	if kosher == 1:
+		f = open('kosher', 'w')
+		pickle.dump(stations, f)
+		f.close
 
 if __name__ == "__main__":
 	sys.exit(main())

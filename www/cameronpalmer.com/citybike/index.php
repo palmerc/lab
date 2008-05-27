@@ -57,6 +57,7 @@ function mapLoad() {
 		map.setCenter(new GLatLng(48.189365, 16.351068), 14);
 		map.addControl(new GLargeMapControl());
 		map.addControl(new GMapTypeControl());
+		map.addControl(new GScaleControl());
 	
 		var cityBikeMarker = new GIcon(G_DEFAULT_ICON);
 		//cityBikeMarker.image = "http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png";
