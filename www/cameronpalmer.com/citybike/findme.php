@@ -29,10 +29,9 @@ function postFileReady() {
 			var content = xmlhttp.responseText;
 			var tmpArr = content.split("\n");
 			for (var i = 0; i < tmpArr.length; i++) {
-				var three = tmpArr[i].split(";");
-				var num = three[0];
-				var name = three[1];
-				var latLng = three[2];
+				var halves = tmpArr[i].split(";");
+				var num = halves[0];
+				var latLng = halves[1];
 				locArray[num] = latLng;
 			}
 		} else {
@@ -65,15 +64,24 @@ function mapsLoaded() {
 		// Set up our GMarkerOptions object
 		markerOptions = { icon:cityBikeMarker };
 
+		var marker = new GMarker(center, {draggable: true, bouncy: false});
+		GEvent.addListener(marker, "dragstart", function() {
+			map.closeInfoWindow();
+		});
+		GEvent.addListener(marker, "dragend", function() { 
+			marker.openInfoWindowHtml("GPS: " + marker.getPoint().toUrlValue());
+		});
+		map.addOverlay(marker);
+
 		// Add station markers to the map
-		var message = "Hello"
-		for (var loc in locArray) {
-			var latLng = locArray[loc].split(',');
-			var lat = latLng[0];
-			var long = latLng[1];
-			var point = new GLatLng(lat, long);
-  			map.addOverlay(createMarker(map, point, message, markerOptions));
-		}
+		//var message = "Hello"
+		//for (var loc in locArray) {
+		//	var latLng = locArray[loc].split(',');
+		//	var lat = latLng[0];
+		//	var long = latLng[1];
+		//	var point = new GLatLng(lat, long);
+  		//	map.addOverlay(createMarker(map, point, message, markerOptions));
+		//}
 	}
 }
 
@@ -82,7 +90,6 @@ function loadMaps() {
 }
 
 function initLoader() {
-	include("http://cameronpalmer.com/citybike/location.csv");
 	lang = navigator.language.substr(0,2);
 	var script = document.createElement("script");
 	script.src = "http://maps.google.com/jsapi?key=ABQIAAAAOIETG0E0dKjOTufoxp5V2hSkKvSN7SEoe8SIEWfgQbA_uxQPiBQE8HWSKDxNcLxYG-BNErFsgTmY8g&amp;callback=loadMaps";

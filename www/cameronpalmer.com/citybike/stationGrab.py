@@ -23,6 +23,7 @@ spacere = re.compile(r'\s\s+')
 def toCSV():
 	"""Dump the station information CSV"""
 	print u'number;name;desc;pic;free;empty;capacity'
+	f = open("location.csv", "w")
 	for key in sorted(stations.keys(), lambda x, y: x-y):
 		station_number = str(key)
 		station_name = stations[key]["name"]
@@ -31,9 +32,10 @@ def toCSV():
 		free_bikes = str(stations[key]["available"])
 		free_boxes = str(stations[key]["empty"])
 		max_bikes = str(stations[key]["capacity"])
-		tmpArr = [station_number, station_name, station_desc, station_pic, free_bikes, free_boxes, max_bikes]
-		csvString = u';'.join(tmpArr)
-		print csvString
+		#tmpArr = [station_number, station_name, station_desc, station_pic, free_bikes, free_boxes, max_bikes]
+		tmpArr = [station_number, station_name, u'']
+		csvString = u';'.join(tmpArr) + '\n'
+		f.write(csvString.encode('utf-8'))
 
 def toString():
 	"""Dump the station information"""
