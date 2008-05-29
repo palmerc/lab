@@ -7,74 +7,156 @@
 		<script type="text/javascript">
 	//<![CDATA[
 
-var locArray = new Object;
+var req;
+var stationHash = new Hash();
 var lang = "de";
-function include(pURL) {
-	if (window.XMLHttpRequest) { // code for Mozilla, Safari, ** And Now IE 7 **, etc
-		xmlhttp=new XMLHttpRequest();
-	} else if (window.ActiveXObject) { //IE
-		xmlhttp=new ActiveXObject('Microsoft.XMLHTTP');
+var map;
+
+function Hash() {
+	// Constructor
+	this.length = 0;
+	this.items = new Array();
+
+	for (var i = 0; i < arguments.length; i += 2) {
+		if (typeof(arguments[i + 1]) != 'undefined') {
+			this.items[arguments[i]] = arguments[i + 1];
+			this.length++;
+		}
 	}
-	if (typeof(xmlhttp)=='object') {
-		xmlhttp.onreadystatechange=postFileReady;
-		xmlhttp.open('GET', pURL, true);
-		xmlhttp.send(null);
+	
+	this.getItem = function(key) {
+		return this.items[key];
+	}
+
+	this.setItem = function(key, value) {
+		if (typeof(this.items[key]) == 'undefined') {
+			this.length++;
+		}
+		this.items[key] = value;
+	}
+
+	this.removeItem = function(key) {
+		if (typeof(this.items[key]) != 'undefined') {
+			this.length--;
+			var tmp = this.items[key];
+			delete this.items[key];
+		}
+		return tmp;
+	}
+}
+
+String.prototype.titleCase = function() {
+	var str = "";
+	var words = this.split(" ");
+
+	for (var i in words) {
+		str += words[i].charAt(0).toUpperCase() + words[i].substr(1).toLowerCase();
+		if (i < words.length) {
+			str += " ";
+		}
+	}
+	return str;
+}
+			
+function loadXMLDoc(url) {
+	if (window.XMLHttpRequest && !(window.ActiveXObject)) {
+		try {
+			req = new XMLHttpRequest();
+		} catch(e) {
+			req = false;
+		}
+	} else if (window.ActiveXObject) {
+		try {
+			req = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch(e) {
+			try {
+				req = new ActiveXObject('Microsoft.XMLHTTP');
+			} catch(e) {
+				req = false;
+			}
+		}
+	}
+	if (req) {
+		req.onreadystatechange=processReqChange;
+		req.open("GET", url, true);
+		req.send(null);
 	}
 }
 
 // function to handle asynchronous call
-function postFileReady() {
-	if (xmlhttp.readyState==4) {
-		if (xmlhttp.status==200) {
-			var content = xmlhttp.responseText;
-			var tmpArr = content.split("\n");
-			for (var i = 0; i < tmpArr.length; i++) {
-				var three = tmpArr[i].split(";");
-				var num = three[0];
-				var name = three[1];
-				var latLng = three[2];
-				locArray[num] = latLng;
-			}
+function processReqChange() {
+	if (req.readyState==4) {
+		if (req.status==200) {
+			processStations();
+			addStations();
 		} else {
-			alert("Help!");
+			alert("There was a problem retrieving the XML data:\n" + req.statusText);
 		}
 	}
 }
 
-function createMarker(map, point, message, markerOptions) {
+function processStations() {
+	var content = req.responseText;
+	var tmpArr = content.split("\n");
+	for (var i = 0; i < tmpArr.length; i++) {
+		var record = tmpArr[i].split(";");
+		if (record.length == 3) {
+			var num = record[0];
+			var s = new Object();
+			s.name = record[1];
+			var words = s.name.split(' ');
+			s.titleName = s.name.titleCase();
+
+			var latLng = record[2].split(',');
+			s.latitude = latLng[0];
+			s.longitude = latLng[1];
+
+			stationHash.setItem(num, s);
+		}
+	}
+	document.getElementById("locations").innerHTML = "Processing done, " + stationHash.length;
+
+}
+
+function addStations() {
+	var cityBikeMarker = new GIcon(G_DEFAULT_ICON);
+	//cityBikeMarker.image = "http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png";
+               
+	// Set up our GMarkerOptions object
+	markerOptions = { icon:cityBikeMarker };
+
+	// Add station markers to the map
+	for (var i in stationHash.items) {
+		var s = stationHash.items[i];
+		s.point = new GLatLng(s.latitude, s.longitude);
+		var name = '<p class="name">' + i + ' - ' + s.titleName + '</p>';
+		var gps = '<p class="gps">' + "GPS: " + s.latitude + "," + s.longitude + '</p>';
+		var html = '<div class="station">' + name + gps + '</div>';
+  		map.addOverlay(createMarker(s.point, html, markerOptions));
+	}
+}
+
+function createMarker(point, html, markerOptions) {
 	var marker = new GMarker(point, markerOptions);
 	GEvent.addListener(marker, "click", function() {
-		var stationHtml = "<b>" + message + "</b>";
-		map.openInfoWindowHtml(point, stationHtml);
+		map.openInfoWindowHtml(point, html);
 	});
 	return marker;
 }
 
 function mapsLoaded() {
 	if (GBrowserIsCompatible()) {
-		var map = new GMap2(document.getElementById("map"));
+		map = new GMap2(document.getElementById("map"));
+		var trafficInfo = new GTrafficOverlay();
 		var center = new GLatLng(48.189365, 16.351068);
 		map.setCenter(center, 14);
+		map.enableScrollWheelZoom();
 		map.addControl(new GLargeMapControl());
 		map.addControl(new GMapTypeControl());
 		map.addControl(new GScaleControl());
-	
-		var cityBikeMarker = new GIcon(G_DEFAULT_ICON);
-		//cityBikeMarker.image = "http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png";
-                
-		// Set up our GMarkerOptions object
-		markerOptions = { icon:cityBikeMarker };
-
-		// Add station markers to the map
-		var message = "Hello"
-		for (var loc in locArray) {
-			var latLng = locArray[loc].split(',');
-			var lat = latLng[0];
-			var long = latLng[1];
-			var point = new GLatLng(lat, long);
-  			map.addOverlay(createMarker(map, point, message, markerOptions));
-		}
+		map.addOverlay(trafficInfo);
 	}
+	loadXMLDoc("http://cameronpalmer.com/citybike/location.csv");
 }
 
 function loadMaps() {
@@ -82,7 +164,6 @@ function loadMaps() {
 }
 
 function initLoader() {
-	include("http://cameronpalmer.com/citybike/location.csv");
 	lang = navigator.language.substr(0,2);
 	var script = document.createElement("script");
 	script.src = "http://maps.google.com/jsapi?key=ABQIAAAAOIETG0E0dKjOTufoxp5V2hSkKvSN7SEoe8SIEWfgQbA_uxQPiBQE8HWSKDxNcLxYG-BNErFsgTmY8g&amp;callback=loadMaps";
