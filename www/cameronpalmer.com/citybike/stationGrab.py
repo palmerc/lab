@@ -19,6 +19,7 @@ citybike_server = "http://dynamisch.citybikewien.at/"
 status_url = citybike_server + "s_liste.php"
 img_url = citybike_server + "include/r4_get_data.php?url=terminal/cont/img/"
 spacere = re.compile(r'\s\s+')
+loc_file = "location.csv"
 
 def toXML():
 	"""Dump the station information XML"""
@@ -26,17 +27,18 @@ def toXML():
 
 def toCSV():
 	"""Dump the station information CSV"""
-	f = open("status.csv", "w")
-	print u'number;name;desc;pic;free;empty;capacity'
+	f = open("status2.csv", "w")
 	for key in sorted(stations.keys(), lambda x, y: x-y):
 		station_number = str(key)
 		station_name = stations[key]["name"]
+		latitude = stations[key]["latitude"]
+		longitude = stations[key]["longitude"]
 		station_desc = stations[key]["description"]
 		station_pic = stations[key]["picture"]
 		free_bikes = str(stations[key]["available"])
 		free_boxes = str(stations[key]["empty"])
 		max_bikes = str(stations[key]["capacity"])
-		tmpArr = [station_number, station_name, station_desc, station_pic, free_bikes, free_boxes, max_bikes]
+		tmpArr = [station_number, station_name, latitude, longitude, station_desc, station_pic, free_bikes, free_boxes, max_bikes]
 		csvString = u';'.join(tmpArr) + '\n'
 		f.write(csvString.encode('utf-8'))
 	f.close()
@@ -60,7 +62,23 @@ def toString():
 		print u'Total Capacity:', max_bikes
 		print
 
+def readLocationData(file):
+	f = open(file, "r")
 
+	for line in f:
+		line = line.decode("utf-8")
+		line = line.strip()
+		parts = line.split(';')
+		if len(parts) < 3:
+			continue 
+		key = int(parts[0])
+		stations[key] = {}
+		stations[key]["name"] = parts[1]
+		latLng = parts[2].split(',')
+		stations[key]["latitude"] = latLng[0]
+		stations[key]["longitude"] = latLng[1]
+	f.close()
+		
 def descfix(L):
 	s = u'; '.join(map(lambda x: x.strip(), L))
 	s = re.sub(spacere, ' ', s)
@@ -158,8 +176,6 @@ def process(page):
 				STATUS = 0
 				FINAL = 1
 		elif FINAL == 1:
-			stations[station_number] = {}
-			stations[station_number]["name"] = station_name
 			stations[station_number]["description"] = station_desc
 			stations[station_number]["picture"] = station_pic
 			stations[station_number]["available"] = free_bikes
@@ -213,7 +229,9 @@ def main(argv=None):
 		print e
 		return 2
 
+	readLocationData(loc_file);
 	process(page)
+
 	if report == 1:
 		toString()
 	elif csv == 1:
