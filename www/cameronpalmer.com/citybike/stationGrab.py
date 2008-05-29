@@ -20,8 +20,13 @@ status_url = citybike_server + "s_liste.php"
 img_url = citybike_server + "include/r4_get_data.php?url=terminal/cont/img/"
 spacere = re.compile(r'\s\s+')
 
+def toXML():
+	"""Dump the station information XML"""
+	pass
+
 def toCSV():
 	"""Dump the station information CSV"""
+	f = open("status.csv", "w")
 	print u'number;name;desc;pic;free;empty;capacity'
 	for key in sorted(stations.keys(), lambda x, y: x-y):
 		station_number = str(key)
@@ -33,7 +38,8 @@ def toCSV():
 		max_bikes = str(stations[key]["capacity"])
 		tmpArr = [station_number, station_name, station_desc, station_pic, free_bikes, free_boxes, max_bikes]
 		csvString = u';'.join(tmpArr) + '\n'
-		print csvString.encode('utf-8')
+		f.write(csvString.encode('utf-8'))
+	f.close()
 
 def toString():
 	"""Dump the station information"""
