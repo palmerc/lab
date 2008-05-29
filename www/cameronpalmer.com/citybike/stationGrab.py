@@ -27,7 +27,7 @@ def toXML():
 
 def toCSV():
 	"""Dump the station information CSV"""
-	f = open("status2.csv", "w")
+	f = open("status.csv", "w")
 	for key in sorted(stations.keys(), lambda x, y: x-y):
 		station_number = str(key)
 		station_name = stations[key]["name"]
@@ -81,6 +81,7 @@ def readLocationData(file):
 		
 def descfix(L):
 	s = u'; '.join(map(lambda x: x.strip(), L))
+	s = re.sub(';', '', s)
 	s = re.sub(spacere, ' ', s)
 	return s
 

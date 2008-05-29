@@ -100,17 +100,19 @@ function processStations() {
 	var tmpArr = content.split("\n");
 	for (var i = 0; i < tmpArr.length; i++) {
 		var record = tmpArr[i].split(";");
-		if (record.length == 3) {
+		if (record.length == 9) {
 			var num = record[0];
 			var s = new Object();
 			s.name = record[1];
-			var words = s.name.split(' ');
 			s.titleName = s.name.titleCase();
 
-			var latLng = record[2].split(',');
-			s.latitude = latLng[0];
-			s.longitude = latLng[1];
-
+			s.latitude = record[2];
+			s.longitude = record[3];
+			s.description = record[4];
+			s.picture = record[5];
+			s.bikes = record[6];
+			s.empty = record[7];
+			s.capacity = record[8]; 
 			stationHash.setItem(num, s);
 		}
 	}
@@ -130,8 +132,13 @@ function addStations() {
 		var s = stationHash.items[i];
 		s.point = new GLatLng(s.latitude, s.longitude);
 		var name = '<p class="name">' + i + ' - ' + s.titleName + '</p>';
+		var desc = '<p class="description">' + s.description + '</p>';
+		var pic = '<img class="picture" src="http://dynamisch.citybikewien.at/include/r4_get_data.php?url=terminal/cont/img/' + s.picture + '" height="100px" width="100px" />';
+		var bikes = '<p class="bikes">' + "Bikes available: " + s.bikes + '</p>';
+		var empty = '<p class="empty">' + "Empty spaces: " + s.empty + '</p>';
+		var capacity = '<p class="capacity">' + "Capacity: " + s.capacity + '</p>';
 		var gps = '<p class="gps">' + "GPS: " + s.latitude + "," + s.longitude + '</p>';
-		var html = '<div class="station">' + name + gps + '</div>';
+		var html = '<div class="station">' + name + desc + pic + bikes + empty + capacity + gps + '</div>';
   		map.addOverlay(createMarker(s.point, html, markerOptions));
 	}
 }
@@ -156,7 +163,7 @@ function mapsLoaded() {
 		map.addControl(new GScaleControl());
 		map.addOverlay(trafficInfo);
 	}
-	loadXMLDoc("http://cameronpalmer.com/citybike/location.csv");
+	loadXMLDoc("http://cameronpalmer.com/citybike/status.csv");
 }
 
 function loadMaps() {
