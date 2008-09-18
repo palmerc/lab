@@ -1,0 +1,55 @@
+Cameron Palmer
+
+Control Flow Inhibiting Parallelism
+
+The age of the multi-processor desktop computer has been with us for a few years now. As we ran out of ways to ramp up processor clock, companies have put multiple processors on a die to increase performance. For your typical desktop running a handful of applications and an operating system, this direction has improved real-world performance for users considerably. Of course this improvement in performance doesn’t come from a proliferation of multi-threaded programming techniques, or a magical compiler technique, it relies simply on the ability of the operating system to interleave the programs execution on your two to eight processors. Applications largely remain single threaded, unable to take advantage of the multi-threading on their own. To take advantage of larger numbers of processors we will need to extract more parallelism from our programs, but how?
+
+Problems with Processor Technology
+We must first discuss what bottlenecks have been encountered in just running processors faster.
+
+Memory Access Times
+Voltage Leak
+
+Novel Architectures for Parallelism
+Scheduled Dataflow (SDF)
+As much time as our lab has spent discussing SDF I think it is important to discuss my research in relation to SDF. SDF is an architecture that decouples memory accesses from execution. By having an execution processor and a memory access processor, the ISA for SDF supports the explicit creation of threads and sets them to execute as their data values arrive. This enables the processor to execute in-order code without waiting on data values to arrive from memory, and the next thread can begin executing because write back would move the thread back to the memory access processor. This approach solves some of the issues with original dataflow architectures that operated in this fashion on a per instruction basis, which provided too fine grained threads. This architecture suffers from the same problem all attempts at multi-threading, the basic block is too small to achieve any reasonable amounts of parallelism. In fact the very problems SDF solves become major liabilities because it generates more instruction overhead for thread creation, and the movement of threads into and out of queues makes control flow latencies worse.
+
+Even in the paper presented to the IEEE, the authors concede that the processor cannot compete with a superscalar processor and instead add multiple processors to their design to make it perform better, arguing that when those cores aren’t being used they could be switched off. This seems a tacit admission that this architecture, more than others, suffers from the lack of a technique of extracting parallelism from programs, and that without that, further discussion about the merits of this architecture are moot. I believe, that before we start worrying about decoupling memory accesses, and explicitly creating frames, we need  more code to stuff into frames. 
+
+Multi-threaded Programming Paradigms
+Functional
+The Library Approach
+
+Instruction-Level Parallelism
+Instruction-Level Parallelism (ILP) is the amount of parallelism that can be found in instructions through reordering. The first commercial machines that could exploit ILP were CDC’s 6600 and IBM’s System 360 Model 91, both in the 1960s, using Scoreboarding and Tomasulo’s Algorithm respectively. Today the idea of multiple issue and out-of-order execution is found in most processors on the market, and is the cornerstone of superscalar, superpipelined desktop processors on the market today. To make processors perform faster we want to finish instructions every cycle, and to do that we must issue multiple instructions each cycle as operands become available, and keep all the functional units as busy as possible.
+
+Limits of Instruction-Level Parallelism
+David Wall
+1991
+What are the limits of ILP? Joseph Fisher pointed in [1993 History, Overview, Perspective] that it is possible that a new technique could discover more parallelism than Wall does in this paper, just like more ILP was available in 1993 than the 2-3x found in basic blocks in [1970 Tjaden and Flynn], but this paper does the best job of performing an aggressive limit study of ILP.
+
+The first problem is dependencies between instructions. True dependencies where the outcome of one instruction feeds into the next instruction cannot be removed, but sometimes you can have a register conflict for two distinct operations. This can be addressed with register renaming. The same thing can also happen with other memory operations where it is difficult to determine at compile time if two operations are using the same memory location. To use Wall’s example:
+
+r1 := 0[r9]
+4[r16] := r3
+
+We cannot tell if this load and store is to the same location or different locations. We employ alias analysis to try to clear this up, but in practice we often err on the side of safety.
+
+Looking beyond basic blocks is important. The number of instructions between jumps is small, averaging less than 6. According to [Patterson and Hennessy] MIPS has between 3-6 instructions between jumps. In order to hide the latencies introduced by branch evaluation we can use branch prediction, and potentially speculation. Of course another approach is to try all paths, but that isn’t always possible because since jumps are so frequent you can still be evaluating a previous branch when you encounter the next. Loop unrolling is another way to enlarge basic blocks to get more parallelism. When we unroll a loop numerous times, we remove branches and have more to work instructions to move. Wall also mentions software pipelining, and trace scheduling to further enlarge blocks.
+
+Exploring different possible solutions for these problems like loosening hardware constraints, adding branch prediction, loop unrolling, and the like Wall doesn’t find much more parallelism. Average parallelism was around 5.
+
+
+
+
+
+
+
+
+ILP goes back at least as far as the CDC 6600 and IBM’s System 360 Model 91, allowing computers to issue instructions as soon as their operands are available, potentially out-of-order. ILP technology is commonplace in processors today. Superscalar and superpipelined processors use this sort of parallelism to speed up execution to issue multiple instructions simultaneously and keeping instructions in flight.
+
+Today’s processors look at the upcoming instructions and reorder and issue them as soon as possible or to hide latencies in instructions. If there are multiple functional units the processor can issue independent instructions in parallel. In the case of Very Long Instruction Word (VLIW) architectures the instructions were packed together at compile time to take advantage of the multiple functional units in the processor.
+
+This paper attempts a limit study of ILP, and this forms a foundation for several other important papers. In the Tjaden and Flynn (1970) paper very little ILP was found within basic block, only a factor of 2 to 3. However, as this paper points out, one must look across basic block boundaries. The paper wants to establish an upper bound on the amount of parallelism available and roughly establishes two roads to more parallelism: increasing the parallelism within blocks, and crossing block boundaries.
+
+The limitation 
