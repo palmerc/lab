@@ -1,8 +1,8 @@
-module Homework1 where
+module TreeThings where
 
 -- The provided data structure
-data Tree = Atom String
-	| Term String [Tree] deriving (Eq,Ord,Read,Show)
+data Term a = Atom String
+        | Term String [Term a] deriving (Eq,Ord,Read,Show)
 
 -- These are the sample trees
 s1 = "f(one,g(two,three),h3(four))"
@@ -11,8 +11,18 @@ t1 = Term "f" [Atom "one", Term "g" [Atom "two", Atom "three"], Term "h3" [Atom 
 t2 = Term "term1" [Atom "atom1", Term "term2" [Atom "atom2", Atom "atom3"]]
 
 -- Parse the string representation of the tree
--- Generate the string representation of the tree
+-- stringToTree :: String -> Tree a
 
-treeToString :: Tree -> String
-treeToString (Atom x) = x
-treeToString (Term x xs) = Term x (fmap treeToString xs)
+-- Generate the string representation of the tree
+-- treeToString :: Tree a -> String
+termToString :: Term a -> String
+termToString (Atom x) = x 
+termToString (Term x xs) = x ++ "(" ++ (intercalate "," . fmap termToString $ xs) ++ ")"
+
+intersperse :: a -> [a] -> [a]
+intersperse _   []     = []
+intersperse _   [x]    = [x]
+intersperse sep (x:xs) = x : sep : intersperse sep xs
+
+intercalate :: [a] -> [[a]] -> [a]
+intercalate sep = concat . intersperse sep
