@@ -12,3 +12,7 @@ t2 = Term "term1" [Atom "atom1", Term "term2" [Atom "atom2", Atom "atom3"]]
 
 -- Parse the string representation of the tree
 -- Generate the string representation of the tree
+
+treeToString :: Tree -> String
+treeToString (Atom x) = x
+treeToString (Term x xs) = Term x (fmap treeToString xs)
