@@ -11,10 +11,10 @@ t1 = Term "f" [Atom "one", Term "g" [Atom "two", Atom "three"], Term "h3" [Atom 
 t2 = Term "term1" [Atom "atom1", Term "term2" [Atom "atom2", Atom "atom3"]]
 
 -- Parse the string representation of the tree
--- stringToTree :: String -> Tree a
+stringToTerm :: String -> Term a
+stringToTerm x = 
 
 -- Generate the string representation of the tree
--- treeToString :: Tree a -> String
 termToString :: Term a -> String
 termToString (Atom x) = x 
 termToString (Term x xs) = x ++ "(" ++ (intercalate "," . fmap termToString $ xs) ++ ")"
