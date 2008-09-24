@@ -2,6 +2,7 @@
 module TreeThings where
 
 -- The provided data structure
+data T = C [T] deriving (Eq,Ord,Read,Show)
 data Term a = Atom String
         | Term String [Term a] deriving (Eq,Ord,Read,Show)
 
@@ -12,8 +13,21 @@ t1 = Term "f" [Atom "one", Term "g" [Atom "two", Atom "three"], Term "h3" [Atom 
 t2 = Term "term1" [Atom "atom1", Term "term2" [Atom "atom2", Atom "atom3"]]
 
 -- Parse the string representation of the tree
-{-stringToTerm :: String -> Term a
-stringToTerm x = Term x-}
+stringToTerm :: String -> Maybe T
+stringToTerm cs = case pars_expr cs of
+                  Just (t, []) -> Just t
+                  _            -> Nothing
+  where pars_expr (c:cs) | c=='(' = do (ts, cs') <- pars_list cs
+                                       return (C ts, cs')
+        pars_expr _ = Nothing
+
+        pars_list (c:cs) | c==')' = return ([],cs)
+
+        pars_list (c:cs) = do (t, cs1) <- pars_expr (c:cs)
+                              (ts,cs2) <- pars_list cs1
+                              return ((t:ts),cs2)
+        pars_list _ = Nothing
+
 
 -- Generate the string representation of the tree
 termToString :: Term a -> String
