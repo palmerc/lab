@@ -1,3 +1,4 @@
+-- Cameron Palmer, Jorge Reyes, Kaci Irvin
 module TreeThings where
 
 -- The provided data structure
@@ -11,8 +12,8 @@ t1 = Term "f" [Atom "one", Term "g" [Atom "two", Atom "three"], Term "h3" [Atom 
 t2 = Term "term1" [Atom "atom1", Term "term2" [Atom "atom2", Atom "atom3"]]
 
 -- Parse the string representation of the tree
-stringToTerm :: String -> Term a
-stringToTerm x = 
+{-stringToTerm :: String -> Term a
+stringToTerm x = Term x-}
 
 -- Generate the string representation of the tree
 termToString :: Term a -> String
