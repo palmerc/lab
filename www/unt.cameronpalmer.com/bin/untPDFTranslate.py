@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+__author__ = "Cameron Palmer"
+__copyright__ = "Copyright 2008, Cameron Palmer"
+__version__ = "$Rev$"
+__license__ = "GPL"
+
 import re
 import sys
 from StringIO import StringIO
