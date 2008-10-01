@@ -7,8 +7,7 @@ __license__ = "GPL"
 
 import os, glob, sys, re, string
 
-dirprefix = '../data/'
-#dirprefix = '/var/data/www/unt.cameronpalmer.com/data/'
+dirprefix = '/var/www/unt.cameronpalmer.com/data/'
 
 buildings = {
     'ART': 'Art Building',
