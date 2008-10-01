@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 __author__ = "Cameron Palmer"
-__copyright__ = "Copyright 2005, Cameron Palmer"
+__copyright__ = "Copyright 2008, Cameron Palmer"
 __version__ = "$Rev$"
 __license__ = "GPL"
 
@@ -257,7 +257,7 @@ def pdftotxt(pdffile, txtfile=None):
             raise e
       txtfile = datadir + semesdir + '/' + txtfile          
             
-      handle = os.popen('./pdftoxy %s | ./pdftotxt.py > %s' % (origfile, txtfile))
+      handle = os.popen('./pdftoxy %s | ./untPDFToTXT.py > %s' % (origfile, txtfile))
       handle.close()
    return txtfile
     
