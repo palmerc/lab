@@ -173,7 +173,8 @@ function loadMaps() {
 function initLoader() {
 	lang = navigator.language.substr(0,2);
 	var script = document.createElement("script");
-	script.src = "http://maps.google.com/jsapi?key=ABQIAAAAOIETG0E0dKjOTufoxp5V2hSkKvSN7SEoe8SIEWfgQbA_uxQPiBQE8HWSKDxNcLxYG-BNErFsgTmY8g&amp;callback=loadMaps";
+	var key = "ABQIAAAAOIETG0E0dKjOTufoxp5V2hSkKvSN7SEoe8SIEWfgQbA_uxQPiBQE8HWSKDxNcLxYG-BNErFsgTmY8g"
+	script.src = "http://maps.google.com/jsapi?key=" + key + "&amp;callback=loadMaps";
 	script.type = "text/javascript";
 	document.getElementsByTagName("head")[0].appendChild(script);
 }
