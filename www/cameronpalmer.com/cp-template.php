@@ -58,7 +58,7 @@ function do_header() {
 						<li><a href=\"{$ptr}citybike/\">CityBike Wien</a></li>
                                                 <li><a href=\"{$ptr}ssh/\">SSH</a></li>
     						<li><a href=\"{$ptr}gallery/\">Photo Gallery</a></li>
-    						<li><a href=\"http://trac.cameronpalmer.com/\">Trac Laboratory</a></li>
+    						<li><a href=\"{$ptr}trac/\">Trac Laboratory</a></li>
     						<li><a href=\"{$ptr}wiki/\">Course Wiki</a></li>
      						<li><a href=\"{$ptr}resume/\">R&eacute;sum&eacute;</a></li> 			    			    			    			
      					</ul>
