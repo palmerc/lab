@@ -105,7 +105,7 @@ function processStations() {
 			var num = record[0];
 			var s = new Object();
 			s.name = record[1];
-			s.titleName = s.name.titleCase();
+			s.titleName = s.name;
 
 			s.latitude = record[2];
 			s.longitude = record[3];
@@ -153,7 +153,6 @@ function createMarker(point, html, markerOptions) {
 }
 
 function initialize() {
-	alert("Loading maps");
 	if (GBrowserIsCompatible()) {
 		map = new google.maps.Map2(document.getElementById("map"));
 		var trafficInfo = new GTrafficOverlay();
