@@ -171,9 +171,10 @@ def process(page):
 		elif STATUS == 1:
 			if td.p:
 				m = statusre.search(repr(td.p))
-				free_bikes = int(m.group(2))
-				free_boxes = int(m.group(3))
-				max_bikes = int(m.group(1))
+				if m:
+					free_bikes = int(m.group(2))
+					free_boxes = int(m.group(3))
+					max_bikes = int(m.group(1))
 				STATUS = 0
 				FINAL = 1
 		elif FINAL == 1:

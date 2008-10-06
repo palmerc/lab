@@ -4,8 +4,9 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 		<title>CityBike Vienna</title>
-		<script type="text/javascript">
-	//<![CDATA[
+		<script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAOIETG0E0dKjOTufoxp5V2hSkKvSN7SEoe8SIEWfgQbA_uxQPiBQE8HWSKDxNcLxYG-BNErFsgTmY8g"></script>
+	<script type="text/javascript">
+		google.load("maps", "2.x");
 
 var req;
 var stationHash = new Hash();
@@ -151,9 +152,10 @@ function createMarker(point, html, markerOptions) {
 	return marker;
 }
 
-function mapsLoaded() {
+function initialize() {
+	alert("Loading maps");
 	if (GBrowserIsCompatible()) {
-		map = new GMap2(document.getElementById("map"));
+		map = new google.maps.Map2(document.getElementById("map"));
 		var trafficInfo = new GTrafficOverlay();
 		var center = new GLatLng(48.189365, 16.351068);
 		map.setCenter(center, 14);
@@ -166,23 +168,10 @@ function mapsLoaded() {
 	loadXMLDoc("http://cameronpalmer.com/citybike/status.csv");
 }
 
-function loadMaps() {
-	google.load("maps", "2", {"callback" : mapsLoaded, "language" : lang});
-}
-
-function initLoader() {
-	lang = navigator.language.substr(0,2);
-	var script = document.createElement("script");
-	var key = "ABQIAAAAOIETG0E0dKjOTufoxp5V2hSkKvSN7SEoe8SIEWfgQbA_uxQPiBQE8HWSKDxNcLxYG-BNErFsgTmY8g"
-	script.src = "http://maps.google.com/jsapi?key=" + key + "&amp;callback=loadMaps";
-	script.type = "text/javascript";
-	document.getElementsByTagName("head")[0].appendChild(script);
-}
-
-	//]]>
-		</script>
+		google.setOnLoadCallback(initialize);
+	</script>
 	</head>
-	<body onload="initLoader()"; onunload="GUnload()">
+	<body onunload="GUnload()">
 		<div id="map" style="height:800px; width:800px"></div>
 		<p id="locations"></p>
 	</body>
