@@ -1,14 +1,48 @@
-Cameron Palmer
+\documentclass[12pt,twoside,letterpaper]{article}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+Cameron Palmer \\
+Fall 2008
 
-Control Flow Inhibiting Parallelism
+\section*{Control Flow Inhibiting Parallelism}
 
-The age of the multi-processor desktop computer has been with us for a few years now. As we ran out of ways to ramp up processor clock, companies have put multiple processors on a die to increase performance. For your typical desktop running a handful of applications and an operating system, this direction has improved real-world performance for users considerably. Of course this improvement in performance doesn’t come from a proliferation of multi-threaded programming techniques, or a magical compiler technique, it relies simply on the ability of the operating system to interleave the programs execution on your two to eight processors. Applications largely remain single threaded, unable to take advantage of the multi-threading on their own. To take advantage of larger numbers of processors we will need to extract more parallelism from our programs, but how?
+The age of the multi-processor desktop computer has been with us for a few years now. As we ran out of ways to ramp up processor clock, companies have put multiple processors on a die to increase performance. For your typical desktop running a handful of applications and an operating system, this direction has improved real-world performance for users considerably. Of course this improvement in performance doesn’t come from a proliferation of multi-threaded programming, or a magical compiler technique, it relies simply on the ability of the operating system to interleave the programs execution on your two or more processors. Applications largely remain single threaded, unable to take advantage of the multi-threading on their own. To take advantage of larger numbers of processors we will need to extract more parallelism from imperative programs.
 
-Problems with Processor Technology
-We must first discuss what bottlenecks have been encountered in just running processors faster.
-
+\section*{All about processors}
+\section*{Why super processor technology stopped working}
+The doubling of transistors that can fit on a die every 18 months has a nice corollary, 
+Until recently the way to increase performance at the hardware level was to use super-scalar and super-pipeling in the processor to complete an instruction every cycle. This took advantage of instruction level parallelism (ILP) within the basic blocks of programs. The biggest advantage of this technique is that it required no program modification to get the benefit. However, we are limited in how m
 Memory Access Times
 Voltage Leak
+\section*{Multi-core processors to the rescue, or we have multiple cores, now what?}
+
+We start off talking about super-scaling and pipelining and how that ran into trouble. Then what the industry did, namely multi-core to the rescue. Introduce why this solution pushes the problem back to software.
+
+
+\section*{Extracting parallelism}
+\section*{What is limiting instruction-level parallelism?}
+Control flow
+\section*{Why we aren't multi-threading everything}
+
+ILP is limited but why? We investigate this and the suspicion that control flow plays a role. We should touch on the difficulties and limitations of current multi-threading methodologies, and how I believe a compiler technique to 
+
+
+\section*{Exotic solutions we are ignoring}
+\section*{Other programming paradigms}
+Functional programming languages
+\section*{Alternative architectures}
+Dataflow
+
+\section*{Code hoisting in SSA form}
 
 Novel Architectures for Parallelism
 Scheduled Dataflow (SDF)
@@ -20,24 +54,25 @@ Multi-threaded Programming Paradigms
 Functional
 The Library Approach
 
-Instruction-Level Parallelism
+\section*{Trace Scheduling}
+
+\section*{Instruction-Level Parallelism}
 Instruction-Level Parallelism (ILP) is the amount of parallelism that can be found in instructions through reordering. The first commercial machines that could exploit ILP were CDC’s 6600 and IBM’s System 360 Model 91, both in the 1960s, using Scoreboarding and Tomasulo’s Algorithm respectively. Today the idea of multiple issue and out-of-order execution is found in most processors on the market, and is the cornerstone of superscalar, superpipelined desktop processors on the market today. To make processors perform faster we want to finish instructions every cycle, and to do that we must issue multiple instructions each cycle as operands become available, and keep all the functional units as busy as possible.
 
-Limits of Instruction-Level Parallelism
-David Wall
-1991
-What are the limits of ILP? Joseph Fisher pointed in [1993 History, Overview, Perspective] that it is possible that a new technique could discover more parallelism than Wall does in this paper, just like more ILP was available in 1993 than the 2-3x found in basic blocks in [1970 Tjaden and Flynn], but this paper does the best job of performing an aggressive limit study of ILP.
+One of the best attempts at determining the amount of ILP available in the average program was attempted by David Wall. Joseph Fisher pointed in [1993 History, Overview, Perspective] that it is possible that a new technique could discover more parallelism than Wall does in this paper, just like more ILP was available in 1993 than the pessimistic 1.86 found in basic blocks in [1970 Tjaden and Flynn], but this paper does the best job of performing an aggressive limit study of ILP.
 
-The first problem is dependencies between instructions. True dependencies where the outcome of one instruction feeds into the next instruction cannot be removed, but sometimes you can have a register conflict for two distinct operations. This can be addressed with register renaming. The same thing can also happen with other memory operations where it is difficult to determine at compile time if two operations are using the same memory location. To use Wall’s example:
+Wall identifies early in the paper what limits parallelism. One problem is dependencies between instructions. True dependencies, where the outcome of one instruction feeds into the next instruction cannot be removed. The true dependence represents the fundamental ordering inherent in tasks, just like I must obtain food before consuming it. Other tasks aren't as rigidly ordered but an artificial register dependency can be created because of poorly planning during register assignment. This poor planning might be the reuse of a register that prevents an independent task from executing in parallel and can be addressed with register renaming. A similar but more difficult version of this problem can happen with memory operations. It can be difficult to determine at compile time if two operations are using the same memory location. To use Wall’s example:
 
+\begin{code}
 r1 := 0[r9]
 4[r16] := r3
+\end{code}
 
-We cannot tell if this load and store is to the same location or different locations. We employ alias analysis to try to clear this up, but in practice we often err on the side of safety.
+We cannot tell if this load and store is to the same location or different locations. We must use alias analysis to try to clear this up, but in practice we often err on the side of safety and enforce strict ordering.
 
-Looking beyond basic blocks is important. The number of instructions between jumps is small, averaging less than 6. According to [Patterson and Hennessy] MIPS has between 3-6 instructions between jumps. In order to hide the latencies introduced by branch evaluation we can use branch prediction, and potentially speculation. Of course another approach is to try all paths, but that isn’t always possible because since jumps are so frequent you can still be evaluating a previous branch when you encounter the next. Loop unrolling is another way to enlarge basic blocks to get more parallelism. When we unroll a loop numerous times, we remove branches and have more to work instructions to move. Wall also mentions software pipelining, and trace scheduling to further enlarge blocks.
+Wall, unlike many early investigations of ILP, tries to look beyond basic blocks. The number of instructions Wall found between jumps (a basic block) is small, often averaging less than 6. According to [Patterson and Hennessy 4th edition] MIPS has between 3-6 instructions in its basic blocks. These small basic blocks require us to stop and wait for the branch evaluation to occur so that we can choose the right path. In order to hide these latencies we can use branch prediction, and potentially speculation. This introduces the problem of speculative fanout since jumps are so frequent you can still be evaluating a previous branch when you encounter the next. Loop unrolling is another way to enlarge basic blocks to get more parallelism. When we unroll a loop numerous times, we remove branches and have more to work instructions to move. Wall also mentions software pipelining, and trace scheduling to further enlarge blocks.
 
-Exploring different possible solutions for these problems like loosening hardware constraints, adding branch prediction, loop unrolling, and the like Wall doesn’t find much more parallelism. Average parallelism was around 5.
+The experiments in this paper try loosening hardware constraints, adding branch prediction, loop unrolling, and still Wall doesn’t find much more parallelism. Average parallelism was around 5.
 
 
 
@@ -53,3 +88,4 @@ Today’s processors look at the upcoming instructions and reorder and issue the
 This paper attempts a limit study of ILP, and this forms a foundation for several other important papers. In the Tjaden and Flynn (1970) paper very little ILP was found within basic block, only a factor of 2 to 3. However, as this paper points out, one must look across basic block boundaries. The paper wants to establish an upper bound on the amount of parallelism available and roughly establishes two roads to more parallelism: increasing the parallelism within blocks, and crossing block boundaries.
 
 The limitation 
+\end{document}
