@@ -1,0 +1,46 @@
+fieldset {
+	float: left;
+	margin: 0 10px 0 0;
+}
+label {
+	display: block;
+}
+
+table {
+	width: 100%;
+}
+
+#select-semester label {
+	float: left;
+}
+
+#pager * {
+	padding: 3px 5px;
+	border: 1px solid #369;
+	background: #eed;
+}
+
+#search-results-table {
+	clear: left;
+}
+
+#pager {
+	margin: 4px 0;
+}
+#pager a {
+	padding: 2px 6px;
+	margin: 0 4px 0 0;
+	border: 1px solid #ccc;
+	text-decoration: none;
+	/*min-width: 20px;
+	display: block;
+	float: left;
+	text-align: center;*/
+}
+#pager a:hover {
+	background: #ccf;
+	border-color: #00f;
+}
+html body #pager .selectedPage {
+	background: #fcc;
+}
