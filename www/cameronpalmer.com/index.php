@@ -14,6 +14,3 @@ would make a good name for a pub. So if you would like to use the name for a pub
 please make checks payable to Cameron Palmer. As a side note the image of the
 buffalo (american bison) that I used comes from the back of the american five
 cent piece re-issue, which happens to look strikingly similar to the Modest Mouse concert t-shirt that was out for this album (Lonesome Crowded West).</p>
-<p>I am currently working on a project to provide a better search solution for
-the UNT course schedules and catalog. Come along and see the progress of 
-<a href="http://unt.cameronpalmer.com">UNT Course Search</a>. At this moment the 'to text' version works and retains the original formatting.</p>
