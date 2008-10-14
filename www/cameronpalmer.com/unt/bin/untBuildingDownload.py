@@ -8,7 +8,7 @@ __license__ = "GPL"
 import urllib2
 
 url = 'http://www.unt.edu/pais/map/campusmap.htm'
-dataDir = '/var/www/unt.cameronpalmer.com/data/buildings/'
+dataDir = '/var/www/cameronpalmer.com/unt/data/buildings/'
 csvFile = 'untBuildings.csv'
 
 r = urllib2.urlopen(url)

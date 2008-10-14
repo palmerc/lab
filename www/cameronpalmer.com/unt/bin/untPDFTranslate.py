@@ -7,7 +7,7 @@ __license__ = "GPL"
 
 import os, glob, sys, re, string
 
-basedir = '/var/www/unt.cameronpalmer.com/'
+basedir = '/var/www/cameronpalmer.com/unt/'
 bindir = basedir + 'bin/'
 datadir = basedir + 'data/'
 

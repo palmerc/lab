@@ -15,7 +15,7 @@ if __name__ == '__main__':
     base = 'http://essc.unt.edu/registrar/SOCbydept/'
     url = 'SOCbydeptA.htm'
     #datadir = '../data/pdf/'
-    datadir = '/var/www/unt.cameronpalmer.com/data/pdf/'
+    datadir = '/var/www/cameronpalmer.com/unt/data/pdf/'
     html = urllib2.urlopen(base+url) # A file like object
     soup = BeautifulSoup(html)
     for anchor in soup('a'):
