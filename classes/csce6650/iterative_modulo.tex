@@ -1,0 +1,26 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+Cameron Palmer \\
+Fall 2008
+
+\section*{Iterative Module Scheduling: An Algorithm For Software Pipelinging Loops}
+
+The general principle of software pipelining is simple. This technique is used to hide latencies of certain long running instructions by moving some of the instructions before the loop (prologue) and some after (Epilogue) in order to manipulate the loop the loop to take fewer cycles. 
+
+The author refers to Iterative Modulo Scheduling as being one of two alternatives from Schedule-Then-Move loop optimization. He establishes a concept called Iteration Interval (II) which is the interval between the start of successive iterations of the loop and sets it initially to the Minimum Iteration Interval (MII). MII is determined using the max of either Resource or Recurrence constraints of the loop block, and mostly resource. Then he looks for a schedule that meets the II or the II is increased, iteratively, until a schedule is found.
+
+The paper finds this method achieves a near-optimal solution, and does so in $O(N^2)$ time complexity.
+
+I haven't had a chance to think too much about it, but the paper spends to much time discussing many side issues without enough detail to be thorough. It would be nice if he would have stayed on topic in a couple of places. However, that is a general complaint I have about most technical writing which can be summarized as don't provide unnecessary discussion unless you need to cover the information. The author does clearly identify a method of software pipelining that is clear and easy to understand.
+
+\end{document}

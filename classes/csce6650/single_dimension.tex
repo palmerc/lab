@@ -1,0 +1,24 @@
+\documentclass[12pt,twoside,letterpaper]{article}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{empty}
+\raggedright
+\begin{document}
+Cameron Palmer \\
+Fall 2008
+
+\section*{Single-dimension software pipelining for multidimensional loops}
+
+Software pipelining has been a technique for scheduling instructions for inner-most loops for some time. This paper extends the software pipelining techniques to the most profitable loop-level, not just the inner-most loop.
+
+The authors implement their algorithm on the IA-64 architecture which supports Rotating Registers and Predicates. They used the SPEC2000 floating point benchmarks and found their technique yieleded some improvement.
+
+It seems that this is good work, but still has a way to go. They haven't yet explored many of the issues that will be important for wide-spread adoption of this technique. Specifically, how this technique will impact other loop transformations.
+
+\end{document}
