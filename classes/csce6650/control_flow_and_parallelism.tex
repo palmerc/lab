@@ -15,9 +15,12 @@ Fall 2008
 
 \section*{Control Flow Inhibiting Parallelism}
 
-The age of the multi-processor desktop computer has been with us for a few years now. As we ran out of ways to ramp up processor clock, companies have put multiple processors on a die to increase performance. For your typical desktop running a handful of applications and an operating system, this direction has improved real-world performance for users considerably. Of course this improvement in performance doesn’t come from a proliferation of multi-threaded programming, or a magical compiler technique, it relies simply on the ability of the operating system to interleave the programs execution on your two or more processors. Applications largely remain single threaded, unable to take advantage of the multi-threading on their own. To take advantage of larger numbers of processors we will need to extract more parallelism from imperative programs.
+\subsection*{Abstract}
+The age of the multi-processor desktop computer has been with us for a few years now. As we ran out of ways to ramp up processor clock, companies have put multiple processors on a die to increase performance. For the typical desktop running a handful of applications and an operating system, this direction has improved real-world performance for users considerably. Of course this improvement in performance does not come from a proliferation of multi-threaded programming, or a magical compiler technique, it relies simply on the ability of the operating system to interleave the programs execution on your two or more processors. Applications largely remain single threaded, unable to take advantage of the multi-threading on their own. To take advantage of larger numbers of processors we will need to extract more parallelism from imperative programs.
 
-\section*{All about processors}
+\section*{Processors}
+The modern processor, von Neumann architecture, is broken into several distinct phases. These phases are Instruction Fetch (IF), Instruction Decode (ID), Execute (EX), and Write Back (WB). An instruction is taken from the queue of instructions to be executed, This structure imposes a certain ordering on the way instructions are executed. The simplistic version of this architecture has every instruction complete in one-cycle. In other words, the cycle is the length of time required to complete the longest instruction. So the next logical step is use these stages to divide up instructions into multiple shorter cycles, pipeline the processor, because at any given stage the processor can be using the functional units in the processor simultaneously. This system allows instructions to be completed every cycle in the case where there are no dependences. Realistically the instructions aren't going to be dependence free and they may not be in an ideal order so we get stalls where nothing is happening in a particular functional unit. So we need instruction reordering to help hide latencies
+
 \section*{Why super processor technology stopped working}
 The doubling of transistors that can fit on a die every 18 months has a nice corollary, 
 Until recently the way to increase performance at the hardware level was to use super-scalar and super-pipeling in the processor to complete an instruction every cycle. This took advantage of instruction level parallelism (ILP) within the basic blocks of programs. The biggest advantage of this technique is that it required no program modification to get the benefit. However, we are limited in how m
@@ -63,10 +66,10 @@ One of the best attempts at determining the amount of ILP available in the avera
 
 Wall identifies early in the paper what limits parallelism. One problem is dependencies between instructions. True dependencies, where the outcome of one instruction feeds into the next instruction cannot be removed. The true dependence represents the fundamental ordering inherent in tasks, just like I must obtain food before consuming it. Other tasks aren't as rigidly ordered but an artificial register dependency can be created because of poorly planning during register assignment. This poor planning might be the reuse of a register that prevents an independent task from executing in parallel and can be addressed with register renaming. A similar but more difficult version of this problem can happen with memory operations. It can be difficult to determine at compile time if two operations are using the same memory location. To use Wall’s example:
 
-\begin{code}
+\begin{quote}
 r1 := 0[r9]
 4[r16] := r3
-\end{code}
+\end{quote}
 
 We cannot tell if this load and store is to the same location or different locations. We must use alias analysis to try to clear this up, but in practice we often err on the side of safety and enforce strict ordering.
 
