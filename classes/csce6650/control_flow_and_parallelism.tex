@@ -1,4 +1,5 @@
 \documentclass[12pt,twoside,letterpaper]{article}
+\usepackage{graphicx}
 \setlength\topmargin{0in}
 \setlength\headheight{0in}
 \setlength\headsep{0in}
@@ -10,26 +11,52 @@
 \pagestyle{empty}
 \raggedright
 \begin{document}
-Cameron Palmer \\
+Cameron L. Palmer \\
+University of North Texas \\
 Fall 2008
 
-\section*{Control Flow Inhibiting Parallelism}
+\title{Control Flow Inhibiting Parallelism}
 
-\subsection*{Abstract}
+\begin{abstract}
 The age of the multi-processor desktop computer has been with us for a few years now. As we ran out of ways to ramp up processor clock, companies have put multiple processors on a die to increase performance. For the typical desktop running a handful of applications and an operating system, this direction has improved real-world performance for users considerably. Of course this improvement in performance does not come from a proliferation of multi-threaded programming, or a magical compiler technique, it relies simply on the ability of the operating system to interleave the programs execution on your two or more processors. Applications largely remain single threaded, unable to take advantage of the multi-threading on their own. To take advantage of larger numbers of processors we will need to extract more parallelism from imperative programs.
+\end{abstract}
 
-\section*{Basic Processor Technology}
-The modern processor, or von Neumann architecture, is broken into several distinct phases. These phases are Instruction Fetch (IF), Instruction Decode (ID), Execute (EX), and Write Back (WB). An instruction is taken from the queue of instructions to be executed, decoded, executed, and written to either registers or memory. This structure imposes a certain ordering on the way instructions are executed, and in the simplistic version of this architecture every instruction completes in one-cycle. The cycle here is the length of time required to complete the longest instruction.
+\section*{Thesis Proposal}
+I propose to investigate the limits of thread-level parallelism (TLP) in imperative code. Therehave been studies of the limits of instruction-level parallelism (ILP) available in imperative code. The amount of thread-level parallelism will give us an upper bound on the amount of parallelism we can extract from existing programs in the SPEC CPU benchmark suite, and then map to the modern multi-core processors available on most desktops.
 
-So the next logical step is use these stages to divide up instructions into multiple cycles, by pipelining the processor. At any given stage the processor can be using all of the functional units in the processor simultaneously. For example one instruction could be decoding while a second instruction could be in the execute phase, and a third in write back. This system allows instructions to be in theory completed every cycle in the case where there are no dependences. Realistically, the instructions aren't going to be dependence free and they may not be in an ideal order so we get stalls where nothing is happening in a particular part of the processor. So we need instruction reordering to help hide latencies. We can further subdivide these stages of the processor and the processor is referred to as superpipelined, and if we add multiple sets of functional units within the processor and allow our processor to issue multiple instructions simultaneously, we call this superscalar.
+\section*{Background Information}
+\subsection*{Basic Processor Technology}
+The modern processor, or von Neumann architecture, is broken into several distinct stages. These stages within the context of the MIPS processor are Instruction Fetch (IF), Instruction Decode (ID), Execute (EX), Memory Access (MA), and Write Back (WB). An instruction is taken from the queue of instructions to be executed, decoded and the program counter (PC) incremented, executed through a manipulation in the Arithmetic Logic Unit (ALU), possibly transfer to or from main memory, and finally write results into a register. The ALU is one of the components that make up every CPU and these components the perform the work of the stages are referred to as functional units. In this simplistic version of computer processor architecture, every instruction completes in one-cycle and the cycle is the length of time required to complete the longest instruction. 
 
-So this basic processor is still heavily dependent on instruction order. If an instruction stalls the pipeline the processors complexity and resources are wasted. So we need to reorder instructions to hide these stalls. Instruction reordering has been in computing since the CDC 6600 (Scoreboarding) and the IBM System 360 Model 91 (Tomasulo's Algorithm) and are covered thoroughly in Patterson and Hennessey's textbook. This allows the processor to reorder instructions to maximize the throughput of instructions and hopefully get us close to one instruction completing per cycle.
+The next logical step is use these stage boundaries to divide up instructions into multiple cycles, by pipelining the processor. At any given stage the processor can be using all of the functional units in the processor simultaneously. For example one instruction could be decoding while a second instruction could be in the execute phase, and a third in write back. This system allows instructions to be completed every cycle in the case where there are no dependences between instructions. An illustration of the simple pipelined architecture can be found in Figure \ref{mips_pipeline}.
 
-\section*{Why super processor technology stopped working}
-The doubling of transistors that can fit on a die every 18 months has a nice corollary, 
-Until recently the way to increase performance at the hardware level was to use super-scalar and super-pipeling in the processor to complete an instruction every cycle. This took advantage of instruction level parallelism (ILP) within the basic blocks of programs. The biggest advantage of this technique is that it required no program modification to get the benefit. However, we are limited in how m
-Memory Access Times
-Voltage Leak
+We can further subdivide the stages of the processor, resulting in a superpipelined architecture, and if we add multiple sets of parallel functional units within the processor and allow our processor to issue multiple instructions simultaneously, we call this superscalar. The PowerPC 970 processor is an example of a superscalar design that has four ALUs, two Floating Point Units (FPUs), and two Single Instruction Mulitple Data (SIMD) units. The combination of superscalar and superpipelining can get the processor to complete multiple instructions per cycle.
+
+Realistically, the instructions aren't going to be dependence free, and they may not be in an ideal order, so we get stalls where nothing is happening in a particular part of the processor for several cycles. So we need instruction reordering to help hide latencies and keep the functional units busy. Instruction reordering has been in computing hardware since the CDC 6600 (Scoreboarding) and the IBM System 360 Model 91 (Tomasulo's Algorithm). This allows the processor to reorder instructions on-the-fly to maximize the throughput of instructions and hopefully get us close to one instruction completing per cycle. Instruction reordering can also be done by the compiler, and in architectures like VLIW this compile-time instruction ordering is critical.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=.15]{pipeline_MIPS.eps}
+	\end{center}
+	
+	\caption{The simple pipelined processor - REPLACE ME!}
+	\label{mips_pipeline}
+\end{figure}
+
+\subsection*{Memory}
+The processor will need memory, and the most common method of interfacing memory and the processor is through some sort of cache. The speed of memory has not kept pace with processor speed increases so cache helps hide the slow speed of main memory.  
+
+\begin{quote}
+Although CPUs are a thousand times faster, memory speed has increased only by a factor of ten or so. Back in the 1980s, reading a bit from main memory took a few hundred nanoseconds, which was also the time needed to execute a single instruction in a CPU. The memory and the processor cycles were well matched. Today, a processor could execute a hundred instructions in the time it takes to get data from memory.
+\end{quote}
+
+So we have developed very good cache predictors to try and have the correct instructions or data in cache to avoid the significant delay. Of course cache introduces its own problems, energy consumption, and lack of predictable latency which makes cache less useful in real-time embedded designs. Cache memory uses a significant amount of space on the CPU die and has caused some processors like Cell to eliminate cache altogether, or explore new approaches like scratchpad memory.
+
+\section*{Diminishing Returns}
+The doubling of transistors that can fit on a die every 18 months has had the nice advantage of packing more transistors in the same die space. This means the amount of power consumption has remained constant because the transistors got smaller. In fact processor has grown by .7 with each generation which is a reduction in size. The power requirements have been reduced too, but not at the same rate. Since smaller transistor leak power constantly, increasing speed by packing more transitors onto a die doesn't seem to be the best way forward.
+
+Intel, AMD, IBM and others have started putting multiple CPUs on the die to sidestep the issue of increasing processor speed.
+
 \section*{Multi-core processors to the rescue, or we have multiple cores, now what?}
 
 We start off talking about super-scaling and pipelining and how that ran into trouble. Then what the industry did, namely multi-core to the rescue. Introduce why this solution pushes the problem back to software.
