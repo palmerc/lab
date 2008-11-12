@@ -10,13 +10,11 @@
 \setlength{\parskip}{12pt}
 \pagestyle{empty}
 \raggedright
-\begin{document}
-Cameron L. Palmer \\
-University of North Texas \\
-Fall 2008
-
 \title{Control Flow Inhibiting Parallelism}
-
+\author{Cameron Lowell Palmer}
+\date{Fall 2008}
+\begin{document}
+\maketitle
 \section*{Thesis Proposal}
 The age of the multi-processor desktop computer has been with us for a few years now. As we ran out of ways to ramp up processor clock, companies have put multiple processors on a die to increase performance. For the typical desktop running a handful of applications and an operating system, this direction has improved real-world performance for users considerably. Of course this improvement in performance does not come from a proliferation of multi-threaded programming, or a magical compiler technique, it relies simply on the ability of the operating system to interleave the programs execution on your two or more processors. Applications largely remain single threaded, unable to take advantage of the multi-threading on their own. To take advantage of larger numbers of processors we will need to extract more parallelism from imperative programs.
 
