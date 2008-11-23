@@ -10,9 +10,9 @@ import sys
 
 rspace = re.compile(r"^(\s+)", re.DOTALL)
 rterm = re.compile(r"Term:(\d+) (\w+) (\d+)$", re.DOTALL)
-rdept = re.compile(r"(\w{4})/(.+)$", re.DOTALL)
-rcourse = re.compile(r"([A-Z]{4}) (\d{4}) (.+)$", re.DOTALL)
-rsection = re.compile(r"(\d{3}) \((\d{5})\) (CRE|REC|LAB) (\d\.\d|V) (.+)$", re.DOTALL)
+rdept = re.compile(r"^([A-Z]{4})/(.+)$", re.DOTALL)
+rcourse = re.compile(r"^([A-Z]{4}) (\d{4}) (.+)$", re.DOTALL)
+rsection = re.compile(r"^([0-9]{3}) \(([0-9]{5})\) (CRE|REC|LAB) (\d\.\d|V) (.+)$", re.DOTALL)
 
 state = "TERM"
 spaces = 0
@@ -70,6 +70,7 @@ def mcourse(line):
 	
 def msection(line):
 	global state, section, code, type, hours, rest
+	
 	x = line.strip()
 	if rsection.search(x):
 		c = rsection.search(x)
@@ -78,13 +79,13 @@ def msection(line):
 		type = c.group(3)
 		hours = c.group(4)
 		rest = c.group(5)
-		if rsection.search(nline):
+		if rsection.search(nline.strip()):
 			lprint()
 			state = "SECTION"
-		elif rcourse.search(nline):
+		elif rcourse.search(nline.strip()):
 			lprint()
 			state = "COURSE"
-		elif rdept.search(nline):
+		elif rdept.search(nline.strip()):
 			lprint()
 			state = "DEPT"
 		elif spaces < len(rspace.search(nline).group(1)):
@@ -93,17 +94,17 @@ def msection(line):
 def mnote(line):
 	global state, note
 	x = line.strip()
-	if rsection.search(nline):
+	if rsection.search(nline.strip()):
 		note += x
 		lprint()
 		note = ""
 		state = "SECTION"
-	elif rcourse.search(nline):
+	elif rcourse.search(nline.strip()):
 		note += x
 		lprint()
 		note = ""
 		state = "COURSE"
-	elif rdept.search(nline):
+	elif rdept.search(nline.strip()):
 		note += x
 		lprint()
 		note = ""
@@ -119,7 +120,7 @@ def lprint():
 def machine(line):
 	global spaces
 	x = len(rspace.search(line).group(1))
-	line = line.lstrip()
+	line = line.strip()
 		
 	if x != spaces:
 		spaces = x
@@ -148,7 +149,7 @@ def main():
 	line = " "
 	for nline in contents.splitlines(True):
 		machine(line)
-		line = nline 	
+		line = nline
 	machine(line)
 
 	f.close()
