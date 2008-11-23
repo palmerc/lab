@@ -59,7 +59,7 @@ def pdftotxt(pdffile, txtfile=None):
       csvfile = txtfile
       semesdir = re.split(r'[/\\]', origfile)[-2]
       txtfile = txtfile.replace('.pdf', '.txt')
-      csvfile = txtfile.replace('.pdf', '.csv')
+      csvfile = csvfile.replace('.pdf', '.csv')
       if not os.path.exists(txtdir + semesdir):
          try:
             os.makedirs(txtdir + semesdir, 0755)
