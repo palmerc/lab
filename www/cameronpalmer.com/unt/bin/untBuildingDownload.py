@@ -27,3 +27,4 @@ buildings = eval(bldgFromJson.search(x).group(1))
 
 for building in buildings:
     print htmlentitydecode(utf8('"' + building['id'] + '","' + building['label'] + '"'))
+print '"DAL1","Dallas Campus"'
