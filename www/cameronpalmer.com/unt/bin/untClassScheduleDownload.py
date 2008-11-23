@@ -11,11 +11,15 @@ from BeautifulSoup import BeautifulSoup
 
 if __name__ == '__main__':
     """Download the PDF class schedules"""
-    
+
+    if len(sys.argv) > 1:
+        basedir = sys.argv[1].strip()
+    else:
+        print 'Usage: sys.argv[0] basedir'
+        sys.exit(1)
     base = 'http://essc.unt.edu/registrar/SOCbydept/'
     url = 'SOCbydeptA.htm'
-    #datadir = '../data/pdf/'
-    datadir = '/var/www/cameronpalmer.com/unt/data/pdf/'
+    datadir = basedir + '/data/pdf/'
     html = urllib2.urlopen(base+url) # A file like object
     soup = BeautifulSoup(html)
     for anchor in soup('a'):

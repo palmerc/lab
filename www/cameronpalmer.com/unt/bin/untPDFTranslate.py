@@ -7,9 +7,8 @@ __license__ = "GPL"
 
 import os, glob, sys, re, string
 
-basedir = '/var/www/cameronpalmer.com/unt/'
-bindir = basedir + 'bin/'
-datadir = basedir + 'data/'
+bindir = None
+datadir = None
 
 def findtxts(directory):
     # http://effbot.org/librarybook/os-path.htm
@@ -74,8 +73,10 @@ if __name__ == '__main__':
     """Convert the PDF versions of the schedule to TXT files"""
 
     if len(sys.argv) > 1:
-        pdffile =  sys.argv[1].strip()
+        basedir =  sys.argv[1].strip()
     else:
-        pdffile = datadir + 'pdf/'
-
+        print 'Usage:', sys.argv[0], 'basedir'
+    pdffile = basedir + '/data/pdf/'
+    bindir = basedir + '/bin/'
+    datadir = basedir + '/data/'
     textfile = pdftotxt(pdffile)

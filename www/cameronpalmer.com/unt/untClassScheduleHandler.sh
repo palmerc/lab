@@ -1,4 +1,7 @@
 #!/bin/bash
-cd /var/www/cameronpalmer.com/unt/bin
-/var/www/cameronpalmer.com/unt/bin/untClassScheduleDownload.py
-/var/www/cameronpalmer.com/unt/bin/untPDFTranslate.py
+UNTBASE=`pwd`
+UNTBIN=$UNTBASE/bin
+UNTDATA=$UNTBASE/data
+cd $UNTBIN
+python $UNTBIN/untClassScheduleDownload.py $UNTBASE
+python $UNTBIN/untPDFTranslate.py $UNTBASE
