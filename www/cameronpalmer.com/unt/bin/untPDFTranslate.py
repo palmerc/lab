@@ -52,20 +52,31 @@ def pdftotxt(pdffile, txtfile=None):
       txtdir = txtfile
    else:
       txtdir = datadir + 'txt/'
+      csvdir = datadir + 'csv/'
 
    for origfile in filelist:
       txtfile = re.split(r'[/\\]', origfile)[-1]
+      csvfile = txtfile
       semesdir = re.split(r'[/\\]', origfile)[-2]
       txtfile = txtfile.replace('.pdf', '.txt')
+      csvfile = txtfile.replace('.pdf', '.csv')
       if not os.path.exists(txtdir + semesdir):
          try:
             os.makedirs(txtdir + semesdir, 0755)
          except OSError, e:
             raise e
-      txtfile = txtdir + semesdir + '/' + txtfile          
+      if not os.path.exists(csvdir + semesdir):
+         try:
+            os.makedirs(csvdir + semesdir, 0755)
+         except OSError, e:
+            raise e
+      txtfile = txtdir + semesdir + '/' + txtfile
+      csvfile = csvdir + semesdir + '/' + csvfile          
             
       pdftoxy = bindir + 'pdftoxy'
       handle = os.popen(pdftoxy + ' %s | ./untPDFToTXT.py > %s' % (origfile, txtfile))
+      handle.close()
+      handle = os.popen('./untTXTToCSV.py %s > %s' % (txtfile, csvfile))
       handle.close()
    return txtfile
     
