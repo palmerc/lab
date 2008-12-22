@@ -8,7 +8,6 @@
 #include <cstddef> // Needed for null
 #include <cstring>
 #include <iostream>
-#include "LogicFunctionT.h"
 #include "LogicFunctionList.h"
 
 /* CLASS LogicFunctionList */

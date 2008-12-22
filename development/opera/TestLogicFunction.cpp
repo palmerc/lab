@@ -2,8 +2,7 @@
  * Test software
  */
 
-#include <stdio.h>
-
+#include <cstdio>
 #include "LogicFunction.h"
 
 const char *or2_table [] =

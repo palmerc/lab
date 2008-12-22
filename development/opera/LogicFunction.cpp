@@ -5,8 +5,6 @@
  *      Author: palmerc
  */
 
-#include "LogicFunctionT.h"
-#include "LogicFunctionList.h"
 #include "LogicFunction.h"
 
 /* CLASS: LogicFunction */

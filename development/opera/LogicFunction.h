@@ -8,6 +8,10 @@
 #ifndef LOGICFUNCTION_H_
 #define LOGICFUNCTION_H_
 
+#include "LogicFunctionT.h"
+#include "LogicProcessor.h"
+#include "LogicFunctionList.h"
+
 class LogicFunction {
 public:
 	LogicFunction();

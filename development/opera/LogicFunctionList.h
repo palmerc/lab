@@ -8,6 +8,8 @@
 #ifndef LOGICFUNCTIONLIST_H_
 #define LOGICFUNCTIONLIST_H_
 
+#include "LogicFunctionT.h"
+
 class LogicFunctionList {
 public:
 	LogicFunctionList(); // Default Constructor
