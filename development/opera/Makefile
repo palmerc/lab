@@ -8,4 +8,4 @@ TestLogicFunction: LogicFunctionT.o LogicProcessor.o LogicFunctionList.o LogicFu
 	$(LD) -o main $^
 
 clean:
-	$(RM) *.o TestLogicFunction
+	$(RM) *.o main
