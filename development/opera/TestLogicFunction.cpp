@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-#include "logicfunction.h"
+#include "LogicFunction.h"
 
 const char *or2_table [] =
 {
@@ -115,13 +115,13 @@ void processor_test(LogicProcessor *proc, int n, char *inp)
 }
 
 
-void function_test ( LogicFunction *func )
+void function_test ( LogicFunctionT *func )
 {
 	char *inp;
-	char n=func->m_numinputs;
+	char n=func->getNumInputs();
 	LogicProcessor proc(func);
 
-	printf("Testing function: %s\n", func->m_name);
+	printf("Testing function: %s\n", func->getName());
 	inp = new char [n];
 	for (int i=0; i<n; i++)
 	{
@@ -137,7 +137,7 @@ void function_test ( LogicFunction *func )
 
 int main()
 {
-	LogicFunction
+	LogicFunctionT
 		f_not("not", 1, not_table),
 		f_and2("and2", 2, and2_table),
 		f_and3("and3", 3, and3_table),
@@ -147,8 +147,11 @@ int main()
 		f_xor3("xor3", 3, xor3_table),
 		f_implies("implies", 2, impl_table);
 
-	LogicFunction
+	LogicFunctionT
 		f_incomplete("incomplete",3, incl_table);
+
+	LogicFunction lf;
+	lf.insert("not", 1, not_table);
 
 // Basic table tests
 	function_test(&f_not);

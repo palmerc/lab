@@ -2,10 +2,10 @@
 
 CXX	= g++
 LD	= g++
-CXXFLAGS = -g
+CXXFLAGS = -g -pedantic
 
-testlogicfunction: logicfunction.o testlogicfunction.o
-	$(LD) -o testlogicfunction $^
+TestLogicFunction: LogicFunctionT.o LogicProcessor.o LogicFunctionList.o LogicFunction.o TestLogicFunction.o
+	$(LD) -o main $^
 
 clean:
-	$(RM) *.o testlogicfunction
+	$(RM) *.o TestLogicFunction

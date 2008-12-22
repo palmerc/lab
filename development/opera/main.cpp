@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-#include "logicfunction.h"
+#include "LogicFunction.h"
 
 const char *or2_table [] =
 {
