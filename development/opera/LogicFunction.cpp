@@ -5,6 +5,7 @@
  *      Author: palmerc
  */
 
+#include <iostream>
 #include "LogicFunction.h"
 
 /* CLASS: LogicFunction */
@@ -28,7 +29,12 @@ void LogicFunction::remove(LogicFunctionT* f)
 	list->remove(f);
 }
 
-LogicFunctionT* LogicFunction::find() const
+void LogicFunction::remove(const char* name)
 {
+	remove(find(name));
+}
 
+LogicFunctionT* LogicFunction::find(const char* name) const
+{
+	list->find(name);
 }

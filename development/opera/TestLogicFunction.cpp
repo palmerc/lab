@@ -118,10 +118,11 @@ void function_test ( LogicFunctionT *func )
 {
 	char *inp;
 	char n=func->getNumInputs();
+
 	LogicProcessor proc(func);
 
 	printf("Testing function: %s\n", func->getName());
-	inp = new char [n];
+	inp = new char[n];
 	for (int i=0; i<n; i++)
 	{
 		proc.setInput(i, inp+i);
@@ -151,6 +152,10 @@ int main()
 
 	LogicFunction lf;
 	lf.insert("not", 1, not_table);
+	lf.insert("and2", 2, and2_table);
+	lf.insert("and3", 3, and3_table);
+	lf.remove("not");
+	lf.remove("and6");
 
 // Basic table tests
 	function_test(&f_not);

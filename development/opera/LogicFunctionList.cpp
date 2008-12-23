@@ -6,8 +6,8 @@
  */
 
 #include <cstddef> // Needed for null
-#include <cstring>
-#include <iostream>
+#include <cstring> // Needed for strcmp
+#include <iostream> // Needed for cerr
 #include "LogicFunctionList.h"
 
 /* CLASS LogicFunctionList */
@@ -52,30 +52,42 @@ void LogicFunctionList::insert(LogicFunctionT* f)
 
 void LogicFunctionList::remove(LogicFunctionT* f)
 {
+	//std::cerr << "DELETE: " << f->getName() << std::endl;
+	LogicFunctionElm* prev = NULL;
+	LogicFunctionElm* next = NULL;
+	// This is sooo beautiful.
 	for (LogicFunctionElm *elm=head; elm;)
 	{
-		if ( elm->m_function == f)
+		next=elm->m_next;
+		if (elm->m_function == f)
 		{
-			//std::cerr << "DELETE: " << elm->m_function->getName() << " SIZE: " << getLength() << std::endl;
+			//std::cerr << "DELETING: " << elm->m_function->getName() << " " << f->getName() << " SIZE: " << getLength() << std::endl;
 			--size;
-			LogicFunctionElm *next = elm->m_next;
+			if (head == elm)
+			{
+				head = next;
+			} else {
+				prev->m_next = next;
+			}
 			delete elm;
-			if (head == elm) head = next;
-			elm = next;
+		}
+		prev = elm;
+		elm = next;
+	}
+}
+
+LogicFunctionT* LogicFunctionList::find(const char* name) const
+{
+	//std::cerr << "Looking for " << name << std::endl;
+	for (LogicFunctionElm* elm=head; elm;)
+	{
+		if (0 == std::strcmp(name, elm->m_function->getName()) )
+		{
+			//std::cerr << name << " " << elm->m_function->getName() << std::endl;
+			return elm->m_function;
 		} else {
 			 elm=elm->m_next;
 		}
 	}
-}
-
-LogicFunctionT *LogicFunctionList::find(const char *name) const
-{
-	for (LogicFunctionElm *elm=head; elm; elm=elm->m_next)
-	{
-		if (0 == std::strcmp(name, elm->m_function->getName()) )
-		{
-			return elm->m_function;
-		}
-	}
-	return 0;
+	return NULL;
 }

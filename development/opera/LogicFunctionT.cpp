@@ -38,14 +38,18 @@ const char** LogicFunctionT::getTable() const
 
 char LogicFunctionT::calculate(char *inputs) const
 {
+	// Move through the arrays strings representing a complete tt entry
 	for (const char **t=m_table; *t ; t++) //rows
 	{
 		int i;
-		for (i=0; (*t)[i] == 'x' || inputs[i] == (*t)[i];)
+		// if item is a don't care or the input matches the truth table entry...
+		for (i=0; (*t)[i] == 'x' || inputs[i] == (*t)[i];) //cols
 		{
+			// if the input matches a truth table entry return the tt result
 			if (++i == m_numinputs)
 				return (*t)[i];
 		}
 	}
+	// Otherwise return don't care
 	return 'x';
 }
