@@ -5,8 +5,10 @@
  *      Author: palmerc
  */
 
+#include <iostream>
 #include "Tester.h"
 #include "LogicFunction.h"
+#include "LogicProcessor.h"
 
 int main()
 {
@@ -35,10 +37,9 @@ int main()
 	f_implies.test();
 	f_incomplete.test();
 
-/*
 	// Combinatorial tests
 	{
-		printf("Testing combinatorial not (P and Q)\n");
+		std::cerr << "Testing combinatorial not (P and Q)" << std::endl;
 		char inputs[2];
 		// Create the LogicProcessor objects for each LogicFunctionT
 		LogicProcessor p_not(&f_not),  p_and(&f_and2);
@@ -48,12 +49,12 @@ int main()
 		p_not.setInput(0,&p_and);
 
 		// Evaluate the combined logic
-		processor_test(&p_not, 2, inputs);
+		p_not.test(2, inputs);
 	}
 
 	{
 		// Basically the same as the previous combinatorial test but with more logic
-		printf("Testing combinatorial P and not (Q or not R)\n");
+		std::cerr << "Testing combinatorial P and not (Q or not R)" << std::endl;
 		//  A && !(B || !C)
 		char inputs[3];
 		LogicProcessor p_not0(&f_not), p_not1(&f_not), p_or(&f_or2), p_and(&f_and2);
@@ -64,8 +65,8 @@ int main()
 		p_and.setInput(0,inputs);
 		p_and.setInput(1, &p_not1);
 
-		processor_test(&p_and, 3, inputs);
-	}*/
+		p_and.test(3, inputs);
+	}
 
 	return 0;
 }

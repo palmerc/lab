@@ -21,6 +21,9 @@ public:
 	void setTable(const char** table);
 
 	char calculate(char *inputs) const;
+
+	void test();
+
 private:
 	const char **m_table;
 };

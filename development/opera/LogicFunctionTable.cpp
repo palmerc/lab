@@ -47,3 +47,21 @@ char LogicFunctionTable::calculate(char *inputs) const
 	// Otherwise return don't care
 	return 'x';
 }
+
+void LogicFunction::test()
+{
+	char *inp;
+	int n = getNumberInputs();
+
+	// Setup the logic processor
+	LogicProcessor proc(this);
+
+	std::cerr << "Testing function: " << getName() << std::endl;
+	inp = new char[n];
+	for (int i=0; i<n; i++)
+	{
+		proc.setInput(i, inp+i);
+	}
+	proc.test(n, inp);
+	delete [] inp;
+}
