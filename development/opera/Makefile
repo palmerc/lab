@@ -4,7 +4,7 @@ CXX	= g++
 LD	= g++
 CXXFLAGS = -g -pedantic
 
-TestLogicFunction: LogicFunctionT.o LogicProcessor.o LogicFunctionList.o LogicFunction.o TestLogicFunction.o
+TestLogicFunction: LogicFunctionADT.o LogicFunctionTable.o LogicProcessor.o LogicFunction.o Tester.o
 	$(LD) -o main $^
 
 clean:

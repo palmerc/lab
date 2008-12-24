@@ -7,34 +7,28 @@
 
 #include <iostream>
 #include "LogicFunction.h"
+#include "LogicFunctionTable.h"
+#include "LogicProcessor.h"
 
 /* CLASS: LogicFunction */
-LogicFunction::LogicFunction()
+LogicFunction::LogicFunction(const char* name, int numinputs, const char** table) : LogicFunctionTable(name, numinputs, table)
 {
-	list = new LogicFunctionList();
 }
 
-LogicFunction::~LogicFunction()
+void LogicFunction::test()
 {
-	delete list;
-}
+	char *inp;
+	int n = getNumberInputs();
 
-void LogicFunction::insert(const char *name, int numinputs, const char **table)
-{
-	list->insert(new LogicFunctionT::LogicFunctionT(name, numinputs, table));
-}
+	// Setup the logic processor
+	LogicProcessor proc(this);
 
-void LogicFunction::remove(LogicFunctionT* f)
-{
-	list->remove(f);
-}
-
-void LogicFunction::remove(const char* name)
-{
-	remove(find(name));
-}
-
-LogicFunctionT* LogicFunction::find(const char* name) const
-{
-	list->find(name);
+	std::cerr << "Testing function: " << getName() << std::endl;
+	inp = new char[n];
+	for (int i=0; i<n; i++)
+	{
+		proc.setInput(i, inp+i);
+	}
+	proc.test(n, inp);
+	delete [] inp;
 }

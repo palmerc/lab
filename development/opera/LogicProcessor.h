@@ -8,6 +8,8 @@
 #ifndef LOGICPROCESSOR_H_
 #define LOGICPROCESSOR_H_
 
+#include "LogicFunction.h"
+
 /**
  * LogicProcessor evaluates the truth tables provided in the form of characters
  * or other LogicProcessor objects. The best part is that it allows you to
@@ -20,7 +22,7 @@ public:
 	 * @param Takes a LogicFunctionT pointer
 	 * @return Returns a LogicProcessor object pointer
 	 */
-	LogicProcessor(LogicFunctionT *function);
+	LogicProcessor(LogicFunction *function);
 	/**
 	 * Destructor
 	 */
@@ -43,12 +45,13 @@ public:
 	 * Take the current logic functions and evaluate the logic
 	 * @return Return a character representing the result, 't', 'f', or 'x'
 	 */
-	char process();
+	char process() const;
+	void test(int n, char* inputs) const;
 
 private:
 	char **m_inputsources;
 	LogicProcessor **m_inputfunctions;
-	LogicFunctionT *m_logicfunction;
+	LogicFunction *m_logicfunction;
 };
 
 #endif /* LOGICPROCESSOR_H_ */
