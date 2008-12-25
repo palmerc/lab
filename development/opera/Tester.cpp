@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Tester.h"
 #include "LogicFunction.h"
+#include "LogicFunctionUser.h"
 #include "LogicProcessor.h"
 
 int main()
@@ -41,11 +42,12 @@ int main()
 	{
 		std::cerr << "Testing combinatorial not (P and Q)" << std::endl;
 		char inputs[2];
-		// Create the LogicProcessor objects for each LogicFunctionT
+		// Create the LogicProcessor objects for each LogicFunction
 		LogicProcessor p_not(&f_not),  p_and(&f_and2);
 		// Let's combine two sets of logic
 		p_and.setInput(0,inputs);
 		p_and.setInput(1,inputs + 1);
+
 		p_not.setInput(0,&p_and);
 
 		// Evaluate the combined logic
@@ -67,6 +69,9 @@ int main()
 
 		p_and.test(3, inputs);
 	}
+
+	LogicFunctionUser* lfu = new LogicFunctionUser();
+	lfu->test();
 
 	return 0;
 }

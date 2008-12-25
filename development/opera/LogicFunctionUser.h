@@ -15,9 +15,11 @@ class LogicFunctionUser : public LogicFunctionADT
 public:
 	LogicFunctionUser();
 
-	char calculate(char* inputs);
-private:
+	char calculate(char *inputs) const;
 
+	void test();
+
+private:
 };
 
 #endif /* LOGICFUNCTIONUSER_H_ */

@@ -1,5 +1,5 @@
 /*
- * LogicFunctionTable.cpp
+ * LogicFunction.cpp
  *
  *  Created on: Dec 23, 2008
  *      Author: palmerc

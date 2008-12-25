@@ -41,6 +41,7 @@ void LogicProcessor::setInput(int input, LogicProcessor* lf)
 
 void LogicProcessor::setInput(int input, char* source)
 {
+	//std::cerr << "setInput >" << source << "<" << std::endl;
 	m_inputsources[input] = source;
 }
 
@@ -51,9 +52,10 @@ char LogicProcessor::process() const
 
 	for (int i=0; i < m_logicfunction->getNumberInputs(); i++)
 	{
-		// +5 use of ternary operator
+		// To combine logic they must process each part, and return the result
 		inputs[i] = m_inputsources[i] ? *m_inputsources[i] :
 			m_inputfunctions[i] ? m_inputfunctions[i]->process() : 'x';
+		//std::cerr << "process >" << inputs[i] << "<" << std::endl;
 	}
 	char output=m_logicfunction->calculate(inputs);
 	delete [] inputs;
