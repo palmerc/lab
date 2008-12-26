@@ -6,27 +6,19 @@
  */
 
 #include <string>
-#include <iostream>
 #include <ostream>
 #include <vector>
 #include "LogicFunctionADT.h"
 #include "LogicFunctionSymmetry.h"
 
-using std::ostream;
 using std::string;
+using std::vector;
 
-/* CLASS: LogicFunctionUser */
-LogicFunctionSymmetry::LogicFunctionSymmetry(const char *name, int numinputs, const char **table)
+LogicFunctionSymmetry::LogicFunctionSymmetry(const char* name, int numinputs, const char **table)
 {
 	setName(name);
 	setNumberInputs(numinputs);
 	setTable(table);
-}
-
-LogicFunctionSymmetry::LogicFunctionSymmetry(string name, int numinputs, string table) : m_table(table)
-{
-	setName(name);
-	setNumberInputs(numinputs);
 }
 
 const char** LogicFunctionSymmetry::getTable() const
@@ -71,7 +63,7 @@ char LogicFunctionSymmetry::calculate(char *inputs) const
 	return 'x';
 }
 
-ostream& operator<<(ostream& os, LogicFunctionSymmetry lfs)
+std::ostream& operator<<(std::ostream& os, LogicFunctionSymmetry lfs)
 {
 	int n = lfs.m_table.length();
 	for (int i=0; i < n; i++)
@@ -86,7 +78,6 @@ bool LogicFunctionSymmetry::hasHorizontalSymmetry() const
 	vector<string> table = getCols();
 	for (int i=0; i < table.size()/2; i++)
 	{
-		//std::cerr << i << ": " << table[i] << " == " << table[table.size()-(i+1)] << std::endl;
 		if (not table[i].compare(table[table.size()-(i+1)]) == 0)
 		{
 			return false;
@@ -100,7 +91,6 @@ bool LogicFunctionSymmetry::hasVerticalSymmetry() const
 	vector<string> table = getRows();
 	for (int i=0; i < table.size()/2; i++)
 	{
-		//std::cerr << i << ": " << table[i] << " == " << table[table.size()-(i+1)] << std::endl;
 		if (not table[i].compare(table[table.size()-(i+1)]) == 0)
 		{
 			return false;

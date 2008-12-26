@@ -47,6 +47,12 @@ public:
 	 */
 	char process() const;
 
+	/**
+	 * This is the processor_test function from the original code. It will call
+	 * the LogicFunction with all possible inputs.
+	 * @param Take an integer number of inputs
+	 * @param Take a C-string of inputs
+	 */
 	void test(int n, char* inputs) const;
 
 private:

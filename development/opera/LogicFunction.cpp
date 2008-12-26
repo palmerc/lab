@@ -18,10 +18,6 @@ LogicFunction::LogicFunction(const char *name, int numinputs, const char **table
 	setTable(table);
 }
 
-LogicFunction::~LogicFunction()
-{
-}
-
 const char** LogicFunction::getTable() const
 {
 	return m_table;

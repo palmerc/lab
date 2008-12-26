@@ -5,8 +5,16 @@
  *      Author: palmerc
  */
 
+/**
+ * This is the suite of tests provided by Opera, extended to support the changes
+ * made to the rest of the software.
+ *
+ * Note: The testcases used in this program come from Tester.h and testcases.h
+ */
+
 #include <iostream>
 #include <list>
+#include <boost/lexical_cast.hpp>
 #include "Tester.h"
 #include "testcases.h"
 #include "LogicFunction.h"
@@ -18,10 +26,13 @@ using std::cout;
 using std::endl;
 using std::list;
 using std::string;
+using boost::lexical_cast;
 
 int main()
 {
-	// Uses the constructor to generate a bunch of LogicFunction objects
+	/**
+	 * The original way to create a LogicFunction object. This hasn't changed.
+	 */
 	LogicFunction
 		f_not("not", 1, not_table),
 		f_and2("and2", 2, and2_table),
@@ -35,6 +46,11 @@ int main()
 	LogicFunction
 		f_incomplete("incomplete",3, incl_table);
 
+	/**
+	 * The tests were originally function_test(). It seemed easier just to stuff
+	 * those in the class. Some would argue they don't belong there. I would
+	 * argue in this case it doesn't matter too much. And it looks nicer here.
+	 */
 	// Run through each truth table of a given size, and try all permutations
 	f_not.test();
 	f_and2.test();
@@ -46,9 +62,14 @@ int main()
 	f_implies.test();
 	f_incomplete.test();
 
+	/**
+	 * This is the test for combined logic using LogicProcessors.
+	 * Not much changed except the processor_test code was moved into the
+	 * processor for looks here.
+	 */
 	// Combinatorial tests
 	{
-		std::cout << "Testing combinatorial not (P and Q)" << std::endl;
+		cout << "Testing combinatorial not (P and Q)" << endl;
 		char inputs[2];
 		// Create the LogicProcessor objects for each LogicFunction
 		LogicProcessor p_not(&f_not),  p_and(&f_and2);
@@ -64,7 +85,7 @@ int main()
 
 	{
 		// Basically the same as the previous combinatorial test but with more logic
-		std::cout << "Testing combinatorial P and not (Q or not R)" << std::endl;
+		cout << "Testing combinatorial P and not (Q or not R)" << endl;
 		//  A && !(B || !C)
 		char inputs[3];
 		LogicProcessor p_not0(&f_not), p_not1(&f_not), p_or(&f_or2), p_and(&f_and2);
@@ -79,9 +100,13 @@ int main()
 	}
 
 	{
+		/**
+		 * This is a demo of a simple 2 input user defined AND using the previous example
+		 * as verification that user logic has no issues.
+		 */
 		LogicFunctionUser lfu_and2;
 		// Basically the same as the previous combinatorial test but with more logic
-		std::cout << "Testing combinatorial P and not (Q or not R) with User Defined AND2" << std::endl;
+		cout << "Testing combinatorial P and not (Q or not R) with User Defined AND2" << endl;
 		//  A && !(B || !C)
 		char inputs[3];
 		LogicProcessor p_not0(&f_not), p_not1(&f_not), p_or(&f_or2), p_and((LogicFunction *)&lfu_and2);
@@ -95,21 +120,30 @@ int main()
 		p_and.test(3, inputs);
 	}
 
+	/**
+	 * This is the symmetry testing code. The assignment seemed to assume the code would go
+	 * into LogicProcessors, but it fit naturally into a user-defined LogicFunction.
+	 * I used the STL list instead of the LogicFunctionList.
+	 */
 	cout << "Testing the symmetry of the series of tables" << endl;
 	list <LogicFunctionSymmetry> llist;
+	/**
+	 * This for loop just reads the data from the provided data structure into the
+	 * LogicFunctionSymmetry object and makes a list out of it.
+	 */
 	for (int i=0; i < sizeof(testcases)/sizeof(*testcases); i++) // 32 Grids
 	{
-		//std::string tmp = testcases[i];
-		//llist.push_back(LogicFunctionSymmetry(tmp));
-		string f_name = "Case " + i;
+		string f_name = "Case ";
+		f_name.append(lexical_cast<string>(i));
 		llist.push_back(LogicFunctionSymmetry(f_name.c_str(), 8, &testcases[i]));
 	}
 
 	list<LogicFunctionSymmetry>::iterator i;
 	int count = 1;
+	// The list is iterated through and each test for symmetry performed.
 	for (i = llist.begin(); i != llist.end(); i++)
 	{
-		cout << "Case " << count << endl;
+		cout << i->getName() << endl;
 		if (i->hasHorizontalSymmetry())
 			cout << "Has horizontal symmetry." << endl;
 		else
@@ -126,5 +160,6 @@ int main()
 		cout << endl;
 		++count;
 	}
+
 	return 0;
 }

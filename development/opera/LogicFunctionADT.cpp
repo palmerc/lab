@@ -15,9 +15,9 @@ int LogicFunctionADT::getNumberInputs() const
 	return numberInputs;
 }
 
-const char* LogicFunctionADT::getName() const
+string LogicFunctionADT::getName() const
 {
-	return m_name.c_str();
+	return m_name;
 }
 
 void LogicFunctionADT::setNumberInputs(int n)
@@ -27,7 +27,7 @@ void LogicFunctionADT::setNumberInputs(int n)
 
 void LogicFunctionADT::setName(const char* name)
 {
-	m_name = (string) name;
+	m_name = name;
 }
 
 void LogicFunctionADT::setName(string name)
