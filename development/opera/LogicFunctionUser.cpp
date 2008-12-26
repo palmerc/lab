@@ -14,18 +14,17 @@
 /* CLASS: LogicFunctionUser */
 LogicFunctionUser::LogicFunctionUser()
 {
-	setNumberInputs(10);
-	setName("and10");
+	setNumberInputs(2);
+	setName("and2");
 }
 
 char LogicFunctionUser::calculate(char *inputs) const
 {
 	int i;
-	for (i=0; i < 10; i++)
+	for (i=0; i < getNumberInputs(); i++)
 	{
 		if (inputs[i] != 't')
 			return 'f';
-
 	}
 	return 't';
 }

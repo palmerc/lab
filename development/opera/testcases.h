@@ -2,7 +2,7 @@
 // Sample inputs that show different types of symmetry
 // Supplied as an array in an includable file for simplicity
 
-static const char * testcases[] = {
+static const char* testcases[] = {
 // All symmetries
 "ffffffff"
 "ffffffff"

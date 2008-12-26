@@ -46,6 +46,7 @@ public:
 	 * @return Return a character representing the result, 't', 'f', or 'x'
 	 */
 	char process() const;
+
 	void test(int n, char* inputs) const;
 
 private:

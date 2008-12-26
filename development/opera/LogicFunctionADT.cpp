@@ -5,22 +5,32 @@
  *      Author: palmerc
  */
 
+#include <string>
 #include "LogicFunctionADT.h"
+
+using std::string;
 
 int LogicFunctionADT::getNumberInputs() const
 {
 	return numberInputs;
 }
+
 const char* LogicFunctionADT::getName() const
 {
-	return name;
+	return m_name.c_str();
 }
 
 void LogicFunctionADT::setNumberInputs(int n)
 {
 	numberInputs = n;
 }
-void LogicFunctionADT::setName(const char* _name)
+
+void LogicFunctionADT::setName(const char* name)
 {
-	name = _name;
+	m_name = (string) name;
+}
+
+void LogicFunctionADT::setName(string name)
+{
+	m_name = name;
 }

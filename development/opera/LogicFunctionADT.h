@@ -8,6 +8,9 @@
 #ifndef LOGICFUNCTIONADT_H_
 #define LOGICFUNCTIONADT_H_
 
+#include <string>
+using std::string;
+
 class LogicFunctionADT
 {
 public:
@@ -18,10 +21,12 @@ public:
 
     void setNumberInputs(int n);
     void setName(const char* name);
+    void setName(string name);
+
 
 private:
 	int numberInputs;
-	const char* name;
+	string m_name;
 };
 
 #endif /* LOGICFUNCTIONADT_H_ */
