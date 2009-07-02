@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -26,7 +25,7 @@ public class JavaProperties {
 	 * @param line
 	 * @return true if the line has an even number of backslashes
 	 */
-	private static Boolean isNumberOfEndOfLineBackslashesEven(String line) {
+	public static Boolean isNumberOfEndOfLineBackslashesEven(String line) {
 		int backslashCount = 0;
 		for ( int i = line.length() - 1; i >= 0 && line.charAt(i) == '\\'; i-- ) {
 			backslashCount++;
@@ -34,16 +33,10 @@ public class JavaProperties {
 		return backslashCount % 2 == 0;
 	}
 	
-	/**
-	 * Read in the file using properties load, and read the file into an array.
-	 * We use the array to maintain order and get comments and empty lines.
-	 * We use the Properties hash table to provide the key value pairs.
-	 * @param args
-	 */
-	public static void main(String[] args) {
+	public static List<String> parseProperties(File file) {
+		List<String> outputArray = new ArrayList<String>();
 		Properties properties = new Properties();
-		File file = new File("/home/palmerc/Development/java-experiments/src/test.properties");
-
+		
 		try {
 			String fileLine = null;
 			// Read in the file, loading each line into the array. Trim white space at beginning and end. 
@@ -59,7 +52,7 @@ public class JavaProperties {
 			reader = new BufferedReader(new FileReader(file));
 			properties.load(reader);
 			reader.close();
-			PrintWriter out = new PrintWriter(System.out, true);
+			
 			
 			// Go through the array of lines
 			Iterator<String> iterator = lines.iterator();
@@ -95,7 +88,7 @@ public class JavaProperties {
 				}
 				
 				// Print out the line
-				out.println(outLine);
+				outputArray.add(outLine);
 			}
 		} catch (FileNotFoundException e) {
 			System.err.println(e.getMessage());
@@ -103,5 +96,23 @@ public class JavaProperties {
 			System.err.println(e.getMessage());
 		}
 		
+		return outputArray;
+	}
+	
+	
+	
+	/**
+	 * Read in the file using properties load, and read the file into an array.
+	 * We use the array to maintain order and get comments and empty lines.
+	 * We use the Properties hash table to provide the key value pairs.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		File file = new File("/home/palmerc/Development/java-experiments/src/test.properties");
+		
+		List<String> lines = JavaProperties.parseProperties(file);
+		for ( String line : lines ) {
+			System.out.println(line);
+		}
 	}
 }
