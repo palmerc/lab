@@ -95,15 +95,25 @@ function showPage(page, backwards) {
     }
 }
 
-function slideMe() {
-    var myDiv = document.getElementById("myDiv")
-    myDiv.className = "divSlide";
-    myDiv.style.left = "100px";
-}
-
 function swipePage(fromPage, toPage, backwards) {
-    toPage.style.left = "100px";
-    toPage.className = "divSlide";
+    toPage.style.left = "100%";
+    toPage.setAttribute("selected", "true");
+
+    scrollTo(0, 1);
+    
+    var percent = 100;
+    var timer = setInterval(function() {
+        percent += animateX;
+        if (percent <= 0)
+        {
+            percent = 0;
+            fromPage.removeAttribute("selected");
+            clearInterval(timer);
+        }
+
+        fromPage.style.left = (backwards ? (100-percent) : (percent-100)) + "%"; 
+        toPage.style.left = (backwards ? -percent : percent) + "%"; 
+    }, animateInterval);
 }
 
 function showDialog(form) {
