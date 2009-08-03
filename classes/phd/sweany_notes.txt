@@ -1,0 +1,34 @@
+    1.   Identify a "hypothesis"
+
+    2.   Design experiment(s) to test said hypothesis
+
+    3.   Implement said experiments,
+
+    4.   Look at results and come to conclusions.
+
+OK, that's "real" science.   We're going to "almost" do that.
+
+   1.  Our hypothesis is that gcc is now adequate and appropriate for high-quality
+        experimental compiler research, SO
+
+   2.  We need to gather evidence to make that point
+            a.  do "literature" search to support claim that historically gcc has not be sufficient
+                 for compiler research.  I.e. find papers where people wrote their own compilers
+                 (SUIF, Scale, Zephyr ...) and extract statements in which they explain why they
+                 chose to write their own rather than use gcc.  Find early research based upon gcc
+                 that didn't use robust benchmarks because gcc couldn't support them.
+            b.  Find comparison of code quality with gcc's.   Scale has this and I assume that
+                 others do as well.   Try to find "old" data (2.9.5?) that shows weak gcc optimization
+                 and then how much it has improved so that now its better than the "homemade"
+                 compilers (of course I'm assuming it will be.)
+            c.  NOW, gather data that the NEW gcc runs faster and jumps higher, both in terms
+                 of correctness and optimization.
+            d.  Use some of the stats you've sent me to argue that gcc has a LOT of work in it
+                 and its no longer (was it ever?) possible to write your own compiler from scratch
+                 and expect high-quality code, relative to gcc.
+
+   3.  NOW, we need to have a case study.   Pick a novel architecture (cell processor?) and an
+       optimization we wish to do.  (How about thread identification?).   Describe how we
+       build on gcc to do it.
+
+   4.  Having done all of that work, the paper should pretty much write itself.
