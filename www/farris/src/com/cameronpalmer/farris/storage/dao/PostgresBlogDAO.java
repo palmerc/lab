@@ -8,12 +8,36 @@ import com.cameronpalmer.farris.blog.Blog;
  *
  */
 public class PostgresBlogDAO implements BlogDAO {
-	String insertBlogSQL = "INSERT INTO blog(";
-	String updateBlogSQL = "UPDATE ";
-	String deleteBlogSQL = "DELETE FROM blog WHERE uuid=blah";
+	String insertBlogSQL = "INSERT INTO " +
+			"blog" +
+			"(" +
+			"uuid, " +
+			"author, " +
+			"place, " +
+			"published_date, " +
+			"published_time, " +
+			"updated_date, " +
+			"updated_time, " +
+			"subject, " +
+			"body" +
+			")" +
+			"VALUES (?,?,?,?,?,?,?,?,?)";
+	String updateBlogSQL = "UPDATE blog " +
+			"SET author=?, " +
+			"place=?, " +
+			"published_date=?, " +
+			"published_time=?, " +
+			"updated_date=?, " +
+			"updated_time=?, " +
+			"subject=?, " +
+			"body=?" +
+			"WHERE uuid=?";
+	String selectBlogSQL = "SELECT * FROM blog WHERE uuid=?"
+	String deleteBlogSQL = "DELETE FROM blog WHERE uuid=?";
 
 	@Override
 	public void insert() {
+		PreparedStatement p = con.
 		// uuid, date, subject, body
 		// TODO Auto-generated method stub
 		
