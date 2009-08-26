@@ -12,7 +12,7 @@ public class XmlBlogDAO implements BlogDAO {
 	}
 
 	@Override
-	public void insert() {
+	public void insert(Blog blog) {
 		// TODO Auto-generated method stub
 
 	}

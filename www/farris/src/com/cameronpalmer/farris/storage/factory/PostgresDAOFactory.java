@@ -22,7 +22,7 @@ public class PostgresDAOFactory extends DAOFactory {
 	}
 
 	@Override
-	public BlogDAO getBlogDAO() {
+	public BlogDAO getBlogDAO() throws ClassNotFoundException, SQLException {
 		return new PostgresBlogDAO();
 	}
 }

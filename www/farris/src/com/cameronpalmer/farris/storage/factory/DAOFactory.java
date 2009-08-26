@@ -1,5 +1,7 @@
 package com.cameronpalmer.farris.storage.factory;
 
+import java.sql.SQLException;
+
 import com.cameronpalmer.farris.storage.dao.BlogDAO;
 
 /**
@@ -10,7 +12,7 @@ import com.cameronpalmer.farris.storage.dao.BlogDAO;
 public abstract class DAOFactory {
 	public enum DAOFactoryType { POSTGRES, XML }
 	
-	public abstract BlogDAO getBlogDAO();
+	public abstract BlogDAO getBlogDAO() throws ClassNotFoundException, SQLException;
 	
 	public static DAOFactory getDAOFactory(DAOFactoryType whichFactory) {
 		switch (whichFactory) {

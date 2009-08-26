@@ -1,8 +1,7 @@
 package com.cameronpalmer.farris.blog;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
 import java.util.UUID;
 
 public class Blog implements Serializable {
@@ -15,48 +14,57 @@ public class Blog implements Serializable {
 	Date date;
 	String subject;
 	String body;
+	String author;
+	String place;
+	Date publishedDate;
+	Date updatedDate;
 	
-	List<Blog> comments;
-	//List<Attachment> attachments;
-	// images, audio, documents UUEncoded or binary blob
-
 	public UUID getUuid() {
 		return uuid;
 	}
-	
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
 	}
-	
 	public Date getDate() {
 		return date;
 	}
-
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
 	public String getSubject() {
 		return subject;
 	}
-
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-
 	public String getBody() {
 		return body;
 	}
-
 	public void setBody(String body) {
 		this.body = body;
 	}
-
-	public List<Blog> getComments() {
-		return comments;
+	public String getAuthor() {
+		return author;
 	}
-
-	public void setComments(List<Blog> comments) {
-		this.comments = comments;
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public String getPlace() {
+		return place;
+	}
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	public Date getPublishedDate() {
+		return publishedDate;
+	}
+	public void setPublishedDate(Date publishedDate) {
+		this.publishedDate = publishedDate;
+	}
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 }
