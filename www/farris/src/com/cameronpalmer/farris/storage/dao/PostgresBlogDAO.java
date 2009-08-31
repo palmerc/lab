@@ -48,11 +48,12 @@ public class PostgresBlogDAO implements BlogDAO {
 	public PostgresBlogDAO() throws ClassNotFoundException, SQLException {
 		connection = PostgresDAOFactory.createConnection();
 	}
-	
+
 	@Override
-	public void insert(Blog blog) throws SQLException {
+	public boolean insert(Blog blog) throws SQLException {
+		boolean success = false;
 		if ( blog == null ) {
-			return;
+			return success;
 		}
 		
 		Date publishedDate = new Date(blog.getPublishedDate().getTime());
@@ -71,14 +72,42 @@ public class PostgresBlogDAO implements BlogDAO {
 		p.setString(8, blog.getSubject()); // subject
 		p.setString(9, blog.getBody()); // body
 		
-		p.execute();
+		success = p.execute();
 		p.close();
+		
+		return success;
 	}
 
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
+	public boolean update(Blog blog) throws SQLException {
+		boolean success = false;
+		if ( blog == null ) {
+			return success;
+		}
 		
+		Date publishedDate = new Date(blog.getPublishedDate().getTime());
+		Date updatedDate = new Date(blog.getUpdatedDate().getTime());
+		Time publishedTime = new Time(blog.getPublishedDate().getTime());
+		Time updatedTime = new Time(blog.getUpdatedDate().getTime());
+		
+		// author=1, place=2, published_date=3, published_time=4, updated_date=5, 
+		// updated_time=6, subject=7, body=8, uuid=9
+		PreparedStatement p = connection.prepareStatement(updateBlogSQL);
+		
+		p.setString(1, blog.getAuthor()); // author
+		p.setString(2, blog.getPlace()); // place
+		p.setDate(3, publishedDate); // published_date
+		p.setTime(4, publishedTime); // published_time
+		p.setDate(5, updatedDate); // updated_date
+		p.setTime(6, updatedTime); // updated_time
+		p.setString(7, blog.getSubject()); // subject
+		p.setString(8, blog.getBody()); // body
+		p.setObject(9, blog.getUuid()); // UUID
+		
+		success = p.execute();
+		p.close();
+		
+		return success;
 	}
 	
 	@Override
@@ -114,9 +143,15 @@ public class PostgresBlogDAO implements BlogDAO {
 	}
 	
 	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
+	public boolean delete(UUID uuid) throws SQLException {
+		boolean success = false;
+		PreparedStatement p = connection.prepareStatement(deleteBlogSQL);
 		
+		p.setObject(1, uuid);
+		success = p.execute();
+		p.close();
+		
+		return success;
 	}
 
 }

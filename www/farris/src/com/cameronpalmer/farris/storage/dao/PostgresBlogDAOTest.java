@@ -35,8 +35,10 @@ public class PostgresBlogDAOTest {
 	}
 	
 	@After
-	public void teardown() {
-		
+	public void teardown() throws ClassNotFoundException, SQLException {
+		DAOFactory postgresDAOFactory = DAOFactory.getDAOFactory(DAOFactoryType.POSTGRES);
+		BlogDAO blogDAO = postgresDAOFactory.getBlogDAO();
+		blogDAO.delete(blog.getUuid());
 	}
 	
 	@Test
