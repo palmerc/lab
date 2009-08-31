@@ -1,13 +1,12 @@
 package com.cameronpalmer.farris.storage.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.sql.Date;
-
-import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.util.UUID;
 
 import com.cameronpalmer.farris.blog.Blog;
 import com.cameronpalmer.farris.storage.factory.PostgresDAOFactory;
@@ -52,25 +51,28 @@ public class PostgresBlogDAO implements BlogDAO {
 	
 	@Override
 	public void insert(Blog blog) throws SQLException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-		Date publishedDate = blog.getPublishedDate();
-		Date updatedDate = blog.getUpdatedDate();
-		String publishedDateString = dateFormat.format(publishedDate);
-		String publishedTimeString = timeFormat.format(publishedDate);
-		String updatedDateString = dateFormat.format(updatedDate);
-		String updatedTimeString = timeFormat.format(updatedDate);
+		if ( blog == null ) {
+			return;
+		}
+		
+		Date publishedDate = new Date(blog.getPublishedDate().getTime());
+		Date updatedDate = new Date(blog.getUpdatedDate().getTime());
+		Time publishedTime = new Time(blog.getPublishedDate().getTime());
+		Time updatedTime = new Time(blog.getUpdatedDate().getTime());
 		
 		PreparedStatement p = connection.prepareStatement(insertBlogSQL);
-		p.setString(1, blog.getUuid().toString()); // UUID
+		p.setObject(1, blog.getUuid()); // UUID
 		p.setString(2, blog.getAuthor()); // author
 		p.setString(3, blog.getPlace()); // place
-		p.setString(4, publishedDateString); // published_date
-		p.setString(5, publishedTimeString); // published_time
-		p.setString(6, updatedDateString); // updated_date
-		p.setString(7, updatedTimeString); // updated_time
+		p.setDate(4, publishedDate); // published_date
+		p.setTime(5, publishedTime); // published_time
+		p.setDate(6, updatedDate); // updated_date
+		p.setTime(7, updatedTime); // updated_time
 		p.setString(8, blog.getSubject()); // subject
 		p.setString(9, blog.getBody()); // body
+		
+		p.execute();
+		p.close();
 	}
 
 	@Override
@@ -80,8 +82,35 @@ public class PostgresBlogDAO implements BlogDAO {
 	}
 	
 	@Override
-	public Blog select() {
-		return null;
+	public Blog select(UUID uuid) throws SQLException {
+		PreparedStatement p = connection.prepareStatement(selectBlogSQL);
+		
+		p.setObject(1, uuid);
+		ResultSet rs = p.executeQuery();
+		if ( rs.next() ) {
+			String author = rs.getString("author");
+			String place = rs.getString("place");
+			Date publishedDate = rs.getDate("published_date");
+			Time publishedTime = rs.getTime("published_time");
+			Date updatedDate = rs.getDate("updated_date");
+			Time updatedTime = rs.getTime("updated_time");
+			String subject = rs.getString("subject");
+			String body = rs.getString("body");
+			p.close();
+			
+			Blog blog = new Blog();
+			blog.setUuid(uuid);
+			blog.setAuthor(author);
+			blog.setPlace(place);
+			blog.setPublishedDate(new Date(publishedDate.getTime() + publishedTime.getTime()));
+			blog.setUpdatedDate(new Date(updatedDate.getTime() + updatedTime.getTime()));
+			blog.setSubject(subject);
+			blog.setBody(body);
+			
+			return blog;
+		} else {
+			return null;
+		}	
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package com.cameronpalmer.farris.storage.dao;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 import com.cameronpalmer.farris.blog.Blog;
 
@@ -12,6 +13,6 @@ import com.cameronpalmer.farris.blog.Blog;
 public interface BlogDAO {
 	public void insert(Blog blog) throws SQLException;
 	public void update();
-	public Blog select();
+	public Blog select(UUID uuid) throws SQLException;
 	public void delete();
 }
