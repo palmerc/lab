@@ -53,7 +53,7 @@ public class PostgresBlogDAO implements BlogDAO {
 	public boolean insert(Blog blog) throws SQLException {
 		boolean success = false;
 		if ( blog == null ) {
-			return success;
+			return false;
 		}
 		
 		Date publishedDate = new Date(blog.getPublishedDate().getTime());
@@ -82,7 +82,7 @@ public class PostgresBlogDAO implements BlogDAO {
 	public boolean update(Blog blog) throws SQLException {
 		boolean success = false;
 		if ( blog == null ) {
-			return success;
+			return false;
 		}
 		
 		Date publishedDate = new Date(blog.getPublishedDate().getTime());
@@ -145,6 +145,10 @@ public class PostgresBlogDAO implements BlogDAO {
 	@Override
 	public boolean delete(UUID uuid) throws SQLException {
 		boolean success = false;
+		if ( uuid == null ) {
+			return false;
+		}
+		
 		PreparedStatement p = connection.prepareStatement(deleteBlogSQL);
 		
 		p.setObject(1, uuid);
