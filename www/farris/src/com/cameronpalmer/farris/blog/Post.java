@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public class Blog implements Serializable {
+public class Post implements Serializable {
 	/**
 	 * 
 	 */

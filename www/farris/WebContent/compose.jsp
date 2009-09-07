@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<%@ page language="java" import="com.cameronpalmer.farris.blog.*"
-	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -15,30 +14,30 @@
 
 <body>
 <div id="header">
-	<h1>CameronPalmer.com</h1>
+	<h1><a href="index.jsp">CameronPalmer.com</a></h1>
 </div>
 
 <div class="colmask blogstyle">
 	<div class="colmid">
 		<div class="colleft">
 			<div class="col1">
-			<!-- Output the blog posts -->
-			<c:forEach var="post" items="${posts}">
-				<ul>
-					<li class="publishedDate">${post.date}</li>
-					<li class="blogLink"><a href="?">Link</a></li>
-					<li class="author">${post.author}</li>
-					<li class="place"><a href="${post.place}">${post.place}</a></li>
-				</ul>
-				<h2 class="blogEntrySubject">${post.subject}</h2>
-				<p>${post.body}</p>		
-			</c:forEach>
+			Title:
+			<input type="text" />
+			<textarea rows="24" cols="80"></textarea>
+			<input type="button" name="publishPost" value="Publish Post" />
+			<input type="button" name="deletePost" value="Save Now" />
+			Post Options:
+			Reader Comments
+			<input type="radio" name="comments" value="Allow" checked="checked" />Allow
+			<input type="radio" name="comments" value="Disallow" />Disallow
+			
+			Post Date and Time:
+			<input type="text" />
+			<input type="text" />
+			<a href="posts.jsp">Return to list of posts</a>
 			</div>
+			
 			<div class="col2">
-				<h2>Previous Posts</h2>
-				<ul>
-					<li><a href=""></a></li>
-				</ul>
 			</div>
 		</div>	
 	</div>
@@ -46,6 +45,6 @@
 
 <div id="footer">
 	<p>Copyright 2009</p>
- </div>
+</div>
 </body>
 </html>

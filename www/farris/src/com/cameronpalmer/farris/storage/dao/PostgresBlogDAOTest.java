@@ -10,20 +10,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cameronpalmer.farris.blog.Blog;
+import com.cameronpalmer.farris.blog.Post;
 import com.cameronpalmer.farris.storage.factory.DAOFactory;
 import com.cameronpalmer.farris.storage.factory.DAOFactory.DAOFactoryType;
 
 
 public class PostgresBlogDAOTest {
-	Blog blog;
+	Post blog;
 	
 	@Before
 	public void init() {
 		Date now = new Date();
 		UUID uuid = UUID.randomUUID();
 		
-		blog = new Blog();
+		blog = new Post();
 		blog.setAuthor("palmerc");
 		blog.setBody("The body.");
 		blog.setDate(now);
@@ -46,7 +46,7 @@ public class PostgresBlogDAOTest {
 		DAOFactory postgresDAOFactory = DAOFactory.getDAOFactory(DAOFactoryType.POSTGRES);
 		BlogDAO blogDAO = postgresDAOFactory.getBlogDAO();
 		blogDAO.insert(blog);
-		Blog result = blogDAO.select(blog.getUuid());
+		Post result = blogDAO.select(blog.getUuid());
 		
 		UUID expected = blog.getUuid();
 		UUID actual = result.getUuid();
