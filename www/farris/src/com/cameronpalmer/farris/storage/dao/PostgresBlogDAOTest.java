@@ -2,6 +2,7 @@ package com.cameronpalmer.farris.storage.dao;
 
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class PostgresBlogDAOTest {
 	Post blog;
 	
 	@Before
-	public void init() {
+	public void init() throws UnsupportedEncodingException {
 		Date now = new Date();
 		UUID uuid = UUID.randomUUID();
 		
@@ -42,7 +43,7 @@ public class PostgresBlogDAOTest {
 	}
 	
 	@Test
-	public void insertionTest() throws ClassNotFoundException, SQLException {
+	public void insertionTest() throws ClassNotFoundException, SQLException, UnsupportedEncodingException {
 		DAOFactory postgresDAOFactory = DAOFactory.getDAOFactory(DAOFactoryType.POSTGRES);
 		BlogDAO blogDAO = postgresDAOFactory.getBlogDAO();
 		blogDAO.insert(blog);
@@ -54,7 +55,7 @@ public class PostgresBlogDAOTest {
 	}
 	
 	@Test
-	public void nullInsertionTest() throws ClassNotFoundException, SQLException {
+	public void nullInsertionTest() throws ClassNotFoundException, SQLException, UnsupportedEncodingException {
 		DAOFactory postgresDAOFactory = DAOFactory.getDAOFactory(DAOFactoryType.POSTGRES);
 		BlogDAO blogDAO = postgresDAOFactory.getBlogDAO();
 		blogDAO.insert(null);

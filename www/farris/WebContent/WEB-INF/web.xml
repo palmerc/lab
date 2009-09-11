@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description>Handles the request for posts</description>
+    <display-name>BlogServlet</display-name>
+    <servlet-name>BlogServlet</servlet-name>
+    <servlet-class>com.cameronpalmer.farris.servlet.BlogServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BlogServlet</servlet-name>
+    <url-pattern>/BlogServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

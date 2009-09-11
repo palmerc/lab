@@ -148,7 +148,6 @@ public class PostgresBlogDAO implements BlogDAO {
 			Time updatedTime = rs.getTime("updated_time");
 			String subject = rs.getString("subject");
 			String body = rs.getString("body");
-			p.close();
 
 			Post post = new Post();
 			post.setUuid(uuid);
@@ -163,6 +162,7 @@ public class PostgresBlogDAO implements BlogDAO {
 			
 			posts.add(post);
 		}
+		p.close();
 		
 		return posts;
 	}

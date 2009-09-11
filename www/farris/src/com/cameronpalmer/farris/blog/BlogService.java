@@ -9,5 +9,5 @@ public interface BlogService {
 	public List<Post> getPosts(Date from, Date to);
 	public List<Post> getPosts(int number);
 	public Post getPost(UUID uuid);
-	public void setPost(Post blogObject);
+	public void insertPost(Post post);
 }

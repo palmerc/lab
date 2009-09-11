@@ -13,8 +13,10 @@ public class BlogServiceImpl implements BlogService {
 	BlogDAO blogDAO = null;
 	
 	private void init() throws ClassNotFoundException, SQLException {
-		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactoryType.POSTGRES);
-		blogDAO = daoFactory.getBlogDAO();
+		if ( blogDAO == null ) {
+			DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactoryType.POSTGRES);
+			blogDAO = daoFactory.getBlogDAO();
+		}
 	}
 	
 	@Override
@@ -22,21 +24,28 @@ public class BlogServiceImpl implements BlogService {
 		// contact backend and get Blog Object
 		return null;
 	}
-
+	
 	@Override
-	public void setPost(Post blogObject) {
-		// TODO Auto-generated method stub
+	public void insertPost(Post blog) {
+		if ( blog == null ) {
+			return;
+		}
 
+		try {
+			this.init();
+			blogDAO.insert(blog);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public List<Post> getPosts() {
 		List<Post> results = null;
 		try {
-			if ( blogDAO == null ) {
-				this.init();
-			}
-			
+			this.init();		
 			results = blogDAO.getAllPosts();	
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -49,19 +58,11 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public List<Post> getPosts(Date from, Date to) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Post> getPosts(int number) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public static List<Post> getPostsStatically() {
-		BlogService bs = new BlogServiceImpl();
-		return bs.getPosts();
-	}
-	
 }

@@ -17,14 +17,15 @@
 	<h1><a href="index.jsp">CameronPalmer.com</a></h1>
 </div>
 
+<form action="BlogServlet" method="post">
 <div class="colmask blogstyle">
 	<div class="colmid">
 		<div class="colleft">
 			<div class="col1">
-			Title:
-			<input type="text" />
-			<textarea rows="24" cols="80"></textarea>
-			<input type="button" name="publishPost" value="Publish Post" />
+			<input type="hidden" name="type" value="compose" />
+			Title:<input type="text" name="postSubject" />
+			<textarea rows="24" cols="80" name="postBody"></textarea>
+			<input type="submit" name="publishPost" value="Publish Post" />
 			<input type="button" name="deletePost" value="Save Now" />
 			Post Options:
 			Reader Comments
@@ -42,6 +43,7 @@
 		</div>	
 	</div>
 </div>
+</form>
 
 <div id="footer">
 	<p>Copyright 2009</p>
