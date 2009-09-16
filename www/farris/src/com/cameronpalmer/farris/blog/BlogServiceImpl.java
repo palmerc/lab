@@ -21,8 +21,17 @@ public class BlogServiceImpl implements BlogService {
 	
 	@Override
 	public Post getPost(UUID uuid) {
-		// contact backend and get Blog Object
-		return null;
+		Post post = null;
+		try {
+			this.init();
+			post = blogDAO.select(uuid);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return post;
 	}
 	
 	@Override
