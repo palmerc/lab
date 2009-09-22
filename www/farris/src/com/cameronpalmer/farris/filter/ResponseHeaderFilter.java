@@ -22,6 +22,7 @@ public class ResponseHeaderFilter implements Filter {
 		this.config = null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
 			FilterChain chain) throws IOException, ServletException {
 		

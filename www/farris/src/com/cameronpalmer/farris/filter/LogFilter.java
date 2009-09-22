@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 public class LogFilter implements Filter {
+	@SuppressWarnings("unused")
 	private FilterConfig config;
 	private Logger log;
 	
