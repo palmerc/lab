@@ -45,7 +45,10 @@ public class CompressionResponseWrapper extends HttpServletResponseWrapper {
 
 	public void setContentLength(int len) {}
 	
-	public GZIPOutputStream getGZIPOutputStream() {
-		return this.outputStream.stream;
+	public GZIPOutputStream getGZIPOutputStream() throws IOException {
+		if ( outputStream == null ) {
+			getOutputStream();
+		}
+		return outputStream.stream;
 	}
 }

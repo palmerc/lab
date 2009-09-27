@@ -11,13 +11,13 @@
 			<!-- Output the blog posts -->
 			<c:forEach var="post" items="${posts}">
 				<ul>
-					<li class="publishedDate">${post.date}</li>
+					<li class="publishedDate">${post.publishedDate}</li>
 					<li class="blogLink"><a href="post/${post.uuid}">Link</a></li>
 					<li class="author">${post.author}</li>
 					<li class="place"><a href="${post.place}">${post.place}</a></li>
 				</ul>
 				<h2 class="blogEntrySubject">${post.subject}</h2>
-				<p>${post.body}</p>		
+				${post.body}
 			</c:forEach>
 			</div>
 			<div class="col2">

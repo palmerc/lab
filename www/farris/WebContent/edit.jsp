@@ -6,15 +6,16 @@
 <jsp:include page="header.jsp" />
 
 <form action="BlogServlet" method="post">
+<input type="hidden" name="formType" value="postUpdate" />
 <div class="colmask blogstyle">
 	<div class="colmid">
 		<div class="colleft">
 			<div class="col1">
-			<input type="hidden" name="type" value="compose" />
-			Title:<input type="text" name="postSubject" />
-			<textarea rows="24" cols="80" name="postBody"></textarea>
+			<input type="hidden" name="postUuid" value="${post.uuid}" />
+			Title:<input type="text" name="postSubject" value="${post.subject}" />
+			<textarea rows="24" cols="80" name="postBody">${post.body}</textarea>
 			<input type="submit" name="publishPost" value="Publish Post" />
-			<input type="button" name="deletePost" value="Save Now" />
+			<input type="submit" name="savePost" value="Save Now" />
 			Post Options:
 			Reader Comments
 			<input type="radio" name="comments" value="Allow" checked="checked" />Allow
@@ -23,7 +24,7 @@
 			Post Date and Time:
 			<input type="text" />
 			<input type="text" />
-			<a href="posts.jsp">Return to list of posts</a>
+			<a href="../posts">Return to list of posts</a>
 			</div>
 			
 			<div class="col2">

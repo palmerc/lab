@@ -27,7 +27,7 @@
 				<tr>
 					<td><input type="checkbox" name="post1" /></td>
 					<td><a href="edit/${post.uuid}">Edit</a></td>
-					<td><a href="view/${post.uuid}">View</a></td>
+					<td><a href="post/${post.uuid}">View</a></td>
 					<td>${post.subject}</td>
 					<td><a href="comments/${post.uuid}">Comments</a></td>
 					<td>${post.date}</td>

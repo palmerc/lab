@@ -49,6 +49,22 @@ public class BlogServiceImpl implements BlogService {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void updatePost(Post blog) {
+		if ( blog == null ) {
+			return;
+		}
+		
+		try {
+			this.init();
+			blogDAO.update(blog);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public List<Post> getPosts() {

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import org.w3c.tidy.Tidy;
+
 public class Post implements Serializable {
 	/**
 	 * 

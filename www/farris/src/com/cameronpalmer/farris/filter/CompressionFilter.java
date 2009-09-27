@@ -36,6 +36,7 @@ public class CompressionFilter implements Filter {
 		String validEncodings = request.getHeader("Accept-Encoding");
 		if ( (validEncodings != null) && (validEncodings.indexOf("gzip") > -1) ) {
 			CompressionResponseWrapper wrappedResponse = new CompressionResponseWrapper(response);
+			
 			wrappedResponse.setHeader("Content-Encoding", "gzip");
 			
 			chain.doFilter(request, wrappedResponse);

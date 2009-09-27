@@ -11,8 +11,54 @@
     <servlet-name>BlogServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <filter>
+    <filter-name>CompressionFilter</filter-name>
+    <filter-class>com.cameronpalmer.farris.filter.CompressionFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>CSSCacheFilter</filter-name>
+    <filter-class>com.cameronpalmer.farris.filter.ResponseHeaderFilter</filter-class>
+    <init-param>
+      <param-name>Cache-Control</param-name>
+      <param-value>max-age=3600</param-value>
+    </init-param>
+  </filter>
+  <filter>
+    <filter-name>FaviconCacheFilter</filter-name>
+    <filter-class>com.cameronpalmer.farris.filter.ResponseHeaderFilter</filter-class>
+    <init-param>
+      <param-name>Cache-Control</param-name>
+      <param-value>max-age=3600</param-value>
+    </init-param>
+  </filter>
+  <filter>
+    <filter-name>LogFilter</filter-name>
+    <filter-class>com.cameronpalmer.farris.filter.LogFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LogFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>FaviconCacheFilter</filter-name>
+    <url-pattern>/favicon.ico</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CSSCacheFilter</filter-name>
+    <url-pattern>/css/main.css</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CompressionFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FrontController</display-name>
+    <servlet-name>FrontController</servlet-name>
+    <servlet-class>com.cameronpalmer.farris.FrontController</servlet-class>
+  </servlet>
   <servlet-mapping>
-    <servlet-name>BlogServlet</servlet-name>
-    <url-pattern>/posts</url-pattern>
+    <servlet-name>FrontController</servlet-name>
+    <url-pattern>/FrontController</url-pattern>
   </servlet-mapping>
 </web-app>

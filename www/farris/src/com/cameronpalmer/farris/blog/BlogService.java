@@ -10,4 +10,5 @@ public interface BlogService {
 	public List<Post> getPosts(int number);
 	public Post getPost(UUID uuid);
 	public void insertPost(Post post);
+	public void updatePost(Post blog);
 }
