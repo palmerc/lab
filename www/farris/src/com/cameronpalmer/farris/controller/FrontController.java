@@ -1,4 +1,4 @@
-package com.cameronpalmer.farris;
+package com.cameronpalmer.farris.controller;
 
 import java.io.IOException;
 
@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+
+import com.cameronpalmer.farris.context.RequestContext;
+import com.cameronpalmer.farris.context.RequestContextFactory;
 
 /**
  * Servlet implementation class FrontController

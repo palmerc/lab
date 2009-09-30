@@ -1,4 +1,4 @@
-package com.cameronpalmer.farris;
+package com.cameronpalmer.farris.context;
 
 import javax.servlet.ServletResponse;
 

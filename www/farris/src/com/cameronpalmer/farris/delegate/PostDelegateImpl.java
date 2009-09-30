@@ -1,4 +1,4 @@
-package com.cameronpalmer.farris.blog;
+package com.cameronpalmer.farris.delegate;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -8,8 +8,9 @@ import java.util.UUID;
 import com.cameronpalmer.farris.storage.dao.BlogDAO;
 import com.cameronpalmer.farris.storage.factory.DAOFactory;
 import com.cameronpalmer.farris.storage.factory.DAOFactory.DAOFactoryType;
+import com.cameronpalmer.farris.to.PostTO;
 
-public class BlogServiceImpl implements BlogService {
+public class PostDelegateImpl implements PostDelegate {
 	BlogDAO blogDAO = null;
 	
 	private void init() throws ClassNotFoundException, SQLException {
@@ -20,8 +21,8 @@ public class BlogServiceImpl implements BlogService {
 	}
 	
 	@Override
-	public Post getPost(UUID uuid) {
-		Post post = null;
+	public PostTO getPost(UUID uuid) {
+		PostTO post = null;
 		try {
 			this.init();
 			post = blogDAO.select(uuid);
@@ -35,7 +36,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 	
 	@Override
-	public void insertPost(Post blog) {
+	public void insertPost(PostTO blog) {
 		if ( blog == null ) {
 			return;
 		}
@@ -51,7 +52,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 	
 	@Override
-	public void updatePost(Post blog) {
+	public void updatePost(PostTO blog) {
 		if ( blog == null ) {
 			return;
 		}
@@ -67,8 +68,8 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public List<Post> getPosts() {
-		List<Post> results = null;
+	public List<PostTO> getPosts() {
+		List<PostTO> results = null;
 		try {
 			this.init();		
 			results = blogDAO.getAllPosts();	
@@ -82,12 +83,12 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public List<Post> getPosts(Date from, Date to) {
+	public List<PostTO> getPosts(Date from, Date to) {
 		return null;
 	}
 
 	@Override
-	public List<Post> getPosts(int number) {
+	public List<PostTO> getPosts(int number) {
 		return null;
 	}
 }

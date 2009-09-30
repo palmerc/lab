@@ -1,6 +1,7 @@
-package com.cameronpalmer.farris;
+package com.cameronpalmer.farris.command;
 
-import com.cameronpalmer.farris.RequestContextFactory.Commands;
+import com.cameronpalmer.farris.context.RequestContextFactory;
+import com.cameronpalmer.farris.context.RequestContextFactory.Commands;
 
 /**
  * The CommandMapper singleton

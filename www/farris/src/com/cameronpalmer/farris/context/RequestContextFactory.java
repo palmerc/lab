@@ -1,9 +1,12 @@
-package com.cameronpalmer.farris;
+package com.cameronpalmer.farris.context;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+
+import com.cameronpalmer.farris.command.CommandMap;
+import com.cameronpalmer.farris.command.CommandMapper;
 
 public class RequestContextFactory {
 	Logger logger;
@@ -17,6 +20,7 @@ public class RequestContextFactory {
 	
 	public RequestContext createRequestContext(ServletRequest request) {
 		RequestContext requestContext = null;
+		
 		try {
 			Commands commandId = getCommandId(request);
 			CommandMapper commandMapper = CommandMapper.getInstance();

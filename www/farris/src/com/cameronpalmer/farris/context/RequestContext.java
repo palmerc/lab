@@ -1,8 +1,9 @@
-package com.cameronpalmer.farris;
+package com.cameronpalmer.farris.context;
 
 import javax.servlet.ServletRequest;
 
-import com.cameronpalmer.farris.RequestContextFactory.Commands;
+import com.cameronpalmer.farris.ValidatorException;
+import com.cameronpalmer.farris.context.RequestContextFactory.Commands;
 
 public class RequestContext {
 	private ServletRequest request;
@@ -24,6 +25,11 @@ public class RequestContext {
 	}
 
 	public Commands getCommandName() {
+		return null;
+	}
+
+	public String getStringParameter(String string) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

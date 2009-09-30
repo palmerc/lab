@@ -16,9 +16,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import com.cameronpalmer.farris.blog.BlogService;
-import com.cameronpalmer.farris.blog.BlogServiceImpl;
-import com.cameronpalmer.farris.blog.Post;
+import com.cameronpalmer.farris.delegate.PostDelegate;
+import com.cameronpalmer.farris.delegate.PostDelegateImpl;
+import com.cameronpalmer.farris.to.PostTO;
 
 /**
  * Servlet implementation class BlogServlet
@@ -62,7 +62,7 @@ public class BlogServlet extends HttpServlet {
 		Date now = new Date();
 		
 		
-		BlogService bs = new BlogServiceImpl();
+		PostDelegate bs = new PostDelegateImpl();
 	
 		//Logger logger = Logger.getLogger(this.getClass());
 		//logger.debug("Session ID: " + session.getId());
@@ -71,7 +71,7 @@ public class BlogServlet extends HttpServlet {
 			if ( "postUpdate".equals(formType) ) {
 				uuid = request.getParameter("postUuid");
 				if ( isUUID(uuid) ) {
-					Post post = bs.getPost(UUID.fromString(uuid));
+					PostTO post = bs.getPost(UUID.fromString(uuid));
 					post.setSubject(request.getParameter("postSubject"));
 					post.setBody(request.getParameter("postBody"));
 					post.setUpdatedDate(now);
@@ -119,7 +119,7 @@ public class BlogServlet extends HttpServlet {
 			String page = null;		
 			RequestDispatcher view = null;
 			if ( COMPOSESERVICE.equals(serviceType) ) {
-				Post post = new Post();
+				PostTO post = new PostTO();
 				post.setUuid(UUID.randomUUID());
 				post.setSubject(request.getParameter("postSubject"));
 				post.setBody(request.getParameter("postBody"));
@@ -133,19 +133,19 @@ public class BlogServlet extends HttpServlet {
 				
 				page = POSTSPAGE;			
 			} else if ( EDITSERVICE.equals(serviceType) ) {
-				Post post = bs.getPost(UUID.fromString(uuid));
+				PostTO post = bs.getPost(UUID.fromString(uuid));
 				request.setAttribute("post", post);
 				page = EDITPAGE;
 			} else if ( POSTSERVICE.equals(serviceType) ) {
-				Post post = bs.getPost(UUID.fromString(uuid));
+				PostTO post = bs.getPost(UUID.fromString(uuid));
 				request.setAttribute("post", post);
 				page = POSTPAGE;
 			} else if ( POSTSSERVICE.equals(serviceType) ) {
-				List<Post> posts = bs.getPosts();
+				List<PostTO> posts = bs.getPosts();
 				request.setAttribute("posts", posts);
 				page = POSTSPAGE;
 			} else if ( MAINSERVICE.equals(serviceType) ) {
-				List<Post> posts = bs.getPosts();
+				List<PostTO> posts = bs.getPosts();
 				request.setAttribute("posts", posts);
 				page = MAINPAGE;
 			}

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-import com.cameronpalmer.farris.blog.Post;
+import com.cameronpalmer.farris.to.PostTO;
 
 
 public class XmlBlogDAO implements BlogDAO {
@@ -16,25 +16,25 @@ public class XmlBlogDAO implements BlogDAO {
 	}
 
 	@Override
-	public boolean insert(Post blog) throws SQLException {
+	public boolean insert(PostTO blog) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Post select(UUID uuid) throws SQLException {
+	public PostTO select(UUID uuid) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean update(Post blog) throws SQLException {
+	public boolean update(PostTO blog) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public List<Post> getAllPosts() throws SQLException {
+	public List<PostTO> getAllPosts() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

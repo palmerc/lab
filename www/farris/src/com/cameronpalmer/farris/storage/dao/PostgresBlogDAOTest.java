@@ -11,20 +11,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cameronpalmer.farris.blog.Post;
 import com.cameronpalmer.farris.storage.factory.DAOFactory;
 import com.cameronpalmer.farris.storage.factory.DAOFactory.DAOFactoryType;
+import com.cameronpalmer.farris.to.PostTO;
 
 
 public class PostgresBlogDAOTest {
-	Post blog;
+	PostTO blog;
 	
 	@Before
 	public void init() throws UnsupportedEncodingException {
 		Date now = new Date();
 		UUID uuid = UUID.randomUUID();
 		
-		blog = new Post();
+		blog = new PostTO();
 		blog.setAuthor("palmerc");
 		blog.setBody("The body.");
 		blog.setDate(now);
@@ -47,7 +47,7 @@ public class PostgresBlogDAOTest {
 		DAOFactory postgresDAOFactory = DAOFactory.getDAOFactory(DAOFactoryType.POSTGRES);
 		BlogDAO blogDAO = postgresDAOFactory.getBlogDAO();
 		blogDAO.insert(blog);
-		Post result = blogDAO.select(blog.getUuid());
+		PostTO result = blogDAO.select(blog.getUuid());
 		
 		UUID expected = blog.getUuid();
 		UUID actual = result.getUuid();

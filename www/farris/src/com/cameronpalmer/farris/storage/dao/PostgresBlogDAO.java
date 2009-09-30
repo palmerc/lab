@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.cameronpalmer.farris.blog.Post;
 import com.cameronpalmer.farris.storage.factory.PostgresDAOFactory;
+import com.cameronpalmer.farris.to.PostTO;
 
 /**
  * This is the concrete implementation of the CRUD for Blog objects
@@ -37,7 +37,7 @@ public class PostgresBlogDAO implements BlogDAO {
 	}
 
 	@Override
-	public boolean insert(Post blog) throws SQLException {
+	public boolean insert(PostTO blog) throws SQLException {
 		boolean success = false;
 		if (blog == null) {
 			return false;
@@ -66,7 +66,7 @@ public class PostgresBlogDAO implements BlogDAO {
 	}
 
 	@Override
-	public boolean update(Post blog) throws SQLException {
+	public boolean update(PostTO blog) throws SQLException {
 		boolean success = false;
 		if (blog == null) {
 			return false;
@@ -99,7 +99,7 @@ public class PostgresBlogDAO implements BlogDAO {
 	}
 
 	@Override
-	public Post select(UUID uuid) throws SQLException {
+	public PostTO select(UUID uuid) throws SQLException {
 		PreparedStatement p = connection.prepareStatement(selectBlogSQL);
 
 		p.setObject(1, uuid);
@@ -115,7 +115,7 @@ public class PostgresBlogDAO implements BlogDAO {
 			String body = rs.getString("body");
 			p.close();
 
-			Post blog = new Post();
+			PostTO blog = new PostTO();
 			blog.setUuid(uuid);
 			blog.setAuthor(author);
 			blog.setPlace(place);
@@ -133,11 +133,11 @@ public class PostgresBlogDAO implements BlogDAO {
 	}
 
 	@Override
-	public List<Post> getAllPosts() throws SQLException {
+	public List<PostTO> getAllPosts() throws SQLException {
 		PreparedStatement p = connection.prepareStatement(selectAllPostsSQL);
 		ResultSet rs = p.executeQuery();
 		
-		List<Post> posts = new ArrayList<Post>();		
+		List<PostTO> posts = new ArrayList<PostTO>();		
 		while ( rs.next() ) {
 			UUID uuid = (UUID) rs.getObject("uuid");
 			String author = rs.getString("author");
@@ -149,7 +149,7 @@ public class PostgresBlogDAO implements BlogDAO {
 			String subject = rs.getString("subject");
 			String body = rs.getString("body");
 
-			Post post = new Post();
+			PostTO post = new PostTO();
 			post.setUuid(uuid);
 			post.setAuthor(author);
 			post.setPlace(place);

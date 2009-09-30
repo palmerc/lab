@@ -1,4 +1,4 @@
-package com.cameronpalmer.farris;
+package com.cameronpalmer.farris.command;
 
 public class CommandMap {
 	private Class contextObjectClass = null;
