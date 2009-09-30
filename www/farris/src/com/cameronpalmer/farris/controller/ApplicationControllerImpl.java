@@ -39,11 +39,6 @@ public class ApplicationControllerImpl implements ApplicationController {
 		return responseContext;
 	}
 
-	/*
-	@Override
-	public void handleResponse(RequestContext requestContext,
-			ResponseContext responseContext) {
-		// TODO Auto-generated method stub
-		
-	}*/
+	public void handleResponse(RequestContext requestContext, ResponseContext responseContext) {		
+	}
 }

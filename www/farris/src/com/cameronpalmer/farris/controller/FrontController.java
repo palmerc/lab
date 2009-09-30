@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.cameronpalmer.farris.context.RequestContext;
 import com.cameronpalmer.farris.context.RequestContextFactory;
+import com.cameronpalmer.farris.context.ResponseContext;
 
 /**
  * Servlet implementation class FrontController
@@ -38,11 +39,10 @@ public class FrontController extends HttpServlet {
     	
     	RequestContextFactory requestContextFactory = RequestContextFactory.getInstance();
     	RequestContext requestContext = requestContextFactory.createRequestContext(request);
-    	/*
     	ResponseContext responseContext = applicationController.handleRequest(requestContext);
     	Dispatcher dispatcher = new Dispatcher(request, response);
     	responseContext.setDispatcher(dispatcher);
-    	applicationController.handleResponse(requestContext, responseContext);*/
+    	applicationController.handleResponse(requestContext, responseContext);
     }
     
 	/**

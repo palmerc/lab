@@ -2,6 +2,8 @@ package com.cameronpalmer.farris.context;
 
 import javax.servlet.ServletResponse;
 
+import com.cameronpalmer.farris.controller.Dispatcher;
+
 public class ResponseContext {
 	private ServletResponse response;
 	
@@ -14,6 +16,11 @@ public class ResponseContext {
 	}
 
 	public void setLogicalViewName(String viewName) {
+		
+	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		// TODO Auto-generated method stub
 		
 	}
 	
