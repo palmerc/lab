@@ -13,65 +13,6 @@
 \setlength{\parskip}{12pt}
 \pagestyle{plain}
 \raggedright
-\begin{document}
-
-\section{Build Environment}
-Using the GCC and Intel Fortran and C/C++ compilers on Ubuntu 9.04 (Jaunty Jackalope)
-
-\begin{itemize}
-\item GCC 4.3.3
-\item Intel 11.1
-\end{itemize}
-
-\section{OMP2001 Installation}
-
-Install the OpenMP 2001 Benchmark Suite v3.2
-
-Mount the ISO or CD and assuming the mount point is /mnt run the installer. If you are installing somewhere like /opt change the ownership of the files and directories from root to yourself.
-
-\begin{verbatim}
-# cd /mnt
-# ./install.sh
-# cd /opt
-# chown -R palmerc:palmerc omp2001/
-$ cd omp2001
-\end{verbatim}
-
-There is a patch for the files in the appendix, along with an Intel and GCC compiler configuration. You will need all three items, the two config files go in /opt/omp2001/config.
-
-The patch includes an update to mgrid to better conform to OMP standard and prevents GCC from failing to compile mgrid using the code provided by Intel http://www.spec.org/omp2001/src.alt.m/. Also updated fma3d to avoid race condition using the code provided by Intel. These changes are allowed for base and peak submission.
-
-\section{OMP2001 Running the Benchmarks}
-
-Before a run you must source the shrc file and increase the stack limit from 8192 to 1048576. You may want to do this inside of GNU screen since this test suite will
-take 2 days to run on an 8 core machine. Using screen will prevent the tests from terminating if you close the terminal or logout.
-\begin{verbatim}
-$ screen
-$ cd /opt/omp2001
-$ source shrc
-$ ulimit -s 1048576
-\end{verbatim}
-
-To make a test run to make sure the tests run trivially and everything compiles without errors:
-\begin{verbatim}
-$ ./runspec --config=omp-ubuntu9.04-gcc.cfg --noreportable --size=test --iterations=1 all
-\end{verbatim}
-
-If you find a problematic test you can run individual a test individually using its number. For example 314.mgrid\_m:
-\begin{verbatim}
-$ ./runspec --config=omp-ubuntu9.04-gcc.cfg --noreportable --iterations=1 314
-\end{verbatim}
-
-To make a reportable run:
-\begin{verbatim}
-$ ./runspec --config=omp-ubuntu9.04-gcc.cfg all
-\end{verbatim}
-
-You will notice MD5 hashes are added to the configuration file. This is how the runspec command knows if it needs to update the files.
-
-To force a rebuild you need to call runspec with the --rebuild switch.
-
-\appendix
 \lstset{
 	basicstyle=\footnotesize\ttfamily,
 	numberstyle=\tiny,
@@ -80,7 +21,6 @@ To force a rebuild you need to call runspec with the --rebuild switch.
 	extendedchars=true,
 	breaklines=true,
 	keywordstyle=\color{red},
-	frame=b,         
 	stringstyle=\color{white}\ttfamily,
 	showspaces=false,
 	showtabs=false,
@@ -90,12 +30,113 @@ To force a rebuild you need to call runspec with the --rebuild switch.
 	framexbottommargin=4pt,
 	showstringspaces=false
 }
+\title{Running the SPEC CPU2006 and OMP2001 Benchmarks}
+\author{Cameron Lowell Palmer}
+\begin{document}
+\maketitle
+\section{Build Environment}
+Using the GCC and Intel Fortran and C/C++ compilers on Ubuntu 9.04 (Jaunty Jackalope)
 
+\begin{itemize}
+\item GCC 4.3.3
+\item Intel 11.1
+\end{itemize}
+
+\section{CPU2006 Installation}
+Install the CPU2006 v1.1 benchmarks. http://www.spec.org/cpu2006/
+
+Mount the ISO or CD and assuming the mount point is /mnt run the installer. If you are installing somewhere like /opt change the ownership of the files and directories from root to yourself.
+
+\begin{lstlisting}
+# cd /mnt
+# ./install.sh
+# cd /opt
+# chown -R palmerc:palmerc cpu2006/
+$ cd cpu2006
+\end{lstlisting}
+
+\section{CPU2006 Running the Benchmarks}
+Before the run you must source the shrc file. You may want to do this inside of GNU screen since this test suite will
+take 2 days to run on an 8 core machine. Using screen will prevent the tests from terminating if you close the terminal or logout.
+\begin{lstlisting}
+$ screen
+$ cd /opt/cpu2006
+$ source shrc
+\end{lstlisting}
+
+To make a test run to make sure the tests run trivially and everything compiles without errors:
+\begin{lstlisting}
+$ ./runspec --config=cpu-ubuntu9.04-gcc.cfg --noreportable --size=test --iterations=1 all
+\end{lstlisting}
+
+If you find a problematic test you can run individual a test individually using its number. For example 400.perlbench:
+\begin{lstlisting}
+$ ./runspec --config=cpu-ubuntu9.04-gcc.cfg --noreportable --iterations=1 400
+\end{lstlisting}
+
+To make a reportable run:
+\begin{lstlisting}
+$ ./runspec --config=cpu-ubuntu9.04-gcc.cfg all
+\end{lstlisting}
+
+You will notice MD5 hashes are added to the configuration file. This is how the runspec command knows if it needs to update the files.
+
+To force a rebuild you need to call runspec with the --rebuild switch.
+
+\section{OMP2001 Installation}
+Install the OpenMP 2001 Benchmark Suite v3.2. http://www.spec.org/omp/
+
+Mount the ISO or CD and assuming the mount point is /mnt run the installer. If you are installing somewhere like /opt change the ownership of the files and directories from root to yourself.
+
+\begin{lstlisting}
+# cd /mnt
+# ./install.sh
+# cd /opt
+# chown -R palmerc:palmerc omp2001/
+$ cd omp2001
+\end{lstlisting}
+
+There is a patch for the files in the appendix, along with an Intel and GCC compiler configuration. You will need all three items, the two config files go in /opt/omp2001/config.
+
+The patch includes an update to mgrid to better conform to OMP standard and prevents GCC from failing to compile mgrid using the code provided by Intel http://www.spec.org/omp2001/src.alt.m/. Also updated fma3d to avoid race condition using the code provided by Intel. These changes are allowed for base and peak submission.
+
+\section{OMP2001 Running the Benchmarks}
+Before a run you must source the shrc file and increase the stack limit from 8192 to 1048576. You may want to do this inside of GNU screen since this test suite will
+take 2 days to run on an 8 core machine. Using screen will prevent the tests from terminating if you close the terminal or logout.
+\begin{lstlisting}
+$ screen
+$ cd /opt/omp2001
+$ source shrc
+$ ulimit -s 1048576
+\end{lstlisting}
+
+To make a test run to make sure the tests run trivially and everything compiles without errors:
+\begin{lstlisting}
+$ ./runspec --config=omp-ubuntu9.04-gcc.cfg --noreportable --size=test --iterations=1 all
+\end{lstlisting}
+
+If you find a problematic test you can run individual a test individually using its number. For example 314.mgrid\_m:
+\begin{lstlisting}
+$ ./runspec --config=omp-ubuntu9.04-gcc.cfg --noreportable --iterations=1 314
+\end{lstlisting}
+
+To make a reportable run:
+\begin{lstlisting}
+$ ./runspec --config=omp-ubuntu9.04-gcc.cfg all
+\end{lstlisting}
+
+You will notice MD5 hashes are added to the configuration file. This is how the runspec command knows if it needs to update the files.
+
+To force a rebuild you need to call runspec with the --rebuild switch.
+
+\appendix
+\section{CPU2006 GCC Configuration File}
+\lstinputlisting{configs/cpu-ubuntu9.04-gcc.cfg}
 \section{OMP2001 Patch}
 \lstinputlisting{omp2001.patch}
 \section{OMP2001 GCC Configuration File}
-\tt{\lstinputlisting{configs/omp-ubuntu9.04-gcc.cfg}}
+\lstinputlisting{configs/omp-ubuntu9.04-gcc.cfg}
 \section{OMP2001 Intel Configuration File}
-\tt{\lstinputlisting{configs/omp-ubuntu9.04-intel.cfg}}
+\lstinputlisting{configs/omp-ubuntu9.04-intel.cfg}
 
 \end{document}
