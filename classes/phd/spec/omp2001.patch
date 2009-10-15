@@ -1,0 +1,156 @@
+diff -ur omp2001.original/benchspec/OMPL2001/315.mgrid_l/src/mgrid.f omp2001/benchspec/OMPL2001/315.mgrid_l/src/mgrid.f
+--- omp2001.original/benchspec/OMPL2001/315.mgrid_l/src/mgrid.f	2002-03-22 21:30:48.000000000 +0100
++++ omp2001/benchspec/OMPL2001/315.mgrid_l/src/mgrid.f	2007-10-30 17:28:33.000000000 +0100
+@@ -356,7 +356,6 @@
+ !$OMP+DEFAULT(SHARED)
+ !$OMP+PRIVATE(I3)
+ !$OMP DO
+-!$OMP+LASTPRIVATE(I1,I2)
+       DO i3 = 2, n-1, 1
+        DO i2 = 2, (-1)+n, 1
+         DO i1 = 2, (-1)+n, 1
+@@ -398,7 +397,6 @@
+ !$OMP+DEFAULT(SHARED)
+ !$OMP+PRIVATE(I3)
+ !$OMP DO
+-!$OMP+LASTPRIVATE(I1,I2)
+       DO i3 = 2, n-1, 1
+        DO i2 = 2, (-1)+n, 1
+         DO i1 = 2, (-1)+n, 1
+diff -ur omp2001.original/benchspec/OMPL2001/329.fma3d_l/src/platq.f90 omp2001/benchspec/OMPL2001/329.fma3d_l/src/platq.f90
+--- omp2001.original/benchspec/OMPL2001/329.fma3d_l/src/platq.f90	2002-03-26 22:03:28.000000000 +0100
++++ omp2001/benchspec/OMPL2001/329.fma3d_l/src/platq.f90	2007-08-13 20:30:40.000000000 +0200
+@@ -2097,9 +2097,16 @@
+       INTEGER, INTENT(IN) :: MatID  ! Current element material index
+ !!
+ !! Local variables.
+-      REAL(KIND(0D0)), SAVE :: Beta(20),Awght(20),SQRT6o1,SQRT5o6
++!! SPEC      REAL(KIND(0D0)), SAVE :: Beta(20),Awght(20),SQRT6o1,SQRT5o6
++      REAL(KIND(0D0)), SAVE :: Beta(20),Awght(20)
+       REAL(KIND(0D0))       :: Int_Eng
+ 
++!! SPEC vvvvvvv
++      REAL(KIND(0D0)), PARAMETER :: SQRT6o1 = (2.44948974278317809819D0)
++      REAL(KIND(0D0)), PARAMETER :: SQRT5o6 = (0.91287092917527685575D0)
++!! SPEC ^^^^^^^
++
++
+       REAL(KIND(0D0)) :: Nr,Ns,Nt
+ 
+       COMMON /PLATQ_COMMON/      &
+@@ -2130,7 +2137,7 @@
+       REAL(KIND(0D0)), PARAMETER :: POS6TH = (+1.0D0/6.0D0)
+       REAL(KIND(0D0)), PARAMETER :: NEG6TH = (-1.0D0/6.0D0)
+ 
+-      LOGICAL, SAVE :: FIRST = .TRUE.
++!! SPEC      LOGICAL, SAVE :: FIRST = .TRUE.
+ !!
+ !! Non-dimensional thickness coordinates (trapezodial rule).
+ !!
+@@ -2147,14 +2154,25 @@
+       DATA (Awght(i),i= 6, 9) / POS6TH,  POS3RD,  POS3RD,  POS6TH/
+       DATA (Awght(i),i=10,14) /.125D+0, .250D+0, .250D+0, .250D+0, .125D+0/
+       DATA (Awght(i),i=15,20) /.100D+0, .200D+0, .200D+0, .200D+0, .200D+0, .100D+0/
++!!>>>>> SPEC
++!!   This following code was called in parallel.  This produced
++!!   a potential race condition where first could be set to false
++!!   and written back to memory before the other two values were
++!!   written to memory.  This means other threads could do computations
++!!   with bad values of SQRT6o1 or SQRT5o6 depending upon when the
++!!   values were read.
++!!   
++!!   The fix is to just define SQRT6o1 & SQRT5o6 in a parameter 
++!!   statement.
++!!>>>>>
+ !!
+ !! Define constants.
+ !!
+-      IF (FIRST) THEN
+-        SQRT6o1 = SQRT (6.0D+0/1.0D+0)
+-        SQRT5o6 = SQRT (5.0D+0/6.0D+0)
+-        FIRST = .FALSE.
+-      ENDIF
++!!      IF (FIRST) THEN
++!!        SQRT6o1 = SQRT (6.0D+0/1.0D+0)
++!!        SQRT5o6 = SQRT (5.0D+0/6.0D+0)
++!!        FIRST = .FALSE.
++!!      ENDIF
+ !!
+ !! Compute current element thickness based on constant volume.
+ !!
+diff -ur omp2001.original/benchspec/OMPM2001/314.mgrid_m/src/mgrid.f omp2001/benchspec/OMPM2001/314.mgrid_m/src/mgrid.f
+--- omp2001.original/benchspec/OMPM2001/314.mgrid_m/src/mgrid.f	2001-06-15 03:49:32.000000000 +0200
++++ omp2001/benchspec/OMPM2001/314.mgrid_m/src/mgrid.f	2007-10-27 16:25:24.000000000 +0200
+@@ -362,7 +362,6 @@
+ !$OMP+DEFAULT(SHARED)
+ !$OMP+PRIVATE(I3)
+ !$OMP DO
+-!$OMP+LASTPRIVATE(I1,I2)
+       DO i3 = 2, n-1, 1
+        DO i2 = 2, (-1)+n, 1
+         DO i1 = 2, (-1)+n, 1
+@@ -405,7 +404,6 @@
+ !$OMP+DEFAULT(SHARED)
+ !$OMP+PRIVATE(I3)
+ !$OMP DO
+-!$OMP+LASTPRIVATE(I1,I2)
+       DO i3 = 2, n-1, 1
+        DO i2 = 2, (-1)+n, 1
+         DO i1 = 2, (-1)+n, 1
+diff -ur omp2001.original/benchspec/OMPM2001/328.fma3d_m/src/platq.f90 omp2001/benchspec/OMPM2001/328.fma3d_m/src/platq.f90
+--- omp2001.original/benchspec/OMPM2001/328.fma3d_m/src/platq.f90	2001-01-10 02:18:11.000000000 +0100
++++ omp2001/benchspec/OMPM2001/328.fma3d_m/src/platq.f90	2007-07-18 16:22:22.000000000 +0200
+@@ -1947,8 +1947,13 @@
+       INTEGER, INTENT(IN) :: MatID  ! Current element material index
+ !!
+ !! Local variables.
+-      REAL(KIND(0D0)), SAVE :: Beta(20),Awght(20),SQRT6o1,SQRT5o6
++!! SPEC     REAL(KIND(0D0)), SAVE :: Beta(20),Awght(20),SQRT6o1,SQRT5o6
++      REAL(KIND(0D0)), SAVE :: Beta(20),Awght(20)
+       REAL(KIND(0D0))       :: Int_Eng
++!! SPEC vvvvvvv
++      REAL(KIND(0D0)), PARAMETER :: SQRT6o1 = (2.44948974278317809819D0)
++      REAL(KIND(0D0)), PARAMETER :: SQRT5o6 = (0.91287092917527685575D0)
++!! SPEC ^^^^^^^
+ 
+       REAL(KIND(0D0)) :: Nr,Ns,Nt
+ 
+@@ -1980,7 +1985,7 @@
+       REAL(KIND(0D0)), PARAMETER :: POS6TH = (+1.0D0/6.0D0)
+       REAL(KIND(0D0)), PARAMETER :: NEG6TH = (-1.0D0/6.0D0)
+ 
+-      LOGICAL, SAVE :: FIRST = .TRUE.
++!! SPEC     LOGICAL, SAVE :: FIRST = .TRUE.
+ !!
+ !! Non-dimensional thickness coordinates (trapezodial rule).
+ !!
+@@ -1999,12 +2004,23 @@
+       DATA (Awght(i),i=15,20) /.100D+0, .200D+0, .200D+0, .200D+0, .200D+0, .100D+0/
+ !!
+ !! Define constants.
+-!!
+-      IF (FIRST) THEN
+-        SQRT6o1 = SQRT (6.0D+0/1.0D+0)
+-        SQRT5o6 = SQRT (5.0D+0/6.0D+0)
+-        FIRST = .FALSE.
+-      ENDIF
++!!>>>>> SPEC
++!!   This following code was called in parallel.  This produced
++!!   a potential race condition where first could be set to false
++!!   and written back to memory before the other two values were
++!!   written to memory.  This means other threads could do computations
++!!   with bad values of SQRT6o1 or SQRT5o6 depending upon when the
++!!   values were read.
++!!   
++!!   The fix is to just define SQRT6o1 & SQRT5o6 in a parameter 
++!!   statement.
++!!>>>>>
++!!
++!!      IF (FIRST) THEN
++!!        SQRT6o1 = SQRT (6.0D+0/1.0D+0)
++!!        SQRT5o6 = SQRT (5.0D+0/6.0D+0)
++!!        FIRST = .FALSE.
++!!      ENDIF
+ !!
+ !! Compute current element thickness based on constant volume.
+ !!
