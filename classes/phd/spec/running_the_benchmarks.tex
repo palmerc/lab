@@ -35,25 +35,77 @@
 \begin{document}
 \maketitle
 \section{Build Environment}
-Using the GCC and Intel Fortran and C/C++ compilers on Ubuntu 9.04 (Jaunty Jackalope)
+Using the GCC and Intel Fortran and C/C++ compilers on Ubuntu 9.04 (Jaunty Jackalope) Desktop 64-bit
 
 \begin{itemize}
-\item GCC 4.3.3
-\item Intel 11.1
+\item GCC 4.3.3 C++ and Fortran
+\item Intel 11.1 C++ and Fortran
 \end{itemize}
+
+\section{Compiler Installation}
+The following packages will need to be installed if running Ubuntu Desktop 9.04 64-bit:
+\begin{itemize}
+\item g++
+\item gfortran
+\item ia32-libs
+\item sun-java5-jre (optional for Intel debugging GUI)
+\end{itemize}
+
+Intel's compilers, although free for non-commerical use, have a license key and must be downloaded from their website. Once installed correctly installed you will need to run the Fortran and C++ scripts so that the compilers will be available system-wide. For example, if you installed them in /opt you will need to:
+\begin{lstlisting}
+$ cd /opt/intel/Compiler/11.1/046/bin
+$ ./iccvars.sh intel64
+$ ./ifortvars.sh intel64
+\end{lstlisting}
+
 
 \section{CPU2006 Installation}
 Install the CPU2006 v1.1 benchmarks. http://www.spec.org/cpu2006/
 
-Mount the ISO or CD and assuming the mount point is /mnt run the installer. If you are installing somewhere like /opt change the ownership of the files and directories from root to yourself.
+Mount the ISO or CD and, assuming the mount point is /mnt, run the installer. When the installer asks for the install directory I used /opt/cpu2006. If you are installing somewhere like /opt, change the ownership of the files and directories from root to yourself. Since the CPU2006 benchmarks won't have a toolset compatible with the Ubuntu 64-bit system, you will need to compile your own. The toolset does not affect the performance of the benchmarks, only your ability to run them.
 
+To build the toolset I installed Ubuntu 8.04 (Hardy Heron LTS) 32-bit in a VirtualBox VM (http://virtualbox.org) and used the buildtools script to generate a working toolset. In the interest of making progress, I quit trying to track down all of the issues with compiling the tools, especially perl on Ubuntu 64-bit 8.04 or 9.04. Since the tools don't affect the outcome of the tests getting ones that work is more valuable. However, one issue is the use of dash as an sh replacement on Ubuntu. Dash causes certain scripts to fail in the build process so you must replace it with Bash.
+
+First make sh configurable in the update-alternatives and switch sh to point to bash:
+\begin{lstlisting}
+# update-alternatives --install /bin/sh sh /bin/dash 1
+# update-alternatives --install /bin/sh sh /bin/bash 1
+# update-alternatives --config sh
+\end{lstlisting}
+
+You will probably want to switch back to dash when you are done in case Ubuntu scripts rely on dash being the sh equivalent. Just call \texttt{update-alternatives --config sh} again.
+
+The buildtools script that I ran on the Ubuntu 8.04 32-bit system.
+\begin{lstlisting}
+# sudo apt-get install build-essential
+# cd /mnt
+# ./install.sh
+# cd /opt/cpu2006
+# mkdir -p tools/src
+# cp -R /mnt/tools/src/* tools/src/
+# cd tools/src
+# ./buildtools
+# cd /opt/cpu2006
+# source shrc
+# /opt/cpu2006/bin
+# ./packagetools linux-ubuntu9.04-ia32
+# cd /opt/cpu2006
+\end{lstlisting}
+
+That should drop a tarball in /opt/cpu2006 called linux-ubuntu9.04-ia32.tar. This tarball can be copied to your 64-bit machine and, if you have the ia32-libs 32-bit compatibility library installed, should work just fine.
+
+On the Ubuntu 9.04 64-bit machine, install the CPU2006 benchmarks and your freshly created toolset that you copied to /tmp:
 \begin{lstlisting}
 # cd /mnt
 # ./install.sh
-# cd /opt
-# chown -R palmerc:palmerc cpu2006/
-$ cd cpu2006
+# cd /opt/cpu2006
+# cp /tmp/linux-ubuntu9.04-ia32.tar /opt/cpu2006
+# cd /opt/cpu2006
+# tar xvf linux-ubuntu9.04-ia32.tar
+# ./install.sh -u linux-ubuntu9.04-ia32
 \end{lstlisting}
+
+You should now have a working toolset. The reason you run the install.sh script a second time is to untar and install the tools in their appropriate locations and generate a working shrc that can be sourced in the next section.
 
 \section{CPU2006 Running the Benchmarks}
 Before the run you must source the shrc file. You may want to do this inside of GNU screen since this test suite will
@@ -81,12 +133,12 @@ $ ./runspec --config=cpu-ubuntu9.04-gcc.cfg all
 
 You will notice MD5 hashes are added to the configuration file. This is how the runspec command knows if it needs to update the files.
 
-To force a rebuild you need to call runspec with the --rebuild switch.
+To force a rebuild you need to call runspec with the \verb,--rebuild, switch.
 
 \section{OMP2001 Installation}
 Install the OpenMP 2001 Benchmark Suite v3.2. http://www.spec.org/omp/
 
-Mount the ISO or CD and assuming the mount point is /mnt run the installer. If you are installing somewhere like /opt change the ownership of the files and directories from root to yourself.
+Mount the ISO or CD and, assuming the mount point is /mnt, run the installer. If you are installing somewhere like /opt, change the ownership of the files and directories from root to yourself.
 
 \begin{lstlisting}
 # cd /mnt
@@ -96,13 +148,13 @@ Mount the ISO or CD and assuming the mount point is /mnt run the installer. If y
 $ cd omp2001
 \end{lstlisting}
 
-There is a patch for the files in the appendix, along with an Intel and GCC compiler configuration. You will need all three items, the two config files go in /opt/omp2001/config.
+There is a patch for the files in the appendix, along with an Intel and GCC compiler configuration. You will need all three items. The two config files go in /opt/omp2001/config.
 
 The patch includes an update to mgrid to better conform to OMP standard and prevents GCC from failing to compile mgrid using the code provided by Intel http://www.spec.org/omp2001/src.alt.m/. Also updated fma3d to avoid race condition using the code provided by Intel. These changes are allowed for base and peak submission.
 
 \section{OMP2001 Running the Benchmarks}
-Before a run you must source the shrc file and increase the stack limit from 8192 to 1048576. You may want to do this inside of GNU screen since this test suite will
-take 2 days to run on an 8 core machine. Using screen will prevent the tests from terminating if you close the terminal or logout.
+Before a run, you must source the shrc file and increase the stack limit from 8192 to 1048576. You may want to do this inside of GNU screen since this test suite will
+take 2 days to run on an 8 core machine. Using screen will prevent the tests from terminating if you close the terminal or log out.
 \begin{lstlisting}
 $ screen
 $ cd /opt/omp2001
@@ -110,12 +162,12 @@ $ source shrc
 $ ulimit -s 1048576
 \end{lstlisting}
 
-To make a test run to make sure the tests run trivially and everything compiles without errors:
+To make a test run and make sure the tests run trivially and everything compiles without errors:
 \begin{lstlisting}
 $ ./runspec --config=omp-ubuntu9.04-gcc.cfg --noreportable --size=test --iterations=1 all
 \end{lstlisting}
 
-If you find a problematic test you can run individual a test individually using its number. For example 314.mgrid\_m:
+If you find a problematic test, you can run a test individually using its number. For example 314.mgrid\_m:
 \begin{lstlisting}
 $ ./runspec --config=omp-ubuntu9.04-gcc.cfg --noreportable --iterations=1 314
 \end{lstlisting}
@@ -127,7 +179,7 @@ $ ./runspec --config=omp-ubuntu9.04-gcc.cfg all
 
 You will notice MD5 hashes are added to the configuration file. This is how the runspec command knows if it needs to update the files.
 
-To force a rebuild you need to call runspec with the --rebuild switch.
+To force a rebuild, you need to call runspec with the \verb,--rebuild, switch.
 
 \appendix
 \section{CPU2006 GCC Configuration File}
