@@ -1,0 +1,544 @@
+THelloPoly
+v7
+r0
+t281380504.076121
+cCheck dependencies
+cCpResource build/Release-iphoneos/HelloPoly.app/ResourceRules.plist /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/ResourceRules.plist
+cProcessInfoPlistFile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/Info.plist HelloPoly-Info.plist
+cCompileXIB /Users/palmerc/Development/HelloPoly/MainWindow.xib
+cCompileXIB /Users/palmerc/Development/HelloPoly/FlipsideView.xib
+cCompileXIB /Users/palmerc/Development/HelloPoly/MainView.xib
+cCopyPNGFile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/English.lproj/pent.png English.lproj/pent.png
+cProcessPCH /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch.gch HelloPoly_Prefix.pch normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/main.o /Users/palmerc/Development/HelloPoly/main.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/HelloPolyAppDelegate.o /Users/palmerc/Development/HelloPoly/Classes/HelloPolyAppDelegate.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/PolygonShape.o /Users/palmerc/Development/HelloPoly/Classes/../PolygonShape.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainViewController.o /Users/palmerc/Development/HelloPoly/MainViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/GraphicsView.o /Users/palmerc/Development/HelloPoly/Classes/GraphicsView.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideViewController.o /Users/palmerc/Development/HelloPoly/Classes/FlipsideViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideView.o /Users/palmerc/Development/HelloPoly/Classes/FlipsideView.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainView.o /Users/palmerc/Development/HelloPoly/MainView.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+cLd /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly normal armv6
+cGenerateDSYMFile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app.dSYM /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly
+cProcessProductPackaging "/Users/palmerc/Library/MobileDevice/Provisioning Profiles/AB750B08-42A7-49F5-8D90-D66BC9745F68.mobileprovision" /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/embedded.mobileprovision
+cTouch /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app
+cProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly.xcent
+cCodeSign /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk
+c000000004ABFDAFE0000000000000110
+t1254087422
+s272
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist
+c000000004ABDB88400000000000000DD
+t1253947524
+s221
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/ResourceRules.plist
+c000000004ABDB88400000000000001E5
+t1253947524
+s485
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+c000000004ABDBA1300000000005F4900
+t1253947923
+s6244608
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.h
+c000000004ABDBA1400000000000004FE
+t1253947924
+s1278
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004ABDBDCF0000000000501370
+t1253948879
+s5247856
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
+c000000004ABDBDA40000000000001355
+t1253948836
+s4949
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h
+c000000004ABDD0D10000000000000788
+t1253953745
+s1928
+
+N/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/System/Library/Frameworks/UIKit.framework/UIKit
+c000000004ABDD2250000000001B3F450
+t1253954085
+s28570704
+
+N/Users/palmerc/Development/HelloPoly/../../Desktop/pent.png
+c000000004B1447AE0000000000000F1F
+t1259620270
+s3871
+
+N/Users/palmerc/Development/HelloPoly/Classes/../PolygonShape.m
+c000000004B125612000000000000099B
+t1259492882
+s2459
+i"PolygonShape.h"
+
+N/Users/palmerc/Development/HelloPoly/Classes/FlipsideView.h
+c000000004B126E3E00000000000000DE
+t1259499070
+s222
+i<UIKit/UIKit.h>
+
+N/Users/palmerc/Development/HelloPoly/Classes/FlipsideView.m
+c000000004B126E3E00000000000001C6
+t1259499070
+s454
+i"FlipsideView.h"
+
+N/Users/palmerc/Development/HelloPoly/Classes/FlipsideViewController.h
+c000000004B13AC8E00000000000002E4
+t1259580558
+s740
+
+N/Users/palmerc/Development/HelloPoly/Classes/FlipsideViewController.m
+c000000004B13ACBA0000000000000722
+t1259580602
+s1826
+i"FlipsideViewController.h"
+
+N/Users/palmerc/Development/HelloPoly/Classes/GraphicsView.h
+c000000004B1452DE00000000000001F6
+t1259623134
+s502
+i<UIKit/UIKit.h>
+
+N/Users/palmerc/Development/HelloPoly/Classes/GraphicsView.m
+c000000004B1453150000000000000F99
+t1259623189
+s3993
+i"GraphicsView.h"
+i<CoreGraphics/CoreGraphics.h>
+
+N/Users/palmerc/Development/HelloPoly/Classes/HelloPolyAppDelegate.h
+c000000004B12827600000000000001F2
+t1259504246
+s498
+i<UIKit/UIKit.h>
+
+N/Users/palmerc/Development/HelloPoly/Classes/HelloPolyAppDelegate.m
+c000000004B13AEA000000000000005D5
+t1259581088
+s1493
+i"HelloPolyAppDelegate.h"
+i"MainViewController.h"
+
+N/Users/palmerc/Development/HelloPoly/English.lproj/pent.png
+c000000004B1447AE0000000000000F1F
+t1259620270
+s3871
+
+N/Users/palmerc/Development/HelloPoly/FlipsideView.xib
+c000000004B13A9C2000000000000656E
+t1259579842
+s25966
+
+N/Users/palmerc/Development/HelloPoly/HelloPoly_Prefix.pch
+c000000004B0E995300000000000000BB
+t1259247955
+s187
+i<Foundation/Foundation.h>
+i<UIKit/UIKit.h>
+
+N/Users/palmerc/Development/HelloPoly/MainView.h
+c000000004B154E7800000000000000D4
+t1259687544
+s212
+i<UIKit/UIKit.h>
+
+N/Users/palmerc/Development/HelloPoly/MainView.m
+c000000004B154E7F000000000000017F
+t1259687551
+s383
+i"MainView.h"
+
+N/Users/palmerc/Development/HelloPoly/MainView.xib
+c000000004B154EAF000000000000A5C6
+t1259687599
+s42438
+
+N/Users/palmerc/Development/HelloPoly/MainViewController.h
+c000000004B13AE7A0000000000000482
+t1259581050
+s1154
+i<UIKit/UIKit.h>
+i"FlipsideViewController.h"
+
+N/Users/palmerc/Development/HelloPoly/MainViewController.m
+c000000004B154F150000000000000C71
+t1259687701
+s3185
+i"MainViewController.h"
+i"MainView.h"
+i"GraphicsView.h"
+i"PolygonShape.h"
+
+N/Users/palmerc/Development/HelloPoly/MainWindow.xib
+c000000004B12A007000000000000546A
+t1259511815
+s21610
+
+N/Users/palmerc/Development/HelloPoly/PolygonShape.h
+c000000004B118F3000000000000002BA
+t1259441968
+s698
+i<Foundation/Foundation.h>
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly.xcent
+t1259621557
+s324
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideView.o
+t1259611175
+s9568
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideViewController.o
+t1259611175
+s35104
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/GraphicsView.o
+t1259623216
+s28920
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/HelloPoly.LinkFileList
+c000000004B142426000000000000040C
+t1259611174
+s1036
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/HelloPolyAppDelegate.o
+t1259611175
+s45892
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainView.o
+t1259687606
+s9492
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainViewController.o
+t1259687703
+s48304
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/PolygonShape.o
+t1259611175
+s17656
+
+N/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/main.o
+t1259611175
+s6636
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app
+t1259687704
+s476
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app.dSYM
+t1259687703
+s102
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/English.lproj/pent.png
+t1259621557
+s3972
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/FlipsideView.nib
+t1259611174
+s3595
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly
+t1259687703
+s39600
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/Info.plist
+t1259621557
+s674
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/MainView.nib
+t1259687606
+s6184
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/MainWindow.nib
+t1259611174
+s1347
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/PkgInfo
+t1259621557
+s8
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/ResourceRules.plist
+t1259611174
+s485
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/embedded.mobileprovision
+t1259611175
+s7164
+
+N/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/pent.png
+t1259620474
+s3972
+
+N/Users/palmerc/Development/HelloPoly/main.m
+c000000004B0E99530000000000000175
+t1259247955
+s373
+i<UIKit/UIKit.h>
+
+N/Users/palmerc/Development/HelloPoly/pent.png
+c000000004B1447AE0000000000000F1F
+t1259620270
+s3871
+
+N/Users/palmerc/Library/MobileDevice/Provisioning Profiles/AB750B08-42A7-49F5-8D90-D66BC9745F68.mobileprovision
+c000000004B1423490000000000001BFC
+t1259610953
+s7164
+
+N/var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch.gch
+t1259611175
+s7700664
+
+NHelloPoly-Info.plist
+c000000004B144CB50000000000000397
+t1259621557
+s919
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies281380502#281380502#0(0"0(0#1#0"4300885448#0"0#
+
+CCodeSign /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app
+s281380503.141818
+e281380504.076076
+r1
+xCodeSign
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app
+lSLF07#2@45"CodeSign build/Release-iphoneos/HelloPoly.app281380503#281380504#0(0"0(0#0#73"/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app4300885448#643"    cd /Users/palmerc/Development/HelloPoly    setenv CODESIGN_ALLOCATE /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/codesign -f -s "iPhone Developer: Cameron Palmer" --resource-rules=/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/ResourceRules.plist --entitlements /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly.xcent /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app0#
+
+CCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideView.o /Users/palmerc/Development/HelloPoly/Classes/FlipsideView.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281303975.323006
+e281303975.451276
+r1
+xCompileC
+xbuild/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideView.o
+x/Users/palmerc/Development/HelloPoly/Classes/FlipsideView.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@67"Compile /Users/palmerc/Development/HelloPoly/Classes/FlipsideView.m281303975#281303975#0(0"0(0#0#59"/Users/palmerc/Development/HelloPoly/Classes/FlipsideView.m4300885448#1805"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -include /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch -c /Users/palmerc/Development/HelloPoly/Classes/FlipsideView.m -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideView.o0#
+
+CCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideViewController.o /Users/palmerc/Development/HelloPoly/Classes/FlipsideViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281303975.322218
+e281303975.471829
+r1
+xCompileC
+xbuild/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideViewController.o
+x/Users/palmerc/Development/HelloPoly/Classes/FlipsideViewController.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@77"Compile /Users/palmerc/Development/HelloPoly/Classes/FlipsideViewController.m281303975#281303975#0(0"0(0#0#69"/Users/palmerc/Development/HelloPoly/Classes/FlipsideViewController.m4300885448#1825"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -include /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch -c /Users/palmerc/Development/HelloPoly/Classes/FlipsideViewController.m -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/FlipsideViewController.o0#
+
+CCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/GraphicsView.o /Users/palmerc/Development/HelloPoly/Classes/GraphicsView.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281316016.234748
+e281316016.359046
+r1
+xCompileC
+xbuild/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/GraphicsView.o
+x/Users/palmerc/Development/HelloPoly/Classes/GraphicsView.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@67"Compile /Users/palmerc/Development/HelloPoly/Classes/GraphicsView.m281316016#281316016#0(0"0(0#0#59"/Users/palmerc/Development/HelloPoly/Classes/GraphicsView.m4300885448#1805"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -include /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch -c /Users/palmerc/Development/HelloPoly/Classes/GraphicsView.m -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/GraphicsView.o0#
+
+CCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/HelloPolyAppDelegate.o /Users/palmerc/Development/HelloPoly/Classes/HelloPolyAppDelegate.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281303975.319241
+e281303975.482876
+r1
+xCompileC
+xbuild/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/HelloPolyAppDelegate.o
+x/Users/palmerc/Development/HelloPoly/Classes/HelloPolyAppDelegate.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@75"Compile /Users/palmerc/Development/HelloPoly/Classes/HelloPolyAppDelegate.m281303975#281303975#0(0"0(0#0#67"/Users/palmerc/Development/HelloPoly/Classes/HelloPolyAppDelegate.m4300885448#1821"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -include /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch -c /Users/palmerc/Development/HelloPoly/Classes/HelloPolyAppDelegate.m -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/HelloPolyAppDelegate.o0#
+
+CCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainView.o /Users/palmerc/Development/HelloPoly/MainView.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281380406.448054
+e281380406.519598
+r1
+xCompileC
+xbuild/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainView.o
+x/Users/palmerc/Development/HelloPoly/MainView.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@55"Compile /Users/palmerc/Development/HelloPoly/MainView.m281380406#281380406#0(0"0(0#0#47"/Users/palmerc/Development/HelloPoly/MainView.m4300885448#1789"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -include /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch -c /Users/palmerc/Development/HelloPoly/MainView.m -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainView.o0#
+
+CCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainViewController.o /Users/palmerc/Development/HelloPoly/MainViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281380502.955496
+e281380503.101393
+r1
+xCompileC
+xbuild/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainViewController.o
+x/Users/palmerc/Development/HelloPoly/MainViewController.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@65"Compile /Users/palmerc/Development/HelloPoly/MainViewController.m281380502#281380503#0(0"0(0#0#57"/Users/palmerc/Development/HelloPoly/MainViewController.m4300885448#1809"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -include /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch -c /Users/palmerc/Development/HelloPoly/MainViewController.m -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/MainViewController.o0#
+
+CCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/PolygonShape.o /Users/palmerc/Development/HelloPoly/Classes/../PolygonShape.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281303975.320031
+e281303975.480724
+r1
+xCompileC
+xbuild/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/PolygonShape.o
+x/Users/palmerc/Development/HelloPoly/Classes/../PolygonShape.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@70"Compile /Users/palmerc/Development/HelloPoly/Classes/../PolygonShape.m281303975#281303975#0(0"0(0#0#62"/Users/palmerc/Development/HelloPoly/Classes/../PolygonShape.m4300885448#1808"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -include /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch -c /Users/palmerc/Development/HelloPoly/Classes/../PolygonShape.m -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/PolygonShape.o0#
+
+CCompileC build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/main.o /Users/palmerc/Development/HelloPoly/main.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281303975.318158
+e281303975.440345
+r1
+xCompileC
+xbuild/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/main.o
+x/Users/palmerc/Development/HelloPoly/main.m
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@51"Compile /Users/palmerc/Development/HelloPoly/main.m281303975#281303975#0(0"0(0#0#43"/Users/palmerc/Development/HelloPoly/main.m4300885448#1781"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -include /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch -c /Users/palmerc/Development/HelloPoly/main.m -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/main.o0#
+
+CCompileXIB /Users/palmerc/Development/HelloPoly/FlipsideView.xib
+s281303974.524074
+e281303974.816889
+r1
+xCompileXIB
+x/Users/palmerc/Development/HelloPoly/FlipsideView.xib
+lSLF07#2@27"CompileXIB FlipsideView.xib281303974#281303974#0(0"0(0#0#53"/Users/palmerc/Development/HelloPoly/FlipsideView.xib4300885448#470"    cd /Users/palmerc/Development/HelloPoly    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.2    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/FlipsideView.nib /Users/palmerc/Development/HelloPoly/FlipsideView.xib0#
+
+CCompileXIB /Users/palmerc/Development/HelloPoly/MainView.xib
+s281380406.096815
+e281380406.446508
+r1
+xCompileXIB
+x/Users/palmerc/Development/HelloPoly/MainView.xib
+lSLF07#2@23"CompileXIB MainView.xib281380406#281380406#0(0"0(0#0#49"/Users/palmerc/Development/HelloPoly/MainView.xib4300885448#462"    cd /Users/palmerc/Development/HelloPoly    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.2    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/MainView.nib /Users/palmerc/Development/HelloPoly/MainView.xib0#
+
+CCompileXIB /Users/palmerc/Development/HelloPoly/MainWindow.xib
+s281303974.523500
+e281303974.757077
+r1
+xCompileXIB
+x/Users/palmerc/Development/HelloPoly/MainWindow.xib
+lSLF07#2@25"CompileXIB MainWindow.xib281303974#281303974#0(0"0(0#0#51"/Users/palmerc/Development/HelloPoly/MainWindow.xib4300885448#466"    cd /Users/palmerc/Development/HelloPoly    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.2    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/MainWindow.nib /Users/palmerc/Development/HelloPoly/MainWindow.xib0#
+
+CCopyPNGFile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/English.lproj/pent.png English.lproj/pent.png
+s281314357.649957
+e281314357.676616
+r1
+xCopyPNGFile
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/English.lproj/pent.png
+xEnglish.lproj/pent.png
+lSLF07#2@94"CopyPNGFile build/Release-iphoneos/HelloPoly.app/English.lproj/pent.png English.lproj/pent.png281314357#281314357#0(0"0(0#0#59"/Users/palmerc/Development/HelloPoly/English.lproj/pent.png4300885448#582"    cd /Users/palmerc/Development/HelloPoly    setenv COPY_COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    "/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Plug-ins/iPhoneOS Build System Support.xcplugin/Contents/Resources/copypng" -compress "" /Users/palmerc/Development/HelloPoly/English.lproj/pent.png /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/English.lproj/pent.png0#
+
+CCopyPNGFile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/pent.png ../../Desktop/pent.png
+r0
+
+CCopyPNGFile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/pent.png pent.png
+s281313274.481869
+e281313274.532669
+r1
+xCopyPNGFile
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/pent.png
+xpent.png
+lSLF07#2@66"CopyPNGFile build/Release-iphoneos/HelloPoly.app/pent.png pent.png281313274#281313274#0(0"0(0#0#45"/Users/palmerc/Development/HelloPoly/pent.png4300885448#554"    cd /Users/palmerc/Development/HelloPoly    setenv COPY_COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    "/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Plug-ins/iPhoneOS Build System Support.xcplugin/Contents/Resources/copypng" -compress "" /Users/palmerc/Development/HelloPoly/pent.png /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/pent.png0#
+
+CCpResource build/Release-iphoneos/HelloPoly.app/ResourceRules.plist /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/ResourceRules.plist
+s281303974.500562
+e281303974.523440
+r1
+xCpResource
+xbuild/Release-iphoneos/HelloPoly.app/ResourceRules.plist
+x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/ResourceRules.plist
+lSLF07#2@96"Copy /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/ResourceRules.plist281303974#281303974#0(0"0(0#0#91"/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/ResourceRules.plist4300885448#503"    cd /Users/palmerc/Development/HelloPoly    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -strip-debug-symbols -resolve-src-symlinks /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/ResourceRules.plist /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app0#
+
+CGenerateDSYMFile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app.dSYM /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly
+s281380503.124963
+e281380503.139425
+r1
+xGenerateDSYMFile
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app.dSYM
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly
+lSLF07#2@105"GenerateDSYMFile build/Release-iphoneos/HelloPoly.app.dSYM build/Release-iphoneos/HelloPoly.app/HelloPoly281380503#281380503#0(0"0(0#0#83"/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly4300885448#366"    cd /Users/palmerc/Development/HelloPoly    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/dsymutil /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly -o /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app.dSYM0#
+
+CLd /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly normal armv6
+s281380503.101463
+e281380503.124897
+r1
+xLd
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly
+xnormal
+xarmv6
+lSLF07#2@88"Link /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly281380503#281380503#0(0"0(0#0#0"4300885448#903"    cd /Users/palmerc/Development/HelloPoly    setenv IPHONEOS_DEPLOYMENT_TARGET 3.1.2    setenv MACOSX_DEPLOYMENT_TARGET 10.5    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -arch armv6 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -L/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -filelist /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/Objects-normal/armv6/HelloPoly.LinkFileList -mmacosx-version-min=10.5 -dead_strip -miphoneos-version-min=3.1.2 -framework Foundation -framework UIKit -framework CoreGraphics -o /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/HelloPoly0#
+
+CProcessInfoPlistFile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/Info.plist HelloPoly-Info.plist
+s281314357.646396
+e281314357.649726
+r1
+xProcessInfoPlistFile
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/Info.plist
+xHelloPoly-Info.plist
+lSLF07#2@28"Process HelloPoly-Info.plist281314357#281314357#0(0"0(0#0#57"/Users/palmerc/Development/HelloPoly/HelloPoly-Info.plist4300885448#568"    cd /Users/palmerc/Development/HelloPoly    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    builtin-infoPlistUtility HelloPoly-Info.plist -genpkginfo /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -resourcerulesfile /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/ResourceRules.plist -o /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/Info.plist0#
+
+CProcessPCH /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch.gch HelloPoly_Prefix.pch normal armv6 objective-c com.apple.compilers.gcc.4_2
+s281303974.886866
+e281303975.318061
+r1
+xProcessPCH
+x/var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch.gch
+xHelloPoly_Prefix.pch
+xnormal
+xarmv6
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@31"Precompile HelloPoly_Prefix.pch281303974#281303975#0(0"0(0#0#57"/Users/palmerc/Development/HelloPoly/HelloPoly_Prefix.pch4300885448#1677"    cd /Users/palmerc/Development/HelloPoly    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -Os -mdynamic-no-pic -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-generated-files.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-own-target-headers.hmap -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-all-target-headers.hmap -iquote /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly-project-headers.hmap -F/Users/palmerc/Development/HelloPoly/build/Release-iphoneos -I/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/include -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources/armv6 -I/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/DerivedSources -c /Users/palmerc/Development/HelloPoly/HelloPoly_Prefix.pch -o /var/folders/nN/nNOLYi9QERGABiKdS8i64U+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/HelloPoly_Prefix-hiqzfalnshlmsqdpvvinunmkxtet/HelloPoly_Prefix.pch.gch0#
+
+CProcessProductPackaging "/Users/palmerc/Library/MobileDevice/Provisioning Profiles/AB750B08-42A7-49F5-8D90-D66BC9745F68.mobileprovision" /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/embedded.mobileprovision
+s281303975.824702
+e281303975.825808
+r1
+xProcessProductPackaging
+x/Users/palmerc/Library/MobileDevice/Provisioning Profiles/AB750B08-42A7-49F5-8D90-D66BC9745F68.mobileprovision
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/embedded.mobileprovision
+lSLF07#2@198"ProcessProductPackaging "/Users/palmerc/Library/MobileDevice/Provisioning Profiles/AB750B08-42A7-49F5-8D90-D66BC9745F68.mobileprovision" build/Release-iphoneos/HelloPoly.app/embedded.mobileprovision281303975#281303975#0(0"0(0#0#98"/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/embedded.mobileprovision4300885448#425"    cd /Users/palmerc/Development/HelloPoly    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> "/Users/palmerc/Library/MobileDevice/Provisioning Profiles/AB750B08-42A7-49F5-8D90-D66BC9745F68.mobileprovision" -o /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app/embedded.mobileprovision0#
+
+CProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly.xcent
+s281314357.680122
+e281314357.694464
+r1
+xProcessProductPackaging
+x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist
+x/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly.xcent
+lSLF07#2@185"ProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly.xcent281314357#281314357#0(0"0(0#0#107"/Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly.xcent4300885448#438"    cd /Users/palmerc/Development/HelloPoly    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist -entitlements -format xml -o /Users/palmerc/Development/HelloPoly/build/HelloPoly.build/Release-iphoneos/HelloPoly.build/HelloPoly.xcent0#
+
+CTouch /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app
+s281380503.139594
+e281380503.141711
+r1
+xTouch
+x/Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app
+lSLF07#2@79"Touch /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app281380503#281380503#0(0"0(0#0#0"4300885448#264"    cd /Users/palmerc/Development/HelloPoly    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/touch -c /Users/palmerc/Development/HelloPoly/build/Release-iphoneos/HelloPoly.app0#
+
