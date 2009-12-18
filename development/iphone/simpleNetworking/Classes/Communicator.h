@@ -45,6 +45,5 @@
 
 - (void)write:(NSData *)data;
 - (NSData *)read;
-- (void)test;
 
 @end

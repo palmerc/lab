@@ -119,6 +119,11 @@
 
 - (void)write:(NSData *)data {
 	// Allocate a NSMutableData buffer
+	
+	if (!self.isConnected) {
+		[self startConnection];
+	}
+	
 	if (!self.outputBuffer) {
 		self.outputBuffer = [[NSMutableData alloc] init];
 	}
@@ -159,11 +164,6 @@
 	[self.inputBuffer release];
 	self.inputBuffer = nil;
 	return nil;
-}
-
-- (void)test {
-	NSString *login = @"\r\n\r\nAction: login\r\nAuthorization: cameron/Ct1gg3rR\r\n";
-	[self write:[login dataUsingEncoding:NSASCIIStringEncoding]];
 }
 
 @end

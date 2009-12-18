@@ -8,7 +8,14 @@
 
 #import "TraderCommunicator.h"
 
-
 @implementation TraderCommunicator
+
+// Commands
+
+// Login
+
+// Action
+
+// Get list of stocks
 
 @end
