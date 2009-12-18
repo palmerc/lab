@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-
+#import "Communicator.h"
 
 @implementation LoginViewController
 
@@ -27,12 +27,19 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	Communicator *comm = [[Communicator alloc] initWithSocket:@"wireless.theonlinetrader.com" port:7780];
+	[comm startConnection];
+	//[comm write:@"\r\n\r\nAction: login\r\nAuthorization: cameron/Ct1gg3rR\r\n"];
+	//NSLog(@"%@", [comm read]);
+	[comm test];
+	//[comm stopConnection];
 }
-*/
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.

@@ -10,21 +10,41 @@
 #import <Foundation/Foundation.h>
 
 @interface Communicator : NSObject {
-	NSString *host;
-	NSInteger port;
-	NSInputStream *inputStream;
-	NSOutputStream *outputStream;
-	BOOL isConnected;
+	NSString *_host;
+	NSInteger _port;
+	
+	NSInputStream *_inputStream;
+	NSOutputStream *_outputStream;
+	
+	NSMutableData *_inputBuffer;
+	NSMutableData *_outputBuffer;
+	
+	BOOL _isConnected;
+	
+	NSNumber *_bytesRead;
+	int _byteIndex;
 }
 
 @property (nonatomic, retain) NSString *host;
 @property NSInteger port;
+
 @property (nonatomic, retain) NSInputStream *inputStream;
 @property (nonatomic, retain) NSOutputStream *outputStream;
-@property (readonly) BOOL isConnected;
+
+@property (nonatomic, retain) NSMutableData *inputBuffer;
+@property (nonatomic, retain) NSMutableData *outputBuffer;
+
+@property BOOL isConnected;
+@property (retain) NSNumber *bytesRead;
+@property int byteIndex;
 
 - (id)initWithSocket:(NSString *)host port:(NSInteger)port;
-- (void)write:(NSString *)string;
-- (NSString *)read;
+
+- (void)startConnection;
+- (void)stopConnection;
+
+- (void)write:(NSData *)data;
+- (NSData *)read;
+- (void)test;
 
 @end

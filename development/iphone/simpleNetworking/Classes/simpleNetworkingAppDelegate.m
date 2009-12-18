@@ -14,7 +14,7 @@
 @synthesize window;
 
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	loginViewController = [[LoginViewController alloc] init];
     [window addSubview:loginViewController.view];
 	[window makeKeyAndVisible];
