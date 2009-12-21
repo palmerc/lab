@@ -7,3 +7,5 @@
  *
  */
 
+#define ECHOPORT "50007"
+#define BACKLOG 10

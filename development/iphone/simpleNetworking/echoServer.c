@@ -13,13 +13,9 @@
 #include <string.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-
-#define ECHOPORT "50007"
-#define BACKLOG 10
-
-int errno;
 
 int main(int argc, char *argv[]) {
 	// define two addrinfo structs
@@ -68,8 +64,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	while (1) {
-		char *recv_buf[1024];
-		int bytes_recvd;
+		pid_t pid;
 		
 		// accept
 		n = accept(s, &their_addr, &addr_size);
@@ -77,13 +72,30 @@ int main(int argc, char *argv[]) {
 			fprintf(stderr, "accept error: %d\n", n);
 		}
 		
-		bytes_recvd = recv(n, recv_buf, sizeof(recv_buf), 0);
-		if (bytes_recvd == 0) {
-			close(n);
-		} else if (bytes_recvd == -1) {
-			fprintf(stderr, "recv error: %d\n", n);
+		pid = fork();
+		if (pid == 0) {
+			char *recv_buf[1024];
+			int bytes_recvd;
+			
+			// child shouldn't accept new connections
+			close(s);
+			
+			// loop until we receive a disconnect
+			while (1) {
+				// child
+				bytes_recvd = recv(n, recv_buf, sizeof(recv_buf), 0);
+				if (bytes_recvd == 0) {
+					close(n);
+				} else if (bytes_recvd == -1) {
+					exit(1);
+				} else {
+					send(n, recv_buf, bytes_recvd, 0);
+				}
+			}
+		} else if (pid == -1) {
+			fprintf(stderr, "fork failed\n");
 		} else {
-			send(n, recv_buf, bytes_recvd, 0);
+			fprintf(stderr, "forked child with pid %d\n", pid);
 		}
 	}
 	close(s);
