@@ -1,36 +1,45 @@
 //
 //  Communicator.h
-//  mTrader
+//  simpleNetworking - This class should only define a simple method for
+//    connecting to an arbitrary socket. It shouldn't assume anything.
 //
-//  Created by Cameron Lowell Palmer on 12/17/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Created by Cameron Lowell Palmer on 17.12.09.
+//  Copyright 2009 Bird And Bear Productions. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-enum {
-    kSendBufferSize = 32768
-};
+@class queue;
+@protocol CommunicatorReceiveDelegate;
 
 @interface Communicator : NSObject {
-	NSString *username;
-	NSString *password;
-	NSNetService *netService;
-	NSInputStream *inputStream;
-	NSOutputStream *outputStream;
-	uint8_t buffer[kSendBufferSize];
-	BOOL isConnected;
+	id <CommunicatorReceiveDelegate> delegate;
+	
+	NSString *_host;
+	NSInteger _port;
+	
+	NSInputStream *_inputStream;
+	NSOutputStream *_outputStream;
+	queue *theQueue;
+	
+	BOOL _isConnected;
 }
 
-@property (assign) NSString *username;
-@property (assign) NSString *password;
+@property (nonatomic, assign) id <CommunicatorReceiveDelegate> delegate;
+@property (nonatomic, retain) NSString *host;
+@property NSInteger port;
 @property (nonatomic, retain) NSInputStream *inputStream;
 @property (nonatomic, retain) NSOutputStream *outputStream;
-@property (nonatomic) BOOL isConnected;
+@property BOOL isConnected;
 
-- (id)initWithUsernameAndPassword:(NSString *)_username password:(NSString *)_password;
-- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode;
-- (void)setup;
-- (BOOL)login;
-
+- (id)initWithSocket:(NSString *)host port:(NSInteger)port;
+- (void)startConnection;
+- (void)stopConnection;
+- (void)write:(NSString *)string;
+- (void)read;
 @end
+
+@protocol CommunicatorReceiveDelegate <NSObject>
+- (void)dataReceived;
+@end
+

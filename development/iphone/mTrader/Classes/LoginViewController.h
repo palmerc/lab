@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class Communicator;
+#import "Communicator.h"
 
-@interface LoginViewController : UIViewController {
-	Communicator *session;
+@interface LoginViewController : UIViewController <CommunicatorReceiveDelegate> {
+	Communicator *comm;
 	IBOutlet UITextField *usernameTextField;
 	IBOutlet UITextField *passwordTextField;
 	IBOutlet UILabel *statusLabel;

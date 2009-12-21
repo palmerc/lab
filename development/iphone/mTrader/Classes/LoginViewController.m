@@ -27,12 +27,12 @@
 }
 */
 
-/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	comm = [[Communicator alloc] initWithSocket:@"wireless.theonlinetrader.com" port:7780];
+	[comm setDelegate:self];
 }
-*/
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -56,19 +56,24 @@
 
 
 - (void)dealloc {
-	[session release];
-
+	[comm release];
     [super dealloc];
 }
 
 - (IBAction)login:(id)sender {
-	session = [[Communicator alloc] initWithUsernameAndPassword:usernameTextField.text password:passwordTextField.text];
-	BOOL result = [session login];
-	if (result == YES) {	
-		statusLabel.text = @"Success";
-	} else {
-		statusLabel.text = @"Failure";
-	}
+	
+	//BOOL result = [session login];
+	//if (result == YES) {	
+	//	statusLabel.text = @"Success";
+	//} else {
+//		statusLabel.text = @"Failure";
+	//}
+	[comm write:@"\r\n\r\nAction: login\r\nAuthorization: cameron/Ct1gg3rR\r\n"];
+	
+}
+
+- (void)dataReceived {
+	NSLog(@"%@", comm.read);
 }
 
 @end

@@ -1,114 +1,148 @@
 //
 //  Communicator.m
-//  mTrader
+//  simpleNetworking
 //
-//  Created by Cameron Lowell Palmer on 12/17/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Created by Cameron Lowell Palmer on 17.12.09.
+//  Copyright 2009 Bird And Bear Productions. All rights reserved.
 //
 
 #import "Communicator.h"
+#import "queue.h"
 
 @implementation Communicator
 
-@synthesize username, password, inputStream, outputStream, isConnected;
+@synthesize delegate;
+@synthesize host = _host;
+@synthesize port = _port;
+@synthesize inputStream = _inputStream;
+@synthesize outputStream = _outputStream;
+@synthesize isConnected = _isConnected;
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"Network connection: Connected to %@ on port %d", self.host, self.port];
+}
 
 - (id)init {
-	self = [super init];
-	
-	if (self == nil) {
-		self.username = nil;
-		self.password = nil;
-	}
-	return self;
+	return [self initWithSocket:nil port:0];
 }
 
-- (id)initWithUsernameAndPassword:(NSString *)_username password:(NSString *)_password {
+- (id)initWithSocket:(NSString *)host port:(NSInteger)port {
 	self = [super init];
-	if (self == nil) {
-		self.username = _username;
-		self.password = _password;
-	}
-	
-	return self;
-}
-
-- (void)setup {
-	NSString *urlString = @"socket://wireless.theonlinetrader.com";
-	NSURL *url = [NSURL URLWithString:urlString];
-	
-	NSLog(@"%@", url);
-	CFReadStreamRef readStream;
-	CFWriteStreamRef writeStream;
-	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)[url host], 7780, &readStream, &writeStream);
+	if (self != nil) {
+		_host = host;
+		_port = port;
+		_inputStream = nil;
+		_outputStream = nil;
+		_isConnected = NO;
 		
-	inputStream = (NSInputStream *)readStream;
-	outputStream = (NSOutputStream *)writeStream;
+		theQueue = [[queue alloc] init];
+	}
+	return self;
+}
+
+- (void)dealloc {
+	[super dealloc];
+}
+
+- (void)write:(NSString *)string {
+	if (!self.isConnected) {
+		[self startConnection];
+	}
+	
+	NSData *data = [string dataUsingEncoding:NSASCIIStringEncoding];
+	
+	// Convert it to a C-string
+	int bytesRemaining = [data length];
+	uint8_t *theBytes = (uint8_t *)[data bytes];
+	
+	while (0 < bytesRemaining) {
+		int bytesWritten = 0;
+		bytesWritten = [self.outputStream write:theBytes maxLength:bytesRemaining];
+		bytesRemaining -= bytesWritten;
+		theBytes += bytesWritten;
+	}
+}
+
+- (void)startConnection {
+	CFWriteStreamRef writeStream;
+	CFReadStreamRef readStream;
+	
+	NSString *urlString = [NSString stringWithFormat:@"socket://%@", self.host];
+	NSURL *url = [NSURL URLWithString:urlString];
+	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)[url host], self.port, &readStream, &writeStream);
+	
+	self.inputStream = (NSInputStream *)readStream;
+	self.outputStream = (NSOutputStream *)writeStream;
+	
+	[self.inputStream open];
+	[self.outputStream open];
 	
 	self.inputStream.delegate = self;
 	self.outputStream.delegate = self;
 	
 	[self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[self.outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	[self.inputStream open];
-	[self.outputStream open];
+	
+	self.isConnected = YES;
 }
 
-- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
-	NSString *eventString;
-	switch(eventCode) {
+- (void)stopConnection {	
+	[self.inputStream close];
+	[self.outputStream close];
+	
+	[self.inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+	[self.outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+	
+	[self.inputStream release];
+	[self.outputStream release];
+	
+	self.inputStream = nil;
+	self.outputStream = nil;
+	
+	self.isConnected = NO;
+}
+
+- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)streamEvent {
+	switch (streamEvent) {
 		case NSStreamEventNone:
-			eventString = @"NSStreamEventNone";
 			break;
 		case NSStreamEventOpenCompleted:
-			eventString = @"NSStreamEventOpenCompleted";
 			break;
 		case NSStreamEventHasBytesAvailable:
-			eventString = @"NSStreamEventHasBytesAvailable";
-			if (stream == inputStream) {
-				NSInteger bytesRead;
-				buffer[32768];
+			{
+				uint8_t aByte;
+				int bytesRead = 0;
+				NSMutableData *inputBuffer = [[NSMutableData alloc] init];
 				
-				bytesRead = [inputStream read:buffer maxLength:sizeof(buffer)];
-				if (bytesRead == -1) {
-					NSLog(@"Network read error");
-				} else if (bytesRead == 0) {
-					NSLog(@"stopReceiveWithStatus:nil");
-					//[self _stopReceiveWithStatus:nil];
-				} else {
-					NSLog(@"Buffer contents: %s", buffer);
-					
+				bytesRead = [self.inputStream read:&aByte maxLength:1];
+				if (bytesRead == 1) {
+					[inputBuffer appendBytes:&aByte length:1];
 				}
-				[inputStream close];
+				
+				if (aByte == '\n') {
+					NSString *aString = [[NSString alloc] initWithData:inputBuffer encoding:NSASCIIStringEncoding];
+					
+					if (self.delegate != nil && [self.delegate respondsToSelector:@selector(dataReceived)]) {
+						[self.delegate dataReceived];
+					}
+					[queue inQueue:aString];
+					
+					[aString release];
+					
+					[inputBuffer release];
+					inputBuffer = nil;
+				}
 			}
 			break;
 		case NSStreamEventHasSpaceAvailable:
-			eventString = @"NSStreamEventHasSpaceAvailable";
-			if (stream == outputStream) {
-				self.username = @"cameron";
-				self.password = @"Ct1gg3rR";
-				
-				NSString *loginString = [NSString stringWithFormat:@"\r\n\r\nAction: login\r\nAuthorization: %@/%@\r\n", self.username, self.password];
-				const uint8_t *rawLoginString = (const uint8_t *)[loginString UTF8String];
-				[outputStream write:rawLoginString maxLength:strlen(rawLoginString)];
-				[outputStream close];
-			}
 			break;
 		case NSStreamEventErrorOccurred:
-			eventString = @"NSStreamEventErrorOccurred";
 			break;
 		case NSStreamEventEndEncountered:
-			eventString = @"NSStreamEventEndEncountered";
 			break;
 		default:
-			NSLog(@"Unhandled eventcode: %d", eventCode);
+			assert(NO);
 	}
-	NSLog(@"eventCode: %@", eventString);
-}
-
-- (BOOL)login {	
-	[self setup];
-	NSLog(@"Buffer contents: %s", buffer);
-	return YES;
 }
 
 @end
