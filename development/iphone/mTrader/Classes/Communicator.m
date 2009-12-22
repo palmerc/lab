@@ -7,7 +7,7 @@
 //
 
 #import "Communicator.h"
-#import "queue.h"
+#import "Queue.h"
 
 @implementation Communicator
 
@@ -16,6 +16,8 @@
 @synthesize port = _port;
 @synthesize inputStream = _inputStream;
 @synthesize outputStream = _outputStream;
+@synthesize dataBuffer = _dataBuffer;
+@synthesize lineBuffer = _lineBuffer;
 @synthesize isConnected = _isConnected;
 
 - (NSString *)description {
@@ -33,24 +35,70 @@
 		_port = port;
 		_inputStream = nil;
 		_outputStream = nil;
+		_dataBuffer = nil;
 		_isConnected = NO;
 		
-		theQueue = [[queue alloc] init];
+		_lineBuffer = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void)dealloc {
+	[self.lineBuffer release];
+	
 	[super dealloc];
 }
 
-- (void)write:(NSString *)string {
+- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)streamEvent {
+	switch (streamEvent) {
+		case NSStreamEventNone:
+			break;
+		case NSStreamEventOpenCompleted:
+			break;
+		case NSStreamEventHasBytesAvailable:
+		{
+			uint8_t oneByte;
+			int bytesRead = 0;
+			
+			if (self.dataBuffer == nil) {
+				self.dataBuffer = [[NSMutableData alloc] init];
+			}
+		
+			bytesRead = [self.inputStream read:&oneByte maxLength:1];
+			if (bytesRead == 1) {
+				[self.dataBuffer appendBytes:&oneByte length:1];
+				
+				if (oneByte == '\n') {
+					NSString *newString = [[NSString alloc] initWithData:self.dataBuffer encoding:NSASCIIStringEncoding];
+					[self.lineBuffer enQueue:newString];
+					if (self.delegate != nil && [self.delegate respondsToSelector:@selector(dataReceived)]) {
+						[self.delegate dataReceived];
+					}
+					[newString release];
+					[self.dataBuffer release];
+					self.dataBuffer = nil;
+				}
+			}
+		}
+			break;
+		case NSStreamEventHasSpaceAvailable:
+			break;
+		case NSStreamEventErrorOccurred:
+			break;
+		case NSStreamEventEndEncountered:
+			break;
+		default:
+			assert(NO);
+	}
+}
+
+- (void)writeString:(NSString *)string {
 	if (!self.isConnected) {
 		[self startConnection];
 	}
 	
 	NSData *data = [string dataUsingEncoding:NSASCIIStringEncoding];
-	
+		
 	// Convert it to a C-string
 	int bytesRemaining = [data length];
 	uint8_t *theBytes = (uint8_t *)[data bytes];
@@ -61,6 +109,15 @@
 		bytesRemaining -= bytesWritten;
 		theBytes += bytesWritten;
 	}
+}
+			 
+- (NSString *)readLine {
+	NSString *aString = nil;
+	// dequeue strings until I find a \n
+	if ([self.lineBuffer count] > 0) {
+		aString = [self.lineBuffer deQueue];
+	}
+	return aString;
 }
 
 - (void)startConnection {
@@ -100,49 +157,6 @@
 	self.outputStream = nil;
 	
 	self.isConnected = NO;
-}
-
-- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)streamEvent {
-	switch (streamEvent) {
-		case NSStreamEventNone:
-			break;
-		case NSStreamEventOpenCompleted:
-			break;
-		case NSStreamEventHasBytesAvailable:
-			{
-				uint8_t aByte;
-				int bytesRead = 0;
-				NSMutableData *inputBuffer = [[NSMutableData alloc] init];
-				
-				bytesRead = [self.inputStream read:&aByte maxLength:1];
-				if (bytesRead == 1) {
-					[inputBuffer appendBytes:&aByte length:1];
-				}
-				
-				if (aByte == '\n') {
-					NSString *aString = [[NSString alloc] initWithData:inputBuffer encoding:NSASCIIStringEncoding];
-					
-					if (self.delegate != nil && [self.delegate respondsToSelector:@selector(dataReceived)]) {
-						[self.delegate dataReceived];
-					}
-					[queue inQueue:aString];
-					
-					[aString release];
-					
-					[inputBuffer release];
-					inputBuffer = nil;
-				}
-			}
-			break;
-		case NSStreamEventHasSpaceAvailable:
-			break;
-		case NSStreamEventErrorOccurred:
-			break;
-		case NSStreamEventEndEncountered:
-			break;
-		default:
-			assert(NO);
-	}
 }
 
 @end

@@ -20,7 +20,8 @@
 	
 	NSInputStream *_inputStream;
 	NSOutputStream *_outputStream;
-	queue *theQueue;
+	NSMutableData *_dataBuffer;
+	NSMutableArray *_lineBuffer;
 	
 	BOOL _isConnected;
 }
@@ -30,13 +31,16 @@
 @property NSInteger port;
 @property (nonatomic, retain) NSInputStream *inputStream;
 @property (nonatomic, retain) NSOutputStream *outputStream;
+@property (nonatomic, retain) NSMutableData *dataBuffer;
+@property (nonatomic, retain) NSMutableArray *lineBuffer;
+
 @property BOOL isConnected;
 
 - (id)initWithSocket:(NSString *)host port:(NSInteger)port;
 - (void)startConnection;
 - (void)stopConnection;
-- (void)write:(NSString *)string;
-- (void)read;
+- (void)writeString:(NSString *)string;
+- (NSString *)readLine;
 @end
 
 @protocol CommunicatorReceiveDelegate <NSObject>
