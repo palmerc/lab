@@ -1,19 +1,15 @@
 //
-//  LoginViewController.m
-//  mTrader
+//  MainViewController.m
+//  iTrader
 //
-//  Created by Cameron Lowell Palmer on 12/17/09.
+//  Created by Cameron Lowell Palmer on 22.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
 //
 
+#import "MainViewController.h"
 #import "LoginViewController.h"
-#import "iTraderCommunicator.h"
 
-@implementation LoginViewController
-@synthesize usernameTextField;
-@synthesize passwordTextField;
-@synthesize activityIndicator;
-@synthesize loginButton;
+@implementation MainViewController
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -25,16 +21,19 @@
 }
 */
 
-/*
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
+	NSLog(@"");
+	
 }
-*/
+
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	iTrader = [[iTraderCommunicator alloc] init];
+	//LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginView" bundle:nil];
+
+	//[self presentModalViewController:loginViewController animated:YES];
 }
 
 /*
@@ -62,29 +61,5 @@
     [super dealloc];
 }
 
-- (IBAction)login:(id)sender {
-	[usernameTextField resignFirstResponder];
-	[passwordTextField resignFirstResponder];
-	
-	activityIndicator.hidden = NO;
-	[activityIndicator startAnimating];
-	loginButton.enabled = NO;
-	
-	[iTrader login:usernameTextField.text password:passwordTextField.text];
-	
-	while (![iTrader loginStatusHasChanged] && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
-	
-	[activityIndicator stopAnimating];
-	activityIndicator.hidden = YES;
-	if (iTrader.isLoggedIn == NO) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failure" message:@"Login to the server failed. If you believe this is in error try again or contact support." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-		[alertView show];
-		[alertView release];
-		loginButton.enabled = YES; 
-	} else {
-		[self.view removeFromSuperview];
-	}
-}
 
 @end
-	

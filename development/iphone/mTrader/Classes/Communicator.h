@@ -9,7 +9,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class queue;
 @protocol CommunicatorReceiveDelegate;
 
 @interface Communicator : NSObject {
