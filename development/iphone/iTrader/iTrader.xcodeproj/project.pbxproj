@@ -1,0 +1,415 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* iTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iTraderAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7E419ACC10E206890007808B /* StockListingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E419ACB10E206890007808B /* StockListingView.xib */; };
+		7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
+		7E419AFC10E20DD00007808B /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
+		7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
+		7E419C6F10E2209B0007808B /* Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* Queue.m */; };
+		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
+		7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
+		7E419DE810E251CB0007808B /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
+		C73CE2E610E3BDCE00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */; };
+		C73CE2EF10E3BDDA00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */; };
+		C73CE46910E6763A00AF6D89 /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73CE46810E6763A00AF6D89 /* AboutView.xib */; };
+		C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* iTraderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* iTraderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* iTrader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTrader_Prefix.pch; sourceTree = "<group>"; };
+		7E419ACB10E206890007808B /* StockListingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockListingView.xib; sourceTree = "<group>"; };
+		7E419AD710E20B920007808B /* MyStocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStocksViewController.h; sourceTree = "<group>"; };
+		7E419AD810E20B920007808B /* MyStocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStocksViewController.m; sourceTree = "<group>"; };
+		7E419AFB10E20DD00007808B /* infront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = infront.png; sourceTree = "<group>"; };
+		7E419BC910E21A150007808B /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
+		7E419BCA10E21A150007808B /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		7E419C6810E2209B0007808B /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
+		7E419C6910E2209B0007808B /* Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Queue.m; sourceTree = "<group>"; };
+		7E419C6B10E2209B0007808B /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
+		7E419C6C10E2209B0007808B /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
+		7E419C6D10E2209B0007808B /* iTraderCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderCommunicator.h; sourceTree = "<group>"; };
+		7E419C6E10E2209B0007808B /* iTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderCommunicator.m; sourceTree = "<group>"; };
+		7E419DE610E251CB0007808B /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		7E419DE710E251CB0007808B /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* iTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iTrader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C73CE2E510E3BDCE00AF6D89 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		C73CE2ED10E3BDDA00AF6D89 /* no */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = no; path = Localizable.strings; sourceTree = "<group>"; };
+		C73CE46810E6763A00AF6D89 /* AboutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutView.xib; path = Classes/AboutView.xib; sourceTree = "<group>"; };
+		C73CE63510E7544200AF6D89 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		C73CE63610E7544200AF6D89 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7E419C6A10E2209B0007808B /* Communicator */,
+				7E419C6710E2209B0007808B /* Data Structure */,
+				7E419AC610E206190007808B /* AppDelegate */,
+				7E419AD510E20B520007808B /* ViewControllers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* iTrader.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* iTrader_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C73CE2F710E3BE3E00AF6D89 /* Translations */,
+				7E419AFA10E20DD00007808B /* Graphics */,
+				C73CE46810E6763A00AF6D89 /* AboutView.xib */,
+				7E419ACB10E206890007808B /* StockListingView.xib */,
+				8D1107310486CEB800E47090 /* iTrader-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E419AC610E206190007808B /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				1D3623240D0F684500981E51 /* iTraderAppDelegate.h */,
+				1D3623250D0F684500981E51 /* iTraderAppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		7E419AD510E20B520007808B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7E419AD610E20B7B0007808B /* My Stocks */,
+				7E419DE510E251BA0007808B /* News */,
+				7E419B1F10E20EDB0007808B /* Settings */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		7E419AD610E20B7B0007808B /* My Stocks */ = {
+			isa = PBXGroup;
+			children = (
+				7E419AD710E20B920007808B /* MyStocksViewController.h */,
+				7E419AD810E20B920007808B /* MyStocksViewController.m */,
+			);
+			name = "My Stocks";
+			sourceTree = "<group>";
+		};
+		7E419AFA10E20DD00007808B /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				7E419AFB10E20DD00007808B /* infront.png */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		7E419B1F10E20EDB0007808B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				7E419BC910E21A150007808B /* SettingsTableViewController.h */,
+				7E419BCA10E21A150007808B /* SettingsTableViewController.m */,
+				C73CE63510E7544200AF6D89 /* AboutViewController.h */,
+				C73CE63610E7544200AF6D89 /* AboutViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		7E419C6710E2209B0007808B /* Data Structure */ = {
+			isa = PBXGroup;
+			children = (
+				7E419C6810E2209B0007808B /* Queue.h */,
+				7E419C6910E2209B0007808B /* Queue.m */,
+			);
+			name = "Data Structure";
+			sourceTree = "<group>";
+		};
+		7E419C6A10E2209B0007808B /* Communicator */ = {
+			isa = PBXGroup;
+			children = (
+				7E419C6B10E2209B0007808B /* Communicator.h */,
+				7E419C6C10E2209B0007808B /* Communicator.m */,
+				7E419C6D10E2209B0007808B /* iTraderCommunicator.h */,
+				7E419C6E10E2209B0007808B /* iTraderCommunicator.m */,
+			);
+			name = Communicator;
+			sourceTree = "<group>";
+		};
+		7E419DE510E251BA0007808B /* News */ = {
+			isa = PBXGroup;
+			children = (
+				7E419DE610E251CB0007808B /* NewsViewController.h */,
+				7E419DE710E251CB0007808B /* NewsViewController.m */,
+			);
+			name = News;
+			sourceTree = "<group>";
+		};
+		C73CE2E310E3BDCE00AF6D89 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		C73CE2E910E3BDDA00AF6D89 /* no.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */,
+			);
+			path = no.lproj;
+			sourceTree = "<group>";
+		};
+		C73CE2F710E3BE3E00AF6D89 /* Translations */ = {
+			isa = PBXGroup;
+			children = (
+				C73CE2E310E3BDCE00AF6D89 /* en.lproj */,
+				C73CE2E910E3BDDA00AF6D89 /* no.lproj */,
+			);
+			name = Translations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* iTrader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iTrader" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iTrader;
+			productName = iTrader;
+			productReference = 1D6058910D05DD3D006BFB54 /* iTrader.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "InFront AS";
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iTrader" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+				no,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* iTrader */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E419ACC10E206890007808B /* StockListingView.xib in Resources */,
+				7E419AFC10E20DD00007808B /* infront.png in Resources */,
+				C73CE2E610E3BDCE00AF6D89 /* Localizable.strings in Resources */,
+				C73CE2EF10E3BDDA00AF6D89 /* Localizable.strings in Resources */,
+				C73CE46910E6763A00AF6D89 /* AboutView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* iTraderAppDelegate.m in Sources */,
+				7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */,
+				7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */,
+				7E419C6F10E2209B0007808B /* Queue.m in Sources */,
+				7E419C7010E2209B0007808B /* Communicator.m in Sources */,
+				7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */,
+				7E419DE810E251CB0007808B /* NewsViewController.m in Sources */,
+				C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C73CE2E510E3BDCE00AF6D89 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C73CE2ED10E3BDDA00AF6D89 /* no */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
+				INFOPLIST_FILE = "iTrader-Info.plist";
+				PRODUCT_NAME = iTrader;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
+				INFOPLIST_FILE = "iTrader-Info.plist";
+				PRODUCT_NAME = iTrader;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.1.2;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.1.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iTrader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iTrader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
