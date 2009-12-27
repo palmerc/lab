@@ -27,8 +27,8 @@
 
 	NSArray *viewControllersArray = [NSArray arrayWithObjects:myStocks, news, settingsNavigationController, nil];
 	
-	tabController = [[[UITabBarController alloc] init] retain];
-	tabController.viewControllers = viewControllersArray;
+	tabController = [[UITabBarController alloc] init];
+	self.tabController.viewControllers = viewControllersArray;
 	[window addSubview:tabController.view];
 	[window makeKeyAndVisible];
 }

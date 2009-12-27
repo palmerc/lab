@@ -21,4 +21,13 @@
 - (void)login:(NSString *)username password:(NSString *)password;
 - (BOOL)loginStatusHasChanged;
 
+@protocol iTraderCommunicatorConnectionStatusDelegate
+- (void)connectionStatusHasChanged;
+@end
+
+@protocol iTraderCommunicatorStocksUpdateDelegate
+- (void)stockPriceHasChanged;
+@end
+
+
 @end
