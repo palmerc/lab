@@ -1,34 +1,186 @@
+\documentclass[12pt,twoside,letterpaper]{report}
+\usepackage{graphicx}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{plain}
+\raggedright
+\title{mTrader Server Protocol}
+\author{Cameron Lowell Palmer}
+\date{January 2010}
+\begin{document}
+\maketitle
 
-
-
-
-\section*{Action}
+\section*{Issues With mTrader Server}
 \begin{itemize}
-\item login
-\item q Request quotes for your subscribed feeds
-\item remSec
-\item statData
-\item NewsListFeeds
+\item IP header checksums from server are always zero. This is technical violation of the IP protocol.
+\item A user session can be hijacked without a password. (eg. Authorization: username)
+\item User data is plain text including login credentials.
+\item Update messages occur even when not being monitored, and even when messages are empty.
+\item Data is unencrypted, and uncompressed.
 \end{itemize}
 
 
-\section*{The quote request}
-A request for current quote information is as follows:
+\chapter*{Basic Authentication and Session Handling}
+\section*{Header}
+The standard mTrader Server header in streaming mode.
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+\end{verbatim}
 
-\begin{enumerate}
-\item Action: q
-\item Authorization: username
-\item QFields: ...
-\end{enumerate}
+If the connection is not in streaming mode the response will contain a content length message indicating the number of bytes in the response that will follow the header.
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+Content-length: xxxx
+\end{verbatim}
 
-\section*{Quote Request Q-Fields}
-Q-fields are
+\section*{Login Request}
+Typical format of a login request:
+\begin{verbatim}
+Action: Login
+Authorization: username/password
+Platform: ...
+Client: ...
+VerType: x.x
+ConnType: {Socket,Legacy}
+Streaming: {0,1}
+QFields: ...
+\end{verbatim}
+
+Where the options are:
+$$
+\begin{array}{lll}
+\texttt{Action} & \texttt{Login action} & \texttt{Required} \\
+\texttt{Authorization} & \texttt{Username and Password seperated by "/"} & \texttt{Required} \\
+\texttt{Platform} & \texttt{Name of the platform} & \texttt{optional} \\
+\texttt{Client} & \texttt{Name of the client} & \texttt{optional} \\
+\texttt{VerType} & \texttt{Version numer of client} & \texttt{optional} \\
+\texttt{ConnType} & \texttt{Can be equal to "Socket", or "Legacy"} & \texttt{optional} \\
+\texttt{Streaming} & \texttt{Can be equal to "0" (false) or "1" (true)} & \texttt{defaults to "0"} \\
+\texttt{QFields} & \texttt{See section on QFields} & \texttt{defaults to empty}
+\end{array}
+$$
+
+\section*{Login Response}
+Successful login response:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+Content-Length: xxxx
+
+Request: login/OK
+Version: x.xx.xx
+DLURL: 
+ServerIP: xxx.xxx.xxx.xxx
+User: username
+Securities: ...
+Exchanges: ...
+NewsFeeds: ...
+\end{verbatim}
+
+Failed login responses:
+\begin{itemize}
+\item Request: login/failed.UsrPwd
+\item Request: login/failed.DeniedAccess
+\end{itemize}
+
+\section*{Kickout}
+When a user is kicked off because they logged in from another terminal while streaming is enabled, they will receive:
+
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+
+Request: q
+Kickout: 1
+\end{verbatim}
+
+Then their connection is closed.
+
+\section*{Logout}
+The J2ME mTrader client does not issue a logout command to the server on logout.
+
+An example of a valid Logout command is as follows:
+\begin{verbatim}
+Action: Logout
+
+HTTP/1.1 200 OK
+Server: MMS
+Content-Length: 4
+\end{verbatim}
+Followed by the server closing the connection.
+
+\section*{Streaming}
+To enable streaming, the client version must be greater than or equal to 2.2 and streaming set to be not equal to zero. Streaming can only be enabled during the initial login, and streaming mode can only be changed by disconnected and reconnecting.
+
+For example:
+\begin{verbatim}
+VerType: 2.2
+Streaming: 1
+\end{verbatim}
+
+A QFields request must be provided during login or you will receive only an empty response whenever a value in you stocks list is updated.
+
+To change the list of streamed QFields after starting:
+\begin{verbatim}
+Action: q
+Authorization: username
+QFields: ...
+\end{verbatim}
+
+\chapter*{Handling Different Request Types}
+\section*{Actions}
+Valid Actions are:
+\begin{itemize}
+\item LOGIN Login Request
+\item Q Quote Request
+\item PORTREQ Portfolio Request
+\item ORDERSREQ Orders Request
+\item ADDSEC Add Security
+\item REMSEC Remove Security
+\item TRADE Trade Request
+\item TRADECHANGE Trade Change Request
+\item TRADECANCEL Trade Cancel Request
+\item STATDATA Security Info Request
+\item LOGOUT Logout Request
+\item CHART Chart Request
+\item HISTTRADES Trades History Request
+\item NEWSLIST News List Request
+\item NEWSLISTFEEDS News List Feeds Request
+\item NEWSBODY News Body Request
+\item POSITIONINFO Position Info Request
+\item ERROR Error Message
+\end{itemize}
+
+\section*{Quote Request QFields}
+Qfields are specified using a semicolon seperated list of values:
 \begin{itemize}
 \item l - last trade
 \item cp - percent change
 \item b - bid price
 \item a - ask price
+\item av - ask volume
+\item bv - bid volume
+\item c - change
+\item h - high
+\item lo - low
+\item o - open
+\item v - volume
 \end{itemize}
+
+An example QField:
+\begin{verbatim}
+QFields: l;cp;c
+\end{verbatim}
+
+In streaming mode, an empty or unspecified QFields will result in updates without information.
 
 \section*{The quote response}
 Following a successful quote action you will receive:
@@ -56,6 +208,35 @@ otherwise it takes the form
 Request: ActionString/
 
 
+
+
+
+
+
+\section*{Add a security}
+Both success and failure begin with the HTTP response header.
+
+Successfully adding a security results in the response: 
+Request: addSec/OK
+SecInfo: ???
+
+Possible failed to add repsonses:
+\begin{itemize}
+\item Request: addSec/failed.AlreadyExists
+\item Request: addSec/failed.NoSuchSec
+\end{itemize}
+
+\section*{Remove a security}
+Both success and failure begin with the HTTP response header.
+
+Success results in:
+Request: remSec/OK
+
+Possible failed to remove repsonses:
+\begin{itemize}
+\item Request: remSec/failed.CouldNotDelete
+\end{itemize}
+
 \section*{News Requests}
 Action: NewsListFeeds
 Authorization: username
@@ -73,37 +254,4 @@ Action: q
 Authorization: username
 QFields: l;cp;b;a
 
-
-QFields - a,av,b,bv,c,cp,h,l,lo,o,v
-
-\section*{Successful login}
-Action: Login
-Authorization: username/password
-Platform: MicroEmulator-2.0, CLDC-1.0, MIDP-2.0
-Client: mTrader
-VerType: 3.1.3
-ConnType: Socket
-Streaming: 1
-QFields: l;c;cp
-
-HTTP/1.1 200 OK
-Server: MMS
-Content-Length: 1596
-
-Request: login/OK
-Version: 2.00.00
-DLURL: 
-ServerIP: 82.99.29.170
-User: username
-Securities: 18177/TEL;TEL;Telenor;Oslo Stocks [OSS];1;D:18177/NHY;NHY;Norsk Hydro;Oslo Stocks [OSS];1;D:18177/OSEBX;OSEBX;Oslo B#####enchmark Index;Oslo Stocks [OSS];2;D:18177/OPERA;OPERA;Opera Software;Oslo Stocks [OSS];1;D:18177/BLO;BLO;Blom;Oslo Stocks [OSS];1;D:18177/CRU;CRU;Crew Gold Corporation;Oslo Stocks [OSS];1;D:18177/FAIR;FAIR;Fairstar Heavy Transport;Oslo Stocks [OSS];1;D:18177/TTS;TTS;TTS Group;Oslo Stocks [OSS];1;D:18177/RXT;RXT;Reservoir Exploration  Technology;Oslo Stocks [OSS];1;D:18177/AKBM;AKBM;Aker BioMarine;Oslo Stocks [OSS];1;D:18177/GTB;GTB;Global Tender Barges;Oslo Stocks [OSS];1;D:18177/MELG;MELG;Melhus Sparebank;Oslo Stocks [OSS];1;D:18177/SBX;SBX;SeaBird Exploration;Oslo Stocks [OSS];1;D:18177/PDR;PDR;Petrolia Drilling;Oslo Stocks [OSS];1;D
-Exchanges: CME Indices [CMX](S),Deutsche B#### Indices [GEX](S),DJ Indices [WDJ](S),Hang Seng Indices [HSIX](S),ICE Futures [IPE](S),Nasdaq Indices [NSx](S),NDX Warrants [NDX](D),NGM Stocks [NGM](D),Nikkei Indices [NIK](S),NYSE Indices [NYx](S),Oslo Options [OSO](D),Oslo OTC Stocks [OTC](D),Oslo Stocks [OSS](D),Oslo Warrants [OSW](D),S&P Indices [SPx](S),Warsaw Indices [WSIx](S),World Commodities [WCO](S),World Deposits [WDE](S),World Forex [WFX](S),World Indices [WIX](S)
-NewsFeeds: Cision Sweden [CIS](S),DJ Nordic News Basic [DJND](S),Hugin Sweden [HUS](S),Nyhedsbureauet Direkt [DIRD](S),Nyhetsbyr###Direkt [DIR](S),OMX Copenhagen News [CSN](S),OMX Helsinki News [OMXH](S),OMX Stockholm News [SSI](S),Oslo News [OBI](S)
-
-\section*{Failed Login Attempt}
-Action: Login
-Authorization: username/password
-HTTP/1.1 200 OK
-Server: MMS
-Content-Length: 32
-
-Request: login/failed.UsrPwd
+\end{document}
