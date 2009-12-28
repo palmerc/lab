@@ -1,0 +1,109 @@
+
+
+
+
+\section*{Action}
+\begin{itemize}
+\item login
+\item q Request quotes for your subscribed feeds
+\item remSec
+\item statData
+\item NewsListFeeds
+\end{itemize}
+
+
+\section*{The quote request}
+A request for current quote information is as follows:
+
+\begin{enumerate}
+\item Action: q
+\item Authorization: username
+\item QFields: ...
+\end{enumerate}
+
+\section*{Quote Request Q-Fields}
+Q-fields are
+\begin{itemize}
+\item l - last trade
+\item cp - percent change
+\item b - bid price
+\item a - ask price
+\end{itemize}
+
+\section*{The quote response}
+Following a successful quote action you will receive:
+
+\begin{enumerate}
+\item Standard header and length of content to follow
+\item Request: q
+\item Quotes: and the quotes you are subscribed to
+\end{enumerate}
+
+A quote is comprised of the exchage number and ticker symbol and the data requested via the QField.
+
+\section*{Authorization}
+Authorization: username
+or
+Authorization: username/password
+
+\section*{Request}
+A Request string is returned as the result of an Action. If successful it takes the form
+
+Request: ActionString/OK
+
+otherwise it takes the form
+
+Request: ActionString/
+
+
+\section*{News Requests}
+Action: NewsListFeeds
+Authorization: username
+NewsFeeds: Oslo News [OBI]
+Days: 30
+MaxCount: 30
+
+\section*{Stock Information Request}
+Action: StatData
+Authorization: username
+SecOid: 18177/TEL
+Language: EN
+
+Action: q
+Authorization: username
+QFields: l;cp;b;a
+
+
+QFields - a,av,b,bv,c,cp,h,l,lo,o,v
+
+\section*{Successful login}
+Action: Login
+Authorization: username/password
+Platform: MicroEmulator-2.0, CLDC-1.0, MIDP-2.0
+Client: mTrader
+VerType: 3.1.3
+ConnType: Socket
+Streaming: 1
+QFields: l;c;cp
+
+HTTP/1.1 200 OK
+Server: MMS
+Content-Length: 1596
+
+Request: login/OK
+Version: 2.00.00
+DLURL: 
+ServerIP: 82.99.29.170
+User: username
+Securities: 18177/TEL;TEL;Telenor;Oslo Stocks [OSS];1;D:18177/NHY;NHY;Norsk Hydro;Oslo Stocks [OSS];1;D:18177/OSEBX;OSEBX;Oslo B#####enchmark Index;Oslo Stocks [OSS];2;D:18177/OPERA;OPERA;Opera Software;Oslo Stocks [OSS];1;D:18177/BLO;BLO;Blom;Oslo Stocks [OSS];1;D:18177/CRU;CRU;Crew Gold Corporation;Oslo Stocks [OSS];1;D:18177/FAIR;FAIR;Fairstar Heavy Transport;Oslo Stocks [OSS];1;D:18177/TTS;TTS;TTS Group;Oslo Stocks [OSS];1;D:18177/RXT;RXT;Reservoir Exploration  Technology;Oslo Stocks [OSS];1;D:18177/AKBM;AKBM;Aker BioMarine;Oslo Stocks [OSS];1;D:18177/GTB;GTB;Global Tender Barges;Oslo Stocks [OSS];1;D:18177/MELG;MELG;Melhus Sparebank;Oslo Stocks [OSS];1;D:18177/SBX;SBX;SeaBird Exploration;Oslo Stocks [OSS];1;D:18177/PDR;PDR;Petrolia Drilling;Oslo Stocks [OSS];1;D
+Exchanges: CME Indices [CMX](S),Deutsche B#### Indices [GEX](S),DJ Indices [WDJ](S),Hang Seng Indices [HSIX](S),ICE Futures [IPE](S),Nasdaq Indices [NSx](S),NDX Warrants [NDX](D),NGM Stocks [NGM](D),Nikkei Indices [NIK](S),NYSE Indices [NYx](S),Oslo Options [OSO](D),Oslo OTC Stocks [OTC](D),Oslo Stocks [OSS](D),Oslo Warrants [OSW](D),S&P Indices [SPx](S),Warsaw Indices [WSIx](S),World Commodities [WCO](S),World Deposits [WDE](S),World Forex [WFX](S),World Indices [WIX](S)
+NewsFeeds: Cision Sweden [CIS](S),DJ Nordic News Basic [DJND](S),Hugin Sweden [HUS](S),Nyhedsbureauet Direkt [DIRD](S),Nyhetsbyr###Direkt [DIR](S),OMX Copenhagen News [CSN](S),OMX Helsinki News [OMXH](S),OMX Stockholm News [SSI](S),Oslo News [OBI](S)
+
+\section*{Failed Login Attempt}
+Action: Login
+Authorization: username/password
+HTTP/1.1 200 OK
+Server: MMS
+Content-Length: 32
+
+Request: login/failed.UsrPwd
