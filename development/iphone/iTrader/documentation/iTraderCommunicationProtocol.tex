@@ -16,6 +16,19 @@
 \begin{document}
 \maketitle
 
+\section*{Protocol Description}
+The mTrader protocol is a TCP ASCII-encoded line-oriented communication protocol. Messages are transmitted without compression or encryption.
+
+The server at wireless.theonlinetrader.com can be connected to on port 7780.
+
+End-of-line (EOL) is defined as carriage-return "\textbackslash r" line-feed "\textbackslash n" or 0x0d 0x0a in hexidecimal.
+
+Each line of a request or response consists of a verb and the associated data separated by colon with the exception of the HTTP OK header.
+
+Requests begin with an action verb and any other necessary verbs to complete the request, each on a  separate line. A full request must be completed in ? seconds or the request will timeout. A trailing blank line indicates the end of the request.
+
+Responses are separated by two blank lines. 
+
 \section*{Issues With mTrader Server}
 \begin{itemize}
 \item IP header checksums from server are always zero. This is technical violation of the IP protocol.
@@ -25,10 +38,9 @@
 \item Data is unencrypted, and uncompressed.
 \end{itemize}
 
-
 \chapter*{Basic Authentication and Session Handling}
 \section*{Header}
-The standard mTrader Server header in streaming mode.
+A header always follows a request. In either streaming or non-streaming mode you will receive:
 \begin{verbatim}
 HTTP/1.1 200 OK
 Server: MMS
@@ -54,7 +66,7 @@ Streaming: {0,1}
 QFields: ...
 \end{verbatim}
 
-Where the options are:
+Options definitions:
 $$
 \begin{array}{lll}
 \texttt{Action} & \texttt{Login action} & \texttt{Required} \\
@@ -118,7 +130,7 @@ Content-Length: 4
 Followed by the server closing the connection.
 
 \section*{Streaming}
-To enable streaming, the client version must be greater than or equal to 2.2 and streaming set to be not equal to zero. Streaming can only be enabled during the initial login, and streaming mode can only be changed by disconnected and reconnecting.
+To enable streaming, the client version must be greater than or equal to 2.2 and streaming set to be not equal to zero. Streaming can only be enabled during the initial login, and streaming mode can only be changed by disconnecting and reconnecting.
 
 For example:
 \begin{verbatim}
@@ -126,7 +138,7 @@ VerType: 2.2
 Streaming: 1
 \end{verbatim}
 
-A QFields request must be provided during login or you will receive only an empty response whenever a value in you stocks list is updated.
+A QFields request must be provided during login or you will receive only an empty response whenever a value in you stocks list is updated. Or maybe this is the keep-alive set to every 15 seconds...
 
 To change the list of streamed QFields after starting:
 \begin{verbatim}
@@ -135,8 +147,10 @@ Authorization: username
 QFields: ...
 \end{verbatim}
 
+The streamed updates will not begin with an HTTP header. Only new actions will receive a header preamble.
+
 \chapter*{Handling Different Request Types}
-\section*{Actions}
+\section*{Actions Descriptions}
 Valid Actions are:
 \begin{itemize}
 \item LOGIN Login Request
@@ -159,8 +173,8 @@ Valid Actions are:
 \item ERROR Error Message
 \end{itemize}
 
-\section*{Quote Request QFields}
-Qfields are specified using a semicolon seperated list of values:
+\section*{QFields Descriptions}
+QFields are specified using a semicolon seperated list of values:
 \begin{itemize}
 \item l - last trade
 \item cp - percent change
@@ -186,39 +200,22 @@ In streaming mode, an empty or unspecified QFields will result in updates withou
 Following a successful quote action you will receive:
 
 \begin{enumerate}
-\item Standard header and length of content to follow
+\item HTTP Header if not streaming
 \item Request: q
-\item Quotes: and the quotes you are subscribed to
+\item Quotes: Exchange/Ticker;QFields
+\item Two blank lines
 \end{enumerate}
 
-A quote is comprised of the exchage number and ticker symbol and the data requested via the QField.
-
-\section*{Authorization}
-Authorization: username
-or
-Authorization: username/password
-
-\section*{Request}
-A Request string is returned as the result of an Action. If successful it takes the form
-
-Request: ActionString/OK
-
-otherwise it takes the form
-
-Request: ActionString/
-
-
-
-
-
-
+The quote line is comprised of the exchage number and ticker symbol and the data requested via the QField. The data will be in the order specified in the QField separated by semicolons.
 
 \section*{Add a security}
 Both success and failure begin with the HTTP response header.
 
 Successfully adding a security results in the response: 
+\begin{verbatim}
 Request: addSec/OK
 SecInfo: ???
+\end{verbatim}
 
 Possible failed to add repsonses:
 \begin{itemize}
@@ -230,7 +227,9 @@ Possible failed to add repsonses:
 Both success and failure begin with the HTTP response header.
 
 Success results in:
+\begin{verbatim}
 Request: remSec/OK
+\end{verbatim}
 
 Possible failed to remove repsonses:
 \begin{itemize}
@@ -238,20 +237,21 @@ Possible failed to remove repsonses:
 \end{itemize}
 
 \section*{News Requests}
+\begin{verbatim}
 Action: NewsListFeeds
 Authorization: username
 NewsFeeds: Oslo News [OBI]
 Days: 30
 MaxCount: 30
+\end{verbatim}
 
 \section*{Stock Information Request}
+\begin{verbatim}
 Action: StatData
 Authorization: username
 SecOid: 18177/TEL
 Language: EN
+\end{verbatim}
 
-Action: q
-Authorization: username
-QFields: l;cp;b;a
 
 \end{document}
