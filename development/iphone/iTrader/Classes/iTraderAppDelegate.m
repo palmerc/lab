@@ -7,16 +7,19 @@
 //
 
 #import "iTraderAppDelegate.h"
+#import "iTraderCommunicator.h"
 #import "MyStocksViewController.h"
 #import "NewsViewController.h"
 #import "SettingsTableViewController.h"
-
 
 @implementation iTraderAppDelegate
 @synthesize window;
 @synthesize tabController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	defaults = [[NSUserDefaults alloc] init];
+	// if username and password are empty make the default starting tab the Settings Tab
+
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	window.backgroundColor = [UIColor lightGrayColor];
 	
@@ -35,6 +38,8 @@
 
 
 - (void)dealloc {
+	[defaults release];
+	[communicator release];
     [window release];
     [super dealloc];
 }

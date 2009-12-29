@@ -16,18 +16,20 @@
 }
 
 @property (nonatomic, retain) Communicator *communicator;
-@property BOOL isLoggedIn;
+@property (readonly) BOOL isLoggedIn;
+
++ (iTraderCommunicator *)sharedManager;
 
 - (void)login:(NSString *)username password:(NSString *)password;
+- (void)logout;
 - (BOOL)loginStatusHasChanged;
-
-@protocol iTraderCommunicatorConnectionStatusDelegate
-- (void)connectionStatusHasChanged;
+- (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 @end
 
-@protocol iTraderCommunicatorStocksUpdateDelegate
-- (void)stockPriceHasChanged;
+@protocol iTraderCommunicatorStatusDelegate <NSObject>
+- (void)connectionStatusHasChanged:(BOOL)isConnected;
 @end
 
-
+@protocol iTraderCommunicatorUpdateDelegate <NSObject>
+- (void)streamingUpdateReceived;
 @end

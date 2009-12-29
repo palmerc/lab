@@ -10,6 +10,9 @@
 
 
 @interface AboutViewController : UIViewController {
+	UILabel *versionTextField;
 }
+
+@property (nonatomic, retain) IBOutlet UILabel *versionTextField;
 
 @end

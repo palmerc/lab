@@ -19,18 +19,27 @@ typedef enum {
 	INFRONT=2
 } sections;
 
+@class iTraderCommunicator;
+
 @interface SettingsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
 	UITableView *tableView;
 	UIView *aboutView;
 	
-	NSUserDefaults *defaults;
+	UITextField *userTextField;
+	UITextField *passwordTextField;
 	
 	NSArray *sectionsArray;
 	NSArray *infrontSectionArray;
 	NSArray *loginSectionArray;
+	
+	NSUserDefaults *defaults;
+	
+	iTraderCommunicator *communicator;
 }
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIView *aboutView;
+@property (nonatomic, retain) UITextField *userTextField;
+@property (nonatomic, retain) UITextField *passwordTextField;
 
 @end

@@ -9,20 +9,25 @@
 #import "SettingsTableViewController.h"
 #import "AboutViewController.h"
 #import "iTraderAppDelegate.h"
+#import "iTraderCommunicator.h"
 
 @implementation SettingsTableViewController
 @synthesize tableView;
 @synthesize aboutView;
+@synthesize userTextField;
+@synthesize passwordTextField;
 
 - (id)init {
 	self = [super init];
 	if (self != nil) {
+		defaults = [[NSUserDefaults alloc] init];
+		communicator = [iTraderCommunicator sharedManager];
+		
 		UIImage* anImage = [UIImage imageNamed:@"infront.png"];
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTab", @"The settings tab label") image:anImage tag:SETTINGS];
 		self.tabBarItem = theItem;
 		[theItem release];
 		
-		defaults = [[NSUserDefaults alloc] init]; 
 		sectionsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"LoginSettings", @"Login settings for infront account"), NSLocalizedString(@"Currency", "@Currency preference"), NSLocalizedString(@"Company", @"Company name"), nil];
 		loginSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Username", @"Username string"), NSLocalizedString(@"Password", @"Password string"), nil];
 		infrontSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"About", @"About string"), nil];
@@ -83,6 +88,7 @@
 
 
 - (void)dealloc {
+	[defaults release];
     [super dealloc];
 }
 
@@ -127,11 +133,13 @@
 		if (indexPath.row == USERNAME_FIELD) {
 			textField.tag = USERNAME_FIELD;
 			textField.text = [defaults stringForKey:@"username"];
+			self.userTextField = textField;
 		} else if (indexPath.row == PASSWORD_FIELD) {
 			textField.secureTextEntry = YES;
 			textField.clearButtonMode = UITextFieldViewModeWhileEditing;
 			textField.tag = PASSWORD_FIELD;
 			textField.text = [defaults stringForKey:@"password"];
+			self.passwordTextField = textField;
 		}
 		
 		[cell addSubview:textField];
@@ -168,6 +176,12 @@
 		[defaults setObject:textField.text forKey:@"password"];
 	}
 	
+	NSString *username = self.userTextField.text;
+	NSString *password = self.passwordTextField.text;
+	// As long as username and password are not empty or nil attempt to connect
+	if (username != nil && password != nil) {
+		[communicator login:username password:password];
+	}
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
