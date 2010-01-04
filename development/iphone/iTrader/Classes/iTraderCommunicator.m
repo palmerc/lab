@@ -15,7 +15,7 @@
 @implementation iTraderCommunicator
 
 static iTraderCommunicator *sharedCommunicator = nil;
-
+@synthesize symbolsDelegate;
 @synthesize communicator = _communicator;
 @synthesize isLoggedIn = _isLoggedIn;
 
@@ -73,7 +73,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = YES; 
 	NSString *currentLine = [self.communicator readLine];
-	//NSLog(@"%@", currentLine);
+	NSLog(@"%@", currentLine);
 	if ([currentLine rangeOfString:@"Request: login/OK"].location == 0) {
 		_loginStatusHasChanged = YES;
 		_isLoggedIn = YES;
@@ -83,8 +83,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	} else if ([currentLine rangeOfString:@"Content-Length:"].location == 0) {
 	
 	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0) {
-		NSMutableArray *symbols = [[NSMutableArray alloc] init];
-		NSDictionary *feeds = [[NSDictionary alloc] init];
 		NSArray *rawRows = [currentLine componentsSeparatedByString:@":"];
 		NSRange rowsWithoutSymbolsString;
 		rowsWithoutSymbolsString.location = 1;
@@ -112,36 +110,33 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			symbol.isin = [columns objectAtIndex:6];
 			symbol.exchangeCode = [NSNumber numberWithInteger:[[columns objectAtIndex:7] integerValue]];
 			
-			[symbols addObject:symbol];
+			[self.symbolsDelegate addSymbol:symbol];
 			[symbol release];
 			
-			if ([feeds objectForKey:feedNumber] == nil) {
-				Feed *feed = [[Feed alloc] init];
-				feed.number = feedNumber;
-				// Obj-C doesn't have regex so we will look from the end of the string to get the [xxx] feed code. 
-				NSCharacterSet *leftSquareBracket = [NSCharacterSet characterSetWithCharactersInString:@"["]; 
-				NSRange feedCodeRange = [feedDescriptionAndCode rangeOfCharacterFromSet:leftSquareBracket options:NSBackwardsSearch];
-				NSInteger lengthOfFeedString = [feedDescriptionAndCode length];
-								
-				// Range compensating for the removal of square brackets
-				NSRange codeRange;
-				codeRange.location = feedCodeRange.location + 1;
-				codeRange.length = (lengthOfFeedString - feedCodeRange.location) - 1;
-				
-				
-				NSRange descriptionRange;
-				descriptionRange.location = 0;
-				descriptionRange.length = lengthOfFeedString - codeRange.length - 2;
-				
-				NSString *feedDescription = [feedDescriptionAndCode substringWithRange:descriptionRange];
-				NSString *feedCode = [feedDescriptionAndCode substringWithRange:codeRange];
-				feed.description = feedDescription;
-				feed.code = feedCode;
-			}
+			Feed *feed = [[Feed alloc] init];
+			feed.number = feedNumber;
+			// Obj-C doesn't have regex so we will look from the end of the string to get the [xxx] feed code. 
+			NSCharacterSet *leftSquareBracket = [NSCharacterSet characterSetWithCharactersInString:@"["]; 
+			NSRange feedCodeRange = [feedDescriptionAndCode rangeOfCharacterFromSet:leftSquareBracket options:NSBackwardsSearch];
+			NSInteger lengthOfFeedString = [feedDescriptionAndCode length];
+			
+			// Range compensating for the removal of square brackets
+			NSRange codeRange;
+			codeRange.location = feedCodeRange.location + 1;
+			codeRange.length = (lengthOfFeedString - feedCodeRange.location) - 1;
+			
+			
+			NSRange descriptionRange;
+			descriptionRange.location = 0;
+			descriptionRange.length = lengthOfFeedString - codeRange.length - 2;
+			
+			NSString *feedDescription = [feedDescriptionAndCode substringWithRange:descriptionRange];
+			NSString *feedCode = [feedDescriptionAndCode substringWithRange:codeRange];
+			feed.description = feedDescription;
+			feed.code = feedCode;
+			[self.symbolsDelegate addFeed:feed];
+			[feed release];
 		}
-
-		[symbols release];
-		[feeds release];
 	} else if ([currentLine rangeOfString:@"Exchanges:"].location == 0) {
 	} else if ([currentLine rangeOfString:@"NewsFeeds:"].location == 0) {
 	}

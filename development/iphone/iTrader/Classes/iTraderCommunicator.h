@@ -8,13 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "Communicator.h";
+@class Symbol;
+@class Feed;
+@protocol SymbolsDataDelegate;
 
 @interface iTraderCommunicator : NSObject <CommunicatorReceiveDelegate> {
+	id <SymbolsDataDelegate> symbolsDelegate;
+
 	Communicator *_communicator;
 	BOOL _isLoggedIn;
 	BOOL _loginStatusHasChanged;
 }
 
+@property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
 @property (nonatomic, retain) Communicator *communicator;
 @property (readonly) BOOL isLoggedIn;
 
@@ -26,10 +32,7 @@
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 @end
 
-@protocol iTraderCommunicatorStatusDelegate <NSObject>
-- (void)connectionStatusHasChanged:(BOOL)isConnected;
-@end
-
-@protocol iTraderCommunicatorUpdateDelegate <NSObject>
-- (void)streamingUpdateReceived;
+@protocol SymbolsDataDelegate <NSObject>
+- (void)addSymbol:(Symbol *)symbol;
+- (void)addFeed:(Feed *)feed;
 @end
