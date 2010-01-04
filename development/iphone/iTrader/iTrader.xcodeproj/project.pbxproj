@@ -20,6 +20,9 @@
 		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
 		7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
 		7E419DE810E251CB0007808B /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
+		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
+		7EB15D5B10F1F5CE003049C7 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5A10F1F5CE003049C7 /* Symbol.m */; };
+		7EB15D5E10F1F6DE003049C7 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5D10F1F6DE003049C7 /* Feed.m */; };
 		7ED7294310E8A22100D1814F /* iTraderCommunicationProtocol.tex in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */; };
 		C73CE2E610E3BDCE00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */; };
 		C73CE2EF10E3BDDA00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */; };
@@ -50,6 +53,12 @@
 		7E419C6E10E2209B0007808B /* iTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderCommunicator.m; sourceTree = "<group>"; };
 		7E419DE610E251CB0007808B /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		7E419DE710E251CB0007808B /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		7EB15D0210F1D24D003049C7 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
+		7EB15D0310F1D24D003049C7 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
+		7EB15D5910F1F5CE003049C7 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
+		7EB15D5A10F1F5CE003049C7 /* Symbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbol.m; sourceTree = "<group>"; };
+		7EB15D5C10F1F6DE003049C7 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		7EB15D5D10F1F6DE003049C7 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iTraderCommunicationProtocol.tex; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* iTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iTrader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C73CE2E510E3BDCE00AF6D89 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
@@ -76,6 +85,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7EB15D0110F1D227003049C7 /* User Defaults */,
 				7E419C6A10E2209B0007808B /* Communicator */,
 				7E419C6710E2209B0007808B /* Data Structure */,
 				7E419AC610E206190007808B /* AppDelegate */,
@@ -188,6 +198,10 @@
 			children = (
 				7E419C6810E2209B0007808B /* Queue.h */,
 				7E419C6910E2209B0007808B /* Queue.m */,
+				7EB15D5910F1F5CE003049C7 /* Symbol.h */,
+				7EB15D5A10F1F5CE003049C7 /* Symbol.m */,
+				7EB15D5C10F1F6DE003049C7 /* Feed.h */,
+				7EB15D5D10F1F6DE003049C7 /* Feed.m */,
 			);
 			name = "Data Structure";
 			sourceTree = "<group>";
@@ -210,6 +224,15 @@
 				7E419DE710E251CB0007808B /* NewsViewController.m */,
 			);
 			name = News;
+			sourceTree = "<group>";
+		};
+		7EB15D0110F1D227003049C7 /* User Defaults */ = {
+			isa = PBXGroup;
+			children = (
+				7EB15D0210F1D24D003049C7 /* UserDefaults.h */,
+				7EB15D0310F1D24D003049C7 /* UserDefaults.m */,
+			);
+			name = "User Defaults";
 			sourceTree = "<group>";
 		};
 		7ED7294110E8A22100D1814F /* Documentation */ = {
@@ -324,6 +347,9 @@
 				7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */,
 				7E419DE810E251CB0007808B /* NewsViewController.m in Sources */,
 				C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */,
+				7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */,
+				7EB15D5B10F1F5CE003049C7 /* Symbol.m in Sources */,
+				7EB15D5E10F1F6DE003049C7 /* Feed.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
