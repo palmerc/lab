@@ -20,7 +20,7 @@
 
 + (iTraderCommunicator *)sharedManager;
 
-- (void)login:(NSString *)username password:(NSString *)password;
+- (void)login;
 - (void)logout;
 - (BOOL)loginStatusHasChanged;
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;

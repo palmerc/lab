@@ -8,6 +8,7 @@
 
 #import "MyStocksViewController.h"
 #import "iTraderAppDelegate.h"
+#import "iTraderCommunicator.h"
 
 @implementation MyStocksViewController
 
@@ -19,6 +20,8 @@
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:MYSTOCKS];
 		self.tabBarItem = theItem;
 		[theItem release];
+		
+		communicator = [iTraderCommunicator sharedManager];
 	}
 	return self;
 }
@@ -42,7 +45,14 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	NSLog(@"ViewDidLoad in My Stocks");
+
+	// Check if logged in
+	if (!communicator.isLoggedIn) {
+		[communicator login];
+	}
+	
+	// If logged in move along, but if not and username and password are defined. Log in.
+	
 }
 
 /*
@@ -70,5 +80,12 @@
     [super dealloc];
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return 0;
+}
 
 @end

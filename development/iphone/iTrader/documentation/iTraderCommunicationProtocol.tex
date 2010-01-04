@@ -1,5 +1,6 @@
 \documentclass[12pt,twoside,letterpaper]{report}
 \usepackage{graphicx}
+\usepackage{listings}
 \setlength\topmargin{0in}
 \setlength\headheight{0in}
 \setlength\headsep{0in}
@@ -92,7 +93,7 @@ Version: x.xx.xx
 DLURL: 
 ServerIP: xxx.xxx.xxx.xxx
 User: username
-Securities: ...
+Symbols: ...
 Exchanges: ...
 NewsFeeds: ...
 \end{verbatim}
@@ -102,6 +103,42 @@ Failed login responses:
 \item Request: login/failed.UsrPwd
 \item Request: login/failed.DeniedAccess
 \end{itemize}
+
+A symbols response is composed of colon separated rows and semi-colon separated columns. For example:
+\lstset{
+	language=,
+	basicstyle=\ttfamily,
+	columns={flexible},
+	breaklines=true}
+\begin{lstlisting}
+Symbols: 18177/NHY;NHY;Norsk Hydro;Oslo Stocks [OSS];1;D;NO0005052605;15613:18177/OSEBX;OSEBX;Oslo Børs Benchmark Index;Oslo Stocks [OSS];2;D;NO0007035327;:18177/OPERA;OPERA;Opera Software;Oslo Stocks [OSS];1;D;NO0010040611;24121:18177/BLO;BLO;Blom;Oslo Stocks [OSS];1;D;NO0003679102;15092:18177/CRU;CRU;Crew Gold Corporation;Oslo Stocks [OSS];1;D;CA2265344028;15103:18177/FAIR;FAIR;Fairstar Heavy Transport;Oslo Stocks [OSS];1;D;NL0000026292;35746:18177/TTS;TTS;TTS Group;Oslo Stocks [OSS];1;D;NO0003049405;15343:18177/RXT;RXT;Reservoir Exploration  Technology;Oslo Stocks [OSS];1;D;NO0010277957;37316:18177/AKBM;AKBM;Aker BioMarine;Oslo Stocks [OSS];1;D;NO0003084006;15247:18177/GTB;GTB;Global Tender Barges;Oslo Stocks [OSS];1;D;NO0010052350;15183:18177/MELG;MELG;Melhus Sparebank;Oslo Stocks [OSS];1;D;NO0006001908;15219:18177/SBX;SBX;SeaBird Exploration;Oslo Stocks [OSS];1;D;CY0101162119;32724:18177/PDR;PDR;Petrolia Drilling;Oslo Stocks [OSS];1;D;NO0003075301;15257
+\end{lstlisting}
+the first response:
+\begin{verbatim}
+18177/NHY;NHY;Norsk Hydro;Oslo Stocks [OSS];1;D;NO0005052605;15613
+\end{verbatim}
+can be interpreted as:
+\begin{itemize}
+\item 18177/NHY - Feed Number/Symbol
+\item NHY - Symbol
+\item Norsk Hydro - Symbol Name
+\item Oslo Stocks [OSS] - Feed Description [Code]
+\item 1 - Symbol Type
+\item D - Orderbook Value
+\item NO0005052605 - International Securities Identification Number (ISIN)
+\item 15613 - Exchange Symbol
+\end{itemize}
+
+An exchanges response. For example:
+\begin{lstlisting}
+Exchanges: CME Indices [CMX](S),Deutsche Börse Indices [GEX](S),DJ Indices [WDJ](S),Hang Seng Indices [HSIX](S),ICE Futures [IPE](S),Nasdaq Indices [NSx](S),NDX Warrants [NDX](D),NGM Stocks [NGM](D),Nikkei Indices [NIK](S),NYSE Indices [NYx](S),Oslo Options [OSO](D),Oslo OTC Stocks [OTC](D),Oslo Stocks [OSS](D),Oslo Warrants [OSW](D),S&P Indices [SPx](S),Warsaw Indices [WSIx](S),World Commodities [WCO](S),World Deposits [WDE](S),World Forex [WFX](S),World Indices [WIX](S)
+\end{lstlisting}
+
+
+A newsfeed response. For example:
+\begin{lstlisting}
+NewsFeeds: Cision Sweden [CIS](S),DJ Nordic News Basic [DJND](S),Hugin Sweden [HUS](S),Nyhedsbureauet Direkt [DIRD](S),Nyhetsbyrån Direkt [DIR](S),OMX Copenhagen News [CSN](S),OMX Helsinki News [OMXH](S),OMX Stockholm News [SSI](S),Oslo News [OBI](S)
+\end{lstlisting}
 
 \section*{Kickout}
 When a user is kicked off because they logged in from another terminal while streaming is enabled, they will receive:

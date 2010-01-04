@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class iTraderCommunicator;
 
-
-@interface MyStocksViewController : UIViewController {
+@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource> {
+	iTraderCommunicator *communicator;
 }
 
 @end

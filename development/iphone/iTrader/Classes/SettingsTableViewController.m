@@ -10,6 +10,7 @@
 #import "AboutViewController.h"
 #import "iTraderAppDelegate.h"
 #import "iTraderCommunicator.h"
+#import "UserDefaults.h"
 
 @implementation SettingsTableViewController
 @synthesize tableView;
@@ -20,7 +21,7 @@
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		defaults = [[NSUserDefaults alloc] init];
+		defaults = [UserDefaults sharedManager];
 		communicator = [iTraderCommunicator sharedManager];
 		
 		UIImage* anImage = [UIImage imageNamed:@"infront.png"];
@@ -88,7 +89,6 @@
 
 
 - (void)dealloc {
-	[defaults release];
     [super dealloc];
 }
 
@@ -132,13 +132,13 @@
 		textField.returnKeyType = UIReturnKeyDone;
 		if (indexPath.row == USERNAME_FIELD) {
 			textField.tag = USERNAME_FIELD;
-			textField.text = [defaults stringForKey:@"username"];
+			textField.text = defaults.username;
 			self.userTextField = textField;
 		} else if (indexPath.row == PASSWORD_FIELD) {
 			textField.secureTextEntry = YES;
 			textField.clearButtonMode = UITextFieldViewModeWhileEditing;
 			textField.tag = PASSWORD_FIELD;
-			textField.text = [defaults stringForKey:@"password"];
+			textField.text = defaults.password;
 			self.passwordTextField = textField;
 		}
 		
@@ -171,16 +171,16 @@
 // Text Field Delegate Methods
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 	if (textField.tag == USERNAME_FIELD) {
-		[defaults setObject:textField.text forKey:@"username"];
+		defaults.username = textField.text;
 	} else if (textField.tag == PASSWORD_FIELD) {
-		[defaults setObject:textField.text forKey:@"password"];
+		defaults.password = textField.text;
 	}
 	
 	NSString *username = self.userTextField.text;
 	NSString *password = self.passwordTextField.text;
 	// As long as username and password are not empty or nil attempt to connect
 	if (username != nil && password != nil) {
-		[communicator login:username password:password];
+		[communicator login];
 	}
 }
 

@@ -20,6 +20,7 @@ typedef enum {
 } sections;
 
 @class iTraderCommunicator;
+@class UserDefaults;
 
 @interface SettingsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
 	UITableView *tableView;
@@ -32,7 +33,7 @@ typedef enum {
 	NSArray *infrontSectionArray;
 	NSArray *loginSectionArray;
 	
-	NSUserDefaults *defaults;
+	UserDefaults *defaults;
 	
 	iTraderCommunicator *communicator;
 }
