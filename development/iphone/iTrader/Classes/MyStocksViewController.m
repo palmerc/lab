@@ -151,7 +151,7 @@
 				
 		NSInteger section = [[symbolsController.feeds valueForKey:feed] integerValue];
 		NSInteger row = [[symbolsController.symbols valueForKey:feedTicker] integerValue];
-		NSIndexPath *itemToUpdate = [[NSIndexPath alloc] init];
+		NSIndexPath *itemToUpdate = [[NSIndexPath alloc] initWithIndexes:<#(NSUInteger *)indexes#> length:<#(NSUInteger)length#>;
 		itemToUpdate.section = section;
 		itemToUpdate.row = row;
 		[indexPaths addObject:itemToUpdate];
