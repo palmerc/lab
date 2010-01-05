@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @class iTraderCommunicator;
+@class SymbolsController;
 
 @interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource> {
 	iTraderCommunicator *communicator;
+	SymbolsController *symbolsController;
 }
 
 @end

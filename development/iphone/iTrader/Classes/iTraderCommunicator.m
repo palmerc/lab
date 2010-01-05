@@ -114,6 +114,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 				[self.symbolsDelegate addSymbol:symbol];
 			}
 			[symbol release];
+			symbol = nil;
 			
 			Feed *feed = [[Feed alloc] init];
 			feed.number = feedNumber;
@@ -134,10 +135,13 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			
 			NSString *feedDescription = [feedDescriptionAndCode substringWithRange:descriptionRange];
 			NSString *feedCode = [feedDescriptionAndCode substringWithRange:codeRange];
-			feed.description = feedDescription;
+			feed.feedDescription = feedDescription;
 			feed.code = feedCode;
-			[self.symbolsDelegate addFeed:feed];
+			if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(addFeed:)]) {
+				[self.symbolsDelegate addFeed:feed];
+			}
 			[feed release];
+			feed = nil;
 		}
 	} else if ([currentLine rangeOfString:@"Exchanges:"].location == 0) {
 	} else if ([currentLine rangeOfString:@"NewsFeeds:"].location == 0) {

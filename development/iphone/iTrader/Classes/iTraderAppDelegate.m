@@ -43,7 +43,6 @@
 
 - (void)dealloc {
 	[defaults release];
-	[communicator release];
     [window release];
     [super dealloc];
 }

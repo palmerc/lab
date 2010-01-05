@@ -12,7 +12,7 @@
 #import "Feed.h"
 
 @implementation SymbolsController
-@synthesize symbols, feeds;
+@synthesize symbols, orderedSymbols, feeds, orderedFeeds;
 
 static SymbolsController *sharedSymbolsController = nil;
 
@@ -52,9 +52,10 @@ static SymbolsController *sharedSymbolsController = nil;
 	if (self != nil) {
 		communicator = [iTraderCommunicator sharedManager];
 		communicator.symbolsDelegate = self;
-		symbols = [[NSMutableArray alloc] init];
+		symbols = [[NSMutableDictionary alloc] init];
+		orderedSymbols = [[NSMutableArray alloc] init];
 		feeds = [[NSMutableDictionary alloc] init];
-		
+		orderedFeeds = [[NSMutableArray alloc] init];
 		// If I store the info on the phone I should load it up now.
 	}
 	
@@ -62,18 +63,34 @@ static SymbolsController *sharedSymbolsController = nil;
 }
 
 -(void)addSymbol:(Symbol *)symbol {
-	NSLog(@"Symbol: %@", symbol);
-	[symbols addObject:symbol];
+	if (symbol != nil) {
+		[symbol retain];
+		
+		// temporary assumption that ISIN is unique. Technically a MIC is also
+		// required to ensure uniqueness.
+		if ([symbols objectForKey:symbol.isin] == nil) {
+			[symbols setObject:symbol forKey:symbol.isin];
+			[orderedSymbols addObject:symbol];	
+		}		
+	}
 }
 
 -(void)addFeed:(Feed *)feed {
-	NSLog(@"Feed: %@", feed);
-	[feeds setObject:feed forKey:feed.number];
+	// This needs to be fixed
+	if (feed != nil) {
+		[feed retain];
+		
+		if ([feeds objectForKey:feed.number] == nil) {
+			[feeds setObject:feed forKey:feed.number];
+			[orderedFeeds addObject:feed];
+		}
+	}
 }
 
 -(void)dealloc {
 	[symbols release];
 	[feeds release];
+	[orderedFeeds release];
 	
 	[super dealloc];
 }

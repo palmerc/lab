@@ -10,10 +10,35 @@
 
 
 @implementation Feed
-@synthesize number, description, code;
+@synthesize number, feedDescription, code;
+
+-(id)init {
+	self = [super init];
+	if (self != nil) {
+		number = nil;
+		feedDescription = nil;
+		code = nil;
+	}
+	return self;
+}
 
 -(NSString *)description {
-	return [NSString stringWithFormat:@"(Number: %@, Description: %@, Code: %@)", number, description, code];
+	return [NSString stringWithFormat:@"(Number: %@, Description: %@, Code: %@)", number, feedDescription, code];
+}
+
+-(void)dealloc {
+	[number release];
+	[feedDescription release];
+	[code release];
+	[super dealloc];
+}
+
+-(BOOL)isEqualToString:(NSString *)aString {
+	return YES;
+}
+
+-(NSInteger)length {
+	return 1;
 }
 
 @end

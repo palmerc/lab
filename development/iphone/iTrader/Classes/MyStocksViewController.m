@@ -9,6 +9,10 @@
 #import "MyStocksViewController.h"
 #import "iTraderAppDelegate.h"
 #import "iTraderCommunicator.h"
+#import "SymbolsController.h"
+#import "StockListingCell.h"
+#import "Symbol.h"
+#import "Feed.h";
 
 @implementation MyStocksViewController
 
@@ -21,7 +25,9 @@
 		self.tabBarItem = theItem;
 		[theItem release];
 		
+		symbolsController = [SymbolsController sharedManager];
 		communicator = [iTraderCommunicator sharedManager];
+
 	}
 	return self;
 }
@@ -45,14 +51,10 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-	// Check if logged in
+	// If logged in move along, but if not and username and password are defined. Log in.
 	if (!communicator.isLoggedIn) {
 		[communicator login];
 	}
-	
-	// If logged in move along, but if not and username and password are defined. Log in.
-	
 }
 
 /*
@@ -80,12 +82,54 @@
     [super dealloc];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return nil;
+/* Section Handling */
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	//NSLog(@"%@", symbolsController.feeds.count);
+	return [symbolsController.orderedFeeds count];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 0;
+//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+//	return [NSArray arrayWithArray:symbolsController.orderedFeeds];
+//}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {	
+	return [symbolsController.orderedSymbols count];
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	Feed *feed = [symbolsController.orderedFeeds objectAtIndex:section];
+	return feed.feedDescription;
+}
+
+/* Row Handling */
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	static NSString *CellIdentifier = @"SymbolCell";
+	
+	StockListingCell *cell = (StockListingCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"StockListingCell" owner:nil options:nil];
+		for (id currentObject in topLevelObjects) {
+			if ([currentObject isKindOfClass:[StockListingCell class]]) {
+				cell = (StockListingCell *)currentObject;
+				break;
+			}
+		}
+	}
+	
+	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:indexPath.row];
+	cell.tickerLabel.text = symbol.ticker;
+	cell.nameLabel.text = symbol.name;
+	//[cell.valueButton setTitle:s forState:<#(UIControlState)state#>
+	
+	return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+	return YES;
+}
+
+
 
 @end

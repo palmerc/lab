@@ -11,12 +11,15 @@
 
 @interface Feed : NSObject {
 	NSNumber *number;
-	NSString *description;
+	NSString *feedDescription;
 	NSString *code;
 }
 
 @property (nonatomic,retain) NSNumber *number;
-@property (nonatomic,retain) NSString *description;
+@property (nonatomic,retain) NSString *feedDescription;
 @property (nonatomic,retain) NSString *code;
+
+-(BOOL)isEqualToString:(NSString *)aString;
+-(NSInteger)length;
 
 @end

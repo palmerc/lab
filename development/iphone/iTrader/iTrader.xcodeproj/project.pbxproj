@@ -13,7 +13,8 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
-		7E419ACC10E206890007808B /* StockListingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E419ACB10E206890007808B /* StockListingView.xib */; };
+		7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* StockListingCell.m */; };
+		7E419ACC10E206890007808B /* StockListingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E419ACB10E206890007808B /* StockListingCell.xib */; };
 		7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
 		7E419AFC10E20DD00007808B /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
 		7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
@@ -43,7 +44,9 @@
 		32CA4F630368D1EE00C91783 /* iTrader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTrader_Prefix.pch; sourceTree = "<group>"; };
 		7E15C52E10F32632007A45E8 /* Starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Starter.h; sourceTree = "<group>"; };
 		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
-		7E419ACB10E206890007808B /* StockListingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockListingView.xib; sourceTree = "<group>"; };
+		7E15C7DB10F35A23007A45E8 /* StockListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockListingCell.h; sourceTree = "<group>"; };
+		7E15C7DC10F35A23007A45E8 /* StockListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockListingCell.m; sourceTree = "<group>"; };
+		7E419ACB10E206890007808B /* StockListingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockListingCell.xib; sourceTree = "<group>"; };
 		7E419AD710E20B920007808B /* MyStocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStocksViewController.h; sourceTree = "<group>"; };
 		7E419AD810E20B920007808B /* MyStocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStocksViewController.m; sourceTree = "<group>"; };
 		7E419AFB10E20DD00007808B /* infront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = infront.png; sourceTree = "<group>"; };
@@ -136,7 +139,7 @@
 				C73CE2F710E3BE3E00AF6D89 /* Translations */,
 				7E419AFA10E20DD00007808B /* Graphics */,
 				C73CE46810E6763A00AF6D89 /* AboutView.xib */,
-				7E419ACB10E206890007808B /* StockListingView.xib */,
+				7E419ACB10E206890007808B /* StockListingCell.xib */,
 				8D1107310486CEB800E47090 /* iTrader-Info.plist */,
 			);
 			name = Resources;
@@ -180,6 +183,8 @@
 				7E419AD810E20B920007808B /* MyStocksViewController.m */,
 				7EB15E4A10F2392C003049C7 /* SymbolsController.h */,
 				7EB15E4B10F2392C003049C7 /* SymbolsController.m */,
+				7E15C7DB10F35A23007A45E8 /* StockListingCell.h */,
+				7E15C7DC10F35A23007A45E8 /* StockListingCell.m */,
 			);
 			name = "My Stocks";
 			sourceTree = "<group>";
@@ -332,7 +337,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E419ACC10E206890007808B /* StockListingView.xib in Resources */,
+				7E419ACC10E206890007808B /* StockListingCell.xib in Resources */,
 				7E419AFC10E20DD00007808B /* infront.png in Resources */,
 				C73CE2E610E3BDCE00AF6D89 /* Localizable.strings in Resources */,
 				C73CE2EF10E3BDDA00AF6D89 /* Localizable.strings in Resources */,
@@ -362,6 +367,7 @@
 				7EB15D5E10F1F6DE003049C7 /* Feed.m in Sources */,
 				7EB15E4C10F2392C003049C7 /* SymbolsController.m in Sources */,
 				7E15C53010F32632007A45E8 /* Starter.m in Sources */,
+				7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

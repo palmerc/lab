@@ -18,7 +18,6 @@ typedef enum {
 @class MyStocksViewController;
 @class NewsViewController;
 @class SettingsTableViewController;
-@class iTraderCommunicator;
 @interface iTraderAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	UITabBarController *tabController;
@@ -28,7 +27,6 @@ typedef enum {
 	UINavigationController *settingsNavigationController;
 	
 	NSUserDefaults *defaults;
-	iTraderCommunicator *communicator;
 }
 
 @property (nonatomic, retain) UIWindow *window;

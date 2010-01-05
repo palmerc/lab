@@ -19,6 +19,8 @@
 	NSNumber *exchangeCode;
 }
 
+-(BOOL)isEqualToString:(NSString *)aString;
+
 @property (nonatomic, retain) NSNumber *feedNumber;
 @property (nonatomic, retain) NSString *ticker;
 @property (nonatomic, retain) NSString *name;
