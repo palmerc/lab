@@ -12,6 +12,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
 		7E419ACC10E206890007808B /* StockListingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E419ACB10E206890007808B /* StockListingView.xib */; };
 		7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
 		7E419AFC10E20DD00007808B /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
@@ -40,6 +41,8 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* iTrader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTrader_Prefix.pch; sourceTree = "<group>"; };
+		7E15C52E10F32632007A45E8 /* Starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Starter.h; sourceTree = "<group>"; };
+		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
 		7E419ACB10E206890007808B /* StockListingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockListingView.xib; sourceTree = "<group>"; };
 		7E419AD710E20B920007808B /* MyStocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStocksViewController.h; sourceTree = "<group>"; };
 		7E419AD810E20B920007808B /* MyStocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStocksViewController.m; sourceTree = "<group>"; };
@@ -154,6 +157,8 @@
 			children = (
 				1D3623240D0F684500981E51 /* iTraderAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iTraderAppDelegate.m */,
+				7E15C52E10F32632007A45E8 /* Starter.h */,
+				7E15C52F10F32632007A45E8 /* Starter.m */,
 			);
 			name = AppDelegate;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 				7EB15D5B10F1F5CE003049C7 /* Symbol.m in Sources */,
 				7EB15D5E10F1F6DE003049C7 /* Feed.m in Sources */,
 				7EB15E4C10F2392C003049C7 /* SymbolsController.m in Sources */,
+				7E15C53010F32632007A45E8 /* Starter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
