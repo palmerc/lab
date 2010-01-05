@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "iTraderCommunicator.h"
 
+@protocol SymbolsUpdateDelegate;
+
 @interface SymbolsController : NSObject <SymbolsDataDelegate> {
+	id <SymbolsUpdateDelegate> updateDelegate;
 	iTraderCommunicator *communicator;
 	
 	NSMutableDictionary *symbols;
@@ -18,6 +21,7 @@
 	NSMutableArray *orderedFeeds;
 }
 
+@property (assign) id <SymbolsUpdateDelegate> updateDelegate;
 @property (nonatomic, retain) NSMutableDictionary *symbols;
 @property (nonatomic, retain) NSMutableArray *orderedSymbols;
 @property (nonatomic, retain) NSMutableDictionary *feeds;
@@ -26,3 +30,9 @@
 + (SymbolsController *)sharedManager;
 
 @end
+
+@protocol SymbolsUpdateDelegate <NSObject>
+-(void)symbolsUpdated;
+@end
+
+

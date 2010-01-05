@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SymbolsController.h"
+
 @class iTraderCommunicator;
 @class SymbolsController;
 
-@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, SymbolsUpdateDelegate> {
 	iTraderCommunicator *communicator;
 	SymbolsController *symbolsController;
 }

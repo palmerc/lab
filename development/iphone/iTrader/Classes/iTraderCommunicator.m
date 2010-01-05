@@ -83,17 +83,17 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	} else if ([currentLine rangeOfString:@"Content-Length:"].location == 0) {
 	
 	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0) {
-		NSArray *rawRows = [currentLine componentsSeparatedByString:@":"];
-		NSRange rowsWithoutSymbolsString;
-		rowsWithoutSymbolsString.location = 1;
-		rowsWithoutSymbolsString.length = [rawRows count] - 1;
-		NSArray *rows = [rawRows subarrayWithRange:rowsWithoutSymbolsString];
+		NSArray *rows = [self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]];
+		
 		for (NSString *row in rows) {		
 			Symbol *symbol = [[Symbol alloc] init];
 			NSArray *columns = [row componentsSeparatedByString:@";"];
 			
+			NSString *feedTicker = [columns objectAtIndex:0];
+			symbol.feedTicker = feedTicker;
+			
 			// Split the feedNumberAndTicker into two components
-			NSArray *feedNumberAndTicker = [[columns objectAtIndex:0] componentsSeparatedByString:@"/"];
+			NSArray *feedNumberAndTicker = [feedTicker componentsSeparatedByString:@"/"];
 			NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedNumberAndTicker objectAtIndex:0] integerValue]];
 			symbol.feedNumber = feedNumber;
 			NSString *tickerToo = [feedNumberAndTicker objectAtIndex:1];
@@ -143,6 +143,12 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			[feed release];
 			feed = nil;
 		}
+	} else if ([currentLine rangeOfString:@"Quotes: "].location == 0) {
+		NSString *theRest = [[self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]] objectAtIndex:1];
+		NSArray *quotes = [theRest componentsSeparatedByString:@"|"];
+		if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(updateQuotes:)]) {
+			[symbolsDelegate updateQuotes:quotes];
+		}
 	} else if ([currentLine rangeOfString:@"Exchanges:"].location == 0) {
 	} else if ([currentLine rangeOfString:@"NewsFeeds:"].location == 0) {
 	}
@@ -182,8 +188,10 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *Version = [[NSString alloc] initWithFormat:@"VerType: %@.%@", version, build];
 	NSString *ConnectionType = @"ConnType: Socket";
 	NSString *Streaming = @"Streaming: 1";
+	//NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
+	NSString *QFields = @"QFields: l";
 	
-	NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, ConnectionType, Streaming, nil];
+	NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, ConnectionType, Streaming, QFields, nil];
 	NSString *loginString = [self arrayToFormattedString:loginArray];
 	
 	if ([self.communicator isConnected]) {
@@ -209,6 +217,15 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[appendableText release];
 	
 	return immutableString;
+}
+
+- (NSArray *)stripOffFirstElement:(NSArray *)array {
+	NSRange rowsWithoutFirstString;
+	rowsWithoutFirstString.location = 1;
+	rowsWithoutFirstString.length = [array count] - 1;
+	NSArray *rows = [array subarrayWithRange:rowsWithoutFirstString];
+	
+	return rows;
 }
 
 @end

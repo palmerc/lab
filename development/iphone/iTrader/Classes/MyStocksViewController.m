@@ -27,6 +27,8 @@
 		
 		symbolsController = [SymbolsController sharedManager];
 		communicator = [iTraderCommunicator sharedManager];
+		
+		symbolsController.updateDelegate = self;
 
 	}
 	return self;
@@ -118,10 +120,16 @@
 		}
 	}
 	
+	[cell.contentView setBackgroundColor:[UIColor yellowColor]];
 	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:indexPath.row];
+	//[UIView beginAnimations:nil context:NULL];
+//	[UIView setAnimationDuration:0.5];
+//	[cell.contentView setBackgroundColor:[UIColor whiteColor]];
+//	[UIView commitAnimations];
+	
 	cell.tickerLabel.text = symbol.ticker;
 	cell.nameLabel.text = symbol.name;
-	//[cell.valueButton setTitle:s forState:<#(UIControlState)state#>
+	[cell.valueButton setTitle:[symbol.lastTrade stringValue] forState:UIControlStateNormal];
 	
 	return cell;
 }
@@ -130,6 +138,28 @@
 	return YES;
 }
 
-
+/**
+ * This method should receive a list of symbols that have been updated and should
+ * update any rows necessary.
+ */
+- (void)symbolsUpdated:(NSArray *)feedTickers {
+	NSArray *indexPaths = [[NSMutableArray alloc] init];
+	for (NSString *feedTicker in feedTickers) {
+		NSArray *feedTickerTuple = [feedTicker componentsSeparatedByString:@"/"];		
+		
+		NSString *feed = [feedTickerTuple objectAtIndex:0];
+				
+		NSInteger section = [[symbolsController.feeds valueForKey:feed] integerValue];
+		NSInteger row = [[symbolsController.symbols valueForKey:feedTicker] integerValue];
+		NSIndexPath *itemToUpdate = [[NSIndexPath alloc] init];
+		itemToUpdate.section = section;
+		itemToUpdate.row = row;
+		[indexPaths addObject:itemToUpdate];
+		[indexPath release];
+	}
+		
+	[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+	[indexPaths release];
+}
 
 @end

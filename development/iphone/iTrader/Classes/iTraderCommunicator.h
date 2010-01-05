@@ -30,9 +30,11 @@
 - (void)logout;
 - (BOOL)loginStatusHasChanged;
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
+- (NSArray *)stripOffFirstElement:(NSArray *)array;
 @end
 
 @protocol SymbolsDataDelegate <NSObject>
 - (void)addSymbol:(Symbol *)symbol;
 - (void)addFeed:(Feed *)feed;
+- (void)updateQuotes:(NSArray *)quotes;
 @end
