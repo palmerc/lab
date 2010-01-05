@@ -110,7 +110,9 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			symbol.isin = [columns objectAtIndex:6];
 			symbol.exchangeCode = [NSNumber numberWithInteger:[[columns objectAtIndex:7] integerValue]];
 			
-			[self.symbolsDelegate addSymbol:symbol];
+			if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(addSymbol:)]) {
+				[self.symbolsDelegate addSymbol:symbol];
+			}
 			[symbol release];
 			
 			Feed *feed = [[Feed alloc] init];

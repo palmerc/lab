@@ -7,7 +7,7 @@
 //
 
 #import "iTraderAppDelegate.h"
-#import "iTraderCommunicator.h"
+#import "Starter.h"
 #import "MyStocksViewController.h"
 #import "NewsViewController.h"
 #import "SettingsTableViewController.h"
@@ -17,6 +17,10 @@
 @synthesize tabController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	// Start up the Singleton services
+	Starter *starter = [[Starter alloc] init];
+	[starter release];
+	
 	defaults = [[NSUserDefaults alloc] init];
 	// if username and password are empty make the default starting tab the Settings Tab
 

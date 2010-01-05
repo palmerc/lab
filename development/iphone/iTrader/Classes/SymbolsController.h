@@ -10,11 +10,15 @@
 #import "iTraderCommunicator.h"
 
 @interface SymbolsController : NSObject <SymbolsDataDelegate> {
+	iTraderCommunicator *communicator;
+	
 	NSMutableArray *symbols;
 	NSMutableDictionary *feeds;
 }
 
 @property (nonatomic, retain) NSMutableArray *symbols;
-@property (nonatomic, retain) NSDictionary *feeds;
+@property (nonatomic, retain) NSMutableDictionary *feeds;
+
++ (SymbolsController *)sharedManager;
 
 @end
