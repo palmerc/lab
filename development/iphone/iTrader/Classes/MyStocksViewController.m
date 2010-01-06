@@ -29,7 +29,6 @@
 		communicator = [iTraderCommunicator sharedManager];
 		
 		symbolsController.updateDelegate = self;
-
 	}
 	return self;
 }
@@ -122,10 +121,10 @@
 	
 	[cell.contentView setBackgroundColor:[UIColor yellowColor]];
 	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:indexPath.row];
-	//[UIView beginAnimations:nil context:NULL];
-//	[UIView setAnimationDuration:0.5];
-//	[cell.contentView setBackgroundColor:[UIColor whiteColor]];
-//	[UIView commitAnimations];
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:0.5];
+	[cell.contentView setBackgroundColor:[UIColor whiteColor]];
+	[UIView commitAnimations];
 	
 	cell.tickerLabel.text = symbol.ticker;
 	cell.nameLabel.text = symbol.name;
@@ -143,21 +142,18 @@
  * update any rows necessary.
  */
 - (void)symbolsUpdated:(NSArray *)feedTickers {
-	NSArray *indexPaths = [[NSMutableArray alloc] init];
+	NSLog(@"Table Update: %@", feedTickers);
+	NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
 	for (NSString *feedTicker in feedTickers) {
-		NSArray *feedTickerTuple = [feedTicker componentsSeparatedByString:@"/"];		
-		
-		NSString *feed = [feedTickerTuple objectAtIndex:0];
-				
-		NSInteger section = [[symbolsController.feeds valueForKey:feed] integerValue];
-		NSInteger row = [[symbolsController.symbols valueForKey:feedTicker] integerValue];
-		NSIndexPath *itemToUpdate = [[NSIndexPath alloc] initWithIndexes:<#(NSUInteger *)indexes#> length:<#(NSUInteger)length#>;
-		itemToUpdate.section = section;
-		itemToUpdate.row = row;
-		[indexPaths addObject:itemToUpdate];
-		[indexPath release];
+		NSString *feed = [[feedTicker componentsSeparatedByString:@"/"] objectAtIndex:0];
+		NSUInteger section = [[symbolsController.feeds objectForKey:feed] unsignedIntegerValue];
+		NSUInteger row = [[symbolsController.symbols objectForKey:feedTicker] unsignedIntegerValue];
+		NSLog(@"section: %d row: %d", section, row);
+		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+		NSLog(@"indexPath: %@", indexPath);
+		[indexPaths addObject:indexPath];
 	}
-		
+	NSLog(@"array: %@", indexPaths);
 	[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
 	[indexPaths release];
 }

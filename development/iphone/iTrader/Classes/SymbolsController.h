@@ -32,7 +32,7 @@
 @end
 
 @protocol SymbolsUpdateDelegate <NSObject>
--(void)symbolsUpdated;
+-(void)symbolsUpdated:(NSArray *)quotes;
 @end
 
 

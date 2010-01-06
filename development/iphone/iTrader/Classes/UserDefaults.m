@@ -53,6 +53,7 @@ static UserDefaults *sharedDefaults = nil;
 		
 		self.username = [defaults stringForKey:@"username"];
 		self.password = [defaults stringForKey:@"password"];
+		NSLog(@"user: %@, password: %@", self.username, self.password);
 		
 		[defaults release];
 	}

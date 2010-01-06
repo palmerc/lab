@@ -72,13 +72,13 @@ static SymbolsController *sharedSymbolsController = nil;
 		if ([symbols objectForKey:symbol.feedTicker] == nil) {
 			NSUInteger index = [orderedSymbols count];
 			[orderedSymbols addObject:symbol];
-			[symbols setObject:[NSNumber numberWithInteger:index] forKey:symbol.feedTicker];
+			[symbols setObject:[NSNumber numberWithUnsignedInteger:index] forKey:symbol.feedTicker];
 		}		
 	}
 	
-	if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolsUpdated)]) {
-		[self.updateDelegate symbolsUpdated];
-	}
+//	if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolsUpdated)]) {
+//		[self.updateDelegate symbolsUpdated:];
+//	}
 }
 
 -(void)addFeed:(Feed *)feed {
@@ -89,7 +89,7 @@ static SymbolsController *sharedSymbolsController = nil;
 		if ([feeds objectForKey:feed.number] == nil) {
 			NSUInteger index = [orderedFeeds count];
 			[orderedFeeds addObject:feed];
-			[feeds setObject:[NSNumber numberWithInteger:index] forKey:feed.number];
+			[feeds setObject:[NSNumber numberWithUnsignedInteger:index] forKey:feed.number];
 			
 		}
 	}
@@ -97,14 +97,16 @@ static SymbolsController *sharedSymbolsController = nil;
 
 -(void)updateQuotes:(NSArray *)quotes {
 	NSMutableArray *updatedQuotes = [[NSMutableArray alloc] init];
+	NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 	for (NSString *quote in quotes) {
-	
+		NSLog(@"updating: %@", quote);
 		NSArray *values = [quote componentsSeparatedByString:@";"];
-		NSLog(@"%@", values);
+		
 		//18177/OSEBX;380.983;0.22;;;;;0.827
 		// feed/ticker
-		NSString *feedTicker = [values objectAtIndex:0];
-		Symbol *symbol = [self.symbols objectForKey:feedTicker];
+		NSString *feedTicker = [[values objectAtIndex:0] stringByTrimmingCharactersInSet:whitespaceAndNewline];
+		NSUInteger index = [(NSNumber *)[self.symbols objectForKey:feedTicker] unsignedIntegerValue];
+		Symbol *symbol = [self.orderedSymbols objectAtIndex:index];
 		// last trade
 		if ([[values objectAtIndex:1] isEqualToString:@""] == NO) {
 			symbol.lastTrade = [NSNumber numberWithFloat:[[values objectAtIndex:1] floatValue]];
@@ -133,7 +135,7 @@ static SymbolsController *sharedSymbolsController = nil;
 		[updatedQuotes addObject:feedTicker];
 	}
 	
-	if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolsUpdated)]) {
+	if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolsUpdated:)]) {
 		[self.updateDelegate symbolsUpdated:updatedQuotes];
 	}
 	
@@ -146,7 +148,6 @@ static SymbolsController *sharedSymbolsController = nil;
 	[orderedFeeds release];
 	
 	[super dealloc];
-}
-	 
+}	 
 	 
 @end

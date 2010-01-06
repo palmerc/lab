@@ -85,11 +85,14 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0) {
 		NSArray *rows = [self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]];
 		
+		NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+		
 		for (NSString *row in rows) {		
 			Symbol *symbol = [[Symbol alloc] init];
 			NSArray *columns = [row componentsSeparatedByString:@";"];
 			
-			NSString *feedTicker = [columns objectAtIndex:0];
+			
+			NSString *feedTicker = [[columns objectAtIndex:0] stringByTrimmingCharactersInSet:whitespaceAndNewline];
 			symbol.feedTicker = feedTicker;
 			
 			// Split the feedNumberAndTicker into two components
@@ -144,7 +147,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			feed = nil;
 		}
 	} else if ([currentLine rangeOfString:@"Quotes: "].location == 0) {
-		NSString *theRest = [[self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]] objectAtIndex:1];
+		NSArray *quotesAndTheRest = [self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]];
+		NSString *theRest = [quotesAndTheRest objectAtIndex:0];
 		NSArray *quotes = [theRest componentsSeparatedByString:@"|"];
 		if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(updateQuotes:)]) {
 			[symbolsDelegate updateQuotes:quotes];
