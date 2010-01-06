@@ -63,6 +63,14 @@ static SymbolsController *sharedSymbolsController = nil;
 	return self;
 }
 
+-(void)dealloc {
+	[symbols release];
+	[feeds release];
+	[orderedFeeds release];
+	
+	[super dealloc];
+}	 
+
 -(void)addSymbol:(Symbol *)symbol {
 	if (symbol != nil) {
 		[symbol retain];
@@ -95,42 +103,46 @@ static SymbolsController *sharedSymbolsController = nil;
 	}
 }
 
--(void)updateQuotes:(NSArray *)quotes {
+-(void)updateQuotes:(NSArray *)quotes {	
 	NSMutableArray *updatedQuotes = [[NSMutableArray alloc] init];
-	NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+	
 	for (NSString *quote in quotes) {
-		NSLog(@"updating: %@", quote);
-		NSArray *values = [quote componentsSeparatedByString:@";"];
+		NSArray *values = [self cleanQuote:quote];
+		
+		NSString *feedTicker = [values objectAtIndex:0];
+		NSUInteger index = [(NSNumber *)[self.symbols objectForKey:feedTicker] unsignedIntegerValue];
 		
 		//18177/OSEBX;380.983;0.22;;;;;0.827
 		// feed/ticker
-		NSString *feedTicker = [[values objectAtIndex:0] stringByTrimmingCharactersInSet:whitespaceAndNewline];
-		NSUInteger index = [(NSNumber *)[self.symbols objectForKey:feedTicker] unsignedIntegerValue];
+
 		Symbol *symbol = [self.orderedSymbols objectAtIndex:index];
 		// last trade
-		if ([[values objectAtIndex:1] isEqualToString:@""] == NO) {
-			symbol.lastTrade = [NSNumber numberWithFloat:[[values objectAtIndex:1] floatValue]];
+		NSString *lastTrade = [values objectAtIndex:1];
+
+		if ([lastTrade isEqualToString:@""] == NO && [lastTrade isEqualToString:@"-"] == NO) {
+			symbol.lastTrade = [NSNumber numberWithFloat:[lastTrade floatValue]];
 		}
+		
 		// percent change
-		//symbol.percentChange = [NSNumber numberWithInteger:[[values objectAtIndex:2] integerValue]];
+		symbol.percentChange = [NSNumber numberWithInteger:[[values objectAtIndex:2] integerValue]];
 		// bid price
-		//symbol.bidPrice = [NSNumber numberWithInteger:[[values objectAtIndex:3] integerValue]];
+		symbol.bidPrice = [NSNumber numberWithInteger:[[values objectAtIndex:3] integerValue]];
 		// ask price
-		//symbol.askPrice = [NSNumber numberWithInteger:[[values objectAtIndex:4] integerValue]];
+		symbol.askPrice = [NSNumber numberWithInteger:[[values objectAtIndex:4] integerValue]];
 		// ask volume
-		//symbol.askVolume = [NSNumber numberWithInteger:[[values objectAtIndex:5] integerValue]];
+		symbol.askVolume = [NSNumber numberWithInteger:[[values objectAtIndex:5] integerValue]];
 		// bid volume
-		//symbol.bidVolume = [NSNumber numberWithInteger:[[values objectAtIndex:6] integerValue]];
+		symbol.bidVolume = [NSNumber numberWithInteger:[[values objectAtIndex:6] integerValue]];
 		// change
-		//symbol.change = [NSNumber numberWithInteger:[[values objectAtIndex:7] integerValue]];
+		symbol.change = [NSNumber numberWithFloat:[[values objectAtIndex:7] floatValue]];
 		// high
-		//symbol.high = [NSNumber numberWithInteger:[[values objectAtIndex:8] integerValue]];
+		symbol.high = [NSNumber numberWithInteger:[[values objectAtIndex:8] integerValue]];
 		// low
-		//symbol.low = [NSNumber numberWithInteger:[[values objectAtIndex:9] integerValue]];
+		symbol.low = [NSNumber numberWithInteger:[[values objectAtIndex:9] integerValue]];
 		// open
-		//symbol.open = [NSNumber numberWithInteger:[[values objectAtIndex:10] integerValue]];
+		symbol.open = [NSNumber numberWithInteger:[[values objectAtIndex:10] integerValue]];
 		// volume
-		//symbol.volume = [NSNumber numberWithInteger:[[values objectAtIndex:11] integerValue]];
+		symbol.volume = [NSNumber numberWithInteger:[[values objectAtIndex:11] integerValue]];
 		
 		[updatedQuotes addObject:feedTicker];
 	}
@@ -142,12 +154,24 @@ static SymbolsController *sharedSymbolsController = nil;
 	[updatedQuotes release];
 }
 
--(void)dealloc {
-	[symbols release];
-	[feeds release];
-	[orderedFeeds release];
+-(NSArray *)cleanQuote:(NSString *)quote {
+	NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+	NSArray *providedValues = [quote componentsSeparatedByString:@";"];
 	
-	[super dealloc];
-}	 
-	 
+	NSMutableArray *paddedArray = [[NSMutableArray alloc] init];
+	for (NSString *value in providedValues) {
+		[paddedArray addObject:[value stringByTrimmingCharactersInSet:whitespaceAndNewline]];
+	}
+		
+	for (int i = [paddedArray count] - 1; i < 12; i++) {
+		[paddedArray addObject:@""];
+	}
+	
+	NSArray *finalProduct = [NSArray arrayWithArray:paddedArray];
+	[paddedArray release];
+	
+	return finalProduct;
+}
+
+
 @end

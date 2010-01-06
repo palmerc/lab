@@ -28,6 +28,7 @@
 @property (nonatomic, retain) NSMutableArray *orderedFeeds;
 
 + (SymbolsController *)sharedManager;
+- (NSArray *)cleanQuote:(NSString *)quote;
 
 @end
 

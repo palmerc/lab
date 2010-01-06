@@ -8,13 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import "SymbolsController.h"
+#import "StockSearchController.h"
 
 @class iTraderCommunicator;
 @class SymbolsController;
 
-@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, SymbolsUpdateDelegate> {
+typedef enum {
+	NOCHANGE = 0,
+	UP = 1,
+	DOWN = 2
+} changeEnum;
+
+@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, StockSearchControllerDelegate, SymbolsUpdateDelegate> {
 	iTraderCommunicator *communicator;
 	SymbolsController *symbolsController;
+	
+	BOOL firstUpdate;
 }
+
+- (void)addStock:(id)sender;
 
 @end

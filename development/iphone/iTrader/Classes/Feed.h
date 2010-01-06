@@ -19,7 +19,4 @@
 @property (nonatomic,retain) NSString *feedDescription;
 @property (nonatomic,retain) NSString *code;
 
--(BOOL)isEqualToString:(NSString *)aString;
--(NSInteger)length;
-
 @end

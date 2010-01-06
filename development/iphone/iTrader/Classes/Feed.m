@@ -33,12 +33,4 @@
 	[super dealloc];
 }
 
--(BOOL)isEqualToString:(NSString *)aString {
-	return YES;
-}
-
--(NSInteger)length {
-	return 1;
-}
-
 @end

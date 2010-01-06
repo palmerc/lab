@@ -11,7 +11,7 @@
 
 @implementation Symbol
 @synthesize feedTicker, feedNumber, ticker, name, isin, type, orderbook, exchangeCode;
-@synthesize lastTrade, percentChange, bidPrice, askPrice, askVolume, bidVolume, change, high, low, open, volume;
+@synthesize lastTrade, percentChange, bidPrice, askPrice, askVolume, bidVolume, change, changeSinceLastUpdate, high, low, open, volume;
 
 - (id)init {
 	self = [super init];
@@ -32,6 +32,7 @@
 		askVolume = nil;
 		bidVolume = nil;
 		change = nil;
+		changeSinceLastUpdate = nil;
 		high = nil;
 		low = nil;
 		open = nil;
@@ -40,6 +41,19 @@
 	
 	return self;
 }
+
+-(void)setLastTrade:(NSNumber *)trade {
+	[trade retain];	
+	float lt = [lastTrade floatValue];
+	float t = [trade floatValue];
+	float c = t - lt;
+	NSLog(@"changeSinceLastTrade: %f", c);
+	self.changeSinceLastUpdate = [NSNumber numberWithFloat:c];
+	[lastTrade release];
+	lastTrade = nil;
+	lastTrade = trade;
+	
+}	
 
 - (void)dealloc {
 	[feedTicker release];
@@ -58,6 +72,7 @@
 	[askVolume release];
 	[bidVolume release];
 	[change release];
+	[changeSinceLastUpdate release];
 	[high release];
 	[low release];
 	[open release];
@@ -68,10 +83,6 @@
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"(Symbol: %@/%@, ISIN: %@, Type: %@, Orderbook: %@, ExchangeCode: %@)", ticker, name, isin, type, orderbook, exchangeCode];
-}
-
--(BOOL)isEqualToString:(NSString *)aString {
-	return YES;
 }
 
 @end

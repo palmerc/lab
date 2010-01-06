@@ -97,7 +97,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			
 			// Split the feedNumberAndTicker into two components
 			NSArray *feedNumberAndTicker = [feedTicker componentsSeparatedByString:@"/"];
-			NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedNumberAndTicker objectAtIndex:0] integerValue]];
+			NSString *feedNumber = [feedNumberAndTicker objectAtIndex:0];
 			symbol.feedNumber = feedNumber;
 			NSString *tickerToo = [feedNumberAndTicker objectAtIndex:1];
 			NSString *ticker = [columns objectAtIndex:1];
@@ -192,8 +192,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *Version = [[NSString alloc] initWithFormat:@"VerType: %@.%@", version, build];
 	NSString *ConnectionType = @"ConnType: Socket";
 	NSString *Streaming = @"Streaming: 1";
-	//NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
-	NSString *QFields = @"QFields: l";
+	NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
+	//NSString *QFields = @"QFields: l";
 	
 	NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, ConnectionType, Streaming, QFields, nil];
 	NSString *loginString = [self arrayToFormattedString:loginArray];

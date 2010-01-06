@@ -27,12 +27,13 @@
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	window.backgroundColor = [UIColor lightGrayColor];
 	
-	myStocks = [[MyStocksViewController alloc] init];
+	MyStocksViewController *myStocks = [[MyStocksViewController alloc] init];
+	myStocksNavigationController = [[UINavigationController alloc] initWithRootViewController:myStocks];
 	news = [[NewsViewController alloc] init];
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
 	settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
 
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:myStocks, news, settingsNavigationController, nil];
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:myStocksNavigationController, news, settingsNavigationController, nil];
 	
 	tabController = [[UITabBarController alloc] init];
 	self.tabController.viewControllers = viewControllersArray;

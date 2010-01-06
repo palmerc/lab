@@ -15,14 +15,12 @@ typedef enum {
 } tabs;
 
 
-@class MyStocksViewController;
 @class NewsViewController;
-@class SettingsTableViewController;
 @interface iTraderAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	UITabBarController *tabController;
 	
-	MyStocksViewController *myStocks;
+	UINavigationController *myStocksNavigationController;
 	NewsViewController *news;
 	UINavigationController *settingsNavigationController;
 	

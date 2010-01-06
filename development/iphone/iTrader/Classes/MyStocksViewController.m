@@ -13,6 +13,7 @@
 #import "StockListingCell.h"
 #import "Symbol.h"
 #import "Feed.h";
+#import "StockSearchController.h"
 
 @implementation MyStocksViewController
 
@@ -29,6 +30,8 @@
 		communicator = [iTraderCommunicator sharedManager];
 		
 		symbolsController.updateDelegate = self;
+		
+		firstUpdate = YES;
 	}
 	return self;
 }
@@ -56,15 +59,30 @@
 	if (!communicator.isLoggedIn) {
 		[communicator login];
 	}
+	
+	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addStock:)];
+	self.navigationItem.rightBarButtonItem = addItem;
+	[addItem release];
+	
+	/*
+	UIButton *editStocksButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+	CGRect *buttonRect = editStocksButton.frame;
+	buttonRect.origin.x = self.frame.size.width - buttonRect.size.width - 8;
+	buttonRect.origin.y = self.frame.size.height - buttonRect.size.height - 8;
+	[editStocksButton setFrame:buttonRect];
+	[editStocksButton addTarget:self action:@selector(editStocks:) forControlEvents:UIControlEventTouchUpInside];
+	[editStocksButton setEnabled:YES];
+	[self.view addSubview:editStocksButton];
+	 */
 }
 
-/*
+
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait | UIInterfaceOrientationLandscapeLeft);
 }
-*/
+
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -105,6 +123,10 @@
 
 /* Row Handling */
 
+/**
+ * This is called everytime the table wants the data for a specific row in the visible table.
+ * The table view only ever asks for the visible cells.
+ */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"SymbolCell";
 	
@@ -119,13 +141,46 @@
 		}
 	}
 	
-	[cell.contentView setBackgroundColor:[UIColor yellowColor]];
-	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:indexPath.row];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.5];
-	[cell.contentView setBackgroundColor:[UIColor whiteColor]];
-	[UIView commitAnimations];
 	
+	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:indexPath.row];
+	NSLog(@"change: %@", symbol.changeSinceLastUpdate);
+	changeEnum changeType;
+	if ([symbol.changeSinceLastUpdate floatValue] < 0) {
+		changeType = DOWN;
+	} else if ([symbol.changeSinceLastUpdate floatValue] > 0) {
+		changeType = UP;
+	} else {
+		changeType = NOCHANGE;
+	}
+
+	BOOL animateChange = NO;
+	UIColor *flashColor = nil;
+	if (changeType != NOCHANGE) {
+		switch (changeType) {
+			case UP:
+				animateChange = YES;
+				flashColor = [UIColor greenColor];
+				break;
+			case DOWN:
+				animateChange = YES;
+				flashColor = [UIColor redColor];
+				break;
+			default:
+				animateChange = NO;
+				break;
+		}
+	}
+	
+	if (animateChange) {
+		UIColor *backgroundColor = [UIColor whiteColor];
+		[cell.contentView setBackgroundColor:flashColor];
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.5];
+		[cell.contentView setBackgroundColor:backgroundColor];
+		[UIView commitAnimations];
+	}
+	NSLog(@"%@", cell);
+	cell.editing = YES;
 	cell.tickerLabel.text = symbol.ticker;
 	cell.nameLabel.text = symbol.name;
 	[cell.valueButton setTitle:[symbol.lastTrade stringValue] forState:UIControlStateNormal];
@@ -133,8 +188,23 @@
 	return cell;
 }
 
+// This method is required to catch the swipe to delete gesture.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+}
+
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
 	return YES;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+	return [NSIndexPath indexPathForRow:0 inSection:0];
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+	return YES;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
 }
 
 /**
@@ -142,20 +212,37 @@
  * update any rows necessary.
  */
 - (void)symbolsUpdated:(NSArray *)feedTickers {
-	NSLog(@"Table Update: %@", feedTickers);
 	NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
 	for (NSString *feedTicker in feedTickers) {
 		NSString *feed = [[feedTicker componentsSeparatedByString:@"/"] objectAtIndex:0];
 		NSUInteger section = [[symbolsController.feeds objectForKey:feed] unsignedIntegerValue];
 		NSUInteger row = [[symbolsController.symbols objectForKey:feedTicker] unsignedIntegerValue];
-		NSLog(@"section: %d row: %d", section, row);
 		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-		NSLog(@"indexPath: %@", indexPath);
 		[indexPaths addObject:indexPath];
 	}
-	NSLog(@"array: %@", indexPaths);
-	[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+	if (firstUpdate == YES) {
+		[self.tableView reloadData];
+		firstUpdate = NO;
+	} else {
+		[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+	}
 	[indexPaths release];
+}
+
+- (void)addStock:(id)sender {
+	StockSearchController *controller = [[StockSearchController alloc] initWithNibName:@"StockSearchView" bundle:nil];
+	
+	controller.delegate = self;
+
+	controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	[self presentModalViewController:controller animated:YES];
+	
+	[controller release];
+}
+
+- (void)stockSearchControllerDidFinish:(StockSearchController *)stockSearchController didAddSymbol:(Symbol *)symbol {
+	NSLog(@"Dismissing Search");
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end
