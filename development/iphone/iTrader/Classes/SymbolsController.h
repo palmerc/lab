@@ -15,10 +15,10 @@
 	id <SymbolsUpdateDelegate> updateDelegate;
 	iTraderCommunicator *communicator;
 	
-	NSMutableDictionary *symbols;
-	NSMutableArray *orderedSymbols;
-	NSMutableDictionary *feeds;
-	NSMutableArray *orderedFeeds;
+	NSMutableDictionary *symbols; // A hash from feedTicker to the index in orderedSymbols Array
+	NSMutableArray *orderedSymbols; // The index represents the row number for table views
+	NSMutableDictionary *feeds; // A hash from feedNumber to index in orderedFeeds Array
+	NSMutableArray *orderedFeeds; // This index represents the section number for table views
 }
 
 @property (assign) id <SymbolsUpdateDelegate> updateDelegate;
@@ -29,10 +29,12 @@
 
 + (SymbolsController *)sharedManager;
 - (NSArray *)cleanQuote:(NSString *)quote;
+- (Symbol *)symbolAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
 @protocol SymbolsUpdateDelegate <NSObject>
+-(void)symbolAdded:(Symbol *)symbol;
 -(void)symbolsUpdated:(NSArray *)quotes;
 @end
 

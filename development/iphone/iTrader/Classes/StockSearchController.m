@@ -7,10 +7,12 @@
 //
 
 #import "StockSearchController.h"
-
+#import "iTraderCommunicator.h"
 
 @implementation StockSearchController
-@synthesize delegate, searchBar;
+@synthesize delegate;
+@synthesize searchBar = _searchBar;
+@synthesize tickerSymbol;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -33,6 +35,11 @@
     [super viewDidLoad];
 	
 	self.searchBar.delegate = self;
+	self.searchBar.placeholder = @"Stock Ticker Symbol";
+	self.searchBar.showsCancelButton = YES;
+	
+	communicator = [iTraderCommunicator sharedManager];
+	communicator.stockAddDelegate = self;
 }
 
 /*
@@ -59,12 +66,13 @@
     [super dealloc];
 }
 
-
+/*
 // Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
     NSLog(@"Queried about %@", NSStringFromSelector(sel));
     return [super respondsToSelector:sel];
 }
+*/
 
 /** 
  * All The Following Methods are Required When Adopting the UISearchBarDelegate 
@@ -72,7 +80,6 @@
  */
 // Editing Text
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-	NSLog(@"%@", searchText);
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
@@ -87,7 +94,6 @@
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-	[self.searchBar resignFirstResponder];
 }
 
 // Clicking Buttons
@@ -95,15 +101,38 @@
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+	[self.delegate stockSearchControllerDidFinish:self didAddSymbol:nil];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-	NSLog(@"Search Button Clicked");
-	[self.delegate stockSearchControllerDidFinish:self didAddSymbol:nil];
+	[self.searchBar resignFirstResponder];
+	
+	tickerSymbol = searchBar.text;
+	[communicator addSecurity:tickerSymbol];
 }
 
 // Scope Button
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+}
+
+- (void)addOK {
+	[self.delegate stockSearchControllerDidFinish:self didAddSymbol:tickerSymbol];
+}
+
+- (void)addFailedAlreadyExists {
+	NSString *alertTitle = @"Add Security Failed";
+	NSString *alertMessage = @"The ticker symbol you requested is already in your list.";
+	NSString *alertCancel = @"Dismiss";
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
+	[alertView show];	
+}
+
+- (void)addFailedNotFound {
+	NSString *alertTitle = @"Add Security Failed";
+	NSString *alertMessage = @"The ticker symbol you requested was not found.";
+	NSString *alertCancel = @"Dismiss";
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
+	[alertView show];
 }
 
 @end

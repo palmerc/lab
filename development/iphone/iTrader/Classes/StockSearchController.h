@@ -7,19 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iTraderCommunicator.h"
 @class Symbol;
+@class iTraderCommunicator;
 @protocol StockSearchControllerDelegate;
 
-@interface StockSearchController : UIViewController <UISearchBarDelegate> {
+@interface StockSearchController : UIViewController <UISearchBarDelegate, StockAddDelegate> {
 	id <StockSearchControllerDelegate> delegate;
+	iTraderCommunicator *communicator;
+	IBOutlet UISearchBar *_searchBar;
 	
-	IBOutlet UISearchBar *searchBar;
+	NSString *tickerSymbol;
 }
 
 @property (assign) id <StockSearchControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, retain) NSString *tickerSymbol;
 @end
 
 @protocol StockSearchControllerDelegate
-- (void)stockSearchControllerDidFinish:(StockSearchController *)controller didAddSymbol:(Symbol *)symbol;
+- (void)stockSearchControllerDidFinish:(StockSearchController *)controller didAddSymbol:(NSString *)tickerSymbol;
 @end

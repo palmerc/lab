@@ -10,17 +10,20 @@
 
 
 @implementation Symbol
-@synthesize feedTicker, feedNumber, ticker, name, isin, type, orderbook, exchangeCode;
+@synthesize feedNumber = _feedNumber;
+@synthesize tickerSymbol = _tickerSymbol; 
+@synthesize name = _name;
+@synthesize isin = _isin;
+@synthesize type, orderbook, exchangeCode;
 @synthesize lastTrade, percentChange, bidPrice, askPrice, askVolume, bidVolume, change, changeSinceLastUpdate, high, low, open, volume;
 
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		feedTicker = nil;
-		feedNumber = nil;
-		ticker = nil;
-		name = nil;
-		isin = nil;
+		_feedNumber = nil;
+		_tickerSymbol = nil;
+		_name = nil;
+		_isin = nil;
 		type = nil;
 		orderbook = nil;
 		exchangeCode = nil;
@@ -42,12 +45,28 @@
 	return self;
 }
 
+- (NSString *)feedTicker {
+	return [NSString stringWithFormat:@"%@/%@", self.feedNumber, self.tickerSymbol];
+}
+
+- (void)setFeedTicker:(NSString *)feedTicker {
+	NSArray *components = [feedTicker componentsSeparatedByString:@"/"];
+	assert([components count] == 2);
+	
+	// Format of feedTicker string is feedNumber/tickerSymbol
+	NSString *feedNumber = [components objectAtIndex:0];
+	NSString *tickerSymbol = [components objectAtIndex:1];
+	
+	self.feedNumber = feedNumber;
+	self.tickerSymbol = tickerSymbol;
+}
+
 -(void)setLastTrade:(NSNumber *)trade {
 	[trade retain];	
 	float lt = [lastTrade floatValue];
 	float t = [trade floatValue];
 	float c = t - lt;
-	NSLog(@"changeSinceLastTrade: %f", c);
+	//NSLog(@"changeSinceLastTrade: %f", c);
 	self.changeSinceLastUpdate = [NSNumber numberWithFloat:c];
 	[lastTrade release];
 	lastTrade = nil;
@@ -56,11 +75,10 @@
 }	
 
 - (void)dealloc {
-	[feedTicker release];
-	[feedNumber release];
-	[ticker release];
-	[name release];
-	[isin release];
+	[self.feedNumber release];
+	[self.tickerSymbol release];
+	[self.name release];
+	[self.isin release];
 	[type release];
 	[orderbook release];
 	[exchangeCode release];	
@@ -82,7 +100,7 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"(Symbol: %@/%@, ISIN: %@, Type: %@, Orderbook: %@, ExchangeCode: %@)", ticker, name, isin, type, orderbook, exchangeCode];
+	return [NSString stringWithFormat:@"(Symbol: %@ %@, ISIN: %@, Type: %@, Orderbook: %@, ExchangeCode: %@)", self.feedTicker, self.name, self.isin, type, orderbook, exchangeCode];
 }
 
 @end

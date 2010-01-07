@@ -10,14 +10,13 @@
 
 
 @interface Symbol : NSObject {
-	NSString *feedTicker; // This is how a stock is uniquely identified in mTrader
-	NSString *feedNumber;
-	NSString *ticker;
-	NSString *name;
-	NSString *isin; // International Securities Identification Number
+	NSString *_feedNumber;
+	NSString *_tickerSymbol;
+	NSString *_name;
+	NSString *_isin; // International Securities Identification Number
 	NSNumber *type;
 	NSString *orderbook;
-	NSNumber *exchangeCode;
+	NSString *exchangeCode;
 	
 	NSNumber *lastTrade;
 	NSNumber *percentChange;
@@ -35,12 +34,13 @@
 
 @property (nonatomic, retain) NSString *feedTicker;
 @property (nonatomic, retain) NSString *feedNumber;
-@property (nonatomic, retain) NSString *ticker;
+@property (nonatomic, retain) NSString *tickerSymbol;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *isin;
+
 @property (nonatomic, retain) NSNumber *type;
 @property (nonatomic, retain) NSString *orderbook;
-@property (nonatomic, retain) NSNumber *exchangeCode;
+@property (nonatomic, retain) NSString *exchangeCode;
 
 @property (nonatomic, retain) NSNumber *lastTrade;
 @property (nonatomic, retain) NSNumber *percentChange;

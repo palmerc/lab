@@ -69,7 +69,7 @@ static SymbolsController *sharedSymbolsController = nil;
 	[orderedFeeds release];
 	
 	[super dealloc];
-}	 
+}
 
 -(void)addSymbol:(Symbol *)symbol {
 	if (symbol != nil) {
@@ -84,22 +84,19 @@ static SymbolsController *sharedSymbolsController = nil;
 		}		
 	}
 	
-//	if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolsUpdated)]) {
-//		[self.updateDelegate symbolsUpdated:];
-//	}
+	if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolAdded:)]) {
+		[self.updateDelegate symbolAdded:symbol];
+	}
 }
 
 -(void)addFeed:(Feed *)feed {
 	// This needs to be fixed
-	if (feed != nil) {
-		[feed retain];
+	assert(feed != nil);
+	if ([feeds objectForKey:feed.number] == nil) { // if we haven't seen this feed before.		
+		NSUInteger index = [orderedFeeds count];
+		[orderedFeeds addObject:feed];
+		[feeds setObject:[NSNumber numberWithUnsignedInteger:index] forKey:feed.number];
 		
-		if ([feeds objectForKey:feed.number] == nil) {
-			NSUInteger index = [orderedFeeds count];
-			[orderedFeeds addObject:feed];
-			[feeds setObject:[NSNumber numberWithUnsignedInteger:index] forKey:feed.number];
-			
-		}
 	}
 }
 

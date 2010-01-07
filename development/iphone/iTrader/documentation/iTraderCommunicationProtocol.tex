@@ -140,6 +140,9 @@ A newsfeed response. For example:
 NewsFeeds: Cision Sweden [CIS](S),DJ Nordic News Basic [DJND](S),Hugin Sweden [HUS](S),Nyhedsbureauet Direkt [DIRD](S),Nyhetsbyrån Direkt [DIR](S),OMX Copenhagen News [CSN](S),OMX Helsinki News [OMXH](S),OMX Stockholm News [SSI](S),Oslo News [OBI](S)
 \end{lstlisting}
 
+\section*{Keep-alive}
+In streaming mode, an empty or unspecified QFields, will result in no information returned but a keep-alive packet every 15 seconds will be returned.
+
 \section*{Kickout}
 When a user is kicked off because they logged in from another terminal while streaming is enabled, they will receive:
 
@@ -229,9 +232,9 @@ QFields are specified using a semicolon seperated list of values:
 An example QField:
 \begin{verbatim}
 QFields: l;cp;c
-\end{verbatim}
+\end{verbatim} 
 
-In streaming mode, an empty or unspecified QFields will result in updates without information.
+Responses will be returned in the order specified.
 
 \section*{The quote response}
 Following a successful quote action you will receive:
@@ -243,16 +246,23 @@ Following a successful quote action you will receive:
 \item Two blank lines
 \end{enumerate}
 
-The quote line is comprised of the exchage number and ticker symbol and the data requested via the QField. The data will be in the order specified in the QField separated by semicolons.
+The quote line is comprised of the exchage number and ticker symbol and the data requested via the QField. The data will be in the order specified in the QField separated by semicolons. However, the number of response fields per update will be truncated to the last field with a changed value. Requesting every QField (12 currently), for example, may not result in 12 fields returned in each response.
 
 \section*{Add a security}
 Both success and failure begin with the HTTP response header.
 
-Successfully adding a security results in the response: 
 \begin{verbatim}
-Request: addSec/OK
-SecInfo: ???
+Action: addSec
+Authorization: username
+Search: tickerSymbol
+mCode: feedName
 \end{verbatim}
+
+Successfully adding a security results in the response: 
+\begin{lstlisting}
+Request: addSec/OK
+SecInfo: feedNumber/tickerSymbol;tickerSymbol;tickerName;feedNameAndCode;1;orderBook;ISIN;tickerExchangeCode
+\end{lstlisting}
 
 Possible failed to add repsonses:
 \begin{itemize}
@@ -261,11 +271,20 @@ Possible failed to add repsonses:
 \end{itemize}
 
 \section*{Remove a security}
+
+A request to remove a sercurity is made this way:
+\begin{verbatim}
+Action: remSec
+Authorization: username
+SecOid: feedNumber/tickerSymbol
+\end{verbatim}
+
 Both success and failure begin with the HTTP response header.
 
 Success results in:
 \begin{verbatim}
 Request: remSec/OK
+SecOid: feedNumber/tickerSymbol
 \end{verbatim}
 
 Possible failed to remove repsonses:

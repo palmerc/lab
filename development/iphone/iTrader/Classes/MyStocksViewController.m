@@ -13,6 +13,7 @@
 #import "StockListingCell.h"
 #import "Symbol.h"
 #import "Feed.h";
+#import "StockDetailController.h"
 #import "StockSearchController.h"
 
 @implementation MyStocksViewController
@@ -143,7 +144,7 @@
 	
 	
 	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:indexPath.row];
-	NSLog(@"change: %@", symbol.changeSinceLastUpdate);
+	//NSLog(@"change: %@", symbol.changeSinceLastUpdate);
 	changeEnum changeType;
 	if ([symbol.changeSinceLastUpdate floatValue] < 0) {
 		changeType = DOWN;
@@ -179,9 +180,8 @@
 		[cell.contentView setBackgroundColor:backgroundColor];
 		[UIView commitAnimations];
 	}
-	NSLog(@"%@", cell);
 	cell.editing = YES;
-	cell.tickerLabel.text = symbol.ticker;
+	cell.tickerLabel.text = symbol.tickerSymbol;
 	cell.nameLabel.text = symbol.name;
 	[cell.valueButton setTitle:[symbol.lastTrade stringValue] forState:UIControlStateNormal];
 	
@@ -190,6 +190,10 @@
 
 // This method is required to catch the swipe to delete gesture.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (editingStyle == UITableViewCellEditingStyleDelete) {
+		NSLog(@"Delete %@", indexPath);
+	}
+
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -207,6 +211,30 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	// TODO Make this work for more than simply the first stock
+	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:0];
+	StockDetailController *detailController = [[StockDetailController alloc] initWithSymbol:symbol];
+	[self.navigationController pushViewController:detailController animated:YES];
+	
+	[detailController release];
+}
+		 
+- (void)symbolDeleted {
+
+}
+	
+// Additions and Updates
+- (void)symbolAdded:(Symbol *)symbol {
+	NSString *feedTicker = symbol.feedTicker;
+	NSLog(@"Symbol to Add: %@", symbol.feedTicker);
+	NSUInteger section = [[symbolsController.feeds objectForKey:symbol.feedNumber] unsignedIntegerValue];
+	NSUInteger row = [[symbolsController.symbols objectForKey:feedTicker] unsignedIntegerValue];
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+	NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
+	[self.tableView reloadData];
+}
+
 /**
  * This method should receive a list of symbols that have been updated and should
  * update any rows necessary.
@@ -221,7 +249,7 @@
 		[indexPaths addObject:indexPath];
 	}
 	if (firstUpdate == YES) {
-		[self.tableView reloadData];
+		//[self.tableView reloadData];
 		firstUpdate = NO;
 	} else {
 		[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
@@ -240,8 +268,7 @@
 	[controller release];
 }
 
-- (void)stockSearchControllerDidFinish:(StockSearchController *)stockSearchController didAddSymbol:(Symbol *)symbol {
-	NSLog(@"Dismissing Search");
+- (void)stockSearchControllerDidFinish:(StockSearchController *)stockSearchController didAddSymbol:(NSString *)tickerSymbol {
 	[self dismissModalViewControllerAnimated:YES];
 }
 

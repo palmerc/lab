@@ -29,7 +29,7 @@
 	
 	// Start the networking bit last.
 	[iTraderCommunicator sharedManager];
-	NSLog(@"Startup of Singletons complete.");
+	//NSLog(@"Startup of Singletons complete.");
 }
 
 

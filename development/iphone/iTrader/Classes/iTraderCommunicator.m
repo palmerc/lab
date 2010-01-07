@@ -16,7 +16,9 @@
 
 static iTraderCommunicator *sharedCommunicator = nil;
 @synthesize symbolsDelegate;
+@synthesize stockAddDelegate;
 @synthesize communicator = _communicator;
+@synthesize defaults = _defaults;
 @synthesize isLoggedIn = _isLoggedIn;
 
 + (iTraderCommunicator *)sharedManager {
@@ -55,6 +57,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	if (self != nil) {
 		_communicator = [[Communicator alloc] initWithSocket:@"wireless.theonlinetrader.com" port:7780];
 		_communicator.delegate = self;
+		_defaults = [UserDefaults sharedManager];
 		_isLoggedIn = NO;
 		_loginStatusHasChanged = NO;
 	}
@@ -82,7 +85,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		_isLoggedIn = NO;
 	} else if ([currentLine rangeOfString:@"Content-Length:"].location == 0) {
 	
-	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0) {
+	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0 | [currentLine rangeOfString:@"SecInfo:"].location == 0) {
 		NSArray *rows = [self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]];
 		
 		NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
@@ -104,14 +107,14 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			// The ticker symbol from field 0 should match the same symbol in field 1
 			assert([ticker isEqualToString:tickerToo]);
 			
-			symbol.ticker = ticker;
+			symbol.tickerSymbol = ticker;
 			symbol.name = [columns objectAtIndex:2];
 			
 			NSString *feedDescriptionAndCode = [columns objectAtIndex:3];
 			symbol.type = [NSNumber numberWithInteger:[[columns objectAtIndex:4] integerValue]];
 			symbol.orderbook = [columns objectAtIndex:5];
 			symbol.isin = [columns objectAtIndex:6];
-			symbol.exchangeCode = [NSNumber numberWithInteger:[[columns objectAtIndex:7] integerValue]];
+			symbol.exchangeCode = [columns objectAtIndex:7];
 			
 			if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(addSymbol:)]) {
 				[self.symbolsDelegate addSymbol:symbol];
@@ -146,6 +149,12 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			[feed release];
 			feed = nil;
 		}
+	} else if ([currentLine rangeOfString:@"Request: addSec/OK"].location == 0) {
+		[stockAddDelegate addOK];
+	} else if ([currentLine rangeOfString:@"Request: addSec/failed.AlreadyExists"].location == 0) {
+		[stockAddDelegate addFailedAlreadyExists];
+	} else if ([currentLine rangeOfString:@"Request: addSec/failed.NoSuchSec"].location == 0) {
+		[stockAddDelegate addFailedNotFound];
 	} else if ([currentLine rangeOfString:@"Quotes: "].location == 0) {
 		NSArray *quotesAndTheRest = [self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]];
 		NSString *theRest = [quotesAndTheRest objectAtIndex:0];
@@ -178,18 +187,17 @@ static iTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)login {
-	UserDefaults *defaults = [UserDefaults sharedManager];
-	NSString *username = defaults.username;
-	NSString *password = defaults.password;
+	NSString *username = self.defaults.username;
+	NSString *password = self.defaults.password;
 	
 	NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	NSString *build = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
 	
 	NSString *ActionLogin = @"Action: login";
-	NSString *Authorization = [[NSString alloc] initWithFormat:@"Authorization: %@/%@", username, password];
-	NSString *Platform = [[NSString alloc] initWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
+	NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
 	NSString *Client = @"Client: iTrader";
-	NSString *Version = [[NSString alloc] initWithFormat:@"VerType: %@.%@", version, build];
+	NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
 	NSString *ConnectionType = @"ConnType: Socket";
 	NSString *Streaming = @"Streaming: 1";
 	NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
@@ -205,6 +213,33 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	[self.communicator startConnection];
 	[self.communicator writeString:loginString];
+}
+
+- (void)addSecurity:(NSString *)tickerSymbol {
+	NSString *username = self.defaults.username;
+	
+	NSString *ActionAddSec = @"Action: addSec";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *Search = [NSString stringWithFormat:@"Search: %@", tickerSymbol];
+	NSString *MCode = [NSString stringWithFormat:@"mCode: %@", @"Oslo Stocks [OSS]"];
+	
+	NSArray *addSecurityArray = [NSArray arrayWithObjects:ActionAddSec, Authorization, Search, MCode, nil];
+	NSString *addSecurityString = [self arrayToFormattedString:addSecurityArray];
+	
+	[self.communicator writeString:addSecurityString];
+}
+
+- (void)removeSecurity:(NSString *)feedTicker {
+	NSString *username = self.defaults.username;
+	
+	NSString *ActionRemSec = @"Action: remSec";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+	
+	NSArray *removeSecurityArray = [NSArray arrayWithObjects:ActionRemSec, Authorization, SecOid, nil];
+	NSString *removeSecurityString = [self arrayToFormattedString:removeSecurityArray];
+	
+	[self.communicator writeString:removeSecurityString];
 }
 
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings {
