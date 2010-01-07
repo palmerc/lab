@@ -71,12 +71,16 @@ static SymbolsController *sharedSymbolsController = nil;
 	[super dealloc];
 }
 
--(void)addSymbol:(Symbol *)symbol {
-	if (symbol != nil) {
-		[symbol retain];
+-(void)addSymbol:(Symbol *)symbol withFeed:(Feed *)aFeed {
+	if (symbol != nil && aFeed != nil) {
+		if ([self.feeds objectForKey:aFeed.number] == nil) { // if we haven't seen this feed before.
+			NSUInteger index = [self.orderedFeeds count];
+			[self.orderedFeeds addObject:aFeed];
+			[self.feeds setObject:[NSNumber numberWithUnsignedInteger:index] forKey:aFeed.number];			
+		}
 		
-		// temporary assumption that ISIN is unique. Technically a MIC is also
-		// required to ensure uniqueness.
+		Feed *feed = [self.feeds objectForKey:aFeed.number]
+		NSMutableArray *symbols = feed.symbols;
 		if ([symbols objectForKey:symbol.feedTicker] == nil) {
 			NSUInteger index = [orderedSymbols count];
 			[orderedSymbols addObject:symbol];
@@ -170,5 +174,19 @@ static SymbolsController *sharedSymbolsController = nil;
 	return finalProduct;
 }
 
+	
+	-(NSArray *)cleanStrings:(NSArray *)strings {
+		NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+		NSMutableArray *mutableProduct = [[NSMutableArray alloc] init];
+		
+		for (NSString *string in strings) {
+			[mutableProduct addObject:[string stringByTrimmingCharactersInSet:whitespaceAndNewline]];
+		}
+		
+		NSArray *finalProduct = [NSArray arrayWithArray:mutableProduct];
+		[mutableProduct release];
+		
+		return finalProduct;
+	}
 
 @end

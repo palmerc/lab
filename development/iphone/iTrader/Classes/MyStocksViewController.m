@@ -17,6 +17,8 @@
 #import "StockSearchController.h"
 
 @implementation MyStocksViewController
+@synthesize sections = _sections;
+@synthesize rows = _rows;
 
 - (id)init {
 	self = [super init];
@@ -26,6 +28,9 @@
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:MYSTOCKS];
 		self.tabBarItem = theItem;
 		[theItem release];
+		
+		self.sections = [[NSMutableArray alloc] init];
+		self.rows = [[NSMutableArray alloc] init];
 		
 		symbolsController = [SymbolsController sharedManager];
 		communicator = [iTraderCommunicator sharedManager];

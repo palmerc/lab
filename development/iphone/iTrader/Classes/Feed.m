@@ -10,27 +10,44 @@
 
 
 @implementation Feed
-@synthesize number, feedDescription, code;
+@synthesize number = _number;
+@synthesize feedDescription = _feedDescription;
+@synthesize code = _code;
+@synthesize symbols = _symbols;
 
 -(id)init {
 	self = [super init];
 	if (self != nil) {
-		number = nil;
-		feedDescription = nil;
-		code = nil;
+		_number = nil;
+		_feedDescription = nil;
+		_code = nil;
+		_symbols = nil;
 	}
 	return self;
 }
 
--(NSString *)description {
-	return [NSString stringWithFormat:@"(Number: %@, Description: %@, Code: %@)", number, feedDescription, code];
+-(void)dealloc {
+	[self.number release];
+	[self.feedDescription release];
+	[self.code release];
+	[self.symbols release];
+	[super dealloc];
 }
 
--(void)dealloc {
-	[number release];
-	[feedDescription release];
-	[code release];
-	[super dealloc];
+-(NSString *)description {
+	return [NSString stringWithFormat:@"(Number: %@, Description: %@, Code: %@)", self.number, self.feedDescription, self.code];
+}
+
+- (void)addSymbol:(Symbol *)symbol {
+	if (self.symbols == nil) {
+		self.symbols = [[NSMutableArray alloc] init];
+	}
+	[self.symbols addObject:symbol];
+}
+
+- (void)deleteSymbol:(Symbol *)symbol {
+	assert(_symbols != nil);
+	[self.symbols removeObject:symbol];
 }
 
 @end

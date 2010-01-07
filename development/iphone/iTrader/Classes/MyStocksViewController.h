@@ -23,8 +23,14 @@ typedef enum {
 	iTraderCommunicator *communicator;
 	SymbolsController *symbolsController;
 	
+	NSMutableArray *_sections; // The index is the section number and the data should be an individual feedNumber
+	NSMutableArray *_rows; // The index is the row number 
+	
 	BOOL firstUpdate;
 }
+
+@property (nonatomic, retain) NSMutableArray *sections;
+@property (nonatomic, retain) NSMutableArray *rows;
 
 - (void)addStock:(id)sender;
 

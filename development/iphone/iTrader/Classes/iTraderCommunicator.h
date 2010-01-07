@@ -42,8 +42,7 @@
 @end
 
 @protocol SymbolsDataDelegate <NSObject>
-- (void)addSymbol:(Symbol *)symbol;
-- (void)addFeed:(Feed *)feed;
+- (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
 - (void)updateQuotes:(NSArray *)quotes;
 @end
 

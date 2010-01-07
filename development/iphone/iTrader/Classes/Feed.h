@@ -10,13 +10,15 @@
 
 
 @interface Feed : NSObject {
-	NSString *number;
-	NSString *feedDescription;
-	NSString *code;
+	NSString *_number;
+	NSString *_feedDescription;
+	NSString *_code;
+	
+	NSMutableArray *_symbols;
 }
 
 @property (nonatomic,retain) NSString *number;
 @property (nonatomic,retain) NSString *feedDescription;
 @property (nonatomic,retain) NSString *code;
-
+@property (nonatomic, retain) NSMutableArray *symbols;
 @end

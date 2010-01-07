@@ -85,42 +85,35 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		_isLoggedIn = NO;
 	} else if ([currentLine rangeOfString:@"Content-Length:"].location == 0) {
 	
-	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0 | [currentLine rangeOfString:@"SecInfo:"].location == 0) {
+	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0 || [currentLine rangeOfString:@"SecInfo:"].location == 0) {
+		// remove the part of the string preceding the colon, and the rest of the symbols are colon separated.
 		NSArray *rows = [self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]];
-		
-		NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-		
-		for (NSString *row in rows) {		
+				
+		// For each symbol
+		for (NSString *row in rows) {
 			Symbol *symbol = [[Symbol alloc] init];
-			NSArray *columns = [row componentsSeparatedByString:@";"];
 			
+			// The symbol data is separated by semi-colons.
+			NSArray *columns = [self cleanStrings:[row componentsSeparatedByString:@";"]];
 			
-			NSString *feedTicker = [[columns objectAtIndex:0] stringByTrimmingCharactersInSet:whitespaceAndNewline];
-			symbol.feedTicker = feedTicker;
-			
+			// Clean up the white space.
+			symbol.feedTicker = [columns objectAtIndex:0];
+					
 			// Split the feedNumberAndTicker into two components
 			NSArray *feedNumberAndTicker = [feedTicker componentsSeparatedByString:@"/"];
-			NSString *feedNumber = [feedNumberAndTicker objectAtIndex:0];
-			symbol.feedNumber = feedNumber;
+			symbol.feedNumber = [feedNumberAndTicker objectAtIndex:0];
 			NSString *tickerToo = [feedNumberAndTicker objectAtIndex:1];
 			NSString *ticker = [columns objectAtIndex:1];
 			// The ticker symbol from field 0 should match the same symbol in field 1
 			assert([ticker isEqualToString:tickerToo]);
-			
 			symbol.tickerSymbol = ticker;
-			symbol.name = [columns objectAtIndex:2];
 			
+			symbol.name = [columns objectAtIndex:2];
 			NSString *feedDescriptionAndCode = [columns objectAtIndex:3];
 			symbol.type = [NSNumber numberWithInteger:[[columns objectAtIndex:4] integerValue]];
 			symbol.orderbook = [columns objectAtIndex:5];
 			symbol.isin = [columns objectAtIndex:6];
 			symbol.exchangeCode = [columns objectAtIndex:7];
-			
-			if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(addSymbol:)]) {
-				[self.symbolsDelegate addSymbol:symbol];
-			}
-			[symbol release];
-			symbol = nil;
 			
 			Feed *feed = [[Feed alloc] init];
 			feed.number = feedNumber;
@@ -133,8 +126,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			NSRange codeRange;
 			codeRange.location = feedCodeRange.location + 1;
 			codeRange.length = (lengthOfFeedString - feedCodeRange.location) - 1;
-			
-			
+						
 			NSRange descriptionRange;
 			descriptionRange.location = 0;
 			descriptionRange.length = lengthOfFeedString - codeRange.length - 2;
@@ -143,10 +135,13 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			NSString *feedCode = [feedDescriptionAndCode substringWithRange:codeRange];
 			feed.feedDescription = feedDescription;
 			feed.code = feedCode;
-			if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(addFeed:)]) {
-				[self.symbolsDelegate addFeed:feed];
+						
+			if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(addSymbol: withFeed:)]) {
+				[self.symbolsDelegate addSymbol:symbol withFeed:feed];
 			}
+			[symbol release];
 			[feed release];
+			symbol = nil;
 			feed = nil;
 		}
 	} else if ([currentLine rangeOfString:@"Request: addSec/OK"].location == 0) {
@@ -265,6 +260,20 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSArray *rows = [array subarrayWithRange:rowsWithoutFirstString];
 	
 	return rows;
+}
+
+-(NSArray *)cleanStrings:(NSArray *)strings {
+	NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+	NSMutableArray *mutableProduct = [[NSMutableArray alloc] init];
+	
+	for (NSString *string in strings) {
+		[mutableProduct addObject:[string stringByTrimmingCharactersInSet:whitespaceAndNewline]];
+	}
+		
+	NSArray *finalProduct = [NSArray arrayWithArray:mutableProduct];
+	[mutableProduct release];
+	
+	return finalProduct;
 }
 
 @end

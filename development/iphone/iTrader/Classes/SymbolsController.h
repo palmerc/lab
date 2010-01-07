@@ -19,6 +19,11 @@
 	NSMutableArray *orderedSymbols; // The index represents the row number for table views
 	NSMutableDictionary *feeds; // A hash from feedNumber to index in orderedFeeds Array
 	NSMutableArray *orderedFeeds; // This index represents the section number for table views
+
+	// feed ->> symbols
+	// feed <- symbol
+	
+	// feed is an array of feed objects
 }
 
 @property (assign) id <SymbolsUpdateDelegate> updateDelegate;
