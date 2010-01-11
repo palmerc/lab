@@ -7,10 +7,14 @@
 //
 
 #import "StockDetailController.h"
+#import "SymbolsController.h"
+#import "Feed.h"
 #import "Symbol.h"
 
 @implementation StockDetailController
 @synthesize symbol = _symbol;
+@synthesize symbolsController = _symbolsController;
+@synthesize previousUpdateDelegate;
 @synthesize stockNameLabel;
 @synthesize stockISINLabel;
 @synthesize exchangeLabel;
@@ -27,7 +31,10 @@
 	self = [super initWithNibName:@"StockDetailView" bundle:nil];
 	if (self != nil) {
 		self.symbol = symbol;
-		self.title = self.symbol.tickerSymbol;
+		_symbolsController = [SymbolsController sharedManager];
+		NSInteger feedIndex = [_symbolsController indexOfFeedWithFeedNumber:self.symbol.feedNumber];
+		Feed *feed = [_symbolsController.feeds objectAtIndex:feedIndex];
+		self.title = [NSString stringWithFormat:@"%@:%@", feed.code, self.symbol.tickerSymbol];
 	}
 	
 	return self;
@@ -52,18 +59,11 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-		
-	self.stockNameLabel.text = self.symbol.name;
-	self.stockISINLabel.text = self.symbol.isin;
-	self.exchangeLabel.text = self.symbol.feedNumber;
-	self.lastChangeLabel.text = [self.symbol.change stringValue];
-	self.percentChangeLabel.text = [self.symbol.percentChange stringValue];
-	self.tickerSymbolLabel.text = self.symbol.tickerSymbol;
-	self.lowLabel.text = [self.symbol.low stringValue];
-	self.highLabel.text = [self.symbol.high stringValue];
-	self.volumeLabel.text = [self.symbol.volume stringValue];
-	self.openLabel.text = [self.symbol.open stringValue];
-	self.graphImage.image = [UIImage imageNamed:@"infront.png"];
+	
+	self.previousUpdateDelegate = self.symbolsController.updateDelegate;
+	self.symbolsController.updateDelegate = self;
+
+	[self setValues];
 }
 
 /*
@@ -81,6 +81,10 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	self.symbolsController.updateDelegate = self.previousUpdateDelegate;
+}
+
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
@@ -91,5 +95,30 @@
     [super dealloc];
 }
 
+- (void)setValues {
+	self.stockNameLabel.text = self.symbol.name;
+	self.stockISINLabel.text = self.symbol.isin;
+	self.exchangeLabel.text = self.symbol.feedNumber;
+	self.lastChangeLabel.text = [self.symbol.change stringValue];
+	self.percentChangeLabel.text = [self.symbol.percentChange stringValue];
+	self.tickerSymbolLabel.text = self.symbol.tickerSymbol;
+	self.lowLabel.text = [self.symbol.low stringValue];
+	self.highLabel.text = [self.symbol.high stringValue];
+	self.volumeLabel.text = [self.symbol.volume stringValue];
+	self.openLabel.text = [self.symbol.open stringValue];
+	self.graphImage.image = [UIImage imageNamed:@"infront.png"];
+}
+
+- (void)symbolsAdded:(NSArray *)symbols {}
+- (void)feedAdded:(Feed *)feed {}
+
+- (void)symbolsUpdated:(NSArray *)quotes {
+	for (NSString *feedTicker in quotes) {
+		if ([feedTicker isEqual:self.symbol.feedTicker]) {
+			[self setValues];
+			[self.view setNeedsLayout];
+		}
+	}
+}
 
 @end

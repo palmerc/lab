@@ -20,6 +20,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 @synthesize communicator = _communicator;
 @synthesize defaults = _defaults;
 @synthesize isLoggedIn = _isLoggedIn;
+@synthesize blockBuffer = _blockBuffer;
 
 + (iTraderCommunicator *)sharedManager {
 	if (sharedCommunicator == nil) {
@@ -60,12 +61,16 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		_defaults = [UserDefaults sharedManager];
 		_isLoggedIn = NO;
 		_loginStatusHasChanged = NO;
+		_blockBuffer = [[NSMutableArray alloc] init];
+		contentLength = 0;
+		state = START;
 	}
 	return self;
 }
 
 - (void)dealloc {
 	[self logout];
+	[self.blockBuffer release];
 	[self.communicator stopConnection];
 	[self.communicator release];
 	[super dealloc];
@@ -76,7 +81,53 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = YES; 
 	NSString *currentLine = [self.communicator readLine];
-	NSLog(@"%@", currentLine);
+	//NSLog(@"CurrentLine: >>%@<<", currentLine);
+	// Communicator handles the line oriented component. We need to handle blocks
+	
+	if (state == START) {
+		if ([currentLine rangeOfString:@"\r\r"].location == 0) {
+		}
+		if ([currentLine rangeOfString:@"\r\n"].location == 0) {
+		}
+	} else if (state == STATICDATA) {
+		contentLength -= [currentLine length];
+		NSLog(@"%d", contentLength);
+		if (contentLength == 2) { // There is an unaccounted for blank line in content
+			NSLog(@"content read");
+			contentLength = 0;
+			state = START;
+		}
+	} else if 
+		
+		
+		([currentLine rangeOfString:@"\r\n"].location == 0) {
+		NSLog(@">%@<", self.blockBuffer);
+		for (NSString *line in self.blockBuffer) {
+			NSRange contentLengthRange = [line rangeOfString:@"Content-Length: "];
+			if (contentLengthRange.location == 0) {
+				state = STATICDATA;
+				NSRange size;
+				size.location = contentLengthRange.length;
+				size.length = [line length] - contentLengthRange.length;
+				contentLength = [[line substringWithRange:size] integerValue];
+			}
+		}
+		[self.blockBuffer release];
+		_blockBuffer = [[NSMutableArray alloc] initWithObjects:[self cleanString:currentLine], nil];
+	} else  {
+		NSLog(@">>>%@<<<", self.blockBuffer);
+		[self.blockBuffer release];
+		_blockBuffer = [[NSMutableArray alloc] initWithObjects:[self cleanString:currentLine], nil];
+	} else {
+		[self.blockBuffer addObject:[self cleanString:currentLine]];
+	}
+
+	app.networkActivityIndicatorVisible = NO;
+}
+/*
+- (void)saveMe {
+	// Communicator handles the line oriented component. We need to handle blocks of code
+	
 	if ([currentLine rangeOfString:@"Request: login/OK"].location == 0) {
 		_loginStatusHasChanged = YES;
 		_isLoggedIn = YES;
@@ -84,11 +135,11 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		_loginStatusHasChanged = YES;
 		_isLoggedIn = NO;
 	} else if ([currentLine rangeOfString:@"Content-Length:"].location == 0) {
-	
+		
 	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0 || [currentLine rangeOfString:@"SecInfo:"].location == 0) {
 		// remove the part of the string preceding the colon, and the rest of the symbols are colon separated.
 		NSArray *rows = [self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]];
-				
+		
 		// For each symbol
 		for (NSString *row in rows) {
 			Symbol *symbol = [[Symbol alloc] init];
@@ -98,7 +149,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			
 			// Clean up the white space.
 			symbol.feedTicker = [columns objectAtIndex:0];
-					
+			
 			// Split the feedNumberAndTicker into two components
 			NSArray *feedNumberAndTicker = [symbol.feedTicker componentsSeparatedByString:@"/"];
 			symbol.feedNumber = [feedNumberAndTicker objectAtIndex:0];
@@ -125,8 +176,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			// Range compensating for the removal of square brackets
 			NSRange codeRange;
 			codeRange.location = feedCodeRange.location + 1;
-			codeRange.length = (lengthOfFeedString - feedCodeRange.location) - 1;
-						
+			codeRange.length = (lengthOfFeedString - feedCodeRange.location) - 2;
+			
 			NSRange descriptionRange;
 			descriptionRange.location = 0;
 			descriptionRange.length = lengthOfFeedString - codeRange.length - 2;
@@ -135,7 +186,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			NSString *feedCode = [feedDescriptionAndCode substringWithRange:codeRange];
 			feed.feedDescription = feedDescription;
 			feed.code = feedCode;
-						
+			
 			if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(addSymbol: withFeed:)]) {
 				[self.mTraderServerDataDelegate addSymbol:symbol withFeed:feed];
 			}
@@ -144,6 +195,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			symbol = nil;
 			feed = nil;
 		}
+	} else if ([currentLine rangeOfString:@"Request: Chart/OK"].location == 0) {
+		
 	} else if ([currentLine rangeOfString:@"Request: addSec/OK"].location == 0) {
 		[stockAddDelegate addOK];
 	} else if ([currentLine rangeOfString:@"Request: addSec/failed.AlreadyExists"].location == 0) {
@@ -160,10 +213,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	} else if ([currentLine rangeOfString:@"Exchanges:"].location == 0) {
 	} else if ([currentLine rangeOfString:@"NewsFeeds:"].location == 0) {
 	}
-
-	app.networkActivityIndicatorVisible = NO;
 }
-
+*/
 - (BOOL)loginStatusHasChanged {
 	BOOL result = NO;
 	if (_loginStatusHasChanged) {
@@ -194,7 +245,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *Client = @"Client: iTrader";
 	NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
 	NSString *ConnectionType = @"ConnType: Socket";
-	NSString *Streaming = @"Streaming: 1";
+	NSString *Streaming = @"Streaming: 0";
 	NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
 	//NSString *QFields = @"QFields: l";
 	
@@ -262,12 +313,19 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	return rows;
 }
 
--(NSArray *)cleanStrings:(NSArray *)strings {
+- (NSString *)cleanString:(NSString *)string {
 	NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+		
+	NSString *aCleanString = [string stringByTrimmingCharactersInSet:whitespaceAndNewline];
+	
+	return aCleanString;
+}
+
+- (NSArray *)cleanStrings:(NSArray *)strings {
 	NSMutableArray *mutableProduct = [[NSMutableArray alloc] init];
 	
 	for (NSString *string in strings) {
-		[mutableProduct addObject:[string stringByTrimmingCharactersInSet:whitespaceAndNewline]];
+		[mutableProduct addObject:[self cleanString:string]];
 	}
 		
 	NSArray *finalProduct = [NSArray arrayWithArray:mutableProduct];

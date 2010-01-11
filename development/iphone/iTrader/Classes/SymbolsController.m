@@ -171,31 +171,69 @@ static SymbolsController *sharedSymbolsController = nil;
 		
 		// last trade
 		NSString *lastTrade = [values objectAtIndex:1];
-
 		if ([lastTrade isEqualToString:@""] == NO && [lastTrade isEqualToString:@"-"] == NO) {
 			symbol.lastTrade = [NSNumber numberWithFloat:[lastTrade floatValue]];
 		}
 		
 		// percent change
-		symbol.percentChange = [NSNumber numberWithInteger:[[values objectAtIndex:2] integerValue]];
+		NSString *percentChange = [values objectAtIndex:2];
+		if ([percentChange isEqualToString:@""] == NO && [percentChange isEqualToString:@"-"] == NO) {
+			symbol.percentChange = [NSNumber numberWithInteger:[percentChange floatValue]];
+		}
+		
 		// bid price
-		symbol.bidPrice = [NSNumber numberWithInteger:[[values objectAtIndex:3] integerValue]];
+		NSString *bidPrice = [values objectAtIndex:3];
+		if ([bidPrice isEqualToString:@""] == NO && [bidPrice isEqualToString:@"-"] == NO) {
+			symbol.bidPrice = [NSNumber numberWithInteger:[bidPrice floatValue]];
+		}
+		
 		// ask price
-		symbol.askPrice = [NSNumber numberWithInteger:[[values objectAtIndex:4] integerValue]];
+		NSString *askPrice = [values objectAtIndex:4];
+		if ([askPrice isEqualToString:@""] == NO && [askPrice isEqualToString:@"-"] == NO) {
+			symbol.askPrice = [NSNumber numberWithInteger:[askPrice floatValue]];
+		}
+		
 		// ask volume
-		symbol.askVolume = [NSNumber numberWithInteger:[[values objectAtIndex:5] integerValue]];
+		NSString *askVolume = [values objectAtIndex:5];
+		if ([askVolume isEqualToString:@""] == NO && [askVolume isEqualToString:@"-"] == NO) {
+			symbol.askVolume = [NSNumber numberWithInteger:[askVolume integerValue]];
+		}
+		
 		// bid volume
-		symbol.bidVolume = [NSNumber numberWithInteger:[[values objectAtIndex:6] integerValue]];
+		NSString *bidVolume = [values objectAtIndex:6];
+		if ([bidVolume isEqualToString:@""] == NO && [bidVolume isEqualToString:@"-"] == NO) {
+			symbol.bidVolume = [NSNumber numberWithInteger:[bidVolume integerValue]];
+		}
+		
 		// change
-		symbol.change = [NSNumber numberWithFloat:[[values objectAtIndex:7] floatValue]];
+		NSString *change = [values objectAtIndex:7];
+		if ([change isEqualToString:@""] == NO && [change isEqualToString:@"-"] == NO) {
+			symbol.change = [NSNumber numberWithFloat:[change floatValue]];
+		}
+		
 		// high
-		symbol.high = [NSNumber numberWithInteger:[[values objectAtIndex:8] integerValue]];
+		NSString *high = [values objectAtIndex:8];
+		if ([high isEqualToString:@""] == NO && [high isEqualToString:@"-"] == NO) {
+			symbol.high = [NSNumber numberWithInteger:[high floatValue]];
+		}
+		
 		// low
-		symbol.low = [NSNumber numberWithInteger:[[values objectAtIndex:9] integerValue]];
+		NSString *low = [values objectAtIndex:9];
+		if ([low isEqualToString:@""] == NO && [low isEqualToString:@"-"] == NO) {
+			symbol.low = [NSNumber numberWithInteger:[low floatValue]];
+		}
+		
 		// open
-		symbol.open = [NSNumber numberWithInteger:[[values objectAtIndex:10] integerValue]];
+		NSString *open = [values objectAtIndex:10];
+		if ([open isEqualToString:@""] == NO && [open isEqualToString:@"-"] == NO) {
+			symbol.open = [NSNumber numberWithInteger:[open floatValue]];
+		}
+		
 		// volume
-		symbol.volume = [NSNumber numberWithInteger:[[values objectAtIndex:11] integerValue]];
+		NSString *volume = [values objectAtIndex:11];
+		if ([volume isEqualToString:@""] == NO && [volume isEqualToString:@"-"] == NO) {
+			symbol.volume = [NSNumber numberWithInteger:[volume integerValue]];
+		}
 		
 		[updatedQuotes addObject:feedTicker];
 	}

@@ -29,11 +29,11 @@
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:MYSTOCKS];
 		self.tabBarItem = theItem;
 		[theItem release];
-		
+				
 		_symbolsController = [SymbolsController sharedManager];
 		_communicator = [iTraderCommunicator sharedManager];
 		
-		_symbolsController.updateDelegate = self;	
+		_symbolsController.updateDelegate = self;
 	}
 	return self;
 }
@@ -90,9 +90,14 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	//self.symbolsController.updateDelegate = nil;
+}
+
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	self.symbolsController.updateDelegate = nil;
 }
 
 
@@ -214,11 +219,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	// TODO Make this work for more than simply the first stock
 	Symbol *symbol = [self.symbolsController symbolAtIndexPath:indexPath];
 	StockDetailController *detailController = [[StockDetailController alloc] initWithSymbol:symbol];
 	[self.navigationController pushViewController:detailController animated:YES];
-	
 	[detailController release];
 }
 
@@ -260,12 +263,12 @@
 - (void)symbolsUpdated:(NSArray *)feedTickers {
 	NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
 
-	[self.tableView beginUpdates];
 	for (NSString *feedTicker in feedTickers) {
 		NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:feedTicker];
 		[indexPaths addObject:indexPath];
 	}
 	
+	[self.tableView beginUpdates];
 	[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 	[self.tableView endUpdates];
 	[indexPaths release];

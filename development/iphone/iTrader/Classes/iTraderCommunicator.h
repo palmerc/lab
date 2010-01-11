@@ -14,6 +14,12 @@
 @protocol mTraderServerDataDelegate;
 @protocol StockAddDelegate;
 
+enum {
+	START = 0,
+	STATICDATA = 1,
+	STREAMINGDATA = 2
+} states;
+
 @interface iTraderCommunicator : NSObject <CommunicatorReceiveDelegate> {
 	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 	id <StockAddDelegate> stockAddDelegate;
@@ -22,6 +28,10 @@
 	UserDefaults *_defaults;
 	BOOL _isLoggedIn;
 	BOOL _loginStatusHasChanged;
+	
+	NSMutableArray *_blockBuffer;
+	NSUInteger contentLength;
+	NSUInteger state;
 }
 
 @property (nonatomic, assign) id <mTraderServerDataDelegate> mTraderServerDataDelegate;
@@ -29,6 +39,7 @@
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, retain) UserDefaults *defaults;
 @property (readonly) BOOL isLoggedIn;
+@property (nonatomic, retain) NSMutableArray *blockBuffer;
 
 + (iTraderCommunicator *)sharedManager;
 
@@ -41,6 +52,7 @@
 // Helper methods
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
+- (NSString *)cleanString:(NSString *)string;
 - (NSArray *)cleanStrings:(NSArray *)strings;
 @end
 

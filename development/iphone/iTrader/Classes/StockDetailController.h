@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SymbolsController.h"
 @class Symbol;
 
-@interface StockDetailController : UIViewController {
+@interface StockDetailController : UIViewController <SymbolsUpdateDelegate> {
 	Symbol *_symbol;
+	SymbolsController *_symbolsController;
+	id previousUpdateDelegate;
 	
 	IBOutlet UILabel *stockNameLabel;
 	IBOutlet UILabel *stockISINLabel;
@@ -27,6 +30,8 @@
 }
 
 @property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) SymbolsController *symbolsController;
+@property (nonatomic, retain) id previousUpdateDelegate;
 @property (nonatomic, retain) IBOutlet UILabel *stockNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *stockISINLabel;
 @property (nonatomic, retain) IBOutlet UILabel *exchangeLabel;
@@ -41,5 +46,6 @@
 @property (nonatomic, retain) IBOutlet UIImageView *graphImage;
 
 - (id)initWithSymbol:(Symbol *)symbol;
+- (void)setValues;
 
 @end
