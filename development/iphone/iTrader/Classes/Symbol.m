@@ -103,4 +103,14 @@
 	return [NSString stringWithFormat:@"(Symbol: %@ %@, ISIN: %@, Type: %@, Orderbook: %@, ExchangeCode: %@)", self.feedTicker, self.name, self.isin, type, orderbook, exchangeCode];
 }
 
+- (BOOL)isEqual:(id)anObject {
+	if ([anObject isKindOfClass:[Symbol class]]) {
+		Symbol *symbol = (Symbol *)anObject;
+		if ([[self feedTicker] isEqual:[symbol feedTicker]]) {
+			return YES;
+		}
+	}
+	return NO;
+}
+
 @end

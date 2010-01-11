@@ -20,18 +20,12 @@ typedef enum {
 } changeEnum;
 
 @interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, StockSearchControllerDelegate, SymbolsUpdateDelegate> {
-	iTraderCommunicator *communicator;
-	SymbolsController *symbolsController;
-	
-	NSMutableArray *_sections; // The index is the section number and the data should be an individual feedNumber
-	NSMutableArray *_rows; // The index is the row number 
-	
-	BOOL firstUpdate;
+	iTraderCommunicator *_communicator;
+	SymbolsController *_symbolsController;
 }
 
-@property (nonatomic, retain) NSMutableArray *sections;
-@property (nonatomic, retain) NSMutableArray *rows;
+@property (nonatomic, retain) SymbolsController *symbolsController;
 
-- (void)addStock:(id)sender;
+- (void)addStockButtonWasPressed:(id)sender;
 
 @end

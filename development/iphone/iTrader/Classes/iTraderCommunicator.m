@@ -15,7 +15,7 @@
 @implementation iTraderCommunicator
 
 static iTraderCommunicator *sharedCommunicator = nil;
-@synthesize symbolsDelegate;
+@synthesize mTraderServerDataDelegate;
 @synthesize stockAddDelegate;
 @synthesize communicator = _communicator;
 @synthesize defaults = _defaults;
@@ -100,7 +100,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			symbol.feedTicker = [columns objectAtIndex:0];
 					
 			// Split the feedNumberAndTicker into two components
-			NSArray *feedNumberAndTicker = [feedTicker componentsSeparatedByString:@"/"];
+			NSArray *feedNumberAndTicker = [symbol.feedTicker componentsSeparatedByString:@"/"];
 			symbol.feedNumber = [feedNumberAndTicker objectAtIndex:0];
 			NSString *tickerToo = [feedNumberAndTicker objectAtIndex:1];
 			NSString *ticker = [columns objectAtIndex:1];
@@ -116,7 +116,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			symbol.exchangeCode = [columns objectAtIndex:7];
 			
 			Feed *feed = [[Feed alloc] init];
-			feed.number = feedNumber;
+			feed.feedNumber = symbol.feedNumber;
 			// Obj-C doesn't have regex so we will look from the end of the string to get the [xxx] feed code. 
 			NSCharacterSet *leftSquareBracket = [NSCharacterSet characterSetWithCharactersInString:@"["]; 
 			NSRange feedCodeRange = [feedDescriptionAndCode rangeOfCharacterFromSet:leftSquareBracket options:NSBackwardsSearch];
@@ -136,8 +136,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			feed.feedDescription = feedDescription;
 			feed.code = feedCode;
 						
-			if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(addSymbol: withFeed:)]) {
-				[self.symbolsDelegate addSymbol:symbol withFeed:feed];
+			if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(addSymbol: withFeed:)]) {
+				[self.mTraderServerDataDelegate addSymbol:symbol withFeed:feed];
 			}
 			[symbol release];
 			[feed release];
@@ -154,8 +154,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		NSArray *quotesAndTheRest = [self stripOffFirstElement:[currentLine componentsSeparatedByString:@":"]];
 		NSString *theRest = [quotesAndTheRest objectAtIndex:0];
 		NSArray *quotes = [theRest componentsSeparatedByString:@"|"];
-		if (symbolsDelegate && [symbolsDelegate respondsToSelector:@selector(updateQuotes:)]) {
-			[symbolsDelegate updateQuotes:quotes];
+		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
+			[mTraderServerDataDelegate updateQuotes:quotes];
 		}
 	} else if ([currentLine rangeOfString:@"Exchanges:"].location == 0) {
 	} else if ([currentLine rangeOfString:@"NewsFeeds:"].location == 0) {

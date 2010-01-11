@@ -11,11 +11,11 @@
 @class UserDefaults;
 @class Symbol;
 @class Feed;
-@protocol SymbolsDataDelegate;
+@protocol mTraderServerDataDelegate;
 @protocol StockAddDelegate;
 
 @interface iTraderCommunicator : NSObject <CommunicatorReceiveDelegate> {
-	id <SymbolsDataDelegate> symbolsDelegate;
+	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 	id <StockAddDelegate> stockAddDelegate;
 
 	Communicator *_communicator;
@@ -24,7 +24,7 @@
 	BOOL _loginStatusHasChanged;
 }
 
-@property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
+@property (nonatomic, assign) id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 @property (nonatomic, assign) id <StockAddDelegate> stockAddDelegate;
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, retain) UserDefaults *defaults;
@@ -37,11 +37,16 @@
 - (void)addSecurity:(NSString *)tickerSymbol;
 - (void)removeSecurity:(NSString *)feedTicker;
 - (BOOL)loginStatusHasChanged;
+
+// Helper methods
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
+- (NSArray *)cleanStrings:(NSArray *)strings;
 @end
 
-@protocol SymbolsDataDelegate <NSObject>
+@protocol mTraderServerDataDelegate <NSObject>
+- (void)addFeed:(Feed *)feed;
+- (void)addSymbol:(Symbol *)symbol;
 - (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
 - (void)updateQuotes:(NSArray *)quotes;
 @end

@@ -7,18 +7,19 @@
 //
 
 #import "MyStocksViewController.h"
+
 #import "iTraderAppDelegate.h"
-#import "iTraderCommunicator.h"
+
 #import "SymbolsController.h"
-#import "StockListingCell.h"
 #import "Symbol.h"
 #import "Feed.h";
+
 #import "StockDetailController.h"
 #import "StockSearchController.h"
+#import "StockListingCell.h"
 
 @implementation MyStocksViewController
-@synthesize sections = _sections;
-@synthesize rows = _rows;
+@synthesize symbolsController = _symbolsController;
 
 - (id)init {
 	self = [super init];
@@ -29,15 +30,10 @@
 		self.tabBarItem = theItem;
 		[theItem release];
 		
-		self.sections = [[NSMutableArray alloc] init];
-		self.rows = [[NSMutableArray alloc] init];
+		_symbolsController = [SymbolsController sharedManager];
+		_communicator = [iTraderCommunicator sharedManager];
 		
-		symbolsController = [SymbolsController sharedManager];
-		communicator = [iTraderCommunicator sharedManager];
-		
-		symbolsController.updateDelegate = self;
-		
-		firstUpdate = YES;
+		_symbolsController.updateDelegate = self;	
 	}
 	return self;
 }
@@ -61,14 +57,11 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// If logged in move along, but if not and username and password are defined. Log in.
-	if (!communicator.isLoggedIn) {
-		[communicator login];
-	}
-	
+
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addStock:)];
 	self.navigationItem.rightBarButtonItem = addItem;
 	[addItem release];
+	[_communicator login];
 	
 	/*
 	UIButton *editStocksButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -82,13 +75,13 @@
 	 */
 }
 
-
+/*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait | UIInterfaceOrientationLandscapeLeft);
 }
-
+*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -107,11 +100,16 @@
     [super dealloc];
 }
 
+/**
+ * tableView Delegation
+ *
+ */
+
+
 /* Section Handling */
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	//NSLog(@"%@", symbolsController.feeds.count);
-	return [symbolsController.orderedFeeds count];
+	return [self.symbolsController.feeds count];
 }
 
 //- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -119,11 +117,11 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {	
-	return [symbolsController.orderedSymbols count];
+	return [[[self.symbolsController.feeds objectAtIndex:section] symbols] count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	Feed *feed = [symbolsController.orderedFeeds objectAtIndex:section];
+	Feed *feed = [self.symbolsController.feeds objectAtIndex:section];
 	return feed.feedDescription;
 }
 
@@ -146,9 +144,8 @@
 			}
 		}
 	}
-	
-	
-	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:indexPath.row];
+		
+	Symbol *symbol = [self.symbolsController symbolAtIndexPath:indexPath];
 	//NSLog(@"change: %@", symbol.changeSinceLastUpdate);
 	changeEnum changeType;
 	if ([symbol.changeSinceLastUpdate floatValue] < 0) {
@@ -218,26 +215,42 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	// TODO Make this work for more than simply the first stock
-	Symbol *symbol = [symbolsController.orderedSymbols objectAtIndex:0];
+	Symbol *symbol = [self.symbolsController symbolAtIndexPath:indexPath];
 	StockDetailController *detailController = [[StockDetailController alloc] initWithSymbol:symbol];
 	[self.navigationController pushViewController:detailController animated:YES];
 	
 	[detailController release];
 }
-		 
+
+
+
+/**
+ * Delegation
+ */
+
+
 - (void)symbolDeleted {
 
 }
-	
-// Additions and Updates
-- (void)symbolAdded:(Symbol *)symbol {
-	NSString *feedTicker = symbol.feedTicker;
-	NSLog(@"Symbol to Add: %@", symbol.feedTicker);
-	NSUInteger section = [[symbolsController.feeds objectForKey:symbol.feedNumber] unsignedIntegerValue];
-	NSUInteger row = [[symbolsController.symbols objectForKey:feedTicker] unsignedIntegerValue];
-	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-	NSArray *indexPaths = [NSArray arrayWithObject:indexPath];
+
+- (void)feedAdded:(Feed *)feed {
 	[self.tableView reloadData];
+}
+
+// Additions and Updates
+- (void)symbolsAdded:(NSArray *)symbols {
+	NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+	
+	for (Symbol *symbol in symbols) {
+		NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:symbol.feedTicker];
+		[indexPaths addObject:indexPath];
+	}
+	
+	[self.tableView beginUpdates];
+	[self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+	[self.tableView endUpdates];
+	
+	[indexPaths release];
 }
 
 /**
@@ -246,23 +259,19 @@
  */
 - (void)symbolsUpdated:(NSArray *)feedTickers {
 	NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+
+	[self.tableView beginUpdates];
 	for (NSString *feedTicker in feedTickers) {
-		NSString *feed = [[feedTicker componentsSeparatedByString:@"/"] objectAtIndex:0];
-		NSUInteger section = [[symbolsController.feeds objectForKey:feed] unsignedIntegerValue];
-		NSUInteger row = [[symbolsController.symbols objectForKey:feedTicker] unsignedIntegerValue];
-		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+		NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:feedTicker];
 		[indexPaths addObject:indexPath];
 	}
-	if (firstUpdate == YES) {
-		//[self.tableView reloadData];
-		firstUpdate = NO;
-	} else {
-		[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-	}
+	
+	[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+	[self.tableView endUpdates];
 	[indexPaths release];
 }
 
-- (void)addStock:(id)sender {
+- (void)addStockButtonWasPressed:(id)sender {
 	StockSearchController *controller = [[StockSearchController alloc] initWithNibName:@"StockSearchView" bundle:nil];
 	
 	controller.delegate = self;

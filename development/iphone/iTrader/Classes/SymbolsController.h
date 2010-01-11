@@ -8,39 +8,34 @@
 
 #import <Foundation/Foundation.h>
 #import "iTraderCommunicator.h"
-
 @protocol SymbolsUpdateDelegate;
 
-@interface SymbolsController : NSObject <SymbolsDataDelegate> {
+@interface SymbolsController : NSObject <mTraderServerDataDelegate> {
 	id <SymbolsUpdateDelegate> updateDelegate;
-	iTraderCommunicator *communicator;
+	iTraderCommunicator *_communicator;
 	
-	NSMutableDictionary *symbols; // A hash from feedTicker to the index in orderedSymbols Array
-	NSMutableArray *orderedSymbols; // The index represents the row number for table views
-	NSMutableDictionary *feeds; // A hash from feedNumber to index in orderedFeeds Array
-	NSMutableArray *orderedFeeds; // This index represents the section number for table views
-
-	// feed ->> symbols
-	// feed <- symbol
-	
-	// feed is an array of feed objects
+	NSMutableArray *_feeds;
 }
 
 @property (assign) id <SymbolsUpdateDelegate> updateDelegate;
-@property (nonatomic, retain) NSMutableDictionary *symbols;
-@property (nonatomic, retain) NSMutableArray *orderedSymbols;
-@property (nonatomic, retain) NSMutableDictionary *feeds;
-@property (nonatomic, retain) NSMutableArray *orderedFeeds;
+@property (nonatomic, retain) NSMutableArray *feeds;
 
 + (SymbolsController *)sharedManager;
+
 - (NSArray *)cleanQuote:(NSString *)quote;
+- (void)addSymbol:(Symbol *)symbol;
+- (void)addFeed:(Feed *)feed;
+- (NSInteger)indexOfFeed:(Feed *)feed;
+- (NSInteger)indexOfFeedWithFeedNumber:(NSString *)feedNumber;
+- (NSIndexPath *)indexPathOfSymbol:(NSString *)feedTicker;
 - (Symbol *)symbolAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
 @protocol SymbolsUpdateDelegate <NSObject>
--(void)symbolAdded:(Symbol *)symbol;
--(void)symbolsUpdated:(NSArray *)quotes;
+- (void)symbolsAdded:(NSArray *)symbols;
+- (void)feedAdded:(Feed *)feed;
+- (void)symbolsUpdated:(NSArray *)quotes;
 @end
 
 

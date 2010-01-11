@@ -12,9 +12,13 @@
 #import "Feed.h"
 
 @implementation SymbolsController
-@synthesize symbols, orderedSymbols, feeds, orderedFeeds;
 @synthesize updateDelegate;
+@synthesize feeds = _feeds;
 
+/**
+ * Singleton Setup
+ *
+ */
 static SymbolsController *sharedSymbolsController = nil;
 
 + (SymbolsController *)sharedManager {
@@ -48,62 +52,111 @@ static SymbolsController *sharedSymbolsController = nil;
 	return self;
 }
 
+/**
+ * Typical Object Handling
+ *
+ */
+
 -(id)init {
 	self = [super init];
 	if (self != nil) {
-		communicator = [iTraderCommunicator sharedManager];
-		communicator.symbolsDelegate = self;
-		symbols = [[NSMutableDictionary alloc] init];
-		orderedSymbols = [[NSMutableArray alloc] init];
-		feeds = [[NSMutableDictionary alloc] init];
-		orderedFeeds = [[NSMutableArray alloc] init];
-		// If I store the info on the phone I should load it up now.
+		_communicator = [iTraderCommunicator sharedManager];
+		_communicator.mTraderServerDataDelegate = self;
+		
+		_feeds = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
 }
 
 -(void)dealloc {
-	[symbols release];
-	[feeds release];
-	[orderedFeeds release];
+	[self.feeds release];
 	
 	[super dealloc];
 }
 
--(void)addSymbol:(Symbol *)symbol withFeed:(Feed *)aFeed {
-	if (symbol != nil && aFeed != nil) {
-		if ([self.feeds objectForKey:aFeed.number] == nil) { // if we haven't seen this feed before.
-			NSUInteger index = [self.orderedFeeds count];
-			[self.orderedFeeds addObject:aFeed];
-			[self.feeds setObject:[NSNumber numberWithUnsignedInteger:index] forKey:aFeed.number];			
-		}
+/**
+ * The worker bees
+ *
+ */
+
+-(void)addSymbol:(Symbol *)symbol {
+	NSInteger sectionIndex = [self indexOfFeedWithFeedNumber:symbol.feedNumber];
+	Feed *feed = [self.feeds objectAtIndex:sectionIndex];
+	
+	if ([feed.symbols indexOfObject:symbol] == NSNotFound) {
+		[feed.symbols addObject:symbol];
 		
-		Feed *feed = [self.feeds objectForKey:aFeed.number]
-		NSMutableArray *symbols = feed.symbols;
-		if ([symbols objectForKey:symbol.feedTicker] == nil) {
-			NSUInteger index = [orderedSymbols count];
-			[orderedSymbols addObject:symbol];
-			[symbols setObject:[NSNumber numberWithUnsignedInteger:index] forKey:symbol.feedTicker];
-		}		
+		if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolsAdded:)]) {
+			[self.updateDelegate symbolsAdded:[NSArray arrayWithObject:symbol]];
+		}
+	}
+}
+
+- (void)addFeed:(Feed *)feed {
+	NSInteger sectionIndex = [self.feeds indexOfObject:feed];
+	if (sectionIndex == NSNotFound) { // We haven't seen it before
+		[self.feeds addObject:feed];
+		
+		if (updateDelegate && [updateDelegate respondsToSelector:@selector(feedAdded:)]) {
+			[self.updateDelegate feedAdded:feed];
+		}
+	}
+}
+
+- (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed {
+	[self addFeed:feed];
+	[self addSymbol:symbol];
+}
+
+- (NSInteger)indexOfFeed:(Feed *)feed {
+	return [self.feeds indexOfObject:feed];
+}
+
+- (NSInteger)indexOfFeedWithFeedNumber:(NSString *)feedNumber {
+	Feed *feed;
+	for (Feed *aFeed in self.feeds) {
+		if ([aFeed.feedNumber isEqual:feedNumber]) {
+			feed = aFeed;
+			break;
+		}
 	}
 	
-	if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolAdded:)]) {
-		[self.updateDelegate symbolAdded:symbol];
-	}
+	return [self.feeds indexOfObject:feed];
 }
 
--(void)addFeed:(Feed *)feed {
-	// This needs to be fixed
-	assert(feed != nil);
-	if ([feeds objectForKey:feed.number] == nil) { // if we haven't seen this feed before.		
-		NSUInteger index = [orderedFeeds count];
-		[orderedFeeds addObject:feed];
-		[feeds setObject:[NSNumber numberWithUnsignedInteger:index] forKey:feed.number];
+- (NSIndexPath *)indexPathOfSymbol:(NSString *)feedTicker {
+	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
+	
+	NSInteger sectionIndex = [self indexOfFeedWithFeedNumber:feedNumber];
+	if (sectionIndex != NSNotFound) {
+		Feed *feed = [self.feeds objectAtIndex:sectionIndex];
+		Symbol *symbol;
+		for (Symbol *aSymbol in feed.symbols) {
+			if ([aSymbol.feedTicker isEqual:feedTicker]) {
+				symbol = aSymbol;
+				break;
+			}
+		}
 		
+		NSInteger rowIndex = [feed.symbols indexOfObject:symbol];
+		
+		if (rowIndex != NSNotFound) {
+			return [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+		}
 	}
+	return nil;
 }
 
+- (Symbol *)symbolAtIndexPath:(NSIndexPath *)indexPath {
+	Feed *feed = [self.feeds objectAtIndex:indexPath.section];
+	return [feed.symbols objectAtIndex:indexPath.row];
+}
+
+
+//18177/OSEBX;380.983;0.22;;;;;0.827
+// feed/ticker
 -(void)updateQuotes:(NSArray *)quotes {	
 	NSMutableArray *updatedQuotes = [[NSMutableArray alloc] init];
 	
@@ -111,12 +164,11 @@ static SymbolsController *sharedSymbolsController = nil;
 		NSArray *values = [self cleanQuote:quote];
 		
 		NSString *feedTicker = [values objectAtIndex:0];
-		NSUInteger index = [(NSNumber *)[self.symbols objectForKey:feedTicker] unsignedIntegerValue];
+		NSIndexPath *symbolIndexPath = [self indexPathOfSymbol:feedTicker];
 		
-		//18177/OSEBX;380.983;0.22;;;;;0.827
-		// feed/ticker
-
-		Symbol *symbol = [self.orderedSymbols objectAtIndex:index];
+		Feed *feed = [self.feeds objectAtIndex:symbolIndexPath.section];
+		Symbol *symbol = [feed.symbols objectAtIndex:symbolIndexPath.row];
+		
 		// last trade
 		NSString *lastTrade = [values objectAtIndex:1];
 
@@ -175,18 +227,18 @@ static SymbolsController *sharedSymbolsController = nil;
 }
 
 	
-	-(NSArray *)cleanStrings:(NSArray *)strings {
-		NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-		NSMutableArray *mutableProduct = [[NSMutableArray alloc] init];
-		
-		for (NSString *string in strings) {
-			[mutableProduct addObject:[string stringByTrimmingCharactersInSet:whitespaceAndNewline]];
-		}
-		
-		NSArray *finalProduct = [NSArray arrayWithArray:mutableProduct];
-		[mutableProduct release];
-		
-		return finalProduct;
+-(NSArray *)cleanStrings:(NSArray *)strings {
+	NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+	NSMutableArray *mutableProduct = [[NSMutableArray alloc] init];
+	
+	for (NSString *string in strings) {
+		[mutableProduct addObject:[string stringByTrimmingCharactersInSet:whitespaceAndNewline]];
 	}
+	
+	NSArray *finalProduct = [NSArray arrayWithArray:mutableProduct];
+	[mutableProduct release];
+	
+	return finalProduct;
+}
 
 @end

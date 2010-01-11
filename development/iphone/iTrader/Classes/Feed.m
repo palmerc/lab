@@ -7,27 +7,28 @@
 //
 
 #import "Feed.h"
-
+#import "Symbol.h"
 
 @implementation Feed
-@synthesize number = _number;
+@synthesize feedNumber = _feedNumber;
 @synthesize feedDescription = _feedDescription;
 @synthesize code = _code;
+
 @synthesize symbols = _symbols;
 
 -(id)init {
 	self = [super init];
 	if (self != nil) {
-		_number = nil;
+		_feedNumber = nil;
 		_feedDescription = nil;
 		_code = nil;
-		_symbols = nil;
+		_symbols = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 -(void)dealloc {
-	[self.number release];
+	[self.feedNumber release];
 	[self.feedDescription release];
 	[self.code release];
 	[self.symbols release];
@@ -35,19 +36,23 @@
 }
 
 -(NSString *)description {
-	return [NSString stringWithFormat:@"(Number: %@, Description: %@, Code: %@)", self.number, self.feedDescription, self.code];
+	return [NSString stringWithFormat:@"(Number: %@, Description: %@, Code: %@)", self.feedNumber, self.feedDescription, self.code];
 }
 
-- (void)addSymbol:(Symbol *)symbol {
-	if (self.symbols == nil) {
-		self.symbols = [[NSMutableArray alloc] init];
+- (BOOL)respondsToSelector:(SEL)aSelector {
+	NSLog(@"%", aSelector);
+	
+	return [super respondsToSelector:aSelector];
+}
+
+- (BOOL)isEqual:(id)anObject {
+	if ([anObject isMemberOfClass:[Feed class]]) {
+		Feed *feed = (Feed *)anObject;
+		if ([self.feedNumber isEqual:feed.feedNumber]) {
+			return YES;
+		}
 	}
-	[self.symbols addObject:symbol];
-}
-
-- (void)deleteSymbol:(Symbol *)symbol {
-	assert(_symbols != nil);
-	[self.symbols removeObject:symbol];
+	return NO;
 }
 
 @end
