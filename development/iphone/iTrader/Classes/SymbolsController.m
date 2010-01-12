@@ -87,6 +87,7 @@ static SymbolsController *sharedSymbolsController = nil;
 	if ([feed.symbols indexOfObject:symbol] == NSNotFound) {
 		[feed.symbols addObject:symbol];
 		
+		[_communicator graphForFeedTicker:symbol.feedTicker period:0 width:50 height:50 orientation:@"A"];
 		if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolsAdded:)]) {
 			[self.updateDelegate symbolsAdded:[NSArray arrayWithObject:symbol]];
 		}

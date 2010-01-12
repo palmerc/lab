@@ -1,5 +1,5 @@
 digraph states {
-	size="7,6"
+	size="6,5"
 	rankdir=LR
     node [shape=doublecircle]
 	finish [label = "Finish"]
@@ -8,8 +8,7 @@ digraph states {
     start [label = "Start"];
 	login [label = "Login Loop"];
     processing [label = "Processing Loop"]
-	streaming [label = "Streaming Loop"]
-	static [label = "Static Loop"]
+	static [label = "Static Handler"]
 	staticData [label = "Static Data"]
 	imageMetadata [label = "Image Metadata"]
 	imageData [label = "Image Data"]
@@ -19,31 +18,45 @@ digraph states {
 	login -> login [label = "Request: login/failed.UsrPwd"]
 	login -> login [label = "Request: login/failed.DeniedAccess"]
     
-	processing -> streaming [label = "Request:"]
+	processing -> quote [label = "Request: q"]
 	processing -> static [label = "HTTP/1.1 200 OK"]
-
-	streaming -> quote [label = "Request: q"]
 
 	static -> addSecOK [label = "Request: addSec/OK"]
 	static -> remSecOK [label = "Request: remSec/OK"]
+	static -> histTradesOK [label = "Request: HistTrades/OK"]
+	static -> newsBodyOK [label = "Request: NewsBody/OK"]
+	static -> newsListOK [label = "Request: NewsList/OK"]
 	static -> processing [label = "Request: addSec/failed.AlreadyExists"]
 	static -> processing [label = "Request: addSec/failed.NoSuchSec"]
 	static -> processing [label = "Request: remSec/failed.CouldNotDelete"]
 	static -> imageMetadata [label = "Request: Chart/OK"]
-	static -> q [label = "Request: q"]
-			
+	static -> quote [label = "Request: q"]
+	static -> staticDataOK [label = "Request: StaticData/OK"]
+	static -> contentLength [label = "Content-Length:"]
+	
+	quote -> processing [label = "Keep-Alive"]
+	quote -> quotes [label = "Quotes:"]
 	quote -> finish [label = "Kickout: 1"]
 	
+	quotes -> processing
+	
 	addSecOK -> processing [label = "SecInfo:"]
+	
 	remSecOK -> processing [label = "SecOid:"]
-		
+	
+	histTradesOK -> processing
+	
+	newsBodyOK -> processing
+	
+	newsListOK -> processing
+	
+	staticDataOK -> staticDataSecOid [label = "SecOid:"]
+	
 	imageMetadata ->imageData [label = "<ImageBegin>"]
 	
-	imageData -> processing [label = "<ImageEnd>"]	
-			
-	q -> finish [label = "Kickout: 1"]
+	imageData -> processing [label = "<ImageEnd>"]
+		
+	staticDataSecOid -> staticData [label = "Staticdata:"]
 	
-	static -> staticData [label = "Content-Length:"]
-	staticData -> processing [label = "All data read"]
-	
+	staticData -> processing
 }

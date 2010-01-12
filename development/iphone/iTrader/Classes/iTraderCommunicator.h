@@ -48,8 +48,10 @@ enum {
 - (void)addSecurity:(NSString *)tickerSymbol;
 - (void)removeSecurity:(NSString *)feedTicker;
 - (BOOL)loginStatusHasChanged;
+- (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 
 // Helper methods
+- (void)handleEvent;
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
 - (NSString *)cleanString:(NSString *)string;

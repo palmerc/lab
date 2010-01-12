@@ -309,5 +309,31 @@ SecOid: 18177/TEL
 Language: EN
 \end{verbatim}
 
+\section*{Graph Request}
+\begin{verbatim}
+Action: Chart
+Authorization: username
+SecOid: feedTicker
+Period: 0 // Number of days to include, 0 means intraday
+ImgType: PNG // Could be GIF, BMP, WBMP, or PNG
+Width: x
+Height: x
+Orient: A // (A)uto, (H)orizontal, (V)ertical
+\end{verbatim}
+
+Response:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+
+Request: Chart/OK
+SecOid: feedTicker
+Width: x
+Height: x
+ImgType: PNG // or GIF
+ImageSize: xxx
+<ImageBegin>...<ImageEnd>
+\end{verbatim}
+
 
 \end{document}

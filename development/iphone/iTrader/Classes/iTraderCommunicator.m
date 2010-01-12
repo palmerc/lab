@@ -63,7 +63,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		_loginStatusHasChanged = NO;
 		_blockBuffer = [[NSMutableArray alloc] init];
 		contentLength = 0;
-		state = START;
+		state = LOGIN;
 	}
 	return self;
 }
@@ -78,63 +78,145 @@ static iTraderCommunicator *sharedCommunicator = nil;
 
 // Delegate method from Communicator
 - (void)dataReceived {
-	UIApplication* app = [UIApplication sharedApplication]; 
-	app.networkActivityIndicatorVisible = YES; 
+	//UIApplication* app = [UIApplication sharedApplication]; 
+	//app.networkActivityIndicatorVisible = YES; 
 	NSString *currentLine = [self.communicator readLine];
 	//NSLog(@"CurrentLine: >>%@<<", currentLine);
-	// Communicator handles the line oriented component. We need to handle blocks
 	
-	if (state == START) {
-		if ([currentLine rangeOfString:@"\r\r"].location == 0) {
-		}
-		if ([currentLine rangeOfString:@"\r\n"].location == 0) {
-		}
-	} else if (state == STATICDATA) {
-		contentLength -= [currentLine length];
-		NSLog(@"%d", contentLength);
-		if (contentLength == 2) { // There is an unaccounted for blank line in content
-			NSLog(@"content read");
-			contentLength = 0;
-			state = START;
-		}
-	} else if 
-		
-		
-		([currentLine rangeOfString:@"\r\n"].location == 0) {
-		NSLog(@">%@<", self.blockBuffer);
-		for (NSString *line in self.blockBuffer) {
-			NSRange contentLengthRange = [line rangeOfString:@"Content-Length: "];
-			if (contentLengthRange.location == 0) {
-				state = STATICDATA;
-				NSRange size;
-				size.location = contentLengthRange.length;
-				size.length = [line length] - contentLengthRange.length;
-				contentLength = [[line substringWithRange:size] integerValue];
-			}
-		}
-		[self.blockBuffer release];
-		_blockBuffer = [[NSMutableArray alloc] initWithObjects:[self cleanString:currentLine], nil];
-	} else  {
-		NSLog(@">>>%@<<<", self.blockBuffer);
-		[self.blockBuffer release];
-		_blockBuffer = [[NSMutableArray alloc] initWithObjects:[self cleanString:currentLine], nil];
-	} else {
-		[self.blockBuffer addObject:[self cleanString:currentLine]];
+	switch (state) {
+		case CHART:
+			[self chartHandling:currentLine];
+			break;
+		case CONTENTLENGTH:
+			[self contentLength:currentLine];
+			break;
+		case LOGIN:
+			[self loginHandling:currentLine];
+			break;
+		case PROCESSING:
+			[self processingLoop:currentLine];
+			break;
+		case QUOTE:
+			[self quoteState:currentLine];
+			break;
+		case STATIC:
+			[self staticLoop:currentLine];
+			break;
+		case STREAMING:
+			[self streamingLoop:currentLine];
+			break;
+		default:
+			NSLog(@"Invalid state: %d", state);
+			break;
 	}
-
-	app.networkActivityIndicatorVisible = NO;
 }
-/*
-- (void)saveMe {
-	// Communicator handles the line oriented component. We need to handle blocks of code
-	
+
+- (void)chartHandling:(NSString *)currentLine {
+	//SecOid: feedTicker
+	//Width: x
+	//Height: x
+	//ImgType: PNG // or GIF
+	//ImageSize: xxx
+	//<ImageBegin>...<ImageEnd>
+	if ([currentLine rangeOfString:@"<ImageEnd>") {
+		state = PROCESSING;
+	}
+}
+
+- (void)contentLength:(NSString *)currentLine {
+	assert(contentLength > 0);
+	[self.blockBuffer addObject:[self cleanString:currentLine]];
+	contentLength -= [currentLine length];	
+	if (contentLength == 0) {
+		state = PROCESSING;
+		// Call someone to deal with this
+		// Wipe out block buffer
+	}
+}
+
+- (void)loginHandling:(NSString *)currentLine {
 	if ([currentLine rangeOfString:@"Request: login/OK"].location == 0) {
 		_loginStatusHasChanged = YES;
 		_isLoggedIn = YES;
+		state = PROCESSING:
 	} else if ([currentLine rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
 		_loginStatusHasChanged = YES;
 		_isLoggedIn = NO;
-	} else if ([currentLine rangeOfString:@"Content-Length:"].location == 0) {
+	}
+}	
+
+- (void)processingLoop:(NSString *)currentLine {
+	[self.blockBuffer addObject:[self cleanString:currentLine]];
+	if ([currentLine rangeOfString:@"HTTP/1.1 200 OK"].location == 0) { // Static data
+		state = STATIC;
+	} else if ([currentLine rangeOfString:@"Request: q"].location == 0) { // Streaming
+		state = STREAMING;
+	} else {
+		NSLog(@"Undefined state: %@", currentLine);
+	}
+	
+}
+
+- (void)staticLoop:(NSString *)currentLine {
+	// Request: q
+	// Content-Length:
+	// Request: Chart/OK
+	// Request: addSec/OK
+	// Request: remSec/OK
+	// Request: addSec/failed.NoSuchSec
+	// Request: addSec/failed.AlreadyExists
+	// Request: remSec/CouldNotDelete
+	
+	[self.blockBuffer addObject:[self cleanString:currentLine]];
+	if ([currentLine rangeOfString:@"Request: q"].location == 0) {
+		state = QUOTE;
+	} else if ([currentLine rangeOfString:@"Content-Length: "].location == 0) {
+		state = CONTENTLENGTH;
+		NSRange contentLengthRange = [currentLine rangeOfString:@"Content-Length: "];
+		NSRange size;
+		size.location = contentLengthRange.length;
+		size.length = [currentLine length] - contentLengthRange.length;
+		contentLength = [[currentLine substringWithRange:size] integerValue] + 2;		
+	} else if 	 ([currentLine rangeOfString:@"Request: Chart/OK"].location == 0) {
+		state = CHART;
+	} else if  ([currentLine rangeOfString:@"Request: addSec/OK"].location == 0) {
+		state = ADDSEC;
+	} else if  ([currentLine rangeOfString:@"Request: remSec/OK"].location == 0) {
+		state = REMSEC;
+	} else if ([currentLine rangeOfString:@"Request: addSec/failed.NoSuchSec"].location == 0) {
+		state = PROCESSING;
+	} else if 	 ([currentLine rangeOfString:@"Request: addSec/failed.AlreadyExists"].location == 0) {
+		state = PROCESSING;
+	} else if ([currentLine rangeOfString:@"Request: remSec/CouldNotDelete"].location == 0) {
+		state = PROCESSING;
+	} else {
+		NSLog(@"Invalid state: %d", state);
+	}
+}
+
+- (void)streamingLoop:(NSString *)currentLine {
+	// if request q buffer
+	// if quotes buffer and change state
+	[self.blockBuffer addObject:[self cleanString:currentLine]];
+	if ([currentLine rangeOfString:@"Request: q"].location == 0) {
+		state = QUOTE;
+	}
+}
+
+- (void)quoteState:(NSString *)currentLine {
+	[self.blockBuffer addObject:[self cleanString:currentLine]];
+	if ([currentLine rangeOfString:@"Quotes: "].location == 0) {
+		state = QUOTES;
+		// call the delegate
+	} else if ([currentLine rangeOfString:@"Kickout: 1"].location == 0) {
+		state = KICKOUT;
+		// Tell the user they are no longer logged on and how to correct it.		
+	}
+}
+
+- (void)handleEvent {
+	// Communicator handles the line oriented component. We need to handle blocks of code
+	NSString *currentLine = [self.blockBuffer objectAtIndex:0];
 		
 	} else if ([currentLine rangeOfString:@"Symbols:"].location == 0 || [currentLine rangeOfString:@"SecInfo:"].location == 0) {
 		// remove the part of the string preceding the colon, and the rest of the symbols are colon separated.
@@ -214,7 +296,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	} else if ([currentLine rangeOfString:@"NewsFeeds:"].location == 0) {
 	}
 }
-*/
+
 - (BOOL)loginStatusHasChanged {
 	BOOL result = NO;
 	if (_loginStatusHasChanged) {
@@ -245,7 +327,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *Client = @"Client: iTrader";
 	NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
 	NSString *ConnectionType = @"ConnType: Socket";
-	NSString *Streaming = @"Streaming: 0";
+	NSString *Streaming = @"Streaming: 1";
 	NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
 	//NSString *QFields = @"QFields: l";
 	
@@ -259,6 +341,25 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	[self.communicator startConnection];
 	[self.communicator writeString:loginString];
+}
+
+- (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {
+	NSString *imgType = @"PNG"; // We only support one type of image currently although GIF is also specified in client.
+	
+	NSString *username = self.defaults.username;
+	NSString *ActionChart = @"Action: Chart";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+	NSString *Period = [NSString stringWithFormat:@"Period: %d", period];
+	NSString *ImgType = [NSString stringWithFormat:@"ImgType: %@", imgType];
+	NSString *Width = [NSString stringWithFormat:@"Width: %d", width];
+	NSString *Height = [NSString stringWithFormat:@"Height: %d", height];
+	NSString *Orient = [NSString stringWithFormat:@"Orient: %@", orientation]; // (A)uto, (H)orizontal, and (V)ertical
+	
+	NSArray *getChartArray = [NSArray arrayWithObjects:ActionChart, Authorization, SecOid, Period, ImgType, Width, Height, Orient, nil];
+	NSString *getChartString = [self arrayToFormattedString:getChartArray];
+	
+	[self.communicator writeString:getChartString];
 }
 
 - (void)addSecurity:(NSString *)tickerSymbol {
