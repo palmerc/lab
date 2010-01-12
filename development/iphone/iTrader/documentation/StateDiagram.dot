@@ -1,0 +1,49 @@
+digraph states {
+	size="7,6"
+	rankdir=LR
+    node [shape=doublecircle]
+	finish [label = "Finish"]
+	
+	node [shape=circle];
+    start [label = "Start"];
+	login [label = "Login Loop"];
+    processing [label = "Processing Loop"]
+	streaming [label = "Streaming Loop"]
+	static [label = "Static Loop"]
+	staticData [label = "Static Data"]
+	imageMetadata [label = "Image Metadata"]
+	imageData [label = "Image Data"]
+
+    start -> login [label = "connecting"]
+    login -> processing [label = "Request: login/OK"]
+	login -> login [label = "Request: login/failed.UsrPwd"]
+	login -> login [label = "Request: login/failed.DeniedAccess"]
+    
+	processing -> streaming [label = "Request:"]
+	processing -> static [label = "HTTP/1.1 200 OK"]
+
+	streaming -> quote [label = "Request: q"]
+
+	static -> addSecOK [label = "Request: addSec/OK"]
+	static -> remSecOK [label = "Request: remSec/OK"]
+	static -> processing [label = "Request: addSec/failed.AlreadyExists"]
+	static -> processing [label = "Request: addSec/failed.NoSuchSec"]
+	static -> processing [label = "Request: remSec/failed.CouldNotDelete"]
+	static -> imageMetadata [label = "Request: Chart/OK"]
+	static -> q [label = "Request: q"]
+			
+	quote -> finish [label = "Kickout: 1"]
+	
+	addSecOK -> processing [label = "SecInfo:"]
+	remSecOK -> processing [label = "SecOid:"]
+		
+	imageMetadata ->imageData [label = "<ImageBegin>"]
+	
+	imageData -> processing [label = "<ImageEnd>"]	
+			
+	q -> finish [label = "Kickout: 1"]
+	
+	static -> staticData [label = "Content-Length:"]
+	staticData -> processing [label = "All data read"]
+	
+}
