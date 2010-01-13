@@ -10,6 +10,7 @@
 #import "iTraderCommunicator.h"
 #import "Symbol.h"
 #import "Feed.h"
+#import "Chart.h"
 
 @implementation SymbolsController
 @synthesize updateDelegate;
@@ -87,7 +88,6 @@ static SymbolsController *sharedSymbolsController = nil;
 	if ([feed.symbols indexOfObject:symbol] == NSNotFound) {
 		[feed.symbols addObject:symbol];
 		
-		[_communicator graphForFeedTicker:symbol.feedTicker period:0 width:50 height:50 orientation:@"A"];
 		if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolsAdded:)]) {
 			[self.updateDelegate symbolsAdded:[NSArray arrayWithObject:symbol]];
 		}
@@ -155,6 +155,16 @@ static SymbolsController *sharedSymbolsController = nil;
 	return [feed.symbols objectAtIndex:indexPath.row];
 }
 
+- (void)chart:(Chart *)chart {
+	NSIndexPath *symbolIndexPath = [self indexPathOfSymbol:chart.feedTicker];
+	
+	Feed *feed = [self.feeds objectAtIndex:symbolIndexPath.section];
+	Symbol *symbol = [feed.symbols objectAtIndex:symbolIndexPath.row];
+	symbol.chart = chart;
+	if (updateDelegate && [updateDelegate respondsToSelector:@selector(chartUpdated:)]) {
+		[updateDelegate chartUpdated:chart];
+	}
+}
 
 //18177/OSEBX;380.983;0.22;;;;;0.827
 // feed/ticker
@@ -179,31 +189,31 @@ static SymbolsController *sharedSymbolsController = nil;
 		// percent change
 		NSString *percentChange = [values objectAtIndex:2];
 		if ([percentChange isEqualToString:@""] == NO && [percentChange isEqualToString:@"-"] == NO) {
-			symbol.percentChange = [NSNumber numberWithInteger:[percentChange floatValue]];
+			symbol.percentChange = [NSNumber numberWithFloat:[percentChange floatValue]];
 		}
 		
 		// bid price
 		NSString *bidPrice = [values objectAtIndex:3];
 		if ([bidPrice isEqualToString:@""] == NO && [bidPrice isEqualToString:@"-"] == NO) {
-			symbol.bidPrice = [NSNumber numberWithInteger:[bidPrice floatValue]];
+			symbol.bidPrice = [NSNumber numberWithFloat:[bidPrice floatValue]];
 		}
 		
 		// ask price
 		NSString *askPrice = [values objectAtIndex:4];
 		if ([askPrice isEqualToString:@""] == NO && [askPrice isEqualToString:@"-"] == NO) {
-			symbol.askPrice = [NSNumber numberWithInteger:[askPrice floatValue]];
+			symbol.askPrice = [NSNumber numberWithFloat:[askPrice floatValue]];
 		}
 		
 		// ask volume
 		NSString *askVolume = [values objectAtIndex:5];
 		if ([askVolume isEqualToString:@""] == NO && [askVolume isEqualToString:@"-"] == NO) {
-			symbol.askVolume = [NSNumber numberWithInteger:[askVolume integerValue]];
+			symbol.askVolume = askVolume;
 		}
 		
 		// bid volume
 		NSString *bidVolume = [values objectAtIndex:6];
 		if ([bidVolume isEqualToString:@""] == NO && [bidVolume isEqualToString:@"-"] == NO) {
-			symbol.bidVolume = [NSNumber numberWithInteger:[bidVolume integerValue]];
+			symbol.bidVolume = bidVolume;
 		}
 		
 		// change
@@ -215,25 +225,25 @@ static SymbolsController *sharedSymbolsController = nil;
 		// high
 		NSString *high = [values objectAtIndex:8];
 		if ([high isEqualToString:@""] == NO && [high isEqualToString:@"-"] == NO) {
-			symbol.high = [NSNumber numberWithInteger:[high floatValue]];
+			symbol.high = [NSNumber numberWithFloat:[high floatValue]];
 		}
 		
 		// low
 		NSString *low = [values objectAtIndex:9];
 		if ([low isEqualToString:@""] == NO && [low isEqualToString:@"-"] == NO) {
-			symbol.low = [NSNumber numberWithInteger:[low floatValue]];
+			symbol.low = [NSNumber numberWithFloat:[low floatValue]];
 		}
 		
 		// open
 		NSString *open = [values objectAtIndex:10];
 		if ([open isEqualToString:@""] == NO && [open isEqualToString:@"-"] == NO) {
-			symbol.open = [NSNumber numberWithInteger:[open floatValue]];
+			symbol.open = [NSNumber numberWithFloat:[open floatValue]];
 		}
 		
 		// volume
 		NSString *volume = [values objectAtIndex:11];
 		if ([volume isEqualToString:@""] == NO && [volume isEqualToString:@"-"] == NO) {
-			symbol.volume = [NSNumber numberWithInteger:[volume integerValue]];
+			symbol.volume = volume;
 		}
 		
 		[updatedQuotes addObject:feedTicker];

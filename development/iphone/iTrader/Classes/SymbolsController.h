@@ -36,6 +36,7 @@
 - (void)symbolsAdded:(NSArray *)symbols;
 - (void)feedAdded:(Feed *)feed;
 - (void)symbolsUpdated:(NSArray *)quotes;
+- (void)chartUpdated:(Chart *)chart;
 @end
 
 

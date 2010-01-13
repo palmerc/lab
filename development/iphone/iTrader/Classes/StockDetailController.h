@@ -13,6 +13,7 @@
 @interface StockDetailController : UIViewController <SymbolsUpdateDelegate> {
 	Symbol *_symbol;
 	SymbolsController *_symbolsController;
+	iTraderCommunicator *_communicator;
 	id previousUpdateDelegate;
 	
 	IBOutlet UILabel *stockNameLabel;
@@ -31,6 +32,7 @@
 
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) SymbolsController *symbolsController;
+@property (nonatomic, retain) iTraderCommunicator *communicator;
 @property (nonatomic, retain) id previousUpdateDelegate;
 @property (nonatomic, retain) IBOutlet UILabel *stockNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *stockISINLabel;

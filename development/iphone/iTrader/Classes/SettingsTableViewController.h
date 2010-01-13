@@ -14,7 +14,7 @@ typedef enum {
 } loginEnum;
 
 typedef enum {
-	LOGIN=0,
+	LOGINDETAILS=0,
 	CURRENCY=1,
 	INFRONT=2
 } sections;

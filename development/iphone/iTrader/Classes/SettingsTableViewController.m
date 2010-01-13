@@ -98,7 +98,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (section == LOGIN) {
+	if (section == LOGINDETAILS) {
 		return [loginSectionArray count];
 	} else if (section == INFRONT) {
 		return [infrontSectionArray count];
@@ -118,7 +118,7 @@
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
-	if (indexPath.section == LOGIN) {
+	if (indexPath.section == LOGINDETAILS) {
 		[cell.textLabel setText:[loginSectionArray objectAtIndex:indexPath.row]];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
@@ -155,7 +155,7 @@
 
 // Table View Delegate Method
 - (void)tableView:(UITableView *)_tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == LOGIN) {
+	if (indexPath.section == LOGINDETAILS) {
 		if (indexPath.row == 0) {
 		} else if (indexPath.row == 1) {
 		}

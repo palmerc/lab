@@ -15,7 +15,7 @@
 @synthesize name = _name;
 @synthesize isin = _isin;
 @synthesize type, orderbook, exchangeCode;
-@synthesize lastTrade, percentChange, bidPrice, askPrice, askVolume, bidVolume, change, changeSinceLastUpdate, high, low, open, volume;
+@synthesize lastTrade, percentChange, bidPrice, askPrice, askVolume, bidVolume, change, changeSinceLastUpdate, high, low, open, volume, chart;
 
 - (id)init {
 	self = [super init];
@@ -40,6 +40,7 @@
 		low = nil;
 		open = nil;
 		volume = nil;
+		chart = nil;
 	}
 	
 	return self;
@@ -95,6 +96,7 @@
 	[low release];
 	[open release];
 	[volume release];
+	[chart release];
 	
 	[super dealloc];
 }

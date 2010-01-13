@@ -69,12 +69,11 @@
 				[self.dataBuffer appendBytes:&oneByte length:1];
 				
 				if (oneByte == '\n') {
-					NSString *newString = [[NSString alloc] initWithData:self.dataBuffer encoding:NSASCIIStringEncoding];
-					[self.lineBuffer enQueue:newString];
+					NSData *oneLine = [NSData dataWithData:self.dataBuffer];
+					[self.lineBuffer enQueue:oneLine];
 					if (self.delegate != nil && [self.delegate respondsToSelector:@selector(dataReceived)]) {
 						[self.delegate dataReceived];
 					}
-					[newString release];
 					[self.dataBuffer release];
 					self.dataBuffer = nil;
 				}
@@ -111,13 +110,13 @@
 	}
 }
 			 
-- (NSString *)readLine {
-	NSString *aString = nil;
+- (NSData *)readLine {
+	NSData *oneLine = nil;
 	// dequeue strings until I find a \n
 	if ([self.lineBuffer count] > 0) {
-		aString = [self.lineBuffer deQueue];
+		oneLine = [self.lineBuffer deQueue];
 	}
-	return aString;
+	return oneLine;
 }
 
 - (void)startConnection {

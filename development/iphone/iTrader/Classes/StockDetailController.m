@@ -8,12 +8,14 @@
 
 #import "StockDetailController.h"
 #import "SymbolsController.h"
+#import "iTraderCommunicator.h"
 #import "Feed.h"
 #import "Symbol.h"
 
 @implementation StockDetailController
 @synthesize symbol = _symbol;
 @synthesize symbolsController = _symbolsController;
+@synthesize communicator = _communicator;
 @synthesize previousUpdateDelegate;
 @synthesize stockNameLabel;
 @synthesize stockISINLabel;
@@ -31,10 +33,14 @@
 	self = [super initWithNibName:@"StockDetailView" bundle:nil];
 	if (self != nil) {
 		self.symbol = symbol;
+		
 		_symbolsController = [SymbolsController sharedManager];
 		NSInteger feedIndex = [_symbolsController indexOfFeedWithFeedNumber:self.symbol.feedNumber];
 		Feed *feed = [_symbolsController.feeds objectAtIndex:feedIndex];
 		self.title = [NSString stringWithFormat:@"%@:%@", feed.code, self.symbol.tickerSymbol];
+		
+		_communicator = [iTraderCommunicator sharedManager];
+		
 	}
 	
 	return self;
@@ -62,7 +68,7 @@
 	
 	self.previousUpdateDelegate = self.symbolsController.updateDelegate;
 	self.symbolsController.updateDelegate = self;
-
+	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:0 width:130 height:130 orientation:@"A"];
 	[self setValues];
 }
 
@@ -100,13 +106,12 @@
 	self.stockISINLabel.text = self.symbol.isin;
 	self.exchangeLabel.text = self.symbol.feedNumber;
 	self.lastChangeLabel.text = [self.symbol.change stringValue];
-	self.percentChangeLabel.text = [self.symbol.percentChange stringValue];
+	self.percentChangeLabel.text = [NSString stringWithFormat:@"%@%%", self.symbol.percentChange];
 	self.tickerSymbolLabel.text = self.symbol.tickerSymbol;
 	self.lowLabel.text = [self.symbol.low stringValue];
 	self.highLabel.text = [self.symbol.high stringValue];
-	self.volumeLabel.text = [self.symbol.volume stringValue];
+	self.volumeLabel.text = self.symbol.volume;
 	self.openLabel.text = [self.symbol.open stringValue];
-	self.graphImage.image = [UIImage imageNamed:@"infront.png"];
 }
 
 - (void)symbolsAdded:(NSArray *)symbols {}
@@ -119,6 +124,10 @@
 			[self.view setNeedsLayout];
 		}
 	}
+}
+
+- (void)chartUpdated:(Chart *)chart {
+	self.graphImage.image = [chart image];
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class Chart;
 
 @interface Symbol : NSObject {
 	NSString *_feedNumber;
@@ -22,14 +22,15 @@
 	NSNumber *percentChange;
 	NSNumber *bidPrice;
 	NSNumber *askPrice;
-	NSNumber *askVolume;
-	NSNumber *bidVolume;
+	NSString *askVolume;
+	NSString *bidVolume;
 	NSNumber *change;
 	NSNumber *changeSinceLastUpdate;
 	NSNumber *high;
 	NSNumber *low;
 	NSNumber *open;
-	NSNumber *volume;
+	NSString *volume;
+	Chart *chart;
 }
 
 @property (nonatomic, retain) NSString *feedTicker;
@@ -46,13 +47,13 @@
 @property (nonatomic, retain) NSNumber *percentChange;
 @property (nonatomic, retain) NSNumber *bidPrice;
 @property (nonatomic, retain) NSNumber *askPrice;
-@property (nonatomic, retain) NSNumber *askVolume;
-@property (nonatomic, retain) NSNumber *bidVolume;
+@property (nonatomic, retain) NSString *askVolume;
+@property (nonatomic, retain) NSString *bidVolume;
 @property (nonatomic, retain) NSNumber *change;
 @property (nonatomic, retain) NSNumber *changeSinceLastUpdate;
 @property (nonatomic, retain) NSNumber *high;
 @property (nonatomic, retain) NSNumber *low;
 @property (nonatomic, retain) NSNumber *open;
-@property (nonatomic, retain) NSNumber *volume;
-
+@property (nonatomic, retain) NSString *volume;
+@property (nonatomic, retain) Chart *chart;
 @end

@@ -11,13 +11,23 @@
 @class UserDefaults;
 @class Symbol;
 @class Feed;
+@class Chart;
 @protocol mTraderServerDataDelegate;
 @protocol StockAddDelegate;
 
 enum {
-	START = 0,
-	STATICDATA = 1,
-	STREAMINGDATA = 2
+	CHART = 0,
+	CONTENTLENGTH = 1,
+	LOGIN = 2,
+	PREPROCESSING = 3,
+	PROCESSING = 4,
+	QUOTE = 5,
+	QUOTES = 6,
+	STATIC = 7,
+	STREAMING = 8,
+	ADDSEC = 9,
+	REMSEC = 10,
+	KICKOUT = 11
 } states;
 
 @interface iTraderCommunicator : NSObject <CommunicatorReceiveDelegate> {
@@ -29,6 +39,7 @@ enum {
 	BOOL _isLoggedIn;
 	BOOL _loginStatusHasChanged;
 	
+	NSData *_currentLine;
 	NSMutableArray *_blockBuffer;
 	NSUInteger contentLength;
 	NSUInteger state;
@@ -39,6 +50,7 @@ enum {
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, retain) UserDefaults *defaults;
 @property (readonly) BOOL isLoggedIn;
+@property (nonatomic, retain) NSData *currentLine;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
 
 + (iTraderCommunicator *)sharedManager;
@@ -50,15 +62,34 @@ enum {
 - (BOOL)loginStatusHasChanged;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 
+- (void)chartHandling;
+- (void)contentLength;
+- (void)loginHandling;
+- (void)preprocessing;
+- (void)processingLoop;
+- (void)quoteHandling;
+- (void)staticLoop;
+- (void)streamingLoop;
+- (void)addSecurityOK;
+- (void)removeSecurityOK;
+
 // Helper methods
-- (void)handleEvent;
+- (Chart *)chartParsing;
+- (NSArray *)quotesParsing:(NSString *)quotes;
+- (void)symbolsParsing:(NSString *)symbols;
+- (void)settingsParsing;
+- (void)blockBufferRenew;
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
+- (NSString *)dataToString:(NSData *)data;
+- (NSString *)currentLineToString;
 - (NSString *)cleanString:(NSString *)string;
 - (NSArray *)cleanStrings:(NSArray *)strings;
 @end
 
 @protocol mTraderServerDataDelegate <NSObject>
+- (void)serverSettings:(NSArray *)settings;
+- (void)chart:(Chart *)chart;
 - (void)addFeed:(Feed *)feed;
 - (void)addSymbol:(Symbol *)symbol;
 - (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;

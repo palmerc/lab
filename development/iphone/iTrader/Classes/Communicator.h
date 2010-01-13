@@ -39,7 +39,7 @@
 - (void)startConnection;
 - (void)stopConnection;
 - (void)writeString:(NSString *)string;
-- (NSString *)readLine;
+- (NSData *)readLine;
 @end
 
 @protocol CommunicatorReceiveDelegate <NSObject>

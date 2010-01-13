@@ -16,6 +16,7 @@
 		7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* StockListingCell.m */; };
 		7E29B7FA10F4B77900816D9B /* StockSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E29B7F910F4B77900816D9B /* StockSearchView.xib */; };
 		7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
+		7E2FA17E10FDDE2A00404945 /* Chart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2FA17D10FDDE2A00404945 /* Chart.m */; };
 		7E419ACC10E206890007808B /* StockListingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E419ACB10E206890007808B /* StockListingCell.xib */; };
 		7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
 		7E419AFC10E20DD00007808B /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
@@ -54,6 +55,8 @@
 		7E29B7F910F4B77900816D9B /* StockSearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StockSearchView.xib; path = Classes/StockSearchView.xib; sourceTree = "<group>"; };
 		7E29B80110F4B96500816D9B /* StockSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockSearchController.h; sourceTree = "<group>"; };
 		7E29B80210F4B96500816D9B /* StockSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockSearchController.m; sourceTree = "<group>"; };
+		7E2FA17C10FDDE2A00404945 /* Chart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chart.h; sourceTree = "<group>"; };
+		7E2FA17D10FDDE2A00404945 /* Chart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chart.m; sourceTree = "<group>"; };
 		7E419ACB10E206890007808B /* StockListingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockListingCell.xib; sourceTree = "<group>"; };
 		7E419AD710E20B920007808B /* MyStocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStocksViewController.h; sourceTree = "<group>"; };
 		7E419AD810E20B920007808B /* MyStocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStocksViewController.m; sourceTree = "<group>"; };
@@ -233,6 +236,8 @@
 				7EB15D5A10F1F5CE003049C7 /* Symbol.m */,
 				7EB15D5C10F1F6DE003049C7 /* Feed.h */,
 				7EB15D5D10F1F6DE003049C7 /* Feed.m */,
+				7E2FA17C10FDDE2A00404945 /* Chart.h */,
+				7E2FA17D10FDDE2A00404945 /* Chart.m */,
 			);
 			name = "Data Structure";
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 				7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */,
 				7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */,
 				7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */,
+				7E2FA17E10FDDE2A00404945 /* Chart.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
