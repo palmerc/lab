@@ -27,7 +27,8 @@ enum {
 	STREAMING = 8,
 	ADDSEC = 9,
 	REMSEC = 10,
-	KICKOUT = 11
+	STATDATA = 11,
+	KICKOUT = 12
 } states;
 
 @interface iTraderCommunicator : NSObject <CommunicatorReceiveDelegate> {
@@ -60,6 +61,7 @@ enum {
 - (void)addSecurity:(NSString *)tickerSymbol;
 - (void)removeSecurity:(NSString *)feedTicker;
 - (BOOL)loginStatusHasChanged;
+- (void)staticDataForFeedTicker:(NSString *)feedTicker;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 
 - (void)chartHandling;
@@ -72,12 +74,14 @@ enum {
 - (void)streamingLoop;
 - (void)addSecurityOK;
 - (void)removeSecurityOK;
+- (void)staticDataOK;
 
 // Helper methods
 - (Chart *)chartParsing;
 - (NSArray *)quotesParsing:(NSString *)quotes;
 - (void)symbolsParsing:(NSString *)symbols;
 - (void)settingsParsing;
+- (void)staticDataParsing;
 - (void)blockBufferRenew;
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;

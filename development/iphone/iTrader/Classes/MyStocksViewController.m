@@ -190,7 +190,7 @@
 	cell.editing = YES;
 	cell.tickerLabel.text = symbol.tickerSymbol;
 	cell.nameLabel.text = symbol.name;
-	[cell.valueButton setTitle:[symbol.lastTrade stringValue] forState:UIControlStateNormal];
+	[cell.valueButton setTitle:symbol.lastTrade forState:UIControlStateNormal];
 	
 	return cell;
 }

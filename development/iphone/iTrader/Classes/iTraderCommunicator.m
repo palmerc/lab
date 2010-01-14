@@ -84,7 +84,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	//app.networkActivityIndicatorVisible = YES; 
 	self.currentLine = [self.communicator readLine];
 	
-	NSLog(@"CurrentLine: >>%@<<", [self currentLineToString]);
+	//NSLog(@"CurrentLine: >>%@<<", [self currentLineToString]);
 	switch (state) {
 		case CHART:
 			[self chartHandling];
@@ -116,6 +116,10 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		case REMSEC:
 			[self removeSecurityOK];
 			break;
+		case STATDATA:
+			[self staticDataOK];
+			break;
+
 		default:
 			NSLog(@"Invalid state: %d", state);
 			break;
@@ -220,6 +224,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		state = ADDSEC;
 	} else if  ([line rangeOfString:@"Request: remSec/OK"].location == 0) {
 		state = REMSEC;
+	} else if ([line rangeOfString:@"Request: StaticData/OK"].location == 0) {
+		state = STATDATA;
 	} else if ([line rangeOfString:@"Request: addSec/failed.NoSuchSec"].location == 0) {
 		[stockAddDelegate addFailedNotFound];
 		state = PROCESSING;
@@ -275,6 +281,19 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
+- (void)staticDataOK {
+	NSString *line = [self currentLineToString];
+	[self.blockBuffer addObject:line];
+	if ([line rangeOfString:@"SecOid:"].location == 0) {
+		// Just save it
+	} else if ([line rangeOfString:@"Staticdata: "].location == 0) {
+
+		[self staticDataParsing];
+		[self blockBufferRenew];
+		state = PROCESSING;
+	}
+}
+
 - (void)blockBufferRenew {
 	NSLog(@"Block: %@", self.blockBuffer);
 	[self.blockBuffer release];
@@ -293,6 +312,29 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			[self blockBufferRenew];
 			state = PROCESSING;
 			break;
+		}
+	}
+}
+
+- (void)staticDataParsing {
+	for (NSString *line in self.blockBuffer) {
+		if ([line rangeOfString:@"Staticdata:"].location == 0) {
+			NSRange staticDataRange = [line rangeOfString:@"Staticdata: "];
+			NSRange restOfTheDataRange;
+			restOfTheDataRange.location = staticDataRange.length;
+			restOfTheDataRange.length = [line length] - staticDataRange.length;
+			NSString *staticDataString = [line substringWithRange:restOfTheDataRange];
+			
+			NSArray *staticDataRows = [staticDataString componentsSeparatedByString:@";"];
+			for (NSString *row in staticDataRows) {
+				NSRange separatorRange = [row rangeOfString:@":"];
+				if (separatorRange.location != NSNotFound) {
+					NSString *key = [row substringToIndex:separatorRange.location];
+					NSString *value = [row substringFromIndex:separatorRange.location + 1];
+					NSLog(@"%@ <=> %@", key, value);
+				}
+				
+			}
 		}
 	}
 }
@@ -383,7 +425,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		
 		symbol.name = [columns objectAtIndex:2];
 		NSString *feedDescriptionAndCode = [columns objectAtIndex:3];
-		symbol.type = [NSNumber numberWithInteger:[[columns objectAtIndex:4] integerValue]];
+		symbol.type = [columns objectAtIndex:4];
 		symbol.orderbook = [columns objectAtIndex:5];
 		symbol.isin = [columns objectAtIndex:6];
 		symbol.exchangeCode = [columns objectAtIndex:7];
@@ -463,6 +505,20 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	[self.communicator startConnection];
 	[self.communicator writeString:loginString];
+}
+
+- (void)staticDataForFeedTicker:(NSString *)feedTicker {
+	NSString *username = self.defaults.username;
+	NSString *language = @"EN";
+	NSString *ActionStatData = @"Action: StatData";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+	NSString *Language = [NSString stringWithFormat:@"Language: %@", language];
+	
+	NSArray *getStatDataArray = [NSArray arrayWithObjects:ActionStatData, Authorization, SecOid, Language, nil];
+	NSString *getStatDataString = [self arrayToFormattedString:getStatDataArray];
+	
+	[self.communicator writeString:getStatDataString];
 }
 
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {
