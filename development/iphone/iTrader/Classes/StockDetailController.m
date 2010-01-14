@@ -54,7 +54,6 @@
 		CGRect frame = CGRectMake(0, 0, 320, 460);
 		[pageOneView setFrame:frame];
 		[self.scrollView addSubview:pageOneView];
-		
 
 		period = 0;		
 	}
@@ -97,7 +96,6 @@
 	self.symbolsController.updateDelegate = self;
 	[self.communicator staticDataForFeedTicker:self.symbol.feedTicker];
 	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:130 height:130 orientation:@"A"];
-	[self setValues];
 }
 
 /*
@@ -171,8 +169,9 @@
 	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:130 height:130 orientation:@"A"];
 }
 
-- (void)chartUpdated:(Chart *)chart {
-	[self.graphImage setImage:[chart image] forState:UIControlStateNormal];
+- (void)staticUpdated:(NSString *)feedTicker {
+	[self setValues];
+	[self.graphImage setImage:[self.symbol.chart image] forState:UIControlStateNormal];
 }
 
 @end

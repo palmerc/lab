@@ -317,13 +317,18 @@ static iTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)staticDataParsing {
+	NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc] init];
 	for (NSString *line in self.blockBuffer) {
-		if ([line rangeOfString:@"Staticdata:"].location == 0) {
+		if ([line rangeOfString:@"SecOid:"].location == 0) {
+			NSString *feedTicker = [self cleanString:[[line componentsSeparatedByString:@":"] objectAtIndex:1]];
+			[dataDictionary setObject:feedTicker forKey:@"feedTicker"];
+		} else if ([line rangeOfString:@"Staticdata:"].location == 0) {
 			NSRange staticDataRange = [line rangeOfString:@"Staticdata: "];
 			NSRange restOfTheDataRange;
 			restOfTheDataRange.location = staticDataRange.length;
 			restOfTheDataRange.length = [line length] - staticDataRange.length;
 			NSString *staticDataString = [line substringWithRange:restOfTheDataRange];
+			
 			
 			NSArray *staticDataRows = [staticDataString componentsSeparatedByString:@";"];
 			for (NSString *row in staticDataRows) {
@@ -331,9 +336,12 @@ static iTraderCommunicator *sharedCommunicator = nil;
 				if (separatorRange.location != NSNotFound) {
 					NSString *key = [row substringToIndex:separatorRange.location];
 					NSString *value = [row substringFromIndex:separatorRange.location + 1];
-					NSLog(@"%@ <=> %@", key, value);
+					[dataDictionary setObject:value forKey:key];
 				}
 				
+			}
+			if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(staticUpdates:)]) {
+				[self.mTraderServerDataDelegate staticUpdates:dataDictionary];
 			}
 		}
 	}
@@ -516,9 +524,9 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *Language = [NSString stringWithFormat:@"Language: %@", language];
 	
 	NSArray *getStatDataArray = [NSArray arrayWithObjects:ActionStatData, Authorization, SecOid, Language, nil];
-	NSString *getStatDataString = [self arrayToFormattedString:getStatDataArray];
+	NSString *statDataRequestString = [self arrayToFormattedString:getStatDataArray];
 	
-	[self.communicator writeString:getStatDataString];
+	[self.communicator writeString:statDataRequestString];
 }
 
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {

@@ -155,14 +155,19 @@ static SymbolsController *sharedSymbolsController = nil;
 	return [feed.symbols objectAtIndex:indexPath.row];
 }
 
+- (Symbol *)symbolWithFeedTicker:(NSString *)feedTicker {
+	NSIndexPath *indexPath = [self indexPathOfSymbol:feedTicker];
+	return [self symbolAtIndexPath:indexPath];
+}
+
 - (void)chart:(Chart *)chart {
 	NSIndexPath *symbolIndexPath = [self indexPathOfSymbol:chart.feedTicker];
 	
 	Feed *feed = [self.feeds objectAtIndex:symbolIndexPath.section];
 	Symbol *symbol = [feed.symbols objectAtIndex:symbolIndexPath.row];
 	symbol.chart = chart;
-	if (updateDelegate && [updateDelegate respondsToSelector:@selector(chartUpdated:)]) {
-		[updateDelegate chartUpdated:chart];
+	if (updateDelegate && [updateDelegate respondsToSelector:@selector(staticUpdated:)]) {
+		[updateDelegate staticUpdated:symbol.feedTicker];
 	}
 }
 
@@ -254,6 +259,80 @@ static SymbolsController *sharedSymbolsController = nil;
 	}
 	
 	[updatedQuotes release];
+}
+
+- (void)staticUpdates:(NSDictionary *)updateDictionary {
+	Symbol *symbol = [self symbolWithFeedTicker:[updateDictionary objectForKey:@"feedTicker"]];
+	
+	if ([updateDictionary objectForKey:@"Bid"]) {
+		symbol.bidPrice = [updateDictionary objectForKey:@"Bid"];
+	} else if ([updateDictionary objectForKey:@"B Size"]) {
+		symbol.bidSize = [updateDictionary objectForKey:@"B Size"];
+	} else if ([updateDictionary objectForKey:@"Ask"]) { 
+		symbol.askPrice = [updateDictionary objectForKey:@"Ask"];
+	} else if ([updateDictionary objectForKey:@"A Size"]) { 
+		symbol.askSize = [updateDictionary objectForKey:@"A Size"];
+	} else if ([updateDictionary objectForKey:@"Pr Cls"]) { 
+		symbol.previousClose = [updateDictionary objectForKey:@"Pr Cls"];
+	} else if ([updateDictionary objectForKey:@"Open"]) { 
+		symbol.open = [updateDictionary objectForKey:@"Open"];
+	} else if ([updateDictionary objectForKey:@"High"]) { 
+		symbol.high = [updateDictionary objectForKey:@"High"];
+	} else if ([updateDictionary objectForKey:@"Low"]) { 
+		symbol.low = [updateDictionary objectForKey:@"Low"];
+	} else if ([updateDictionary objectForKey:@"Last"]) { 
+		symbol.lastTrade = [updateDictionary objectForKey:@"Last"];
+	} else if ([updateDictionary objectForKey:@"L +/-"]) { 
+		symbol.lastTradeChange = [updateDictionary objectForKey:@"L +/-"];
+	} else if ([updateDictionary objectForKey:@"L +/-%"]) {
+		symbol.lastTradePercentChange = [updateDictionary objectForKey:@"L +/-%"];
+	} else if ([updateDictionary objectForKey:@"O +/-"]) { 
+		symbol.openChange = [updateDictionary objectForKey:@"O +/-"];
+	} else if ([updateDictionary objectForKey:@"O +/-%"]) {
+		symbol.openPercentChange = [updateDictionary objectForKey:@"O +/-%"];
+	} else if ([updateDictionary objectForKey:@"Volume"]) { 
+		symbol.volume = [updateDictionary objectForKey:@"Volume"];
+	} else if ([updateDictionary objectForKey:@"Turnover"]) {
+		symbol.turnover = [updateDictionary objectForKey:@"Turnover"];
+	} else if ([updateDictionary objectForKey:@"OnVolume"]) {
+		symbol.onVolume = [updateDictionary objectForKey:@"OnVolume"];
+	} else if ([updateDictionary objectForKey:@"OnValue"]) { 
+		symbol.onValue = [updateDictionary objectForKey:@"OnValue"];
+	} else if ([updateDictionary objectForKey:@"Time"]) { 
+		symbol.lastTradeTime = [updateDictionary objectForKey:@"Time"];
+	} else if ([updateDictionary objectForKey:@"VWAP"]) { 
+		symbol.VWAP = [updateDictionary objectForKey:@"VWAP"];
+	} else if ([updateDictionary objectForKey:@"AvgVol"]) {
+		symbol.averageVolume = [updateDictionary objectForKey:@"AvgVol"];
+	} else if ([updateDictionary objectForKey:@"AvgVal"]) { 
+		symbol.averageValue = [updateDictionary objectForKey:@"AvgVal"];
+	} else if ([updateDictionary objectForKey:@"Status"]) { 
+		symbol.status = [updateDictionary objectForKey:@"Status"];
+	} else if ([updateDictionary objectForKey:@"B Lot"]) { 
+		symbol.buyLot = [updateDictionary objectForKey:@"B Lot"];
+	} else if ([updateDictionary objectForKey:@"BLValue"]) { 
+		symbol.buyLotValue = [updateDictionary objectForKey:@"BLValue"];
+	} else if ([updateDictionary objectForKey:@"Shares"]) {
+		symbol.outstandingShares = [updateDictionary objectForKey:@"Shares"];
+	} else if ([updateDictionary objectForKey:@"M Cap"]) { 
+		symbol.marketCapitalization = [updateDictionary objectForKey:@"M Cap"];
+	} else if ([updateDictionary objectForKey:@"Exchange"]) {
+		//
+	} else if ([updateDictionary objectForKey:@"Country"]) {
+		symbol.country = [updateDictionary objectForKey:@"Country"];
+	} else if ([updateDictionary objectForKey:@"Description"]) {
+		//
+	} else if ([updateDictionary objectForKey:@"Symbol"]) { 
+		//
+	} else if ([updateDictionary objectForKey:@"ISIN"]) { 
+		//
+	} else if ([updateDictionary objectForKey:@"Currency"]) { 
+		symbol.currency = [updateDictionary objectForKey:@"Currency"];
+	}
+	
+	if (updateDelegate && [updateDelegate respondsToSelector:@selector(staticUpdated:)]) {
+		[updateDelegate staticUpdated:symbol.feedTicker];
+	}
 }
 
 -(NSArray *)cleanQuote:(NSString *)quote {

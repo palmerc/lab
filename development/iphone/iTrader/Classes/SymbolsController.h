@@ -29,6 +29,7 @@
 - (NSInteger)indexOfFeedWithFeedNumber:(NSString *)feedNumber;
 - (NSIndexPath *)indexPathOfSymbol:(NSString *)feedTicker;
 - (Symbol *)symbolAtIndexPath:(NSIndexPath *)indexPath;
+- (Symbol *)symbolWithFeedTicker:(NSString *)feedTicker;
 
 @end
 
@@ -36,7 +37,7 @@
 - (void)symbolsAdded:(NSArray *)symbols;
 - (void)feedAdded:(Feed *)feed;
 - (void)symbolsUpdated:(NSArray *)quotes;
-- (void)chartUpdated:(Chart *)chart;
+- (void)staticUpdated:(NSString *)feedTicker;
 @end
 
 

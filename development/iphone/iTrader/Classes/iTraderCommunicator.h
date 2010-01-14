@@ -98,6 +98,7 @@ enum {
 - (void)addSymbol:(Symbol *)symbol;
 - (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
 - (void)updateQuotes:(NSArray *)quotes;
+- (void)staticUpdates:(NSDictionary *)updateDictionary;
 @end
 
 @protocol StockAddDelegate <NSObject>
