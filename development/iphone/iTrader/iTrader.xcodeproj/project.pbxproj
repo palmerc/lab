@@ -18,6 +18,8 @@
 		7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
 		7E2FA17E10FDDE2A00404945 /* Chart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2FA17D10FDDE2A00404945 /* Chart.m */; };
 		7E309CE2110071A300E9229B /* StockDetailPageTwo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E309CE1110071A300E9229B /* StockDetailPageTwo.xib */; };
+		7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */; };
+		7E33CBC91100AE5600C2737F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E33CBC81100AE5600C2737F /* Reachability.m */; };
 		7E419ACC10E206890007808B /* StockListingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E419ACB10E206890007808B /* StockListingCell.xib */; };
 		7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
 		7E419AFC10E20DD00007808B /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
@@ -60,6 +62,9 @@
 		7E2FA17C10FDDE2A00404945 /* Chart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chart.h; sourceTree = "<group>"; };
 		7E2FA17D10FDDE2A00404945 /* Chart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chart.m; sourceTree = "<group>"; };
 		7E309CE1110071A300E9229B /* StockDetailPageTwo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockDetailPageTwo.xib; sourceTree = "<group>"; };
+		7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7E33CBC71100AE5600C2737F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		7E33CBC81100AE5600C2737F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		7E419ACB10E206890007808B /* StockListingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockListingCell.xib; sourceTree = "<group>"; };
 		7E419AD710E20B920007808B /* MyStocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStocksViewController.h; sourceTree = "<group>"; };
 		7E419AD810E20B920007808B /* MyStocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStocksViewController.m; sourceTree = "<group>"; };
@@ -103,6 +108,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +179,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -251,6 +258,8 @@
 		7E419C6A10E2209B0007808B /* Communicator */ = {
 			isa = PBXGroup;
 			children = (
+				7E33CBC71100AE5600C2737F /* Reachability.h */,
+				7E33CBC81100AE5600C2737F /* Reachability.m */,
 				7E419C6B10E2209B0007808B /* Communicator.h */,
 				7E419C6C10E2209B0007808B /* Communicator.m */,
 				7E419C6D10E2209B0007808B /* iTraderCommunicator.h */,
@@ -412,6 +421,7 @@
 				7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */,
 				7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */,
 				7E2FA17E10FDDE2A00404945 /* Chart.m in Sources */,
+				7E33CBC91100AE5600C2737F /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

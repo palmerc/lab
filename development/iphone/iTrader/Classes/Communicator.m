@@ -5,8 +5,8 @@
 //  Created by Cameron Lowell Palmer on 17.12.09.
 //  Copyright 2009 Bird And Bear Productions. All rights reserved.
 //
-
 #import "Communicator.h"
+#import "Reachability.h"
 #import "Queue.h"
 
 @implementation Communicator
@@ -120,6 +120,10 @@
 }
 
 - (void)startConnection {
+	reachability = [[Reachability reachabilityWithHostName:self.host] retain];
+	[reachability startNotifer];
+	[self updateInterfaceWithReachability];
+	
 	CFWriteStreamRef writeStream;
 	CFReadStreamRef readStream;
 	
@@ -142,7 +146,8 @@
 	self.isConnected = YES;
 }
 
-- (void)stopConnection {	
+- (void)stopConnection {
+	[reachability stopNotifer];
 	[self.inputStream close];
 	[self.outputStream close];
 	
@@ -156,6 +161,16 @@
 	self.outputStream = nil;
 	
 	self.isConnected = NO;
+}
+
+- (void) updateInterfaceWithReachability {
+	NetworkStatus netStatus = [reachability currentReachabilityStatus];
+	BOOL connectionRequired= [reachability connectionRequired];
+	NSLog(@"Updated network interface. Status: %d", netStatus);
+}
+
+- (void)reachabilityChanged:(NSNotification* )note {
+	[self updateInterfaceWithReachability];
 }
 
 @end

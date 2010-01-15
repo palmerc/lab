@@ -6,14 +6,14 @@
 //  Created by Cameron Lowell Palmer on 17.12.09.
 //  Copyright 2009 Bird And Bear Productions. All rights reserved.
 //
-
 #import <Foundation/Foundation.h>
 
 @protocol CommunicatorReceiveDelegate;
-
+@class Reachability;
 @interface Communicator : NSObject {
 	id <CommunicatorReceiveDelegate> delegate;
 	
+	Reachability *reachability;
 	NSString *_host;
 	NSInteger _port;
 	
@@ -40,6 +40,7 @@
 - (void)stopConnection;
 - (void)writeString:(NSString *)string;
 - (NSData *)readLine;
+- (void)updateInterfaceWithReachability;
 @end
 
 @protocol CommunicatorReceiveDelegate <NSObject>
