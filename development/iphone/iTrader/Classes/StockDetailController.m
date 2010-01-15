@@ -19,17 +19,38 @@
 @synthesize communicator = _communicator;
 @synthesize previousUpdateDelegate;
 @synthesize scrollView;
-@synthesize stockNameLabel;
+@synthesize nameLabel;
+@synthesize statusLabel;
 @synthesize stockISINLabel;
-@synthesize exchangeLabel;
-@synthesize lastChangeLabel;
-@synthesize percentChangeLabel;
-@synthesize tickerSymbolLabel;
+@synthesize lastTradeLabel;
+@synthesize lastTradeChangeLabel;
+@synthesize lastTradePercentChangeLabel;
+@synthesize lastTradeTimeLabel;
 @synthesize lowLabel;
 @synthesize highLabel;
 @synthesize volumeLabel;
 @synthesize openLabel;
-@synthesize graphImage;
+@synthesize openChangeLabel;
+@synthesize openPercentChangeLabel;
+@synthesize previousCloseLabel;
+@synthesize vwapLabel;
+@synthesize bidPriceLabel;
+@synthesize bidSizeLabel;
+@synthesize askPriceLabel;
+@synthesize askSizeLabel;
+@synthesize countryLabel;
+@synthesize currencyLabel;
+@synthesize outstandingSharesLabel;
+@synthesize marketCapitalizationLabel;
+@synthesize buyLotLabel;
+@synthesize butLotValueLabel;
+@synthesize turnoverLabel;
+@synthesize onVolumeLabel;
+@synthesize onValueLabel;
+@synthesize averageVolumeLabel;
+@synthesize averageValueLabel;
+@synthesize chart;
+
 
 - (id)initWithSymbol:(Symbol *)symbol {
 	self = [super initWithNibName:@"StockDetailView" bundle:nil];
@@ -46,15 +67,19 @@
 		
 		[self.view addSubview:self.scrollView];
 		CGSize size;
-		size.height = 1200;
+		size.height = 920;
 		size.width = 320;
 		self.scrollView.contentSize = size;
 		
 		UIView *pageOneView = [self loadViewFromNibNamed:@"StockDetailPageOne"];
-		CGRect frame = CGRectMake(0, 0, 320, 460);
-		[pageOneView setFrame:frame];
+		CGRect frameOne = CGRectMake(0, 0, 320, 460);
+		[pageOneView setFrame:frameOne];
 		[self.scrollView addSubview:pageOneView];
 
+		UIView *pageTwoView = [self loadViewFromNibNamed:@"StockDetailPageTwo"];
+		CGRect frameTwo = CGRectMake(0, 461, 320, 460);
+		[pageTwoView setFrame:frameTwo];
+		[self.scrollView addSubview:pageTwoView];
 		period = 0;		
 	}
 	
@@ -95,7 +120,7 @@
 	self.previousUpdateDelegate = self.symbolsController.updateDelegate;
 	self.symbolsController.updateDelegate = self;
 	[self.communicator staticDataForFeedTicker:self.symbol.feedTicker];
-	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:130 height:130 orientation:@"A"];
+	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:150 height:150 orientation:@"A"];
 }
 
 /*
@@ -128,16 +153,36 @@
 }
 
 - (void)setValues {
-	self.stockNameLabel.text = self.symbol.name;
+	self.nameLabel.text = self.symbol.name;
+	self.statusLabel.text = self.symbol.status;
 	self.stockISINLabel.text = self.symbol.isin;
-	self.exchangeLabel.text = self.symbol.feedNumber;
-	self.lastChangeLabel.text = self.symbol.change;
-	self.percentChangeLabel.text = [NSString stringWithFormat:@"%@%%", self.symbol.percentChange];
-	self.tickerSymbolLabel.text = self.symbol.tickerSymbol;
+	self.lastTradeLabel.text = self.symbol.lastTrade;
+	self.lastTradeChangeLabel.text = self.symbol.lastTradeChange;
+	self.lastTradePercentChangeLabel.text = [NSString stringWithFormat:@"%@%%", self.symbol.lastTradePercentChange];
+	self.lastTradeTimeLabel.text = self.symbol.lastTradeTime;
+	self.openChangeLabel.text = self.symbol.openChange;
+	self.openPercentChangeLabel.text = [NSString stringWithFormat:@"%@%%", self.symbol.openPercentChange];
 	self.lowLabel.text = self.symbol.low;
 	self.highLabel.text = self.symbol.high;
 	self.volumeLabel.text = self.symbol.volume;
 	self.openLabel.text = self.symbol.open;
+	self.previousCloseLabel.text = self.symbol.previousClose;
+	self.vwapLabel.text = self.symbol.VWAP;
+	self.bidPriceLabel.text = self.symbol.bidPrice;
+	self.bidSizeLabel.text = self.symbol.bidSize;
+	self.askPriceLabel.text = self.symbol.askPrice;
+	self.askSizeLabel.text = self.symbol.askSize;
+	self.countryLabel.text = self.symbol.country;
+	self.currencyLabel.text = self.symbol.currency;
+	self.outstandingSharesLabel.text = self.symbol.outstandingShares;
+	self.marketCapitalizationLabel.text = self.symbol.marketCapitalization;
+	self.buyLotLabel.text = self.symbol.buyLot;
+	self.butLotValueLabel.text = self.symbol.buyLotValue;
+	self.turnoverLabel.text = self.symbol.turnover;
+	self.onVolumeLabel.text = self.symbol.onVolume;
+	self.onValueLabel.text = self.symbol.onValue;
+	self.averageVolumeLabel.text = self.symbol.averageVolume;
+	self.averageValueLabel.text = self.symbol.averageValue;
 }
 
 - (void)symbolsAdded:(NSArray *)symbols {}
@@ -166,12 +211,12 @@
 		default:
 			break;
 	}
-	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:130 height:130 orientation:@"A"];
+	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:150 height:150 orientation:@"A"];
 }
 
 - (void)staticUpdated:(NSString *)feedTicker {
 	[self setValues];
-	[self.graphImage setImage:[self.symbol.chart image] forState:UIControlStateNormal];
+	[self.chart setImage:[self.symbol.chart image] forState:UIControlStateNormal];
 }
 
 @end
