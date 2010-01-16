@@ -31,6 +31,7 @@
 - (id)initWithSocket:(NSString *)host port:(NSInteger)port {
 	self = [super init];
 	if (self != nil) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 		_host = host;
 		_port = port;
 		_inputStream = nil;
@@ -163,7 +164,7 @@
 	self.isConnected = NO;
 }
 
-- (void) updateInterfaceWithReachability {
+- (void)updateInterfaceWithReachability {
 	NetworkStatus netStatus = [reachability currentReachabilityStatus];
 	BOOL connectionRequired= [reachability connectionRequired];
 	NSLog(@"Updated network interface. Status: %d", netStatus);
