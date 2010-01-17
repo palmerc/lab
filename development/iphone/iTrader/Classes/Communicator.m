@@ -11,7 +11,8 @@
 
 @implementation Communicator
 
-@synthesize delegate;
+@synthesize delegate = _delegate;
+@synthesize reachability = _reachability;
 @synthesize host = _host;
 @synthesize port = _port;
 @synthesize inputStream = _inputStream;
@@ -20,10 +21,10 @@
 @synthesize lineBuffer = _lineBuffer;
 @synthesize isConnected = _isConnected;
 
-- (NSString *)description {
-	return [NSString stringWithFormat:@"Network connection: Connected to %@ on port %d", self.host, self.port];
-}
-
+/**
+ * Setup of the basic object
+ *
+ */
 - (id)init {
 	return [self initWithSocket:nil port:0];
 }
@@ -31,7 +32,7 @@
 - (id)initWithSocket:(NSString *)host port:(NSInteger)port {
 	self = [super init];
 	if (self != nil) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+		// Subscribe to notifications from Rechability regarding network status changes
 		_host = host;
 		_port = port;
 		_inputStream = nil;
@@ -50,6 +51,19 @@
 	[super dealloc];
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"Network connection: Connected to %@ on port %d", self.host, self.port];
+}
+
+/**
+ * The rest of the class handles the business of the Communicator
+ *
+ */
+
+/**
+ * stream: handleEvent: gets called whenever bytes are available
+ *
+ */
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)streamEvent {
 	switch (streamEvent) {
 		case NSStreamEventNone:
@@ -72,7 +86,7 @@
 				if (oneByte == '\n') {
 					NSData *oneLine = [NSData dataWithData:self.dataBuffer];
 					[self.lineBuffer enQueue:oneLine];
-					if (self.delegate != nil && [self.delegate respondsToSelector:@selector(dataReceived)]) {
+					if (self.delegate && [self.delegate respondsToSelector:@selector(dataReceived)]) {
 						[self.delegate dataReceived];
 					}
 					[self.dataBuffer release];
@@ -92,12 +106,12 @@
 	}
 }
 
+/**
+ * Send data out on the connection as an ISO Latin 1 string
+ *
+ */
 - (void)writeString:(NSString *)string {
-	if (!self.isConnected) {
-		[self startConnection];
-	}
-	
-	NSData *data = [string dataUsingEncoding:NSASCIIStringEncoding];
+	NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
 		
 	// Convert it to a C-string
 	int bytesRemaining = [data length];
@@ -110,7 +124,11 @@
 		theBytes += bytesWritten;
 	}
 }
-			 
+
+/**
+ * Read a line out of our queue
+ *
+ */
 - (NSData *)readLine {
 	NSData *oneLine = nil;
 	// dequeue strings until I find a \n
@@ -120,10 +138,15 @@
 	return oneLine;
 }
 
+/**
+ * Setup the network connection and add ourselves to the run loop.
+ * This includes monitoring the status of the network connection.
+ *
+ */
 - (void)startConnection {
-	reachability = [[Reachability reachabilityWithHostName:self.host] retain];
-	[reachability startNotifer];
-	[self updateInterfaceWithReachability];
+
+	self.reachability = [Reachability reachabilityWithHostName:self.host];
+	[self.reachability startNotifer];
 	
 	CFWriteStreamRef writeStream;
 	CFReadStreamRef readStream;
@@ -147,8 +170,12 @@
 	self.isConnected = YES;
 }
 
+/**
+ * Shut down the network connection.
+ *
+ */
 - (void)stopConnection {
-	[reachability stopNotifer];
+	[self.reachability stopNotifer];
 	[self.inputStream close];
 	[self.outputStream close];
 	
@@ -162,16 +189,6 @@
 	self.outputStream = nil;
 	
 	self.isConnected = NO;
-}
-
-- (void)updateInterfaceWithReachability {
-	NetworkStatus netStatus = [reachability currentReachabilityStatus];
-	BOOL connectionRequired= [reachability connectionRequired];
-	NSLog(@"Updated network interface. Status: %d", netStatus);
-}
-
-- (void)reachabilityChanged:(NSNotification* )note {
-	[self updateInterfaceWithReachability];
 }
 
 @end

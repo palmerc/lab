@@ -8,12 +8,13 @@
 //
 #import <Foundation/Foundation.h>
 
-@protocol CommunicatorReceiveDelegate;
+@protocol CommunicatorDataDelegate;
 @class Reachability;
+
 @interface Communicator : NSObject {
-	id <CommunicatorReceiveDelegate> delegate;
+	id <CommunicatorDataDelegate> _delegate;
+	Reachability *_reachability;
 	
-	Reachability *reachability;
 	NSString *_host;
 	NSInteger _port;
 	
@@ -25,14 +26,14 @@
 	BOOL _isConnected;
 }
 
-@property (nonatomic, assign) id <CommunicatorReceiveDelegate> delegate;
+@property (nonatomic, assign) id <CommunicatorDataDelegate> delegate;
+@property (nonatomic, retain) Reachability *reachability;
 @property (nonatomic, retain) NSString *host;
 @property NSInteger port;
 @property (nonatomic, retain) NSInputStream *inputStream;
 @property (nonatomic, retain) NSOutputStream *outputStream;
 @property (nonatomic, retain) NSMutableData *dataBuffer;
 @property (nonatomic, retain) NSMutableArray *lineBuffer;
-
 @property BOOL isConnected;
 
 - (id)initWithSocket:(NSString *)host port:(NSInteger)port;
@@ -40,10 +41,10 @@
 - (void)stopConnection;
 - (void)writeString:(NSString *)string;
 - (NSData *)readLine;
-- (void)updateInterfaceWithReachability;
 @end
 
-@protocol CommunicatorReceiveDelegate <NSObject>
+
+@protocol CommunicatorDataDelegate <NSObject>
 - (void)dataReceived;
 @end
 
