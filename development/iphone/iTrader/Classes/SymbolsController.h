@@ -20,6 +20,7 @@
 @property (assign) id <SymbolsUpdateDelegate> updateDelegate;
 @property (nonatomic, retain) NSMutableArray *feeds;
 
+// Singleton Class Method
 + (SymbolsController *)sharedManager;
 
 - (NSArray *)cleanQuote:(NSString *)quote;
@@ -30,10 +31,10 @@
 - (NSIndexPath *)indexPathOfSymbol:(NSString *)feedTicker;
 - (Symbol *)symbolAtIndexPath:(NSIndexPath *)indexPath;
 - (Symbol *)symbolWithFeedTicker:(NSString *)feedTicker;
-
 @end
 
 @protocol SymbolsUpdateDelegate <NSObject>
+@optional
 - (void)symbolsAdded:(NSArray *)symbols;
 - (void)feedAdded:(Feed *)feed;
 - (void)symbolsUpdated:(NSArray *)quotes;

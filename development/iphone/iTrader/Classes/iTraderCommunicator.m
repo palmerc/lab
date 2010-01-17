@@ -8,6 +8,7 @@
 //
 
 #import "iTraderCommunicator.h"
+#import "Reachability.h"
 #import "UserDefaults.h";
 #import "Symbol.h"
 #import "Feed.h"
@@ -18,12 +19,46 @@
 static iTraderCommunicator *sharedCommunicator = nil;
 @synthesize mTraderServerDataDelegate;
 @synthesize stockAddDelegate;
+@synthesize isLoggedIn;
 @synthesize communicator = _communicator;
 @synthesize defaults = _defaults;
-@synthesize isLoggedIn = _isLoggedIn;
 @synthesize blockBuffer = _blockBuffer;
 @synthesize currentLine = _currentLine;
 
+
+/**
+ * Basic object setup and tear down
+ *
+ */
+- (id)init {
+	self = [super init];
+	if (self != nil) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+		self.communicator = [[Communicator alloc] initWithSocket:@"wireless.theonlinetrader.com" port:7780];
+		self.communicator.delegate = self;
+		self.defaults = [UserDefaults sharedManager];
+		
+		isLoggedIn = NO;
+		loginStatusHasChanged = NO;
+		_blockBuffer = [[NSMutableArray alloc] init];
+		contentLength = 0;
+		state = LOGIN;
+	}
+	return self;
+}
+
+- (void)dealloc {
+	[self logout];
+	[self.blockBuffer release];
+	[self.communicator stopConnection];
+	[self.communicator release];
+	[super dealloc];
+}
+
+/**
+ * Methods for Singleton implementation
+ *
+ */
 + (iTraderCommunicator *)sharedManager {
 	if (sharedCommunicator == nil) {
 		sharedCommunicator = [[super allocWithZone:NULL] init];
@@ -55,36 +90,34 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	return self;
 }
 
-- (id)init {
-	self = [super init];
-	if (self != nil) {
-		_communicator = [[Communicator alloc] initWithSocket:@"wireless.theonlinetrader.com" port:7780];
-		_communicator.delegate = self;
-		_defaults = [UserDefaults sharedManager];
-		_isLoggedIn = NO;
-		_loginStatusHasChanged = NO;
-		_blockBuffer = [[NSMutableArray alloc] init];
-		contentLength = 0;
-		state = LOGIN;
-	}
-	return self;
+/**
+ * Delegate methods from Communicator
+ *
+ */
+
+- (void)reachabilityChanged:(NSNotification *)note {
+	NSLog(@"Note %@", note);
 }
 
-- (void)dealloc {
-	[self logout];
-	[self.blockBuffer release];
-	[self.communicator stopConnection];
-	[self.communicator release];
-	[super dealloc];
-}
+- (void)networkStatusChanged:(NSNotification *)note {
+	Reachability *reachability = [note object];
+	NSLog(@"Network Status Changed, %@", reachability);
 
-// Delegate method from Communicator
-- (void)dataReceived {
-	//UIApplication* app = [UIApplication sharedApplication]; 
-	//app.networkActivityIndicatorVisible = YES; 
-	self.currentLine = [self.communicator readLine];
+	NetworkStatus status = [reachability currentReachabilityStatus];
 	
-	//NSLog(@"CurrentLine: >>%@<<", [self currentLineToString]);
+	if (status == NotReachable) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+		[alertView show];
+		[alertView release];
+	} else {
+		[self login];
+	}
+}
+
+- (void)dataReceived {
+	self.currentLine = [self.communicator readLine];
+	NSLog(@"%@", [self currentLineToString]);
+	
 	switch (state) {
 		case CHART:
 			[self chartHandling];
@@ -107,9 +140,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		case STATIC:
 			[self staticLoop];
 			break;
-		case STREAMING:
-			[self streamingLoop];
-			break;
 		case ADDSEC:
 			[self addSecurityOK];
 			break;
@@ -119,32 +149,16 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		case STATDATA:
 			[self staticDataOK];
 			break;
-
 		default:
 			NSLog(@"Invalid state: %d", state);
 			break;
 	}
 }
 
-- (void)chartHandling {
-	[self.blockBuffer addObject:self.currentLine];
-	//SecOid: feedTicker
-	//Width: x
-	//Height: x
-	//ImgType: PNG // or GIF
-	//ImageSize: xxx
-	//<ImageBegin>...<ImageEnd>
-	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
-		Chart *chart = [self chartParsing];
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(chart:)]) {
-			[self.mTraderServerDataDelegate chart:chart];
-		}
-		[self blockBufferRenew];
-		state = PROCESSING;
-	}
-}
-
+/**
+ * State machine methods called from -(void)dataReceived
+ *
+ */
 - (void)contentLength {
 	assert(contentLength > 0);
 	[self.blockBuffer addObject:self.currentLine];
@@ -159,31 +173,28 @@ static iTraderCommunicator *sharedCommunicator = nil;
 - (void)loginHandling {
 	NSString *line = [self currentLineToString];
 	if ([line rangeOfString:@"Request: login/OK"].location == 0) {
-		_loginStatusHasChanged = YES;
-		_isLoggedIn = YES;
+		loginStatusHasChanged = YES;
+		isLoggedIn = YES;
 		state = PREPROCESSING;
 	} else if ([line rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
-		_loginStatusHasChanged = YES;
-		_isLoggedIn = NO;
+		loginStatusHasChanged = YES;
+		isLoggedIn = NO;
 	}
 }
 
 - (void)preprocessing {
+	[self.blockBuffer addObject:self.currentLine];
 	NSString *line = [self currentLineToString];
-	[self.blockBuffer addObject:line];
 	if ([line rangeOfString:@"Quotes:"].location == 0) {
-		[self settingsParsing];		
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(serverSettings:)]) {
-			[self.mTraderServerDataDelegate serverSettings:self.blockBuffer];
-		}
+		[self settingsParsing];
 		[self blockBufferRenew];
 		state = PROCESSING;
 	}
 }
 
 - (void)processingLoop {
+	[self.blockBuffer addObject:self.currentLine];
 	NSString *line = [self currentLineToString];
-	[self.blockBuffer addObject:line];
 	if ([line rangeOfString:@"HTTP/1.1 200 OK"].location == 0) { // Static data
 		state = STATIC;
 	} else if ([line rangeOfString:@"Request: q"].location == 0) { // Streaming
@@ -197,17 +208,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)staticLoop {
-	// Request: q
-	// Content-Length:
-	// Request: Chart/OK
-	// Request: addSec/OK
-	// Request: remSec/OK
-	// Request: addSec/failed.NoSuchSec
-	// Request: addSec/failed.AlreadyExists
-	// Request: remSec/CouldNotDelete
-	
+	[self.blockBuffer addObject:self.currentLine];
 	NSString *line = [self currentLineToString];
-	[self.blockBuffer addObject:line];
 	if ([line rangeOfString:@"Request: q"].location == 0) {
 		state = QUOTE;
 	} else if ([line rangeOfString:@"Content-Length: "].location == 0) {
@@ -218,7 +220,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		size.length = [line length] - contentLengthRange.length;
 		contentLength = [[line substringWithRange:size] integerValue] + 2;		
 	} else if 	 ([line rangeOfString:@"Request: Chart/OK"].location == 0) {
-		[self blockBufferRenew];
 		state = CHART;
 	} else if  ([line rangeOfString:@"Request: addSec/OK"].location == 0) {
 		state = ADDSEC;
@@ -244,12 +245,10 @@ static iTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)quoteHandling {
+	[self.blockBuffer addObject:self.currentLine];
 	NSString *line = [self currentLineToString];
-	[self.blockBuffer addObject:line];
-	if ([line rangeOfString:@"\r\n"].location == 0) {
-		NSLog(@"Keep-Alive");
-		state = PROCESSING;
-	} else if ([line rangeOfString:@"Quotes: "].location == 0) {
+	
+	if ([line rangeOfString:@"Quotes: "].location == 0) {
 		NSArray *quotes = [self quotesParsing:line];
 		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
 			[self.mTraderServerDataDelegate updateQuotes:quotes];
@@ -263,9 +262,26 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		[alertView release];
 		state = KICKOUT;
 		// Tell the user they are no longer logged on and how to correct it.		
+	} else {
+		NSLog(@"Keep-Alive");
+		[self blockBufferRenew];
+		state = PROCESSING;
 	}
 }
 
+- (void)chartHandling {
+	[self.blockBuffer addObject:self.currentLine];
+	
+	NSString *line = [self currentLineToString];
+	if ([line rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
+		Chart *chart = [self chartParsing];
+		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(chart:)]) {
+			[self.mTraderServerDataDelegate chart:chart];
+		}
+		[self blockBufferRenew];
+		state = PROCESSING;
+	}
+}
 
 - (void)addSecurityOK {
 	[self.blockBuffer addObject:self.currentLine];
@@ -281,13 +297,17 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
+- (void)removeSecurityOK {
+	// Unimplemented
+}
+
 - (void)staticDataOK {
+	[self.blockBuffer addObject:self.currentLine];
+
 	NSString *line = [self currentLineToString];
-	[self.blockBuffer addObject:line];
 	if ([line rangeOfString:@"SecOid:"].location == 0) {
 		// Just save it
 	} else if ([line rangeOfString:@"Staticdata: "].location == 0) {
-
 		[self staticDataParsing];
 		[self blockBufferRenew];
 		state = PROCESSING;
@@ -295,13 +315,18 @@ static iTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)blockBufferRenew {
-	NSLog(@"Block: %@", self.blockBuffer);
 	[self.blockBuffer release];
 	_blockBuffer = [[NSMutableArray alloc] init];	
 }
 
+
+/**
+ * These are methods that parse blocks of data
+ *
+ */
 - (void)settingsParsing {
-	for (NSString *line in self.blockBuffer) {
+	for (NSData *data in self.blockBuffer) {
+		NSString *line = [self dataToString:data];
 		if ([line rangeOfString:@"Symbols:"].location == 0) {
 			[self symbolsParsing:line];
 		} else if ([line rangeOfString:@"Quotes:"].location == 0) {
@@ -318,7 +343,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 
 - (void)staticDataParsing {
 	NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc] init];
-	for (NSString *line in self.blockBuffer) {
+	for (NSData *data in self.blockBuffer) {
+		NSString *line = [self dataToString:data];
 		if ([line rangeOfString:@"SecOid:"].location == 0) {
 			NSString *feedTicker = [self cleanString:[[line componentsSeparatedByString:@":"] objectAtIndex:1]];
 			[dataDictionary setObject:feedTicker forKey:@"feedTicker"];
@@ -340,11 +366,14 @@ static iTraderCommunicator *sharedCommunicator = nil;
 				}
 				
 			}
-			if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(staticUpdates:)]) {
-				[self.mTraderServerDataDelegate staticUpdates:dataDictionary];
-			}
 		}
 	}
+	if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(staticUpdates:)]) {
+		[self.mTraderServerDataDelegate staticUpdates:dataDictionary];
+	}
+	[self blockBufferRenew];
+	state = PROCESSING;
+	[dataDictionary release];
 }
 
 - (Chart *)chartParsing {
@@ -353,18 +382,20 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		NSString *line = [self dataToString:data];
 		if ([line rangeOfString:@"<ImageBegin>"].location == NSNotFound) {
 			NSArray *partsOfString = [line componentsSeparatedByString:@":"];
-			NSString *dataPortion = [[self stripOffFirstElement:partsOfString] objectAtIndex:0];
-			NSString *cleanedDataPortion = [self cleanString:dataPortion];
-			if ([line rangeOfString:@"SecOid:"].location == 0) {
-				chart.feedTicker = cleanedDataPortion;
-			} else if ([line rangeOfString:@"Width:"].location == 0) {
-				chart.width = [cleanedDataPortion integerValue];
-			} else if ([line rangeOfString:@"Height:"].location == 0) {
-				chart.height = [cleanedDataPortion integerValue];
-			} else if ([line rangeOfString:@"ImgType:"].location == 0) {
-				chart.imageType = cleanedDataPortion;
-			} else if ([line rangeOfString:@"ImageSize:"].location == 0) {
-				chart.size = [cleanedDataPortion integerValue];
+			if ([partsOfString count] > 1) {
+				NSString *dataPortion = [[self stripOffFirstElement:partsOfString] objectAtIndex:0];
+				NSString *cleanedDataPortion = [self cleanString:dataPortion];
+				if ([line rangeOfString:@"SecOid:"].location == 0) {
+					chart.feedTicker = cleanedDataPortion;
+				} else if ([line rangeOfString:@"Width:"].location == 0) {
+					chart.width = [cleanedDataPortion integerValue];
+				} else if ([line rangeOfString:@"Height:"].location == 0) {
+					chart.height = [cleanedDataPortion integerValue];
+				} else if ([line rangeOfString:@"ImgType:"].location == 0) {
+					chart.imageType = cleanedDataPortion;
+				} else if ([line rangeOfString:@"ImageSize:"].location == 0) {
+					chart.size = [cleanedDataPortion integerValue];
+				}
 			}
 		} else {
 			break;
@@ -373,7 +404,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	NSRange range;
 	range.location = 0;
-	range.length = 5;
+	range.length = 7;
 	NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
 	[self.blockBuffer removeObjectsAtIndexes:indexes];
 	
@@ -469,15 +500,21 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
+
 - (BOOL)loginStatusHasChanged {
 	BOOL result = NO;
-	if (_loginStatusHasChanged) {
+	if (loginStatusHasChanged) {
 		result = YES;
 		
-		_loginStatusHasChanged = NO;
+		loginStatusHasChanged = NO;
 	}
 	return result;
 }
+
+/**
+ * These are methods that format mTrader Server Messages
+ *
+ */
 
 - (void)logout {
 	NSString *ActionLogout = @"Action: Logout";
@@ -508,7 +545,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([self.communicator isConnected]) {
 		[self.communicator stopConnection];
-		_isLoggedIn = NO;
+		isLoggedIn = NO;
 	}
 	
 	[self.communicator startConnection];
@@ -574,6 +611,12 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	[self.communicator writeString:removeSecurityString];
 }
+
+
+/**
+ * Helper methods
+ *
+ */
 
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings {
 	NSString *EOL = @"\r\n";

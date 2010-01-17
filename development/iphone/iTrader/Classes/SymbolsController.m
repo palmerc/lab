@@ -171,8 +171,6 @@ static SymbolsController *sharedSymbolsController = nil;
 	}
 }
 
-//18177/OSEBX;380.983;0.22;;;;;0.827
-// feed/ticker
 -(void)updateQuotes:(NSArray *)quotes {	
 	NSMutableArray *updatedQuotes = [[NSMutableArray alloc] init];
 	

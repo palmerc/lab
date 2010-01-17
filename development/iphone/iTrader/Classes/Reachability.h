@@ -85,8 +85,3 @@ typedef enum {
 - (BOOL) connectionRequired;
 @end
 
-@protocol ReachabilityDelegate <NSObject>
-- (void)networkStatusChanged;
-@end
-
-

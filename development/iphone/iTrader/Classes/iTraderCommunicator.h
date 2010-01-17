@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Communicator.h";
+
 @class UserDefaults;
 @class Symbol;
 @class Feed;
@@ -24,21 +25,21 @@ enum {
 	QUOTE = 5,
 	QUOTES = 6,
 	STATIC = 7,
-	STREAMING = 8,
-	ADDSEC = 9,
-	REMSEC = 10,
-	STATDATA = 11,
-	KICKOUT = 12
+	ADDSEC = 8,
+	REMSEC = 9,
+	STATDATA = 10,
+	KICKOUT = 11
 } states;
 
-@interface iTraderCommunicator : NSObject <CommunicatorReceiveDelegate> {
+@interface iTraderCommunicator : NSObject <CommunicatorDataDelegate> {
 	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 	id <StockAddDelegate> stockAddDelegate;
 
 	Communicator *_communicator;
 	UserDefaults *_defaults;
-	BOOL _isLoggedIn;
-	BOOL _loginStatusHasChanged;
+	
+	BOOL isLoggedIn;
+	BOOL loginStatusHasChanged;
 	
 	NSData *_currentLine;
 	NSMutableArray *_blockBuffer;
@@ -54,8 +55,10 @@ enum {
 @property (nonatomic, retain) NSData *currentLine;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
 
+// The singleton class method
 + (iTraderCommunicator *)sharedManager;
 
+// mTrader server request methods
 - (void)login;
 - (void)logout;
 - (void)addSecurity:(NSString *)tickerSymbol;
@@ -64,6 +67,7 @@ enum {
 - (void)staticDataForFeedTicker:(NSString *)feedTicker;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 
+// State machine methods
 - (void)chartHandling;
 - (void)contentLength;
 - (void)loginHandling;
@@ -71,17 +75,18 @@ enum {
 - (void)processingLoop;
 - (void)quoteHandling;
 - (void)staticLoop;
-- (void)streamingLoop;
 - (void)addSecurityOK;
 - (void)removeSecurityOK;
 - (void)staticDataOK;
 
-// Helper methods
+// Parsing methods
 - (Chart *)chartParsing;
 - (NSArray *)quotesParsing:(NSString *)quotes;
 - (void)symbolsParsing:(NSString *)symbols;
 - (void)settingsParsing;
 - (void)staticDataParsing;
+
+// Helper methods
 - (void)blockBufferRenew;
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
@@ -91,8 +96,8 @@ enum {
 - (NSArray *)cleanStrings:(NSArray *)strings;
 @end
 
+// Delegate Protocols
 @protocol mTraderServerDataDelegate <NSObject>
-- (void)serverSettings:(NSArray *)settings;
 - (void)chart:(Chart *)chart;
 - (void)addFeed:(Feed *)feed;
 - (void)addSymbol:(Symbol *)symbol;
