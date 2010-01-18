@@ -15,7 +15,7 @@
 	NSUInteger _size;
 	NSUInteger _height;
 	NSUInteger _width;
-	UIImage *_image;
+	NSData *_image;
 }
 
 @property (nonatomic, retain) NSString *imageType;
@@ -23,6 +23,6 @@
 @property NSUInteger size;
 @property NSUInteger height;
 @property NSUInteger width;
-@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, retain) NSData *image;
 
 @end

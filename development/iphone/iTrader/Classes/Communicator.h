@@ -9,11 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @protocol CommunicatorDataDelegate;
-@class Reachability;
 
 @interface Communicator : NSObject {
 	id <CommunicatorDataDelegate> _delegate;
-	Reachability *_reachability;
 	
 	NSString *_host;
 	NSInteger _port;
@@ -27,7 +25,6 @@
 }
 
 @property (nonatomic, assign) id <CommunicatorDataDelegate> delegate;
-@property (nonatomic, retain) Reachability *reachability;
 @property (nonatomic, retain) NSString *host;
 @property NSInteger port;
 @property (nonatomic, retain) NSInputStream *inputStream;

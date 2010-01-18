@@ -6,13 +6,11 @@
 //  Copyright 2009 Bird And Bear Productions. All rights reserved.
 //
 #import "Communicator.h"
-#import "Reachability.h"
 #import "Queue.h"
 
 @implementation Communicator
 
 @synthesize delegate = _delegate;
-@synthesize reachability = _reachability;
 @synthesize host = _host;
 @synthesize port = _port;
 @synthesize inputStream = _inputStream;
@@ -20,6 +18,8 @@
 @synthesize dataBuffer = _dataBuffer;
 @synthesize lineBuffer = _lineBuffer;
 @synthesize isConnected = _isConnected;
+
+#pragma mark Initialization, Description, and Cleanup
 
 /**
  * Setup of the basic object
@@ -55,6 +55,7 @@
 	return [NSString stringWithFormat:@"Network connection: Connected to %@ on port %d", self.host, self.port];
 }
 
+#pragma mark Sending and Receiving
 /**
  * The rest of the class handles the business of the Communicator
  *
@@ -138,16 +139,13 @@
 	return oneLine;
 }
 
+#pragma mark Connection Startup and Shutdown
 /**
  * Setup the network connection and add ourselves to the run loop.
  * This includes monitoring the status of the network connection.
  *
  */
-- (void)startConnection {
-
-	self.reachability = [Reachability reachabilityWithHostName:self.host];
-	[self.reachability startNotifer];
-	
+- (void)startConnection {	
 	CFWriteStreamRef writeStream;
 	CFReadStreamRef readStream;
 	
@@ -175,7 +173,6 @@
  *
  */
 - (void)stopConnection {
-	[self.reachability stopNotifer];
 	[self.inputStream close];
 	[self.outputStream close];
 	

@@ -8,7 +8,6 @@
 //
 
 #import "iTraderCommunicator.h"
-#import "Reachability.h"
 #import "UserDefaults.h";
 #import "Symbol.h"
 #import "Feed.h"
@@ -25,7 +24,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 @synthesize blockBuffer = _blockBuffer;
 @synthesize currentLine = _currentLine;
 
-
+#pragma mark Initialization, and Cleanup
 /**
  * Basic object setup and tear down
  *
@@ -33,7 +32,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 		self.communicator = [[Communicator alloc] initWithSocket:@"wireless.theonlinetrader.com" port:7780];
 		self.communicator.delegate = self;
 		self.defaults = [UserDefaults sharedManager];
@@ -55,6 +53,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[super dealloc];
 }
 
+#pragma mark Singleton Methods
 /**
  * Methods for Singleton implementation
  *
@@ -90,30 +89,9 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	return self;
 }
 
-/**
- * Delegate methods from Communicator
- *
- */
 
-- (void)reachabilityChanged:(NSNotification *)note {
-	NSLog(@"Note %@", note);
-}
 
-- (void)networkStatusChanged:(NSNotification *)note {
-	Reachability *reachability = [note object];
-	NSLog(@"Network Status Changed, %@", reachability);
-
-	NetworkStatus status = [reachability currentReachabilityStatus];
-	
-	if (status == NotReachable) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-		[alertView show];
-		[alertView release];
-	} else {
-		[self login];
-	}
-}
-
+#pragma mark Data Received
 - (void)dataReceived {
 	self.currentLine = [self.communicator readLine];
 	NSLog(@"%@", [self currentLineToString]);
@@ -155,6 +133,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
+#pragma mark State Machine
 /**
  * State machine methods called from -(void)dataReceived
  *
@@ -257,9 +236,9 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		state = PROCESSING;
 		// call the delegate
 	} else if ([line rangeOfString:@"Kickout: 1"].location == 0) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-		[alertView show];
-		[alertView release];
+//		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+//		[alertView show];
+//		[alertView release];
 		state = KICKOUT;
 		// Tell the user they are no longer logged on and how to correct it.		
 	} else {
@@ -319,7 +298,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	_blockBuffer = [[NSMutableArray alloc] init];	
 }
 
-
+#pragma mark Parsing
 /**
  * These are methods that parse blocks of data
  *
@@ -376,8 +355,16 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[dataDictionary release];
 }
 
+/**
+ * We expect the block buffer holds a valid chart in its entirety.
+ * Each line should be NSData from Http header to ImageEnd
+ */
 - (Chart *)chartParsing {
+	
 	Chart *chart = [[Chart alloc] init];
+	
+	// Get the lines that are strings
+	int numberOfItemsToDelete = 0;
 	for (NSData *data in self.blockBuffer) {
 		NSString *line = [self dataToString:data];
 		if ([line rangeOfString:@"<ImageBegin>"].location == NSNotFound) {
@@ -397,6 +384,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 					chart.size = [cleanedDataPortion integerValue];
 				}
 			}
+			numberOfItemsToDelete++;
 		} else {
 			break;
 		}
@@ -404,11 +392,15 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	NSRange range;
 	range.location = 0;
-	range.length = 7;
+	range.length = numberOfItemsToDelete;
 	NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
 	[self.blockBuffer removeObjectsAtIndexes:indexes];
 	
+	numberOfItemsToDelete = 0;
 	NSMutableData *imageData = [[NSMutableData alloc] init];
+	
+	BOOL begin = NO;
+	BOOL end = NO;
 	for (NSData *data in self.blockBuffer) {
 		NSString *line = [self dataToString:data];
 		if ([line rangeOfString:@"<ImageBegin>"].location != NSNotFound) {
@@ -417,20 +409,38 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			imageBegin.location = length;
 			imageBegin.length = [data length] - length;
 			data = [data subdataWithRange:imageBegin];
-		} else if ([line rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
+			
+			begin = YES;
+		} 
+		
+		if ([line rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
 			NSRange imageEnd = [line rangeOfString:@"<ImageEnd>"];
+			imageEnd.length = imageEnd.location;
 			imageEnd.location = 0;
-			imageEnd.length = [data length] - imageEnd.length;
 			data = [data subdataWithRange:imageEnd];
+			
+			end = YES;
 		}
+		
 		[imageData appendData:data];
+		numberOfItemsToDelete++;
 	}
-	UIImage *image = [[UIImage alloc] initWithData:imageData];
+		
+	range.location = 0;
+	range.length = numberOfItemsToDelete;
+	indexes = [NSIndexSet indexSetWithIndexesInRange:range];
+	[self.blockBuffer removeObjectsAtIndexes:indexes];
 	
-	chart.image = image;
-	[image release];
+	assert([imageData length] == chart.size);	
+	chart.image = imageData;
 	[imageData release];
-	return chart;
+	
+	if (!begin || !end) {
+		[chart release];
+		return nil;
+	} else {	
+		return chart;
+	}
 }
 
 - (NSArray *)quotesParsing:(NSString *)quotes {
@@ -511,6 +521,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	return result;
 }
 
+#pragma mark mTrader Server Message Sending
 /**
  * These are methods that format mTrader Server Messages
  *
@@ -527,29 +538,31 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *username = self.defaults.username;
 	NSString *password = self.defaults.password;
 	
-	NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-	NSString *build = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
-	
-	NSString *ActionLogin = @"Action: login";
-	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
-	NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
-	NSString *Client = @"Client: iTrader";
-	NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
-	NSString *ConnectionType = @"ConnType: Socket";
-	NSString *Streaming = @"Streaming: 1";
-	NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
-	//NSString *QFields = @"QFields: l";
-	
-	NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, ConnectionType, Streaming, QFields, nil];
-	NSString *loginString = [self arrayToFormattedString:loginArray];
-	
-	if ([self.communicator isConnected]) {
-		[self.communicator stopConnection];
-		isLoggedIn = NO;
+	if (username != nil && password != nil) {
+		NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+		NSString *build = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+		
+		NSString *ActionLogin = @"Action: login";
+		NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
+		//NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
+		NSString *Client = @"Client: iTrader";
+		NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
+		NSString *ConnectionType = @"ConnType: Socket";
+		NSString *Streaming = @"Streaming: 1";
+		NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
+		//NSString *QFields = @"QFields: l";
+		
+		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Client, Version, ConnectionType, Streaming, QFields, nil];
+		NSString *loginString = [self arrayToFormattedString:loginArray];
+		
+		if ([self.communicator isConnected]) {
+			[self.communicator stopConnection];
+			isLoggedIn = NO;
+		}
+		
+		[self.communicator startConnection];
+		[self.communicator writeString:loginString];
 	}
-	
-	[self.communicator startConnection];
-	[self.communicator writeString:loginString];
 }
 
 - (void)staticDataForFeedTicker:(NSString *)feedTicker {
@@ -612,7 +625,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[self.communicator writeString:removeSecurityString];
 }
 
-
+#pragma mark Helper Methods
 /**
  * Helper methods
  *

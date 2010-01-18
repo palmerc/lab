@@ -1,7 +1,7 @@
 TiTrader
 v7
 r0
-t285441986.658707
+t285508662.637082
 cCheck dependencies
 cCpResource build/Debug-iphoneos/iTrader.app/ResourceRules.plist /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/ResourceRules.plist
 cProcessInfoPlistFile /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/Info.plist iTrader-Info.plist
@@ -37,7 +37,7 @@ cCompileC build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/
 cCompileC build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/Reachability.o /Users/cameron/Development/iTrader/Classes/Reachability.m normal armv6 objective-c com.apple.compilers.gcc.4_2
 cLd /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader normal armv6
 cGenerateDSYMFile /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app.dSYM /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader
-cProcessProductPackaging "/Users/cameron/Library/MobileDevice/Provisioning Profiles/1BFA09CA-A88B-4763-8CB9-969EE205215C.mobileprovision" /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision
+cProcessProductPackaging "/Users/cameron/Library/MobileDevice/Provisioning Profiles/3371838B-A2A7-473D-A0F4-D697437B6C8C.mobileprovision" /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision
 cTouch /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app
 cProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent
 cCodeSign /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app
@@ -145,29 +145,28 @@ s1909
 i"AboutViewController.h"
 
 N/Users/cameron/Development/iTrader/Classes/Chart.h
-c000000004B4DBF470000000000000239
-t1263386439
-s569
+c000000004B545522000000000000023D
+t1263818018
+s573
 i<Foundation/Foundation.h>
 
 N/Users/cameron/Development/iTrader/Classes/Chart.m
-c000000004B4DC425000000000000024F
-t1263387685
-s591
+c000000004B54559F0000000000000251
+t1263818143
+s593
 i"Chart.h"
 
 N/Users/cameron/Development/iTrader/Classes/Communicator.h
-c000000004B531736000000000000056F
-t1263736630
-s1391
+c000000004B5459A80000000000000502
+t1263819176
+s1282
 i<Foundation/Foundation.h>
 
 N/Users/cameron/Development/iTrader/Classes/Communicator.m
-c000000004B5317450000000000001262
-t1263736645
-s4706
+c000000004B5459C10000000000001217
+t1263819201
+s4631
 i"Communicator.h"
-i"Reachability.h"
 i"Queue.h"
 
 N/Users/cameron/Development/iTrader/Classes/Feed.h
@@ -394,15 +393,27 @@ i<Foundation/Foundation.h>
 i"Communicator.h"
 
 N/Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m
-c000000004B53470B00000000000058D6
-t1263748875
-s22742
+c000000004B5457D30000000000005667
+t1263818707
+s22119
 i"iTraderCommunicator.h"
-i"Reachability.h"
 i"UserDefaults.h"
 i"Symbol.h"
 i"Feed.h"
 i"Chart.h"
+
+N/Users/cameron/Development/iTrader/Classes/mTraderServerMonitor.h
+c000000004B545A1D000000000000015B
+t1263819293
+s347
+i<Foundation/Foundation.h>
+
+N/Users/cameron/Development/iTrader/Classes/mTraderServerMonitor.m
+c000000004B545A860000000000000816
+t1263819398
+s2070
+i"mTraderServerMonitor.h"
+i"Reachability.h"
 
 N/Users/cameron/Development/iTrader/MainWindow.xib
 c000000004B31CD5F0000000000005BCC
@@ -430,11 +441,11 @@ t1262692356
 s20590
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app
-t1263748877
-s714
+t1263815862
+s748
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app.dSYM
-t1263748877
+t1263815862
 s136
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/AboutView.nib
@@ -442,15 +453,15 @@ t1262693261
 s3039
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/Info.plist
-t1262693261
-s668
+t1263812977
+s501
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/MainWindow.nib
 t1261555133
 s2178
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/PkgInfo
-t1262693261
+t1263812977
 s8
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/ResourceRules.plist
@@ -478,16 +489,16 @@ t1263400960
 s1597
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision
-t1262696207
-s7290
+t1263815862
+s7289
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/en.lproj/Localizable.strings
 t1262693261
 s156
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader
-t1263748877
-s213536
+t1263815861
+s213424
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader.app
 t2
@@ -579,15 +590,19 @@ t1263744857
 s50544
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTraderCommunicator.o
-t1263748877
-s98464
+t1263815861
+s98304
+
+N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/mTraderServerMonitor.o
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/main.o
 t1262693262
 s6736
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent
-t1262696207
+t1263815862
 s315
 
 N/Users/cameron/Development/iTrader/documentation/iTraderCommunicationProtocol.tex
@@ -633,6 +648,11 @@ c000000004B43365D0000000000001C7A
 t1262696029
 s7290
 
+N/Users/cameron/Library/MobileDevice/Provisioning Profiles/3371838B-A2A7-473D-A0F4-D697437B6C8C.mobileprovision
+c000000004B5441020000000000001C79
+t1263812866
+s7289
+
 N/Users/cameron/Library/MobileDevice/Provisioning Profiles/B4ED6A14-6932-4F65-AC60-DF7234B6872B.mobileprovision
 c000000004B432C610000000000001C29
 t1262693473
@@ -648,21 +668,21 @@ t1262693262
 s7876792
 
 NiTrader-Info.plist
-c000000004B3A3D1E0000000000000397
-t1262107934
+c000000004B54373C0000000000000397
+t1263810364
 s919
 
 CCheck dependencies
 r0
-lSLF07#2@18"Check dependencies285441986#285441986#0(0"0(0#1#0"4300885448#0"0#
+lSLF07#2@18"Check dependencies285508661#285508661#0(0"0(0#1#0"4300885448#0"0#
 
 CCodeSign /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app
-s285441677.146036
-e285441677.452879
+s285508662.047003
+e285508662.637008
 r1
 xCodeSign
 x/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app
-lSLF07#2@41"CodeSign build/Debug-iphoneos/iTrader.app285441677#285441677#0(0"0(0#0#67"/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app4300885448#619"    cd /Users/cameron/Development/iTrader    setenv CODESIGN_ALLOCATE /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/codesign -f -s "iPhone Developer: Cameron Palmer" --resource-rules=/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/ResourceRules.plist --entitlements /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app0#
+lSLF07#2@41"CodeSign build/Debug-iphoneos/iTrader.app285508662#285508662#0(0"0(0#0#67"/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app4300885448#619"    cd /Users/cameron/Development/iTrader    setenv CODESIGN_ALLOCATE /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/codesign -f -s "iPhone Developer: Cameron Palmer" --resource-rules=/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/ResourceRules.plist --entitlements /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app0#
 
 CCompileC build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/AboutViewController.o /Users/cameron/Development/iTrader/Classes/AboutViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
 s284386062.610264
@@ -886,8 +906,8 @@ xcom.apple.compilers.gcc.4_2
 lSLF07#2@71"Compile /Users/cameron/Development/iTrader/Classes/iTraderAppDelegate.m285437657#285437657#0(0"0(0#0#63"/Users/cameron/Development/iTrader/Classes/iTraderAppDelegate.m4300885448#1727"    cd /Users/cameron/Development/iTrader    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-generated-files.hmap -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-own-target-headers.hmap -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-all-target-headers.hmap -iquote /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-project-headers.hmap -F/Users/cameron/Development/iTrader/build/Debug-iphoneos -I/Users/cameron/Development/iTrader/build/Debug-iphoneos/include -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/DerivedSources/armv6 -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/DerivedSources -include /var/folders/F5/F5YALANcGS0sEkDG2bVy12Ft13k/-Caches-/com.apple.Xcode.1148783708/SharedPrecompiledHeaders/iTrader_Prefix-foearnkmhschfkcvhudnkujrwwyr/iTrader_Prefix.pch -c /Users/cameron/Development/iTrader/Classes/iTraderAppDelegate.m -o /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTraderAppDelegate.o0#
 
 CCompileC build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTraderCommunicator.o /Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m normal armv6 objective-c com.apple.compilers.gcc.4_2
-s285441676.870336
-e285441677.073307
+s285508661.691821
+e285508661.863555
 r1
 xCompileC
 xbuild/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTraderCommunicator.o
@@ -896,7 +916,10 @@ xnormal
 xarmv6
 xobjective-c
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@72"Compile /Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m285441676#285441677#0(0"0(0#0#64"/Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m4300885448#1729"    cd /Users/cameron/Development/iTrader    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-generated-files.hmap -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-own-target-headers.hmap -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-all-target-headers.hmap -iquote /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-project-headers.hmap -F/Users/cameron/Development/iTrader/build/Debug-iphoneos -I/Users/cameron/Development/iTrader/build/Debug-iphoneos/include -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/DerivedSources/armv6 -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/DerivedSources -include /var/folders/F5/F5YALANcGS0sEkDG2bVy12Ft13k/-Caches-/com.apple.Xcode.1148783708/SharedPrecompiledHeaders/iTrader_Prefix-foearnkmhschfkcvhudnkujrwwyr/iTrader_Prefix.pch -c /Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m -o /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTraderCommunicator.o0#
+lSLF07#2@72"Compile /Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m285508661#285508661#0(0"0(0#0#64"/Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m4300885448#1729"    cd /Users/cameron/Development/iTrader    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-generated-files.hmap -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-own-target-headers.hmap -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-all-target-headers.hmap -iquote /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-project-headers.hmap -F/Users/cameron/Development/iTrader/build/Debug-iphoneos -I/Users/cameron/Development/iTrader/build/Debug-iphoneos/include -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/DerivedSources/armv6 -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/DerivedSources -include /var/folders/F5/F5YALANcGS0sEkDG2bVy12Ft13k/-Caches-/com.apple.Xcode.1148783708/SharedPrecompiledHeaders/iTrader_Prefix-foearnkmhschfkcvhudnkujrwwyr/iTrader_Prefix.pch -c /Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m -o /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTraderCommunicator.o0#
+
+CCompileC build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/mTraderServerMonitor.o /Users/cameron/Development/iTrader/Classes/mTraderServerMonitor.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+r0
 
 CCompileC build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/main.o /Users/cameron/Development/iTrader/main.m normal armv6 objective-c com.apple.compilers.gcc.4_2
 s284386062.496755
@@ -1019,23 +1042,23 @@ xdocumentation/iTraderCommunicationProtocol.tex
 lSLF07#2@51"Copy documentation/iTraderCommunicationProtocol.tex285093760#285093760#0(0"0(0#0#81"/Users/cameron/Development/iTrader/documentation/iTraderCommunicationProtocol.tex4300885448#464"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks /Users/cameron/Development/iTrader/documentation/iTraderCommunicationProtocol.tex /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app0#
 
 CGenerateDSYMFile /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app.dSYM /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader
-s285441677.115730
-e285441677.143418
+s285508661.990554
+e285508662.023260
 r1
 xGenerateDSYMFile
 x/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app.dSYM
 x/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader
-lSLF07#2@95"GenerateDSYMFile build/Debug-iphoneos/iTrader.app.dSYM build/Debug-iphoneos/iTrader.app/iTrader285441677#285441677#0(0"0(0#0#75"/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader4300885448#350"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/dsymutil /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader -o /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app.dSYM0#
+lSLF07#2@95"GenerateDSYMFile build/Debug-iphoneos/iTrader.app.dSYM build/Debug-iphoneos/iTrader.app/iTrader285508661#285508662#0(0"0(0#0#75"/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader4300885448#350"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/dsymutil /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader -o /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app.dSYM0#
 
 CLd /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader normal armv6
-s285441677.073389
-e285441677.115646
+s285508661.863658
+e285508661.990454
 r1
 xLd
 x/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader
 xnormal
 xarmv6
-lSLF07#2@80"Link /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader285441677#285441677#0(0"0(0#0#0"4300885448#906"    cd /Users/cameron/Development/iTrader    setenv IPHONEOS_DEPLOYMENT_TARGET 3.1.2    setenv MACOSX_DEPLOYMENT_TARGET 10.5    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -arch armv6 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -L/Users/cameron/Development/iTrader/build/Debug-iphoneos -F/Users/cameron/Development/iTrader/build/Debug-iphoneos -filelist /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTrader.LinkFileList -mmacosx-version-min=10.5 -dead_strip -miphoneos-version-min=3.1.2 -framework Foundation -framework UIKit -framework CoreGraphics -framework SystemConfiguration -o /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader0#
+lSLF07#2@80"Link /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader285508661#285508661#0(0"0(0#0#0"4300885448#906"    cd /Users/cameron/Development/iTrader    setenv IPHONEOS_DEPLOYMENT_TARGET 3.1.2    setenv MACOSX_DEPLOYMENT_TARGET 10.5    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -arch armv6 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -L/Users/cameron/Development/iTrader/build/Debug-iphoneos -F/Users/cameron/Development/iTrader/build/Debug-iphoneos -filelist /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTrader.LinkFileList -mmacosx-version-min=10.5 -dead_strip -miphoneos-version-min=3.1.2 -framework Foundation -framework UIKit -framework CoreGraphics -framework SystemConfiguration -o /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader0#
 
 CProcessInfoPlistFile /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/Info.plist iTrader-Info.plist
 s284386061.526964
@@ -1071,6 +1094,15 @@ x/Users/cameron/Library/MobileDevice/Provisioning Profiles/1BFA09CA-A88B-4763-8C
 x/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision
 lSLF07#2@194"ProcessProductPackaging "/Users/cameron/Library/MobileDevice/Provisioning Profiles/1BFA09CA-A88B-4763-8CB9-969EE205215C.mobileprovision" build/Debug-iphoneos/iTrader.app/embedded.mobileprovision284389007#284389007#0(0"0(0#0#92"/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision4300885448#417"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> "/Users/cameron/Library/MobileDevice/Provisioning Profiles/1BFA09CA-A88B-4763-8CB9-969EE205215C.mobileprovision" -o /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision0#
 
+CProcessProductPackaging "/Users/cameron/Library/MobileDevice/Provisioning Profiles/3371838B-A2A7-473D-A0F4-D697437B6C8C.mobileprovision" /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision
+s285508662.023367
+e285508662.025357
+r1
+xProcessProductPackaging
+x/Users/cameron/Library/MobileDevice/Provisioning Profiles/3371838B-A2A7-473D-A0F4-D697437B6C8C.mobileprovision
+x/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision
+lSLF07#2@194"ProcessProductPackaging "/Users/cameron/Library/MobileDevice/Provisioning Profiles/3371838B-A2A7-473D-A0F4-D697437B6C8C.mobileprovision" build/Debug-iphoneos/iTrader.app/embedded.mobileprovision285508662#285508662#0(0"0(0#0#92"/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision4300885448#417"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> "/Users/cameron/Library/MobileDevice/Provisioning Profiles/3371838B-A2A7-473D-A0F4-D697437B6C8C.mobileprovision" -o /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision0#
+
 CProcessProductPackaging "/Users/cameron/Library/MobileDevice/Provisioning Profiles/B4ED6A14-6932-4F65-AC60-DF7234B6872B.mobileprovision" /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision
 s284386313.224032
 e284386313.225268
@@ -1090,19 +1122,19 @@ x/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mo
 lSLF07#2@194"ProcessProductPackaging "/Users/cameron/Library/MobileDevice/Provisioning Profiles/C3C7507A-D20E-4916-B760-A0F9AC5ED445.mobileprovision" build/Debug-iphoneos/iTrader.app/embedded.mobileprovision283247934#283247934#0(0"0(0#0#92"/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision4300885448#417"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> "/Users/cameron/Library/MobileDevice/Provisioning Profiles/C3C7507A-D20E-4916-B760-A0F9AC5ED445.mobileprovision" -o /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision0#
 
 CProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent
-s284389007.460308
-e284389007.469209
+s285508662.027631
+e285508662.046949
 r1
 xProcessProductPackaging
 x/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist
 x/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent
-lSLF07#2@177"ProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent284389007#284389007#0(0"0(0#0#97"/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent4300885448#426"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist -entitlements -format xml -o /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent0#
+lSLF07#2@177"ProcessProductPackaging /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent285508662#285508662#0(0"0(0#0#97"/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent4300885448#426"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    <com.apple.tools.product-pkg-utility> /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk/Entitlements.plist -entitlements -format xml -o /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent0#
 
 CTouch /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app
-s285441677.143609
-e285441677.145892
+s285508662.025399
+e285508662.027572
 r1
 xTouch
 x/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app
-lSLF07#2@73"Touch /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app285441677#285441677#0(0"0(0#0#0"4300885448#256"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/touch -c /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app0#
+lSLF07#2@73"Touch /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app285508662#285508662#0(0"0(0#0#0"4300885448#256"    cd /Users/cameron/Development/iTrader    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /usr/bin/touch -c /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app0#
 

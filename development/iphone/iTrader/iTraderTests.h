@@ -8,9 +8,13 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
+@class iTraderCommunicator;
 
 @interface iTraderTests : SenTestCase {
-
+	iTraderCommunicator *communicator;
 }
+
+-(NSArray *) blockGeneratorWithStrings:(id)strings, ...;
+-(NSData *) stringToLatin1Data:(NSString *)string;
 
 @end
