@@ -69,6 +69,7 @@ enum {
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 
 // State machine methods
+-(void) stateMachine;
 - (void)chartHandling;
 - (void)contentLength;
 - (void)loginHandling;

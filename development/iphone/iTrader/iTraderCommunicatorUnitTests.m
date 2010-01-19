@@ -49,6 +49,7 @@
 	// Parse the empty image and make sure it clears out the block correctly
 	Chart *chart = [communicator chartParsing];
 	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared.");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 	
 	[chart release];
 	chart = nil;
@@ -87,6 +88,7 @@
 	Chart *chart = [communicator chartParsing];
 	STAssertNotNil(chart, @"Chart was nil");
 	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared.");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 	
 	[chart release];
 	chart = nil;
@@ -119,6 +121,8 @@
 		NSLog(@"%d", communicator.state);
 	}
 	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 
 #pragma mark Keep-Alive Unit Tests
@@ -141,6 +145,57 @@
 	}
 	
 	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
+#pragma mark Add Stock Unit Tests
+
+-(void) testAddStocks {
+	[self loginStarterUpper];
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *blank = @"";
+	NSString *request = @"Request: addSec/OK";
+	NSString *quotes = @"SecInfo:";
+	
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, quotes, nil];
+	[communicator.communicator.lineBuffer setArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	[self logBlockBuffer];
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	
+	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
+-(void) testAddStocksParsing {
+	[self loginStarterUpper];
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	
+	NSString *request = @"Request: addSec/OK";
+	NSString *secInfo = @"SecInfo: 18177/EMS;EMS;Eitzen Maritime Services;Oslo Stocks [OSS];1;D;NO0003075905;15329";
+	NSString *blank = @"";
+	
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secInfo, nil];
+	[communicator.communicator.lineBuffer setArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	[self logBlockBuffer];
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+}
+	
+	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 
 #pragma mark Real-Time Quotes Unit Tests
@@ -164,7 +219,13 @@
 	}
 	
 	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
+
+#pragma mark Quotes Parsing Unit Tests
+
+
 
 #pragma mark Helper Methods
 
@@ -183,7 +244,7 @@
 	NSString *newsFeeds = @"NewsFeeds:";
 	NSString *quotes = @"Quotes:";
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, blank, nil];
 	[communicator.communicator.lineBuffer  setArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	[self logBlockBuffer];
@@ -191,7 +252,9 @@
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
 	}
+		
 	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 
@@ -224,8 +287,6 @@
 		dataLine = nil;
 	}
 	[argArray release];
-	
-	//[block addObject:carriageReturnLineFeed];
 	
 	NSArray *finalProduct = [NSArray arrayWithArray:block];
 	[block release];

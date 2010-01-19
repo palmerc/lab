@@ -93,44 +93,59 @@ static iTraderCommunicator *sharedCommunicator = nil;
 
 
 #pragma mark Data Received
+
+/**
+ * My little lexer
+ */
 - (void)dataReceived {
-	self.currentLine = [self.communicator readLine];
-	NSLog(@"%@", [self currentLineToString]);
+	NSData *data = [self.communicator readLine];
+	NSString *string = [self dataToString:data];
 	
-	switch (state) {
-		case CHART:
-			[self chartHandling];
-			break;
-		case CONTENTLENGTH:
-			[self contentLength];
-			break;
-		case LOGIN:
-			[self loginHandling];
-			break;
-		case PREPROCESSING:
-			[self preprocessing];
-			break;
-		case PROCESSING:
-			[self processingLoop];
-			break;
-		case QUOTE:
-			[self quoteHandling];
-			break;
-		case STATIC:
-			[self staticLoop];
-			break;
-		case ADDSEC:
-			[self addSecurityOK];
-			break;
-		case REMSEC:
-			[self removeSecurityOK];
-			break;
-		case STATDATA:
-			[self staticDataOK];
-			break;
-		default:
-			NSLog(@"Invalid state: %d", state);
-			break;
+	if (![string isEqualToString:@"\r\n"]) {
+		[self.blockBuffer addObject:data];
+	} else {
+		[self stateMachine];
+		[self.blockBuffer removeAllObjects];
+	}
+}	
+	
+-(void) stateMachine {
+	while ([self.blockBuffer count] > 0) {
+		switch (state) {
+			case CHART:
+				[self chartHandling];
+				break;
+			case CONTENTLENGTH:
+				[self contentLength];
+				break;
+			case LOGIN:
+				[self loginHandling];
+				break;
+			case PREPROCESSING:
+				[self preprocessing];
+				break;
+			case PROCESSING:
+				[self processingLoop];
+				break;
+			case QUOTE:
+				[self quoteHandling];
+				break;
+			case STATIC:
+				[self staticLoop];
+				break;
+			case ADDSEC:
+				[self addSecurityOK];
+				break;
+			case REMSEC:
+				[self removeSecurityOK];
+				break;
+			case STATDATA:
+				[self staticDataOK];
+				break;
+			default:
+				NSLog(@"Invalid state: %d", state);
+				break;
+		}
 	}
 }
 
@@ -151,17 +166,23 @@ static iTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)loginHandling {
-	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"Request: login/OK"].location == 0) {
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
 		loginStatusHasChanged = YES;
 		isLoggedIn = YES;
 		state = PREPROCESSING;
-	} else if ([line rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
+	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
 		loginStatusHasChanged = YES;
 		isLoggedIn = NO;
 	}
 }
 
+/**
+ * Read the login stream upto quotes, call settingsParsing to deal with it and
+ * change state.
+ */
 - (void)preprocessing {
 	[self.blockBuffer addObject:self.currentLine];
 	NSString *line = [self currentLineToString];
@@ -238,6 +259,11 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		NSLog(@"Keep-Alive");
 		state = PROCESSING;
 	}
+	
+	NSRange range;
+	range.location = 0;
+	range.length = [self.blockBuffer count];
+	[self.blockBuffer removeObjectsInRange:range];
 }
 
 - (void)chartHandling {
@@ -256,7 +282,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 - (void)addSecurityOK {
 	[self.blockBuffer addObject:self.currentLine];
 	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"SecInfo:"].location == 0) {
+	if ([line rangeOfString:@"SecInfo:"].location == 0) {		
 		[stockAddDelegate addOK];
 		NSArray *quotes = [self quotesParsing:line];
 		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
@@ -264,6 +290,11 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		}
 		state = PROCESSING;
 	}
+	
+	NSRange range;
+	range.location = 0;
+	range.length = 5;
+	[self.blockBuffer removeObjectsInRange:range];
 }
 
 - (void)removeSecurityOK {
@@ -288,6 +319,9 @@ static iTraderCommunicator *sharedCommunicator = nil;
  *
  */
 - (void)settingsParsing {
+	NSRange range;
+	range.location = 0;
+	range.length = [self.blockBuffer count];
 	for (NSData *data in self.blockBuffer) {
 		NSString *line = [self dataToString:data];
 		if ([line rangeOfString:@"Symbols:"].location == 0) {
@@ -301,10 +335,14 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			break;
 		}
 	}
+	[self.blockBuffer removeObjectsInRange:range];
 }
 
 - (void)staticDataParsing {
 	NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc] init];
+	NSRange range;
+	range.location = 0;
+	range.length = [self.blockBuffer count];
 	for (NSData *data in self.blockBuffer) {
 		NSString *line = [self dataToString:data];
 		if ([line rangeOfString:@"SecOid:"].location == 0) {
@@ -330,6 +368,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			}
 		}
 	}
+	[self.blockBuffer removeObjectsInRange:range];
 	if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(staticUpdates:)]) {
 		[self.mTraderServerDataDelegate staticUpdates:dataDictionary];
 	}
@@ -433,9 +472,13 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
+/**
+ * Two possibilities... One quote, or multiple quotes separated by a pipe
+ *
+ */
 - (NSArray *)quotesParsing:(NSString *)quotes {
 	NSArray *quotesAndTheRest = [self stripOffFirstElement:[quotes componentsSeparatedByString:@":"]];
-	NSString *theRest = [quotesAndTheRest objectAtIndex:0];
+	NSString *theRest = [self cleanString:[quotesAndTheRest objectAtIndex:0]];
 	return [theRest componentsSeparatedByString:@"|"];
 }
 
@@ -650,7 +693,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 
 - (NSString *)dataToString:(NSData *)data {
 	NSString *string = [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
-	NSString *final = [NSString stringWithString:[self cleanString:string]];
+	NSString *final = [NSString stringWithString:string];
 	[string release];
 	return final;
 }

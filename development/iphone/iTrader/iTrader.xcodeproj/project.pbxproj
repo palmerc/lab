@@ -74,6 +74,10 @@
 		7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
 		7E419DE810E251CB0007808B /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
 		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
+		7E6348AF110616FE00ADC4B7 /* libisimulate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348AE110616FE00ADC4B7 /* libisimulate.a */; };
+		7E6348B0110616FE00ADC4B7 /* libisimulate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348AE110616FE00ADC4B7 /* libisimulate.a */; };
+		7E6348B1110616FE00ADC4B7 /* libisimulate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348AE110616FE00ADC4B7 /* libisimulate.a */; };
+		7E6348C71106176100ADC4B7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348C61106176100ADC4B7 /* CoreLocation.framework */; };
 		7E8A6FCC10F6021E003D7E29 /* StockDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E8A6FCB10F6021E003D7E29 /* StockDetailView.xib */; };
 		7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* StockDetailController.m */; };
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
@@ -82,6 +86,7 @@
 		7EB15E4C10F2392C003049C7 /* SymbolsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15E4B10F2392C003049C7 /* SymbolsController.m */; };
 		7ECE213110FF72A0005ABBC7 /* StockDetailPageOne.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE213010FF72A0005ABBC7 /* StockDetailPageOne.xib */; };
 		7ED7294310E8A22100D1814F /* iTraderCommunicationProtocol.tex in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */; };
+		7EDC23CC1106187F009E50C5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348C61106176100ADC4B7 /* CoreLocation.framework */; };
 		C73CE2E610E3BDCE00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */; };
 		C73CE2EF10E3BDDA00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */; };
 		C73CE46910E6763A00AF6D89 /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73CE46810E6763A00AF6D89 /* AboutView.xib */; };
@@ -146,6 +151,8 @@
 		7E419C6E10E2209B0007808B /* iTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderCommunicator.m; sourceTree = "<group>"; };
 		7E419DE610E251CB0007808B /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		7E419DE710E251CB0007808B /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		7E6348AE110616FE00ADC4B7 /* libisimulate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libisimulate.a; path = Classes/libisimulate.a; sourceTree = "<group>"; };
+		7E6348C61106176100ADC4B7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7E8A6FCB10F6021E003D7E29 /* StockDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockDetailView.xib; sourceTree = "<group>"; };
 		7E8A6FCF10F604B4003D7E29 /* StockDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDetailController.h; sourceTree = "<group>"; };
 		7E8A6FD010F604B4003D7E29 /* StockDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockDetailController.m; sourceTree = "<group>"; };
@@ -176,6 +183,8 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */,
+				7E6348AF110616FE00ADC4B7 /* libisimulate.a in Frameworks */,
+				7EDC23CC1106187F009E50C5 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +192,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E6348B0110616FE00ADC4B7 /* libisimulate.a in Frameworks */,
+				7E6348C71106176100ADC4B7 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +205,7 @@
 				7E2DA19111046EBC002CE93F /* UIKit.framework in Frameworks */,
 				7E2DA19211046EBC002CE93F /* CoreGraphics.framework in Frameworks */,
 				7E2DA19311046EBC002CE93F /* SystemConfiguration.framework in Frameworks */,
+				7E6348B1110616FE00ADC4B7 /* libisimulate.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,10 +286,12 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7E6348AE110616FE00ADC4B7 /* libisimulate.a */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
 				7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */,
+				7E6348C61106176100ADC4B7 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -746,6 +760,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
 				INFOPLIST_FILE = "iTrader-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				PRODUCT_NAME = iTrader;
 			};
 			name = Debug;
@@ -758,6 +776,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
 				INFOPLIST_FILE = "iTrader-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				PRODUCT_NAME = iTrader;
 			};
 			name = Release;
@@ -776,6 +798,10 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "LogicTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -803,6 +829,10 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				INFOPLIST_FILE = "LogicTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -828,6 +858,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
 				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				PRODUCT_NAME = iTrader;
 			};
 			name = Debug;
@@ -840,6 +874,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
 				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				PRODUCT_NAME = iTrader;
 			};
 			name = Release;
@@ -908,6 +946,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.1.2;
 			};
@@ -921,6 +960,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.1.2;
 			};
