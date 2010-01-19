@@ -60,8 +60,8 @@
 	NSString *blank = @"";	
 	NSString *request = @"Request: Chart/OK";
 	NSString *secOid = @"SecOid: 18177/TEL";
-	NSString *width = @"Width: 0";
-	NSString *height = @"Height: 0";
+	NSString *width = @"Width: 0"; // informational
+	NSString *height = @"Height: 0"; // informational
 	NSString *imgType = @"ImgType: PNG";
 	
 	NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"infront" ofType:@"png"];
@@ -92,6 +92,76 @@
 	chart = nil;
 }
 
+#pragma mark Login Unit Tests
+
+-(void) testLogin {
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *contentLength = @"Content-Length: 0";
+	NSString *blank = @"";
+	NSString *request = @"Request: login/OK";
+	NSString *version = @"Version: 1.00.00";
+	NSString *dload = @"DLURL:"; 
+	NSString *serverIP = @"ServerIP: 1.1.1.1";
+	NSString *user = @"User: user";
+	NSString *symbols = @"Symbols:";
+	NSString *exchanges = @"Exchanges:";
+	NSString *newsFeeds = @"NewsFeeds:";
+	NSString *quotes = @"Quotes:";
+
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, nil];
+	[communicator.communicator.lineBuffer  setArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	[self logBlockBuffer];
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+		NSLog(@"%d", communicator.state);
+	}
+	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+}
+
+#pragma mark Keep-Alive Unit Tests
+
+-(void) testKeepAlives {
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *contentLength = @"Content-Length: 0";
+	NSString *blank = @"";
+	NSString *request = @"Request: login/OK";
+	NSString *version = @"Version: 1.00.00";
+	NSString *dload = @"DLURL:"; 
+	NSString *serverIP = @"ServerIP: 1.1.1.1";
+	NSString *user = @"User: user";
+	NSString *symbols = @"Symbols:";
+	NSString *exchanges = @"Exchanges:";
+	NSString *newsFeeds = @"NewsFeeds:";
+	NSString *quotes = @"Quotes:";
+	
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, nil];
+	[communicator.communicator.lineBuffer  setArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	[self logBlockBuffer];
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+
+	request = @"Request: q";
+	
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
+	block = [self blockGeneratorWithObjects:request, blank, nil];
+	[communicator.communicator.lineBuffer setArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	[self logBlockBuffer];
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+		NSLog(@"%d", communicator.state);
+	}
+	
+	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+}
 
 #pragma mark Helper Methods
 
