@@ -6,7 +6,7 @@
 //  Copyright 2009 Bird And Bear Productions. All rights reserved.
 //
 #import "Communicator.h"
-#import "Queue.h"
+#import "NSMutableArray+QueueAdditions.h"
 
 @implementation Communicator
 

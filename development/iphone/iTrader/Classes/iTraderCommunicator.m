@@ -23,6 +23,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 @synthesize defaults = _defaults;
 @synthesize blockBuffer = _blockBuffer;
 @synthesize currentLine = _currentLine;
+@synthesize state;
 
 #pragma mark Initialization, and Cleanup
 /**
@@ -166,7 +167,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *line = [self currentLineToString];
 	if ([line rangeOfString:@"Quotes:"].location == 0) {
 		[self settingsParsing];
-		[self blockBufferRenew];
 		state = PROCESSING;
 	}
 }
@@ -178,12 +178,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		state = STATIC;
 	} else if ([line rangeOfString:@"Request: q"].location == 0) { // Streaming
 		state = QUOTE;
-	} else if ([line isEqualToString:@""]) {
-		// Ignore blank lines
-	} else {
-		NSLog(@"Undefined state: %@", self.currentLine);
 	}
-	
 }
 
 - (void)staticLoop {
@@ -227,14 +222,12 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[self.blockBuffer addObject:self.currentLine];
 	NSString *line = [self currentLineToString];
 	
-	if ([line rangeOfString:@"Quotes: "].location == 0) {
+	if ([line rangeOfString:@"Quotes:"].location == 0) {
 		NSArray *quotes = [self quotesParsing:line];
 		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
 			[self.mTraderServerDataDelegate updateQuotes:quotes];
 		}
-		[self blockBufferRenew];
 		state = PROCESSING;
-		// call the delegate
 	} else if ([line rangeOfString:@"Kickout: 1"].location == 0) {
 //		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 //		[alertView show];
@@ -243,7 +236,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		// Tell the user they are no longer logged on and how to correct it.		
 	} else {
 		NSLog(@"Keep-Alive");
-		[self blockBufferRenew];
 		state = PROCESSING;
 	}
 }
@@ -257,7 +249,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(chart:)]) {
 			[self.mTraderServerDataDelegate chart:chart];
 		}
-		[self blockBufferRenew];
 		state = PROCESSING;
 	}
 }
@@ -271,7 +262,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
 			[self.mTraderServerDataDelegate updateQuotes:quotes];
 		}
-		[self blockBufferRenew];
 		state = PROCESSING;
 	}
 }
@@ -288,14 +278,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		// Just save it
 	} else if ([line rangeOfString:@"Staticdata: "].location == 0) {
 		[self staticDataParsing];
-		[self blockBufferRenew];
 		state = PROCESSING;
 	}
-}
-
-- (void)blockBufferRenew {
-	[self.blockBuffer release];
-	_blockBuffer = [[NSMutableArray alloc] init];	
 }
 
 #pragma mark Parsing
@@ -313,7 +297,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
 				[self.mTraderServerDataDelegate updateQuotes:quotes];
 			}
-			[self blockBufferRenew];
 			state = PROCESSING;
 			break;
 		}
@@ -350,7 +333,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(staticUpdates:)]) {
 		[self.mTraderServerDataDelegate staticUpdates:dataDictionary];
 	}
-	[self blockBufferRenew];
 	state = PROCESSING;
 	[dataDictionary release];
 }
@@ -365,6 +347,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	// Get the lines that are strings
 	int numberOfItemsToDelete = 0;
+	NSString *imageSize = nil;
 	for (NSData *data in self.blockBuffer) {
 		NSString *line = [self dataToString:data];
 		if ([line rangeOfString:@"<ImageBegin>"].location == NSNotFound) {
@@ -381,6 +364,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 				} else if ([line rangeOfString:@"ImgType:"].location == 0) {
 					chart.imageType = cleanedDataPortion;
 				} else if ([line rangeOfString:@"ImageSize:"].location == 0) {
+					imageSize = cleanedDataPortion; // retain?
 					chart.size = [cleanedDataPortion integerValue];
 				}
 			}
@@ -409,6 +393,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			imageBegin.location = length;
 			imageBegin.length = [data length] - length;
 			data = [data subdataWithRange:imageBegin];
+			line = [self dataToString:data];
 			
 			begin = YES;
 		} 
@@ -431,7 +416,12 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	indexes = [NSIndexSet indexSetWithIndexesInRange:range];
 	[self.blockBuffer removeObjectsAtIndexes:indexes];
 	
-	assert([imageData length] == chart.size);	
+	if ([imageData length] != chart.size) {
+		NSException *exception = [NSException exceptionWithName:@"ImageSizeMismatch" 
+														 reason:@"ImageSize specified didn't match received data size." 
+													   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:imageSize, @"ImageSize", imageData, @"ImageData", nil]];
+		[exception raise];
+	}
 	chart.image = imageData;
 	[imageData release];
 	
@@ -455,58 +445,60 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	// For each symbol
 	for (NSString *row in rows) {
-		Symbol *symbol = [[Symbol alloc] init];
-		
-		// The symbol data is separated by semi-colons.
-		NSArray *columns = [self cleanStrings:[row componentsSeparatedByString:@";"]];
-		
-		// Clean up the white space.
-		symbol.feedTicker = [columns objectAtIndex:0];
-		
-		// Split the feedNumberAndTicker into two components
-		NSArray *feedNumberAndTicker = [symbol.feedTicker componentsSeparatedByString:@"/"];
-		symbol.feedNumber = [feedNumberAndTicker objectAtIndex:0];
-		NSString *tickerToo = [feedNumberAndTicker objectAtIndex:1];
-		NSString *ticker = [columns objectAtIndex:1];
-		// The ticker symbol from field 0 should match the same symbol in field 1
-		assert([ticker isEqualToString:tickerToo]);
-		symbol.tickerSymbol = ticker;
-		
-		symbol.name = [columns objectAtIndex:2];
-		NSString *feedDescriptionAndCode = [columns objectAtIndex:3];
-		symbol.type = [columns objectAtIndex:4];
-		symbol.orderbook = [columns objectAtIndex:5];
-		symbol.isin = [columns objectAtIndex:6];
-		symbol.exchangeCode = [columns objectAtIndex:7];
-		
-		Feed *feed = [[Feed alloc] init];
-		feed.feedNumber = symbol.feedNumber;
-		// Obj-C doesn't have regex so we will look from the end of the string to get the [xxx] feed code. 
-		NSCharacterSet *leftSquareBracket = [NSCharacterSet characterSetWithCharactersInString:@"["]; 
-		NSRange feedCodeRange = [feedDescriptionAndCode rangeOfCharacterFromSet:leftSquareBracket options:NSBackwardsSearch];
-		NSInteger lengthOfFeedString = [feedDescriptionAndCode length];
-		
-		// Range compensating for the removal of square brackets
-		NSRange codeRange;
-		codeRange.location = feedCodeRange.location + 1;
-		codeRange.length = (lengthOfFeedString - feedCodeRange.location) - 2;
-		
-		NSRange descriptionRange;
-		descriptionRange.location = 0;
-		descriptionRange.length = lengthOfFeedString - codeRange.length - 2;
-		
-		NSString *feedDescription = [feedDescriptionAndCode substringWithRange:descriptionRange];
-		NSString *feedCode = [feedDescriptionAndCode substringWithRange:codeRange];
-		feed.feedDescription = feedDescription;
-		feed.code = feedCode;
-		
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(addSymbol: withFeed:)]) {
-			[self.mTraderServerDataDelegate addSymbol:symbol withFeed:feed];
+		if (![row isEqualToString:@""]) {
+			Symbol *symbol = [[Symbol alloc] init];
+			
+			// The symbol data is separated by semi-colons.
+			NSArray *columns = [self cleanStrings:[row componentsSeparatedByString:@";"]];
+			
+			// Clean up the white space.
+			symbol.feedTicker = [columns objectAtIndex:0];
+			
+			// Split the feedNumberAndTicker into two components
+			NSArray *feedNumberAndTicker = [symbol.feedTicker componentsSeparatedByString:@"/"];
+			symbol.feedNumber = [feedNumberAndTicker objectAtIndex:0];
+			NSString *tickerToo = [feedNumberAndTicker objectAtIndex:1];
+			NSString *ticker = [columns objectAtIndex:1];
+			// The ticker symbol from field 0 should match the same symbol in field 1
+			assert([ticker isEqualToString:tickerToo]);
+			symbol.tickerSymbol = ticker;
+			
+			symbol.name = [columns objectAtIndex:2];
+			NSString *feedDescriptionAndCode = [columns objectAtIndex:3];
+			symbol.type = [columns objectAtIndex:4];
+			symbol.orderbook = [columns objectAtIndex:5];
+			symbol.isin = [columns objectAtIndex:6];
+			symbol.exchangeCode = [columns objectAtIndex:7];
+			
+			Feed *feed = [[Feed alloc] init];
+			feed.feedNumber = symbol.feedNumber;
+			// Obj-C doesn't have regex so we will look from the end of the string to get the [xxx] feed code. 
+			NSCharacterSet *leftSquareBracket = [NSCharacterSet characterSetWithCharactersInString:@"["]; 
+			NSRange feedCodeRange = [feedDescriptionAndCode rangeOfCharacterFromSet:leftSquareBracket options:NSBackwardsSearch];
+			NSInteger lengthOfFeedString = [feedDescriptionAndCode length];
+			
+			// Range compensating for the removal of square brackets
+			NSRange codeRange;
+			codeRange.location = feedCodeRange.location + 1;
+			codeRange.length = (lengthOfFeedString - feedCodeRange.location) - 2;
+			
+			NSRange descriptionRange;
+			descriptionRange.location = 0;
+			descriptionRange.length = lengthOfFeedString - codeRange.length - 2;
+			
+			NSString *feedDescription = [feedDescriptionAndCode substringWithRange:descriptionRange];
+			NSString *feedCode = [feedDescriptionAndCode substringWithRange:codeRange];
+			feed.feedDescription = feedDescription;
+			feed.code = feedCode;
+			
+			if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(addSymbol: withFeed:)]) {
+				[self.mTraderServerDataDelegate addSymbol:symbol withFeed:feed];
+			}
+			[symbol release];
+			[feed release];
+			symbol = nil;
+			feed = nil;
 		}
-		[symbol release];
-		[feed release];
-		symbol = nil;
-		feed = nil;
 	}
 }
 

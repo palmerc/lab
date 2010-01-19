@@ -124,6 +124,51 @@
 #pragma mark Keep-Alive Unit Tests
 
 -(void) testKeepAlives {
+	[self loginStarterUpper];
+
+	NSString *request = @"Request: q";
+	NSString *blank = @"";
+	
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
+	NSArray *block = [self blockGeneratorWithObjects:request, blank, nil];
+	[communicator.communicator.lineBuffer setArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	[self logBlockBuffer];
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+		NSLog(@"%d", communicator.state);
+	}
+	
+	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+}
+
+#pragma mark Real-Time Quotes Unit Tests
+
+-(void) testRealTimeQuotes {
+	[self loginStarterUpper];
+	
+	NSString *request = @"Request: q";
+	NSString *quotes = @"Quotes:";
+	NSString *blank = @"";
+	
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
+	NSArray *block = [self blockGeneratorWithObjects:request, quotes, blank, nil];
+	[communicator.communicator.lineBuffer setArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	[self logBlockBuffer];
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+		NSLog(@"%d", communicator.state);
+	}
+	
+	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+}
+
+#pragma mark Helper Methods
+
+-(void) loginStarterUpper {
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
 	NSString *contentLength = @"Content-Length: 0";
@@ -146,24 +191,9 @@
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
 	}
-
-	request = @"Request: q";
-	
-	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	block = [self blockGeneratorWithObjects:request, blank, nil];
-	[communicator.communicator.lineBuffer setArray:block];
-	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
-	
-	for (int i=0; i < [block count]; i++) {
-		[communicator dataReceived];
-		NSLog(@"%d", communicator.state);
-	}
-	
-	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
-
-#pragma mark Helper Methods
 
 -(NSArray *) blockGeneratorWithObjects:(id)firstArg, ... {
 	NSMutableArray *block = [[NSMutableArray alloc] init];

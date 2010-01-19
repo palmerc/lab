@@ -54,6 +54,7 @@ enum {
 @property (readonly) BOOL isLoggedIn;
 @property (nonatomic, retain) NSData *currentLine;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
+@property (readonly) NSUInteger state;
 
 // The singleton class method
 + (iTraderCommunicator *)sharedManager;
@@ -87,7 +88,6 @@ enum {
 - (void)staticDataParsing;
 
 // Helper methods
-- (void)blockBufferRenew;
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
 - (NSString *)dataToString:(NSData *)data;

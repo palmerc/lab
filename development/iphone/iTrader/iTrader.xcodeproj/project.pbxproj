@@ -40,7 +40,7 @@
 		7E2DA17D11046EBC002CE93F /* iTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iTraderAppDelegate.m */; };
 		7E2DA17E11046EBC002CE93F /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
 		7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
-		7E2DA18011046EBC002CE93F /* Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* Queue.m */; };
+		7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E2DA18111046EBC002CE93F /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
 		7E2DA18211046EBC002CE93F /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
 		7E2DA18311046EBC002CE93F /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
@@ -69,10 +69,11 @@
 		7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
 		7E419AFC10E20DD00007808B /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
 		7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
-		7E419C6F10E2209B0007808B /* Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* Queue.m */; };
+		7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
 		7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
 		7E419DE810E251CB0007808B /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
+		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E8A6FCC10F6021E003D7E29 /* StockDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E8A6FCB10F6021E003D7E29 /* StockDetailView.xib */; };
 		7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* StockDetailController.m */; };
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
@@ -137,8 +138,8 @@
 		7E419AFB10E20DD00007808B /* infront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = infront.png; sourceTree = "<group>"; };
 		7E419BC910E21A150007808B /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		7E419BCA10E21A150007808B /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
-		7E419C6810E2209B0007808B /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
-		7E419C6910E2209B0007808B /* Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Queue.m; sourceTree = "<group>"; };
+		7E419C6810E2209B0007808B /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
+		7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueAdditions.m"; sourceTree = "<group>"; };
 		7E419C6B10E2209B0007808B /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
 		7E419C6C10E2209B0007808B /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
 		7E419C6D10E2209B0007808B /* iTraderCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderCommunicator.h; sourceTree = "<group>"; };
@@ -351,8 +352,8 @@
 		7E419C6710E2209B0007808B /* Data Structure */ = {
 			isa = PBXGroup;
 			children = (
-				7E419C6810E2209B0007808B /* Queue.h */,
-				7E419C6910E2209B0007808B /* Queue.m */,
+				7E419C6810E2209B0007808B /* NSMutableArray+QueueAdditions.h */,
+				7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */,
 				7EB15D5910F1F5CE003049C7 /* Symbol.h */,
 				7EB15D5A10F1F5CE003049C7 /* Symbol.m */,
 				7EB15D5C10F1F6DE003049C7 /* Feed.h */,
@@ -636,7 +637,7 @@
 				1D3623260D0F684500981E51 /* iTraderAppDelegate.m in Sources */,
 				7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */,
 				7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */,
-				7E419C6F10E2209B0007808B /* Queue.m in Sources */,
+				7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */,
 				7E419C7010E2209B0007808B /* Communicator.m in Sources */,
 				7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */,
 				7E419DE810E251CB0007808B /* NewsViewController.m in Sources */,
@@ -659,6 +660,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */,
 				7E2B93D111048D4600DA0B91 /* UserDefaults.m in Sources */,
 				7E2B93C511048D1600DA0B91 /* Symbol.m in Sources */,
 				7E2B93C611048D1600DA0B91 /* Feed.m in Sources */,
@@ -677,7 +679,7 @@
 				7E2DA17D11046EBC002CE93F /* iTraderAppDelegate.m in Sources */,
 				7E2DA17E11046EBC002CE93F /* MyStocksViewController.m in Sources */,
 				7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */,
-				7E2DA18011046EBC002CE93F /* Queue.m in Sources */,
+				7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */,
 				7E2DA18111046EBC002CE93F /* Communicator.m in Sources */,
 				7E2DA18211046EBC002CE93F /* iTraderCommunicator.m in Sources */,
 				7E2DA18311046EBC002CE93F /* NewsViewController.m in Sources */,

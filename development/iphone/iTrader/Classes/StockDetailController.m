@@ -216,7 +216,8 @@
 
 - (void)staticUpdated:(NSString *)feedTicker {
 	[self setValues];
-	[self.chart setImage:[self.symbol.chart image] forState:UIControlStateNormal];
+	UIImage *image = [UIImage imageWithData:[self.symbol.chart image]];
+	[self.chart setImage:image forState:UIControlStateNormal];
 }
 
 @end

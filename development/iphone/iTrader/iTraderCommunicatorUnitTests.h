@@ -13,6 +13,7 @@
 	iTraderCommunicator *communicator;
 }
 
+-(void) loginStarterUpper;
 -(NSArray *) blockGeneratorWithObjects:(id)object, ... NS_REQUIRES_NIL_TERMINATION;
 -(NSData *) stringToLatin1Data:(NSString *)string;
 -(NSString *) latin1DataToString:(NSData *)data;
