@@ -8,6 +8,7 @@
 //
 
 #import "iTraderCommunicator.h"
+#import "NSMutableArray+QueueAdditions.h"
 #import "UserDefaults.h";
 #import "Symbol.h"
 #import "Feed.h"
@@ -23,7 +24,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 @synthesize defaults = _defaults;
 @synthesize blockBuffer = _blockBuffer;
 @synthesize currentLine = _currentLine;
-@synthesize state;
+@synthesize state, contentLength;
 
 #pragma mark Initialization, and Cleanup
 /**
@@ -39,17 +40,15 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		
 		isLoggedIn = NO;
 		loginStatusHasChanged = NO;
-		_blockBuffer = [[NSMutableArray alloc] init];
+		self.blockBuffer = [[NSMutableArray alloc] init];
 		contentLength = 0;
-		state = LOGIN;
+		state = HEADER;
 	}
 	return self;
 }
 
 - (void)dealloc {
-	[self logout];
 	[self.blockBuffer release];
-	[self.communicator stopConnection];
 	[self.communicator release];
 	[super dealloc];
 }
@@ -101,7 +100,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSData *data = [self.communicator readLine];
 	NSString *string = [self dataToString:data];
 	
-	if (![string isEqualToString:@"\r\n"]) {
+	if (![string rangeOfString:@"\r\r"].location == 0 || ![string isEqualToString:@"\r\n"]) {
 		[self.blockBuffer addObject:data];
 	} else {
 		[self stateMachine];
@@ -112,11 +111,17 @@ static iTraderCommunicator *sharedCommunicator = nil;
 -(void) stateMachine {
 	while ([self.blockBuffer count] > 0) {
 		switch (state) {
+			case HEADER:
+				[self headerParsing];
+				break;
+			case FIXEDLENGTH:
+				[self fixedLength];
+				break;
+			case STATICRESPONSE:
+				[self staticResponse];
+				break;
 			case CHART:
 				[self chartHandling];
-				break;
-			case CONTENTLENGTH:
-				[self contentLength];
 				break;
 			case LOGIN:
 				[self loginHandling];
@@ -129,9 +134,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 				break;
 			case QUOTE:
 				[self quoteHandling];
-				break;
-			case STATIC:
-				[self staticLoop];
 				break;
 			case ADDSEC:
 				[self addSecurityOK];
@@ -154,14 +156,70 @@ static iTraderCommunicator *sharedCommunicator = nil;
  * State machine methods called from -(void)dataReceived
  *
  */
-- (void)contentLength {
-	assert(contentLength > 0);
-	[self.blockBuffer addObject:self.currentLine];
-	contentLength -= [self.currentLine length];	
-	if (contentLength == 0) {
+
+
+-(void) headerParsing {
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"Content-Length:"].location == 0) {
+		NSString *rhs = [self cleanString:[self dataFromRHS:string]];
+		contentLength = [rhs integerValue];
+		state = FIXEDLENGTH;
+	} else if ([self.blockBuffer count] == 0 && state == HEADER) {
+		state = STATICRESPONSE;
+	}
+}
+
+-(void) fixedLength {
+	int bytes = 0;
+	for (NSData *data in self.blockBuffer) {
+		bytes += [data length];
+	}
+	bytes += 2; // For the CR LF we skipped at the end of the block.
+	
+	if (bytes == contentLength) {
+		contentLength = 0;
+	} else {
+		NSLog(@"Fixed-length response didn't match advertised size: %d vs. %d", contentLength, bytes);
+	}
+	
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
+		loginStatusHasChanged = YES;
+		isLoggedIn = YES;
+		state = PREPROCESSING;
+	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
+		loginStatusHasChanged = YES;
+		isLoggedIn = NO;
+		state = LOGIN;
+	} else if ([string rangeOfString:@"Request: login/failed.DeniedAccess"].location == 0) {
+		loginStatusHasChanged = YES;
+		isLoggedIn = NO;
+		state = LOGIN;
+	}
+}
+
+-(void) staticResponse {
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if  ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
+		state = ADDSEC;
+	} else if  ([string rangeOfString:@"Request: remSec/OK"].location == 0) {
+		state = REMSEC;
+	} else if ([string rangeOfString:@"Request: Chart/OK"].location == 0) {
+		state = CHART;
+	} else if ([string rangeOfString:@"Request: StaticData/OK"].location == 0) {
+		state = STATDATA;
+	} else if ([string rangeOfString:@"Request: addSec/failed.NoSuchSec"].location == 0) {
+		[stockAddDelegate addFailedNotFound];
 		state = PROCESSING;
-		// Call someone to deal with this
-		// Wipe out block buffer
+	} else if 	 ([string rangeOfString:@"Request: addSec/failed.AlreadyExists"].location == 0) {
+		[stockAddDelegate addFailedAlreadyExists];
+		state = PROCESSING;
 	}
 }
 
@@ -184,132 +242,163 @@ static iTraderCommunicator *sharedCommunicator = nil;
  * change state.
  */
 - (void)preprocessing {
-	[self.blockBuffer addObject:self.currentLine];
-	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"Quotes:"].location == 0) {
-		[self settingsParsing];
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+
+	if ([string rangeOfString:@"Symbols:"].location == 0) {
+		[self symbolsParsing:string];
+	} else if ([string rangeOfString:@"Quotes:"].location == 0) {
+		NSArray *quotes = [self quotesParsing:string];
+		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
+			[self.mTraderServerDataDelegate updateQuotes:quotes];
+		}
 		state = PROCESSING;
 	}
 }
 
 - (void)processingLoop {
-	[self.blockBuffer addObject:self.currentLine];
-	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"HTTP/1.1 200 OK"].location == 0) { // Static data
-		state = STATIC;
-	} else if ([line rangeOfString:@"Request: q"].location == 0) { // Streaming
-		state = QUOTE;
-	}
-}
-
-- (void)staticLoop {
-	[self.blockBuffer addObject:self.currentLine];
-	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"Request: q"].location == 0) {
-		state = QUOTE;
-	} else if ([line rangeOfString:@"Content-Length: "].location == 0) {
-		state = CONTENTLENGTH;
-		NSRange contentLengthRange = [line rangeOfString:@"Content-Length: "];
-		NSRange size;
-		size.location = contentLengthRange.length;
-		size.length = [line length] - contentLengthRange.length;
-		contentLength = [[line substringWithRange:size] integerValue] + 2;		
-	} else if 	 ([line rangeOfString:@"Request: Chart/OK"].location == 0) {
-		state = CHART;
-	} else if  ([line rangeOfString:@"Request: addSec/OK"].location == 0) {
-		state = ADDSEC;
-	} else if  ([line rangeOfString:@"Request: remSec/OK"].location == 0) {
-		state = REMSEC;
-	} else if ([line rangeOfString:@"Request: StaticData/OK"].location == 0) {
-		state = STATDATA;
-	} else if ([line rangeOfString:@"Request: addSec/failed.NoSuchSec"].location == 0) {
-		[stockAddDelegate addFailedNotFound];
-		state = PROCESSING;
-	} else if 	 ([line rangeOfString:@"Request: addSec/failed.AlreadyExists"].location == 0) {
-		[stockAddDelegate addFailedAlreadyExists];
-		state = PROCESSING;
-	} else if ([line rangeOfString:@"Request: remSec/CouldNotDelete"].location == 0) {
-		state = PROCESSING;
-	} else if ([line rangeOfString:@"Server:"].location == 0) {
-		
-	} else if ([line isEqualToString:@""]) {			
-		// Ignore blank lines
-	} else {
-		NSLog(@"Invalid state: %d", state);
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"HTTP/1.1 200 OK"].location == 0) { // Static data
+		state = HEADER;
+	} else if ([string rangeOfString:@"Request: q"].location == 0) { // Streaming
+		if ([self.blockBuffer count] > 0) {
+			state = QUOTE;
+		} else {
+			// Keep-Alive
+			state = PROCESSING;
+		}
 	}
 }
 
 - (void)quoteHandling {
-	[self.blockBuffer addObject:self.currentLine];
-	NSString *line = [self currentLineToString];
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
 	
-	if ([line rangeOfString:@"Quotes:"].location == 0) {
-		NSArray *quotes = [self quotesParsing:line];
+	if ([string rangeOfString:@"Quotes:"].location == 0) {
+		NSArray *quotes = [self quotesParsing:string];
 		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
 			[self.mTraderServerDataDelegate updateQuotes:quotes];
 		}
 		state = PROCESSING;
-	} else if ([line rangeOfString:@"Kickout: 1"].location == 0) {
+	} else if ([string rangeOfString:@"Kickout: 1"].location == 0) {
 //		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 //		[alertView show];
 //		[alertView release];
 		state = KICKOUT;
 		// Tell the user they are no longer logged on and how to correct it.		
-	} else {
-		NSLog(@"Keep-Alive");
-		state = PROCESSING;
 	}
-	
-	NSRange range;
-	range.location = 0;
-	range.length = [self.blockBuffer count];
-	[self.blockBuffer removeObjectsInRange:range];
 }
 
 - (void)chartHandling {
-	[self.blockBuffer addObject:self.currentLine];
+	Chart *chart = [[Chart alloc] init];
+	NSMutableData *imageData = [[NSMutableData alloc] init];
+	NSString *imageSizeString;
 	
-	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
-		Chart *chart = [self chartParsing];
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(chart:)]) {
-			[self.mTraderServerDataDelegate chart:chart];
+	BOOL imageProcessing = NO;
+	
+	while ([self.blockBuffer count] > 0) {	
+		NSData *data = [self.blockBuffer deQueue];
+		NSString *string = [self dataToString:data];
+		
+		if ([string rangeOfString:@"<ImageBegin>"].location == 0) {
+			imageProcessing = YES;
 		}
-		state = PROCESSING;
+		
+		// Get the lines that are strings
+		if (imageProcessing) {
+			do {
+				if ([string rangeOfString:@"<ImageBegin>"].location != NSNotFound) {
+					NSRange imageBegin = [string rangeOfString:@"<ImageBegin>"];
+					NSUInteger length = imageBegin.length;
+					imageBegin.location = length;
+					imageBegin.length = [data length] - length;
+					data = [data subdataWithRange:imageBegin];
+					string = [self dataToString:data];
+				} 
+				
+				if ([string rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
+					NSRange imageEnd = [string rangeOfString:@"<ImageEnd>"];
+					imageEnd.length = imageEnd.location;
+					imageEnd.location = 0;
+					data = [data subdataWithRange:imageEnd];
+					imageProcessing = NO;
+				}
+				
+				[imageData appendData:data];
+			} while ([string rangeOfString:@"<ImageEnd>"].location == NSNotFound);
+		} else {
+			NSArray *partsOfString = [string componentsSeparatedByString:@":"];
+			if ([partsOfString count] > 1) {
+				NSString *dataPortion = [[self stripOffFirstElement:partsOfString] objectAtIndex:0];
+				NSString *cleanedDataPortion = [self cleanString:dataPortion];
+				if ([string rangeOfString:@"SecOid:"].location == 0) {
+					chart.feedTicker = cleanedDataPortion;
+				} else if ([string rangeOfString:@"Width:"].location == 0) {
+					chart.width = [cleanedDataPortion integerValue];
+				} else if ([string rangeOfString:@"Height:"].location == 0) {
+					chart.height = [cleanedDataPortion integerValue];
+				} else if ([string rangeOfString:@"ImgType:"].location == 0) {
+					chart.imageType = cleanedDataPortion;
+				} else if ([string rangeOfString:@"ImageSize:"].location == 0) {
+					imageSizeString = cleanedDataPortion;
+					chart.size = [cleanedDataPortion integerValue];
+				}
+			}
+		}
 	}
+	if ([imageData length] != chart.size) {
+		NSException *exception = [NSException exceptionWithName:@"ImageSizeMismatch" 
+														 reason:@"ImageSize specified didn't match received data size." 
+													   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:imageSizeString, @"ImageSize", imageData, @"ImageData", nil]];
+		[exception raise];
+	}
+	
+	chart.image = imageData;
+	[imageData release];
+
+	if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(chart:)]) {
+		[self.mTraderServerDataDelegate chart:chart];
+	}
+	[chart release];
+	state = PROCESSING;		
 }
 
 - (void)addSecurityOK {
-	[self.blockBuffer addObject:self.currentLine];
-	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"SecInfo:"].location == 0) {		
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"SecInfo:"].location == 0) {		
 		[stockAddDelegate addOK];
-		NSArray *quotes = [self quotesParsing:line];
+		NSArray *quotes = [self quotesParsing:string];
 		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
 			[self.mTraderServerDataDelegate updateQuotes:quotes];
 		}
 		state = PROCESSING;
 	}
-	
-	NSRange range;
-	range.location = 0;
-	range.length = 5;
-	[self.blockBuffer removeObjectsInRange:range];
 }
 
 - (void)removeSecurityOK {
-	// Unimplemented
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"SecOid:"].location == 0) {
+		NSString *feedTicker = [self cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
+		if (self.mTraderServerDataDelegate && [self.mTraderServerDataDelegate respondsToSelector:@selector(removedSecurity:)]) {
+			[self.mTraderServerDataDelegate removedSecurity:feedTicker];
+		}
+	}
+	
+	state = PROCESSING;
 }
 
 - (void)staticDataOK {
-	[self.blockBuffer addObject:self.currentLine];
-
-	NSString *line = [self currentLineToString];
-	if ([line rangeOfString:@"SecOid:"].location == 0) {
-		// Just save it
-	} else if ([line rangeOfString:@"Staticdata: "].location == 0) {
-		[self staticDataParsing];
-		state = PROCESSING;
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"SecOid:"].location == 0) {
+		[self staticDataParsing:string];
 	}
 }
 
@@ -318,57 +407,34 @@ static iTraderCommunicator *sharedCommunicator = nil;
  * These are methods that parse blocks of data
  *
  */
-- (void)settingsParsing {
-	NSRange range;
-	range.location = 0;
-	range.length = [self.blockBuffer count];
-	for (NSData *data in self.blockBuffer) {
-		NSString *line = [self dataToString:data];
-		if ([line rangeOfString:@"Symbols:"].location == 0) {
-			[self symbolsParsing:line];
-		} else if ([line rangeOfString:@"Quotes:"].location == 0) {
-			NSArray *quotes = [self quotesParsing:line];
-			if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
-				[self.mTraderServerDataDelegate updateQuotes:quotes];
-			}
-			state = PROCESSING;
-			break;
-		}
-	}
-	[self.blockBuffer removeObjectsInRange:range];
-}
-
-- (void)staticDataParsing {
+- (void)staticDataParsing:(NSString *)secOid {
 	NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc] init];
-	NSRange range;
-	range.location = 0;
-	range.length = [self.blockBuffer count];
-	for (NSData *data in self.blockBuffer) {
-		NSString *line = [self dataToString:data];
-		if ([line rangeOfString:@"SecOid:"].location == 0) {
-			NSString *feedTicker = [self cleanString:[[line componentsSeparatedByString:@":"] objectAtIndex:1]];
-			[dataDictionary setObject:feedTicker forKey:@"feedTicker"];
-		} else if ([line rangeOfString:@"Staticdata:"].location == 0) {
-			NSRange staticDataRange = [line rangeOfString:@"Staticdata: "];
-			NSRange restOfTheDataRange;
-			restOfTheDataRange.location = staticDataRange.length;
-			restOfTheDataRange.length = [line length] - staticDataRange.length;
-			NSString *staticDataString = [line substringWithRange:restOfTheDataRange];
-			
-			
-			NSArray *staticDataRows = [staticDataString componentsSeparatedByString:@";"];
-			for (NSString *row in staticDataRows) {
-				NSRange separatorRange = [row rangeOfString:@":"];
-				if (separatorRange.location != NSNotFound) {
-					NSString *key = [row substringToIndex:separatorRange.location];
-					NSString *value = [row substringFromIndex:separatorRange.location + 1];
-					[dataDictionary setObject:value forKey:key];
-				}
-				
+
+	if ([secOid rangeOfString:@"SecOid:"].location == 0) {
+		NSString *feedTicker = [self cleanString:[[secOid componentsSeparatedByString:@":"] objectAtIndex:1]];
+		[dataDictionary setObject:feedTicker forKey:@"feedTicker"];
+	}
+	
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+		
+	if ([string rangeOfString:@"Staticdata:"].location == 0) {
+		NSRange staticDataRange = [string rangeOfString:@"Staticdata: "];
+		NSRange restOfTheDataRange;
+		restOfTheDataRange.location = staticDataRange.length;
+		restOfTheDataRange.length = [string length] - staticDataRange.length;
+		NSString *staticDataString = [string substringWithRange:restOfTheDataRange];
+						
+		NSArray *staticDataRows = [staticDataString componentsSeparatedByString:@";"];
+		for (NSString *row in staticDataRows) {
+			NSRange separatorRange = [row rangeOfString:@":"];
+			if (separatorRange.location != NSNotFound) {
+				NSString *key = [row substringToIndex:separatorRange.location];
+				NSString *value = [row substringFromIndex:separatorRange.location + 1];
+				[dataDictionary setObject:value forKey:key];
 			}
 		}
 	}
-	[self.blockBuffer removeObjectsInRange:range];
 	if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(staticUpdates:)]) {
 		[self.mTraderServerDataDelegate staticUpdates:dataDictionary];
 	}
@@ -377,114 +443,20 @@ static iTraderCommunicator *sharedCommunicator = nil;
 }
 
 /**
- * We expect the block buffer holds a valid chart in its entirety.
- * Each line should be NSData from Http header to ImageEnd
- */
-- (Chart *)chartParsing {
-	
-	Chart *chart = [[Chart alloc] init];
-	
-	// Get the lines that are strings
-	int numberOfItemsToDelete = 0;
-	NSString *imageSize = nil;
-	for (NSData *data in self.blockBuffer) {
-		NSString *line = [self dataToString:data];
-		if ([line rangeOfString:@"<ImageBegin>"].location == NSNotFound) {
-			NSArray *partsOfString = [line componentsSeparatedByString:@":"];
-			if ([partsOfString count] > 1) {
-				NSString *dataPortion = [[self stripOffFirstElement:partsOfString] objectAtIndex:0];
-				NSString *cleanedDataPortion = [self cleanString:dataPortion];
-				if ([line rangeOfString:@"SecOid:"].location == 0) {
-					chart.feedTicker = cleanedDataPortion;
-				} else if ([line rangeOfString:@"Width:"].location == 0) {
-					chart.width = [cleanedDataPortion integerValue];
-				} else if ([line rangeOfString:@"Height:"].location == 0) {
-					chart.height = [cleanedDataPortion integerValue];
-				} else if ([line rangeOfString:@"ImgType:"].location == 0) {
-					chart.imageType = cleanedDataPortion;
-				} else if ([line rangeOfString:@"ImageSize:"].location == 0) {
-					imageSize = cleanedDataPortion; // retain?
-					chart.size = [cleanedDataPortion integerValue];
-				}
-			}
-			numberOfItemsToDelete++;
-		} else {
-			break;
-		}
-	}
-	
-	NSRange range;
-	range.location = 0;
-	range.length = numberOfItemsToDelete;
-	NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
-	[self.blockBuffer removeObjectsAtIndexes:indexes];
-	
-	numberOfItemsToDelete = 0;
-	NSMutableData *imageData = [[NSMutableData alloc] init];
-	
-	BOOL begin = NO;
-	BOOL end = NO;
-	for (NSData *data in self.blockBuffer) {
-		NSString *line = [self dataToString:data];
-		if ([line rangeOfString:@"<ImageBegin>"].location != NSNotFound) {
-			NSRange imageBegin = [line rangeOfString:@"<ImageBegin>"];
-			NSUInteger length = imageBegin.length;
-			imageBegin.location = length;
-			imageBegin.length = [data length] - length;
-			data = [data subdataWithRange:imageBegin];
-			line = [self dataToString:data];
-			
-			begin = YES;
-		} 
-		
-		if ([line rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
-			NSRange imageEnd = [line rangeOfString:@"<ImageEnd>"];
-			imageEnd.length = imageEnd.location;
-			imageEnd.location = 0;
-			data = [data subdataWithRange:imageEnd];
-			
-			end = YES;
-		}
-		
-		[imageData appendData:data];
-		numberOfItemsToDelete++;
-	}
-		
-	range.location = 0;
-	range.length = numberOfItemsToDelete;
-	indexes = [NSIndexSet indexSetWithIndexesInRange:range];
-	[self.blockBuffer removeObjectsAtIndexes:indexes];
-	
-	if ([imageData length] != chart.size) {
-		NSException *exception = [NSException exceptionWithName:@"ImageSizeMismatch" 
-														 reason:@"ImageSize specified didn't match received data size." 
-													   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:imageSize, @"ImageSize", imageData, @"ImageData", nil]];
-		[exception raise];
-	}
-	chart.image = imageData;
-	[imageData release];
-	
-	if (!begin || !end) {
-		[chart release];
-		return nil;
-	} else {	
-		return chart;
-	}
-}
-
-/**
  * Two possibilities... One quote, or multiple quotes separated by a pipe
  *
  */
 - (NSArray *)quotesParsing:(NSString *)quotes {
-	NSArray *quotesAndTheRest = [self stripOffFirstElement:[quotes componentsSeparatedByString:@":"]];
+	NSString *quotesSansCRLF = [self cleanString:quotes];
+	NSArray *quotesAndTheRest = [self stripOffFirstElement:[quotesSansCRLF componentsSeparatedByString:@":"]];
 	NSString *theRest = [self cleanString:[quotesAndTheRest objectAtIndex:0]];
 	return [theRest componentsSeparatedByString:@"|"];
 }
 
 - (void)symbolsParsing:(NSString *)symbols {
 	// remove the part of the string preceding the colon, and the rest of the symbols are colon separated.
-	NSArray *rows = [self stripOffFirstElement:[symbols componentsSeparatedByString:@":"]];
+	NSString *symbolsSansCRLF = [self cleanString:symbols];
+	NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
 	
 	// For each symbol
 	for (NSString *row in rows) {
@@ -665,6 +637,19 @@ static iTraderCommunicator *sharedCommunicator = nil;
  * Helper methods
  *
  */
+
+-(NSString *) dataFromRHS:(NSString *)string {
+	NSArray *array = [string componentsSeparatedByString:@":"];
+	NSString *value;
+	
+	if ([array count] > 1) {
+		array = [self stripOffFirstElement:array];
+		value = [array componentsJoinedByString:@":"];
+	} else {
+		value = nil;
+	}
+	return value;
+}
 
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings {
 	NSString *EOL = @"\r\n";

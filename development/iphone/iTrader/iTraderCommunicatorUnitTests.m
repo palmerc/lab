@@ -256,7 +256,7 @@
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 
-#pragma mark Add Stock Unit Tests
+#pragma mark Add/Remove Stock Unit Tests
 
 -(void) testAddStocks {
 	[self loginStarterUpper];
@@ -296,12 +296,35 @@
 	
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
-}
+	}
 	
 	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
 	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
+
+-(void) testRemoveStocksParsing {
+	[self loginStarterUpper];
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *request = @"Request: remSec/OK";
+	NSString *secInfo = @"SecInfo:";
+	NSString *blank = @"";
+	
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secInfo, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	
+	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
 
 #pragma mark Real-Time Quotes Unit Tests
 
@@ -326,7 +349,54 @@
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 
-#pragma mark Quotes Parsing Unit Tests
+#pragma mark Kickout Unit Tests
+
+-(void) testKickOut {
+	[self loginStarterUpper];
+	
+	NSString *request = @"Request: q";
+	NSString *kickout = @"Kickout: 1";
+	NSString *blank = @"";
+	
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
+	NSArray *block = [self blockGeneratorWithObjects:request, kickout, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	
+	STAssertTrue(communicator.state == KICKOUT, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
+#pragma mark Static Data Unit Tests
+
+-(void) testStaticData {
+	[self loginStarterUpper];
+	
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *blank = @"";
+	NSString *request = @"Request: StaticData/OK";
+	NSString *secOid = @"SecOid:";
+	NSString *staticData = @"StaticData:";
+	
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, staticData, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	
+	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
 
 #pragma mark Helper Methods
 

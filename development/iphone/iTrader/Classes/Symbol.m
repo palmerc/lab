@@ -107,16 +107,18 @@
 }
 
 - (void)setFeedTicker:(NSString *)feedTicker {
-	NSArray *components = [feedTicker componentsSeparatedByString:@"/"];
-	if ([components count] == 2) {
-		// Format of feedTicker string is feedNumber/tickerSymbol
-		NSString *feedNumber = [components objectAtIndex:0];
-		NSString *tickerSymbol = [components objectAtIndex:1];
-	
-		self.feedNumber = feedNumber;
-		self.tickerSymbol = tickerSymbol;
-	} else {
-		NSLog(@"Tried to set the feedTicker of a symbol to %@", feedTicker);
+	if (feedTicker != nil) {
+		NSArray *components = [feedTicker componentsSeparatedByString:@"/"];
+		if ([components count] == 2) {
+			// Format of feedTicker string is feedNumber/tickerSymbol
+			NSString *feedNumber = [components objectAtIndex:0];
+			NSString *tickerSymbol = [components objectAtIndex:1];
+			
+			self.feedNumber = feedNumber;
+			self.tickerSymbol = tickerSymbol;
+		} else {
+			NSLog(@"Tried to set the feedTicker of a symbol to %@", feedTicker);
+		}
 	}
 }
 

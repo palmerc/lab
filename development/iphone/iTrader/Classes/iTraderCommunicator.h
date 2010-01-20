@@ -17,18 +17,21 @@
 @protocol StockAddDelegate;
 
 enum {
-	CHART = 0,
-	CONTENTLENGTH = 1,
-	LOGIN = 2,
-	PREPROCESSING = 3,
-	PROCESSING = 4,
-	QUOTE = 5,
-	QUOTES = 6,
-	STATIC = 7,
-	ADDSEC = 8,
-	REMSEC = 9,
-	STATDATA = 10,
-	KICKOUT = 11
+	HEADER = 0,
+	FIXEDLENGTH,
+	STATICRESPONSE,
+	CHART,
+	CONTENTLENGTH,
+	LOGIN,
+	PREPROCESSING,
+	PROCESSING,
+	QUOTE,
+	QUOTES,
+	STATIC,
+	ADDSEC,
+	REMSEC,
+	STATDATA,
+	KICKOUT
 } states;
 
 @interface iTraderCommunicator : NSObject <CommunicatorDataDelegate> {
@@ -54,7 +57,8 @@ enum {
 @property (readonly) BOOL isLoggedIn;
 @property (nonatomic, retain) NSData *currentLine;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
-@property (readonly) NSUInteger state;
+@property (nonatomic, assign) NSUInteger state;
+@property (nonatomic, assign) NSUInteger contentLength;
 
 // The singleton class method
 + (iTraderCommunicator *)sharedManager;
@@ -70,25 +74,25 @@ enum {
 
 // State machine methods
 -(void) stateMachine;
+-(void) headerParsing;
+-(void) fixedLength;
+-(void) staticResponse;
 - (void)chartHandling;
-- (void)contentLength;
 - (void)loginHandling;
 - (void)preprocessing;
 - (void)processingLoop;
 - (void)quoteHandling;
-- (void)staticLoop;
 - (void)addSecurityOK;
 - (void)removeSecurityOK;
 - (void)staticDataOK;
 
 // Parsing methods
-- (Chart *)chartParsing;
 - (NSArray *)quotesParsing:(NSString *)quotes;
 - (void)symbolsParsing:(NSString *)symbols;
-- (void)settingsParsing;
-- (void)staticDataParsing;
+- (void)staticDataParsing:(NSString *)secOid;
 
 // Helper methods
+- (NSString *)dataFromRHS:(NSString *)string;
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
 - (NSString *)dataToString:(NSData *)data;
@@ -99,12 +103,13 @@ enum {
 
 // Delegate Protocols
 @protocol mTraderServerDataDelegate <NSObject>
-- (void)chart:(Chart *)chart;
-- (void)addFeed:(Feed *)feed;
-- (void)addSymbol:(Symbol *)symbol;
-- (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
-- (void)updateQuotes:(NSArray *)quotes;
-- (void)staticUpdates:(NSDictionary *)updateDictionary;
+-(void) chart:(Chart *)chart;
+-(void) addFeed:(Feed *)feed;
+-(void) addSymbol:(Symbol *)symbol;
+-(void) addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
+-(void) updateQuotes:(NSArray *)quotes;
+-(void) staticUpdates:(NSDictionary *)updateDictionary;
+-(void) removedSecurity:(NSString *)feedTicker;
 @end
 
 @protocol StockAddDelegate <NSObject>
