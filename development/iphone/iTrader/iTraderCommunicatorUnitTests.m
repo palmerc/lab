@@ -15,17 +15,56 @@
 
 -(void) setUp {
 	communicator = [iTraderCommunicator sharedManager];
-	communicator.blockBuffer = [[NSMutableArray alloc] init];
 }
 
 -(void) tearDown {
-	[communicator.blockBuffer release];
-	communicator.blockBuffer = nil;
+	communicator.state = HEADER;
+}
+
+#pragma mark Header Parsing Unit Tests
+
+-(void) testHeaderParsing {
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *blank = @"";
+	
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	
+	STAssertTrue(communicator.state == STATICRESPONSE, @"The state should be static-response. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
+-(void) testHeaderParsingWithContent {
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *content = @"Content-Length: 0";
+	NSString *blank = @"";
+	
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, content, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	
+	STAssertTrue(communicator.state == FIXEDLENGTH, @"The state should be fixed-length. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 
 #pragma mark Chart Unit Tests
 
 -(void) testChartParsing {
+	[self loginStarterUpper];
+	
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
 	NSString *blank = @"";	
@@ -37,25 +76,23 @@
 	NSString *imageSize = @"ImageSize: 0";
 	NSString *imageData = @"<ImageBegin><ImageEnd>";
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, imageData, nil]; 
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, imageData, blank, nil]; 
 	
-	communicator.blockBuffer = [[NSMutableArray alloc] init];
-	
-	// This sets an empty image message into the block buffer
-	[communicator.blockBuffer setArray:block];
-	STAssertTrue([communicator.blockBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
 	// Parse the empty image and make sure it clears out the block correctly
-	Chart *chart = [communicator chartParsing];
-	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared.");
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
-	
-	[chart release];
-	chart = nil;
 }
 
 -(void) testChartParsingWithImage {
+	[self loginStarterUpper];
+	
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
 	NSString *blank = @"";	
@@ -76,22 +113,55 @@
 	
 	NSString *imageSize = [NSString stringWithFormat:@"ImageSize: %d", [imageData length]];
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, image, nil]; 
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, image, blank, nil]; 
 	
-	
-	// This sets an empty image message into the block buffer
-	[communicator.blockBuffer setArray:block];
-	STAssertTrue([communicator.blockBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
 	// Parse the empty image and make sure it clears out the block correctly
-	Chart *chart = [communicator chartParsing];
-	STAssertNotNil(chart, @"Chart was nil");
-	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared.");
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
+-(void) testCompleteChartParsingWithImage {
+	[self loginStarterUpper];
 	
-	[chart release];
-	chart = nil;
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *blank = @"";	
+	NSString *request = @"Request: Chart/OK";
+	NSString *secOid = @"SecOid: 18177/TEL";
+	NSString *width = @"Width: 0"; // informational
+	NSString *height = @"Height: 0"; // informational
+	NSString *imgType = @"ImgType: PNG";
+	
+	NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"infront" ofType:@"png"];
+	STAssertNotNil(filePath, @"File path for test image is nil");
+	NSString *imageBegin = @"<ImageBegin>";
+	NSString *imageEnd = @"<ImageEnd>";
+	NSData *imageData = [NSData dataWithContentsOfFile:filePath];
+	NSMutableData *image = [NSMutableData dataWithData:[self stringToLatin1Data:imageBegin]];
+	[image appendData:imageData];
+	[image appendData:[self stringToLatin1Data:imageEnd]];
+	
+	NSString *imageSize = [NSString stringWithFormat:@"ImageSize: %d", [imageData length]];
+	
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, image, blank, nil]; 
+	
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	// Parse the empty image and make sure it clears out the block correctly
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 
 #pragma mark Login Unit Tests
@@ -99,7 +169,7 @@
 -(void) testLogin {
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
-	NSString *contentLength = @"Content-Length: 0";
+	NSString *contentLength = @"Content-Length: 121";
 	NSString *blank = @"";
 	NSString *request = @"Request: login/OK";
 	NSString *version = @"Version: 1.00.00";
@@ -111,16 +181,55 @@
 	NSString *newsFeeds = @"NewsFeeds:";
 	NSString *quotes = @"Quotes:";
 
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, nil];
-	[communicator.communicator.lineBuffer  setArray:block];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
 	
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
-		NSLog(@"%d", communicator.state);
 	}
+	STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
 	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
+-(void) testLoginEpicFailUserPassword {
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *contentLength = @"Content-Length: 32";
+	NSString *blank = @"";
+	NSString *request = @"Request: login/failed.UsrPwd";
+	
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
+	STAssertTrue(communicator.state == LOGIN, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
+-(void) testLoginEpicFailDeniedAccess {
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *contentLength = @"Content-Length: 38";
+	NSString *blank = @"";
+	NSString *request = @"Request: login/failed.DeniedAccess";
+	
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
+	STAssertTrue(communicator.state == LOGIN, @"The state should be processing after login. State was %d", communicator.state);
 	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
@@ -135,13 +244,11 @@
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
 	NSArray *block = [self blockGeneratorWithObjects:request, blank, nil];
-	[communicator.communicator.lineBuffer setArray:block];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
 	
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
-		NSLog(@"%d", communicator.state);
 	}
 	
 	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
@@ -160,10 +267,9 @@
 	NSString *quotes = @"SecInfo:";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, quotes, nil];
-	[communicator.communicator.lineBuffer setArray:block];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, quotes, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
 	
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
@@ -184,10 +290,9 @@
 	NSString *blank = @"";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secInfo, nil];
-	[communicator.communicator.lineBuffer setArray:block];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secInfo, blank, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
 	
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
@@ -209,13 +314,11 @@
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
 	NSArray *block = [self blockGeneratorWithObjects:request, quotes, blank, nil];
-	[communicator.communicator.lineBuffer setArray:block];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
 	
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
-		NSLog(@"%d", communicator.state);
 	}
 	
 	STAssertTrue(communicator.state == PROCESSING, @"This is a keep-alive and should cause state to revert to Processing. State is %d", communicator.state);
@@ -225,14 +328,12 @@
 
 #pragma mark Quotes Parsing Unit Tests
 
-
-
 #pragma mark Helper Methods
 
 -(void) loginStarterUpper {
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
-	NSString *contentLength = @"Content-Length: 0";
+	NSString *contentLength = @"Content-Length: 121";
 	NSString *blank = @"";
 	NSString *request = @"Request: login/OK";
 	NSString *version = @"Version: 1.00.00";
@@ -247,12 +348,11 @@
 	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, blank, nil];
 	[communicator.communicator.lineBuffer  setArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	[self logBlockBuffer];
 	
 	for (int i=0; i < [block count]; i++) {
 		[communicator dataReceived];
 	}
-		
+	STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
 	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
 	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
