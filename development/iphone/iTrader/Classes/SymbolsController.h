@@ -18,6 +18,7 @@
 }
 
 @property (assign) id <SymbolsUpdateDelegate> updateDelegate;
+@property (nonatomic, assign) iTraderCommunicator *communicator;
 @property (nonatomic, retain) NSMutableArray *feeds;
 
 // Singleton Class Method
@@ -26,6 +27,7 @@
 - (NSArray *)cleanQuote:(NSString *)quote;
 - (void)addSymbol:(Symbol *)symbol;
 - (void)addFeed:(Feed *)feed;
+-(void) removeSymbol:(NSIndexPath *)indexPath;
 - (NSInteger)indexOfFeed:(Feed *)feed;
 - (NSInteger)indexOfFeedWithFeedNumber:(NSString *)feedNumber;
 - (NSIndexPath *)indexPathOfSymbol:(NSString *)feedTicker;
@@ -36,6 +38,7 @@
 @protocol SymbolsUpdateDelegate <NSObject>
 @optional
 - (void)symbolsAdded:(NSArray *)symbols;
+-(void) symbolRemoved:(NSIndexPath *)indexPath;
 - (void)feedAdded:(Feed *)feed;
 - (void)symbolsUpdated:(NSArray *)quotes;
 - (void)staticUpdated:(NSString *)feedTicker;

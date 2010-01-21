@@ -10,6 +10,7 @@
 
 
 @implementation StockListingCell
+@synthesize delegate = _delegate;
 @synthesize tickerLabel, nameLabel, valueButton;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -27,6 +28,11 @@
     // Configure the view for the selected state
 }
 
+-(IBAction) touchedValueButton:(id)sender {
+	if (self.delegate && [self.delegate respondsToSelector:@selector(touchedValueButton:)]) {
+		[self.delegate touchedValueButton:(id)sender];
+	}
+}
 
 - (void)dealloc {
     [super dealloc];

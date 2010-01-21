@@ -371,10 +371,10 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"SecInfo:"].location == 0) {		
 		[stockAddDelegate addOK];
-		NSArray *quotes = [self quotesParsing:string];
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
-			[self.mTraderServerDataDelegate updateQuotes:quotes];
-		}
+		[self symbolsParsing:string];
+		//if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
+		//	[self.mTraderServerDataDelegate updateQuotes:quotes];
+		//}
 		state = PROCESSING;
 	}
 }

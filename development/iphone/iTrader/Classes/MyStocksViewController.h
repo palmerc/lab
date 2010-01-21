@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SymbolsController.h"
+#import "StockListingCell.h"
 #import "StockSearchController.h"
 
 @class iTraderCommunicator;
@@ -15,13 +16,21 @@
 
 typedef enum {
 	NOCHANGE = 0,
-	UP = 1,
-	DOWN = 2
+	UP,
+	DOWN
 } changeEnum;
 
-@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, StockSearchControllerDelegate, SymbolsUpdateDelegate> {
+typedef enum {
+	PRICE = 0,
+	PERCENT,
+	VOLUME
+} valueType;
+
+@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, StockSearchControllerDelegate, SymbolsUpdateDelegate, TouchedValueButtonDelegate> {
 	iTraderCommunicator *_communicator;
 	SymbolsController *_symbolsController;
+	
+	NSUInteger currentValueType;
 }
 
 @property (nonatomic, retain) SymbolsController *symbolsController;

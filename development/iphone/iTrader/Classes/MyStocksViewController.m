@@ -21,6 +21,8 @@
 @implementation MyStocksViewController
 @synthesize symbolsController = _symbolsController;
 
+#pragma mark Lifecycle
+
 - (id)init {
 	self = [super init];
 	if (self != nil) {
@@ -34,6 +36,7 @@
 		_communicator = [iTraderCommunicator sharedManager];
 		
 		_symbolsController.updateDelegate = self;
+		currentValueType = PRICE;
 	}
 	return self;
 }
@@ -110,6 +113,7 @@
  */
 
 
+#pragma mark Section Handling
 /* Section Handling */
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -144,13 +148,13 @@
 		for (id currentObject in topLevelObjects) {
 			if ([currentObject isKindOfClass:[StockListingCell class]]) {
 				cell = (StockListingCell *)currentObject;
+				cell.delegate = self;
 				break;
 			}
 		}
 	}
 		
 	Symbol *symbol = [self.symbolsController symbolAtIndexPath:indexPath];
-	//NSLog(@"change: %@", symbol.changeSinceLastUpdate);
 	changeEnum changeType;
 	if ([symbol.changeSinceLastUpdate floatValue] < 0) {
 		changeType = DOWN;
@@ -189,7 +193,24 @@
 	cell.editing = YES;
 	cell.tickerLabel.text = symbol.tickerSymbol;
 	cell.nameLabel.text = symbol.name;
-	[cell.valueButton setTitle:symbol.lastTrade forState:UIControlStateNormal];
+	
+	NSString *title;
+	switch (currentValueType) {
+		case PRICE:
+			title = symbol.lastTrade;
+			break;
+		case PERCENT:
+			title = symbol.percentChange;	
+			break;
+		case VOLUME:
+			title = symbol.volume;
+			break;
+		default:
+			title = nil;
+			break;
+	}
+	
+	[cell.valueButton setTitle:title forState:UIControlStateNormal];
 	
 	return cell;
 }
@@ -197,7 +218,7 @@
 // This method is required to catch the swipe to delete gesture.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
-		NSLog(@"Delete %@", indexPath);
+		[self.symbolsController removeSymbol:indexPath];
 	}
 
 }
@@ -225,14 +246,16 @@
 }
 
 
-
+#pragma mark Delegation
 /**
  * Delegation
  */
 
 
-- (void)symbolDeleted {
-
+-(void) symbolRemoved:(NSIndexPath *)indexPath {
+	[self.tableView beginUpdates];
+	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+	[self.tableView endUpdates];
 }
 
 - (void)feedAdded:(Feed *)feed {
@@ -286,6 +309,23 @@
 
 - (void)stockSearchControllerDidFinish:(StockSearchController *)stockSearchController didAddSymbol:(NSString *)tickerSymbol {
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+-(void) touchedValueButton:(id)sender {
+	switch (currentValueType) {
+		case PRICE:
+			currentValueType = PERCENT;
+			break;
+		case PERCENT:
+			currentValueType = VOLUME;
+			break;
+		case VOLUME:
+			currentValueType = PRICE;
+			break;
+		default:
+			break;
+	}
+	[self.tableView reloadData];
 }
 
 @end

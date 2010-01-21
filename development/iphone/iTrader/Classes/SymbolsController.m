@@ -14,6 +14,7 @@
 
 @implementation SymbolsController
 @synthesize updateDelegate;
+@synthesize communicator = _communicator;
 @synthesize feeds = _feeds;
 
 /**
@@ -108,6 +109,18 @@ static SymbolsController *sharedSymbolsController = nil;
 - (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed {
 	[self addFeed:feed];
 	[self addSymbol:symbol];
+}
+
+-(void) removeSymbol:(NSIndexPath *)indexPath {
+	Feed *feed = [self.feeds objectAtIndex:indexPath.section];
+	Symbol *symbol = [self symbolAtIndexPath:indexPath];
+	[self.communicator removeSecurity:symbol.feedTicker];
+
+	[feed.symbols removeObjectAtIndex:indexPath.row];
+	
+	if (updateDelegate && [updateDelegate respondsToSelector:@selector(symbolRemoved:)]) {
+		[self.updateDelegate symbolRemoved:indexPath];
+	}
 }
 
 - (NSInteger)indexOfFeed:(Feed *)feed {
