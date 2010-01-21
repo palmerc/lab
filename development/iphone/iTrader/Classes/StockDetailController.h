@@ -49,6 +49,7 @@
 	IBOutlet UILabel *averageValueLabel;
 	
 	IBOutlet UIButton *chart;
+	IBOutlet UIActivityIndicatorView *chartActivity;
 	NSUInteger period;
 }
 
@@ -90,6 +91,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *averageValueLabel;
 
 @property (nonatomic, retain) IBOutlet UIButton *chart;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *chartActivity;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 - (UIView *)loadViewFromNibNamed:(NSString *)nibName;

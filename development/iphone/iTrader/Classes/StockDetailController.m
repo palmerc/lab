@@ -50,6 +50,7 @@
 @synthesize averageVolumeLabel;
 @synthesize averageValueLabel;
 @synthesize chart;
+@synthesize chartActivity;
 
 
 - (id)initWithSymbol:(Symbol *)symbol {
@@ -198,6 +199,8 @@
 }
 
 - (IBAction)imageWasTapped:(id)sender {
+	[chartActivity startAnimating];
+	chartActivity.hidden = NO;
 	switch (period) {
 		case 0:
 			period = 30;
@@ -215,9 +218,17 @@
 }
 
 - (void)staticUpdated:(NSString *)feedTicker {
+	[chartActivity startAnimating];
+	chartActivity.hidden = NO;
 	[self setValues];
+	
 	UIImage *image = [UIImage imageWithData:[self.symbol.chart image]];
-	[self.chart setImage:image forState:UIControlStateNormal];
+	
+	if (image != nil) {
+		chartActivity.hidden = YES;
+		[chartActivity stopAnimating];
+		[self.chart setImage:image forState:UIControlStateNormal];
+	}
 }
 
 @end

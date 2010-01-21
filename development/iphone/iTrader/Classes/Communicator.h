@@ -21,6 +21,7 @@
 	NSMutableData *_dataBuffer;
 	NSMutableArray *_lineBuffer;
 	
+	int previousByte;
 	BOOL _isConnected;
 }
 

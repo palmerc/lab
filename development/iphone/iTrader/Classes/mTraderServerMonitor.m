@@ -7,6 +7,7 @@
 //
 
 #import "mTraderServerMonitor.h"
+#import "iTraderCommunicator.h"
 #import "Reachability.h"
 
 
@@ -74,20 +75,18 @@ static mTraderServerMonitor *sharedMonitor = nil;
  */
 
 - (void)reachabilityChanged:(NSNotification *)note {
-	NSLog(@"Note %@", note);
-}
-
-- (void)networkStatusChanged:(NSNotification *)note {
-	Reachability *reachability = [note object];
-	NSLog(@"Network Status Changed, %@", reachability);
-	
-	NetworkStatus status = [reachability currentReachabilityStatus];
+	Reachability *reachNoteObject= [note object];
+	NetworkStatus status = [reachNoteObject currentReachabilityStatus];
 	
 	if (status == NotReachable) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 		[alertView show];
 		[alertView release];
+	} else {
+		[[iTraderCommunicator sharedManager] login];
 	}
+	
+	NSLog(@"Reachability is %d", status);
 }
 
 @end

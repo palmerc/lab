@@ -100,7 +100,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSData *data = [self.communicator readLine];
 	NSString *string = [self dataToString:data];
 	
-	if (![string rangeOfString:@"\r\r"].location == 0 || ![string isEqualToString:@"\r\n"]) {
+	if (![string isEqualToString:@"\r\r"]) {
 		[self.blockBuffer addObject:data];
 	} else {
 		[self stateMachine];
@@ -161,22 +161,23 @@ static iTraderCommunicator *sharedCommunicator = nil;
 -(void) headerParsing {
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
-	
 	if ([string rangeOfString:@"Content-Length:"].location == 0) {
 		NSString *rhs = [self cleanString:[self dataFromRHS:string]];
 		contentLength = [rhs integerValue];
 		state = FIXEDLENGTH;
-	} else if ([self.blockBuffer count] == 0 && state == HEADER) {
+	} else if ([string isEqual:@"\r\n"]) {
 		state = STATICRESPONSE;
 	}
 }
 
 -(void) fixedLength {
+	[self.blockBuffer deQueue]; // blank line
+	
 	int bytes = 0;
 	for (NSData *data in self.blockBuffer) {
 		bytes += [data length];
 	}
-	bytes += 2; // For the CR LF we skipped at the end of the block.
+	bytes += 2; // For the CR CR we skipped at the end of the block.
 	
 	if (bytes == contentLength) {
 		contentLength = 0;
@@ -187,11 +188,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
 	
-	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
-		loginStatusHasChanged = YES;
-		isLoggedIn = YES;
-		state = PREPROCESSING;
-	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
+	if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
 		loginStatusHasChanged = YES;
 		isLoggedIn = NO;
 		state = LOGIN;
@@ -199,14 +196,18 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		loginStatusHasChanged = YES;
 		isLoggedIn = NO;
 		state = LOGIN;
-	}
+	} 
 }
 
 -(void) staticResponse {
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
 	
-	if  ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
+	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
+		loginStatusHasChanged = YES;
+		isLoggedIn = YES;
+		state = PREPROCESSING;
+	} else if  ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
 		state = ADDSEC;
 	} else if  ([string rangeOfString:@"Request: remSec/OK"].location == 0) {
 		state = REMSEC;
@@ -220,6 +221,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	} else if 	 ([string rangeOfString:@"Request: addSec/failed.AlreadyExists"].location == 0) {
 		[stockAddDelegate addFailedAlreadyExists];
 		state = PROCESSING;
+	} else if ([string rangeOfString:@"Request: q"].location == 0) {
+		state = QUOTE;
 	}
 }
 
@@ -308,26 +311,23 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		
 		// Get the lines that are strings
 		if (imageProcessing) {
-			do {
-				if ([string rangeOfString:@"<ImageBegin>"].location != NSNotFound) {
-					NSRange imageBegin = [string rangeOfString:@"<ImageBegin>"];
-					NSUInteger length = imageBegin.length;
-					imageBegin.location = length;
-					imageBegin.length = [data length] - length;
-					data = [data subdataWithRange:imageBegin];
-					string = [self dataToString:data];
-				} 
+			if ([string rangeOfString:@"<ImageBegin>"].location != NSNotFound) {
+				NSRange imageBegin = [string rangeOfString:@"<ImageBegin>"];
+				NSUInteger length = imageBegin.length;
+				imageBegin.location = length;
+				imageBegin.length = [data length] - length;
+				data = [data subdataWithRange:imageBegin];
+				string = [self dataToString:data];
+			} 
 				
-				if ([string rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
-					NSRange imageEnd = [string rangeOfString:@"<ImageEnd>"];
-					imageEnd.length = imageEnd.location;
-					imageEnd.location = 0;
-					data = [data subdataWithRange:imageEnd];
-					imageProcessing = NO;
-				}
-				
-				[imageData appendData:data];
-			} while ([string rangeOfString:@"<ImageEnd>"].location == NSNotFound);
+			if ([string rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
+				NSRange imageEnd = [string rangeOfString:@"<ImageEnd>"];
+				imageEnd.length = imageEnd.location;
+				imageEnd.location = 0;
+				data = [data subdataWithRange:imageEnd];
+				imageProcessing = NO;
+			}
+			[imageData appendData:data];
 		} else {
 			NSArray *partsOfString = [string componentsSeparatedByString:@":"];
 			if ([partsOfString count] > 1) {
@@ -679,13 +679,6 @@ static iTraderCommunicator *sharedCommunicator = nil;
 - (NSString *)dataToString:(NSData *)data {
 	NSString *string = [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
 	NSString *final = [NSString stringWithString:string];
-	[string release];
-	return final;
-}
-
-- (NSString *)currentLineToString {
-	NSString *string = [[NSString alloc] initWithData:self.currentLine encoding:NSISOLatin1StringEncoding];
-	NSString *final = [NSString stringWithString:[self cleanString:string]];
 	[string release];
 	return final;
 }

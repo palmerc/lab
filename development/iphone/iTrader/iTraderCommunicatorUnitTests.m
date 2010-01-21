@@ -45,9 +45,8 @@
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
 	NSString *content = @"Content-Length: 0";
-	NSString *blank = @"";
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, content, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, content, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -76,7 +75,7 @@
 	NSString *imageSize = @"ImageSize: 0";
 	NSString *imageData = @"<ImageBegin><ImageEnd>";
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, imageData, blank, nil]; 
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, imageData, nil]; 
 	
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
@@ -113,7 +112,7 @@
 	
 	NSString *imageSize = [NSString stringWithFormat:@"ImageSize: %d", [imageData length]];
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, image, blank, nil]; 
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, image, nil]; 
 	
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
@@ -150,7 +149,7 @@
 	
 	NSString *imageSize = [NSString stringWithFormat:@"ImageSize: %d", [imageData length]];
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, image, blank, nil]; 
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, width, height, imgType, imageSize, image, nil]; 
 	
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
@@ -169,7 +168,6 @@
 -(void) testLogin {
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
-	NSString *contentLength = @"Content-Length: 121";
 	NSString *blank = @"";
 	NSString *request = @"Request: login/OK";
 	NSString *version = @"Version: 1.00.00";
@@ -181,7 +179,7 @@
 	NSString *newsFeeds = @"NewsFeeds:";
 	NSString *quotes = @"Quotes:";
 
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -201,7 +199,7 @@
 	NSString *blank = @"";
 	NSString *request = @"Request: login/failed.UsrPwd";
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -221,7 +219,7 @@
 	NSString *blank = @"";
 	NSString *request = @"Request: login/failed.DeniedAccess";
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -240,10 +238,9 @@
 	[self loginStarterUpper];
 
 	NSString *request = @"Request: q";
-	NSString *blank = @"";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:request, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:request, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -267,7 +264,7 @@
 	NSString *quotes = @"SecInfo:";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, quotes, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, quotes, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -290,7 +287,7 @@
 	NSString *blank = @"";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secInfo, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secInfo, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -312,7 +309,7 @@
 	NSString *blank = @"";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secInfo, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secInfo, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -333,10 +330,9 @@
 	
 	NSString *request = @"Request: q";
 	NSString *quotes = @"Quotes:";
-	NSString *blank = @"";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:request, quotes, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:request, quotes, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -356,10 +352,9 @@
 	
 	NSString *request = @"Request: q";
 	NSString *kickout = @"Kickout: 1";
-	NSString *blank = @"";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:request, kickout, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:request, kickout, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -385,7 +380,7 @@
 	NSString *staticData = @"StaticData:";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, staticData, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, secOid, staticData, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -403,7 +398,6 @@
 -(void) loginStarterUpper {
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
-	NSString *contentLength = @"Content-Length: 121";
 	NSString *blank = @"";
 	NSString *request = @"Request: login/OK";
 	NSString *version = @"Version: 1.00.00";
@@ -415,7 +409,7 @@
 	NSString *newsFeeds = @"NewsFeeds:";
 	NSString *quotes = @"Quotes:";
 	
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, contentLength, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, blank, nil];
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, nil];
 	[communicator.communicator.lineBuffer  setArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
 	
@@ -457,6 +451,8 @@
 		dataLine = nil;
 	}
 	[argArray release];
+	
+	[block addObject:[self stringToLatin1Data:@"\r\r"]];
 	
 	NSArray *finalProduct = [NSArray arrayWithArray:block];
 	[block release];

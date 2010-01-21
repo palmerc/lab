@@ -61,7 +61,6 @@
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addStockButtonWasPressed:)];
 	self.navigationItem.rightBarButtonItem = addItem;
 	[addItem release];
-	[_communicator login];
 	
 	/*
 	UIButton *editStocksButton = [UIButton buttonWithType:UIButtonTypeInfoLight];

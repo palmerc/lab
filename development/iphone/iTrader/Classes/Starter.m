@@ -10,6 +10,7 @@
 #import "UserDefaults.h"
 #import "SymbolsController.h"
 #import "iTraderCommunicator.h"
+#import "mTraderServerMonitor.h"
 
 @implementation Starter
 
@@ -26,6 +27,7 @@
 - (void)starter {
 	[UserDefaults sharedManager];
 	[SymbolsController sharedManager];
+	[mTraderServerMonitor sharedManager];
 	
 	// Start the networking bit last.
 	[iTraderCommunicator sharedManager];

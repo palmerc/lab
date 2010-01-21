@@ -96,7 +96,6 @@ enum {
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
 - (NSString *)dataToString:(NSData *)data;
-- (NSString *)currentLineToString;
 - (NSString *)cleanString:(NSString *)string;
 - (NSArray *)cleanStrings:(NSArray *)strings;
 @end

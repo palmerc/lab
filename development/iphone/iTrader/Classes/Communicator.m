@@ -73,18 +73,18 @@
 			break;
 		case NSStreamEventHasBytesAvailable:
 		{
-			uint8_t oneByte;
+			uint8_t currentByte;
 			int bytesRead = 0;
 			
 			if (self.dataBuffer == nil) {
 				self.dataBuffer = [[NSMutableData alloc] init];
 			}
 		
-			bytesRead = [self.inputStream read:&oneByte maxLength:1];
+			bytesRead = [self.inputStream read:&currentByte maxLength:1];
 			if (bytesRead == 1) {
-				[self.dataBuffer appendBytes:&oneByte length:1];
+				[self.dataBuffer appendBytes:&currentByte length:1];
 				
-				if (oneByte == '\n') {
+				if ((previousByte == '\r' && currentByte == '\r') || (previousByte == '\r' && currentByte =='\n')) {
 					NSData *oneLine = [NSData dataWithData:self.dataBuffer];
 					[self.lineBuffer enQueue:oneLine];
 					if (self.delegate && [self.delegate respondsToSelector:@selector(dataReceived)]) {
@@ -93,6 +93,8 @@
 					[self.dataBuffer release];
 					self.dataBuffer = nil;
 				}
+				
+				previousByte = currentByte;
 			}
 		}
 			break;

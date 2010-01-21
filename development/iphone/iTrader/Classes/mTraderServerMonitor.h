@@ -14,4 +14,6 @@
 }
 @property (nonatomic,retain) Reachability *reachability;
 
++ (mTraderServerMonitor *)sharedManager;
+
 @end
