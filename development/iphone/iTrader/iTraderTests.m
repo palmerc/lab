@@ -15,7 +15,7 @@
 	id app_delegate = [[UIApplication sharedApplication] delegate];
 	STAssertNotNil(app_delegate, @"Cannot find the application delegate.");
 }
-
+/*
 -(void) testChartParsing {
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
@@ -33,7 +33,7 @@
 	[communicator.blockBuffer addObjectsFromArray:block];
 	STAssertTrue(TRUE, @"");
 }
-
+*/
 
 -(NSArray *) blockGeneratorWithStrings:(id)strings, ... {
 	NSMutableArray *block = [[NSMutableArray alloc] init];
