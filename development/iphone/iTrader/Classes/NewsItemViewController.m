@@ -82,12 +82,19 @@
 #pragma mark Delegation
 
 -(void) newsItemUpdate:(NSArray *)newItemContents {
+	UIFont *font = [UIFont fontWithName:@"Courier" size:14];
+		
 	//self.date.text = [newItemContents objectAtIndex:0];
 	self.time.text = [newItemContents objectAtIndex:1];
+	self.time.font = font;
+	
 	self.headline.text = [newItemContents objectAtIndex:3];
+	self.headline.font = font;
 	
 	NSString *bodyText = [newItemContents objectAtIndex:4];
 	self.body.text = [self cleanString:bodyText];
+	self.body.font = font;
+
 }
 	 
 - (NSString *)cleanString:(NSString *)string {
