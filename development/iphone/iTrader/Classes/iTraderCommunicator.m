@@ -223,6 +223,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Request: q"].location == 0) {
 		state = QUOTE;
+	} else if ([string rangeOfString:@"Request: NewsBody/OK"].location == 0) {
+	} else if ([string rangeOfString:@"Request: NewsListFeeds/OK"].location == 0) {
 	}
 }
 
@@ -248,7 +250,9 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
 
-	if ([string rangeOfString:@"Symbols:"].location == 0) {
+	if ([string rangeOfString:@"NewsFeeds:"].location == 0) {
+		[self newsFeedsParsing];
+	} else if ([string rangeOfString:@"Symbols:"].location == 0) {
 		[self symbolsParsing:string];
 	} else if ([string rangeOfString:@"Quotes:"].location == 0) {
 		NSArray *quotes = [self quotesParsing:string];
@@ -442,6 +446,9 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[dataDictionary release];
 }
 
+-(void) newsFeedsParsing {
+}
+
 /**
  * Two possibilities... One quote, or multiple quotes separated by a pipe
  *
@@ -584,6 +591,32 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *statDataRequestString = [self arrayToFormattedString:getStatDataArray];
 	
 	[self.communicator writeString:statDataRequestString];
+}
+
+-(void) newsItemRequest:(NSString *)newsId {
+	NSString *username = self.defaults.username;
+	NSString *ActionNewsBody = @"Action: NewsBody";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *NewsID = [NSString stringWithFormat:@"NewsID: %@", newsId];
+	
+	NSArray *newsItemArray = [NSArray arrayWithObjects:ActionNewsBody, Authorization, NewsID, nil];
+	NSString *newsItemRequestString = [self arrayToFormattedString:newsItemArray];
+	
+	[self.communicator writeString:newsItemRequestString];
+}
+
+-(void) newsListFeeds {
+	NSString *username = self.defaults.username;
+	NSString *ActionNewsListFeeds = @"Action: NewsListFeeds";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *newsFeeds = @"NewsFeeds: AllNews";
+	NSString *days = @"Days: 30";
+	NSString *maxCount = @"MaxCount: 30";
+	
+	NSArray *getNewsListFeedsArray = [NSArray arrayWithObjects:ActionNewsListFeeds, Authorization, newsFeeds, days, maxCount, nil];
+	NSString *newsListFeedsString = [self arrayToFormattedString:getNewsListFeedsArray];
+	
+	[self.communicator writeString:newsListFeedsString];
 }
 
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {

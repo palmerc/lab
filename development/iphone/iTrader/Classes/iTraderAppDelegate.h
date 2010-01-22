@@ -21,7 +21,7 @@ typedef enum {
 	UITabBarController *tabController;
 	
 	UINavigationController *myStocksNavigationController;
-	NewsViewController *news;
+	UINavigationController *newsNavigationController;
 	UINavigationController *settingsNavigationController;
 	
 	NSUserDefaults *defaults;

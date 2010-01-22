@@ -44,11 +44,14 @@
 	
 	MyStocksViewController *myStocks = [[MyStocksViewController alloc] init];
 	myStocksNavigationController = [[UINavigationController alloc] initWithRootViewController:myStocks];
-	news = [[NewsViewController alloc] init];
+	
+	NewsViewController *news = [[NewsViewController alloc] init];
+	newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
+	
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
 	settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
 
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:myStocksNavigationController, news, settingsNavigationController, nil];
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:myStocksNavigationController, newsNavigationController, settingsNavigationController, nil];
 	
 	tabController = [[UITabBarController alloc] init];
 	self.tabController.viewControllers = viewControllersArray;
@@ -62,6 +65,11 @@
 }
 
 - (void)dealloc {
+	[myStocksNavigationController release];
+	[newsNavigationController release];
+	[settingsNavigationController release];
+	
+	
 	[defaults release];
     [window release];
     [super dealloc];

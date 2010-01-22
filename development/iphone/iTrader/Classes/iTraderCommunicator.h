@@ -87,6 +87,7 @@ enum {
 - (void)staticDataOK;
 
 // Parsing methods
+-(void) newsFeedsParsing;
 - (NSArray *)quotesParsing:(NSString *)quotes;
 - (void)symbolsParsing:(NSString *)symbols;
 - (void)staticDataParsing:(NSString *)secOid;
