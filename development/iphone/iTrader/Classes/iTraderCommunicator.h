@@ -43,6 +43,7 @@ enum {
 	
 	BOOL isLoggedIn;
 	BOOL loginStatusHasChanged;
+	BOOL symbolsDefined;
 	
 	NSData *_currentLine;
 	NSMutableArray *_blockBuffer;

@@ -192,6 +192,32 @@
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 
+-(void) testLoginWithNoSymbols {
+	NSString *httpHeader = @"HTTP/1.1 200 OK";
+	NSString *server = @"Server: MMS";
+	NSString *blank = @"";
+	NSString *request = @"Request: login/OK";
+	NSString *version = @"Version: 1.00.00";
+	NSString *dload = @"DLURL:"; 
+	NSString *serverIP = @"ServerIP: 1.1.1.1";
+	NSString *user = @"User: user";
+	NSString *symbols = @"Symbols: ";
+	NSString *exchanges = @"Exchanges: ";
+	NSString *newsFeeds = @"NewsFeeds: ";
+	
+	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, nil];
+	[communicator.communicator.lineBuffer addObjectsFromArray:block];
+	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+	
+	for (int i=0; i < [block count]; i++) {
+		[communicator dataReceived];
+	}
+	STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
+	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+}
+
 -(void) testLoginEpicFailUserPassword {
 	NSString *httpHeader = @"HTTP/1.1 200 OK";
 	NSString *server = @"Server: MMS";
@@ -392,7 +418,7 @@
 	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
-
+/*
 #pragma mark News Feeds Unit Tests
 
 -(void) testNewsResponse {
@@ -442,7 +468,7 @@
 	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
-
+*/
 #pragma mark Helper Methods
 
 -(void) loginStarterUpper {

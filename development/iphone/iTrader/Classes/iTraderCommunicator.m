@@ -42,7 +42,8 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		loginStatusHasChanged = NO;
 		self.blockBuffer = [[NSMutableArray alloc] init];
 		contentLength = 0;
-		state = HEADER;
+		state = LOGIN
+		;
 	}
 	return self;
 }
@@ -252,8 +253,18 @@ static iTraderCommunicator *sharedCommunicator = nil;
 
 	if ([string rangeOfString:@"NewsFeeds:"].location == 0) {
 		[self newsFeedsParsing];
+		if (symbolsDefined == NO) {
+			state = PROCESSING;
+		}
 	} else if ([string rangeOfString:@"Symbols:"].location == 0) {
-		[self symbolsParsing:string];
+		NSString *symbolsSansCRLF = [self cleanString:string];
+		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
+		if (([rows count] == 1) && ([[rows objectAtIndex:0] isEqualToString:@""])) {
+			symbolsDefined = NO;
+		} else {
+			symbolsDefined = YES;
+			[self symbolsParsing:string];
+		}
 	} else if ([string rangeOfString:@"Quotes:"].location == 0) {
 		NSArray *quotes = [self quotesParsing:string];
 		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {

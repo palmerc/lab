@@ -141,6 +141,8 @@ A newsfeed response. For example:
 NewsFeeds: Cision Sweden [CIS](S),DJ Nordic News Basic [DJND](S),Hugin Sweden [HUS](S),Nyhedsbureauet Direkt [DIRD](S),Nyhetsbyrån Direkt [DIR](S),OMX Copenhagen News [CSN](S),OMX Helsinki News [OMXH](S),OMX Stockholm News [SSI](S),Oslo News [OBI](S)
 \end{lstlisting}
 
+If the user has no defined symbols and the server doesn't apply a default set of symbols, then the Quotes line will not be sent.
+
 \section*{Keep-alive}
 In streaming mode, an empty or unspecified QFields, will result in no information returned but a keep-alive packet every 15 seconds will be returned.
 
