@@ -35,7 +35,6 @@
 		_symbolsController = [SymbolsController sharedManager];
 		_communicator = [iTraderCommunicator sharedManager];
 		
-		_symbolsController.updateDelegate = self;
 		currentValueType = PRICE;
 	}
 	return self;
@@ -60,6 +59,8 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+	self.symbolsController.updateDelegate = self;
 
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addStockButtonWasPressed:)];
 	self.navigationItem.rightBarButtonItem = addItem;

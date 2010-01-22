@@ -7,9 +7,16 @@
 //
 
 #import "NewsViewController.h"
+#import "NewsItemViewController.h"
 #import "iTraderAppDelegate.h"
+#import "iTraderCommunicator.h"
 
 @implementation NewsViewController
+@synthesize communicator;
+@synthesize previousmTraderServerDataDelegate;
+@synthesize newsArray = _newsArray;
+
+#pragma mark Lifecycle
 
 - (id)init {
 	self = [super init];
@@ -19,6 +26,9 @@
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];
+		
+		self.newsArray = [[NSMutableArray alloc] init];
+		communicator = [iTraderCommunicator sharedManager];
 	}
 	return self;
 }
@@ -39,12 +49,16 @@
 }
 */
 
-/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+	self.previousmTraderServerDataDelegate = self.communicator.mTraderServerDataDelegate;
+	
+	self.communicator.mTraderServerDataDelegate = self;
+	[self.communicator newsListFeeds];
 }
-*/
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -64,6 +78,7 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	self.communicator.mTraderServerDataDelegate = self.previousmTraderServerDataDelegate;
 }
 
 
@@ -71,5 +86,52 @@
     [super dealloc];
 }
 
+#pragma mark TableViewDataSourceDelegate Methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return [self.newsArray count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	static NSString *CellIdentifier = @"NewsCell";
+	
+	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[UITableViewCell alloc] init];
+	}
+	
+	[cell.textLabel setText:[[self.newsArray objectAtIndex:indexPath.row] objectAtIndex:1]];
+	return cell;
+}
+
+
+#pragma mark TableViewDelegate Methods
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSUInteger row = indexPath.row;
+	
+	NSArray *tuple = [self.newsArray objectAtIndex:row];
+	NSString *newsID = [tuple objectAtIndex:0];
+	NewsItemViewController *newsItemViewController = [[NewsItemViewController alloc] initWithNewsItem:newsID];
+	[self.navigationController pushViewController:newsItemViewController animated:YES];
+	
+}
+
+#pragma mark Delegation
+
+-(void) newsListFeedsUpdates:(NSArray *)newsList {
+	for (NSString *news in newsList) {
+		NSArray *components = [news componentsSeparatedByString:@";"];
+		NSString *key = [components objectAtIndex:0];
+		NSString *value = [components objectAtIndex:4];
+		NSArray *tuple = [NSArray arrayWithObjects:key, value, nil];
+		
+		[self.newsArray addObject:tuple];
+	}
+	
+	[self.tableView reloadData];
+}
 
 @end

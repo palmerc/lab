@@ -15,6 +15,7 @@
 @class Chart;
 @protocol mTraderServerDataDelegate;
 @protocol StockAddDelegate;
+@protocol NewsItemDataDelegate;
 
 enum {
 	HEADER = 0,
@@ -25,6 +26,8 @@ enum {
 	LOGIN,
 	PREPROCESSING,
 	PROCESSING,
+	NEWSFEEDS,
+	NEWSITEM,
 	QUOTE,
 	QUOTES,
 	STATIC,
@@ -37,6 +40,7 @@ enum {
 @interface iTraderCommunicator : NSObject <CommunicatorDataDelegate> {
 	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 	id <StockAddDelegate> stockAddDelegate;
+	id <NewsItemDataDelegate> newsItemDelegate;
 
 	Communicator *_communicator;
 	UserDefaults *_defaults;
@@ -53,6 +57,8 @@ enum {
 
 @property (nonatomic, assign) id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 @property (nonatomic, assign) id <StockAddDelegate> stockAddDelegate;
+@property (nonatomic, assign) id <NewsItemDataDelegate> newsItemDelegate;
+
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, retain) UserDefaults *defaults;
 @property (readonly) BOOL isLoggedIn;
@@ -67,6 +73,8 @@ enum {
 // mTrader server request methods
 - (void)login;
 - (void)logout;
+-(void) newsListFeeds;
+-(void) newsItemRequest:(NSString *)newsId;
 - (void)addSecurity:(NSString *)tickerSymbol;
 - (void)removeSecurity:(NSString *)feedTicker;
 - (BOOL)loginStatusHasChanged;
@@ -85,10 +93,11 @@ enum {
 - (void)quoteHandling;
 - (void)addSecurityOK;
 - (void)removeSecurityOK;
+-(void) newsListFeedsOK;
+-(void) newsBodyOK;
 - (void)staticDataOK;
 
 // Parsing methods
--(void) newsFeedsParsing;
 - (NSArray *)quotesParsing:(NSString *)quotes;
 - (void)symbolsParsing:(NSString *)symbols;
 - (void)staticDataParsing:(NSString *)secOid;
@@ -104,6 +113,7 @@ enum {
 
 // Delegate Protocols
 @protocol mTraderServerDataDelegate <NSObject>
+@optional
 -(void) chart:(Chart *)chart;
 -(void) addFeed:(Feed *)feed;
 -(void) addSymbol:(Symbol *)symbol;
@@ -111,7 +121,12 @@ enum {
 -(void) updateQuotes:(NSArray *)quotes;
 -(void) staticUpdates:(NSDictionary *)updateDictionary;
 -(void) removedSecurity:(NSString *)feedTicker;
+-(void) newsListFeedsUpdates:(NSArray *)newsList;
 @end
+
+@protocol NewsItemDataDelegate <NSObject>
+-(void) newsItemUpdate:(NSArray *)newsItemContents;
+@end;
 
 @protocol StockAddDelegate <NSObject>
 - (void)addOK;

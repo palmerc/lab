@@ -19,6 +19,7 @@
 static iTraderCommunicator *sharedCommunicator = nil;
 @synthesize mTraderServerDataDelegate;
 @synthesize stockAddDelegate;
+@synthesize newsItemDelegate;
 @synthesize isLoggedIn;
 @synthesize communicator = _communicator;
 @synthesize defaults = _defaults;
@@ -133,6 +134,12 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			case PROCESSING:
 				[self processingLoop];
 				break;
+			case NEWSFEEDS:
+				[self newsListFeedsOK];
+				break;
+			case NEWSITEM:
+				[self newsBodyOK];
+				break;
 			case QUOTE:
 				[self quoteHandling];
 				break;
@@ -225,7 +232,9 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	} else if ([string rangeOfString:@"Request: q"].location == 0) {
 		state = QUOTE;
 	} else if ([string rangeOfString:@"Request: NewsBody/OK"].location == 0) {
+		state = NEWSITEM;
 	} else if ([string rangeOfString:@"Request: NewsListFeeds/OK"].location == 0) {
+		state = NEWSFEEDS;
 	}
 }
 
@@ -252,7 +261,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *string = [self dataToString:data];
 
 	if ([string rangeOfString:@"NewsFeeds:"].location == 0) {
-		[self newsFeedsParsing];
+		//[self newsFeedsParsing];
 		if (symbolsDefined == NO) {
 			state = PROCESSING;
 		}
@@ -457,7 +466,38 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[dataDictionary release];
 }
 
--(void) newsFeedsParsing {
+-(void) newsListFeedsOK {
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"News:"].location == 0) {
+		NSString *newsArticles = [self dataToString:data];
+		NSArray *newsArticlesArray = [newsArticles componentsSeparatedByString:@"|"];
+		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
+		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
+			[self.mTraderServerDataDelegate newsListFeedsUpdates:newsArticlesArray];
+		}
+		state = PROCESSING;
+	}
+}
+
+-(void) newsBodyOK {
+	NSMutableArray *newsItem = [[NSMutableArray alloc] init];
+	while ([self.blockBuffer count] > 0) {
+		NSData *data = [self.blockBuffer deQueue];
+		NSString *string = [self dataToString:data];
+		string = [self dataFromRHS:string];
+		[newsItem addObject:string];
+	}	
+	
+	if ([self.blockBuffer count] == 0) {
+		if (self.newsItemDelegate && [self.newsItemDelegate respondsToSelector:@selector(newsItemUpdate:)]) {
+			[self.newsItemDelegate newsItemUpdate:newsItem];
+		}
+		
+		state = PROCESSING;
+	}
+	[newsItem release];
 }
 
 /**

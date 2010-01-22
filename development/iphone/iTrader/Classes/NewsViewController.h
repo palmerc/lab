@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iTraderCommunicator.h"
 
-
-@interface NewsViewController : UITableViewController {
-
+@interface NewsViewController : UITableViewController <mTraderServerDataDelegate> {
+	id previousmTraderServerDataDelegate;
+	iTraderCommunicator *communicator;
+	
+	NSMutableArray *_newsArray;
 }
+@property (nonatomic, assign) iTraderCommunicator *communicator;
+@property (nonatomic, assign) id previousmTraderServerDataDelegate;
 
+@property (nonatomic, retain) NSMutableArray *newsArray;
 @end
