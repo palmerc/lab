@@ -16,6 +16,7 @@
 @protocol mTraderServerDataDelegate;
 @protocol StockAddDelegate;
 @protocol NewsItemDataDelegate;
+@protocol mTraderServerMonitorDelegate;
 
 enum {
 	HEADER = 0,
@@ -39,6 +40,7 @@ enum {
 
 @interface iTraderCommunicator : NSObject <CommunicatorDataDelegate> {
 	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
+	id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 	id <StockAddDelegate> stockAddDelegate;
 	id <NewsItemDataDelegate> newsItemDelegate;
 
@@ -58,7 +60,7 @@ enum {
 @property (nonatomic, assign) id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 @property (nonatomic, assign) id <StockAddDelegate> stockAddDelegate;
 @property (nonatomic, assign) id <NewsItemDataDelegate> newsItemDelegate;
-
+@property (nonatomic, assign) id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, retain) UserDefaults *defaults;
 @property (readonly) BOOL isLoggedIn;
@@ -109,6 +111,10 @@ enum {
 - (NSString *)dataToString:(NSData *)data;
 - (NSString *)cleanString:(NSString *)string;
 - (NSArray *)cleanStrings:(NSArray *)strings;
+@end
+
+@protocol mTraderServerMonitorDelegate <NSObject>
+-(void) kickedOut;
 @end
 
 // Delegate Protocols

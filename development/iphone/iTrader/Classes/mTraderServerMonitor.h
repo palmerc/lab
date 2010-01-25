@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "iTraderCommunicator.h"
+
 @class Reachability;
 
-@interface mTraderServerMonitor : NSObject {
+@interface mTraderServerMonitor : NSObject <mTraderServerMonitorDelegate> {
 	Reachability *_reachability;
 }
 @property (nonatomic,retain) Reachability *reachability;

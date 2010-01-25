@@ -18,6 +18,7 @@
 
 static iTraderCommunicator *sharedCommunicator = nil;
 @synthesize mTraderServerDataDelegate;
+@synthesize mTraderServerMonitorDelegate;
 @synthesize stockAddDelegate;
 @synthesize newsItemDelegate;
 @synthesize isLoggedIn;
@@ -310,11 +311,10 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		}
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Kickout: 1"].location == 0) {
-//		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-//		[alertView show];
-//		[alertView release];
 		state = KICKOUT;
-		// Tell the user they are no longer logged on and how to correct it.		
+		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(kickedOut)]) {
+			[self.mTraderServerMonitorDelegate kickedOut];
+		}
 	}
 }
 

@@ -23,6 +23,8 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 		self.reachability = [Reachability reachabilityWithHostName:@"wireless.theonlinetrader.com"];
 		[self.reachability startNotifer];
+		
+		[iTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
 	}
 	return self;
 }
@@ -87,6 +89,15 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	}
 	
 	NSLog(@"Reachability is %d", status);
+}
+
+-(void) kickedOut {
+	NSLog(@"Kicked out");
+	[self.reachability stopNotifer];
+	[[iTraderCommunicator sharedManager].communicator stopConnection];
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. Close this app and relaunch it to reconnect." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	[alertView show];
+	[alertView release];
 }
 
 @end
