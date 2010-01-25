@@ -80,10 +80,13 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
+-(void) viewWillDisappear:(BOOL)animated {
+	self.communicator.mTraderServerDataDelegate = self.previousmTraderServerDataDelegate;
+}
+
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.communicator.mTraderServerDataDelegate = self.previousmTraderServerDataDelegate;
 }
 
 
@@ -106,6 +109,7 @@
 	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] init];
+		cell.textLabel.numberOfLines = 0;
 	}
 	
 	NSString *cellText = [[self.newsArray objectAtIndex:indexPath.row] objectAtIndex:1];

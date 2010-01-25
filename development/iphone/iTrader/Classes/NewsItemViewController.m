@@ -98,6 +98,7 @@
 	self.time.font = font;
 	
 	self.headline.text = [newItemContents objectAtIndex:3];
+	self.headline.numberOfLines = 0;
 	self.headline.font = font;
 	
 	NSMutableArray *cleanedTextLines = [[NSMutableArray alloc] init];
