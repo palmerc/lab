@@ -662,7 +662,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *newsFeeds = @"NewsFeeds: AllNews";
 	NSString *days = @"Days: 30";
-	NSString *maxCount = @"MaxCount: 30";
+	NSString *maxCount = @"MaxCount: 50";
 	
 	NSArray *getNewsListFeedsArray = [NSArray arrayWithObjects:ActionNewsListFeeds, Authorization, newsFeeds, days, maxCount, nil];
 	NSString *newsListFeedsString = [self arrayToFormattedString:getNewsListFeedsArray];

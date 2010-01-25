@@ -53,6 +53,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+	UIBarButtonItem *refreshNews = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshNews)];
+	self.navigationItem.rightBarButtonItem = refreshNews;
+	[refreshNews release];
+	
 	self.previousmTraderServerDataDelegate = self.communicator.mTraderServerDataDelegate;
 	
 	self.communicator.mTraderServerDataDelegate = self;
@@ -60,13 +64,14 @@
 }
 
 
-/*
+
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    //return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	return YES;
 }
-*/
+
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -103,7 +108,21 @@
 		cell = [[UITableViewCell alloc] init];
 	}
 	
-	[cell.textLabel setText:[[self.newsArray objectAtIndex:indexPath.row] objectAtIndex:1]];
+	NSString *cellText = [[self.newsArray objectAtIndex:indexPath.row] objectAtIndex:1];
+	if ([cellText rangeOfString:@"***"].location == 0) {
+		[cell.contentView setBackgroundColor:[UIColor redColor]];
+		cellText = [cellText substringFromIndex:3];
+	} else if ([cellText rangeOfString:@"*"].location == 0) {
+		[cell.contentView setBackgroundColor:[UIColor blueColor]];
+		cellText = [cellText substringFromIndex:1];
+	} else if ([cellText rangeOfString:@"="].location == 0) {
+		[cell.contentView setBackgroundColor:[UIColor greenColor]];
+		cellText = [cellText substringFromIndex:1];
+	}
+	UIFont *font = [UIFont fontWithName:@"Courier" size:14];
+	[cell.textLabel setFont:font];
+	[cell.textLabel setText:cellText];
+	
 	return cell;
 }
 
@@ -131,6 +150,14 @@
 		[self.newsArray addObject:tuple];
 	}
 	
+	[self.tableView reloadData];
+}
+
+#pragma mark News Refresh
+
+-(void) refreshNews {
+	[self.newsArray removeAllObjects];
+	[self.communicator newsListFeeds];
 	[self.tableView reloadData];
 }
 

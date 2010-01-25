@@ -15,6 +15,8 @@
 	IBOutlet UILabel *time;
 	IBOutlet UILabel *headline;
 	IBOutlet UITextView *body;
+
+	CGSize sizeOfLine;
 }
 
 @property (nonatomic, retain) NSString *newsItemID;

@@ -189,17 +189,18 @@ i"Feed.h"
 i"Symbol.h"
 
 N/Users/cameron/Development/iTrader/Classes/MyStocksViewController.h
-c000000004B47509300000000000002D0
-t1262964883
-s720
+c000000004B587A0A000000000000035C
+t1264089610
+s860
 i<UIKit/UIKit.h>
 i"SymbolsController.h"
+i"StockListingCell.h"
 i"StockSearchController.h"
 
 N/Users/cameron/Development/iTrader/Classes/MyStocksViewController.m
-c000000004B4F25D20000000000002299
-t1263478226
-s8857
+c000000004B5D8B970000000000002528
+t1264421783
+s9512
 i"MyStocksViewController.h"
 i"iTraderAppDelegate.h"
 i"SymbolsController.h"
@@ -221,18 +222,40 @@ t1263897641
 s481
 i"NSMutableArray+QueueAdditions.h"
 
-N/Users/cameron/Development/iTrader/Classes/NewsViewController.h
-c000000004B386A0C00000000000000EB
-t1261988364
-s235
+N/Users/cameron/Development/iTrader/Classes/NewsItemView.xib
+c000000004B5D685B00000000000053FF
+t1264412763
+s21503
+
+N/Users/cameron/Development/iTrader/Classes/NewsItemViewController.h
+c000000004B59D2BC000000000000031D
+t1264177852
+s797
 i<UIKit/UIKit.h>
+i"iTraderCommunicator.h"
+
+N/Users/cameron/Development/iTrader/Classes/NewsItemViewController.m
+c000000004B5D84440000000000000CB2
+t1264419908
+s3250
+i"NewsItemViewController.h"
+i"iTraderCommunicator.h"
+
+N/Users/cameron/Development/iTrader/Classes/NewsViewController.h
+c000000004B59B3360000000000000252
+t1264169782
+s594
+i<UIKit/UIKit.h>
+i"iTraderCommunicator.h"
 
 N/Users/cameron/Development/iTrader/Classes/NewsViewController.m
-c000000004B386A0C0000000000000763
-t1261988364
-s1891
+c000000004B5D84B90000000000000FC9
+t1264420025
+s4041
 i"NewsViewController.h"
+i"NewsItemViewController.h"
 i"iTraderAppDelegate.h"
+i"iTraderCommunicator.h"
 
 N/Users/cameron/Development/iTrader/Classes/Queue.h
 c000000004B386A0C0000000000000113
@@ -299,16 +322,16 @@ i"iTraderCommunicator.h"
 i"mTraderServerMonitor.h"
 
 N/Users/cameron/Development/iTrader/Classes/StockDetailController.h
-c000000004B504ADA0000000000000FC0
-t1263553242
-s4032
+c000000004B58427A0000000000001041
+t1264075386
+s4161
 i<UIKit/UIKit.h>
 i"SymbolsController.h"
 
 N/Users/cameron/Development/iTrader/Classes/StockDetailController.m
-c000000004B55AE9F0000000000001B54
-t1263906463
-s6996
+c000000004B58443A0000000000001C45
+t1264075834
+s7237
 i"StockDetailController.h"
 i"SymbolsController.h"
 i"iTraderCommunicator.h"
@@ -317,15 +340,15 @@ i"Symbol.h"
 i"Chart.h"
 
 N/Users/cameron/Development/iTrader/Classes/StockListingCell.h
-c000000004B43273500000000000001FB
-t1262692149
-s507
+c000000004B58771B000000000000031F
+t1264088859
+s799
 i<UIKit/UIKit.h>
 
 N/Users/cameron/Development/iTrader/Classes/StockListingCell.m
-c000000004B4323C000000000000002C3
-t1262691264
-s707
+c000000004B58781D00000000000003A2
+t1264089117
+s930
 i"StockListingCell.h"
 
 N/Users/cameron/Development/iTrader/Classes/StockSearchController.h
@@ -354,22 +377,22 @@ s3391
 i<Foundation/Foundation.h>
 
 N/Users/cameron/Development/iTrader/Classes/Symbol.m
-c000000004B56E5CA0000000000001461
-t1263986122
+c000000004B5872ED0000000000001461
+t1264087789
 s5217
 i"Symbol.h"
 
 N/Users/cameron/Development/iTrader/Classes/SymbolsController.h
-c000000004B530BA800000000000004C3
-t1263733672
-s1219
+c000000004B5867770000000000000563
+t1264084855
+s1379
 i<Foundation/Foundation.h>
 i"iTraderCommunicator.h"
 
 N/Users/cameron/Development/iTrader/Classes/SymbolsController.m
-c000000004B530B2A0000000000002B4E
-t1263733546
-s11086
+c000000004B58680A0000000000002D16
+t1264085002
+s11542
 i"SymbolsController.h"
 i"iTraderCommunicator.h"
 i"Symbol.h"
@@ -389,32 +412,33 @@ s1490
 i"UserDefaults.h"
 
 N/Users/cameron/Development/iTrader/Classes/iTraderAppDelegate.h
-c000000004B447AE300000000000002AA
-t1262779107
-s682
+c000000004B59899F00000000000002C2
+t1264159135
+s706
 i<UIKit/UIKit.h>
 
 N/Users/cameron/Development/iTrader/Classes/iTraderAppDelegate.m
-c000000004B447B1F0000000000000666
-t1262779167
-s1638
+c000000004B5D87410000000000000A88
+t1264420673
+s2696
 i"iTraderAppDelegate.h"
 i"Starter.h"
+i"UserDefaults.h"
 i"MyStocksViewController.h"
 i"NewsViewController.h"
 i"SettingsTableViewController.h"
 
 N/Users/cameron/Development/iTrader/Classes/iTraderCommunicator.h
-c000000004B571E260000000000000C91
-t1264000550
-s3217
+c000000004B5D6C1E0000000000000F55
+t1264413726
+s3925
 i<Foundation/Foundation.h>
 i"Communicator.h"
 
 N/Users/cameron/Development/iTrader/Classes/iTraderCommunicator.m
-c000000004B583BEF0000000000005B41
-t1264073711
-s23361
+c000000004B5D6C7D0000000000006634
+t1264413821
+s26164
 i"iTraderCommunicator.h"
 i"NSMutableArray+QueueAdditions.h"
 i"UserDefaults.h"
@@ -428,16 +452,18 @@ t1262771385
 s126088
 
 N/Users/cameron/Development/iTrader/Classes/mTraderServerMonitor.h
-c000000004B583C560000000000000185
-t1264073814
-s389
+c000000004B5D6C5D00000000000001C5
+t1264413789
+s453
 i<Foundation/Foundation.h>
+i"iTraderCommunicator.h"
 
 N/Users/cameron/Development/iTrader/Classes/mTraderServerMonitor.m
-c000000004B545A860000000000000816
-t1263819398
-s2070
+c000000004B5D6CFD0000000000000A23
+t1264413949
+s2595
 i"mTraderServerMonitor.h"
+i"iTraderCommunicator.h"
 i"Reachability.h"
 
 N/Users/cameron/Development/iTrader/MainWindow.xib
@@ -446,9 +472,9 @@ t1261555039
 s23500
 
 N/Users/cameron/Development/iTrader/StockDetailPageOne.xib
-c000000004B505839000000000000DBDF
-t1263556665
-s56287
+c000000004B5841EB000000000000E295
+t1264075243
+s58005
 
 N/Users/cameron/Development/iTrader/StockDetailPageTwo.xib
 c000000004B5047FA000000000000B11C
@@ -461,68 +487,72 @@ t1263484036
 s19226
 
 N/Users/cameron/Development/iTrader/StockListingCell.xib
-c000000004B432804000000000000506E
-t1262692356
-s20590
+c000000004B5875EA000000000000528B
+t1264088554
+s21131
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app
-t1264074259
-s748
+t1264159747
+s374
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app.dSYM
-t1264073958
+t1264159745
 s136
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/AboutView.nib
-t1262693261
-s3039
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/Info.plist
-t1264073957
+t1264159747
 s668
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/MainWindow.nib
 t1261555133
 s2178
 
+N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/NewsItemView.nib
+t2
+s0
+
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/PkgInfo
-t1264073957
+t1264159747
 s8
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/ResourceRules.plist
-t1261988361
+t1264159747
 s485
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/StockDetailPageOne.nib
-t1263726751
-s8225
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/StockDetailPageTwo.nib
-t1263726751
-s5910
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/StockDetailView.nib
-t1263726751
-s1355
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/StockListingCell.nib
-t1262693261
-s3591
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/StockSearchView.nib
-t1263400960
-s1597
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/embedded.mobileprovision
-t1263815862
+t1264159747
 s7289
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/en.lproj/Localizable.strings
-t1262693261
-s156
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader
-t1264073958
+t1264159747
 s215824
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTrader.app
@@ -530,114 +560,118 @@ t2
 s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/iTraderCommunicationProtocol.tex
-t1264073957
-s11215
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/infront.png
-t1262693261
-s3681
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/no.lproj/Localizable.strings
-t1262693261
-s156
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/AboutViewController.o
-t1262693262
-s34748
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/Chart.o
-t1264073958
-s14260
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/Communicator.o
-t1264073958
-s31636
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/Feed.o
-t1263726751
-s16024
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/MyStocksViewController.o
-t1264073958
-s69116
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/NSMutableArray+QueueAdditions.o
-t1264073958
-s7412
+t2
+s0
+
+N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/NewsItemViewController.o
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/NewsViewController.o
-t1263400960
-s32400
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/Queue.o
 t1262693262
 s7364
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/Reachability.o
-t1263744445
-s24544
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/SettingsTableViewController.o
-t1264073958
-s65500
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/Starter.o
-t1264073958
-s10448
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/StockDetailController.o
-t1264073958
-s101236
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/StockListingCell.o
-t1262693262
-s20700
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/StockSearchController.o
-t1264073958
-s52008
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/Symbol.o
-t1264073958
-s65336
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/SymbolsController.o
-t1264073958
-s50408
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/UserDefaults.o
-t1264073958
-s15652
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTrader.LinkFileList
-c000000004B583CE500000000000009A5
-t1264073957
+c000000004B598C0300000000000009A5
+t1264159747
 s2469
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTraderAppDelegate.o
-t1264073958
-s50560
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/iTraderCommunicator.o
-t1264073958
-s86556
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/mTraderServerMonitor.o
-t1264073958
-s25612
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/main.o
-t1262693262
-s6736
+t2
+s0
 
 N/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader.xcent
 t1264073958
 s315
 
 N/Users/cameron/Development/iTrader/documentation/iTraderCommunicationProtocol.tex
-c000000004B570FAF0000000000002BCF
-t1263996847
-s11215
+c000000004B59A3A90000000000002C51
+t1264165801
+s11345
 
 N/Users/cameron/Development/iTrader/en.lproj/Localizable.strings
 c000000004B386A0C00000000000003B2
@@ -693,12 +727,12 @@ t1261486512
 s7149
 
 N/var/folders/F5/F5YALANcGS0sEkDG2bVy12Ft13k/-Caches-/com.apple.Xcode.1148783708/SharedPrecompiledHeaders/iTrader_Prefix-foearnkmhschfkcvhudnkujrwwyr/iTrader_Prefix.pch.gch
-t1262693262
+t1264083282
 s7876792
 
 NiTrader-Info.plist
-c000000004B55A2FA0000000000000397
-t1263903482
+c000000004B59A4020000000000000397
+t1264165890
 s919
 
 CCheck dependencies
@@ -791,6 +825,9 @@ xarmv6
 xobjective-c
 xcom.apple.compilers.gcc.4_2
 lSLF07#2@82"Compile /Users/cameron/Development/iTrader/Classes/NSMutableArray+QueueAdditions.m285766757#285766758#0(0"0(0#0#74"/Users/cameron/Development/iTrader/Classes/NSMutableArray+QueueAdditions.m4300885448#1749"    cd /Users/cameron/Development/iTrader    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch armv6 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 -iquote /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-generated-files.hmap -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-own-target-headers.hmap -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-all-target-headers.hmap -iquote /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/iTrader-project-headers.hmap -F/Users/cameron/Development/iTrader/build/Debug-iphoneos -I/Users/cameron/Development/iTrader/build/Debug-iphoneos/include -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/DerivedSources/armv6 -I/Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/DerivedSources -include /var/folders/F5/F5YALANcGS0sEkDG2bVy12Ft13k/-Caches-/com.apple.Xcode.1148783708/SharedPrecompiledHeaders/iTrader_Prefix-foearnkmhschfkcvhudnkujrwwyr/iTrader_Prefix.pch -c /Users/cameron/Development/iTrader/Classes/NSMutableArray+QueueAdditions.m -o /Users/cameron/Development/iTrader/build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/NSMutableArray+QueueAdditions.o0#
+
+CCompileC build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/NewsItemViewController.o /Users/cameron/Development/iTrader/Classes/NewsItemViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
+r0
 
 CCompileC build/iTrader.build/Debug-iphoneos/iTrader.build/Objects-normal/armv6/NewsViewController.o /Users/cameron/Development/iTrader/Classes/NewsViewController.m normal armv6 objective-c com.apple.compilers.gcc.4_2
 s285093760.377015
@@ -997,6 +1034,9 @@ r1
 xCompileXIB
 x/Users/cameron/Development/iTrader/Classes/AboutView.xib
 lSLF07#2@32"CompileXIB Classes/AboutView.xib284386061#284386061#0(0"0(0#0#56"/Users/cameron/Development/iTrader/Classes/AboutView.xib4300885448#462"    cd /Users/cameron/Development/iTrader    setenv IBC_MINIMUM_COMPATIBILITY_VERSION 3.1.2    setenv PATH "/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/cameron/Development/iTrader/build/Debug-iphoneos/iTrader.app/AboutView.nib /Users/cameron/Development/iTrader/Classes/AboutView.xib0#
+
+CCompileXIB /Users/cameron/Development/iTrader/Classes/NewsItemView.xib
+r0
 
 CCompileXIB /Users/cameron/Development/iTrader/Classes/StockSearchView.xib
 s285093760.026618

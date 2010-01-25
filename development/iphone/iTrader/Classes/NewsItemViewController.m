@@ -47,20 +47,27 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	UIFont *font = [UIFont fontWithName:@"Courier" size:14.0];
+	NSMutableString *stringToMeasure = [[NSMutableString alloc] init];
+	for (int i = 0; i < 80; i++) {
+		[stringToMeasure appendString:@"X"];
+	}
+	sizeOfLine = [stringToMeasure sizeWithFont:font];
+	[stringToMeasure release];
 }
-*/
 
-/*
+
+
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
-*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -79,22 +86,33 @@
     [super dealloc];
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	NSLog(@"Rotation %@ %@", toInterfaceOrientation, duration);
+}
+
 #pragma mark Delegation
 
 -(void) newsItemUpdate:(NSArray *)newItemContents {
 	UIFont *font = [UIFont fontWithName:@"Courier" size:14];
-		
-	//self.date.text = [newItemContents objectAtIndex:0];
 	self.time.text = [newItemContents objectAtIndex:1];
 	self.time.font = font;
 	
 	self.headline.text = [newItemContents objectAtIndex:3];
 	self.headline.font = font;
 	
+	NSMutableArray *cleanedTextLines = [[NSMutableArray alloc] init];
 	NSString *bodyText = [newItemContents objectAtIndex:4];
-	self.body.text = [self cleanString:bodyText];
+	NSArray *dirtyTextLines = [bodyText componentsSeparatedByString:@"||"];
+	for (NSString *line in dirtyTextLines) {
+		[cleanedTextLines addObject:[self cleanString:line]];
+	}
+	if ([[cleanedTextLines objectAtIndex:0] isEqualToString:@""]) {
+		[cleanedTextLines removeObjectAtIndex:0];
+	}
+	self.body.text = [cleanedTextLines componentsJoinedByString:@"\n"];
 	self.body.font = font;
-
+		
+	[cleanedTextLines release];
 }
 	 
 - (NSString *)cleanString:(NSString *)string {

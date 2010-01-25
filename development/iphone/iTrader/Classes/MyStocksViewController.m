@@ -66,16 +66,13 @@
 	self.navigationItem.rightBarButtonItem = addItem;
 	[addItem release];
 	
-	/*
-	UIButton *editStocksButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-	CGRect *buttonRect = editStocksButton.frame;
-	buttonRect.origin.x = self.frame.size.width - buttonRect.size.width - 8;
-	buttonRect.origin.y = self.frame.size.height - buttonRect.size.height - 8;
-	[editStocksButton setFrame:buttonRect];
-	[editStocksButton addTarget:self action:@selector(editStocks:) forControlEvents:UIControlEventTouchUpInside];
-	[editStocksButton setEnabled:YES];
+	CGRect bounds = self.view.frame;
+	UIButton *editStocksButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+	CGRect frame = editStocksButton.frame;
+	frame.origin.x = bounds.size.width - frame.size.width - 10;
+	frame.origin.y = bounds.size.height - frame.size.height - 100;
+	editStocksButton.frame = frame;
 	[self.view addSubview:editStocksButton];
-	 */
 }
 
 /*

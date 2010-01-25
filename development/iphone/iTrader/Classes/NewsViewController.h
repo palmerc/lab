@@ -19,4 +19,6 @@
 @property (nonatomic, assign) id previousmTraderServerDataDelegate;
 
 @property (nonatomic, retain) NSMutableArray *newsArray;
+
+-(void) refreshNews;
 @end
