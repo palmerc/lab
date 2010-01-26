@@ -21,8 +21,8 @@
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		self.title = @"News";
-		UIImage* anImage = [UIImage imageNamed:@"infront.png"];	
+		self.title = NSLocalizedString(@"NewsTab", "News tab label");
+		UIImage* anImage = [UIImage imageNamed:@"newsTabButton.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];

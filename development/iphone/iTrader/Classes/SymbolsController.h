@@ -15,11 +15,13 @@
 	iTraderCommunicator *_communicator;
 	
 	NSMutableArray *_feeds;
+	NSMutableArray *_exchanges;
 }
 
 @property (assign) id <SymbolsUpdateDelegate> updateDelegate;
 @property (nonatomic, assign) iTraderCommunicator *communicator;
 @property (nonatomic, retain) NSMutableArray *feeds;
+@property (nonatomic, retain) NSMutableArray *exchanges;
 
 // Singleton Class Method
 + (SymbolsController *)sharedManager;

@@ -10,19 +10,26 @@
 #import "iTraderCommunicator.h"
 @class Symbol;
 @class iTraderCommunicator;
+@class SymbolsController;
 @protocol StockSearchControllerDelegate;
 
-@interface StockSearchController : UIViewController <UISearchBarDelegate, StockAddDelegate> {
+@interface StockSearchController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, StockAddDelegate> {
 	id <StockSearchControllerDelegate> delegate;
 	iTraderCommunicator *communicator;
-	IBOutlet UISearchBar *_searchBar;
-	
+	SymbolsController *controller;
+	UITextField *_tickerField;
+	UIButton *_submitButton;
+	UIPickerView *_exchangePicker;
 	NSString *tickerSymbol;
 }
 
 @property (assign) id <StockSearchControllerDelegate> delegate;
-@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, retain) IBOutlet UITextField *tickerField;
+@property (nonatomic, retain) IBOutlet UIButton *submitButton;
+@property (nonatomic, retain) IBOutlet UIPickerView *exchangePicker;
 @property (nonatomic, retain) NSString *tickerSymbol;
+
+-(IBAction) submit:(id)sender;
 @end
 
 @protocol StockSearchControllerDelegate

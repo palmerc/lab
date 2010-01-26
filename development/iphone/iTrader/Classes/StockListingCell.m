@@ -13,6 +13,8 @@
 @synthesize delegate = _delegate;
 @synthesize tickerLabel, nameLabel, valueButton;
 
+#pragma mark -
+#pragma mark Lifecycle
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         // Initialization code
@@ -20,12 +22,13 @@
     return self;
 }
 
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)setEditing:(BOOL)editing animated:(BOOL)animate {
+	if (editing == YES) {
+		self.valueButton.hidden = YES;
+	} else {
+		self.valueButton.hidden = NO;
+	}
+	[super setEditing:editing animated:animate];
 }
 
 -(IBAction) touchedValueButton:(id)sender {

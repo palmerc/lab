@@ -14,6 +14,12 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
 		7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* StockListingCell.m */; };
+		7E24D872110F2656009AF36C /* myStocksTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D871110F2656009AF36C /* myStocksTabButton.png */; };
+		7E24D873110F2656009AF36C /* myStocksTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D871110F2656009AF36C /* myStocksTabButton.png */; };
+		7E24D87A110F26BF009AF36C /* newsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D879110F26BF009AF36C /* newsTabButton.png */; };
+		7E24D87B110F26BF009AF36C /* newsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D879110F26BF009AF36C /* newsTabButton.png */; };
+		7E24D888110F3272009AF36C /* settingsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D887110F3272009AF36C /* settingsTabButton.png */; };
+		7E24D889110F3272009AF36C /* settingsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D887110F3272009AF36C /* settingsTabButton.png */; };
 		7E29B7FA10F4B77900816D9B /* StockSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E29B7F910F4B77900816D9B /* StockSearchView.xib */; };
 		7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
 		7E2B939E11048C8800DA0B91 /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
@@ -122,6 +128,9 @@
 		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
 		7E15C7DB10F35A23007A45E8 /* StockListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockListingCell.h; sourceTree = "<group>"; };
 		7E15C7DC10F35A23007A45E8 /* StockListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockListingCell.m; sourceTree = "<group>"; };
+		7E24D871110F2656009AF36C /* myStocksTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myStocksTabButton.png; sourceTree = "<group>"; };
+		7E24D879110F26BF009AF36C /* newsTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newsTabButton.png; sourceTree = "<group>"; };
+		7E24D887110F3272009AF36C /* settingsTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsTabButton.png; sourceTree = "<group>"; };
 		7E29B7F910F4B77900816D9B /* StockSearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StockSearchView.xib; path = Classes/StockSearchView.xib; sourceTree = "<group>"; };
 		7E29B80110F4B96500816D9B /* StockSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockSearchController.h; sourceTree = "<group>"; };
 		7E29B80210F4B96500816D9B /* StockSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockSearchController.m; sourceTree = "<group>"; };
@@ -355,6 +364,9 @@
 		7E419AFA10E20DD00007808B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				7E24D887110F3272009AF36C /* settingsTabButton.png */,
+				7E24D879110F26BF009AF36C /* newsTabButton.png */,
+				7E24D871110F2656009AF36C /* myStocksTabButton.png */,
 				7E419AFB10E20DD00007808B /* infront.png */,
 			);
 			name = Graphics;
@@ -586,6 +598,9 @@
 				7ECE213110FF72A0005ABBC7 /* StockDetailPageOne.xib in Resources */,
 				7E309CE2110071A300E9229B /* StockDetailPageTwo.xib in Resources */,
 				7E97DD68110A00D300187800 /* NewsItemView.xib in Resources */,
+				7E24D872110F2656009AF36C /* myStocksTabButton.png in Resources */,
+				7E24D87A110F26BF009AF36C /* newsTabButton.png in Resources */,
+				7E24D888110F3272009AF36C /* settingsTabButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +629,9 @@
 				7E2DA17911046EBC002CE93F /* StockDetailPageOne.xib in Resources */,
 				7E2DA17A11046EBC002CE93F /* StockDetailPageTwo.xib in Resources */,
 				7E97DD67110A00D300187800 /* NewsItemView.xib in Resources */,
+				7E24D873110F2656009AF36C /* myStocksTabButton.png in Resources */,
+				7E24D87B110F26BF009AF36C /* newsTabButton.png in Resources */,
+				7E24D889110F3272009AF36C /* settingsTabButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

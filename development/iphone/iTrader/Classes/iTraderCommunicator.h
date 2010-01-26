@@ -101,6 +101,7 @@ enum {
 
 // Parsing methods
 - (NSArray *)quotesParsing:(NSString *)quotes;
+-(NSArray *)exchangesParsing:(NSString *)exchanges;
 - (void)symbolsParsing:(NSString *)symbols;
 - (void)staticDataParsing:(NSString *)secOid;
 
@@ -125,6 +126,7 @@ enum {
 -(void) addSymbol:(Symbol *)symbol;
 -(void) addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
 -(void) updateQuotes:(NSArray *)quotes;
+-(void) addExchanges:(NSArray *)exchanges;
 -(void) staticUpdates:(NSDictionary *)updateDictionary;
 -(void) removedSecurity:(NSString *)feedTicker;
 -(void) newsListFeedsUpdates:(NSArray *)newsList;

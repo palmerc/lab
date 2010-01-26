@@ -31,10 +31,11 @@ typedef enum {
 	SymbolsController *_symbolsController;
 	
 	NSUInteger currentValueType;
+	BOOL _editing;
 }
 
 @property (nonatomic, retain) SymbolsController *symbolsController;
-
+@property (assign) BOOL editing;
 - (void)addStockButtonWasPressed:(id)sender;
 
 @end

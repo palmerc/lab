@@ -16,6 +16,7 @@
 @synthesize updateDelegate;
 @synthesize communicator = _communicator;
 @synthesize feeds = _feeds;
+@synthesize exchanges = _exchanges;
 
 /**
  * Singleton Setup
@@ -66,12 +67,14 @@ static SymbolsController *sharedSymbolsController = nil;
 		_communicator.mTraderServerDataDelegate = self;
 		
 		_feeds = [[NSMutableArray alloc] init];
+		_exchanges = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
 }
 
 -(void)dealloc {
+	[self.exchanges release];
 	[self.feeds release];
 	
 	[super dealloc];
@@ -181,6 +184,12 @@ static SymbolsController *sharedSymbolsController = nil;
 	symbol.chart = chart;
 	if (updateDelegate && [updateDelegate respondsToSelector:@selector(staticUpdated:)]) {
 		[updateDelegate staticUpdated:symbol.feedTicker];
+	}
+}
+
+-(void)addExchanges:(NSArray *)exchanges {
+	for (NSString *exchange in exchanges) {
+		[self.exchanges addObject:exchange];
 	}
 }
 

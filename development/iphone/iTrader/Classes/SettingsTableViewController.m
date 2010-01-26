@@ -24,12 +24,12 @@
 		defaults = [UserDefaults sharedManager];
 		communicator = [iTraderCommunicator sharedManager];
 		
-		UIImage* anImage = [UIImage imageNamed:@"infront.png"];
+		UIImage* anImage = [UIImage imageNamed:@"settingsTabButton.png"];
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTab", @"The settings tab label") image:anImage tag:SETTINGS];
 		self.tabBarItem = theItem;
 		[theItem release];
 		
-		sectionsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"LoginSettings", @"Login settings for infront account"), NSLocalizedString(@"Currency", "@Currency preference"), NSLocalizedString(@"Company", @"Company name"), nil];
+		sectionsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"LoginSettings", @"Login settings for infront account"), NSLocalizedString(@"Company", @"Company name"), nil];
 		loginSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Username", @"Username string"), NSLocalizedString(@"Password", @"Password string"), nil];
 		infrontSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"About", @"About string"), nil];
 		self.title = NSLocalizedString(@"SettingsTab", @"The settings tab label");
@@ -67,13 +67,11 @@
 }
 */
 
-/*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
-*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -122,7 +120,7 @@
 		[cell.textLabel setText:[loginSectionArray objectAtIndex:indexPath.row]];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(110, 5, 190, 35)];
+		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(120, 5, 200, 35)];
 		textField.delegate = self;
 		textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;

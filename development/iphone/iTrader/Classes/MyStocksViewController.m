@@ -20,14 +20,16 @@
 
 @implementation MyStocksViewController
 @synthesize symbolsController = _symbolsController;
+@synthesize editing = _editing;
 
+#pragma mark -
 #pragma mark Lifecycle
 
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		self.title = @"My Stocks";
-		UIImage* anImage = [UIImage imageNamed:@"infront.png"];
+		self.title = NSLocalizedString(@"MyStocksTab", @"My Stocks tab label");
+		UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:MYSTOCKS];
 		self.tabBarItem = theItem;
 		[theItem release];
@@ -36,6 +38,7 @@
 		_communicator = [iTraderCommunicator sharedManager];
 		
 		currentValueType = PRICE;
+		self.editing = NO;
 	}
 	return self;
 }
@@ -66,22 +69,15 @@
 	self.navigationItem.rightBarButtonItem = addItem;
 	[addItem release];
 	
-	CGRect bounds = self.view.frame;
-	UIButton *editStocksButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-	CGRect frame = editStocksButton.frame;
-	frame.origin.x = bounds.size.width - frame.size.width - 10;
-	frame.origin.y = bounds.size.height - frame.size.height - 100;
-	editStocksButton.frame = frame;
-	[self.view addSubview:editStocksButton];
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
-/*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait | UIInterfaceOrientationLandscapeLeft);
+    //return (interfaceOrientation == UIInterfaceOrientationPortrait | UIInterfaceOrientationLandscapeLeft);
+	return YES;
 }
-*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -111,6 +107,17 @@
  */
 
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animate {
+	if (editing == YES) {
+		self.editing = YES;
+	} else {
+		self.editing = NO;
+		[self.tableView reloadData];
+	}
+	[super setEditing:editing animated:animate];
+}
+
+#pragma mark -
 #pragma mark Section Handling
 /* Section Handling */
 
@@ -151,7 +158,7 @@
 			}
 		}
 	}
-		
+	
 	Symbol *symbol = [self.symbolsController symbolAtIndexPath:indexPath];
 	changeEnum changeType;
 	if ([symbol.changeSinceLastUpdate floatValue] < 0) {
@@ -188,7 +195,7 @@
 		[cell.contentView setBackgroundColor:backgroundColor];
 		[UIView commitAnimations];
 	}
-	cell.editing = YES;
+	//cell.editing = YES;
 	cell.tickerLabel.text = symbol.tickerSymbol;
 	cell.nameLabel.text = symbol.name;
 	
@@ -217,6 +224,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
 		[self.symbolsController removeSymbol:indexPath];
+		[self.tableView reloadData];
 	}
 
 }
@@ -243,7 +251,7 @@
 	[detailController release];
 }
 
-
+#pragma mark -
 #pragma mark Delegation
 /**
  * Delegation
@@ -281,17 +289,19 @@
  * update any rows necessary.
  */
 - (void)symbolsUpdated:(NSArray *)feedTickers {
-	NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+	if (!self.editing) {
+		NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
 
-	for (NSString *feedTicker in feedTickers) {
-		NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:feedTicker];
-		[indexPaths addObject:indexPath];
+		for (NSString *feedTicker in feedTickers) {
+			NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:feedTicker];
+			[indexPaths addObject:indexPath];
+		}
+		
+		[self.tableView beginUpdates];
+		[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+		[self.tableView endUpdates];
+		[indexPaths release];
 	}
-	
-	[self.tableView beginUpdates];
-	[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-	[self.tableView endUpdates];
-	[indexPaths release];
 }
 
 - (void)addStockButtonWasPressed:(id)sender {

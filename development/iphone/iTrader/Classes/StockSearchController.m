@@ -8,10 +8,13 @@
 
 #import "StockSearchController.h"
 #import "iTraderCommunicator.h"
+#import "SymbolsController.h"
 
 @implementation StockSearchController
 @synthesize delegate;
-@synthesize searchBar = _searchBar;
+@synthesize tickerField = _tickerField;
+@synthesize submitButton = _submitButton;
+@synthesize exchangePicker = _exchangePicker;
 @synthesize tickerSymbol;
 
 /*
@@ -34,10 +37,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.searchBar.delegate = self;
-	self.searchBar.placeholder = @"Stock Ticker Symbol";
-	self.searchBar.showsCancelButton = YES;
 	
+	
+	//self.searchBar.delegate = self;
+	//self.searchBar.placeholder = @"Stock Ticker Symbol";
+	//self.searchBar.showsCancelButton = YES;
+	
+	controller = [SymbolsController sharedManager];
 	communicator = [iTraderCommunicator sharedManager];
 	communicator.stockAddDelegate = self;
 }
@@ -74,45 +80,27 @@
 }
 */
 
-/** 
- * All The Following Methods are Required When Adopting the UISearchBarDelegate 
- * protocol
- */
-// Editing Text
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+#pragma mark -
+#pragma mark UIPickerViewDataSource Required Methods
+-(NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+	return 1;
+}
+-(NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+	return [controller.exchanges count];
 }
 
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-	return YES;
+#pragma mark -
+#pragma mark UIPickerViewDelegate Methods
+-(void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 }
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+-(NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+	return [controller.exchanges objectAtIndex:row];
 }
 
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
-	return YES;
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-}
-
-// Clicking Buttons
-- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-	[self.delegate stockSearchControllerDidFinish:self didAddSymbol:nil];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-	[self.searchBar resignFirstResponder];
-	
-	tickerSymbol = searchBar.text;
-	[communicator addSecurity:tickerSymbol];
-}
-
-// Scope Button
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+#pragma mark -
+#pragma mark IBAction Section
+-(IBAction) submit:(id)sender {
 }
 
 - (void)addOK {

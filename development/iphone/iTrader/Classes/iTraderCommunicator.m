@@ -281,6 +281,11 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			[self.mTraderServerDataDelegate updateQuotes:quotes];
 		}
 		state = PROCESSING;
+	} else if ([string rangeOfString:@"Exchanges:"].location == 0) {
+		NSArray *exchanges = [self exchangesParsing:string];
+		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(addExchanges:)]) {
+			[self.mTraderServerDataDelegate addExchanges:exchanges];
+		}
 	}
 }
 
@@ -509,6 +514,13 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSArray *quotesAndTheRest = [self stripOffFirstElement:[quotesSansCRLF componentsSeparatedByString:@":"]];
 	NSString *theRest = [self cleanString:[quotesAndTheRest objectAtIndex:0]];
 	return [theRest componentsSeparatedByString:@"|"];
+}
+
+- (NSArray *)exchangesParsing:(NSString *)exchanges {
+	NSArray *arrayOfComponents = [self stripOffFirstElement:[exchanges componentsSeparatedByString:@":"]];
+	NSString *dataPortion = [self cleanString:[arrayOfComponents objectAtIndex:0]];
+	NSArray *exchangesArray = [dataPortion componentsSeparatedByString:@","];
+	return exchangesArray;
 }
 
 - (void)symbolsParsing:(NSString *)symbols {
@@ -755,9 +767,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSRange rowsWithoutFirstString;
 	rowsWithoutFirstString.location = 1;
 	rowsWithoutFirstString.length = [array count] - 1;
-	NSArray *rows = [array subarrayWithRange:rowsWithoutFirstString];
-	
-	return rows;
+	return [array subarrayWithRange:rowsWithoutFirstString];
 }
 
 - (NSString *)dataToString:(NSData *)data {

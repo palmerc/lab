@@ -10,13 +10,12 @@
 
 typedef enum {
 	USERNAME_FIELD = 0,
-	PASSWORD_FIELD = 1
+	PASSWORD_FIELD
 } loginEnum;
 
 typedef enum {
 	LOGINDETAILS=0,
-	CURRENCY=1,
-	INFRONT=2
+	INFRONT
 } sections;
 
 @class iTraderCommunicator;
