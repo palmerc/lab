@@ -399,11 +399,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	NSString *string = [self dataToString:data];
 	
 	if ([string rangeOfString:@"SecInfo:"].location == 0) {		
-		[stockAddDelegate addOK];
 		[self symbolsParsing:string];
-		//if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
-		//	[self.mTraderServerDataDelegate updateQuotes:quotes];
-		//}
 		state = PROCESSING;
 	}
 }
@@ -701,13 +697,13 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[self.communicator writeString:getChartString];
 }
 
-- (void)addSecurity:(NSString *)tickerSymbol {
+- (void)addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode {
 	NSString *username = self.defaults.username;
 	
 	NSString *ActionAddSec = @"Action: addSec";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *Search = [NSString stringWithFormat:@"Search: %@", tickerSymbol];
-	NSString *MCode = [NSString stringWithFormat:@"mCode: %@", @"Oslo Stocks [OSS]"];
+	NSString *MCode = [NSString stringWithFormat:@"mCode: %@", mCode];
 	
 	NSArray *addSecurityArray = [NSArray arrayWithObjects:ActionAddSec, Authorization, Search, MCode, nil];
 	NSString *addSecurityString = [self arrayToFormattedString:addSecurityArray];

@@ -77,7 +77,7 @@ enum {
 - (void)logout;
 -(void) newsListFeeds;
 -(void) newsItemRequest:(NSString *)newsId;
-- (void)addSecurity:(NSString *)tickerSymbol;
+-(void) addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode;
 - (void)removeSecurity:(NSString *)feedTicker;
 - (BOOL)loginStatusHasChanged;
 - (void)staticDataForFeedTicker:(NSString *)feedTicker;
@@ -137,7 +137,6 @@ enum {
 @end;
 
 @protocol StockAddDelegate <NSObject>
-- (void)addOK;
 - (void)addFailedAlreadyExists;
 - (void)addFailedNotFound;
 @end

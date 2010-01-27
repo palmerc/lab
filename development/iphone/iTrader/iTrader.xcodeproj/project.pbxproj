@@ -98,6 +98,7 @@
 		7ECE213110FF72A0005ABBC7 /* StockDetailPageOne.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE213010FF72A0005ABBC7 /* StockDetailPageOne.xib */; };
 		7ED7294310E8A22100D1814F /* iTraderCommunicationProtocol.tex in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */; };
 		7EDC23CC1106187F009E50C5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348C61106176100ADC4B7 /* CoreLocation.framework */; };
+		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
 		C73CE2E610E3BDCE00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */; };
 		C73CE2EF10E3BDDA00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */; };
 		C73CE46910E6763A00AF6D89 /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73CE46810E6763A00AF6D89 /* AboutView.xib */; };
@@ -183,6 +184,7 @@
 		7EB15E4B10F2392C003049C7 /* SymbolsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolsController.m; sourceTree = "<group>"; };
 		7ECE213010FF72A0005ABBC7 /* StockDetailPageOne.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockDetailPageOne.xib; sourceTree = "<group>"; };
 		7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iTraderCommunicationProtocol.tex; sourceTree = "<group>"; };
+		7EF9464C11108D9F006B5CDE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* iTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iTrader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C73CE2E510E3BDCE00AF6D89 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		C73CE2ED10E3BDDA00AF6D89 /* no */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = no; path = Localizable.strings; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				8D1107310486CEB800E47090 /* iTrader-Info.plist */,
 				7E2DA15D11046873002CE93F /* LogicTests-Info.plist */,
 				7E2DA1A011046F28002CE93F /* iTraderTesting-Info.plist */,
+				7EF9464C11108D9F006B5CDE /* Entitlements.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 				7E24D872110F2656009AF36C /* myStocksTabButton.png in Resources */,
 				7E24D87A110F26BF009AF36C /* newsTabButton.png in Resources */,
 				7E24D888110F3272009AF36C /* settingsTabButton.png in Resources */,
+				7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -976,12 +980,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.1.2;
 			};
 			name = Debug;
@@ -990,12 +998,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.1.2;
 			};
 			name = Release;

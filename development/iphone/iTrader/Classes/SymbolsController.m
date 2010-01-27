@@ -189,6 +189,8 @@ static SymbolsController *sharedSymbolsController = nil;
 
 -(void)addExchanges:(NSArray *)exchanges {
 	for (NSString *exchange in exchanges) {
+		NSRange exchangeRange = [exchange rangeOfString:@"]"];
+		exchange = [exchange substringToIndex:exchangeRange.location + 1];
 		[self.exchanges addObject:exchange];
 	}
 }

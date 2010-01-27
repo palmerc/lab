@@ -13,14 +13,16 @@
 @class SymbolsController;
 @protocol StockSearchControllerDelegate;
 
-@interface StockSearchController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, StockAddDelegate> {
+@interface StockSearchController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate> {
 	id <StockSearchControllerDelegate> delegate;
+	id <UIPickerViewDelegate> pickerDelegate;
 	iTraderCommunicator *communicator;
 	SymbolsController *controller;
 	UITextField *_tickerField;
 	UIButton *_submitButton;
 	UIPickerView *_exchangePicker;
 	NSString *tickerSymbol;
+	NSString *mCode;
 }
 
 @property (assign) id <StockSearchControllerDelegate> delegate;
@@ -28,6 +30,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *submitButton;
 @property (nonatomic, retain) IBOutlet UIPickerView *exchangePicker;
 @property (nonatomic, retain) NSString *tickerSymbol;
+@property (nonatomic, retain) NSString *mCode;
 
 -(IBAction) submit:(id)sender;
 @end

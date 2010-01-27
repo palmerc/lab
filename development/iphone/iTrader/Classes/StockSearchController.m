@@ -16,6 +16,7 @@
 @synthesize submitButton = _submitButton;
 @synthesize exchangePicker = _exchangePicker;
 @synthesize tickerSymbol;
+@synthesize mCode;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -45,7 +46,11 @@
 	
 	controller = [SymbolsController sharedManager];
 	communicator = [iTraderCommunicator sharedManager];
-	communicator.stockAddDelegate = self;
+	
+	self.tickerField.delegate = self;
+	self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
+	self.tickerField.autocorrectionType = UITextAutocorrectionTypeNo;
+	self.tickerField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
 }
 
 /*
@@ -92,19 +97,30 @@
 #pragma mark -
 #pragma mark UIPickerViewDelegate Methods
 -(void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+	//NSLog(@"Picked %@", [controller.exchanges objectAtIndex:row]);
+	self.mCode = [controller.exchanges objectAtIndex:row];
 }
 
 -(NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
 	return [controller.exchanges objectAtIndex:row];
 }
 
+-(BOOL) textFieldShouldReturn:(UITextField *)textField {
+	[textField resignFirstResponder];
+	return YES;
+}
+
 #pragma mark -
 #pragma mark IBAction Section
 -(IBAction) submit:(id)sender {
-}
-
-- (void)addOK {
-	[self.delegate stockSearchControllerDidFinish:self didAddSymbol:tickerSymbol];
+	[self.tickerField resignFirstResponder];
+	self.tickerSymbol = self.tickerField.text;
+	if ([self.tickerSymbol isEqualToString:@""]) {
+		[self.delegate stockSearchControllerDidFinish:self didAddSymbol:nil];
+	} else {
+		[communicator addSecurity:self.tickerSymbol withMCode:self.mCode];
+		[self.delegate stockSearchControllerDidFinish:self didAddSymbol:tickerSymbol];
+	}
 }
 
 - (void)addFailedAlreadyExists {

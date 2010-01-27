@@ -72,13 +72,14 @@
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
+/*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     //return (interfaceOrientation == UIInterfaceOrientationPortrait | UIInterfaceOrientationLandscapeLeft);
-	return YES;
+	return NO;
 }
-
+*/
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -160,6 +161,7 @@
 	}
 	
 	Symbol *symbol = [self.symbolsController symbolAtIndexPath:indexPath];
+	/*
 	changeEnum changeType;
 	if ([symbol.changeSinceLastUpdate floatValue] < 0) {
 		changeType = DOWN;
@@ -195,6 +197,7 @@
 		[cell.contentView setBackgroundColor:backgroundColor];
 		[UIView commitAnimations];
 	}
+	*/
 	//cell.editing = YES;
 	cell.tickerLabel.text = symbol.tickerSymbol;
 	cell.nameLabel.text = symbol.name;
