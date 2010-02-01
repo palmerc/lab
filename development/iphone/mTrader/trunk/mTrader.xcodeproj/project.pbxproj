@@ -1,0 +1,1066 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* iTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iTraderAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
+		7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* StockListingCell.m */; };
+		7E24D872110F2656009AF36C /* myStocksTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D871110F2656009AF36C /* myStocksTabButton.png */; };
+		7E24D873110F2656009AF36C /* myStocksTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D871110F2656009AF36C /* myStocksTabButton.png */; };
+		7E24D87A110F26BF009AF36C /* newsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D879110F26BF009AF36C /* newsTabButton.png */; };
+		7E24D87B110F26BF009AF36C /* newsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D879110F26BF009AF36C /* newsTabButton.png */; };
+		7E24D888110F3272009AF36C /* settingsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D887110F3272009AF36C /* settingsTabButton.png */; };
+		7E24D889110F3272009AF36C /* settingsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E24D887110F3272009AF36C /* settingsTabButton.png */; };
+		7E29B7FA10F4B77900816D9B /* StockSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E29B7F910F4B77900816D9B /* StockSearchView.xib */; };
+		7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
+		7E2B939E11048C8800DA0B91 /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
+		7E2B93B411048CEB00DA0B91 /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
+		7E2B93C511048D1600DA0B91 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5A10F1F5CE003049C7 /* Symbol.m */; };
+		7E2B93C611048D1600DA0B91 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5D10F1F6DE003049C7 /* Feed.m */; };
+		7E2B93C711048D1600DA0B91 /* Chart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2FA17D10FDDE2A00404945 /* Chart.m */; };
+		7E2B93D111048D4600DA0B91 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
+		7E2B93DC11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */; };
+		7E2B93DE11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */; };
+		7E2B957E1104A9EB00DA0B91 /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
+		7E2DA16111046886002CE93F /* iTraderCommunicatorUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA13B110464BB002CE93F /* iTraderCommunicatorUnitTests.m */; };
+		7E2DA17111046EBC002CE93F /* StockListingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E419ACB10E206890007808B /* StockListingCell.xib */; };
+		7E2DA17211046EBC002CE93F /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
+		7E2DA17311046EBC002CE93F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */; };
+		7E2DA17411046EBC002CE93F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */; };
+		7E2DA17511046EBC002CE93F /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73CE46810E6763A00AF6D89 /* AboutView.xib */; };
+		7E2DA17611046EBC002CE93F /* iTraderCommunicationProtocol.tex in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */; };
+		7E2DA17711046EBC002CE93F /* StockSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E29B7F910F4B77900816D9B /* StockSearchView.xib */; };
+		7E2DA17811046EBC002CE93F /* StockDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E8A6FCB10F6021E003D7E29 /* StockDetailView.xib */; };
+		7E2DA17911046EBC002CE93F /* StockDetailPageOne.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE213010FF72A0005ABBC7 /* StockDetailPageOne.xib */; };
+		7E2DA17A11046EBC002CE93F /* StockDetailPageTwo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E309CE1110071A300E9229B /* StockDetailPageTwo.xib */; };
+		7E2DA17C11046EBC002CE93F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		7E2DA17D11046EBC002CE93F /* iTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iTraderAppDelegate.m */; };
+		7E2DA17E11046EBC002CE93F /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
+		7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
+		7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
+		7E2DA18111046EBC002CE93F /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
+		7E2DA18211046EBC002CE93F /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
+		7E2DA18311046EBC002CE93F /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
+		7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
+		7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
+		7E2DA18611046EBC002CE93F /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5A10F1F5CE003049C7 /* Symbol.m */; };
+		7E2DA18711046EBC002CE93F /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5D10F1F6DE003049C7 /* Feed.m */; };
+		7E2DA18811046EBC002CE93F /* SymbolsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15E4B10F2392C003049C7 /* SymbolsController.m */; };
+		7E2DA18911046EBC002CE93F /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
+		7E2DA18A11046EBC002CE93F /* StockListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* StockListingCell.m */; };
+		7E2DA18B11046EBC002CE93F /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
+		7E2DA18C11046EBC002CE93F /* StockDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* StockDetailController.m */; };
+		7E2DA18D11046EBC002CE93F /* Chart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2FA17D10FDDE2A00404945 /* Chart.m */; };
+		7E2DA18E11046EBC002CE93F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E33CBC81100AE5600C2737F /* Reachability.m */; };
+		7E2DA19011046EBC002CE93F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		7E2DA19111046EBC002CE93F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		7E2DA19211046EBC002CE93F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7E2DA19311046EBC002CE93F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */; };
+		7E2DA1A711046FA4002CE93F /* iTraderTests.octest in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA19F11046F28002CE93F /* iTraderTests.octest */; };
+		7E2DA1AF11046FE9002CE93F /* iTraderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA1AE11046FE9002CE93F /* iTraderTests.m */; };
+		7E2FA17E10FDDE2A00404945 /* Chart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2FA17D10FDDE2A00404945 /* Chart.m */; };
+		7E309CE2110071A300E9229B /* StockDetailPageTwo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E309CE1110071A300E9229B /* StockDetailPageTwo.xib */; };
+		7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */; };
+		7E33CBC91100AE5600C2737F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E33CBC81100AE5600C2737F /* Reachability.m */; };
+		7E419ACC10E206890007808B /* StockListingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E419ACB10E206890007808B /* StockListingCell.xib */; };
+		7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
+		7E419AFC10E20DD00007808B /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E419AFB10E20DD00007808B /* infront.png */; };
+		7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
+		7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
+		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
+		7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
+		7E419DE810E251CB0007808B /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
+		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
+		7E6348B0110616FE00ADC4B7 /* libisimulate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348AE110616FE00ADC4B7 /* libisimulate.a */; };
+		7E6348B1110616FE00ADC4B7 /* libisimulate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348AE110616FE00ADC4B7 /* libisimulate.a */; };
+		7E6348C71106176100ADC4B7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348C61106176100ADC4B7 /* CoreLocation.framework */; };
+		7E8A6FCC10F6021E003D7E29 /* StockDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E8A6FCB10F6021E003D7E29 /* StockDetailView.xib */; };
+		7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* StockDetailController.m */; };
+		7E97DD0D1109FAA900187800 /* NewsItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E97DD0C1109FAA900187800 /* NewsItemViewController.m */; };
+		7E97DD0E1109FAA900187800 /* NewsItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E97DD0C1109FAA900187800 /* NewsItemViewController.m */; };
+		7E97DD0F1109FAA900187800 /* NewsItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E97DD0C1109FAA900187800 /* NewsItemViewController.m */; };
+		7E97DD67110A00D300187800 /* NewsItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E97DD66110A00D300187800 /* NewsItemView.xib */; };
+		7E97DD68110A00D300187800 /* NewsItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E97DD66110A00D300187800 /* NewsItemView.xib */; };
+		7E97DD69110A00D300187800 /* NewsItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E97DD66110A00D300187800 /* NewsItemView.xib */; };
+		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
+		7EB15D5B10F1F5CE003049C7 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5A10F1F5CE003049C7 /* Symbol.m */; };
+		7EB15D5E10F1F6DE003049C7 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5D10F1F6DE003049C7 /* Feed.m */; };
+		7EB15E4C10F2392C003049C7 /* SymbolsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15E4B10F2392C003049C7 /* SymbolsController.m */; };
+		7ECE213110FF72A0005ABBC7 /* StockDetailPageOne.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7ECE213010FF72A0005ABBC7 /* StockDetailPageOne.xib */; };
+		7ED7294310E8A22100D1814F /* iTraderCommunicationProtocol.tex in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */; };
+		7EDC23CC1106187F009E50C5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348C61106176100ADC4B7 /* CoreLocation.framework */; };
+		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
+		C73CE2E610E3BDCE00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */; };
+		C73CE2EF10E3BDDA00AF6D89 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */; };
+		C73CE46910E6763A00AF6D89 /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73CE46810E6763A00AF6D89 /* AboutView.xib */; };
+		C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7E2DA1A411046F40002CE93F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7E2DA19E11046F28002CE93F;
+			remoteInfo = iTraderTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* iTraderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* iTraderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* iTrader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTrader_Prefix.pch; sourceTree = "<group>"; };
+		7E0EA22210FC9859001A42F2 /* StateDiagram.dot */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StateDiagram.dot; sourceTree = "<group>"; };
+		7E15C52E10F32632007A45E8 /* Starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Starter.h; sourceTree = "<group>"; };
+		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
+		7E15C7DB10F35A23007A45E8 /* StockListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockListingCell.h; sourceTree = "<group>"; };
+		7E15C7DC10F35A23007A45E8 /* StockListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockListingCell.m; sourceTree = "<group>"; };
+		7E24D871110F2656009AF36C /* myStocksTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myStocksTabButton.png; sourceTree = "<group>"; };
+		7E24D879110F26BF009AF36C /* newsTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newsTabButton.png; sourceTree = "<group>"; };
+		7E24D887110F3272009AF36C /* settingsTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsTabButton.png; sourceTree = "<group>"; };
+		7E29B7F910F4B77900816D9B /* StockSearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StockSearchView.xib; path = Classes/StockSearchView.xib; sourceTree = "<group>"; };
+		7E29B80110F4B96500816D9B /* StockSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockSearchController.h; sourceTree = "<group>"; };
+		7E29B80210F4B96500816D9B /* StockSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockSearchController.m; sourceTree = "<group>"; };
+		7E2B93DA11048DE800DA0B91 /* mTraderServerMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderServerMonitor.h; sourceTree = "<group>"; };
+		7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderServerMonitor.m; sourceTree = "<group>"; };
+		7E2DA13A110464BB002CE93F /* iTraderCommunicatorUnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderCommunicatorUnitTests.h; sourceTree = "<group>"; };
+		7E2DA13B110464BB002CE93F /* iTraderCommunicatorUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderCommunicatorUnitTests.m; sourceTree = "<group>"; };
+		7E2DA15C11046873002CE93F /* LogicTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E2DA15D11046873002CE93F /* LogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LogicTests-Info.plist"; sourceTree = "<group>"; };
+		7E2DA19711046EBC002CE93F /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E2DA19F11046F28002CE93F /* iTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E2DA1A011046F28002CE93F /* iTraderTesting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iTraderTesting-Info.plist"; sourceTree = "<group>"; };
+		7E2DA1AD11046FE9002CE93F /* iTraderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderTests.h; sourceTree = "<group>"; };
+		7E2DA1AE11046FE9002CE93F /* iTraderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderTests.m; sourceTree = "<group>"; };
+		7E2FA17C10FDDE2A00404945 /* Chart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chart.h; sourceTree = "<group>"; };
+		7E2FA17D10FDDE2A00404945 /* Chart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chart.m; sourceTree = "<group>"; };
+		7E309CE1110071A300E9229B /* StockDetailPageTwo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockDetailPageTwo.xib; sourceTree = "<group>"; };
+		7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7E33CBC71100AE5600C2737F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		7E33CBC81100AE5600C2737F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		7E419ACB10E206890007808B /* StockListingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockListingCell.xib; sourceTree = "<group>"; };
+		7E419AD710E20B920007808B /* MyStocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStocksViewController.h; sourceTree = "<group>"; };
+		7E419AD810E20B920007808B /* MyStocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStocksViewController.m; sourceTree = "<group>"; };
+		7E419AFB10E20DD00007808B /* infront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = infront.png; sourceTree = "<group>"; };
+		7E419BC910E21A150007808B /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
+		7E419BCA10E21A150007808B /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		7E419C6810E2209B0007808B /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
+		7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueAdditions.m"; sourceTree = "<group>"; };
+		7E419C6B10E2209B0007808B /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
+		7E419C6C10E2209B0007808B /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
+		7E419C6D10E2209B0007808B /* iTraderCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderCommunicator.h; sourceTree = "<group>"; };
+		7E419C6E10E2209B0007808B /* iTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderCommunicator.m; sourceTree = "<group>"; };
+		7E419DE610E251CB0007808B /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		7E419DE710E251CB0007808B /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		7E6348AE110616FE00ADC4B7 /* libisimulate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libisimulate.a; path = Classes/libisimulate.a; sourceTree = "<group>"; };
+		7E6348C61106176100ADC4B7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7E8A6FCB10F6021E003D7E29 /* StockDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockDetailView.xib; sourceTree = "<group>"; };
+		7E8A6FCF10F604B4003D7E29 /* StockDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDetailController.h; sourceTree = "<group>"; };
+		7E8A6FD010F604B4003D7E29 /* StockDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockDetailController.m; sourceTree = "<group>"; };
+		7E97DD0B1109FAA900187800 /* NewsItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsItemViewController.h; sourceTree = "<group>"; };
+		7E97DD0C1109FAA900187800 /* NewsItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsItemViewController.m; sourceTree = "<group>"; };
+		7E97DD66110A00D300187800 /* NewsItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = NewsItemView.xib; path = Classes/NewsItemView.xib; sourceTree = "<group>"; };
+		7EB15D0210F1D24D003049C7 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
+		7EB15D0310F1D24D003049C7 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
+		7EB15D5910F1F5CE003049C7 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
+		7EB15D5A10F1F5CE003049C7 /* Symbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbol.m; sourceTree = "<group>"; };
+		7EB15D5C10F1F6DE003049C7 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		7EB15D5D10F1F6DE003049C7 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
+		7EB15E4A10F2392C003049C7 /* SymbolsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolsController.h; sourceTree = "<group>"; };
+		7EB15E4B10F2392C003049C7 /* SymbolsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolsController.m; sourceTree = "<group>"; };
+		7ECE213010FF72A0005ABBC7 /* StockDetailPageOne.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockDetailPageOne.xib; sourceTree = "<group>"; };
+		7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iTraderCommunicationProtocol.tex; sourceTree = "<group>"; };
+		7EF9464C11108D9F006B5CDE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* iTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iTrader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C73CE2E510E3BDCE00AF6D89 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		C73CE2ED10E3BDDA00AF6D89 /* no */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = no; path = Localizable.strings; sourceTree = "<group>"; };
+		C73CE46810E6763A00AF6D89 /* AboutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutView.xib; path = Classes/AboutView.xib; sourceTree = "<group>"; };
+		C73CE63510E7544200AF6D89 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		C73CE63610E7544200AF6D89 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */,
+				7EDC23CC1106187F009E50C5 /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA15911046873002CE93F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E6348B0110616FE00ADC4B7 /* libisimulate.a in Frameworks */,
+				7E6348C71106176100ADC4B7 /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA18F11046EBC002CE93F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E2DA19011046EBC002CE93F /* Foundation.framework in Frameworks */,
+				7E2DA19111046EBC002CE93F /* UIKit.framework in Frameworks */,
+				7E2DA19211046EBC002CE93F /* CoreGraphics.framework in Frameworks */,
+				7E2DA19311046EBC002CE93F /* SystemConfiguration.framework in Frameworks */,
+				7E6348B1110616FE00ADC4B7 /* libisimulate.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA19C11046F28002CE93F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7EB15D0110F1D227003049C7 /* User Defaults */,
+				7E419C6A10E2209B0007808B /* Communicator */,
+				7E419C6710E2209B0007808B /* Data Structure */,
+				7E419AC610E206190007808B /* AppDelegate */,
+				7E419AD510E20B520007808B /* ViewControllers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* iTrader.app */,
+				7E2DA15C11046873002CE93F /* LogicTests.octest */,
+				7E2DA19711046EBC002CE93F /* iTrader.app */,
+				7E2DA19F11046F28002CE93F /* iTraderTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				7E2DA13911046094002CE93F /* Tests */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* iTrader_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7ED7294110E8A22100D1814F /* Documentation */,
+				C73CE2F710E3BE3E00AF6D89 /* Translations */,
+				7E419AFA10E20DD00007808B /* Graphics */,
+				C73CE46810E6763A00AF6D89 /* AboutView.xib */,
+				7E29B7F910F4B77900816D9B /* StockSearchView.xib */,
+				7E419ACB10E206890007808B /* StockListingCell.xib */,
+				7E8A6FCB10F6021E003D7E29 /* StockDetailView.xib */,
+				7ECE213010FF72A0005ABBC7 /* StockDetailPageOne.xib */,
+				7E309CE1110071A300E9229B /* StockDetailPageTwo.xib */,
+				7E97DD66110A00D300187800 /* NewsItemView.xib */,
+				8D1107310486CEB800E47090 /* iTrader-Info.plist */,
+				7E2DA15D11046873002CE93F /* LogicTests-Info.plist */,
+				7E2DA1A011046F28002CE93F /* iTraderTesting-Info.plist */,
+				7EF9464C11108D9F006B5CDE /* Entitlements.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7E6348AE110616FE00ADC4B7 /* libisimulate.a */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */,
+				7E6348C61106176100ADC4B7 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E2DA13911046094002CE93F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				7E2DA13A110464BB002CE93F /* iTraderCommunicatorUnitTests.h */,
+				7E2DA13B110464BB002CE93F /* iTraderCommunicatorUnitTests.m */,
+				7E2DA1AD11046FE9002CE93F /* iTraderTests.h */,
+				7E2DA1AE11046FE9002CE93F /* iTraderTests.m */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		7E419AC610E206190007808B /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				1D3623240D0F684500981E51 /* iTraderAppDelegate.h */,
+				1D3623250D0F684500981E51 /* iTraderAppDelegate.m */,
+				7E15C52E10F32632007A45E8 /* Starter.h */,
+				7E15C52F10F32632007A45E8 /* Starter.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		7E419AD510E20B520007808B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7E419AD610E20B7B0007808B /* My Stocks */,
+				7E419DE510E251BA0007808B /* News */,
+				7E419B1F10E20EDB0007808B /* Settings */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		7E419AD610E20B7B0007808B /* My Stocks */ = {
+			isa = PBXGroup;
+			children = (
+				7ED92B8610F77F010016F656 /* StockListingCell */,
+				7E419AD710E20B920007808B /* MyStocksViewController.h */,
+				7E419AD810E20B920007808B /* MyStocksViewController.m */,
+				7EB15E4A10F2392C003049C7 /* SymbolsController.h */,
+				7EB15E4B10F2392C003049C7 /* SymbolsController.m */,
+				7E29B80110F4B96500816D9B /* StockSearchController.h */,
+				7E29B80210F4B96500816D9B /* StockSearchController.m */,
+				7E8A6FCF10F604B4003D7E29 /* StockDetailController.h */,
+				7E8A6FD010F604B4003D7E29 /* StockDetailController.m */,
+			);
+			name = "My Stocks";
+			sourceTree = "<group>";
+		};
+		7E419AFA10E20DD00007808B /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				7E24D887110F3272009AF36C /* settingsTabButton.png */,
+				7E24D879110F26BF009AF36C /* newsTabButton.png */,
+				7E24D871110F2656009AF36C /* myStocksTabButton.png */,
+				7E419AFB10E20DD00007808B /* infront.png */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		7E419B1F10E20EDB0007808B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				7E419BC910E21A150007808B /* SettingsTableViewController.h */,
+				7E419BCA10E21A150007808B /* SettingsTableViewController.m */,
+				C73CE63510E7544200AF6D89 /* AboutViewController.h */,
+				C73CE63610E7544200AF6D89 /* AboutViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		7E419C6710E2209B0007808B /* Data Structure */ = {
+			isa = PBXGroup;
+			children = (
+				7E419C6810E2209B0007808B /* NSMutableArray+QueueAdditions.h */,
+				7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */,
+				7EB15D5910F1F5CE003049C7 /* Symbol.h */,
+				7EB15D5A10F1F5CE003049C7 /* Symbol.m */,
+				7EB15D5C10F1F6DE003049C7 /* Feed.h */,
+				7EB15D5D10F1F6DE003049C7 /* Feed.m */,
+				7E2FA17C10FDDE2A00404945 /* Chart.h */,
+				7E2FA17D10FDDE2A00404945 /* Chart.m */,
+			);
+			name = "Data Structure";
+			sourceTree = "<group>";
+		};
+		7E419C6A10E2209B0007808B /* Communicator */ = {
+			isa = PBXGroup;
+			children = (
+				7E33CBC71100AE5600C2737F /* Reachability.h */,
+				7E33CBC81100AE5600C2737F /* Reachability.m */,
+				7E419C6B10E2209B0007808B /* Communicator.h */,
+				7E419C6C10E2209B0007808B /* Communicator.m */,
+				7E419C6D10E2209B0007808B /* iTraderCommunicator.h */,
+				7E419C6E10E2209B0007808B /* iTraderCommunicator.m */,
+				7E2B93DA11048DE800DA0B91 /* mTraderServerMonitor.h */,
+				7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */,
+			);
+			name = Communicator;
+			sourceTree = "<group>";
+		};
+		7E419DE510E251BA0007808B /* News */ = {
+			isa = PBXGroup;
+			children = (
+				7E419DE610E251CB0007808B /* NewsViewController.h */,
+				7E419DE710E251CB0007808B /* NewsViewController.m */,
+				7E97DD0B1109FAA900187800 /* NewsItemViewController.h */,
+				7E97DD0C1109FAA900187800 /* NewsItemViewController.m */,
+			);
+			name = News;
+			sourceTree = "<group>";
+		};
+		7EB15D0110F1D227003049C7 /* User Defaults */ = {
+			isa = PBXGroup;
+			children = (
+				7EB15D0210F1D24D003049C7 /* UserDefaults.h */,
+				7EB15D0310F1D24D003049C7 /* UserDefaults.m */,
+			);
+			name = "User Defaults";
+			sourceTree = "<group>";
+		};
+		7ED7294110E8A22100D1814F /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				7ED7294210E8A22100D1814F /* iTraderCommunicationProtocol.tex */,
+				7E0EA22210FC9859001A42F2 /* StateDiagram.dot */,
+			);
+			name = Documentation;
+			path = documentation;
+			sourceTree = "<group>";
+		};
+		7ED92B8610F77F010016F656 /* StockListingCell */ = {
+			isa = PBXGroup;
+			children = (
+				7E15C7DB10F35A23007A45E8 /* StockListingCell.h */,
+				7E15C7DC10F35A23007A45E8 /* StockListingCell.m */,
+			);
+			name = StockListingCell;
+			sourceTree = "<group>";
+		};
+		C73CE2E310E3BDCE00AF6D89 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		C73CE2E910E3BDDA00AF6D89 /* no.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */,
+			);
+			path = no.lproj;
+			sourceTree = "<group>";
+		};
+		C73CE2F710E3BE3E00AF6D89 /* Translations */ = {
+			isa = PBXGroup;
+			children = (
+				C73CE2E310E3BDCE00AF6D89 /* en.lproj */,
+				C73CE2E910E3BDDA00AF6D89 /* no.lproj */,
+			);
+			name = Translations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* iTrader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iTrader" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iTrader;
+			productName = iTrader;
+			productReference = 1D6058910D05DD3D006BFB54 /* iTrader.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7E2DA15B11046873002CE93F /* LogicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E2DA16011046873002CE93F /* Build configuration list for PBXNativeTarget "LogicTests" */;
+			buildPhases = (
+				7E2DA15711046873002CE93F /* Resources */,
+				7E2DA15811046873002CE93F /* Sources */,
+				7E2DA15911046873002CE93F /* Frameworks */,
+				7E2DA15A11046873002CE93F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LogicTests;
+			productName = LogicTests;
+			productReference = 7E2DA15C11046873002CE93F /* LogicTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		7E2DA16F11046EBC002CE93F /* iTraderTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E2DA19411046EBC002CE93F /* Build configuration list for PBXNativeTarget "iTraderTesting" */;
+			buildPhases = (
+				7E2DA17011046EBC002CE93F /* Resources */,
+				7E2DA17B11046EBC002CE93F /* Sources */,
+				7E2DA18F11046EBC002CE93F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7E2DA1A511046F40002CE93F /* PBXTargetDependency */,
+			);
+			name = iTraderTesting;
+			productName = iTrader;
+			productReference = 7E2DA19711046EBC002CE93F /* iTrader.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7E2DA19E11046F28002CE93F /* iTraderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E2DA1A311046F29002CE93F /* Build configuration list for PBXNativeTarget "iTraderTests" */;
+			buildPhases = (
+				7E2DA19A11046F28002CE93F /* Resources */,
+				7E2DA19B11046F28002CE93F /* Sources */,
+				7E2DA19C11046F28002CE93F /* Frameworks */,
+				7E2DA19D11046F28002CE93F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iTraderTests;
+			productName = iTraderTests;
+			productReference = 7E2DA19F11046F28002CE93F /* iTraderTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "InFront AS";
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iTrader" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+				no,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* iTrader */,
+				7E2DA16F11046EBC002CE93F /* iTraderTesting */,
+				7E2DA15B11046873002CE93F /* LogicTests */,
+				7E2DA19E11046F28002CE93F /* iTraderTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E419ACC10E206890007808B /* StockListingCell.xib in Resources */,
+				7E419AFC10E20DD00007808B /* infront.png in Resources */,
+				C73CE2E610E3BDCE00AF6D89 /* Localizable.strings in Resources */,
+				C73CE2EF10E3BDDA00AF6D89 /* Localizable.strings in Resources */,
+				C73CE46910E6763A00AF6D89 /* AboutView.xib in Resources */,
+				7ED7294310E8A22100D1814F /* iTraderCommunicationProtocol.tex in Resources */,
+				7E29B7FA10F4B77900816D9B /* StockSearchView.xib in Resources */,
+				7E8A6FCC10F6021E003D7E29 /* StockDetailView.xib in Resources */,
+				7ECE213110FF72A0005ABBC7 /* StockDetailPageOne.xib in Resources */,
+				7E309CE2110071A300E9229B /* StockDetailPageTwo.xib in Resources */,
+				7E97DD68110A00D300187800 /* NewsItemView.xib in Resources */,
+				7E24D872110F2656009AF36C /* myStocksTabButton.png in Resources */,
+				7E24D87A110F26BF009AF36C /* newsTabButton.png in Resources */,
+				7E24D888110F3272009AF36C /* settingsTabButton.png in Resources */,
+				7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA15711046873002CE93F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E2B957E1104A9EB00DA0B91 /* infront.png in Resources */,
+				7E97DD69110A00D300187800 /* NewsItemView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA17011046EBC002CE93F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E2DA1A711046FA4002CE93F /* iTraderTests.octest in Resources */,
+				7E2DA17111046EBC002CE93F /* StockListingCell.xib in Resources */,
+				7E2DA17211046EBC002CE93F /* infront.png in Resources */,
+				7E2DA17311046EBC002CE93F /* Localizable.strings in Resources */,
+				7E2DA17411046EBC002CE93F /* Localizable.strings in Resources */,
+				7E2DA17511046EBC002CE93F /* AboutView.xib in Resources */,
+				7E2DA17611046EBC002CE93F /* iTraderCommunicationProtocol.tex in Resources */,
+				7E2DA17711046EBC002CE93F /* StockSearchView.xib in Resources */,
+				7E2DA17811046EBC002CE93F /* StockDetailView.xib in Resources */,
+				7E2DA17911046EBC002CE93F /* StockDetailPageOne.xib in Resources */,
+				7E2DA17A11046EBC002CE93F /* StockDetailPageTwo.xib in Resources */,
+				7E97DD67110A00D300187800 /* NewsItemView.xib in Resources */,
+				7E24D873110F2656009AF36C /* myStocksTabButton.png in Resources */,
+				7E24D87B110F26BF009AF36C /* newsTabButton.png in Resources */,
+				7E24D889110F3272009AF36C /* settingsTabButton.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA19A11046F28002CE93F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7E2DA15A11046873002CE93F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		7E2DA19D11046F28002CE93F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* iTraderAppDelegate.m in Sources */,
+				7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */,
+				7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */,
+				7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */,
+				7E419C7010E2209B0007808B /* Communicator.m in Sources */,
+				7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */,
+				7E419DE810E251CB0007808B /* NewsViewController.m in Sources */,
+				C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */,
+				7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */,
+				7EB15D5B10F1F5CE003049C7 /* Symbol.m in Sources */,
+				7EB15D5E10F1F6DE003049C7 /* Feed.m in Sources */,
+				7EB15E4C10F2392C003049C7 /* SymbolsController.m in Sources */,
+				7E15C53010F32632007A45E8 /* Starter.m in Sources */,
+				7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */,
+				7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */,
+				7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */,
+				7E2FA17E10FDDE2A00404945 /* Chart.m in Sources */,
+				7E33CBC91100AE5600C2737F /* Reachability.m in Sources */,
+				7E2B93DC11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */,
+				7E97DD0E1109FAA900187800 /* NewsItemViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA15811046873002CE93F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */,
+				7E2B93D111048D4600DA0B91 /* UserDefaults.m in Sources */,
+				7E2B93C511048D1600DA0B91 /* Symbol.m in Sources */,
+				7E2B93C611048D1600DA0B91 /* Feed.m in Sources */,
+				7E2B93C711048D1600DA0B91 /* Chart.m in Sources */,
+				7E2B93B411048CEB00DA0B91 /* Communicator.m in Sources */,
+				7E2B939E11048C8800DA0B91 /* iTraderCommunicator.m in Sources */,
+				7E2DA16111046886002CE93F /* iTraderCommunicatorUnitTests.m in Sources */,
+				7E97DD0F1109FAA900187800 /* NewsItemViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA17B11046EBC002CE93F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E2DA17C11046EBC002CE93F /* main.m in Sources */,
+				7E2DA17D11046EBC002CE93F /* iTraderAppDelegate.m in Sources */,
+				7E2DA17E11046EBC002CE93F /* MyStocksViewController.m in Sources */,
+				7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */,
+				7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */,
+				7E2DA18111046EBC002CE93F /* Communicator.m in Sources */,
+				7E2DA18211046EBC002CE93F /* iTraderCommunicator.m in Sources */,
+				7E2DA18311046EBC002CE93F /* NewsViewController.m in Sources */,
+				7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */,
+				7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */,
+				7E2DA18611046EBC002CE93F /* Symbol.m in Sources */,
+				7E2DA18711046EBC002CE93F /* Feed.m in Sources */,
+				7E2DA18811046EBC002CE93F /* SymbolsController.m in Sources */,
+				7E2DA18911046EBC002CE93F /* Starter.m in Sources */,
+				7E2DA18A11046EBC002CE93F /* StockListingCell.m in Sources */,
+				7E2DA18B11046EBC002CE93F /* StockSearchController.m in Sources */,
+				7E2DA18C11046EBC002CE93F /* StockDetailController.m in Sources */,
+				7E2DA18D11046EBC002CE93F /* Chart.m in Sources */,
+				7E2DA18E11046EBC002CE93F /* Reachability.m in Sources */,
+				7E2B93DE11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */,
+				7E97DD0D1109FAA900187800 /* NewsItemViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA19B11046F28002CE93F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E2DA1AF11046FE9002CE93F /* iTraderTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7E2DA1A511046F40002CE93F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7E2DA19E11046F28002CE93F /* iTraderTests */;
+			targetProxy = 7E2DA1A411046F40002CE93F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C73CE2E410E3BDCE00AF6D89 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C73CE2E510E3BDCE00AF6D89 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		C73CE2EC10E3BDDA00AF6D89 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C73CE2ED10E3BDDA00AF6D89 /* no */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
+				INFOPLIST_FILE = "iTrader-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = iTrader;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
+				INFOPLIST_FILE = "iTrader-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = iTrader;
+			};
+			name = Release;
+		};
+		7E2DA15E11046873002CE93F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "LogicTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = LogicTests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7E2DA15F11046873002CE93F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "LogicTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = LogicTests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		7E2DA19511046EBC002CE93F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
+				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = iTrader;
+			};
+			name = Debug;
+		};
+		7E2DA19611046EBC002CE93F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
+				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = iTrader;
+			};
+			name = Release;
+		};
+		7E2DA1A111046F29002CE93F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = iTraderTests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7E2DA1A211046F29002CE93F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = iTraderTests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos3.1.2;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos3.1.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iTrader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E2DA16011046873002CE93F /* Build configuration list for PBXNativeTarget "LogicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E2DA15E11046873002CE93F /* Debug */,
+				7E2DA15F11046873002CE93F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E2DA19411046EBC002CE93F /* Build configuration list for PBXNativeTarget "iTraderTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E2DA19511046EBC002CE93F /* Debug */,
+				7E2DA19611046EBC002CE93F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E2DA1A311046F29002CE93F /* Build configuration list for PBXNativeTarget "iTraderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E2DA1A111046F29002CE93F /* Debug */,
+				7E2DA1A211046F29002CE93F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iTrader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
