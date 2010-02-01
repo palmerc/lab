@@ -6,7 +6,7 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import "iTraderTests.h"
+#import "mTraderTests.h"
 
 
 @implementation iTraderTests

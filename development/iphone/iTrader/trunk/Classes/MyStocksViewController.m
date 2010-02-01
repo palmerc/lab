@@ -8,8 +8,8 @@
 
 #import "MyStocksViewController.h"
 
-#import "iTraderAppDelegate.h"
-#import "iTraderCommunicator.h"
+#import "mTraderAppDelegate.h"
+#import "mTraderCommunicator.h"
 
 #import "Feed.h";
 #import "Symbol.h"

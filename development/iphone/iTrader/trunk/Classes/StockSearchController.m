@@ -7,7 +7,7 @@
 //
 
 #import "StockSearchController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "SymbolsController.h"
 
 @implementation StockSearchController

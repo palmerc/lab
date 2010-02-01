@@ -8,7 +8,7 @@
 
 #import "StockDetailController.h"
 #import "SymbolsController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "Chart.h"

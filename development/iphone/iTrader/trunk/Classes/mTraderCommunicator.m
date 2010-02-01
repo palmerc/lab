@@ -7,7 +7,7 @@
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "NSMutableArray+QueueAdditions.h"
 #import "UserDefaults.h";
 #import "Symbol.h"

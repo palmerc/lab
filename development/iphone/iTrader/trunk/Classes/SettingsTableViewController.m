@@ -8,8 +8,8 @@
 
 #import "SettingsTableViewController.h"
 #import "AboutViewController.h"
-#import "iTraderAppDelegate.h"
-#import "iTraderCommunicator.h"
+#import "mTraderAppDelegate.h"
+#import "mTraderCommunicator.h"
 #import "UserDefaults.h"
 
 @implementation SettingsTableViewController

@@ -6,7 +6,7 @@
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
-#import "iTraderAppDelegate.h"
+#import "mTraderAppDelegate.h"
 #import "Starter.h"
 #import "UserDefaults.h"
 #import "MyStocksViewController.h"

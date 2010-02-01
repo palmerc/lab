@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 
 @interface NewsViewController : UITableViewController <mTraderServerDataDelegate> {
 	id previousmTraderServerDataDelegate;

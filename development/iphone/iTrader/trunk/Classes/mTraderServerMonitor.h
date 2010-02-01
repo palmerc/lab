@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 
 @class Reachability;
 

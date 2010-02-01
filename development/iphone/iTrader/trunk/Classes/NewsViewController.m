@@ -8,8 +8,8 @@
 
 #import "NewsViewController.h"
 #import "NewsItemViewController.h"
-#import "iTraderAppDelegate.h"
-#import "iTraderCommunicator.h"
+#import "mTraderAppDelegate.h"
+#import "mTraderCommunicator.h"
 
 @implementation NewsViewController
 @synthesize communicator;

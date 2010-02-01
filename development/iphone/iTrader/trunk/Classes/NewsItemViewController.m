@@ -7,7 +7,7 @@
 //
 
 #import "NewsItemViewController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 
 @implementation NewsItemViewController
 @synthesize newsItemID = _newsItemID;

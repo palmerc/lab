@@ -6,7 +6,7 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import "iTraderCommunicatorUnitTests.h"
+#import "mTraderCommunicatorUnitTests.h"
 
 
 @implementation iTraderCommunicatorUnitTests

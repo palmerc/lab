@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 @protocol SymbolsUpdateDelegate;
 
 @interface SymbolsController : NSObject <mTraderServerDataDelegate> {

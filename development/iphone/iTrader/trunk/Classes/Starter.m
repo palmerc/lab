@@ -9,7 +9,7 @@
 #import "Starter.h"
 #import "UserDefaults.h"
 #import "SymbolsController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "mTraderServerMonitor.h"
 
 @implementation Starter

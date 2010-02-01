@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 
 @interface NewsItemViewController : UIViewController <NewsItemDataDelegate> {
 	NSString *_newsItemID;

@@ -7,7 +7,7 @@
 //
 
 #import "mTraderServerMonitor.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "Reachability.h"
 
 
