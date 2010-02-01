@@ -9,33 +9,37 @@
 #import "MyStocksViewController.h"
 
 #import "iTraderAppDelegate.h"
+#import "iTraderCommunicator.h"
 
-#import "SymbolsController.h"
-#import "Symbol.h"
 #import "Feed.h";
+#import "Symbol.h"
 
 #import "StockDetailController.h"
 #import "StockSearchController.h"
 #import "StockListingCell.h"
 
+#import "StringHelpers.h"
+
 @implementation MyStocksViewController
-@synthesize symbolsController = _symbolsController;
+@synthesize communicator;
+@synthesize fetchedResultsController, managedObjectContext;
 @synthesize editing = _editing;
 
 #pragma mark -
-#pragma mark Lifecycle
+#pragma mark Application lifecycle
 
 - (id)init {
 	self = [super init];
 	if (self != nil) {
 		self.title = NSLocalizedString(@"MyStocksTab", @"My Stocks tab label");
-		UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];
-		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:MYSTOCKS];
-		self.tabBarItem = theItem;
-		[theItem release];
+		//UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];
+		//UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:MYSTOCKS];
+		//self.tabBarItem = theItem;
+		//[theItem release];
 				
-		_symbolsController = [SymbolsController sharedManager];
-		_communicator = [iTraderCommunicator sharedManager];
+		//_symbolsController = [SymbolsController sharedManager];
+		//_symbolsController = nil;
+		self.communicator = [iTraderCommunicator sharedManager];
 		
 		currentValueType = PRICE;
 		self.editing = NO;
@@ -43,43 +47,32 @@
 	return self;
 }
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	self.symbolsController.updateDelegate = self;
+	self.communicator.symbolsDelegate = self;
 
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addStockButtonWasPressed:)];
 	self.navigationItem.rightBarButtonItem = addItem;
 	[addItem release];
 	
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
+		
+	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
+	NSError *error;
+	if (![[self fetchedResultsController] performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();  // Fail
+	}
 }
 
-/*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    //return (interfaceOrientation == UIInterfaceOrientationPortrait | UIInterfaceOrientationLandscapeLeft);
-	return NO;
+	return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-*/
+
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -87,64 +80,62 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-	//self.symbolsController.updateDelegate = nil;
-}
-
 - (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-	self.symbolsController.updateDelegate = nil;
+	self.fetchedResultsController = nil;
 }
 
-
-- (void)dealloc {
-    [super dealloc];
-}
-
-/**
- * tableView Delegation
- *
- */
-
-
-- (void)setEditing:(BOOL)editing animated:(BOOL)animate {
-	if (editing == YES) {
-		self.editing = YES;
-	} else {
-		self.editing = NO;
-		[self.tableView reloadData];
-	}
-	[super setEditing:editing animated:animate];
-}
 
 #pragma mark -
-#pragma mark Section Handling
-/* Section Handling */
+#pragma mark TableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return [self.symbolsController.feeds count];
+	NSInteger count = [[fetchedResultsController sections] count];
+	
+	if (count == 0) {
+		count = 1;
+	}
+	
+	return count;
 }
 
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-//	return [NSArray arrayWithArray:symbolsController.orderedFeeds];
-//}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {	
-	return [[[self.symbolsController.feeds objectAtIndex:section] symbols] count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	NSInteger numberOfRows = 0;
+	
+    if ([[fetchedResultsController sections] count] > 0) {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+        numberOfRows = [sectionInfo numberOfObjects];
+    }
+    
+    return numberOfRows;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	Feed *feed = [self.symbolsController.feeds objectAtIndex:section];
-	return feed.feedDescription;
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+	return [sectionInfo name];
 }
 
-/* Row Handling */
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+    // Configure the cell.
+	[self configureCell:cell atIndexPath:indexPath];
+    return cell;
+}
 
-/**
- * This is called everytime the table wants the data for a specific row in the visible table.
- * The table view only ever asks for the visible cells.
- */
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    // Configure the cell to show the book's title
+	Symbol *symbol = [fetchedResultsController objectAtIndexPath:indexPath];
+	cell.textLabel.text = symbol.tickerSymbol;
+	cell.detailTextLabel.text = symbol.companyName;
+}
+
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"SymbolCell";
 	
@@ -199,6 +190,7 @@
 	}
 	*/
 	//cell.editing = YES;
+/*
 	cell.tickerLabel.text = symbol.tickerSymbol;
 	cell.nameLabel.text = symbol.name;
 	
@@ -222,61 +214,118 @@
 	
 	return cell;
 }
-
+*/
+#pragma mark -
+#pragma mark TableViewDelegate methods
+/*
 // This method is required to catch the swipe to delete gesture.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
-		[self.symbolsController removeSymbol:indexPath];
-		[self.tableView reloadData];
-	}
-
-}
-
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-
-- (NSIndexPath *)tableView:(UITableView *)tableView:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
-	return [NSIndexPath indexPathForRow:0 inSection:0];
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
+		NSManagedObject *eventToDelete = [stocksArray objectAtIndex:indexPath.row];
+		[managedObjectContext deleteObject:eventToDelete];
+		
+		[stocksArray removeObjectAtIndex:indexPath.row];
+		
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+		NSError *error;
+		if (![managedObjectContext save:&error]) {
+			// Handle the error.
+		}
+    }   
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }	
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	Symbol *symbol = [self.symbolsController symbolAtIndexPath:indexPath];
-	StockDetailController *detailController = [[StockDetailController alloc] initWithSymbol:symbol];
-	[self.navigationController pushViewController:detailController animated:YES];
-	[detailController release];
 }
-
+*/
 #pragma mark -
 #pragma mark Delegation
 /**
  * Delegation
  */
 
-
+-(void) addSymbols:(NSString *)symbols {
+	static NSInteger FEED_TICKER = 0;
+	static NSInteger TICKER_SYMBOL = 1;
+	static NSInteger COMPANY_NAME = 2;
+	static NSInteger EXCHANGE_CODE = 3;
+	static NSInteger TYPE = 4;
+	static NSInteger ORDER_BOOK = 5;
+	static NSInteger ISIN = 6;
+	
+	// insert the objects
+	NSArray *rows = [symbols componentsSeparatedByString:@":"];	
+	for (NSString *row in rows) {
+		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
+		stockComponents = [StringHelpers cleanComponents:stockComponents];
+		NSString *feedTicker = [stockComponents objectAtIndex:FEED_TICKER];
+		NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+		NSString *feedNumberString = [feedTickerComponents objectAtIndex:0];
+		NSNumber *feedNumber = [NSNumber numberWithInteger:[feedNumberString integerValue]];
+		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
+		NSString *tickerSymbol = [stockComponents objectAtIndex:TICKER_SYMBOL];
+		NSString *companyName = [stockComponents objectAtIndex:COMPANY_NAME];
+		NSString *exchangeCode = [stockComponents objectAtIndex:EXCHANGE_CODE];
+		NSString *orderBook = [stockComponents objectAtIndex:ORDER_BOOK];
+		NSString *type = [stockComponents objectAtIndex:TYPE];
+		NSString *isin = [stockComponents objectAtIndex:ISIN];
+		
+		// Prevent double insertions
+		Feed *feed = [self fetchFeed:feedNumber];
+		if (feed == nil) {
+			feed = (Feed *)[NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
+			feed.mCode = exchangeCode;
+			feed.description = exchangeCode;
+			feed.feedNumber = feedNumber;
+		}
+		
+		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeed:feed]; 
+		if (symbol == nil) {
+			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
+			symbol.tickerSymbol = tickerSymbol;
+			symbol.companyName = companyName;
+			symbol.orderBook = orderBook;
+			symbol.type = type;
+			symbol.isin = isin;
+			[feed addSymbolsObject:symbol];
+		}
+		
+	}
+	// save the objects
+	NSError *error;
+	if (![self.managedObjectContext save:&error]) {
+		// Handle the error
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();  // Fail
+	}
+	
+	self.managedObjectContext = nil;
+	
+}
+/*
 -(void) symbolRemoved:(NSIndexPath *)indexPath {
 	[self.tableView beginUpdates];
 	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 	[self.tableView endUpdates];
 }
-
+/*
 - (void)feedAdded:(Feed *)feed {
 	[self.tableView reloadData];
 }
-
+ */
+/*
 // Additions and Updates
 - (void)symbolsAdded:(NSArray *)symbols {
 	NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
 	
 	for (Symbol *symbol in symbols) {
-		NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:symbol.feedTicker];
+		NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:symbol.tickerSymbol];
 		[indexPaths addObject:indexPath];
 	}
 	
@@ -286,11 +335,12 @@
 	
 	[indexPaths release];
 }
-
+*/
 /**
  * This method should receive a list of symbols that have been updated and should
  * update any rows necessary.
  */
+/*
 - (void)symbolsUpdated:(NSArray *)feedTickers {
 	if (!self.editing) {
 		NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
@@ -306,7 +356,10 @@
 		[indexPaths release];
 	}
 }
-
+*/
+#pragma mark -
+#pragma mark UI Actions
+/*
 - (void)addStockButtonWasPressed:(id)sender {
 	StockSearchController *controller = [[StockSearchController alloc] initWithNibName:@"StockSearchView" bundle:nil];
 	
@@ -337,6 +390,162 @@
 			break;
 	}
 	[self.tableView reloadData];
+}
+*/
+#pragma mark -
+#pragma mark Fetched results controller
+
+/**
+ Returns the fetched results controller. Creates and configures the controller if necessary.
+ */
+- (NSFetchedResultsController *)fetchedResultsController {
+	
+    if (fetchedResultsController != nil) {
+        return fetchedResultsController;
+    }
+    
+	// Create and configure a fetch request with the Book entity.
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:managedObjectContext];
+	[fetchRequest setEntity:entity];
+	
+	// Create the sort descriptors array.
+	NSSortDescriptor *feedDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feed" ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:feedDescriptor, nil];
+	[fetchRequest setSortDescriptors:sortDescriptors];
+	
+	// Create and initialize the fetch results controller.
+	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:@"feed.mCode" cacheName:@"Root"];
+	self.fetchedResultsController = aFetchedResultsController;
+	fetchedResultsController.delegate = self;
+	
+	// Memory management.
+	[aFetchedResultsController release];
+	[fetchRequest release];
+	//[tickerDescriptor release];
+	//[sortDescriptors release];
+	
+	return fetchedResultsController;
+}    
+
+
+/**
+ Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.
+ */
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+
+	// The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+	[self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+	
+	UITableView *tableView = self.tableView;
+	
+	switch(type) {
+			
+		case NSFetchedResultsChangeInsert:
+			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeUpdate:
+			[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+			break;
+			
+		case NSFetchedResultsChangeMove:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			// Reloading the section inserts a new row and ensures that titles are updated appropriately.
+			[tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+	}
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+	
+	switch(type) {
+			
+		case NSFetchedResultsChangeInsert:
+			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+	}
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+	[self.tableView endUpdates];
+}
+
+- (Feed *)fetchFeed:(NSNumber *)feedNumber {
+	NSManagedObjectContext *moc = [self managedObjectContext];
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:moc];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feedNumber=%@)", feedNumber];
+	[request setPredicate:predicate];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mCode" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [moc executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		// Deal with error...
+	}
+	
+	if ([array count] == 1) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
+}
+
+- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(Feed *)feed {
+	NSManagedObjectContext *moc = [self managedObjectContext];
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:moc];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feed=%@) AND (tickerSymbol=%@)", feed, tickerSymbol];
+	[request setPredicate:predicate];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tickerSymbol" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [moc executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		// Deal with error...
+	}
+	
+	if ([array count] == 1) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
+}
+
+#pragma mark -
+#pragma mark Memory management
+
+- (void)dealloc {
+    [super dealloc];
 }
 
 @end

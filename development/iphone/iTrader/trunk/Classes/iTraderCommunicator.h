@@ -13,6 +13,7 @@
 @class Symbol;
 @class Feed;
 @class Chart;
+@protocol SymbolsDataDelegate;
 @protocol mTraderServerDataDelegate;
 @protocol StockAddDelegate;
 @protocol NewsItemDataDelegate;
@@ -39,6 +40,7 @@ enum {
 } states;
 
 @interface iTraderCommunicator : NSObject <CommunicatorDataDelegate> {
+	id <SymbolsDataDelegate> symbolsDelegate;
 	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 	id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 	id <StockAddDelegate> stockAddDelegate;
@@ -57,6 +59,7 @@ enum {
 	NSUInteger state;
 }
 
+@property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
 @property (nonatomic, assign) id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 @property (nonatomic, assign) id <StockAddDelegate> stockAddDelegate;
 @property (nonatomic, assign) id <NewsItemDataDelegate> newsItemDelegate;
@@ -102,7 +105,7 @@ enum {
 // Parsing methods
 - (NSArray *)quotesParsing:(NSString *)quotes;
 -(NSArray *)exchangesParsing:(NSString *)exchanges;
-- (void)symbolsParsing:(NSString *)symbols;
+//- (void)symbolsParsing:(NSString *)symbols;
 - (void)staticDataParsing:(NSString *)secOid;
 
 // Helper methods
@@ -117,6 +120,11 @@ enum {
 @protocol mTraderServerMonitorDelegate <NSObject>
 -(void) kickedOut;
 @end
+
+@protocol SymbolsDataDelegate <NSObject>
+-(void) addSymbols:(NSString *)symbols;
+@end
+
 
 // Delegate Protocols
 @protocol mTraderServerDataDelegate <NSObject>

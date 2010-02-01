@@ -421,5 +421,4 @@ static SymbolsController *sharedSymbolsController = nil;
 	
 	return finalProduct;
 }
-
 @end

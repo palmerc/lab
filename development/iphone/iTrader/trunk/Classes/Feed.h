@@ -2,23 +2,31 @@
 //  Feed.h
 //  iTrader
 //
-//  Created by Cameron Lowell Palmer on 04.01.10.
-//  Copyright 2010 InFront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 29.01.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
+@class Symbol;
 
-@interface Feed : NSObject {
-	NSString *_feedNumber;
-	NSString *_feedDescription;
-	NSString *_code;
-	
-	NSMutableArray *_symbols;
+@interface Feed :  NSManagedObject  
+{
 }
 
-@property (nonatomic,retain) NSString *feedNumber;
-@property (nonatomic,retain) NSString *feedDescription;
-@property (nonatomic,retain) NSString *code;
-@property (nonatomic,retain) NSMutableArray *symbols;
+@property (nonatomic, retain) NSString * mCode;
+@property (nonatomic, retain) NSString * description;
+@property (nonatomic, retain) NSNumber * feedNumber;
+@property (nonatomic, retain) NSSet* symbols;
+
 @end
+
+
+@interface Feed (CoreDataGeneratedAccessors)
+- (void)addSymbolsObject:(Symbol *)value;
+- (void)removeSymbolsObject:(Symbol *)value;
+- (void)addSymbols:(NSSet *)value;
+- (void)removeSymbols:(NSSet *)value;
+
+@end
+

@@ -44,7 +44,8 @@
 	//self.searchBar.placeholder = @"Stock Ticker Symbol";
 	//self.searchBar.showsCancelButton = YES;
 	
-	controller = [SymbolsController sharedManager];
+	//controller = [SymbolsController sharedManager];
+	controller = nil;
 	communicator = [iTraderCommunicator sharedManager];
 	
 	self.tickerField.delegate = self;

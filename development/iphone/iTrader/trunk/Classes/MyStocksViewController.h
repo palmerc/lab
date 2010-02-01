@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SymbolsController.h"
 #import "StockListingCell.h"
 #import "StockSearchController.h"
 
 @class iTraderCommunicator;
-@class SymbolsController;
 
 typedef enum {
 	NOCHANGE = 0,
@@ -26,16 +24,25 @@ typedef enum {
 	VOLUME
 } valueType;
 
-@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, StockSearchControllerDelegate, SymbolsUpdateDelegate, TouchedValueButtonDelegate> {
-	iTraderCommunicator *_communicator;
-	SymbolsController *_symbolsController;
+@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, StockSearchControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
+	iTraderCommunicator *communicator;
 	
+	NSFetchedResultsController *fetchedResultsController;
+	NSManagedObjectContext *managedObjectContext;
+
 	NSUInteger currentValueType;
 	BOOL _editing;
 }
 
-@property (nonatomic, retain) SymbolsController *symbolsController;
+@property (assign) iTraderCommunicator *communicator;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+
 @property (assign) BOOL editing;
+
 - (void)addStockButtonWasPressed:(id)sender;
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (Feed *)fetchFeed:(NSNumber *)feedNumber;
+- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(Feed *)feed;
 
 @end

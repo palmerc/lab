@@ -6,20 +6,19 @@
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 typedef enum {
 	MYSTOCKS = 1,
 	NEWS = 2,
 	SETTINGS = 3
 } tabs;
 
-
-@class NewsViewController;
 @interface iTraderAppDelegate : NSObject <UIApplicationDelegate> {
-    UIWindow *window;
-	UITabBarController *tabController;
+	NSManagedObjectModel *managedObjectModel;
+    NSManagedObjectContext *managedObjectContext;	    
+    NSPersistentStoreCoordinator *persistentStoreCoordinator;
 	
+	UIWindow *window;
+	UITabBarController *tabController;
 	UINavigationController *myStocksNavigationController;
 	UINavigationController *newsNavigationController;
 	UINavigationController *settingsNavigationController;
@@ -27,8 +26,14 @@ typedef enum {
 	NSUserDefaults *defaults;
 }
 
+@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabController;
+
+-(NSString *) applicationDocumentsDirectory;
 
 @end
 

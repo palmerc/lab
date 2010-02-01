@@ -12,11 +12,11 @@
 #import "UserDefaults.h";
 #import "Symbol.h"
 #import "Feed.h"
-#import "Chart.h"
 
 @implementation iTraderCommunicator
 
 static iTraderCommunicator *sharedCommunicator = nil;
+@synthesize symbolsDelegate;
 @synthesize mTraderServerDataDelegate;
 @synthesize mTraderServerMonitorDelegate;
 @synthesize stockAddDelegate;
@@ -254,7 +254,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 }
 
 /**
- * Read the login stream upto quotes, call settingsParsing to deal with it and
+ * Read the login stream up to quotes, call settingsParsing to deal with it and
  * change state.
  */
 - (void)preprocessing {
@@ -273,7 +273,11 @@ static iTraderCommunicator *sharedCommunicator = nil;
 			symbolsDefined = NO;
 		} else {
 			symbolsDefined = YES;
-			[self symbolsParsing:string];
+			NSString *symbols = [rows componentsJoinedByString:@":"];
+			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addSymbols:)]) {
+				[self.symbolsDelegate addSymbols:symbols];
+			}
+			//[self symbolsParsing:string];
 		}
 	} else if ([string rangeOfString:@"Quotes:"].location == 0) {
 		NSArray *quotes = [self quotesParsing:string];
@@ -322,7 +326,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		}
 	}
 }
-
+/*
 - (void)chartHandling {
 	Chart *chart = [[Chart alloc] init];
 	NSMutableData *imageData = [[NSMutableData alloc] init];
@@ -393,13 +397,15 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	[chart release];
 	state = PROCESSING;		
 }
-
+*/
 - (void)addSecurityOK {
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
 	
 	if ([string rangeOfString:@"SecInfo:"].location == 0) {		
-		[self symbolsParsing:string];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addSymbols:)]) {
+			[self.symbolsDelegate addSymbols:string];
+		}
 		state = PROCESSING;
 	}
 }
@@ -519,6 +525,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 	return exchangesArray;
 }
 
+/*
 - (void)symbolsParsing:(NSString *)symbols {
 	// remove the part of the string preceding the colon, and the rest of the symbols are colon separated.
 	NSString *symbolsSansCRLF = [self cleanString:symbols];
@@ -582,7 +589,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		}
 	}
 }
-
+*/
 
 - (BOOL)loginStatusHasChanged {
 	BOOL result = NO;

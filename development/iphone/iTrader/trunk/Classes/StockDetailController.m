@@ -63,7 +63,7 @@
 		
 		NSInteger feedIndex = [self.symbolsController indexOfFeedWithFeedNumber:self.symbol.feedNumber];
 		Feed *feed = [self.symbolsController.feeds objectAtIndex:feedIndex];
-		self.title = [NSString stringWithFormat:@"%@:%@", feed.code, self.symbol.tickerSymbol];
+		self.title = [NSString stringWithFormat:@"%@:%@", feed.mCode, self.symbol.tickerSymbol];
 		self.hidesBottomBarWhenPushed = YES;
 		
 		[self.view addSubview:self.scrollView];
