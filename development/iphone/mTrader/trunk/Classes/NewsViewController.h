@@ -1,6 +1,6 @@
 //
 //  NewsViewController.h
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
@@ -11,11 +11,11 @@
 
 @interface NewsViewController : UITableViewController <mTraderServerDataDelegate> {
 	id previousmTraderServerDataDelegate;
-	iTraderCommunicator *communicator;
+	mTraderCommunicator *communicator;
 	
 	NSMutableArray *_newsArray;
 }
-@property (nonatomic, assign) iTraderCommunicator *communicator;
+@property (nonatomic, assign) mTraderCommunicator *communicator;
 @property (nonatomic, assign) id previousmTraderServerDataDelegate;
 
 @property (nonatomic, retain) NSMutableArray *newsArray;

@@ -9,7 +9,7 @@
 #import "mTraderCommunicatorUnitTests.h"
 
 
-@implementation iTraderCommunicatorUnitTests
+@implementation mTraderCommunicatorUnitTests
 
 #pragma mark Setup and Teardown
 

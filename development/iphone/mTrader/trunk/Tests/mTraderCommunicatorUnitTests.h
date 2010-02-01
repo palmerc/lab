@@ -7,10 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 
-@interface iTraderCommunicatorUnitTests : SenTestCase {
-	iTraderCommunicator *communicator;
+@interface mTraderCommunicatorUnitTests : SenTestCase {
+	mTraderCommunicator *communicator;
 }
 
 -(void) loginStarterUpper;

@@ -18,7 +18,7 @@ typedef enum {
 	INFRONT
 } sections;
 
-@class iTraderCommunicator;
+@class mTraderCommunicator;
 @class UserDefaults;
 
 @interface SettingsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
@@ -34,7 +34,7 @@ typedef enum {
 	
 	UserDefaults *defaults;
 	
-	iTraderCommunicator *communicator;
+	mTraderCommunicator *communicator;
 }
 
 @property (nonatomic, retain) UITableView *tableView;

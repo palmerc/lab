@@ -1,6 +1,6 @@
 //
 //  MyStocksViewController.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
@@ -39,7 +39,6 @@
 				
 		//_symbolsController = [SymbolsController sharedManager];
 		//_symbolsController = nil;
-		self.communicator = [iTraderCommunicator sharedManager];
 		
 		currentValueType = PRICE;
 		self.editing = NO;
@@ -51,14 +50,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	self.communicator.symbolsDelegate = self;
-
-	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addStockButtonWasPressed:)];
-	self.navigationItem.rightBarButtonItem = addItem;
-	[addItem release];
-	
-	self.navigationItem.leftBarButtonItem = self.editButtonItem;
-		
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
 	NSError *error;
 	if (![[self fetchedResultsController] performFetch:&error]) {
@@ -66,11 +57,21 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
+
+	// Setup right and left bar buttons
+	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addStockButtonWasPressed:)];
+	self.navigationItem.rightBarButtonItem = addItem;
+	[addItem release];
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;
+	
+	// Establish the delegation of incoming symbols to be given to us.
+	self.communicator = [mTraderCommunicator sharedManager];
+	self.communicator.symbolsDelegate = self;
 }
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+	return NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,8 +111,12 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
-	return [sectionInfo name];
+	NSInteger count = [[fetchedResultsController sections] count];
+	if (count > 0) {
+		id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+		return [sectionInfo name];
+	}
+	return nil;	
 }
 
 // Customize the appearance of table view cells.
@@ -422,8 +427,8 @@
 	// Memory management.
 	[aFetchedResultsController release];
 	[fetchRequest release];
-	//[tickerDescriptor release];
-	//[sortDescriptors release];
+	[feedDescriptor release];
+	[sortDescriptors release];
 	
 	return fetchedResultsController;
 }    

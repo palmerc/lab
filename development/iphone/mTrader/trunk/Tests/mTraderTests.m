@@ -9,7 +9,7 @@
 #import "mTraderTests.h"
 
 
-@implementation iTraderTests
+@implementation mTraderTests
 
 -(void) testAppDelegate {
 	id app_delegate = [[UIApplication sharedApplication] delegate];

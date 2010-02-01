@@ -8,7 +8,6 @@
 
 #import "Starter.h"
 #import "UserDefaults.h"
-#import "SymbolsController.h"
 #import "mTraderCommunicator.h"
 #import "mTraderServerMonitor.h"
 
@@ -26,12 +25,10 @@
 // This method's sole job is to kick off Singleton's
 - (void)starter {
 	[UserDefaults sharedManager];
-	//[SymbolsController sharedManager];
 	[mTraderServerMonitor sharedManager];
 	
 	// Start the networking bit last.
-	[iTraderCommunicator sharedManager];
-	//NSLog(@"Startup of Singletons complete.");
+	//[mTraderCommunicator sharedManager];
 }
 
 

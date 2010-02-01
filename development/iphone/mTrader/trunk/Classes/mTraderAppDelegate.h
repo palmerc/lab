@@ -1,10 +1,12 @@
 //
-//  iTraderAppDelegate.h
-//  iTrader
+//  mTraderAppDelegate.h
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright InFront AS 2009. All rights reserved.
 //
+
+#import <CoreData/CoreData.h>
 
 typedef enum {
 	MYSTOCKS = 1,
@@ -12,7 +14,7 @@ typedef enum {
 	SETTINGS = 3
 } tabs;
 
-@interface iTraderAppDelegate : NSObject <UIApplicationDelegate> {
+@interface mTraderAppDelegate : NSObject <UIApplicationDelegate> {
 	NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;

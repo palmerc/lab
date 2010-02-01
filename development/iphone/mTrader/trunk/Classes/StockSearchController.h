@@ -7,16 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "mTraderCommunicator.h"
 @class Symbol;
-@class iTraderCommunicator;
+@class mTraderCommunicator;
 @class SymbolsController;
 @protocol StockSearchControllerDelegate;
 
 @interface StockSearchController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate> {
 	id <StockSearchControllerDelegate> delegate;
 	id <UIPickerViewDelegate> pickerDelegate;
-	iTraderCommunicator *communicator;
+	mTraderCommunicator *communicator;
 	SymbolsController *controller;
 	UITextField *_tickerField;
 	UIButton *_submitButton;

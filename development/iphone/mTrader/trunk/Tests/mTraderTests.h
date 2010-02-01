@@ -8,9 +8,9 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
-@class iTraderCommunicator;
+@class mTraderCommunicator;
 
-@interface iTraderTests : SenTestCase {
+@interface mTraderTests : SenTestCase {
 	iTraderCommunicator *communicator;
 }
 

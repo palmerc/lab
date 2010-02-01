@@ -1,17 +1,20 @@
 //
 //  MyStocksViewController.h
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
+#import "mTraderCommunicator.h"
 #import "StockListingCell.h"
 #import "StockSearchController.h"
 
-@class iTraderCommunicator;
-
+@class mTraderCommunicator;
+@class Feed;
+@class Symbol;
 typedef enum {
 	NOCHANGE = 0,
 	UP,
@@ -25,7 +28,7 @@ typedef enum {
 } valueType;
 
 @interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, StockSearchControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
-	iTraderCommunicator *communicator;
+	mTraderCommunicator *communicator;
 	
 	NSFetchedResultsController *fetchedResultsController;
 	NSManagedObjectContext *managedObjectContext;
@@ -34,7 +37,7 @@ typedef enum {
 	BOOL _editing;
 }
 
-@property (assign) iTraderCommunicator *communicator;
+@property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 

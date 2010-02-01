@@ -22,7 +22,7 @@
 	self = [super init];
 	if (self != nil) {
 		defaults = [UserDefaults sharedManager];
-		communicator = [iTraderCommunicator sharedManager];
+		communicator = [mTraderCommunicator sharedManager];
 		
 		UIImage* anImage = [UIImage imageNamed:@"settingsTabButton.png"];
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTab", @"The settings tab label") image:anImage tag:SETTINGS];

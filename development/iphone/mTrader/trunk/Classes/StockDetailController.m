@@ -7,7 +7,6 @@
 //
 
 #import "StockDetailController.h"
-#import "SymbolsController.h"
 #import "mTraderCommunicator.h"
 #import "Feed.h"
 #import "Symbol.h"
@@ -15,7 +14,6 @@
 
 @implementation StockDetailController
 @synthesize symbol = _symbol;
-@synthesize symbolsController = _symbolsController;
 @synthesize communicator = _communicator;
 @synthesize previousUpdateDelegate;
 @synthesize scrollView;
@@ -56,16 +54,15 @@
 - (id)initWithSymbol:(Symbol *)symbol {
 	self = [super initWithNibName:@"StockDetailView" bundle:nil];
 	if (self != nil) {
-		self.symbolsController = [SymbolsController sharedManager];
-		self.communicator = [iTraderCommunicator sharedManager];
+		self.communicator = [mTraderCommunicator sharedManager];
 		
 		self.symbol = symbol;
-		
+		/*
 		NSInteger feedIndex = [self.symbolsController indexOfFeedWithFeedNumber:self.symbol.feedNumber];
 		Feed *feed = [self.symbolsController.feeds objectAtIndex:feedIndex];
 		self.title = [NSString stringWithFormat:@"%@:%@", feed.mCode, self.symbol.tickerSymbol];
 		self.hidesBottomBarWhenPushed = YES;
-		
+		*/
 		[self.view addSubview:self.scrollView];
 		CGSize size;
 		size.height = 920;
@@ -117,11 +114,11 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-		
+/*		
 	self.previousUpdateDelegate = self.symbolsController.updateDelegate;
-	self.symbolsController.updateDelegate = self;
 	[self.communicator staticDataForFeedTicker:self.symbol.feedTicker];
 	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:150 height:150 orientation:@"A"];
+*/
 }
 
 /*
@@ -140,7 +137,6 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	self.symbolsController.updateDelegate = self.previousUpdateDelegate;
 }
 
 - (void)viewDidUnload {
@@ -154,6 +150,7 @@
 }
 
 - (void)setValues {
+	/*
 	self.nameLabel.text = self.symbol.name;
 	self.statusLabel.text = self.symbol.status;
 	self.stockISINLabel.text = self.symbol.isin;
@@ -184,17 +181,19 @@
 	self.onValueLabel.text = self.symbol.onValue;
 	self.averageVolumeLabel.text = self.symbol.averageVolume;
 	self.averageValueLabel.text = self.symbol.averageValue;
-}
+*/}
 
 - (void)symbolsAdded:(NSArray *)symbols {}
 - (void)feedAdded:(Feed *)feed {}
 
 - (void)symbolsUpdated:(NSArray *)quotes {
 	for (NSString *feedTicker in quotes) {
+		/*
 		if ([feedTicker isEqual:self.symbol.feedTicker]) {
 			[self setValues];
 			[self.view setNeedsLayout];
 		}
+		 */
 	}
 }
 
@@ -214,14 +213,14 @@
 		default:
 			break;
 	}
-	[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:150 height:150 orientation:@"A"];
+	//[self.communicator graphForFeedTicker:self.symbol.feedTicker period:period width:150 height:150 orientation:@"A"];
 }
 
 - (void)staticUpdated:(NSString *)feedTicker {
 	[chartActivity startAnimating];
 	chartActivity.hidden = NO;
 	[self setValues];
-	
+	/*
 	UIImage *image = [UIImage imageWithData:[self.symbol.chart image]];
 	
 	if (image != nil) {
@@ -229,6 +228,7 @@
 		[chartActivity stopAnimating];
 		[self.chart setImage:image forState:UIControlStateNormal];
 	}
+	 */
 }
 
 @end

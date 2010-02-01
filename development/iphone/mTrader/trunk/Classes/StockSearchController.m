@@ -8,7 +8,6 @@
 
 #import "StockSearchController.h"
 #import "mTraderCommunicator.h"
-#import "SymbolsController.h"
 
 @implementation StockSearchController
 @synthesize delegate;
@@ -46,7 +45,7 @@
 	
 	//controller = [SymbolsController sharedManager];
 	controller = nil;
-	communicator = [iTraderCommunicator sharedManager];
+	communicator = [mTraderCommunicator sharedManager];
 	
 	self.tickerField.delegate = self;
 	self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -86,6 +85,7 @@
 }
 */
 
+/*
 #pragma mark -
 #pragma mark UIPickerViewDataSource Required Methods
 -(NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -105,7 +105,7 @@
 -(NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
 	return [controller.exchanges objectAtIndex:row];
 }
-
+*/
 -(BOOL) textFieldShouldReturn:(UITextField *)textField {
 	[textField resignFirstResponder];
 	return YES;
