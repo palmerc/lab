@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 @class Symbol;
 @class iTraderCommunicator;
 @class SymbolsController;
