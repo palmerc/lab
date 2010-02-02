@@ -10,7 +10,6 @@
 #import "mTraderCommunicator.h"
 #import "Feed.h"
 #import "Symbol.h"
-#import "Chart.h"
 
 @implementation StockDetailController
 @synthesize symbol = _symbol;

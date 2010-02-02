@@ -1,9 +1,9 @@
 //
 //  Feed.h
-//  iTrader
+//  mTrader
 //
-//  Created by Cameron Lowell Palmer on 29.01.10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Created by Cameron Lowell Palmer on 02.02.10.
+//  Copyright 2010 Infront AS. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
@@ -14,9 +14,9 @@
 {
 }
 
-@property (nonatomic, retain) NSString * mCode;
-@property (nonatomic, retain) NSString * description;
 @property (nonatomic, retain) NSNumber * feedNumber;
+@property (nonatomic, retain) NSString * description;
+@property (nonatomic, retain) NSString * mCode;
 @property (nonatomic, retain) NSSet* symbols;
 
 @end

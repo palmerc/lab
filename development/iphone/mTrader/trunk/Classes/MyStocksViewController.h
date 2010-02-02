@@ -5,14 +5,10 @@
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
 //
-
-#import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
 #import "mTraderCommunicator.h"
 #import "StockListingCell.h"
 #import "StockSearchController.h"
 
-@class mTraderCommunicator;
 @class Feed;
 @class Symbol;
 typedef enum {
@@ -27,14 +23,15 @@ typedef enum {
 	VOLUME
 } valueType;
 
-@interface MyStocksViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, StockSearchControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
+@interface MyStocksViewController : UITableViewController <StockSearchControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
 	mTraderCommunicator *communicator;
 	
-	NSFetchedResultsController *fetchedResultsController;
-	NSManagedObjectContext *managedObjectContext;
-
 	NSUInteger currentValueType;
 	BOOL _editing;
+
+@private
+	NSFetchedResultsController *fetchedResultsController;
+	NSManagedObjectContext *managedObjectContext;
 }
 
 @property (assign) mTraderCommunicator *communicator;

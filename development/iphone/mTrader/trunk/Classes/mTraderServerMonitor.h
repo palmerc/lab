@@ -6,7 +6,6 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "mTraderCommunicator.h"
 
 @class Reachability;

@@ -5,7 +5,6 @@
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
 //
-
 #import "MyStocksViewController.h"
 
 #import "mTraderAppDelegate.h"
@@ -71,7 +70,7 @@
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return NO;
+	return YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,24 +89,13 @@
 #pragma mark TableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	NSInteger count = [[fetchedResultsController sections] count];
 	
-	if (count == 0) {
-		count = 1;
-	}
-	
-	return count;
+	return [[fetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSInteger numberOfRows = 0;
-	
-    if ([[fetchedResultsController sections] count] > 0) {
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
-        numberOfRows = [sectionInfo numberOfObjects];
-    }
-    
-    return numberOfRows;
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -300,7 +288,7 @@
 			symbol.isin = isin;
 			[feed addSymbolsObject:symbol];
 		}
-		
+
 	}
 	// save the objects
 	NSError *error;
@@ -309,38 +297,8 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
-	
-	self.managedObjectContext = nil;
-	
 }
-/*
--(void) symbolRemoved:(NSIndexPath *)indexPath {
-	[self.tableView beginUpdates];
-	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-	[self.tableView endUpdates];
-}
-/*
-- (void)feedAdded:(Feed *)feed {
-	[self.tableView reloadData];
-}
- */
-/*
-// Additions and Updates
-- (void)symbolsAdded:(NSArray *)symbols {
-	NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-	
-	for (Symbol *symbol in symbols) {
-		NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:symbol.tickerSymbol];
-		[indexPaths addObject:indexPath];
-	}
-	
-	[self.tableView beginUpdates];
-	[self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-	[self.tableView endUpdates];
-	
-	[indexPaths release];
-}
-*/
+
 /**
  * This method should receive a list of symbols that have been updated and should
  * update any rows necessary.
@@ -415,7 +373,7 @@
 	[fetchRequest setEntity:entity];
 	
 	// Create the sort descriptors array.
-	NSSortDescriptor *feedDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feed" ascending:YES];
+	NSSortDescriptor *feedDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feed.mCode" ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:feedDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
@@ -464,11 +422,10 @@
 			break;
 			
 		case NSFetchedResultsChangeMove:
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-			// Reloading the section inserts a new row and ensures that titles are updated appropriately.
-			[tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
-			break;
-	}
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
 }
 
 
@@ -545,6 +502,17 @@
 		return nil;
 	}
 }
+
+#pragma mark -
+#pragma mark Debugging methods
+
+/*
+// Very helpful debug when things seem not to be working.
+- (BOOL)respondsToSelector:(SEL)sel {
+    NSLog(@"Queried about %@", NSStringFromSelector(sel));
+    return [super respondsToSelector:sel];
+}
+*/
 
 #pragma mark -
 #pragma mark Memory management

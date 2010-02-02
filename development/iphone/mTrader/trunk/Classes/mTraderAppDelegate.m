@@ -1,6 +1,6 @@
 //
-//  iTraderAppDelegate.m
-//  iTrader
+//  mTraderAppDelegate.m
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright InFront AS 2009. All rights reserved.
@@ -59,17 +59,13 @@
 		
 	tabController = [[UITabBarController alloc] init];
 	self.tabController.viewControllers = viewControllersArray;
-
-	NSManagedObjectContext *context = [self managedObjectContext];
-	if (!context) {
-		// Handle error
-	}
+	 
 	
-	
-	[window addSubview:tabController.view];
-	
+	 [window addSubview:tabController.view];
 	 */
+	
 	myStocks.managedObjectContext = self.managedObjectContext;
+	
 	[window addSubview:myStocks.view];
 	[window makeKeyAndVisible];
 	
@@ -93,7 +89,7 @@
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
 			// Update to handle the error appropriately.
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-			exit(-1);  // Fail
+			abort();
         } 
     }
 }
@@ -169,7 +165,7 @@
 	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		exit(-1);  // Fail
+		abort();  // Fail
     }    
 	
     return persistentStoreCoordinator;
@@ -188,6 +184,16 @@
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     return basePath;
 }
+
+#pragma mark -
+#pragma mark Debugging methods
+/*
+// Very helpful debug when things seem not to be working.
+- (BOOL)respondsToSelector:(SEL)sel {
+    NSLog(@"Queried about %@", NSStringFromSelector(sel));
+    return [super respondsToSelector:sel];
+}
+*/
 
 #pragma mark -
 #pragma mark Memory managment

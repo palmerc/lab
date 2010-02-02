@@ -3,7 +3,7 @@
 //  simpleNetworking
 //
 //  Created by Cameron Lowell Palmer on 17.12.09.
-//  Copyright 2009 Bird And Bear Productions. All rights reserved.
+//  Copyright 2009 Infront AS. All rights reserved.
 //
 #import "Communicator.h"
 #import "NSMutableArray+QueueAdditions.h"

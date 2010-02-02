@@ -1,9 +1,9 @@
 // 
 //  Symbol.m
-//  iTrader
+//  mTrader
 //
-//  Created by Cameron Lowell Palmer on 29.01.10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Created by Cameron Lowell Palmer on 02.02.10.
+//  Copyright 2010 Infront AS. All rights reserved.
 //
 
 #import "Symbol.h"
@@ -12,16 +12,15 @@
 
 @implementation Symbol 
 
-@dynamic tickerSymbol;
-@dynamic isin;
-@dynamic exchangeCode;
-@dynamic type;
-@dynamic companyName;
-@dynamic country;
 @dynamic currency;
+@dynamic country;
+@dynamic tickerSymbol;
+@dynamic companyName;
+@dynamic isin;
 @dynamic orderBook;
-@dynamic chart;
-@dynamic feed;
+@dynamic type;
 @dynamic symbolDynamicData;
+@dynamic feed;
+@dynamic chart;
 
 @end

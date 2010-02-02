@@ -6,8 +6,6 @@
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
-
 typedef enum {
 	MYSTOCKS = 1,
 	NEWS = 2,
@@ -16,7 +14,7 @@ typedef enum {
 
 @interface mTraderAppDelegate : NSObject <UIApplicationDelegate> {
 	NSManagedObjectModel *managedObjectModel;
-    NSManagedObjectContext *managedObjectContext;	    
+    NSManagedObjectContext *managedObjectContext;
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 	
 	UIWindow *window;

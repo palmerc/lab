@@ -6,7 +6,6 @@
 //  Copyright 2009 InFront AS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "Communicator.h";
 
 @class UserDefaults;
