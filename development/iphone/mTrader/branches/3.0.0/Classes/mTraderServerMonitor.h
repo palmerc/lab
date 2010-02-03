@@ -1,13 +1,12 @@
 //
 //  mTraderServerMonitor.h
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 18.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 
 @class Reachability;
 

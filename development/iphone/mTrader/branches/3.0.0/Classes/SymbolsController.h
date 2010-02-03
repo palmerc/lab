@@ -1,25 +1,24 @@
 //
 //  StocksController.h
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 04.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 @protocol SymbolsUpdateDelegate;
 
 @interface SymbolsController : NSObject <mTraderServerDataDelegate> {
 	id <SymbolsUpdateDelegate> updateDelegate;
-	iTraderCommunicator *_communicator;
+	mTraderCommunicator *_communicator;
 	
 	NSMutableArray *_feeds;
 	NSMutableArray *_exchanges;
 }
 
 @property (assign) id <SymbolsUpdateDelegate> updateDelegate;
-@property (nonatomic, assign) iTraderCommunicator *communicator;
+@property (nonatomic, assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSMutableArray *feeds;
 @property (nonatomic, retain) NSMutableArray *exchanges;
 

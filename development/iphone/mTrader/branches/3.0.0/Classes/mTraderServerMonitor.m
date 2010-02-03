@@ -1,13 +1,13 @@
 //
 //  mTraderServerMonitor.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 18.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
 #import "mTraderServerMonitor.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "Reachability.h"
 
 
@@ -24,7 +24,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		self.reachability = [Reachability reachabilityWithHostName:@"wireless.theonlinetrader.com"];
 		[self.reachability startNotifer];
 		
-		[iTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
+		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
 	}
 	return self;
 }
@@ -85,7 +85,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		[alertView show];
 		[alertView release];
 	} else {
-		[[iTraderCommunicator sharedManager] login];
+		[[mTraderCommunicator sharedManager] login];
 	}
 	
 	NSLog(@"Reachability is %d", status);
@@ -94,7 +94,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 -(void) kickedOut {
 	NSLog(@"Kicked out");
 	[self.reachability stopNotifer];
-	[[iTraderCommunicator sharedManager].communicator stopConnection];
+	[[mTraderCommunicator sharedManager].communicator stopConnection];
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. Close this app and relaunch it to reconnect." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];

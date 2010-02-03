@@ -1,22 +1,22 @@
 //
-//  iTraderCommunicator.m
-//  iTraderCommunicator is a Singleton that the rest of the application can use to
+//  mTraderCommunicator.m
+//  mTraderCommunicator is a Singleton that the rest of the application can use to
 //  communicate with the mTraderServer
 //
 //  Created by Cameron Lowell Palmer on 22.12.09.
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "NSMutableArray+QueueAdditions.h"
 #import "UserDefaults.h";
 #import "Symbol.h"
 #import "Feed.h"
 #import "Chart.h"
 
-@implementation iTraderCommunicator
+@implementation mTraderCommunicator
 
-static iTraderCommunicator *sharedCommunicator = nil;
+static mTraderCommunicator *sharedCommunicator = nil;
 @synthesize mTraderServerDataDelegate;
 @synthesize mTraderServerMonitorDelegate;
 @synthesize stockAddDelegate;
@@ -61,7 +61,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
  * Methods for Singleton implementation
  *
  */
-+ (iTraderCommunicator *)sharedManager {
++ (mTraderCommunicator *)sharedManager {
 	if (sharedCommunicator == nil) {
 		sharedCommunicator = [[super allocWithZone:NULL] init];
 	}
@@ -618,7 +618,7 @@ static iTraderCommunicator *sharedCommunicator = nil;
 		NSString *ActionLogin = @"Action: login";
 		NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
 		//NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
-		NSString *Client = @"Client: iTrader";
+		NSString *Client = @"Client: mTrader";
 		NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
 		NSString *ConnectionType = @"ConnType: Socket";
 		NSString *Streaming = @"Streaming: 1";

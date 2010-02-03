@@ -1,26 +1,26 @@
 //
-//  iTraderAppDelegate.m
-//  iTrader
+//  mTraderAppDelegate.m
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
-#import "iTraderAppDelegate.h"
+#import "mTraderAppDelegate.h"
 #import "Starter.h"
 #import "UserDefaults.h"
 #import "MyStocksViewController.h"
 #import "NewsViewController.h"
 #import "SettingsTableViewController.h"
 
-@implementation iTraderAppDelegate
+@implementation mTraderAppDelegate
 @synthesize window;
 @synthesize tabController;
 
 // +initialize is invoked before the class receives any other messages, so it
 // is a good place to set up application defaults
 + (void)initialize {
-    if ([self class] == [iTraderAppDelegate class]) {
+    if ([self class] == [mTraderAppDelegate class]) {
         // Register a default value for the instrument calibration. 
         // This will be used if the user hasn't calibrated the instrument.
 		NSArray *keys = [NSArray arrayWithObjects:@"username", @"password", nil];

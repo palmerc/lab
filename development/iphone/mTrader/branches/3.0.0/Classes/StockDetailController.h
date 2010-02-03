@@ -1,19 +1,18 @@
 //
 //  StockDetailController.h
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 07.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "SymbolsController.h"
 @class Symbol;
 
 @interface StockDetailController : UIViewController <SymbolsUpdateDelegate> {
 	Symbol *_symbol;
 	SymbolsController *_symbolsController;
-	iTraderCommunicator *_communicator;
+	mTraderCommunicator *_communicator;
 	id previousUpdateDelegate;
 	
 	IBOutlet UIScrollView *scrollView;
@@ -55,7 +54,7 @@
 
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) SymbolsController *symbolsController;
-@property (nonatomic, retain) iTraderCommunicator *communicator;
+@property (nonatomic, retain) mTraderCommunicator *communicator;
 @property (nonatomic, retain) id previousUpdateDelegate;
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;

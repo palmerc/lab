@@ -1,6 +1,6 @@
 //
 //  Chart.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 13.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.

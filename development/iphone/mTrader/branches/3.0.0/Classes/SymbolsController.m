@@ -1,13 +1,13 @@
 //
 //  StocksController.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 04.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
 #import "SymbolsController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "Symbol.h"
 #import "Feed.h"
 #import "Chart.h"
@@ -63,7 +63,7 @@ static SymbolsController *sharedSymbolsController = nil;
 -(id)init {
 	self = [super init];
 	if (self != nil) {
-		_communicator = [iTraderCommunicator sharedManager];
+		_communicator = [mTraderCommunicator sharedManager];
 		_communicator.mTraderServerDataDelegate = self;
 		
 		_feeds = [[NSMutableArray alloc] init];

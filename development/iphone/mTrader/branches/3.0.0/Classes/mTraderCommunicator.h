@@ -38,7 +38,7 @@ enum {
 	KICKOUT
 } states;
 
-@interface iTraderCommunicator : NSObject <CommunicatorDataDelegate> {
+@interface mTraderCommunicator : NSObject <CommunicatorDataDelegate> {
 	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 	id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 	id <StockAddDelegate> stockAddDelegate;
@@ -70,7 +70,7 @@ enum {
 @property (nonatomic, assign) NSUInteger contentLength;
 
 // The singleton class method
-+ (iTraderCommunicator *)sharedManager;
++ (mTraderCommunicator *)sharedManager;
 
 // mTrader server request methods
 - (void)login;

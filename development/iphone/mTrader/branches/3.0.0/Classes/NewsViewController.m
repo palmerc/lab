@@ -1,6 +1,6 @@
 //
 //  NewsViewController.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
@@ -8,8 +8,8 @@
 
 #import "NewsViewController.h"
 #import "NewsItemViewController.h"
-#import "iTraderAppDelegate.h"
-#import "iTraderCommunicator.h"
+#import "mTraderAppDelegate.h"
+#import "mTraderCommunicator.h"
 
 @implementation NewsViewController
 @synthesize communicator;
@@ -28,7 +28,7 @@
 		[theItem release];
 		
 		self.newsArray = [[NSMutableArray alloc] init];
-		communicator = [iTraderCommunicator sharedManager];
+		communicator = [mTraderCommunicator sharedManager];
 	}
 	return self;
 }

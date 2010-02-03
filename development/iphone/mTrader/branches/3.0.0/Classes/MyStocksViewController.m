@@ -1,6 +1,6 @@
 //
 //  MyStocksViewController.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import "MyStocksViewController.h"
 
-#import "iTraderAppDelegate.h"
+#import "mTraderAppDelegate.h"
 
 #import "SymbolsController.h"
 #import "Symbol.h"
@@ -35,7 +35,7 @@
 		[theItem release];
 				
 		_symbolsController = [SymbolsController sharedManager];
-		_communicator = [iTraderCommunicator sharedManager];
+		_communicator = [mTraderCommunicator sharedManager];
 		
 		currentValueType = PRICE;
 		self.editing = NO;

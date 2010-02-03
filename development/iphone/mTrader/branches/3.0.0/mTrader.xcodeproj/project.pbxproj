@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* iTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iTraderAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* mTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* mTraderAppDelegate.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
@@ -16,7 +16,7 @@
 		7E28C2CC1116DE6C00784499 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7E28C2CB1116DE6C00784499 /* iTunesArtwork */; };
 		7E29B7FA10F4B77900816D9B /* StockSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E29B7F910F4B77900816D9B /* StockSearchView.xib */; };
 		7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
-		7E2B939E11048C8800DA0B91 /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
+		7E2B939E11048C8800DA0B91 /* mTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* mTraderCommunicator.m */; };
 		7E2B93B411048CEB00DA0B91 /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
 		7E2B93C511048D1600DA0B91 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5A10F1F5CE003049C7 /* Symbol.m */; };
 		7E2B93C611048D1600DA0B91 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5D10F1F6DE003049C7 /* Feed.m */; };
@@ -26,12 +26,12 @@
 		7E2B93DE11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */; };
 		7E2DA17511046EBC002CE93F /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73CE46810E6763A00AF6D89 /* AboutView.xib */; };
 		7E2DA17711046EBC002CE93F /* StockSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E29B7F910F4B77900816D9B /* StockSearchView.xib */; };
-		7E2DA17D11046EBC002CE93F /* iTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iTraderAppDelegate.m */; };
+		7E2DA17D11046EBC002CE93F /* mTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* mTraderAppDelegate.m */; };
 		7E2DA17E11046EBC002CE93F /* MyStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyStocksViewController.m */; };
 		7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
 		7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E2DA18111046EBC002CE93F /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
-		7E2DA18211046EBC002CE93F /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
+		7E2DA18211046EBC002CE93F /* mTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* mTraderCommunicator.m */; };
 		7E2DA18311046EBC002CE93F /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
 		7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
 		7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
@@ -56,7 +56,7 @@
 		7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
 		7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
-		7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* iTraderCommunicator.m */; };
+		7E419C7110E2209B0007808B /* mTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6E10E2209B0007808B /* mTraderCommunicator.m */; };
 		7E419DE810E251CB0007808B /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
 		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E6348C71106176100ADC4B7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348C61106176100ADC4B7 /* CoreLocation.framework */; };
@@ -85,6 +85,8 @@
 		7EB15D5E10F1F6DE003049C7 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D5D10F1F6DE003049C7 /* Feed.m */; };
 		7EB15E4C10F2392C003049C7 /* SymbolsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15E4B10F2392C003049C7 /* SymbolsController.m */; };
 		7EDC23CC1106187F009E50C5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6348C61106176100ADC4B7 /* CoreLocation.framework */; };
+		7EE249EA1119AA8D0057DC13 /* mTrader-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EE249E91119AA8D0057DC13 /* mTrader-Info.plist */; };
+		7EE249EC1119AA9F0057DC13 /* mTraderTesting-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EE249EB1119AA9F0057DC13 /* mTraderTesting-Info.plist */; };
 		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
 		C73CE46910E6763A00AF6D89 /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73CE46810E6763A00AF6D89 /* AboutView.xib */; };
 		C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
@@ -102,12 +104,11 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* iTraderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* iTraderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D3623240D0F684500981E51 /* mTraderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* mTraderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* mTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		32CA4F630368D1EE00C91783 /* iTrader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTrader_Prefix.pch; sourceTree = "<group>"; };
 		7E15C52E10F32632007A45E8 /* Starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Starter.h; sourceTree = "<group>"; };
 		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
 		7E15C7DB10F35A23007A45E8 /* StockListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockListingCell.h; sourceTree = "<group>"; };
@@ -122,7 +123,6 @@
 		7E2DA15D11046873002CE93F /* LogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LogicTests-Info.plist"; sourceTree = "<group>"; };
 		7E2DA19711046EBC002CE93F /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E2DA19F11046F28002CE93F /* iTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E2DA1A011046F28002CE93F /* iTraderTesting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iTraderTesting-Info.plist"; sourceTree = "<group>"; };
 		7E2FA17C10FDDE2A00404945 /* Chart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chart.h; sourceTree = "<group>"; };
 		7E2FA17D10FDDE2A00404945 /* Chart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chart.m; sourceTree = "<group>"; };
 		7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -136,16 +136,16 @@
 		7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueAdditions.m"; sourceTree = "<group>"; };
 		7E419C6B10E2209B0007808B /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
 		7E419C6C10E2209B0007808B /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
-		7E419C6D10E2209B0007808B /* iTraderCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTraderCommunicator.h; sourceTree = "<group>"; };
-		7E419C6E10E2209B0007808B /* iTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTraderCommunicator.m; sourceTree = "<group>"; };
+		7E419C6D10E2209B0007808B /* mTraderCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderCommunicator.h; sourceTree = "<group>"; };
+		7E419C6E10E2209B0007808B /* mTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderCommunicator.m; sourceTree = "<group>"; };
 		7E419DE610E251CB0007808B /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		7E419DE710E251CB0007808B /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		7E6348C61106176100ADC4B7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7E6CF1061116D9C2007BB1E5 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/main.m; sourceTree = "<group>"; };
-		7E6CF1081116D9E6007BB1E5 /* iTraderCommunicatorUnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iTraderCommunicatorUnitTests.h; path = Tests/iTraderCommunicatorUnitTests.h; sourceTree = "<group>"; };
-		7E6CF1091116D9E6007BB1E5 /* iTraderCommunicatorUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iTraderCommunicatorUnitTests.m; path = Tests/iTraderCommunicatorUnitTests.m; sourceTree = "<group>"; };
-		7E6CF10A1116D9E6007BB1E5 /* iTraderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iTraderTests.h; path = Tests/iTraderTests.h; sourceTree = "<group>"; };
-		7E6CF10B1116D9E6007BB1E5 /* iTraderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iTraderTests.m; path = Tests/iTraderTests.m; sourceTree = "<group>"; };
+		7E6CF1081116D9E6007BB1E5 /* mTraderCommunicatorUnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mTraderCommunicatorUnitTests.h; path = Tests/mTraderCommunicatorUnitTests.h; sourceTree = "<group>"; };
+		7E6CF1091116D9E6007BB1E5 /* mTraderCommunicatorUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mTraderCommunicatorUnitTests.m; path = Tests/mTraderCommunicatorUnitTests.m; sourceTree = "<group>"; };
+		7E6CF10A1116D9E6007BB1E5 /* mTraderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mTraderTests.h; path = Tests/mTraderTests.h; sourceTree = "<group>"; };
+		7E6CF10B1116D9E6007BB1E5 /* mTraderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mTraderTests.m; path = Tests/mTraderTests.m; sourceTree = "<group>"; };
 		7E6CF1E41116DAC3007BB1E5 /* iTraderCommunicationProtocol.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iTraderCommunicationProtocol.tex; sourceTree = "<group>"; };
 		7E6CF1E51116DAC3007BB1E5 /* StateDiagram.dot */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StateDiagram.dot; sourceTree = "<group>"; };
 		7E6CF1EA1116DAD9007BB1E5 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
@@ -171,8 +171,10 @@
 		7EB15D5D10F1F6DE003049C7 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		7EB15E4A10F2392C003049C7 /* SymbolsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolsController.h; sourceTree = "<group>"; };
 		7EB15E4B10F2392C003049C7 /* SymbolsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolsController.m; sourceTree = "<group>"; };
+		7EE249E91119AA8D0057DC13 /* mTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTrader-Info.plist"; sourceTree = "<group>"; };
+		7EE249EB1119AA9F0057DC13 /* mTraderTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTraderTesting-Info.plist"; sourceTree = "<group>"; };
+		7EE249ED1119AAC00057DC13 /* mTrader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTrader_Prefix.pch; sourceTree = "<group>"; };
 		7EF9464C11108D9F006B5CDE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* iTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iTrader-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C73CE46810E6763A00AF6D89 /* AboutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutView.xib; path = Classes/AboutView.xib; sourceTree = "<group>"; };
 		C73CE63510E7544200AF6D89 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		C73CE63610E7544200AF6D89 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
@@ -235,7 +237,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* iTrader.app */,
+				1D6058910D05DD3D006BFB54 /* mTrader.app */,
 				7E2DA15C11046873002CE93F /* LogicTests.octest */,
 				7E2DA19711046EBC002CE93F /* iTrader.app */,
 				7E2DA19F11046F28002CE93F /* iTraderTests.octest */,
@@ -259,7 +261,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32CA4F630368D1EE00C91783 /* iTrader_Prefix.pch */,
+				7EE249ED1119AAC00057DC13 /* mTrader_Prefix.pch */,
 				7E6CF1061116D9C2007BB1E5 /* main.m */,
 			);
 			name = "Other Sources";
@@ -279,9 +281,9 @@
 				7E6CF1F31116DB05007BB1E5 /* StockListingCell.xib */,
 				7E29B7F910F4B77900816D9B /* StockSearchView.xib */,
 				7E97DD66110A00D300187800 /* NewsItemView.xib */,
-				8D1107310486CEB800E47090 /* iTrader-Info.plist */,
+				7EE249E91119AA8D0057DC13 /* mTrader-Info.plist */,
+				7EE249EB1119AA9F0057DC13 /* mTraderTesting-Info.plist */,
 				7E2DA15D11046873002CE93F /* LogicTests-Info.plist */,
-				7E2DA1A011046F28002CE93F /* iTraderTesting-Info.plist */,
 				7EF9464C11108D9F006B5CDE /* Entitlements.plist */,
 			);
 			name = Resources;
@@ -302,10 +304,10 @@
 		7E2DA13911046094002CE93F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				7E6CF1081116D9E6007BB1E5 /* iTraderCommunicatorUnitTests.h */,
-				7E6CF1091116D9E6007BB1E5 /* iTraderCommunicatorUnitTests.m */,
-				7E6CF10A1116D9E6007BB1E5 /* iTraderTests.h */,
-				7E6CF10B1116D9E6007BB1E5 /* iTraderTests.m */,
+				7E6CF1081116D9E6007BB1E5 /* mTraderCommunicatorUnitTests.h */,
+				7E6CF1091116D9E6007BB1E5 /* mTraderCommunicatorUnitTests.m */,
+				7E6CF10A1116D9E6007BB1E5 /* mTraderTests.h */,
+				7E6CF10B1116D9E6007BB1E5 /* mTraderTests.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -313,8 +315,8 @@
 		7E419AC610E206190007808B /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
-				1D3623240D0F684500981E51 /* iTraderAppDelegate.h */,
-				1D3623250D0F684500981E51 /* iTraderAppDelegate.m */,
+				1D3623240D0F684500981E51 /* mTraderAppDelegate.h */,
+				1D3623250D0F684500981E51 /* mTraderAppDelegate.m */,
 				7E15C52E10F32632007A45E8 /* Starter.h */,
 				7E15C52F10F32632007A45E8 /* Starter.m */,
 			);
@@ -391,8 +393,8 @@
 				7E33CBC81100AE5600C2737F /* Reachability.m */,
 				7E419C6B10E2209B0007808B /* Communicator.h */,
 				7E419C6C10E2209B0007808B /* Communicator.m */,
-				7E419C6D10E2209B0007808B /* iTraderCommunicator.h */,
-				7E419C6E10E2209B0007808B /* iTraderCommunicator.m */,
+				7E419C6D10E2209B0007808B /* mTraderCommunicator.h */,
+				7E419C6E10E2209B0007808B /* mTraderCommunicator.m */,
 				7E2B93DA11048DE800DA0B91 /* mTraderServerMonitor.h */,
 				7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */,
 			);
@@ -468,9 +470,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* iTrader */ = {
+		1D6058900D05DD3D006BFB54 /* mTrader */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iTrader" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "mTrader" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -480,9 +482,9 @@
 			);
 			dependencies = (
 			);
-			name = iTrader;
+			name = mTrader;
 			productName = iTrader;
-			productReference = 1D6058910D05DD3D006BFB54 /* iTrader.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* mTrader.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7E2DA15B11046873002CE93F /* LogicTests */ = {
@@ -503,9 +505,9 @@
 			productReference = 7E2DA15C11046873002CE93F /* LogicTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
-		7E2DA16F11046EBC002CE93F /* iTraderTesting */ = {
+		7E2DA16F11046EBC002CE93F /* mTraderTesting */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7E2DA19411046EBC002CE93F /* Build configuration list for PBXNativeTarget "iTraderTesting" */;
+			buildConfigurationList = 7E2DA19411046EBC002CE93F /* Build configuration list for PBXNativeTarget "mTraderTesting" */;
 			buildPhases = (
 				7E2DA17011046EBC002CE93F /* Resources */,
 				7E2DA17B11046EBC002CE93F /* Sources */,
@@ -516,14 +518,14 @@
 			dependencies = (
 				7E2DA1A511046F40002CE93F /* PBXTargetDependency */,
 			);
-			name = iTraderTesting;
+			name = mTraderTesting;
 			productName = iTrader;
 			productReference = 7E2DA19711046EBC002CE93F /* iTrader.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7E2DA19E11046F28002CE93F /* iTraderTests */ = {
+		7E2DA19E11046F28002CE93F /* mTraderTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7E2DA1A311046F29002CE93F /* Build configuration list for PBXNativeTarget "iTraderTests" */;
+			buildConfigurationList = 7E2DA1A311046F29002CE93F /* Build configuration list for PBXNativeTarget "mTraderTests" */;
 			buildPhases = (
 				7E2DA19A11046F28002CE93F /* Resources */,
 				7E2DA19B11046F28002CE93F /* Sources */,
@@ -534,7 +536,7 @@
 			);
 			dependencies = (
 			);
-			name = iTraderTests;
+			name = mTraderTests;
 			productName = iTraderTests;
 			productReference = 7E2DA19F11046F28002CE93F /* iTraderTests.octest */;
 			productType = "com.apple.product-type.bundle";
@@ -545,9 +547,9 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				ORGANIZATIONNAME = "InFront AS";
+				ORGANIZATIONNAME = "Infront AS";
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iTrader" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "mTrader" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -562,10 +564,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* iTrader */,
-				7E2DA16F11046EBC002CE93F /* iTraderTesting */,
+				1D6058900D05DD3D006BFB54 /* mTrader */,
+				7E2DA16F11046EBC002CE93F /* mTraderTesting */,
 				7E2DA15B11046873002CE93F /* LogicTests */,
-				7E2DA19E11046F28002CE93F /* iTraderTests */,
+				7E2DA19E11046F28002CE93F /* mTraderTests */,
 			);
 		};
 /* End PBXProject section */
@@ -592,6 +594,8 @@
 				7E6CF1FE1116DB39007BB1E5 /* newsTabButton.png in Resources */,
 				7E6CF1FF1116DB39007BB1E5 /* settingsTabButton.png in Resources */,
 				7E28C2CC1116DE6C00784499 /* iTunesArtwork in Resources */,
+				7EE249EA1119AA8D0057DC13 /* mTrader-Info.plist in Resources */,
+				7EE249EC1119AA9F0057DC13 /* mTraderTesting-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,12 +661,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D3623260D0F684500981E51 /* iTraderAppDelegate.m in Sources */,
+				1D3623260D0F684500981E51 /* mTraderAppDelegate.m in Sources */,
 				7E419AD910E20B920007808B /* MyStocksViewController.m in Sources */,
 				7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */,
 				7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */,
 				7E419C7010E2209B0007808B /* Communicator.m in Sources */,
-				7E419C7110E2209B0007808B /* iTraderCommunicator.m in Sources */,
+				7E419C7110E2209B0007808B /* mTraderCommunicator.m in Sources */,
 				7E419DE810E251CB0007808B /* NewsViewController.m in Sources */,
 				C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */,
 				7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */,
@@ -691,7 +695,7 @@
 				7E2B93C611048D1600DA0B91 /* Feed.m in Sources */,
 				7E2B93C711048D1600DA0B91 /* Chart.m in Sources */,
 				7E2B93B411048CEB00DA0B91 /* Communicator.m in Sources */,
-				7E2B939E11048C8800DA0B91 /* iTraderCommunicator.m in Sources */,
+				7E2B939E11048C8800DA0B91 /* mTraderCommunicator.m in Sources */,
 				7E97DD0F1109FAA900187800 /* NewsItemViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -700,12 +704,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E2DA17D11046EBC002CE93F /* iTraderAppDelegate.m in Sources */,
+				7E2DA17D11046EBC002CE93F /* mTraderAppDelegate.m in Sources */,
 				7E2DA17E11046EBC002CE93F /* MyStocksViewController.m in Sources */,
 				7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */,
 				7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */,
 				7E2DA18111046EBC002CE93F /* Communicator.m in Sources */,
-				7E2DA18211046EBC002CE93F /* iTraderCommunicator.m in Sources */,
+				7E2DA18211046EBC002CE93F /* mTraderCommunicator.m in Sources */,
 				7E2DA18311046EBC002CE93F /* NewsViewController.m in Sources */,
 				7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */,
 				7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */,
@@ -735,7 +739,7 @@
 /* Begin PBXTargetDependency section */
 		7E2DA1A511046F40002CE93F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7E2DA19E11046F28002CE93F /* iTraderTests */;
+			target = 7E2DA19E11046F28002CE93F /* mTraderTests */;
 			targetProxy = 7E2DA1A411046F40002CE93F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -768,13 +772,13 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
-				INFOPLIST_FILE = "iTrader-Info.plist";
+				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
+				INFOPLIST_FILE = "mTrader-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
 				);
-				PRODUCT_NAME = iTrader;
+				PRODUCT_NAME = mTrader;
 			};
 			name = Debug;
 		};
@@ -784,13 +788,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
-				INFOPLIST_FILE = "iTrader-Info.plist";
+				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
+				INFOPLIST_FILE = "mTrader-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
 				);
-				PRODUCT_NAME = iTrader;
+				PRODUCT_NAME = mTrader;
 			};
 			name = Release;
 		};
@@ -987,7 +991,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iTrader" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "mTrader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -1005,7 +1009,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E2DA19411046EBC002CE93F /* Build configuration list for PBXNativeTarget "iTraderTesting" */ = {
+		7E2DA19411046EBC002CE93F /* Build configuration list for PBXNativeTarget "mTraderTesting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E2DA19511046EBC002CE93F /* Debug */,
@@ -1014,7 +1018,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E2DA1A311046F29002CE93F /* Build configuration list for PBXNativeTarget "iTraderTests" */ = {
+		7E2DA1A311046F29002CE93F /* Build configuration list for PBXNativeTarget "mTraderTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E2DA1A111046F29002CE93F /* Debug */,
@@ -1023,7 +1027,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iTrader" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "mTrader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

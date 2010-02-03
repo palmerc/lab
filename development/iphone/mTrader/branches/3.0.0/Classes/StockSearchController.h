@@ -1,22 +1,21 @@
 //
 //  StockSearchController.h
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 06.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 @class Symbol;
-@class iTraderCommunicator;
+@class mTraderCommunicator;
 @class SymbolsController;
 @protocol StockSearchControllerDelegate;
 
 @interface StockSearchController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate> {
 	id <StockSearchControllerDelegate> delegate;
 	id <UIPickerViewDelegate> pickerDelegate;
-	iTraderCommunicator *communicator;
+	mTraderCommunicator *communicator;
 	SymbolsController *controller;
 	UITextField *_tickerField;
 	UIButton *_submitButton;

@@ -1,6 +1,6 @@
 //
 //  SettingsViewController.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
@@ -8,8 +8,8 @@
 
 #import "SettingsTableViewController.h"
 #import "AboutViewController.h"
-#import "iTraderAppDelegate.h"
-#import "iTraderCommunicator.h"
+#import "mTraderAppDelegate.h"
+#import "mTraderCommunicator.h"
 #import "UserDefaults.h"
 
 @implementation SettingsTableViewController
@@ -22,7 +22,7 @@
 	self = [super init];
 	if (self != nil) {
 		defaults = [UserDefaults sharedManager];
-		communicator = [iTraderCommunicator sharedManager];
+		communicator = [mTraderCommunicator sharedManager];
 		
 		UIImage* anImage = [UIImage imageNamed:@"settingsTabButton.png"];
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTab", @"The settings tab label") image:anImage tag:SETTINGS];

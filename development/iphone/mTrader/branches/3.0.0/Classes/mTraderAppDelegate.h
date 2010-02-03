@@ -1,12 +1,11 @@
 //
-//  iTraderAppDelegate.h
-//  iTrader
+//  mTraderAppDelegate.h
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 
 typedef enum {
 	MYSTOCKS = 1,
@@ -16,7 +15,7 @@ typedef enum {
 
 
 @class NewsViewController;
-@interface iTraderAppDelegate : NSObject <UIApplicationDelegate> {
+@interface mTraderAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	UITabBarController *tabController;
 	

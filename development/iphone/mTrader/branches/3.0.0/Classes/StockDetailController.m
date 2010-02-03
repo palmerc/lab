@@ -1,6 +1,6 @@
 //
 //  StockDetailController.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 07.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import "StockDetailController.h"
 #import "SymbolsController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "Chart.h"
@@ -57,7 +57,7 @@
 	self = [super initWithNibName:@"StockDetailView" bundle:nil];
 	if (self != nil) {
 		self.symbolsController = [SymbolsController sharedManager];
-		self.communicator = [iTraderCommunicator sharedManager];
+		self.communicator = [mTraderCommunicator sharedManager];
 		
 		self.symbol = symbol;
 		

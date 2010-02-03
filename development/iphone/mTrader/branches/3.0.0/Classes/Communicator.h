@@ -4,9 +4,8 @@
 //    connecting to an arbitrary socket. It shouldn't assume anything.
 //
 //  Created by Cameron Lowell Palmer on 17.12.09.
-//  Copyright 2009 Bird And Bear Productions. All rights reserved.
+//  Copyright 2009 Infront AS. All rights reserved.
 //
-#import <Foundation/Foundation.h>
 
 @protocol CommunicatorDataDelegate;
 

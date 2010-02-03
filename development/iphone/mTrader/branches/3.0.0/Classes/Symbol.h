@@ -1,12 +1,11 @@
 //
 //  Symbol.h
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 04.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 @class Chart;
 
 @interface Symbol : NSObject {

@@ -1,13 +1,14 @@
 //
 //  NewsItemViewController.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 22.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
+
 #import "NewsItemViewController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 
 @implementation NewsItemViewController
 @synthesize newsItemID = _newsItemID;
@@ -20,7 +21,7 @@
 	if (self != nil) {
 		self.newsItemID = newsItemID;
 		
-		iTraderCommunicator *communicator = [iTraderCommunicator sharedManager];
+		mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 		communicator.newsItemDelegate = self;
 		[communicator newsItemRequest:newsItemID];
 		

@@ -1,15 +1,15 @@
 //
-//  iTraderTests.m
-//  iTrader
+//  mTraderTests.m
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 18.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import "iTraderTests.h"
+#import "mTraderTests.h"
 
 
-@implementation iTraderTests
+@implementation mTraderTests
 
 -(void) testAppDelegate {
 	id app_delegate = [[UIApplication sharedApplication] delegate];

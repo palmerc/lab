@@ -1,6 +1,6 @@
 //
 //  Starter.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 05.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
@@ -9,7 +9,7 @@
 #import "Starter.h"
 #import "UserDefaults.h"
 #import "SymbolsController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "mTraderServerMonitor.h"
 
 @implementation Starter
@@ -30,7 +30,7 @@
 	[mTraderServerMonitor sharedManager];
 	
 	// Start the networking bit last.
-	[iTraderCommunicator sharedManager];
+	[mTraderCommunicator sharedManager];
 	//NSLog(@"Startup of Singletons complete.");
 }
 

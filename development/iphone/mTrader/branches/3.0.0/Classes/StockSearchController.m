@@ -1,13 +1,13 @@
 //
 //  StockSearchController.m
-//  iTrader
+//  mTrader
 //
 //  Created by Cameron Lowell Palmer on 06.01.10.
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
 #import "StockSearchController.h"
-#import "iTraderCommunicator.h"
+#import "mTraderCommunicator.h"
 #import "SymbolsController.h"
 
 @implementation StockSearchController
@@ -45,7 +45,7 @@
 	//self.searchBar.showsCancelButton = YES;
 	
 	controller = [SymbolsController sharedManager];
-	communicator = [iTraderCommunicator sharedManager];
+	communicator = [mTraderCommunicator sharedManager];
 	
 	self.tickerField.delegate = self;
 	self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
