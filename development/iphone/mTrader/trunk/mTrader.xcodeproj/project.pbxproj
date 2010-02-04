@@ -11,7 +11,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
-		7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* StockListingCell.m */; };
+		7E15C7DD10F35A23007A45E8 /* MyListTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* MyListTableCell.m */; };
 		7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED41117371A00445735 /* StringHelpers.m */; };
 		7E1B7ED71117373600445735 /* Symbols.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED61117373600445735 /* Symbols.xcdatamodel */; };
 		7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
@@ -27,7 +27,7 @@
 		7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
 		7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
 		7E2DA18911046EBC002CE93F /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
-		7E2DA18A11046EBC002CE93F /* StockListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* StockListingCell.m */; };
+		7E2DA18A11046EBC002CE93F /* MyListTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* MyListTableCell.m */; };
 		7E2DA18B11046EBC002CE93F /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
 		7E2DA18C11046EBC002CE93F /* StockDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* StockDetailController.m */; };
 		7E2DA18E11046EBC002CE93F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E33CBC81100AE5600C2737F /* Reachability.m */; };
@@ -62,6 +62,7 @@
 		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
 		7E419DE810E251CB0007808B /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
 		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
+		7E7BEB28111B221800CDAA51 /* SymbolDynamicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7BEB27111B221800CDAA51 /* SymbolDynamicData.m */; };
 		7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* StockDetailController.m */; };
 		7E97DD0D1109FAA900187800 /* NewsItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E97DD0C1109FAA900187800 /* NewsItemViewController.m */; };
 		7E97DD0E1109FAA900187800 /* NewsItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E97DD0C1109FAA900187800 /* NewsItemViewController.m */; };
@@ -91,8 +92,8 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		7E15C52E10F32632007A45E8 /* Starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Starter.h; sourceTree = "<group>"; };
 		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
-		7E15C7DB10F35A23007A45E8 /* StockListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockListingCell.h; sourceTree = "<group>"; };
-		7E15C7DC10F35A23007A45E8 /* StockListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockListingCell.m; sourceTree = "<group>"; };
+		7E15C7DB10F35A23007A45E8 /* MyListTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListTableCell.h; sourceTree = "<group>"; };
+		7E15C7DC10F35A23007A45E8 /* MyListTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListTableCell.m; sourceTree = "<group>"; };
 		7E1B7ED31117371A00445735 /* StringHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringHelpers.h; path = Classes/StringHelpers.h; sourceTree = "<group>"; };
 		7E1B7ED41117371A00445735 /* StringHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringHelpers.m; path = Classes/StringHelpers.m; sourceTree = "<group>"; };
 		7E1B7ED61117373600445735 /* Symbols.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Symbols.xcdatamodel; sourceTree = "<group>"; };
@@ -144,6 +145,8 @@
 		7E419C6C10E2209B0007808B /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
 		7E419DE610E251CB0007808B /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		7E419DE710E251CB0007808B /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		7E7BEB26111B221800CDAA51 /* SymbolDynamicData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDynamicData.h; sourceTree = "<group>"; };
+		7E7BEB27111B221800CDAA51 /* SymbolDynamicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDynamicData.m; sourceTree = "<group>"; };
 		7E8A6FCF10F604B4003D7E29 /* StockDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDetailController.h; sourceTree = "<group>"; };
 		7E8A6FD010F604B4003D7E29 /* StockDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockDetailController.m; sourceTree = "<group>"; };
 		7E97DD0B1109FAA900187800 /* NewsItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsItemViewController.h; sourceTree = "<group>"; };
@@ -416,6 +419,8 @@
 		7EAE4F851118407300B2FCB4 /* Models and Model Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7E7BEB26111B221800CDAA51 /* SymbolDynamicData.h */,
+				7E7BEB27111B221800CDAA51 /* SymbolDynamicData.m */,
 				7EAE508311185CD500B2FCB4 /* Feed.h */,
 				7EAE508411185CD500B2FCB4 /* Feed.m */,
 				7EAE508511185CD500B2FCB4 /* Symbol.h */,
@@ -437,8 +442,8 @@
 		7ED92B8610F77F010016F656 /* StockListingCell */ = {
 			isa = PBXGroup;
 			children = (
-				7E15C7DB10F35A23007A45E8 /* StockListingCell.h */,
-				7E15C7DC10F35A23007A45E8 /* StockListingCell.m */,
+				7E15C7DB10F35A23007A45E8 /* MyListTableCell.h */,
+				7E15C7DC10F35A23007A45E8 /* MyListTableCell.m */,
 			);
 			name = StockListingCell;
 			sourceTree = "<group>";
@@ -650,7 +655,7 @@
 				C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */,
 				7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */,
 				7E15C53010F32632007A45E8 /* Starter.m in Sources */,
-				7E15C7DD10F35A23007A45E8 /* StockListingCell.m in Sources */,
+				7E15C7DD10F35A23007A45E8 /* MyListTableCell.m in Sources */,
 				7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */,
 				7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */,
 				7E33CBC91100AE5600C2737F /* Reachability.m in Sources */,
@@ -660,6 +665,7 @@
 				7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */,
 				7EAE508711185CD500B2FCB4 /* Feed.m in Sources */,
 				7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */,
+				7E7BEB28111B221800CDAA51 /* SymbolDynamicData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,7 +692,7 @@
 				7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */,
 				7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */,
 				7E2DA18911046EBC002CE93F /* Starter.m in Sources */,
-				7E2DA18A11046EBC002CE93F /* StockListingCell.m in Sources */,
+				7E2DA18A11046EBC002CE93F /* MyListTableCell.m in Sources */,
 				7E2DA18B11046EBC002CE93F /* StockSearchController.m in Sources */,
 				7E2DA18C11046EBC002CE93F /* StockDetailController.m in Sources */,
 				7E2DA18E11046EBC002CE93F /* Reachability.m in Sources */,

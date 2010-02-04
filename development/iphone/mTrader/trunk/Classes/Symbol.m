@@ -9,6 +9,7 @@
 #import "Symbol.h"
 
 #import "Feed.h"
+#import "SymbolDynamicData.h"
 
 @implementation Symbol 
 

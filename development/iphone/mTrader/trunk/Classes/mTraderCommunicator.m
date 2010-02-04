@@ -102,7 +102,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (void)dataReceived {
 	NSData *data = [self.communicator readLine];
 	NSString *string = [self dataToString:data];
-	
+	NSLog(@"Received: %@", string);
 	if (![string isEqualToString:@"\r\r"]) {
 		[self.blockBuffer addObject:data];
 	} else {
@@ -281,8 +281,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		}
 	} else if ([string rangeOfString:@"Quotes:"].location == 0) {
 		NSArray *quotes = [self quotesParsing:string];
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
-			[self.mTraderServerDataDelegate updateQuotes:quotes];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(updateSymbols:)]) {
+			[self.mTraderServerDataDelegate updateSymbols:quotes];
 		}
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Exchanges:"].location == 0) {
@@ -315,8 +315,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"Quotes:"].location == 0) {
 		NSArray *quotes = [self quotesParsing:string];
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(updateQuotes:)]) {
-			[self.mTraderServerDataDelegate updateQuotes:quotes];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(updateSymbols:)]) {
+			[self.symbolsDelegate updateSymbols:quotes];
 		}
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Kickout: 1"].location == 0) {

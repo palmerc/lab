@@ -6,9 +6,9 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
 
 @class Feed;
+@class SymbolDynamicData;
 
 @interface Symbol :  NSManagedObject  
 {
@@ -21,7 +21,7 @@
 @property (nonatomic, retain) NSString * isin;
 @property (nonatomic, retain) NSString * orderBook;
 @property (nonatomic, retain) NSString * type;
-@property (nonatomic, retain) NSManagedObject * symbolDynamicData;
+@property (nonatomic, retain) SymbolDynamicData * symbolDynamicData;
 @property (nonatomic, retain) Feed * feed;
 @property (nonatomic, retain) NSManagedObject * chart;
 

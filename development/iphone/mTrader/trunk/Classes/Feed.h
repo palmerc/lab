@@ -6,7 +6,6 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
 
 @class Symbol;
 

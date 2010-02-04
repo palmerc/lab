@@ -12,10 +12,11 @@
 
 #import "Feed.h";
 #import "Symbol.h"
+#import "SymbolDynamicData.h"
 
 #import "StockDetailController.h"
 #import "StockSearchController.h"
-#import "StockListingCell.h"
+#import "MyListTableCell.h"
 
 #import "StringHelpers.h"
 
@@ -30,7 +31,7 @@
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		self.title = NSLocalizedString(@"MyStocksTab", @"My Stocks tab label");
+		self.title = NSLocalizedString(@"MyListTab", @"My Stocks tab label");
 		//UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];
 		//UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:MYSTOCKS];
 		//self.tabBarItem = theItem;
@@ -109,11 +110,11 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"MyListTableCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    MyListTableCell *cell = (MyListTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[MyListTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell.
@@ -121,11 +122,10 @@
     return cell;
 }
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureCell:(MyListTableCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     // Configure the cell to show the book's title
-	Symbol *symbol = [fetchedResultsController objectAtIndexPath:indexPath];
-	cell.textLabel.text = symbol.tickerSymbol;
-	cell.detailTextLabel.text = symbol.companyName;
+	Symbol *symbol = (Symbol *)[fetchedResultsController objectAtIndexPath:indexPath];
+	cell.symbol = symbol;
 }
 
 /*
@@ -303,23 +303,147 @@
  * This method should receive a list of symbols that have been updated and should
  * update any rows necessary.
  */
-/*
-- (void)symbolsUpdated:(NSArray *)feedTickers {
-	if (!self.editing) {
-		NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+- (void)updateSymbols:(NSArray *)updates {
+	static NSInteger FEED_TICKER = 0;
+	static NSInteger LAST_TRADE = 1;
+	static NSInteger PERCENT_CHANGE = 2;
+	static NSInteger BID_PRICE = 3;
+	static NSInteger ASK_PRICE = 4;
+	static NSInteger ASK_VOLUME = 5;
+	static NSInteger BID_VOLUME = 6;
+	static NSInteger CHANGE = 7;
+	static NSInteger HIGH = 8;
+	static NSInteger LOW = 9;
+	static NSInteger OPEN = 10;
+	static NSInteger VOLUME = 11;
 
-		for (NSString *feedTicker in feedTickers) {
-			NSIndexPath *indexPath = [self.symbolsController indexPathOfSymbol:feedTicker];
-			[indexPaths addObject:indexPath];
+	for (NSString *update in updates) {
+		NSArray *values = [StringHelpers cleanComponents:[update componentsSeparatedByString:@";"]];
+
+		NSString *feedTicker = [values objectAtIndex:FEED_TICKER];
+		NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+		NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+		
+		NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+		NSEntityDescription *entity = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
+		[request setEntity:entity];
+		
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feed.feedNumber=%@) AND (tickerSymbol=%@)", feedNumber, tickerSymbol];
+		[request setPredicate:predicate];
+		
+		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tickerSymbol" ascending:YES];
+		[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+		[sortDescriptor release];
+		
+		NSError *error = nil;
+		NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+		if (array == nil)
+		{
+			// Deal with error...
+		}
+				
+		Symbol *symbol = [array objectAtIndex:0];
+		if (symbol.symbolDynamicData == nil) {
+			SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
+			symbol.symbolDynamicData = symbolDynamicData;
+		}
+		// last trade
+		if ([values count] > LAST_TRADE) {
+			NSString *lastTrade = [values objectAtIndex:LAST_TRADE];
+			if ([lastTrade isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.lastTrade = [NSNumber numberWithDouble:[lastTrade doubleValue]];
+				symbol.symbolDynamicData.lastTradeTime = [NSDate date];
+			}
 		}
 		
-		[self.tableView beginUpdates];
-		[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-		[self.tableView endUpdates];
-		[indexPaths release];
+		// percent change
+		if ([values count] > PERCENT_CHANGE) {
+			NSString *percentChange = [values objectAtIndex:PERCENT_CHANGE];
+			if ([percentChange isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.lastTradePercentChange = [NSNumber numberWithDouble:[percentChange doubleValue]];
+			}
+		}
+		
+		// bid price
+		if ([values count] > BID_PRICE) {
+			NSString *bidPrice = [values objectAtIndex:BID_PRICE];
+			if ([bidPrice isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.bidPrice = [NSNumber numberWithDouble:[bidPrice doubleValue]];
+			}
+		}
+		
+		// ask price
+		if ([values count] > ASK_PRICE) {
+			NSString *askPrice = [values objectAtIndex:ASK_PRICE];
+			if ([askPrice isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.askPrice = [NSNumber numberWithDouble:[askPrice doubleValue]];
+			}
+		}
+		
+		// ask volume
+		if ([values count] > ASK_VOLUME) {
+			NSString *askVolume = [values objectAtIndex:ASK_VOLUME];
+			if ([askVolume isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.askVolume = [NSNumber numberWithInteger:[askVolume integerValue]];
+			}
+		}
+		
+		// bid volume
+		if ([values count] > BID_VOLUME) {
+			NSString *bidVolume = [values objectAtIndex:BID_VOLUME];
+			if ([bidVolume isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.bidVolume = [NSNumber numberWithInteger:[bidVolume integerValue]];
+			}
+		}
+		
+		// change
+		if ([values count] > CHANGE) {
+			NSString *change = [values objectAtIndex:CHANGE];
+			if ([change isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.lastTradeChange = [NSNumber numberWithDouble:[change doubleValue]];
+			}
+		}
+		
+		// high
+		if ([values count] > HIGH) {
+			NSString *high = [values objectAtIndex:HIGH];
+			if ([high isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.high = [NSNumber numberWithDouble:[high doubleValue]];
+			}
+		}
+		
+		// low
+		if ([values count] > LOW) {
+			NSString *low = [values objectAtIndex:LOW];
+			if ([low isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.low = [NSNumber numberWithDouble:[low doubleValue]];
+			}
+		}
+		
+		// open
+		if ([values count] > OPEN) {
+			NSString *open = [values objectAtIndex:OPEN];
+			if ([open isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.open = [NSNumber numberWithDouble:[open doubleValue]];
+			}
+		}
+		
+		// volume
+		if ([values count] > VOLUME) {
+			NSString *volume = [values objectAtIndex:VOLUME];
+			if ([volume isEqualToString:@""] == NO) {
+				symbol.symbolDynamicData.volume = [NSNumber numberWithInteger:[volume integerValue]];
+			}
+		}
 	}
+	NSError *error;
+	if (![self.managedObjectContext save:&error]) {
+		NSLog(@"Whoops.");
+	}
+	[self.tableView reloadData]; // TODO: Figure out how to avoid this
 }
-*/
+
 #pragma mark -
 #pragma mark UI Actions
 /*
@@ -389,8 +513,7 @@
 	[sortDescriptors release];
 	
 	return fetchedResultsController;
-}    
-
+}
 
 /**
  Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.
@@ -506,13 +629,11 @@
 #pragma mark -
 #pragma mark Debugging methods
 
-/*
 // Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
     NSLog(@"Queried about %@", NSStringFromSelector(sel));
     return [super respondsToSelector:sel];
 }
-*/
 
 #pragma mark -
 #pragma mark Memory management

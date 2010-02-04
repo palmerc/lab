@@ -312,7 +312,50 @@ SecOid: 18177/TEL
 Language: EN
 \end{verbatim}
 
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
 
+Request: StaticData/OK
+SecOid: 14/IBM
+Staticdata: Bid:125.31;B Size:200;Ask:125.85;A Size:100;Pr Cls:125.53;Open:-;High:-;Low:-;Last:125.53;L +/-:0.86;L +/-%:0.69;O +/-:-;O +/-%:--;Volume:0;Turnover:0;OnVolume:0;OnValue:0;Time:-;VWAP:-;AvgVol:-;AvgVal:-;Status:;B Lot:-;BLValue:0;Shares:1314m;M Cap:164897m;Exchange:NYSE, Stocks;Country:United States;Description:International Business Machines Corp.;Symbol:IBM;ISIN:US4592001014;Currency:USD;
+\end{verbatim}
+
+The response is a semicolon separated set of Key:Value pairs. These pairs are:
+\begin{itemize}
+\item Bid
+\item Bid Size
+\item Ask
+\item Ask Size
+\item Price at close
+\item Open
+\item High
+\item Low
+\item Last
+\item Last change
+\item Last percent change
+\item Open change
+\item Open percent change
+\item Volume
+\item Turnover
+\item On volume
+\item On value
+\item Time of last trade
+\item VWAP
+\item Average volume
+\item Average value
+\item Status of trading
+\item Bid Lot
+\item Bid Lot value
+\item Outstanding shares
+\item Market capitalization
+\item Exchange
+\item Country
+\item Description
+\item Ticker Symbol
+\item ISIN
+\item Currency
+\end{itemize}
 
 \section*{Graph Request}
 \begin{verbatim}

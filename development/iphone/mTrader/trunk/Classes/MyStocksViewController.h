@@ -6,7 +6,6 @@
 //  Copyright 2009 InFront AS. All rights reserved.
 //
 #import "mTraderCommunicator.h"
-#import "StockListingCell.h"
 #import "StockSearchController.h"
 
 @class Feed;
@@ -40,6 +39,7 @@ typedef enum {
 
 @property (assign) BOOL editing;
 
+- (NSString *)sectionIndexTitleForSectionName:(NSString *)sectionName;
 - (void)addStockButtonWasPressed:(id)sender;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (Feed *)fetchFeed:(NSNumber *)feedNumber;

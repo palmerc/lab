@@ -121,7 +121,8 @@ enum {
 @end
 
 @protocol SymbolsDataDelegate <NSObject>
--(void) addSymbols:(NSString *)symbols;
+- (void)addSymbols:(NSString *)symbols;
+- (void)updateSymbols:(NSArray *)symbols;
 @end
 
 
@@ -132,7 +133,6 @@ enum {
 -(void) addFeed:(Feed *)feed;
 -(void) addSymbol:(Symbol *)symbol;
 -(void) addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
--(void) updateQuotes:(NSArray *)quotes;
 -(void) addExchanges:(NSArray *)exchanges;
 -(void) staticUpdates:(NSDictionary *)updateDictionary;
 -(void) removedSecurity:(NSString *)feedTicker;
