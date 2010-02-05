@@ -282,7 +282,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	} else if ([string rangeOfString:@"Quotes:"].location == 0) {
 		NSArray *quotes = [self quotesParsing:string];
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(updateSymbols:)]) {
-			[self.mTraderServerDataDelegate updateSymbols:quotes];
+			[self.symbolsDelegate updateSymbols:quotes];
 		}
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Exchanges:"].location == 0) {

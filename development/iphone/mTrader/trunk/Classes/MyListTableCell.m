@@ -6,9 +6,11 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#import "MyListTableCell.h"
-#import "Symbol.h"
 
+#import "MyListTableCell.h"
+
+#import "Symbol.h"
+#import "SymbolDynamicData.h"
 
 
 #pragma mark -
@@ -27,7 +29,7 @@
 #pragma mark -
 #pragma mark MyListTableCell implementation
 @implementation MyListTableCell
-@synthesize symbol, tickerLabel, descriptionLabel, centerButton, rightButton, timeLabel;
+@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerButton, rightButton, timeLabel, centerButtonOption, rightButtonOption;
 
 
 #pragma mark -
@@ -156,7 +158,8 @@
     }
 }
 
-- (void)setSymbol:(Symbol *)newSymbol {
+
+- (void)setSymbolDynamicData:(SymbolDynamicData *)newSymbolDynamicData {
 	static NSDateFormatter *dateFormatter = nil;
 	if (dateFormatter == nil) {
 		dateFormatter = [[NSDateFormatter alloc] init];
@@ -171,23 +174,63 @@
 		[doubleFormatter setUsesSignificantDigits:YES];
 	}
 	
-	if (newSymbol != symbol) {
-		[symbol release];
-		symbol = [newSymbol retain];
+	static NSNumberFormatter *percentFormatter = nil;
+	if (percentFormatter == nil) {
+		percentFormatter = [[NSNumberFormatter alloc] init];
+		[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+		[percentFormatter setUsesSignificantDigits:YES];
 	}
 	
-	tickerLabel.text = symbol.tickerSymbol;
-	descriptionLabel.text = symbol.companyName;
-	[centerButton setTitle:[doubleFormatter stringFromNumber:[symbol.symbolDynamicData valueForKey:@"lastTrade"]] forState:UIControlStateNormal];
-	[rightButton setTitle:[doubleFormatter stringFromNumber:[symbol.symbolDynamicData valueForKey:@"lastTradeChange"]] forState:UIControlStateNormal];
-	timeLabel.text = [dateFormatter stringFromDate:[symbol.symbolDynamicData valueForKey:@"lastTradeTime"]];
+	if (newSymbolDynamicData != symbolDynamicData) {
+		[symbolDynamicData release];
+		symbolDynamicData = [newSymbolDynamicData retain];
+	}
+	
+	tickerLabel.text = symbolDynamicData.symbol.tickerSymbol;
+	descriptionLabel.text = symbolDynamicData.symbol.companyName;
+
+	NSString *centerString = nil;
+	switch (centerButtonOption) {
+		case LAST_TRADE:
+			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			break;
+		case BID_PRICE:
+			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
+			break;
+		case ASK_PRICE:
+			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
+			break;
+		default:
+			break;
+	}
+	[centerButton setTitle:centerString forState:UIControlStateNormal];
+	
+	NSString *rightString = nil;
+	switch (rightButtonOption) {
+		case LAST_TRADE_PERCENT_CHANGE:
+			rightString = [percentFormatter stringFromNumber:symbolDynamicData.lastTradePercentChange];
+			break;
+		case LAST_TRADE_CHANGE:
+			rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTradeChange];
+			break;
+		case LAST_TRADE_TOO:
+			rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			break;
+		default:
+			break;
+	}
+	[rightButton setTitle:rightString forState:UIControlStateNormal];
+
+	timeLabel.text = [dateFormatter stringFromDate:symbolDynamicData.lastTradeTime];
 }
+
+
 
 #pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
-	[symbol release];
+	[symbolDynamicData release];
 	[tickerLabel release];
 	[descriptionLabel release];
 	[centerButton release];

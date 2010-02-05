@@ -5,6 +5,8 @@
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
 //
+
+
 #import "MyStocksViewController.h"
 
 #import "mTraderAppDelegate.h"
@@ -23,7 +25,6 @@
 @implementation MyStocksViewController
 @synthesize communicator;
 @synthesize fetchedResultsController, managedObjectContext;
-@synthesize editing = _editing;
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -31,7 +32,7 @@
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		self.title = NSLocalizedString(@"MyListTab", @"My Stocks tab label");
+		self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
 		//UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];
 		//UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:MYSTOCKS];
 		//self.tabBarItem = theItem;
@@ -39,9 +40,6 @@
 				
 		//_symbolsController = [SymbolsController sharedManager];
 		//_symbolsController = nil;
-		
-		currentValueType = PRICE;
-		self.editing = NO;
 	}
 	return self;
 }
@@ -110,11 +108,13 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"MyListTableCell";
+    static NSString *CellIdentifier = @"ChainsTableCell";
     
     MyListTableCell *cell = (MyListTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[MyListTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		[cell.centerButton addTarget:self action:@selector(centerButton:) forControlEvents:UIControlEventTouchUpInside];
+		[cell.rightButton addTarget:self action:@selector(rightButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     // Configure the cell.
@@ -124,8 +124,10 @@
 
 - (void)configureCell:(MyListTableCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     // Configure the cell to show the book's title
-	Symbol *symbol = (Symbol *)[fetchedResultsController objectAtIndexPath:indexPath];
-	cell.symbol = symbol;
+	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[fetchedResultsController objectAtIndexPath:indexPath];
+	cell.symbolDynamicData = symbolDynamicData;
+	cell.centerButtonOption = centerButtonOption;
+	cell.rightButtonOption = rightButtonOption;
 }
 
 /*
@@ -237,6 +239,44 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 */
+
+#pragma mark -
+#pragma mark UIButton selectors
+
+- (void)centerButton:(id)sender {
+	/*
+	switch (centerButtonOption) {
+		case LAST_TRADE:
+			centerButtonOption = BID_PRICE;
+			break;
+		case BID_PRICE:
+			centerButtonOption = ASK_PRICE;
+			break;
+		case ASK_PRICE:
+			centerButtonOption = LAST_TRADE;
+			break;
+		default:
+			break;
+	}*/
+}
+
+- (void)rightButton:(id)sender {
+	/*switch (rightButtonOption) {
+		case LAST_TRADE_PERCENT_CHANGE:
+			rightButtonOption = LAST_TRADE_CHANGE;
+			break;
+		case LAST_TRADE_CHANGE:
+			rightButtonOption = LAST_TRADE_TOO;
+			break;
+		case LAST_TRADE_TOO:
+			rightButtonOption = LAST_TRADE_PERCENT_CHANGE;
+			break;
+		default:
+			break;
+	}*/
+}
+
+
 #pragma mark -
 #pragma mark Delegation
 /**
@@ -340,20 +380,21 @@
 		NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
 		if (array == nil)
 		{
-			// Deal with error...
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		}
 				
 		Symbol *symbol = [array objectAtIndex:0];
-		if (symbol.symbolDynamicData == nil) {
-			SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
+		SymbolDynamicData *symbolDynamicData = symbol.symbolDynamicData;
+		if (symbolDynamicData == nil) {
+			symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
 			symbol.symbolDynamicData = symbolDynamicData;
 		}
 		// last trade
 		if ([values count] > LAST_TRADE) {
 			NSString *lastTrade = [values objectAtIndex:LAST_TRADE];
 			if ([lastTrade isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.lastTrade = [NSNumber numberWithDouble:[lastTrade doubleValue]];
-				symbol.symbolDynamicData.lastTradeTime = [NSDate date];
+				symbolDynamicData.lastTrade = [NSNumber numberWithDouble:[lastTrade doubleValue]];
+				symbolDynamicData.lastTradeTime = [NSDate date];
 			}
 		}
 		
@@ -361,7 +402,7 @@
 		if ([values count] > PERCENT_CHANGE) {
 			NSString *percentChange = [values objectAtIndex:PERCENT_CHANGE];
 			if ([percentChange isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.lastTradePercentChange = [NSNumber numberWithDouble:[percentChange doubleValue]];
+				symbolDynamicData.lastTradePercentChange = [NSNumber numberWithDouble:([percentChange doubleValue]/100.0)];
 			}
 		}
 		
@@ -369,7 +410,7 @@
 		if ([values count] > BID_PRICE) {
 			NSString *bidPrice = [values objectAtIndex:BID_PRICE];
 			if ([bidPrice isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.bidPrice = [NSNumber numberWithDouble:[bidPrice doubleValue]];
+				symbolDynamicData.bidPrice = [NSNumber numberWithDouble:[bidPrice doubleValue]];
 			}
 		}
 		
@@ -377,7 +418,7 @@
 		if ([values count] > ASK_PRICE) {
 			NSString *askPrice = [values objectAtIndex:ASK_PRICE];
 			if ([askPrice isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.askPrice = [NSNumber numberWithDouble:[askPrice doubleValue]];
+				symbolDynamicData.askPrice = [NSNumber numberWithDouble:[askPrice doubleValue]];
 			}
 		}
 		
@@ -385,7 +426,7 @@
 		if ([values count] > ASK_VOLUME) {
 			NSString *askVolume = [values objectAtIndex:ASK_VOLUME];
 			if ([askVolume isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.askVolume = [NSNumber numberWithInteger:[askVolume integerValue]];
+				symbolDynamicData.askVolume = [NSNumber numberWithInteger:[askVolume integerValue]];
 			}
 		}
 		
@@ -393,7 +434,7 @@
 		if ([values count] > BID_VOLUME) {
 			NSString *bidVolume = [values objectAtIndex:BID_VOLUME];
 			if ([bidVolume isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.bidVolume = [NSNumber numberWithInteger:[bidVolume integerValue]];
+				symbolDynamicData.bidVolume = [NSNumber numberWithInteger:[bidVolume integerValue]];
 			}
 		}
 		
@@ -401,15 +442,14 @@
 		if ([values count] > CHANGE) {
 			NSString *change = [values objectAtIndex:CHANGE];
 			if ([change isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.lastTradeChange = [NSNumber numberWithDouble:[change doubleValue]];
-			}
-		}
+				symbolDynamicData.lastTradeChange = [NSNumber numberWithDouble:[change doubleValue]];
+			}		}
 		
 		// high
 		if ([values count] > HIGH) {
 			NSString *high = [values objectAtIndex:HIGH];
 			if ([high isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.high = [NSNumber numberWithDouble:[high doubleValue]];
+				symbolDynamicData.high = [NSNumber numberWithDouble:[high doubleValue]];
 			}
 		}
 		
@@ -417,7 +457,7 @@
 		if ([values count] > LOW) {
 			NSString *low = [values objectAtIndex:LOW];
 			if ([low isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.low = [NSNumber numberWithDouble:[low doubleValue]];
+				symbolDynamicData.low = [NSNumber numberWithDouble:[low doubleValue]];
 			}
 		}
 		
@@ -425,7 +465,7 @@
 		if ([values count] > OPEN) {
 			NSString *open = [values objectAtIndex:OPEN];
 			if ([open isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.open = [NSNumber numberWithDouble:[open doubleValue]];
+				symbolDynamicData.open = [NSNumber numberWithDouble:[open doubleValue]];
 			}
 		}
 		
@@ -433,7 +473,7 @@
 		if ([values count] > VOLUME) {
 			NSString *volume = [values objectAtIndex:VOLUME];
 			if ([volume isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.volume = [NSNumber numberWithInteger:[volume integerValue]];
+				symbolDynamicData.volume = [NSNumber numberWithInteger:[volume integerValue]];
 			}
 		}
 	}
@@ -441,7 +481,6 @@
 	if (![self.managedObjectContext save:&error]) {
 		NSLog(@"Whoops.");
 	}
-	[self.tableView reloadData]; // TODO: Figure out how to avoid this
 }
 
 #pragma mark -
@@ -493,16 +532,17 @@
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
 	// Create the sort descriptors array.
-	NSSortDescriptor *feedDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feed.mCode" ascending:YES];
+	NSSortDescriptor *feedDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.feed.mCode" ascending:YES];
+	//NSSortDescriptor *symbolDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.tickerSymbol" ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:feedDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
-	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:@"feed.mCode" cacheName:@"Root"];
+	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"symbol.feed.mCode" cacheName:@"Root"];
 	self.fetchedResultsController = aFetchedResultsController;
 	fetchedResultsController.delegate = self;
 	
@@ -589,7 +629,7 @@
 	NSArray *array = [moc executeFetchRequest:request error:&error];
 	if (array == nil)
 	{
-		// Deal with error...
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	}
 	
 	if ([array count] == 1) {
@@ -616,7 +656,7 @@
 	NSArray *array = [moc executeFetchRequest:request error:&error];
 	if (array == nil)
 	{
-		// Deal with error...
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	}
 	
 	if ([array count] == 1) {

@@ -6,26 +6,33 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-@class Symbol;
+
+#import "MyStocksViewController.h"
+
+@class SymbolDynamicData;
 
 @interface MyListTableCell : UITableViewCell {
-	Symbol *symbol;
+	SymbolDynamicData *symbolDynamicData;
 	
-	IBOutlet UILabel *tickerLabel;
-	IBOutlet UILabel *descriptionLabel;
-	IBOutlet UIButton *centerButton;
-	IBOutlet UIButton *rightButton;
-	IBOutlet UILabel *timeLabel;
+	UILabel *tickerLabel;
+	UILabel *descriptionLabel;
+	UIButton *centerButton;
+	UIButton *rightButton;
+	UILabel *timeLabel;
 	
 @private
 	CGSize tickerLabelSize;
+	CenterButtonOptions centerButtonOption;
+	RightButtonOptions rightButtonOption;
 }
 
-@property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) IBOutlet UILabel *tickerLabel;
-@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, retain) IBOutlet UIButton *centerButton;
-@property (nonatomic, retain) IBOutlet UIButton *rightButton;
-@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
+@property (nonatomic, retain) SymbolDynamicData *symbolDynamicData;
+@property (nonatomic, retain) UILabel *tickerLabel;
+@property (nonatomic, retain) UILabel *descriptionLabel;
+@property (nonatomic, retain) UIButton *centerButton;
+@property (nonatomic, retain) UIButton *rightButton;
+@property (nonatomic, retain) UILabel *timeLabel;
+@property (assign) CenterButtonOptions centerButtonOption;
+@property (assign) RightButtonOptions rightButtonOption;
 
 @end
