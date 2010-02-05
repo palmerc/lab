@@ -29,13 +29,16 @@
 #pragma mark -
 #pragma mark MyListTableCell implementation
 @implementation MyListTableCell
-@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerButton, rightButton, timeLabel, centerButtonOption, rightButtonOption;
+@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerButton, centerButtonLabel, rightButton, rightButtonLabel, timeLabel, centerButtonOption, rightButtonOption;
 
 
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+		centerUpdate = NO;
+		rightUpdate = NO;
+		
 		UIFont *tickerFont = [UIFont boldSystemFontOfSize:17.0];
 		tickerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		[tickerLabel setBackgroundColor:[UIColor whiteColor]];
@@ -60,10 +63,24 @@
 		[centerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		[self.contentView addSubview:centerButton];
 		
+		UIFont *centerButtonLabelFont = [UIFont systemFontOfSize:12.0];
+		centerButtonLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[centerButtonLabel setFont:centerButtonLabelFont];
+		[centerButtonLabel setTextColor:[UIColor blackColor]];
+		[centerButtonLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[self.contentView addSubview:centerButtonLabel];		
+				
 		rightButton = [[UIButton alloc] initWithFrame:CGRectZero];
 		[rightButton.titleLabel setFont:[UIFont systemFontOfSize:17.0]];
 		[rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		[self.contentView addSubview:rightButton];
+		
+		UIFont *rightButtonLabelFont = [UIFont systemFontOfSize:12.0];
+		rightButtonLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[rightButtonLabel setFont:rightButtonLabelFont];
+		[rightButtonLabel setTextColor:[UIColor blackColor]];
+		[rightButtonLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[self.contentView addSubview:rightButtonLabel];
 		
 		UIFont *timeFont = [UIFont systemFontOfSize:12.0];
 		timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -88,7 +105,9 @@
     [tickerLabel setFrame:[self _tickerLabelFrame]];
 	[descriptionLabel setFrame:[self _descriptionLabelFrame]];
     [centerButton setFrame:[self _centerButtonFrame]];
+	[centerButtonLabel setFrame:[self _centerButtonFrame]];
     [rightButton setFrame:[self _rightButtonFrame]];
+	[rightButtonLabel setFrame:[self _rightButtonFrame]];
 	[timeLabel setFrame:[self _timeLabelFrame]];
     if (self.editing) {
         centerButton.alpha = 0.0;
@@ -190,37 +209,72 @@
 	descriptionLabel.text = symbolDynamicData.symbol.companyName;
 
 	NSString *centerString = nil;
+	NSString *centerLabel = nil;
 	switch (centerButtonOption) {
 		case LAST_TRADE:
 			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			centerLabel = @"Last Trade";
+			centerUpdate = YES;
 			break;
 		case BID_PRICE:
 			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
+			centerLabel = @"Bid Price";
+			centerUpdate = YES;
 			break;
 		case ASK_PRICE:
 			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
+			centerLabel = @"Ask Price";
+			centerUpdate = YES;
 			break;
 		default:
 			break;
 	}
 	[centerButton setTitle:centerString forState:UIControlStateNormal];
+	if (centerUpdate == YES) {
+		[UIView beginAnimations:@"centerButton" context:self.centerButtonLabel];
+		[UIView setAnimationDuration:1.0];
+		self.centerButtonLabel.textAlignment = UITextAlignmentCenter;
+		self.centerButtonLabel.alpha = 1.0;
+		self.centerButtonLabel.alpha = 0.0;
+		self.centerButtonLabel.text = centerLabel;
+		[UIView commitAnimations];
+		centerUpdate = NO;
+	}
+
 	
 	NSString *rightString = nil;
+	NSString *rightLabel = nil;
 	switch (rightButtonOption) {
 		case LAST_TRADE_PERCENT_CHANGE:
 			rightString = [percentFormatter stringFromNumber:symbolDynamicData.lastTradePercentChange];
+			rightLabel = @"Last Trade +/-%";
+			rightUpdate = YES;
 			break;
 		case LAST_TRADE_CHANGE:
 			rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTradeChange];
+			rightLabel = @"Last Trade +/-";
+			rightUpdate = YES;
 			break;
 		case LAST_TRADE_TOO:
 			rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			rightLabel = @"Last Trade";
+			rightUpdate = YES;
 			break;
 		default:
 			break;
 	}
 	[rightButton setTitle:rightString forState:UIControlStateNormal];
-
+	if (rightUpdate == YES) {
+		[UIView beginAnimations:@"rightButton" context:self.rightButtonLabel];
+		[UIView setAnimationDuration:1.0];
+		self.rightButtonLabel.textAlignment = UITextAlignmentCenter;
+		self.rightButtonLabel.alpha = 1.0;
+		self.rightButtonLabel.alpha = 0.0;
+		self.rightButtonLabel.text = rightLabel;
+		[UIView commitAnimations];
+		rightUpdate = NO;
+	}
+	
 	timeLabel.text = [dateFormatter stringFromDate:symbolDynamicData.lastTradeTime];
 }
 

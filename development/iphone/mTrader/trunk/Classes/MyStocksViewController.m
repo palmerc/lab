@@ -244,7 +244,7 @@
 #pragma mark UIButton selectors
 
 - (void)centerButton:(id)sender {
-	/*
+	NSLog(@"CENTER");
 	switch (centerButtonOption) {
 		case LAST_TRADE:
 			centerButtonOption = BID_PRICE;
@@ -257,11 +257,12 @@
 			break;
 		default:
 			break;
-	}*/
+	}
+	[self.tableView reloadData];
 }
 
 - (void)rightButton:(id)sender {
-	/*switch (rightButtonOption) {
+	switch (rightButtonOption) {
 		case LAST_TRADE_PERCENT_CHANGE:
 			rightButtonOption = LAST_TRADE_CHANGE;
 			break;
@@ -273,7 +274,8 @@
 			break;
 		default:
 			break;
-	}*/
+	}
+	[self.tableView reloadData];
 }
 
 
