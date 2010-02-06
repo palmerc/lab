@@ -9,7 +9,7 @@
 #import "mTraderAppDelegate.h"
 #import "Starter.h"
 #import "UserDefaults.h"
-#import "MyStocksViewController.h"
+#import "ChainsNavigationViewController.h"
 #import "NewsViewController.h"
 #import "SettingsTableViewController.h"
 
@@ -45,7 +45,7 @@
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	window.backgroundColor = [UIColor lightGrayColor];
 	
-	MyStocksViewController *myStocks = [[MyStocksViewController alloc] init];
+	ChainsNavigationViewController *chains = [[ChainsNavigationViewController alloc] init];
 	/*
 	myStocksNavigationController = [[UINavigationController alloc] initWithRootViewController:myStocks];
 		
@@ -64,16 +64,16 @@
 	 [window addSubview:tabController.view];
 	 */
 	
-	myStocks.managedObjectContext = self.managedObjectContext;
+	chains.managedObjectContext = self.managedObjectContext;
 	
-	[window addSubview:myStocks.view];
+	[window addSubview:chains.view];
 	[window makeKeyAndVisible];
 	
 	//[myStocks release];
 	//[news release];
 	//[settings release];
 	
-	[myStocksNavigationController release];
+	[chainsNavigationController release];
 	[newsNavigationController release];
 	[settingsNavigationController release];
 }

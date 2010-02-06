@@ -1,5 +1,5 @@
 //
-//  MyListTableCell.m
+//  ChainsTableCell.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 05.01.10.
@@ -7,7 +7,7 @@
 //
 
 
-#import "MyListTableCell.h"
+#import "ChainsTableCell.h"
 
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
@@ -16,29 +16,25 @@
 #pragma mark -
 #pragma mark SubviewFrames category
 
-@interface MyListTableCell (SubviewFrames)
+@interface ChainsTableCell (SubviewFrames)
 - (CGRect)_tickerLabelFrame;
 - (CGRect)_descriptionLabelFrame;
-- (CGRect)_centerButtonFrame;
-- (CGRect)_rightButtonFrame;
+- (CGRect)_centerLabelFrame;
+- (CGRect)_rightLabelFrame;
 - (CGRect)_timeLabelFrame;
 @end
 
 
 
 #pragma mark -
-#pragma mark MyListTableCell implementation
-@implementation MyListTableCell
-@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerButton, centerButtonLabel, rightButton, rightButtonLabel, timeLabel, centerButtonOption, rightButtonOption;
-
+#pragma mark ChainsTableCell implementation
+@implementation ChainsTableCell
+@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerLabel, rightLabel, timeLabel, centerOption, rightOption;
 
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-		centerUpdate = NO;
-		rightUpdate = NO;
-		
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {		
 		UIFont *tickerFont = [UIFont boldSystemFontOfSize:17.0];
 		tickerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		[tickerLabel setBackgroundColor:[UIColor whiteColor]];
@@ -58,29 +54,21 @@
 		[descriptionLabel setHighlightedTextColor:[UIColor whiteColor]];
 		[self.contentView addSubview:descriptionLabel];
 		
-		centerButton = [[UIButton alloc] initWithFrame:CGRectZero];
-		[centerButton.titleLabel setFont:[UIFont systemFontOfSize:17.0]];
-		[centerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-		[self.contentView addSubview:centerButton];
+		UIFont *centerLabelFont = [UIFont systemFontOfSize:17.0];
+		centerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[centerLabel setFont:centerLabelFont];
+		[centerLabel setTextAlignment:UITextAlignmentRight];
+		[centerLabel setTextColor:[UIColor blackColor]];
+		[centerLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[self.contentView addSubview:centerLabel];		
 		
-		UIFont *centerButtonLabelFont = [UIFont systemFontOfSize:12.0];
-		centerButtonLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[centerButtonLabel setFont:centerButtonLabelFont];
-		[centerButtonLabel setTextColor:[UIColor blackColor]];
-		[centerButtonLabel setHighlightedTextColor:[UIColor whiteColor]];
-		[self.contentView addSubview:centerButtonLabel];		
-				
-		rightButton = [[UIButton alloc] initWithFrame:CGRectZero];
-		[rightButton.titleLabel setFont:[UIFont systemFontOfSize:17.0]];
-		[rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-		[self.contentView addSubview:rightButton];
-		
-		UIFont *rightButtonLabelFont = [UIFont systemFontOfSize:12.0];
-		rightButtonLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[rightButtonLabel setFont:rightButtonLabelFont];
-		[rightButtonLabel setTextColor:[UIColor blackColor]];
-		[rightButtonLabel setHighlightedTextColor:[UIColor whiteColor]];
-		[self.contentView addSubview:rightButtonLabel];
+		UIFont *rightLabelFont = [UIFont systemFontOfSize:17.0];
+		rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[rightLabel setFont:rightLabelFont];
+		[rightLabel setTextAlignment:UITextAlignmentRight];
+		[rightLabel setTextColor:[UIColor blackColor]];
+		[rightLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[self.contentView addSubview:rightLabel];
 		
 		UIFont *timeFont = [UIFont systemFontOfSize:12.0];
 		timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -104,18 +92,16 @@
 	
     [tickerLabel setFrame:[self _tickerLabelFrame]];
 	[descriptionLabel setFrame:[self _descriptionLabelFrame]];
-    [centerButton setFrame:[self _centerButtonFrame]];
-	[centerButtonLabel setFrame:[self _centerButtonFrame]];
-    [rightButton setFrame:[self _rightButtonFrame]];
-	[rightButtonLabel setFrame:[self _rightButtonFrame]];
+	[centerLabel setFrame:[self _centerLabelFrame]];
+	[rightLabel setFrame:[self _rightLabelFrame]];
 	[timeLabel setFrame:[self _timeLabelFrame]];
     if (self.editing) {
-        centerButton.alpha = 0.0;
-		rightButton.alpha = 0.0;
+        centerLabel.alpha = 0.0;
+		rightLabel.alpha = 0.0;
 		timeLabel.alpha = 0.0;
     } else {
-        centerButton.alpha = 1.0;
-		rightButton.alpha = 1.0;
+        centerLabel.alpha = 1.0;
+		rightLabel.alpha = 1.0;
 		timeLabel.alpha = 1.0;
     }
 }
@@ -150,7 +136,7 @@
     }
 }
 
-- (CGRect)_centerButtonFrame {
+- (CGRect)_centerLabelFrame {
     if (self.editing) {
         return CGRectMake(EDITING_INSET + TEXT_LEFT_MARGIN, 4.0, self.contentView.bounds.size.width - EDITING_INSET - TEXT_LEFT_MARGIN, 16.0);
     }
@@ -159,7 +145,7 @@
     }
 }
 
-- (CGRect)_rightButtonFrame {
+- (CGRect)_rightLabelFrame {
     if (self.editing) {
         return CGRectMake(EDITING_INSET + TEXT_LEFT_MARGIN, 4.0, self.contentView.bounds.size.width - EDITING_INSET - TEXT_LEFT_MARGIN, 16.0);
     }
@@ -205,75 +191,40 @@
 		symbolDynamicData = [newSymbolDynamicData retain];
 	}
 	
-	tickerLabel.text = symbolDynamicData.symbol.tickerSymbol;
-	descriptionLabel.text = symbolDynamicData.symbol.companyName;
+	self.tickerLabel.text = symbolDynamicData.symbol.tickerSymbol;
+	self.descriptionLabel.text = symbolDynamicData.symbol.companyName;
 
 	NSString *centerString = nil;
-	NSString *centerLabel = nil;
-	switch (centerButtonOption) {
+	switch (centerOption) {
 		case LAST_TRADE:
 			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
-			centerLabel = @"Last Trade";
-			centerUpdate = YES;
 			break;
 		case BID_PRICE:
 			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
-			centerLabel = @"Bid Price";
-			centerUpdate = YES;
 			break;
 		case ASK_PRICE:
 			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
-			centerLabel = @"Ask Price";
-			centerUpdate = YES;
 			break;
 		default:
 			break;
 	}
-	[centerButton setTitle:centerString forState:UIControlStateNormal];
-	if (centerUpdate == YES) {
-		[UIView beginAnimations:@"centerButton" context:self.centerButtonLabel];
-		[UIView setAnimationDuration:1.0];
-		self.centerButtonLabel.textAlignment = UITextAlignmentCenter;
-		self.centerButtonLabel.alpha = 1.0;
-		self.centerButtonLabel.alpha = 0.0;
-		self.centerButtonLabel.text = centerLabel;
-		[UIView commitAnimations];
-		centerUpdate = NO;
-	}
+	self.centerLabel.text = centerString;
 
-	
 	NSString *rightString = nil;
-	NSString *rightLabel = nil;
-	switch (rightButtonOption) {
+	switch (rightOption) {
 		case LAST_TRADE_PERCENT_CHANGE:
 			rightString = [percentFormatter stringFromNumber:symbolDynamicData.lastTradePercentChange];
-			rightLabel = @"Last Trade +/-%";
-			rightUpdate = YES;
 			break;
 		case LAST_TRADE_CHANGE:
 			rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTradeChange];
-			rightLabel = @"Last Trade +/-";
-			rightUpdate = YES;
 			break;
 		case LAST_TRADE_TOO:
 			rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
-			rightLabel = @"Last Trade";
-			rightUpdate = YES;
 			break;
 		default:
 			break;
 	}
-	[rightButton setTitle:rightString forState:UIControlStateNormal];
-	if (rightUpdate == YES) {
-		[UIView beginAnimations:@"rightButton" context:self.rightButtonLabel];
-		[UIView setAnimationDuration:1.0];
-		self.rightButtonLabel.textAlignment = UITextAlignmentCenter;
-		self.rightButtonLabel.alpha = 1.0;
-		self.rightButtonLabel.alpha = 0.0;
-		self.rightButtonLabel.text = rightLabel;
-		[UIView commitAnimations];
-		rightUpdate = NO;
-	}
+	self.rightLabel.text = rightString;
 	
 	timeLabel.text = [dateFormatter stringFromDate:symbolDynamicData.lastTradeTime];
 }
@@ -287,8 +238,8 @@
 	[symbolDynamicData release];
 	[tickerLabel release];
 	[descriptionLabel release];
-	[centerButton release];
-	[rightButton release];
+	[centerLabel release];
+	[rightLabel release];
 	[timeLabel release];
 	
     [super dealloc];

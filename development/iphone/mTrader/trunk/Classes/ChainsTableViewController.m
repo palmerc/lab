@@ -1,5 +1,5 @@
 //
-//  MyStocksViewController.m
+//  ChainsTableViewController.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
@@ -7,7 +7,9 @@
 //
 
 
-#import "MyStocksViewController.h"
+#import "ChainsTableViewController.h"
+
+#import "ChainsTableCell.h"
 
 #import "mTraderAppDelegate.h"
 #import "mTraderCommunicator.h"
@@ -18,11 +20,10 @@
 
 #import "StockDetailController.h"
 #import "StockSearchController.h"
-#import "MyListTableCell.h"
 
 #import "StringHelpers.h"
 
-@implementation MyStocksViewController
+@implementation ChainsTableViewController
 @synthesize communicator;
 @synthesize fetchedResultsController, managedObjectContext;
 
@@ -55,7 +56,42 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
-
+	
+	// Add the toolbar to the bottom.
+	UIToolbar *toolBar = [[UIToolbar alloc] init];
+	[toolBar sizeToFit];
+	toolBar.barStyle = UIBarStyleDefault;
+	CGRect bounds = self.parentViewController.view.bounds;
+	CGFloat x = 0;
+	CGFloat width = CGRectGetWidth(bounds);
+	CGFloat height = toolBar.frame.size.height;
+	CGFloat y = CGRectGetHeight(bounds) - height;
+	CGRect frame = CGRectMake(x, y, width, height);	
+	toolBar.frame = frame;
+	
+	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
+	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
+	centerControl.segmentedControlStyle = UISegmentedControlStyleBar;
+	centerControl.selectedSegmentIndex = 0;
+	[centerControl addTarget:self action:@selector(centerSelection:) forControlEvents:UIControlEventValueChanged];
+	
+	unichar upDownArrowsChar = 0x21C5;
+	NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
+	NSArray *rightItems = [NSArray arrayWithObjects: @"%", upDownArrows, @"Last", nil];
+	UISegmentedControl *rightControl = [[UISegmentedControl alloc] initWithItems:rightItems];
+	rightControl.segmentedControlStyle = UISegmentedControlStyleBar;
+	rightControl.selectedSegmentIndex = 0;
+	[rightControl addTarget:self action:@selector(rightSelection:) forControlEvents:UIControlEventValueChanged];
+	
+	UIBarButtonItem *centerBarItem = [[UIBarButtonItem alloc] initWithCustomView:centerControl];
+	UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightControl];
+	[centerControl release];
+	[rightControl release];
+	[toolBar setItems:[NSArray arrayWithObjects:centerBarItem, rightBarItem, nil]];
+		
+	[self.navigationController.view addSubview:toolBar];
+	[toolBar release];
+	
 	// Setup right and left bar buttons
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addStockButtonWasPressed:)];
 	self.navigationItem.rightBarButtonItem = addItem;
@@ -110,11 +146,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"ChainsTableCell";
     
-    MyListTableCell *cell = (MyListTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ChainsTableCell *cell = (ChainsTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[MyListTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		[cell.centerButton addTarget:self action:@selector(centerButton:) forControlEvents:UIControlEventTouchUpInside];
-		[cell.rightButton addTarget:self action:@selector(rightButton:) forControlEvents:UIControlEventTouchUpInside];
+        cell = [[[ChainsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell.
@@ -122,12 +156,11 @@
     return cell;
 }
 
-- (void)configureCell:(MyListTableCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    // Configure the cell to show the book's title
+- (void)configureCell:(ChainsTableCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+	cell.centerOption = centerOption;
+	cell.rightOption = rightOption;
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
-	cell.centerButtonOption = centerButtonOption;
-	cell.rightButtonOption = rightButtonOption;
 }
 
 /*
@@ -243,17 +276,17 @@
 #pragma mark -
 #pragma mark UIButton selectors
 
-- (void)centerButton:(id)sender {
-	NSLog(@"CENTER");
-	switch (centerButtonOption) {
+- (void)centerSelection:(id)sender {
+	UISegmentedControl *control = sender;
+	switch (control.selectedSegmentIndex) {
 		case LAST_TRADE:
-			centerButtonOption = BID_PRICE;
+			centerOption = LAST_TRADE;
 			break;
 		case BID_PRICE:
-			centerButtonOption = ASK_PRICE;
+			centerOption = BID_PRICE;
 			break;
 		case ASK_PRICE:
-			centerButtonOption = LAST_TRADE;
+			centerOption = ASK_PRICE;
 			break;
 		default:
 			break;
@@ -261,16 +294,17 @@
 	[self.tableView reloadData];
 }
 
-- (void)rightButton:(id)sender {
-	switch (rightButtonOption) {
+- (void)rightSelection:(id)sender {
+	UISegmentedControl *control = sender;
+	switch (control.selectedSegmentIndex) {
 		case LAST_TRADE_PERCENT_CHANGE:
-			rightButtonOption = LAST_TRADE_CHANGE;
+			rightOption = LAST_TRADE_PERCENT_CHANGE;
 			break;
 		case LAST_TRADE_CHANGE:
-			rightButtonOption = LAST_TRADE_TOO;
+			rightOption = LAST_TRADE_CHANGE;
 			break;
 		case LAST_TRADE_TOO:
-			rightButtonOption = LAST_TRADE_PERCENT_CHANGE;
+			rightOption = LAST_TRADE_TOO;
 			break;
 		default:
 			break;

@@ -1,5 +1,5 @@
 //
-//  MyStocksViewController.h
+//  ChainsTableViewController.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
@@ -17,13 +17,13 @@ typedef enum {
 	LAST_TRADE = 0,
 	BID_PRICE,
 	ASK_PRICE
-} CenterButtonOptions;
+} CenterOptions;
 
 typedef enum {
 	LAST_TRADE_PERCENT_CHANGE = 0,
 	LAST_TRADE_CHANGE,
 	LAST_TRADE_TOO
-} RightButtonOptions;
+} RightOptions;
 
 typedef enum {
 	NOCHANGE = 0,
@@ -31,7 +31,7 @@ typedef enum {
 	DOWN
 } changeEnum;
 
-@interface MyStocksViewController : UITableViewController <StockSearchControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
+@interface ChainsTableViewController : UITableViewController <StockSearchControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
 	mTraderCommunicator *communicator;
 	
 	NSUInteger currentValueType;
@@ -39,9 +39,9 @@ typedef enum {
 @private
 	NSFetchedResultsController *fetchedResultsController;
 	NSManagedObjectContext *managedObjectContext;
-	
-	CenterButtonOptions centerButtonOption;
-	RightButtonOptions rightButtonOption;
+		
+	CenterOptions centerOption;
+	RightOptions rightOption;
 }
 
 @property (assign) mTraderCommunicator *communicator;
