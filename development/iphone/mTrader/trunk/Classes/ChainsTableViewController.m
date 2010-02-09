@@ -29,17 +29,11 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (id)init {
-	self = [super init];
-	if (self != nil) {
-		self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
-	}
-	return self;
-}
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+	self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
 
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
 	NSError *error;
@@ -53,18 +47,18 @@
 	UIToolbar *toolBar = [[UIToolbar alloc] init];
 	[toolBar sizeToFit];
 	toolBar.barStyle = UIBarStyleDefault;
-	CGRect bounds = self.parentViewController.view.bounds;
+	CGRect frame = self.view.frame;
 	CGFloat x = 0;
-	CGFloat width = CGRectGetWidth(bounds);
+	CGFloat width = CGRectGetWidth(frame);
 	CGFloat height = toolBar.frame.size.height;
-	CGFloat y = CGRectGetHeight(bounds) - height;
-	CGRect frame = CGRectMake(x, y, width, height);	
-	toolBar.frame = frame;
-	
-	CGRect tableViewBounds = self.tableView.bounds;
-	CGFloat tableViewHeight = self.tableView.bounds.size.height;
-	tableViewBounds.size.height = tableViewHeight - height;
-	self.tableView.bounds = tableViewBounds;
+	CGFloat y = self.tableView.frame.size.height - height;
+	CGRect newFrame = CGRectMake(x, y, width, height);	
+	toolBar.frame = newFrame;
+		
+	//CGRect tableViewBounds = self.tableView.bounds;
+//	CGFloat tableViewHeight = self.tableView.bounds.size.height;
+//	tableViewBounds.size.height = tableViewHeight - height;
+//	self.tableView.bounds = tableViewBounds;
 	
 	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
 	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
@@ -86,7 +80,7 @@
 	[rightControl release];
 	[toolBar setItems:[NSArray arrayWithObjects:centerBarItem, rightBarItem, nil]];
 		
-	[self.navigationController.view addSubview:toolBar];
+	[self.parentViewController.view addSubview:toolBar];
 	[toolBar release];
 	
 	// Setup right and left bar buttons

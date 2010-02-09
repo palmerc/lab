@@ -20,7 +20,7 @@
 	self = [super init];
 	if (self != nil) {
 		UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];
-		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:CHAINS];
+		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"ChainsTab", @"Chains tab label") image:anImage tag:CHAINS];
 		self.tabBarItem = theItem;
 		[theItem release];
 	}
