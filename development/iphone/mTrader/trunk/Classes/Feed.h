@@ -14,9 +14,10 @@
 }
 
 @property (nonatomic, retain) NSNumber * feedNumber;
-@property (nonatomic, retain) NSString * description;
+@property (nonatomic, retain) NSString * feedName;
 @property (nonatomic, retain) NSString * mCode;
 @property (nonatomic, retain) NSSet* symbols;
+@property (nonatomic, retain) NSString * typeCode;
 
 @end
 

@@ -6,8 +6,11 @@
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
+
+@class ChainsNavigationViewController;
+
 typedef enum {
-	MYSTOCKS = 1,
+	CHAINS = 1,
 	NEWS = 2,
 	SETTINGS = 3
 } tabs;
@@ -19,7 +22,8 @@ typedef enum {
 	
 	UIWindow *window;
 	UITabBarController *tabController;
-	UINavigationController *chainsNavigationController;
+	
+	ChainsNavigationViewController* chainsNavigationController;
 	UINavigationController *newsNavigationController;
 	UINavigationController *settingsNavigationController;
 	

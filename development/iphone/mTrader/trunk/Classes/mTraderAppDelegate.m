@@ -45,33 +45,28 @@
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	window.backgroundColor = [UIColor lightGrayColor];
 	
-	ChainsNavigationViewController *chains = [[ChainsNavigationViewController alloc] init];
-	/*
-	myStocksNavigationController = [[UINavigationController alloc] initWithRootViewController:myStocks];
-		
+	chainsNavigationController = [[ChainsNavigationViewController alloc] init];
 	NewsViewController *news = [[NewsViewController alloc] init];
 	newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
 	
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
 	settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
 
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:myStocksNavigationController, newsNavigationController, settingsNavigationController, nil];
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:chainsNavigationController, newsNavigationController, settingsNavigationController, nil];
 		
 	tabController = [[UITabBarController alloc] init];
 	self.tabController.viewControllers = viewControllersArray;
 	 
 	
-	 [window addSubview:tabController.view];
-	 */
+	[window addSubview:tabController.view];
 	
-	chains.managedObjectContext = self.managedObjectContext;
+	chainsNavigationController.managedObjectContext = self.managedObjectContext;
 	
-	[window addSubview:chains.view];
+	[window addSubview:chainsNavigationController.view];
 	[window makeKeyAndVisible];
 	
-	//[myStocks release];
-	//[news release];
-	//[settings release];
+	[news release];
+	[settings release];
 	
 	[chainsNavigationController release];
 	[newsNavigationController release];

@@ -123,6 +123,7 @@ enum {
 @protocol SymbolsDataDelegate <NSObject>
 - (void)addSymbols:(NSString *)symbols;
 - (void)updateSymbols:(NSArray *)symbols;
+- (void)addExchanges:(NSArray *)exchanges;
 @end
 
 

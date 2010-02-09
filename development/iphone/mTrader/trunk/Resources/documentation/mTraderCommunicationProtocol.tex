@@ -258,8 +258,10 @@ Both success and failure begin with the HTTP response header.
 Action: addSec
 Authorization: username
 Search: tickerSymbol
-mCode: feedName
+mCode: feedNameAndCode
 \end{verbatim}
+
+The mCode can include the full exchange name but the server only uses the three letter abbreviation between the square brackets and discards the rest.
 
 Successfully adding a security results in the response: 
 \begin{lstlisting}

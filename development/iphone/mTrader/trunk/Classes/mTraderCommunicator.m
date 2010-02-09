@@ -287,8 +287,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Exchanges:"].location == 0) {
 		NSArray *exchanges = [self exchangesParsing:string];
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(addExchanges:)]) {
-			[self.mTraderServerDataDelegate addExchanges:exchanges];
+		if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addExchanges:)]) {
+			[self.symbolsDelegate addExchanges:exchanges];
 		}
 	}
 }
@@ -402,7 +402,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
 	
-	if ([string rangeOfString:@"SecInfo:"].location == 0) {		
+	if ([string rangeOfString:@"SecInfo:"].location == 0) {	
+		NSString *symbolsSansCRLF = [self cleanString:string];
+		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
+		string = [rows objectAtIndex:0];
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addSymbols:)]) {
 			[self.symbolsDelegate addSymbols:string];
 		}
@@ -710,7 +713,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *ActionAddSec = @"Action: addSec";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *Search = [NSString stringWithFormat:@"Search: %@", tickerSymbol];
-	NSString *MCode = [NSString stringWithFormat:@"mCode: %@", mCode];
+	NSString *MCode = [NSString stringWithFormat:@"mCode: [%@]", mCode];
 	
 	NSArray *addSecurityArray = [NSArray arrayWithObjects:ActionAddSec, Authorization, Search, MCode, nil];
 	NSString *addSecurityString = [self arrayToFormattedString:addSecurityArray];

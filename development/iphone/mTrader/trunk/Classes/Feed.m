@@ -13,8 +13,9 @@
 @implementation Feed 
 
 @dynamic feedNumber;
-@dynamic description;
+@dynamic feedName;
 @dynamic mCode;
 @dynamic symbols;
+@dynamic typeCode;
 
 @end

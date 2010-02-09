@@ -10,9 +10,10 @@
 @class ChainsTableViewController;
 
 @interface ChainsNavigationViewController : UINavigationController {
-	NSManagedObjectContext *managedObjectContext;
-	
 	ChainsTableViewController *chainsTableViewController;
+	
+@private
+	NSManagedObjectContext *managedObjectContext;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;

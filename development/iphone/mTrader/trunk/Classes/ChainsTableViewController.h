@@ -3,12 +3,12 @@
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
-//  Copyright 2009 InFront AS. All rights reserved.
+//  Copyright 2009 Infront AS. All rights reserved.
 //
 
 
 #import "mTraderCommunicator.h"
-#import "StockSearchController.h"
+#import "SymbolAddController.h"
 
 @class Feed;
 @class Symbol;
@@ -31,7 +31,7 @@ typedef enum {
 	DOWN
 } changeEnum;
 
-@interface ChainsTableViewController : UITableViewController <StockSearchControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
+@interface ChainsTableViewController : UITableViewController <SymbolAddControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
 	mTraderCommunicator *communicator;
 	
 	NSUInteger currentValueType;
@@ -48,14 +48,14 @@ typedef enum {
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
-- (NSString *)sectionIndexTitleForSectionName:(NSString *)sectionName;
-- (void)addStockButtonWasPressed:(id)sender;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
+- (void)add:(id)sender;
 - (void)centerButton:(id)sender;
 - (void)rightButton:(id)sender;
 
-- (Feed *)fetchFeed:(NSNumber *)feedNumber;
-- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(Feed *)feed;
+- (Feed *)fetchFeed:(NSString *)mCode;
+- (Feed *)fetchFeedByName:(NSString *)feedName;
+- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString	*)mCode;
 
 @end

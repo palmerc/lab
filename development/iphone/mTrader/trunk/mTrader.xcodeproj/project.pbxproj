@@ -14,7 +14,7 @@
 		7E15C7DD10F35A23007A45E8 /* ChainsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */; };
 		7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED41117371A00445735 /* StringHelpers.m */; };
 		7E1B7ED71117373600445735 /* Symbols.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED61117373600445735 /* Symbols.xcdatamodel */; };
-		7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
+		7E29B80310F4B96500816D9B /* SymbolAddController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* SymbolAddController.m */; };
 		7E2B93B411048CEB00DA0B91 /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
 		7E2B93D111048D4600DA0B91 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
 		7E2B93DC11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */; };
@@ -28,7 +28,7 @@
 		7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
 		7E2DA18911046EBC002CE93F /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
 		7E2DA18A11046EBC002CE93F /* ChainsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */; };
-		7E2DA18B11046EBC002CE93F /* StockSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* StockSearchController.m */; };
+		7E2DA18B11046EBC002CE93F /* SymbolAddController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* SymbolAddController.m */; };
 		7E2DA18C11046EBC002CE93F /* StockDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* StockDetailController.m */; };
 		7E2DA18E11046EBC002CE93F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E33CBC81100AE5600C2737F /* Reachability.m */; };
 		7E2DA19011046EBC002CE93F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -51,7 +51,7 @@
 		7E377F8E11171B970080A84B /* StockDetailPageTwo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8711171B970080A84B /* StockDetailPageTwo.xib */; };
 		7E377F8F11171B970080A84B /* StockDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8811171B970080A84B /* StockDetailView.xib */; };
 		7E377F9011171B970080A84B /* StockListingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8911171B970080A84B /* StockListingCell.xib */; };
-		7E377F9111171B970080A84B /* StockSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8A11171B970080A84B /* StockSearchView.xib */; };
+		7E377F9111171B970080A84B /* SymbolAddView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8A11171B970080A84B /* SymbolAddView.xib */; };
 		7E377F9611171BB10080A84B /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9211171BB10080A84B /* infront.png */; };
 		7E377F9711171BB10080A84B /* myStocksTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9311171BB10080A84B /* myStocksTabButton.png */; };
 		7E377F9811171BB10080A84B /* newsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9411171BB10080A84B /* newsTabButton.png */; };
@@ -98,8 +98,8 @@
 		7E1B7ED31117371A00445735 /* StringHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringHelpers.h; path = Classes/StringHelpers.h; sourceTree = "<group>"; };
 		7E1B7ED41117371A00445735 /* StringHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringHelpers.m; path = Classes/StringHelpers.m; sourceTree = "<group>"; };
 		7E1B7ED61117373600445735 /* Symbols.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Symbols.xcdatamodel; sourceTree = "<group>"; };
-		7E29B80110F4B96500816D9B /* StockSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockSearchController.h; sourceTree = "<group>"; };
-		7E29B80210F4B96500816D9B /* StockSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockSearchController.m; sourceTree = "<group>"; };
+		7E29B80110F4B96500816D9B /* SymbolAddController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolAddController.h; sourceTree = "<group>"; };
+		7E29B80210F4B96500816D9B /* SymbolAddController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolAddController.m; sourceTree = "<group>"; };
 		7E2B93DA11048DE800DA0B91 /* mTraderServerMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderServerMonitor.h; sourceTree = "<group>"; };
 		7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderServerMonitor.m; sourceTree = "<group>"; };
 		7E2DA15C11046873002CE93F /* LogicTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,7 +129,7 @@
 		7E377F8711171B970080A84B /* StockDetailPageTwo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StockDetailPageTwo.xib; path = Resources/StockDetailPageTwo.xib; sourceTree = "<group>"; };
 		7E377F8811171B970080A84B /* StockDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StockDetailView.xib; path = Resources/StockDetailView.xib; sourceTree = "<group>"; };
 		7E377F8911171B970080A84B /* StockListingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StockListingCell.xib; path = Resources/StockListingCell.xib; sourceTree = "<group>"; };
-		7E377F8A11171B970080A84B /* StockSearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StockSearchView.xib; path = Resources/StockSearchView.xib; sourceTree = "<group>"; };
+		7E377F8A11171B970080A84B /* SymbolAddView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SymbolAddView.xib; path = Resources/SymbolAddView.xib; sourceTree = "<group>"; };
 		7E377F9211171BB10080A84B /* infront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = infront.png; path = Resources/infront.png; sourceTree = "<group>"; };
 		7E377F9311171BB10080A84B /* myStocksTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = myStocksTabButton.png; path = Resources/myStocksTabButton.png; sourceTree = "<group>"; };
 		7E377F9411171BB10080A84B /* newsTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newsTabButton.png; path = Resources/newsTabButton.png; sourceTree = "<group>"; };
@@ -266,7 +266,7 @@
 				7E377F8711171B970080A84B /* StockDetailPageTwo.xib */,
 				7E377F8811171B970080A84B /* StockDetailView.xib */,
 				7E377F8911171B970080A84B /* StockListingCell.xib */,
-				7E377F8A11171B970080A84B /* StockSearchView.xib */,
+				7E377F8A11171B970080A84B /* SymbolAddView.xib */,
 				7E377F9A11171BC60080A84B /* mTrader-Info.plist */,
 				7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */,
 				7E2DA15D11046873002CE93F /* LogicTests-Info.plist */,
@@ -355,8 +355,8 @@
 				7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */,
 				7E419AD710E20B920007808B /* ChainsTableViewController.h */,
 				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
-				7E29B80110F4B96500816D9B /* StockSearchController.h */,
-				7E29B80210F4B96500816D9B /* StockSearchController.m */,
+				7E29B80110F4B96500816D9B /* SymbolAddController.h */,
+				7E29B80210F4B96500816D9B /* SymbolAddController.m */,
 				7E8A6FCF10F604B4003D7E29 /* StockDetailController.h */,
 				7E8A6FD010F604B4003D7E29 /* StockDetailController.m */,
 			);
@@ -421,7 +421,7 @@
 			name = News;
 			sourceTree = "<group>";
 		};
-		7EAE4F851118407300B2FCB4 /* Models and Model Classes */ = {
+		7E51A3E2112167A000C3922E /* Symbols */ = {
 			isa = PBXGroup;
 			children = (
 				7E7BEB26111B221800CDAA51 /* SymbolDynamicData.h */,
@@ -431,6 +431,22 @@
 				7EAE508511185CD500B2FCB4 /* Symbol.h */,
 				7EAE508611185CD500B2FCB4 /* Symbol.m */,
 				7E1B7ED61117373600445735 /* Symbols.xcdatamodel */,
+			);
+			name = Symbols;
+			sourceTree = "<group>";
+		};
+		7E51A3E3112167AB00C3922E /* Exchanges */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Exchanges;
+			sourceTree = "<group>";
+		};
+		7EAE4F851118407300B2FCB4 /* Models and Model Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7E51A3E3112167AB00C3922E /* Exchanges */,
+				7E51A3E2112167A000C3922E /* Symbols */,
 			);
 			name = "Models and Model Classes";
 			sourceTree = "<group>";
@@ -583,7 +599,7 @@
 				7E377F8E11171B970080A84B /* StockDetailPageTwo.xib in Resources */,
 				7E377F8F11171B970080A84B /* StockDetailView.xib in Resources */,
 				7E377F9011171B970080A84B /* StockListingCell.xib in Resources */,
-				7E377F9111171B970080A84B /* StockSearchView.xib in Resources */,
+				7E377F9111171B970080A84B /* SymbolAddView.xib in Resources */,
 				7E377F9611171BB10080A84B /* infront.png in Resources */,
 				7E377F9711171BB10080A84B /* myStocksTabButton.png in Resources */,
 				7E377F9811171BB10080A84B /* newsTabButton.png in Resources */,
@@ -661,7 +677,7 @@
 				7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */,
 				7E15C53010F32632007A45E8 /* Starter.m in Sources */,
 				7E15C7DD10F35A23007A45E8 /* ChainsTableCell.m in Sources */,
-				7E29B80310F4B96500816D9B /* StockSearchController.m in Sources */,
+				7E29B80310F4B96500816D9B /* SymbolAddController.m in Sources */,
 				7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */,
 				7E33CBC91100AE5600C2737F /* Reachability.m in Sources */,
 				7E2B93DC11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */,
@@ -699,7 +715,7 @@
 				7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */,
 				7E2DA18911046EBC002CE93F /* Starter.m in Sources */,
 				7E2DA18A11046EBC002CE93F /* ChainsTableCell.m in Sources */,
-				7E2DA18B11046EBC002CE93F /* StockSearchController.m in Sources */,
+				7E2DA18B11046EBC002CE93F /* SymbolAddController.m in Sources */,
 				7E2DA18C11046EBC002CE93F /* StockDetailController.m in Sources */,
 				7E2DA18E11046EBC002CE93F /* Reachability.m in Sources */,
 				7E2B93DE11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */,

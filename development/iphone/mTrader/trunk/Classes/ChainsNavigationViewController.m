@@ -9,11 +9,24 @@
 
 #import "ChainsNavigationViewController.h"
 
+#import "mTraderAppDelegate.h"
 #import "ChainsTableViewController.h"
 
 
 @implementation ChainsNavigationViewController
 @synthesize managedObjectContext, chainsTableViewController;
+
+- (id)init {
+	self = [super init];
+	if (self != nil) {
+		UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];
+		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", @"My Stocks tab label") image:anImage tag:CHAINS];
+		self.tabBarItem = theItem;
+		[theItem release];
+	}
+	return self;
+}
+
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
