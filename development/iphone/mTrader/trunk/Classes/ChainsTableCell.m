@@ -109,8 +109,9 @@
 
 #define EDITING_INSET       10.0
 #define TEXT_LEFT_MARGIN    8.0
-#define TEXT_RIGHT_MARGIN   5.0
+#define TEXT_RIGHT_MARGIN   8.0
 #define BUTTON_WIDTH        100.0
+#define TIME_WIDTH          102.0
 #define DESCRIPTION_WIDTH   200.0
 
 /*
@@ -156,10 +157,10 @@
 
 - (CGRect)_timeLabelFrame {
     if (self.editing) {
-        return CGRectMake(EDITING_INSET + TEXT_LEFT_MARGIN, 4.0, self.contentView.bounds.size.width - EDITING_INSET - TEXT_LEFT_MARGIN, 16.0);
+        return CGRectMake(EDITING_INSET + TEXT_LEFT_MARGIN, 24.0, self.contentView.bounds.size.width - EDITING_INSET - TEXT_LEFT_MARGIN, 16.0);
     }
 	else {
-        return CGRectMake(TEXT_LEFT_MARGIN + tickerLabelSize.width + BUTTON_WIDTH, 24.0, BUTTON_WIDTH, 16.0);
+        return CGRectMake(TEXT_LEFT_MARGIN + DESCRIPTION_WIDTH, 24.0, TIME_WIDTH, 16.0);
     }
 }
 
@@ -169,7 +170,12 @@
 	if (dateFormatter == nil) {
 		dateFormatter = [[NSDateFormatter alloc] init];
 		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+	}
+	
+	static NSDateFormatter *timeFormatter = nil;
+	if (timeFormatter == nil) {
+		timeFormatter = [[NSDateFormatter alloc] init];
+		[timeFormatter setDateFormat:@"HH:mm:ss"];
 	}
 	
 	static NSNumberFormatter *doubleFormatter = nil;
@@ -226,7 +232,9 @@
 	}
 	self.rightLabel.text = rightString;
 	
-	timeLabel.text = [dateFormatter stringFromDate:symbolDynamicData.lastTradeTime];
+	NSDate *tradeTime = symbolDynamicData.lastTradeTime;
+	NSString *timeString = [NSString stringWithFormat:@"%@ %@", [dateFormatter stringFromDate:tradeTime], [timeFormatter stringFromDate:tradeTime]];
+	timeLabel.text = timeString;
 }
 
 

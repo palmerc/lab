@@ -9,6 +9,7 @@
 
 #import "ChainsTableViewController.h"
 
+#import "UIToolbarController.h"
 #import "ChainsTableCell.h"
 
 #import "mTraderAppDelegate.h"
@@ -24,7 +25,17 @@
 
 @implementation ChainsTableViewController
 @synthesize communicator;
-@synthesize fetchedResultsController, managedObjectContext;
+@synthesize fetchedResultsController;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize toolBarItems = _toolBarItems;
+
+- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+
+	if (self != nil) {
+		self.managedObjectContext = managedObjectContext;
+	}
+	return self;
+}
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -42,47 +53,7 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
-	
-	// Add the toolbar to the bottom.
-	UIToolbar *toolBar = [[UIToolbar alloc] init];
-	[toolBar sizeToFit];
-	toolBar.barStyle = UIBarStyleDefault;
-	CGRect frame = self.view.frame;
-	CGFloat x = 0;
-	CGFloat width = CGRectGetWidth(frame);
-	CGFloat height = toolBar.frame.size.height;
-	CGFloat y = self.tableView.frame.size.height - height;
-	CGRect newFrame = CGRectMake(x, y, width, height);	
-	toolBar.frame = newFrame;
 		
-	//CGRect tableViewBounds = self.tableView.bounds;
-//	CGFloat tableViewHeight = self.tableView.bounds.size.height;
-//	tableViewBounds.size.height = tableViewHeight - height;
-//	self.tableView.bounds = tableViewBounds;
-	
-	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
-	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
-	centerControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	centerControl.selectedSegmentIndex = 0;
-	[centerControl addTarget:self action:@selector(centerSelection:) forControlEvents:UIControlEventValueChanged];
-	
-	unichar upDownArrowsChar = 0x21C5;
-	NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
-	NSArray *rightItems = [NSArray arrayWithObjects: @"%", upDownArrows, @"Last", nil];
-	UISegmentedControl *rightControl = [[UISegmentedControl alloc] initWithItems:rightItems];
-	rightControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	rightControl.selectedSegmentIndex = 0;
-	[rightControl addTarget:self action:@selector(rightSelection:) forControlEvents:UIControlEventValueChanged];
-	
-	UIBarButtonItem *centerBarItem = [[UIBarButtonItem alloc] initWithCustomView:centerControl];
-	UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightControl];
-	[centerControl release];
-	[rightControl release];
-	[toolBar setItems:[NSArray arrayWithObjects:centerBarItem, rightBarItem, nil]];
-		
-	[self.parentViewController.view addSubview:toolBar];
-	[toolBar release];
-	
 	// Setup right and left bar buttons
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
 	self.navigationItem.rightBarButtonItem = addItem;
@@ -420,6 +391,22 @@
 	}
 }
 
+- (void)failedToAddfailedToAddAlreadyExists {
+	NSString *alertTitle = @"Add Security Failed";
+	NSString *alertMessage = @"The ticker symbol you requested is already in your list.";
+	NSString *alertCancel = @"Dismiss";
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
+	[alertView show];	
+}
+
+- (void)failedToAddNoSuchSecurity {
+	NSString *alertTitle = @"Add Security Failed";
+	NSString *alertMessage = @"The ticker symbol you requested was not found.";
+	NSString *alertCancel = @"Dismiss";
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
+	[alertView show];
+}
+
 /**
  * This method should receive a list of symbols that have been updated and should
  * update any rows necessary.
@@ -600,8 +587,8 @@
 	// Create the sort descriptors array.
 	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.feed.feedName" ascending:YES];
 	//NSSortDescriptor *feedDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.feed.description" ascending:YES];
-	//NSSortDescriptor *tickerDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.tickerSymbol" ascending:YES];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
+	NSSortDescriptor *tickerDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.tickerSymbol" ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, tickerDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.

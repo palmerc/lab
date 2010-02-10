@@ -7,8 +7,10 @@
 //
 
 #import "mTraderAppDelegate.h"
+#import "UIToolbarController.h"
 #import "Starter.h"
 #import "UserDefaults.h"
+#import "ChainsTableViewController.h"
 #import "ChainsNavigationViewController.h"
 #import "NewsViewController.h"
 #import "SettingsTableViewController.h"
@@ -21,10 +23,8 @@
 // is a good place to set up application defaults
 + (void)initialize {
     if ([self class] == [mTraderAppDelegate class]) {
-        // Register a default value for the instrument calibration. 
-        // This will be used if the user hasn't calibrated the instrument.
 		NSArray *keys = [NSArray arrayWithObjects:@"username", @"password", nil];
-		NSArray *values = [NSArray arrayWithObjects:@"cameron", @"Ct1gg3rR", nil];
+		NSArray *values = [NSArray arrayWithObjects:@"", @"", nil];
 		
 		NSDictionary *resourceDict = [NSDictionary dictionaryWithObjects:values	forKeys:keys];
 		[[NSUserDefaults standardUserDefaults] registerDefaults:resourceDict];
@@ -39,36 +39,34 @@
 	Starter *starter = [[Starter alloc] init];
 	[starter release];
 	
-	defaults = [[NSUserDefaults alloc] init];
-	// if username and password are empty make the default starting tab the Settings Tab
-
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	window.backgroundColor = [UIColor lightGrayColor];
 	
-	chainsNavigationController = [[ChainsNavigationViewController alloc] init];
+	ChainsTableViewController *rootViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	ChainsNavigationViewController *chainsNavigationController = [[ChainsNavigationViewController alloc] initWithRootViewController:rootViewController];
+	UIToolbarController *chainsNavigationControllerWithToolbar = [[UIToolbarController alloc] initWithContentViewController:chainsNavigationController];
+	[rootViewController release];
+	[chainsNavigationController release];
+	
 	NewsViewController *news = [[NewsViewController alloc] init];
-	newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
+	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
 	
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
-	settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
+	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
 
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:chainsNavigationController, newsNavigationController, settingsNavigationController, nil];
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:chainsNavigationControllerWithToolbar, newsNavigationController, settingsNavigationController, nil];
 		
 	tabController = [[UITabBarController alloc] init];
 	self.tabController.viewControllers = viewControllersArray;
 	 
 	
 	[window addSubview:tabController.view];
-	
-	chainsNavigationController.managedObjectContext = self.managedObjectContext;
-	
-	[window addSubview:chainsNavigationController.view];
 	[window makeKeyAndVisible];
 	
 	[news release];
 	[settings release];
 	
-	[chainsNavigationController release];
+	[chainsNavigationControllerWithToolbar release];
 	[newsNavigationController release];
 	[settingsNavigationController release];
 }
@@ -78,6 +76,7 @@
  applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
  */
 - (void)applicationWillTerminate:(UIApplication *)application {
+	[[UserDefaults sharedManager] saveSettings];
 	
     NSError *error;
     if (managedObjectContext != nil) {

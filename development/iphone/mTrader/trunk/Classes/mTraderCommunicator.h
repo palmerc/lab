@@ -42,7 +42,6 @@ enum {
 	id <SymbolsDataDelegate> symbolsDelegate;
 	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 	id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
-	id <StockAddDelegate> stockAddDelegate;
 	id <NewsItemDataDelegate> newsItemDelegate;
 
 	Communicator *_communicator;
@@ -60,7 +59,6 @@ enum {
 
 @property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
 @property (nonatomic, assign) id <mTraderServerDataDelegate> mTraderServerDataDelegate;
-@property (nonatomic, assign) id <StockAddDelegate> stockAddDelegate;
 @property (nonatomic, assign) id <NewsItemDataDelegate> newsItemDelegate;
 @property (nonatomic, assign) id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 @property (nonatomic, retain) Communicator *communicator;
@@ -130,21 +128,18 @@ enum {
 // Delegate Protocols
 @protocol mTraderServerDataDelegate <NSObject>
 @optional
--(void) chart:(Chart *)chart;
--(void) addFeed:(Feed *)feed;
--(void) addSymbol:(Symbol *)symbol;
--(void) addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
--(void) addExchanges:(NSArray *)exchanges;
--(void) staticUpdates:(NSDictionary *)updateDictionary;
--(void) removedSecurity:(NSString *)feedTicker;
--(void) newsListFeedsUpdates:(NSArray *)newsList;
+- (void)chart:(Chart *)chart;
+- (void)addFeed:(Feed *)feed;
+- (void)addSymbol:(Symbol *)symbol;
+- (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
+- (void)addExchanges:(NSArray *)exchanges;
+- (void)staticUpdates:(NSDictionary *)updateDictionary;
+- (void)removedSecurity:(NSString *)feedTicker;
+- (void)newsListFeedsUpdates:(NSArray *)newsList;
+- (void)failedToAddNoSuchSecurity;
+- (void)failedToAddfailedToAddAlreadyExists;
 @end
 
 @protocol NewsItemDataDelegate <NSObject>
 -(void) newsItemUpdate:(NSArray *)newsItemContents;
 @end;
-
-@protocol StockAddDelegate <NSObject>
-- (void)addFailedAlreadyExists;
-- (void)addFailedNotFound;
-@end

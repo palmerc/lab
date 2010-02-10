@@ -23,10 +23,6 @@ typedef enum {
 	UIWindow *window;
 	UITabBarController *tabController;
 	
-	ChainsNavigationViewController* chainsNavigationController;
-	UINavigationController *newsNavigationController;
-	UINavigationController *settingsNavigationController;
-	
 	NSUserDefaults *defaults;
 }
 

@@ -61,6 +61,7 @@
 		7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
 		7E419DE810E251CB0007808B /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419DE710E251CB0007808B /* NewsViewController.m */; };
+		7E573E201122F03F004D900F /* UIToolbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E573E1F1122F03F004D900F /* UIToolbarController.m */; };
 		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E7BEB28111B221800CDAA51 /* SymbolDynamicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7BEB27111B221800CDAA51 /* SymbolDynamicData.m */; };
 		7E8A6FD110F604B4003D7E29 /* StockDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* StockDetailController.m */; };
@@ -146,6 +147,8 @@
 		7E419C6C10E2209B0007808B /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
 		7E419DE610E251CB0007808B /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		7E419DE710E251CB0007808B /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		7E573E1E1122F03F004D900F /* UIToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIToolbarController.h; sourceTree = "<group>"; };
+		7E573E1F1122F03F004D900F /* UIToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIToolbarController.m; sourceTree = "<group>"; };
 		7E7BEB26111B221800CDAA51 /* SymbolDynamicData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDynamicData.h; sourceTree = "<group>"; };
 		7E7BEB27111B221800CDAA51 /* SymbolDynamicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDynamicData.m; sourceTree = "<group>"; };
 		7E8A6FCF10F604B4003D7E29 /* StockDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDetailController.h; sourceTree = "<group>"; };
@@ -351,10 +354,12 @@
 			isa = PBXGroup;
 			children = (
 				7ED92B8610F77F010016F656 /* ChainsCell */,
-				7E9CD698111DAAC9009B0087 /* ChainsNavigationViewController.h */,
-				7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */,
 				7E419AD710E20B920007808B /* ChainsTableViewController.h */,
 				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
+				7E9CD698111DAAC9009B0087 /* ChainsNavigationViewController.h */,
+				7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */,
+				7E573E1E1122F03F004D900F /* UIToolbarController.h */,
+				7E573E1F1122F03F004D900F /* UIToolbarController.m */,
 				7E29B80110F4B96500816D9B /* SymbolAddController.h */,
 				7E29B80210F4B96500816D9B /* SymbolAddController.m */,
 				7E8A6FCF10F604B4003D7E29 /* StockDetailController.h */,
@@ -688,6 +693,7 @@
 				7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */,
 				7E7BEB28111B221800CDAA51 /* SymbolDynamicData.m in Sources */,
 				7E9CD69A111DAAC9009B0087 /* ChainsNavigationViewController.m in Sources */,
+				7E573E201122F03F004D900F /* UIToolbarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

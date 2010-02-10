@@ -38,16 +38,20 @@ typedef enum {
 	
 @private
 	NSFetchedResultsController *fetchedResultsController;
-	NSManagedObjectContext *managedObjectContext;
+	NSManagedObjectContext *_managedObjectContext;
 		
 	CenterOptions centerOption;
 	RightOptions rightOption;
+	NSArray *_toolBarItems;
 }
 
 @property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSArray *toolBarItems;
 
+
+- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 - (void)add:(id)sender;

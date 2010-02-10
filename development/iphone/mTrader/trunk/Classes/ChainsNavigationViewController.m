@@ -9,23 +9,14 @@
 
 #import "ChainsNavigationViewController.h"
 
+#import "UIToolbarController.h"
 #import "mTraderAppDelegate.h"
 #import "ChainsTableViewController.h"
 
 
 @implementation ChainsNavigationViewController
-@synthesize managedObjectContext, chainsTableViewController;
-
-- (id)init {
-	self = [super init];
-	if (self != nil) {
-		UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];
-		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"ChainsTab", @"Chains tab label") image:anImage tag:CHAINS];
-		self.tabBarItem = theItem;
-		[theItem release];
-	}
-	return self;
-}
+@synthesize chainsTableViewController = _chainsTableViewController;
+@synthesize toolBar = _toolBar;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -37,20 +28,34 @@
 }
 */
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	chainsTableViewController = [[ChainsTableViewController alloc] init];
-	chainsTableViewController.managedObjectContext = self.managedObjectContext;
-	
-	[self pushViewController:chainsTableViewController animated:NO];
+/*
+	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
+	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
+	centerControl.segmentedControlStyle = UISegmentedControlStyleBar;
+	centerControl.selectedSegmentIndex = 0;
+	[centerControl addTarget:self action:@selector(centerSelection:) forControlEvents:UIControlEventValueChanged];
+	 
+	unichar upDownArrowsChar = 0x21C5;
+	NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
+	NSArray *rightItems = [NSArray arrayWithObjects: @"%", upDownArrows, @"Last", nil];
+	UISegmentedControl *rightControl = [[UISegmentedControl alloc] initWithItems:rightItems];
+	rightControl.segmentedControlStyle = UISegmentedControlStyleBar;
+	rightControl.selectedSegmentIndex = 0;
+	[rightControl addTarget:self action:@selector(rightSelection:) forControlEvents:UIControlEventValueChanged];
+	 
+	UIBarButtonItem *centerBarItem = [[UIBarButtonItem alloc] initWithCustomView:centerControl];
+	UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightControl];
+	[centerControl release];
+	[rightControl release];
+	[toolBar setItems:[NSArray arrayWithObjects:centerBarItem, rightBarItem, nil]];
+	[self.parentViewController.view addSubview:toolBar];
+	[toolBar release];	
+*/	
 }
 
 
@@ -77,7 +82,7 @@
 
 
 - (void)dealloc {
-	[chainsTableViewController release];
+	[self.chainsTableViewController release];
 	
     [super dealloc];
 }

@@ -10,13 +10,12 @@
 @class ChainsTableViewController;
 
 @interface ChainsNavigationViewController : UINavigationController {
-	ChainsTableViewController *chainsTableViewController;
-	
 @private
-	NSManagedObjectContext *managedObjectContext;
+	ChainsTableViewController *_chainsTableViewController;
+	UIToolbar *_toolBar;
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) ChainsTableViewController *chainsTableViewController;
+@property (nonatomic, retain, readonly) UIToolbar *toolBar;
 
 @end

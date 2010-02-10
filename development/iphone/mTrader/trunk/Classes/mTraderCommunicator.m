@@ -19,7 +19,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 @synthesize symbolsDelegate;
 @synthesize mTraderServerDataDelegate;
 @synthesize mTraderServerMonitorDelegate;
-@synthesize stockAddDelegate;
 @synthesize newsItemDelegate;
 @synthesize isLoggedIn;
 @synthesize communicator = _communicator;
@@ -225,10 +224,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	} else if ([string rangeOfString:@"Request: StaticData/OK"].location == 0) {
 		state = STATDATA;
 	} else if ([string rangeOfString:@"Request: addSec/failed.NoSuchSec"].location == 0) {
-		[stockAddDelegate addFailedNotFound];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(failedToAddNoSuchSecurity)]) {
+			[self.symbolsDelegate failedToAddNoSuchSecurity];
+		}
 		state = PROCESSING;
 	} else if 	 ([string rangeOfString:@"Request: addSec/failed.AlreadyExists"].location == 0) {
-		[stockAddDelegate addFailedAlreadyExists];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(failedToAddAlreadyExists)]) {
+			[self.symbolsDelegate failedToAddAlreadyExists];
+		}
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Request: q"].location == 0) {
 		state = QUOTE;
@@ -604,6 +607,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	return result;
 }
 
+#pragma mark -
 #pragma mark mTrader Server Message Sending
 /**
  * These are methods that format mTrader Server Messages
@@ -627,15 +631,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		
 		NSString *ActionLogin = @"Action: login";
 		NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
-		//NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
+		NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
 		NSString *Client = @"Client: mTrader";
 		NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
 		NSString *ConnectionType = @"ConnType: Socket";
 		NSString *Streaming = @"Streaming: 1";
 		NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
-		//NSString *QFields = @"QFields: l";
 		
-		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Client, Version, ConnectionType, Streaming, QFields, nil];
+		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, ConnectionType, Streaming, QFields, nil];
 		NSString *loginString = [self arrayToFormattedString:loginArray];
 		
 		if ([self.communicator isConnected]) {
@@ -734,6 +737,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[self.communicator writeString:removeSecurityString];
 }
 
+#pragma mark -
 #pragma mark Helper Methods
 /**
  * Helper methods

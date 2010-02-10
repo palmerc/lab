@@ -49,6 +49,7 @@
 	[self.submitButton setTitle:@"Cancel" forState:UIControlStateNormal];
 	
 	[self.tickerField addTarget:self action:@selector(editing:) forControlEvents:UIControlEventEditingChanged];
+	self.tickerField.delegate = self;
 	self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	self.tickerField.autocorrectionType = UITextAutocorrectionTypeNo;
 	self.tickerField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
@@ -60,16 +61,12 @@
 		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
 		Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
 		if ([feed.mCode isEqualToString:@"OSS"]) {
+			self.mCode = @"OSS";
 			ossIndex = i;
 			break;
 		}
 	}
 	[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];
-}
-
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,6 +95,7 @@
 #pragma mark -
 #pragma mark UIPickerViewDelegate Methods
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+	NSLog(@"You selected row %d in component %d.", row, component);
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
 	Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
 	self.mCode = feed.mCode;
@@ -108,11 +106,6 @@
 	Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
 	NSString *feedName = feed.feedName;
 	return feedName;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	[textField resignFirstResponder];
-	return YES;
 }
 
 #pragma mark -
@@ -128,33 +121,22 @@
 	}
 }
 
-- (void)addFailedAlreadyExists {
-	NSString *alertTitle = @"Add Security Failed";
-	NSString *alertMessage = @"The ticker symbol you requested is already in your list.";
-	NSString *alertCancel = @"Dismiss";
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
-	[alertView show];	
-}
-
-- (void)addFailedNotFound {
-	NSString *alertTitle = @"Add Security Failed";
-	NSString *alertMessage = @"The ticker symbol you requested was not found.";
-	NSString *alertCancel = @"Dismiss";
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
-	[alertView show];
-}
-
 #pragma mark -
 #pragma mark UITextFieldDelegate methods
 
 - (void)editing:(id)sender {
+	NSLog(@"HERE %@", sender);
 	UITextField *textField = sender;
 	if (![textField.text isEqualToString:@""]) {
 		[self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];
 	} else {
 		[self.submitButton setTitle:@"Cancel" forState:UIControlStateNormal];
 	}
+}
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+	[textField resignFirstResponder];
+	return YES;
 }
 
 #pragma mark -
@@ -193,13 +175,19 @@
 	return fetchedResultsController;
 }
 
-/*
+
+#pragma mark -
+#pragma mark Debugging methods
+
  // Very helpful debug when things seem not to be working.
  - (BOOL)respondsToSelector:(SEL)sel {
  NSLog(@"Queried about %@", NSStringFromSelector(sel));
  return [super respondsToSelector:sel];
  }
- */
+
+
+#pragma mark -
+#pragma mark Memory management
 
 - (void)dealloc {
     [super dealloc];
