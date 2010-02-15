@@ -12,6 +12,7 @@
 
 @class Feed;
 @class Symbol;
+@class SymbolDetailController;
 
 typedef enum {
 	LAST_TRADE = 0,
@@ -37,29 +38,34 @@ typedef enum {
 	NSUInteger currentValueType;
 	
 @private
+	SymbolDetailController *symbolDetail;
+	
 	NSFetchedResultsController *fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
 		
 	CenterOptions centerOption;
 	RightOptions rightOption;
-	NSArray *_toolBarItems;
+	UIToolbar *_toolBar;
 }
 
 @property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSArray *toolBarItems;
+@property (nonatomic, retain) UIToolbar *toolBar;
 
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 - (void)add:(id)sender;
-- (void)centerButton:(id)sender;
-- (void)rightButton:(id)sender;
 
+- (void)deleteAllSymbols;
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;
+- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString	*)mCode;
+- (NSArray *)fetchOrderBookForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 
 @end
+
+

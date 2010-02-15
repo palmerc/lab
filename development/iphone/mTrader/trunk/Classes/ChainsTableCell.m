@@ -200,41 +200,74 @@
 	self.tickerLabel.text = symbolDynamicData.symbol.tickerSymbol;
 	self.descriptionLabel.text = symbolDynamicData.symbol.companyName;
 
-	NSString *centerString = nil;
+	// Red Font for Down, Blue Font for Up, Black for No Change
+	UIColor *textColor = nil;
+	
+	NSComparisonResult comparison = [symbolDynamicData.change compare:[NSNumber numberWithDouble:0.0]];
+	switch (comparison) {
+		case NSOrderedAscending:
+			textColor = [UIColor redColor];
+			break;
+		case NSOrderedDescending:
+			textColor = [UIColor blueColor];
+			break;
+		case NSOrderedSame:
+			textColor = [UIColor blackColor];
+			break;
+		default:
+			textColor = [UIColor blackColor];
+			break;
+	}
+
+	NSString *centerString = @"-";
 	switch (centerOption) {
 		case LAST_TRADE:
-			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			if (symbolDynamicData.lastTrade != nil) {
+				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			}			
 			break;
 		case BID_PRICE:
-			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
+			if (symbolDynamicData.bidPrice != nil) {
+				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
+			}
 			break;
 		case ASK_PRICE:
-			centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
+			if (symbolDynamicData.askSize != nil) {
+				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
+			}
 			break;
 		default:
 			break;
 	}
 	self.centerLabel.text = centerString;
+	self.centerLabel.textColor = textColor;
 
-	NSString *rightString = nil;
+	NSString *rightString = @"-";
 	switch (rightOption) {
 		case LAST_TRADE_PERCENT_CHANGE:
-			rightString = [percentFormatter stringFromNumber:symbolDynamicData.lastTradePercentChange];
+			if (symbolDynamicData.changePercent != nil) {
+				rightString = [percentFormatter stringFromNumber:symbolDynamicData.changePercent];
+			}
 			break;
 		case LAST_TRADE_CHANGE:
-			rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTradeChange];
+			if (symbolDynamicData.change != nil) {
+				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.change];
+			}
 			break;
 		case LAST_TRADE_TOO:
-			rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			if (symbolDynamicData.lastTrade != nil) {
+				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			}
 			break;
 		default:
 			break;
 	}
 	self.rightLabel.text = rightString;
+	self.rightLabel.textColor = textColor;
 	
 	NSDate *tradeTime = symbolDynamicData.lastTradeTime;
 	NSString *timeString = [NSString stringWithFormat:@"%@ %@", [dateFormatter stringFromDate:tradeTime], [timeFormatter stringFromDate:tradeTime]];
-	timeLabel.text = timeString;
+	self.timeLabel.text = timeString;
 }
 
 
