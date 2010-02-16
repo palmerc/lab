@@ -146,15 +146,25 @@
     }
     
     // Configure the cell.
-	[self configureCell:cell atIndexPath:indexPath];
+	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
-- (void)configureCell:(ChainsTableCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureCell:(ChainsTableCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	cell.centerOption = centerOption;
 	cell.rightOption = rightOption;
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
+	
+	if (animated == YES) {
+		UIColor *flashColor = [UIColor yellowColor];
+		UIColor *backgroundColor = [UIColor whiteColor];
+		[cell.contentView setBackgroundColor:flashColor];
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.5];
+		[cell.contentView setBackgroundColor:backgroundColor];
+		[UIView commitAnimations];
+	}
 }
 
 /*
@@ -806,7 +816,6 @@
 	
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
 	[controller release];
-	
 	[self.parentViewController presentModalViewController:navigationController animated:YES];
 	[navigationController release];
 }
@@ -876,7 +885,7 @@
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
-			[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+			[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
 			break;
 			
 		case NSFetchedResultsChangeMove:

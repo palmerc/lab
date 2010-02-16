@@ -9,6 +9,7 @@
 
 #import "ChainsTableCell.h"
 
+#import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
 
@@ -37,17 +38,18 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {		
 		UIFont *tickerFont = [UIFont boldSystemFontOfSize:17.0];
 		tickerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[tickerLabel setBackgroundColor:[UIColor whiteColor]];
+		[tickerLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		[tickerLabel setFont:tickerFont];
 		[tickerLabel setTextColor:[UIColor blackColor]];
 		[tickerLabel setHighlightedTextColor:[UIColor whiteColor]];
 		[self.contentView addSubview:tickerLabel];
 		
-		NSString *tickerSample = @"XXXXXXXXX";
+		NSString *tickerSample = @"XXXXXXXXXXXX";
 		tickerLabelSize = [tickerSample sizeWithFont:tickerFont];
 		
 		UIFont *descriptionFont = [UIFont systemFontOfSize:12.0];
 		descriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[descriptionLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		descriptionLabel.textAlignment = UITextAlignmentLeft;
 		[descriptionLabel setFont:descriptionFont];
 		[descriptionLabel setTextColor:[UIColor lightGrayColor]];
@@ -56,6 +58,7 @@
 		
 		UIFont *centerLabelFont = [UIFont systemFontOfSize:17.0];
 		centerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[centerLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		[centerLabel setFont:centerLabelFont];
 		[centerLabel setTextAlignment:UITextAlignmentRight];
 		[centerLabel setTextColor:[UIColor blackColor]];
@@ -64,6 +67,7 @@
 		
 		UIFont *rightLabelFont = [UIFont systemFontOfSize:17.0];
 		rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[rightLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		[rightLabel setFont:rightLabelFont];
 		[rightLabel setTextAlignment:UITextAlignmentRight];
 		[rightLabel setTextColor:[UIColor blackColor]];
@@ -72,6 +76,7 @@
 		
 		UIFont *timeFont = [UIFont systemFontOfSize:12.0];
 		timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[timeLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		timeLabel.textAlignment = UITextAlignmentRight;
 		[timeLabel setFont:timeFont];
 		[timeLabel setTextColor:[UIColor lightGrayColor]];
@@ -110,7 +115,7 @@
 #define EDITING_INSET       10.0
 #define TEXT_LEFT_MARGIN    8.0
 #define TEXT_RIGHT_MARGIN   8.0
-#define BUTTON_WIDTH        100.0
+#define BUTTON_WIDTH        85.0
 #define TIME_WIDTH          102.0
 #define DESCRIPTION_WIDTH   200.0
 
@@ -197,7 +202,7 @@
 		symbolDynamicData = [newSymbolDynamicData retain];
 	}
 	
-	self.tickerLabel.text = symbolDynamicData.symbol.tickerSymbol;
+	self.tickerLabel.text = [NSString stringWithFormat:@"%@ (%@)", symbolDynamicData.symbol.tickerSymbol, symbolDynamicData.symbol.feed.mCode];
 	self.descriptionLabel.text = symbolDynamicData.symbol.companyName;
 
 	// Red Font for Down, Blue Font for Up, Black for No Change

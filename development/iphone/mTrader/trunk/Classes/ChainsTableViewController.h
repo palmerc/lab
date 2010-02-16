@@ -55,7 +55,7 @@ typedef enum {
 
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
 - (void)add:(id)sender;
 
