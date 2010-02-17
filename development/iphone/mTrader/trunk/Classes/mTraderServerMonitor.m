@@ -16,24 +16,6 @@
 static mTraderServerMonitor *sharedMonitor = nil;
 @synthesize reachability = _reachability;
 
-#pragma mark Initialization and Cleanup
--(id) init {
-	self = [super init];
-	if (self != nil) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-		self.reachability = [Reachability reachabilityWithHostName:@"wireless.theonlinetrader.com"];
-		[self.reachability startNotifer];
-		
-		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
-	}
-	return self;
-}
-
--(void) dealloc {
-	[self.reachability stopNotifer];
-	[super dealloc];
-}
-
 #pragma mark Singleton Methods
 /**
  * Methods for Singleton implementation
@@ -70,6 +52,25 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	return self;
 }
 
+#pragma mark Initialization and Cleanup
+-(id) init {
+	self = [super init];
+	if (self != nil) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+		self.reachability = [Reachability reachabilityWithHostName:@"wireless.theonlinetrader.com"];
+		[self.reachability startNotifer];
+		
+		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
+	}
+	return self;
+}
+
+-(void) dealloc {
+	[self.reachability stopNotifer];
+	[self.reachability release];
+	[super dealloc];
+}
+
 #pragma mark Reachability
 /**
  * Delegate methods from Communicator
@@ -77,7 +78,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
  */
 
 - (void)reachabilityChanged:(NSNotification *)note {
-	Reachability *reachNoteObject= [note object];
+	Reachability *reachNoteObject = [note object];
 	NetworkStatus status = [reachNoteObject currentReachabilityStatus];
 	
 	if (status == NotReachable) {
@@ -85,7 +86,9 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		[alertView show];
 		[alertView release];
 	} else {
-		[[mTraderCommunicator sharedManager] login];
+		mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+		[communicator login];
+		[communicator release];
 	}
 	
 	NSLog(@"Reachability is %d", status);

@@ -2,8 +2,8 @@
 //  SymbolDynamicData.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 04.02.10.
-//  Copyright 2010 Infront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 17.02.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "SymbolDynamicData.h"
@@ -12,36 +12,39 @@
 
 @implementation SymbolDynamicData 
 
-@dynamic bidPrice;
-@dynamic lastTrade;
-@dynamic open;
-@dynamic marketCapitalization;
-@dynamic volume;
+@dynamic bidSize;
+@dynamic bidVolume;
 @dynamic lastTradeChange;
+@dynamic dividend;
+@dynamic previousClose;
 @dynamic low;
 @dynamic buyLot;
-@dynamic averageValue;
-@dynamic lastTradePercentChange;
-@dynamic butLotValue;
-@dynamic onVolume;
-@dynamic lastTradeTime;
+@dynamic onValue;
+@dynamic segment;
+@dynamic volume;
 @dynamic high;
+@dynamic VWAP;
+@dynamic openPercentChange;
+@dynamic averageValue;
+@dynamic turnover;
+@dynamic lastTradePercentChange;
+@dynamic lastTrade;
+@dynamic bidPrice;
+@dynamic lastTradeTime;
 @dynamic askVolume;
 @dynamic openChange;
-@dynamic askSize;
-@dynamic bidVolume;
-@dynamic openPercentChange;
 @dynamic change;
-@dynamic VWAP;
-@dynamic onValue;
-@dynamic averageVolume;
-@dynamic askPrice;
 @dynamic outstandingShares;
-@dynamic previousClose;
 @dynamic changePercent;
-@dynamic turnover;
-@dynamic bidSize;
+@dynamic buyLotValue;
+@dynamic marketCapitalization;
+@dynamic onVolume;
 @dynamic tradingStatus;
+@dynamic averageVolume;
+@dynamic open;
+@dynamic askSize;
+@dynamic askPrice;
+@dynamic dividendDate;
 @dynamic symbol;
 
 @end

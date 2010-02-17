@@ -7,9 +7,10 @@
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
+
 @protocol CommunicatorDataDelegate;
 
-@interface Communicator : NSObject {
+@interface Communicator : NSOperation {
 	id <CommunicatorDataDelegate> _delegate;
 	
 	NSString *_host;
@@ -33,7 +34,7 @@
 @property (nonatomic, retain) NSMutableArray *lineBuffer;
 @property BOOL isConnected;
 
-- (id)initWithSocket:(NSString *)host port:(NSInteger)port;
+- (id)initWithSocket:(NSString *)host onPort:(NSInteger)port;
 - (void)startConnection;
 - (void)stopConnection;
 - (void)writeString:(NSString *)string;

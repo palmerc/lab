@@ -24,7 +24,7 @@
 		[cleanedStrings addObject:string];
 	}
 	
-	return cleanedStrings;
+	return [cleanedStrings autorelease];
 }
 
 + (NSArray *)componentsOfFeedNameAndCode:(NSString *)feedNameAndCode {

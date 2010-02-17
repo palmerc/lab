@@ -26,8 +26,8 @@
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];
-		
-		self.newsArray = [[NSMutableArray alloc] init];
+		_newsArray = [[NSMutableArray alloc] init];
+
 		communicator = [mTraderCommunicator sharedManager];
 	}
 	return self;
@@ -91,6 +91,7 @@
 
 
 - (void)dealloc {
+	[self.newsArray release];
     [super dealloc];
 }
 

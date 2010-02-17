@@ -7,7 +7,6 @@
 //
 
 #import "mTraderAppDelegate.h"
-#import "UIToolbarController.h"
 #import "Starter.h"
 #import "UserDefaults.h"
 #import "ChainsTableViewController.h"
@@ -17,7 +16,7 @@
 
 @implementation mTraderAppDelegate
 @synthesize window;
-@synthesize tabController;
+@synthesize tabController = _tabController;
 
 // +initialize is invoked before the class receives any other messages, so it
 // is a good place to set up application defaults
@@ -42,11 +41,9 @@
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	window.backgroundColor = [UIColor lightGrayColor];
 	
-	ChainsTableViewController *rootViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
-	ChainsNavigationViewController *chainsNavigationController = [[ChainsNavigationViewController alloc] initWithRootViewController:rootViewController];
-	UIToolbarController *chainsNavigationControllerWithToolbar = [[UIToolbarController alloc] initWithContentViewController:chainsNavigationController];
+	UIViewController *rootViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	ChainsNavigationViewController *chainsNavigationController = [[ChainsNavigationViewController alloc] initWithContentViewController:rootViewController];
 	[rootViewController release];
-	[chainsNavigationController release];
 	
 	NewsViewController *news = [[NewsViewController alloc] init];
 	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
@@ -54,19 +51,18 @@
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
 	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
 
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:chainsNavigationControllerWithToolbar, newsNavigationController, settingsNavigationController, nil];
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:chainsNavigationController, newsNavigationController, settingsNavigationController, nil];
 		
-	tabController = [[UITabBarController alloc] init];
+	_tabController = [[UITabBarController alloc] init];
 	self.tabController.viewControllers = viewControllersArray;
-	 
-	
-	[window addSubview:tabController.view];
+	 	
+	[window addSubview:self.tabController.view];
 	[window makeKeyAndVisible];
 	
 	[news release];
 	[settings release];
 	
-	[chainsNavigationControllerWithToolbar release];
+	[chainsNavigationController release];
 	[newsNavigationController release];
 	[settingsNavigationController release];
 }
@@ -198,7 +194,7 @@
     [persistentStoreCoordinator release];
 	
 	[defaults release];
-    [tabController release];
+	[_tabController release];
 	[window release];
     [super dealloc];
 }

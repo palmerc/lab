@@ -21,7 +21,6 @@
 	UITextField *_tickerField;
 	UIButton *_submitButton;
 	UIPickerView *_exchangePicker;
-	NSString *tickerSymbol;
 	NSString *mCode;
 }
 
@@ -31,7 +30,6 @@
 @property (nonatomic, retain) IBOutlet UITextField *tickerField;
 @property (nonatomic, retain) IBOutlet UIButton *submitButton;
 @property (nonatomic, retain) IBOutlet UIPickerView *exchangePicker;
-@property (nonatomic, retain) NSString *tickerSymbol;
 @property (nonatomic, retain) NSString *mCode;
 
 -(IBAction) submit:(id)sender;

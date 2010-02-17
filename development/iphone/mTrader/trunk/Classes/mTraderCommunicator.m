@@ -12,6 +12,7 @@
 #import "UserDefaults.h";
 #import "Symbol.h"
 #import "Feed.h"
+#import "Chart.h"
 
 @implementation mTraderCommunicator
 
@@ -32,19 +33,23 @@ static mTraderCommunicator *sharedCommunicator = nil;
  * Basic object setup and tear down
  *
  */
+
 - (id)init {
+	return [self initWithURL:@"wireless.theonlinetrader.com" onPort:7780];
+}
+
+- (id)initWithURL:(NSString *)url onPort:(NSInteger)port {
 	self = [super init];
 	if (self != nil) {
-		self.communicator = [[Communicator alloc] initWithSocket:@"wireless.theonlinetrader.com" port:7780];
+		_communicator = [[Communicator alloc] initWithSocket:url onPort:port];
 		self.communicator.delegate = self;
-		self.defaults = [UserDefaults sharedManager];
+		_defaults = [UserDefaults sharedManager];
 		
 		isLoggedIn = NO;
 		loginStatusHasChanged = NO;
 		self.blockBuffer = [[NSMutableArray alloc] init];
 		contentLength = 0;
-		state = LOGIN
-		;
+		state = LOGIN;
 	}
 	return self;
 }
@@ -277,8 +282,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		} else {
 			symbolsDefined = YES;
 			NSString *symbols = [rows componentsJoinedByString:@":"];
-			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addSymbols:)]) {
-				[self.symbolsDelegate addSymbols:symbols];
+			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(replaceAllSymbols:)]) {
+				[self.symbolsDelegate replaceAllSymbols:symbols];
 			}
 			//[self symbolsParsing:string];
 		}
@@ -329,7 +334,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		}
 	}
 }
-/*
+
 - (void)chartHandling {
 	Chart *chart = [[Chart alloc] init];
 	NSMutableData *imageData = [[NSMutableData alloc] init];
@@ -394,13 +399,13 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	chart.image = imageData;
 	[imageData release];
 
-	if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(chart:)]) {
-		[self.mTraderServerDataDelegate chart:chart];
+	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(chartUpdate:)]) {
+		[self.symbolsDelegate chartUpdate:chart];
 	}
 	[chart release];
 	state = PROCESSING;		
 }
-*/
+
 - (void)addSecurityOK {
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
@@ -472,8 +477,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			}
 		}
 	}
-	if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(staticUpdates:)]) {
-		[self.mTraderServerDataDelegate staticUpdates:dataDictionary];
+	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(staticUpdates:)]) {
+		[self.symbolsDelegate staticUpdates:dataDictionary];
 	}
 	state = PROCESSING;
 	[dataDictionary release];

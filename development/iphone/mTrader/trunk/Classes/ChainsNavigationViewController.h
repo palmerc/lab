@@ -11,11 +11,13 @@
 
 @interface ChainsNavigationViewController : UINavigationController {
 @private
-	ChainsTableViewController *_chainsTableViewController;
+	UIViewController *_chainsTableViewController;
 	UIToolbar *_toolBar;
 }
 
-@property (nonatomic, retain) ChainsTableViewController *chainsTableViewController;
+@property (nonatomic, retain) UIViewController *chainsTableViewController;
 @property (nonatomic, retain, readonly) UIToolbar *toolBar;
+
+- (id)initWithContentViewController:(UIViewController *)rootViewController;
 
 @end

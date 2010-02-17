@@ -16,12 +16,13 @@ typedef enum {
 } tabs;
 
 @interface mTraderAppDelegate : NSObject <UIApplicationDelegate> {
+@private
 	NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 	
 	UIWindow *window;
-	UITabBarController *tabController;
+	UITabBarController *_tabController;
 	
 	NSUserDefaults *defaults;
 }

@@ -25,11 +25,8 @@
  * Setup of the basic object
  *
  */
-- (id)init {
-	return [self initWithSocket:nil port:0];
-}
 
-- (id)initWithSocket:(NSString *)host port:(NSInteger)port {
+- (id)initWithSocket:(NSString *)host onPort:(NSInteger)port {
 	self = [super init];
 	if (self != nil) {
 		// Subscribe to notifications from Rechability regarding network status changes
@@ -46,6 +43,10 @@
 }
 
 - (void)dealloc {
+	[self.host release];
+	[self.inputStream release];
+	[self.outputStream release];
+	[self.dataBuffer release];
 	[self.lineBuffer release];
 	
 	[super dealloc];
@@ -189,5 +190,8 @@
 	
 	self.isConnected = NO;
 }
+
+#pragma mark -
+#pragma mark Concurrency
 
 @end

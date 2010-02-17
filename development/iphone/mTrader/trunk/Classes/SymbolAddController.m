@@ -22,15 +22,15 @@
 @synthesize tickerField = _tickerField;
 @synthesize submitButton = _submitButton;
 @synthesize exchangePicker = _exchangePicker;
-@synthesize tickerSymbol;
 @synthesize mCode;
  
 #pragma mark -
 #pragma mark Application Lifecycle
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)loadView {
+	[super loadView];
+	self.title = @"Add a Symbol";
 	
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
 	NSError *error;
@@ -39,20 +39,6 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
-	
-	//self.searchBar.delegate = self;
-	//self.searchBar.placeholder = @"Stock Ticker Symbol";
-	//self.searchBar.showsCancelButton = YES;
-	
-	communicator = [mTraderCommunicator sharedManager];
-	
-	[self.submitButton setTitle:@"Cancel" forState:UIControlStateNormal];
-	
-	[self.tickerField addTarget:self action:@selector(editing:) forControlEvents:UIControlEventEditingChanged];
-	self.tickerField.delegate = self;
-	self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
-	self.tickerField.autocorrectionType = UITextAutocorrectionTypeNo;
-	self.tickerField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
 	
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:0];
     NSInteger count = [sectionInfo numberOfObjects];
@@ -66,7 +52,21 @@
 			break;
 		}
 	}
-	[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];
+	//[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];
+	
+	//self.searchBar.delegate = self;
+	//self.searchBar.placeholder = @"Stock Ticker Symbol";
+	//self.searchBar.showsCancelButton = YES;
+	
+	communicator = [mTraderCommunicator sharedManager];
+	
+	[self.submitButton setTitle:@"Cancel" forState:UIControlStateNormal];
+	
+	[self.tickerField addTarget:self action:@selector(editing:) forControlEvents:UIControlEventEditingChanged];
+	//self.tickerField.delegate = self;
+	//self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
+	//self.tickerField.autocorrectionType = UITextAutocorrectionTypeNo;
+	//self.tickerField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,7 +77,12 @@
 }
 
 - (void)viewDidUnload {
-	fetchedResultsController = nil;
+	self.fetchedResultsController = nil;
+	self.managedObjectContext = nil;
+	self.submitButton = nil;
+	self.tickerField = nil;
+	self.exchangePicker = nil;
+	self.mCode = nil;
 }
 
 #pragma mark -
@@ -95,7 +100,6 @@
 #pragma mark -
 #pragma mark UIPickerViewDelegate Methods
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	NSLog(@"You selected row %d in component %d.", row, component);
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
 	Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
 	self.mCode = feed.mCode;
@@ -112,12 +116,13 @@
 #pragma mark IBAction Section
 -(IBAction) submit:(id)sender {
 	[self.tickerField resignFirstResponder];
-	self.tickerSymbol = self.tickerField.text;
-	if ([self.tickerSymbol isEqualToString:@""]) {
+	
+	NSString *tickerSymbol = self.tickerField.text;
+	if ([tickerSymbol isEqualToString:@""]) {
 		[self.delegate symbolAddControllerDidFinish:self didAddSymbol:nil];
 	} else {
-		[communicator addSecurity:self.tickerSymbol withMCode:self.mCode];
-		[self.delegate symbolAddControllerDidFinish:self didAddSymbol:self.tickerSymbol];
+		[communicator addSecurity:tickerSymbol withMCode:self.mCode];
+		[self.delegate symbolAddControllerDidFinish:self didAddSymbol:tickerSymbol];
 	}
 }
 
@@ -125,7 +130,6 @@
 #pragma mark UITextFieldDelegate methods
 
 - (void)editing:(id)sender {
-	NSLog(@"HERE %@", sender);
 	UITextField *textField = sender;
 	if (![textField.text isEqualToString:@""]) {
 		[self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];
@@ -175,21 +179,26 @@
 	return fetchedResultsController;
 }
 
-
 #pragma mark -
 #pragma mark Debugging methods
-
+/*
  // Very helpful debug when things seem not to be working.
  - (BOOL)respondsToSelector:(SEL)sel {
  NSLog(@"Queried about %@", NSStringFromSelector(sel));
  return [super respondsToSelector:sel];
  }
-
+*/
 
 #pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
+	[self.fetchedResultsController release];
+	[self.managedObjectContext release];
+	[self.submitButton release];
+	[self.tickerField release];
+	[self.exchangePicker release];
+	[self.mCode release];
     [super dealloc];
 }
 

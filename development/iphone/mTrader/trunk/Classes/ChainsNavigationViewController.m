@@ -9,7 +9,6 @@
 
 #import "ChainsNavigationViewController.h"
 
-#import "UIToolbarController.h"
 #import "mTraderAppDelegate.h"
 #import "ChainsTableViewController.h"
 
@@ -18,46 +17,36 @@
 @synthesize chainsTableViewController = _chainsTableViewController;
 @synthesize toolBar = _toolBar;
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-/*
-	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
-	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
-	centerControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	centerControl.selectedSegmentIndex = 0;
-	[centerControl addTarget:self action:@selector(centerSelection:) forControlEvents:UIControlEventValueChanged];
-	 
-	unichar upDownArrowsChar = 0x21C5;
-	NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
-	NSArray *rightItems = [NSArray arrayWithObjects: @"%", upDownArrows, @"Last", nil];
-	UISegmentedControl *rightControl = [[UISegmentedControl alloc] initWithItems:rightItems];
-	rightControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	rightControl.selectedSegmentIndex = 0;
-	[rightControl addTarget:self action:@selector(rightSelection:) forControlEvents:UIControlEventValueChanged];
-	 
-	UIBarButtonItem *centerBarItem = [[UIBarButtonItem alloc] initWithCustomView:centerControl];
-	UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightControl];
-	[centerControl release];
-	[rightControl release];
-	[toolBar setItems:[NSArray arrayWithObjects:centerBarItem, rightBarItem, nil]];
-	[self.parentViewController.view addSubview:toolBar];
-	[toolBar release];	
-*/	
+- (id)initWithContentViewController:(UIViewController *)rootViewController {
+	self = [super init];
+	if (self != nil) {
+		_chainsTableViewController = [rootViewController retain];
+	}
+	return self;
 }
 
+- (void)loadView {
+	[super loadView];
+	
+	UIView *contentView = self.view;
+	
+	CGRect frame = contentView.frame;
+	UIView *view = [[UIView alloc] initWithFrame:frame];
+	
+	frame = CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height - 44.0f);
+	contentView.frame = frame;
+	[view addSubview:contentView];
+	
+	frame = CGRectMake(0.0f, frame.size.height - 49.0f, frame.size.width, 44.0f);
+	_toolBar = [[UIToolbar alloc] initWithFrame:frame];
+	[view addSubview:self.toolBar];
+	[self.toolBar release];
+
+	self.view = view;
+	[view release];
+	((ChainsTableViewController *)self.chainsTableViewController).toolBar = self.toolBar;
+	[self pushViewController:self.chainsTableViewController animated:NO];
+}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -82,8 +71,9 @@
 
 
 - (void)dealloc {
+	[self.toolBar release];
 	[self.chainsTableViewController release];
-	
+
     [super dealloc];
 }
 

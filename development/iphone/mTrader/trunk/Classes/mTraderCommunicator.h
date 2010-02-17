@@ -62,7 +62,7 @@ enum {
 @property (nonatomic, assign) id <NewsItemDataDelegate> newsItemDelegate;
 @property (nonatomic, assign) id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 @property (nonatomic, retain) Communicator *communicator;
-@property (nonatomic, retain) UserDefaults *defaults;
+@property (nonatomic, assign) UserDefaults *defaults;
 @property (readonly) BOOL isLoggedIn;
 @property (nonatomic, retain) NSData *currentLine;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
@@ -71,6 +71,7 @@ enum {
 
 // The singleton class method
 + (mTraderCommunicator *)sharedManager;
+- (id)initWithURL:(NSString *)url onPort:(NSInteger)port;
 
 // mTrader server request methods
 - (void)login;
@@ -119,25 +120,26 @@ enum {
 @end
 
 @protocol SymbolsDataDelegate <NSObject>
+- (void)replaceAllSymbols:(NSString *)symbols;
 - (void)addSymbols:(NSString *)symbols;
 - (void)updateSymbols:(NSArray *)symbols;
+- (void)staticUpdates:(NSDictionary *)updateDictionary;
 - (void)addExchanges:(NSArray *)exchanges;
+- (void)failedToAddNoSuchSecurity;
+- (void)failedToAddAlreadyExists;
+- (void)chartUpdate:(Chart *)chart;
 @end
 
 
 // Delegate Protocols
 @protocol mTraderServerDataDelegate <NSObject>
 @optional
-- (void)chart:(Chart *)chart;
 - (void)addFeed:(Feed *)feed;
 - (void)addSymbol:(Symbol *)symbol;
 - (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
 - (void)addExchanges:(NSArray *)exchanges;
-- (void)staticUpdates:(NSDictionary *)updateDictionary;
 - (void)removedSecurity:(NSString *)feedTicker;
 - (void)newsListFeedsUpdates:(NSArray *)newsList;
-- (void)failedToAddNoSuchSecurity;
-- (void)failedToAddfailedToAddAlreadyExists;
 @end
 
 @protocol NewsItemDataDelegate <NSObject>
