@@ -193,6 +193,7 @@
 	
 	currency = [[self generateLabelWithFrame:frame] retain];
 	country = [[self generateLabelWithFrame:frame] retain];
+	[self setLeftFrame:currency	andRightFrame:isin];
 	
 	NSString *tradesHeader = NSLocalizedString(@"tradesInformationHeader", @"Trades Information");
 	tradesHeaderView = [[self setHeader:tradesHeader] retain];
