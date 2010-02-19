@@ -19,6 +19,7 @@
 @synthesize lineBuffer = _lineBuffer;
 @synthesize isConnected = _isConnected;
 
+#pragma mark -
 #pragma mark Initialization, Description, and Cleanup
 
 /**
@@ -30,7 +31,7 @@
 	self = [super init];
 	if (self != nil) {
 		// Subscribe to notifications from Rechability regarding network status changes
-		_host = host;
+		_host = [host retain];
 		_port = port;
 		_inputStream = nil;
 		_outputStream = nil;
@@ -40,16 +41,6 @@
 		_lineBuffer = [[NSMutableArray alloc] init];
 	}
 	return self;
-}
-
-- (void)dealloc {
-	[self.host release];
-	[self.inputStream release];
-	[self.outputStream release];
-	[self.dataBuffer release];
-	[self.lineBuffer release];
-	
-	[super dealloc];
 }
 
 - (NSString *)description {
@@ -193,5 +184,17 @@
 
 #pragma mark -
 #pragma mark Concurrency
+
+#pragma mark -
+#pragma mark Memory management
+- (void)dealloc {
+	[self.host release];
+	[self.inputStream release];
+	[self.outputStream release];
+	[self.dataBuffer release];
+	[self.lineBuffer release];
+	
+	[super dealloc];
+}
 
 @end

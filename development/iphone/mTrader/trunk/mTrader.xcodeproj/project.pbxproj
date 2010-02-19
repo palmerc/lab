@@ -73,7 +73,6 @@
 		7EAE508711185CD500B2FCB4 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508411185CD500B2FCB4 /* Feed.m */; };
 		7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508611185CD500B2FCB4 /* Symbol.m */; };
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
-		7EC009C4112A96730092873A /* SymbolDetailPageOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC009C3112A96730092873A /* SymbolDetailPageOne.m */; };
 		7EC00A2A112ABD320092873A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC00A29112ABD320092873A /* QuartzCore.framework */; };
 		7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE2A71F11172B0100B682BD /* CoreData.framework */; };
 		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
@@ -169,8 +168,6 @@
 		7EAE508611185CD500B2FCB4 /* Symbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbol.m; sourceTree = "<group>"; };
 		7EB15D0210F1D24D003049C7 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
 		7EB15D0310F1D24D003049C7 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
-		7EC009C2112A96730092873A /* SymbolDetailPageOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDetailPageOne.h; sourceTree = "<group>"; };
-		7EC009C3112A96730092873A /* SymbolDetailPageOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDetailPageOne.m; sourceTree = "<group>"; };
 		7EC00A29112ABD320092873A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7EF9464C11108D9F006B5CDE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -491,8 +488,6 @@
 			children = (
 				7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */,
 				7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */,
-				7EC009C2112A96730092873A /* SymbolDetailPageOne.h */,
-				7EC009C3112A96730092873A /* SymbolDetailPageOne.m */,
 			);
 			name = "Symbol Detail";
 			sourceTree = "<group>";
@@ -726,7 +721,6 @@
 				7E2D30A3112599BE0016CFD1 /* Chart.m in Sources */,
 				7E723B621129413E0073A07B /* OrderBookController.m in Sources */,
 				7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */,
-				7EC009C4112A96730092873A /* SymbolDetailPageOne.m in Sources */,
 				7E2A0921112C3D3C00CF5EE1 /* SymbolDynamicData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,24 +1,22 @@
-//
+// 
 //  Chart.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 13.01.10.
-//  Copyright 2010 InFront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 18.02.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "Chart.h"
 
+#import "Symbol.h"
 
-@implementation Chart
-@synthesize imageType = _imageType;
-@synthesize feedTicker =_feedTicker;
-@synthesize size = _size;
-@synthesize height = _height;
-@synthesize width = _width;
-@synthesize image = _image;
+@implementation Chart 
 
-- (NSString *)description {
-	return [NSString stringWithFormat:@"Chart for feedTicker %@ of type %@ and %d bytes. %d pixels high by %d pixels wide", self.feedTicker, self.imageType, self.size, self.height, self.width];
-}
+@dynamic height;
+@dynamic data;
+@dynamic width;
+@dynamic size;
+@dynamic type;
+@dynamic symbol;
 
 @end

@@ -15,7 +15,10 @@
 
 static mTraderServerMonitor *sharedMonitor = nil;
 @synthesize reachability = _reachability;
+@synthesize server = _server;
+@synthesize port = _port;
 
+#pragma mark -
 #pragma mark Singleton Methods
 /**
  * Methods for Singleton implementation
@@ -52,12 +55,16 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	return self;
 }
 
+#pragma mark -
 #pragma mark Initialization and Cleanup
--(id) init {
+- (id)init {
 	self = [super init];
 	if (self != nil) {
+		self.server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
+		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
+		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-		self.reachability = [Reachability reachabilityWithHostName:@"wireless.theonlinetrader.com"];
+		self.reachability = [Reachability reachabilityWithHostName:self.server];
 		[self.reachability startNotifer];
 		
 		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
@@ -65,12 +72,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	return self;
 }
 
--(void) dealloc {
-	[self.reachability stopNotifer];
-	[self.reachability release];
-	[super dealloc];
-}
-
+#pragma mark -
 #pragma mark Reachability
 /**
  * Delegate methods from Communicator
@@ -88,7 +90,6 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	} else {
 		mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 		[communicator login];
-		[communicator release];
 	}
 	
 	NSLog(@"Reachability is %d", status);
@@ -101,6 +102,16 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. Close this app and relaunch it to reconnect." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
+}
+
+#pragma mark -
+#pragma mark Memory management
+-(void) dealloc {
+	[self.server release];
+	[self.port release];
+	[self.reachability stopNotifer];
+	[self.reachability release];
+	[super dealloc];
 }
 
 @end

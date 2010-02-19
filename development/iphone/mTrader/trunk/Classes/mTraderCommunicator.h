@@ -55,6 +55,9 @@ enum {
 	NSMutableArray *_blockBuffer;
 	NSUInteger contentLength;
 	NSUInteger state;
+@private
+	NSString *_server;
+	NSString *_port;
 }
 
 @property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
@@ -68,6 +71,8 @@ enum {
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
 @property (nonatomic, assign) NSUInteger state;
 @property (nonatomic, assign) NSUInteger contentLength;
+@property (nonatomic, assign) NSString *server;
+@property (nonatomic, assign) NSString *port;
 
 // The singleton class method
 + (mTraderCommunicator *)sharedManager;
@@ -127,7 +132,7 @@ enum {
 - (void)addExchanges:(NSArray *)exchanges;
 - (void)failedToAddNoSuchSecurity;
 - (void)failedToAddAlreadyExists;
-- (void)chartUpdate:(Chart *)chart;
+- (void)chartUpdate:(NSDictionary *)chart;
 @end
 
 

@@ -11,9 +11,14 @@
 @class Reachability;
 
 @interface mTraderServerMonitor : NSObject <mTraderServerMonitorDelegate> {
+@private
 	Reachability *_reachability;
+	NSString *_server;
+	NSString *_port;
 }
 @property (nonatomic,retain) Reachability *reachability;
+@property (nonatomic,retain) NSString *server;
+@property (nonatomic,retain) NSString *port;
 
 + (mTraderServerMonitor *)sharedManager;
 

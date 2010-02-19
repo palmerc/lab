@@ -17,6 +17,7 @@
 #import "Feed.h";
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
+#import "Chart.h"
 
 #import "SymbolDetailController.h"
 #import "OrderBookController.h"
@@ -30,7 +31,6 @@
 @synthesize toolBar = _toolBar;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
-
 	if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
 	}
@@ -44,6 +44,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+	NSLog(@"Chains size -> x:%.1f y:%.1f width:%.1f height:%.1f", self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+	NSLog(@"Chains size -> x:%.1f y:%.1f width:%.1f height:%.1f", self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
 	self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
 
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
@@ -270,16 +272,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	// Request the latest static data and chart
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[fetchedResultsController objectAtIndexPath:indexPath];
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [symbolDynamicData.symbol.feed.feedNumber stringValue], symbolDynamicData.symbol.tickerSymbol];
-	[communicator staticDataForFeedTicker:feedTicker];
-	[communicator graphForFeedTicker:feedTicker period:0 width:280 height:280 orientation:@"A"];
 	
 	// Generate the view	
-	symbolDetail = [[SymbolDetailController alloc] init];
+	symbolDetail = [[SymbolDetailController alloc] initWithSymbol:symbolDynamicData.symbol];
 	
 	// Give it the toolbar
 	symbolDetail.toolBar = self.toolBar;
-	symbolDetail.symbol = symbolDynamicData.symbol;
 	
 	// Push the view onto the Navigation Controller
 	[self.navigationController pushViewController:symbolDetail animated:YES];
@@ -645,13 +643,13 @@
 			if ([volume isEqualToString:@"--"] == YES || [volume isEqualToString:@"-"] == YES) {
 				symbolDynamicData.volume = nil;
 			} else if ([volume isEqualToString:@""] == NO) {
-				NSUInteger multiplier = 1;
+				float multiplier = 1.0;
 				if ([volume rangeOfString:@"k"].location != NSNotFound) {
-					multiplier = 1000;
+					multiplier = 1000.0;
 				} else if ([volume rangeOfString:@"m"].location != NSNotFound) {
-					multiplier = 1000000;
+					multiplier = 1000000.0;
 				}
-				symbolDynamicData.volume = [NSNumber numberWithInteger:[volume integerValue]  * multiplier];
+				symbolDynamicData.volume = [NSNumber numberWithDouble:[volume doubleValue]  * multiplier];
 			}
 		}
 		
@@ -776,13 +774,13 @@
 	}
 	if ([updateDictionary objectForKey:@"Volume"]) {
 		NSString *volume = [updateDictionary objectForKey:@"Volume"];
-		NSUInteger multiplier = 1;
+		float multiplier = 1.0;
 		if ([volume rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
+			multiplier = 1000.0;
 		} else if ([volume rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
+			multiplier = 1000000.0;
 		}
-		symbol.symbolDynamicData.volume = [NSNumber numberWithInteger:[volume integerValue] * multiplier];
+		symbol.symbolDynamicData.volume = [NSNumber numberWithDouble:[volume doubleValue] * multiplier];
 	}
 	if ([updateDictionary objectForKey:@"Turnover"]) {
 		NSString *turnover = [updateDictionary objectForKey:@"Turnover"];
@@ -855,13 +853,13 @@
 	if ([updateDictionary objectForKey:@"M Cap"]) {
 		NSString *marketCapitalization = [updateDictionary objectForKey:@"M Cap"];
 		NSLog(@"MARKET CAP IS %@", marketCapitalization);
-		NSUInteger multiplier = 1;
+		float multiplier = 1.0;
 		if ([marketCapitalization rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
+			multiplier = 1000.0;
 		} else if ([marketCapitalization rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
+			multiplier = 1000000.0;
 		}
-		symbol.symbolDynamicData.marketCapitalization = [NSNumber numberWithInteger:[marketCapitalization integerValue] * multiplier];
+		symbol.symbolDynamicData.marketCapitalization = [NSNumber numberWithDouble:[marketCapitalization doubleValue] * multiplier];
 	}
 	if ([updateDictionary objectForKey:@"Exchange"]) {
 		//
@@ -882,15 +880,32 @@
 		symbol.currency = [updateDictionary objectForKey:@"Currency"];
 	}
 	
-	if (symbolDetail && [symbolDetail respondsToSelector:@selector(setValues)]) {
-		[symbolDetail setValues];
-	}
+//	if (symbolDetail && [symbolDetail respondsToSelector:@selector(setValues)]) {
+//		[symbolDetail renderMe];
+//	}
 }
 
-- (void)chartUpdate:(Chart *)chart {
-	if (symbolDetail && [symbolDetail respondsToSelector:@selector(setChart)]) {
-		[symbolDetail setChart];
-	}
+- (void)chartUpdate:(NSDictionary *)chartData {
+	NSArray *feedTickerComponents = [[chartData objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+	
+	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
+	
+	Chart *chart = (Chart *)[NSEntityDescription insertNewObjectForEntityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
+	chart.height = [chartData objectForKey:@"height"];
+	chart.width = [chartData objectForKey:@"width"];
+	chart.size = [chartData objectForKey:@"size"];
+	chart.type = [chartData objectForKey:@"type"];
+	NSData *data = [chartData objectForKey:@"data"];
+	chart.data = data;
+	symbol.chart = chart;
+	
+//	NSError *error;
+//	[self.managedObjectContext save:&error];
+	//if (symbolDetail && [symbolDetail respondsToSelector:@selector(setChart)]) {
+//		[symbolDetail setChart];
+//	}
 	
 }
 

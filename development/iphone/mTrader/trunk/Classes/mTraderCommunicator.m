@@ -8,15 +8,15 @@
 //
 
 #import "mTraderCommunicator.h"
+#import "mTraderServerMonitor.h"
 #import "NSMutableArray+QueueAdditions.h"
 #import "UserDefaults.h";
-#import "Symbol.h"
-#import "Feed.h"
-#import "Chart.h"
 
 @implementation mTraderCommunicator
 
 static mTraderCommunicator *sharedCommunicator = nil;
+@synthesize server = _server;
+@synthesize port = _port;
 @synthesize symbolsDelegate;
 @synthesize mTraderServerDataDelegate;
 @synthesize mTraderServerMonitorDelegate;
@@ -35,7 +35,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
  */
 
 - (id)init {
-	return [self initWithURL:@"wireless.theonlinetrader.com" onPort:7780];
+	NSString *server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
+	NSString *port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
+	return [self initWithURL:server onPort:[port integerValue]];
 }
 
 - (id)initWithURL:(NSString *)url onPort:(NSInteger)port {
@@ -336,7 +338,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)chartHandling {
-	Chart *chart = [[Chart alloc] init];
+	NSMutableDictionary *chart = [[NSMutableDictionary alloc] init];
 	NSMutableData *imageData = [[NSMutableData alloc] init];
 	NSString *imageSizeString;
 	
@@ -375,28 +377,22 @@ static mTraderCommunicator *sharedCommunicator = nil;
 				NSString *dataPortion = [[self stripOffFirstElement:partsOfString] objectAtIndex:0];
 				NSString *cleanedDataPortion = [self cleanString:dataPortion];
 				if ([string rangeOfString:@"SecOid:"].location == 0) {
-					chart.feedTicker = cleanedDataPortion;
+					[chart  setObject:cleanedDataPortion forKey:@"feedTicker"];
 				} else if ([string rangeOfString:@"Width:"].location == 0) {
-					chart.width = [cleanedDataPortion integerValue];
+					[chart setObject:[NSNumber numberWithInteger:[cleanedDataPortion integerValue]] forKey:@"width"];
 				} else if ([string rangeOfString:@"Height:"].location == 0) {
-					chart.height = [cleanedDataPortion integerValue];
+					[chart setObject:[NSNumber numberWithInteger:[cleanedDataPortion integerValue]] forKey:@"height"];
 				} else if ([string rangeOfString:@"ImgType:"].location == 0) {
-					chart.imageType = cleanedDataPortion;
+					[chart setObject:cleanedDataPortion forKey:@"type"];
 				} else if ([string rangeOfString:@"ImageSize:"].location == 0) {
 					imageSizeString = cleanedDataPortion;
-					chart.size = [cleanedDataPortion integerValue];
+					[chart setObject:[NSNumber numberWithInteger:[cleanedDataPortion integerValue]] forKey:@"size"];
 				}
 			}
 		}
 	}
-	if ([imageData length] != chart.size) {
-		NSException *exception = [NSException exceptionWithName:@"ImageSizeMismatch" 
-														 reason:@"ImageSize specified didn't match received data size." 
-													   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:imageSizeString, @"ImageSize", imageData, @"ImageData", nil]];
-		[exception raise];
-	}
 	
-	chart.image = imageData;
+	[chart setObject:(NSData *)imageData forKey:@"data"];
 	[imageData release];
 
 	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(chartUpdate:)]) {
@@ -632,7 +628,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if (username != nil && password != nil) {
 		NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-		NSString *build = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+		NSString *build = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
 		
 		NSString *ActionLogin = @"Action: login";
 		NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];

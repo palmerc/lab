@@ -2,25 +2,26 @@
 //  Chart.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 13.01.10.
-//  Copyright 2010 InFront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 18.02.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import <CoreData/CoreData.h>
 
-@interface Chart : NSObject {
-	NSString *_imageType;
-	NSString *_feedTicker;
-	NSUInteger _size;
-	NSUInteger _height;
-	NSUInteger _width;
-	NSData *_image;
+@class Symbol;
+
+@interface Chart :  NSManagedObject  
+{
 }
 
-@property (nonatomic, retain) NSString *imageType;
-@property (nonatomic, retain) NSString *feedTicker;
-@property NSUInteger size;
-@property NSUInteger height;
-@property NSUInteger width;
-@property (nonatomic, retain) NSData *image;
+@property (nonatomic, retain) NSNumber * height;
+@property (nonatomic, retain) NSData * data;
+@property (nonatomic, retain) NSNumber * width;
+@property (nonatomic, retain) NSNumber * size;
+@property (nonatomic, retain) NSString * type;
+@property (nonatomic, retain) Symbol * symbol;
 
 @end
+
+
+
