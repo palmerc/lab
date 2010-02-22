@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "mTraderCommunicator.h"
+#import "OrderBookController.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
@@ -43,6 +44,15 @@
 }
 
 - (void)viewDidLoad {
+	NSArray *toolBarItems = [NSArray arrayWithObjects:NSLocalizedString(@"detailView", @"Symbol Detail View"), NSLocalizedString(@"orderBook", @"Symbol OrderBook"), nil];
+	UISegmentedControl *toolBarControl = [[UISegmentedControl alloc] initWithItems:toolBarItems];
+	toolBarControl.segmentedControlStyle = UISegmentedControlStyleBar;
+	toolBarControl.selectedSegmentIndex = 0;
+	[toolBarControl addTarget:self action:@selector(viewSelect:) forControlEvents:UIControlEventValueChanged];
+	
+	UIBarButtonItem *switcher = [[UIBarButtonItem alloc] initWithCustomView:toolBarControl];
+	[self.toolBar setItems:[NSArray arrayWithObject:switcher]];
+		
 	dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	
@@ -149,6 +159,22 @@
 		
 	[label release];
 	return headerView;
+}
+
+- (void)viewSelect:(id)sender {
+	NSLog(@"%@", sender);
+	UISegmentedControl *control = sender;
+	if (control.selectedSegmentIndex == 0) {
+		NSLog(@"Details");
+	} else if (control.selectedSegmentIndex == 1) {
+		NSLog(@"%@", self.navigationController);
+		OrderBookController *orderBookController = [[OrderBookController alloc] init];
+		[self.navigationController pushViewController:orderBookController animated:NO];
+		[orderBookController release];
+//		
+//		[viewController.view removeFromSuperview];
+//		[self.window addSubview:[mainViewController view]];
+	}
 }
 
 - (UILabel *)generateLabel {
@@ -340,6 +366,8 @@
 	
 	[mainFont release];
 	[headerFont release];
+	
+	[toolBar release];
 	
 	[chartButton release];
 	[scrollView release];

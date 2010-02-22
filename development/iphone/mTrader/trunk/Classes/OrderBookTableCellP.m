@@ -50,8 +50,6 @@
 
 }
 
-
-#define EDITING_INSET       10.0
 #define TEXT_LEFT_MARGIN    8.0
 #define TEXT_RIGHT_MARGIN   8.0
 #define BUTTON_WIDTH        100.0
@@ -78,45 +76,15 @@
 }
 
 - (void)setOrderBookData:(Symbol *)newSymbol {
-	static NSDateFormatter *dateFormatter = nil;
-	if (dateFormatter == nil) {
-		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	}
-	
-	static NSDateFormatter *timeFormatter = nil;
-	if (timeFormatter == nil) {
-		timeFormatter = [[NSDateFormatter alloc] init];
-		[timeFormatter setDateFormat:@"HH:mm:ss"];
-	}
-	
-	static NSNumberFormatter *doubleFormatter = nil;
-	if (doubleFormatter == nil) {
-		doubleFormatter = [[NSNumberFormatter alloc] init];
-		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[doubleFormatter setUsesSignificantDigits:YES];
-	}
-	
-	static NSNumberFormatter *percentFormatter = nil;
-	if (percentFormatter == nil) {
-		percentFormatter = [[NSNumberFormatter alloc] init];
-		[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-		[percentFormatter setUsesSignificantDigits:YES];
-	}
-	
 	if (newSymbol != symbol) {
 		[symbol release];
 		symbol = [newSymbol retain];
 	}
 	
-	self.bidSizeLabel.text = @"";
-	self.bidValueLabel.text = @"";
-	self.askSizeLabel.text = @"";
-	self.askValueLabel.text = @"";
-	
-	//NSDate *tradeTime = @"";
-	//NSString *timeString = [NSString stringWithFormat:@"%@ %@", [dateFormatter stringFromDate:tradeTime], [timeFormatter stringFromDate:tradeTime]];
-	//self.timeLabel.text = timeString;
+	self.bidSizeLabel.text = @"1";
+	self.bidValueLabel.text = @"2";
+	self.askSizeLabel.text = @"3";
+	self.askValueLabel.text = @"4";
 }
 
 

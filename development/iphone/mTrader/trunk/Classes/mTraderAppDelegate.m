@@ -39,7 +39,7 @@
 	[starter release];
 	
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	NSLog(@"Window size -> x:%.1f y:%.1f width:%.1f height:%.1f", window.frame.origin.x, window.frame.origin.y, window.frame.size.width, window.frame.size.height);
+	//NSLog(@"Window size -> x:%.1f y:%.1f width:%.1f height:%.1f", window.frame.origin.x, window.frame.origin.y, window.frame.size.width, window.frame.size.height);
 	window.backgroundColor = [UIColor lightGrayColor];
 	
 	UIViewController *rootViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
@@ -55,8 +55,8 @@
 	NSArray *viewControllersArray = [NSArray arrayWithObjects:chainsNavigationController, newsNavigationController, settingsNavigationController, nil];
 		
 	_tabController = [[UITabBarController alloc] init];
-	NSLog(@"TabController size -> x:%.1f y:%.1f width:%.1f height:%.1f", _tabController.view.frame.origin.x, _tabController.view.frame.origin.y, _tabController.view.frame.size.width, _tabController.view.frame.size.height);
-	NSLog(@"TabController size -> x:%.1f y:%.1f width:%.1f height:%.1f", _tabController.view.bounds.origin.x, _tabController.view.bounds.origin.y, _tabController.view.bounds.size.width, _tabController.view.bounds.size.height);
+	//NSLog(@"TabController size -> x:%.1f y:%.1f width:%.1f height:%.1f", _tabController.view.frame.origin.x, _tabController.view.frame.origin.y, _tabController.view.frame.size.width, _tabController.view.frame.size.height);
+	//NSLog(@"TabController size -> x:%.1f y:%.1f width:%.1f height:%.1f", _tabController.view.bounds.origin.x, _tabController.view.bounds.origin.y, _tabController.view.bounds.size.width, _tabController.view.bounds.size.height);
 	self.tabController.viewControllers = viewControllersArray;
 	 	
 	[window addSubview:self.tabController.view];

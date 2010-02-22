@@ -62,6 +62,7 @@
 
 - (id)initWithSymbol:(Symbol *)symbol;
 
+- (void)viewSelect:(id)sender;
 - (void)imageWasTapped:(id)sender;
 - (void)setLabelFrame:(UILabel *)label;
 - (void)setLeftLabelFrame:(UILabel *)leftLabel andRightLabelFrame:(UILabel *)rightLabel;
