@@ -11,6 +11,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "mTraderCommunicator.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
@@ -25,12 +26,16 @@
 
 - (id)initWithSymbol:(Symbol *)symbol {
     if (self = [super init]) {
-		_symbol = symbol;
-		[self.symbol addObserver:self forKeyPath:@"symbol" options:NSKeyValueObservingOptionNew context:nil];
+		self.symbol = symbol;
+		[self.symbol addObserver:self forKeyPath:@"currency" options:NSKeyValueObservingOptionNew context:nil];
 		[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
 		[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
 
 		period = 0;
+		globalY = 0.0;
+		
+		headerFont = [[UIFont boldSystemFontOfSize:18.0] retain];
+		mainFont = [[UIFont systemFontOfSize:14.0] retain];
 		
 		self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	}
@@ -60,8 +65,7 @@
 	[[mTraderCommunicator sharedManager] staticDataForFeedTicker:feedTicker];
 	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:period width:280 height:280 orientation:@"A"];
 	
-	headerFont = [UIFont boldSystemFontOfSize:18.0];
-	mainFont = [UIFont systemFontOfSize:14.0];
+	
 	
 	CGRect viewBounds = self.view.bounds;
 	scrollView = [[UIScrollView alloc] initWithFrame:viewBounds];
@@ -78,9 +82,10 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	//NSLog(@"KVO Update: %@ %@ %@ %@", keyPath, object, change, context);
-	if ([keyPath isEqualToString:@"symbol"]) {
+	if ([keyPath isEqualToString:@"currency"]) {
 		[self updateSymbolInformation];
-	} else if ([keyPath isEqualToString:@"symbolDynamicData"]) {
+		[self updateFundamentalsInformation];
+	} else if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"]) {
 		[self updateTradesInformation];
 	} else if ([keyPath isEqualToString:@"chart.data"]) {
 		[self updateChart];
@@ -124,8 +129,10 @@
 	
 	CGRect labelFrame = CGRectMake(TEXT_LEFT_MARGIN, 0.0, headerSize.width, headerSize.height);
 	
-	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+	CGRect viewFrame = CGRectMake(0.0, globalY, scrollView.bounds.size.width, headerSize.height);
+	UIView *headerView = [[[UIView alloc] initWithFrame:viewFrame] autorelease];
 	UILabel *label = [[UILabel alloc] initWithFrame:labelFrame];
+	globalY += headerView.frame.size.height;
 	
 	[headerView.layer insertSublayer:headerGradient atIndex:0];
 	headerGradient.frame = headerView.bounds;
@@ -144,8 +151,8 @@
 	return headerView;
 }
 
-- (UILabel *)generateLabelWithFrame:(CGRect)frame {
-	UILabel *label = [[[UILabel alloc] initWithFrame:frame] autorelease];
+- (UILabel *)generateLabel {
+	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
 	[label setTextColor:[UIColor blackColor]];
 	[label setBackgroundColor:[UIColor clearColor]];
 	[label setFont:mainFont];
@@ -153,11 +160,10 @@
 	return label;
 }
 
-- (UIButton *)generateButtonWithFrame:(CGRect)frame {
-	UIButton *button = [[[UIButton alloc] initWithFrame:frame] autorelease];
+- (UIButton *)generateButton {
+	UIButton *button = [[[UIButton alloc] initWithFrame:CGRectZero] autorelease];
 
-	[chartButton addTarget:self action:@selector(imageWasTapped:) forControlEvents:UIControlEventTouchUpInside];
-	[scrollView addSubview:chartButton];
+	[scrollView addSubview:button];
 	return button;
 }
 
@@ -166,89 +172,113 @@
 	return CGRectMake(0.0, globalY, self.view.bounds.size.width, headerSize.height);
 }
 
-- (CGRect)leftSideFrame {
+- (void)setLabelFrame:(UILabel *)label {
 	CGSize fontSize = [@"X" sizeWithFont:mainFont];
-	return CGRectMake(TEXT_LEFT_MARGIN, globalY, self.view.bounds.size.width / 2 - TEXT_LEFT_MARGIN, fontSize.height);
+	label.frame = CGRectMake(TEXT_LEFT_MARGIN, globalY, self.view.bounds.size.width / 2 - TEXT_LEFT_MARGIN, fontSize.height);
+	globalY += fontSize.height;
 }
 
-- (CGRect)rightSideFrame {
+- (void)setLeftLabelFrame:(UILabel *)leftLabel andRightLabelFrame:(UILabel *)rightLabel {
 	CGSize fontSize = [@"X" sizeWithFont:mainFont];
-	return CGRectMake(self.view.bounds.size.width / 2, globalY, self.view.bounds.size.width / 2 - TEXT_RIGHT_MARGIN, fontSize.height);
+	leftLabel.frame = CGRectMake(TEXT_LEFT_MARGIN, globalY, self.view.bounds.size.width / 2 - TEXT_LEFT_MARGIN, fontSize.height);
+	rightLabel.frame = CGRectMake(self.view.bounds.size.width / 2, globalY, self.view.bounds.size.width / 2 - TEXT_RIGHT_MARGIN, fontSize.height);
+	globalY += fontSize.height;
+}
+
+- (void)setButtonFrame:(UIButton *)button {
+	button.frame = CGRectMake(20.0, globalY, 280.0, 280.0);
+	globalY += 280.0;
 }
 
 - (void)setupPage {
 	globalY = 0.0;
-	CGRect frame;
 	
 	NSString *symbolHeader = NSLocalizedString(@"symbolInformationHeader", @"Symbol Information");
 	symbolsHeaderView = [[self setHeader:symbolHeader] retain];
-	globalY += symbolsHeaderView.bounds.size.height;
 	
-	tickerName = [[self generateLabelWithFrame:frame] retain];
-	[self setFrame:tickerName];
+	tickerName = [[self generateLabel] retain];
+	[self setLabelFrame:tickerName];
 	
-	type = [[self generateLabelWithFrame:frame] retain];
-	isin = [[self generateLabelWithFrame:frame] retain];
-	[self setLeftFrame:type	andRightFrame:isin];
+	type = [[self generateLabel] retain];
+	isin = [[self generateLabel] retain];
+	[self setLeftLabelFrame:type andRightLabelFrame:isin];
 	
-	currency = [[self generateLabelWithFrame:frame] retain];
-	country = [[self generateLabelWithFrame:frame] retain];
-	[self setLeftFrame:currency	andRightFrame:isin];
+	currency = [[self generateLabel] retain];
+	country = [[self generateLabel] retain];
+	[self setLeftLabelFrame:currency andRightLabelFrame:country];
 	
 	NSString *tradesHeader = NSLocalizedString(@"tradesInformationHeader", @"Trades Information");
 	tradesHeaderView = [[self setHeader:tradesHeader] retain];
-	lastTrade = [[self generateLabelWithFrame:frame] retain];
-	vwap = [[self generateLabelWithFrame:frame] retain];
-	lastTradeTime = [[self generateLabelWithFrame:frame] retain];
-	open = [[self generateLabelWithFrame:frame] retain];
-	turnover = [[self generateLabelWithFrame:frame] retain];
-	high = [[self generateLabelWithFrame:frame] retain];
-	volume = [[self generateLabelWithFrame:frame] retain];
-	low = [[self generateLabelWithFrame:frame] retain];
+
+	lastTrade = [[self generateLabel] retain];
+	vwap = [[self generateLabel] retain];
+	[self setLeftLabelFrame:lastTrade andRightLabelFrame:vwap];
+
+	lastTradeTime = [[self generateLabel] retain];
+	open = [[self generateLabel] retain];
+	[self setLeftLabelFrame:lastTradeTime andRightLabelFrame:open];
+
+	turnover = [[self generateLabel] retain];
+	high = [[self generateLabel] retain];
+	[self setLeftLabelFrame:turnover andRightLabelFrame:high];
+
+	volume = [[self generateLabel] retain];
+	low = [[self generateLabel] retain];
+	[self setLeftLabelFrame:volume andRightLabelFrame:low];
 
 	NSString *fundamentalsHeader = NSLocalizedString(@"fundamentalsInformationHeader", @"Fundamentals");
 	fundamentalsHeaderView = [[self setHeader:fundamentalsHeader] retain];
-	segment = [[self generateLabelWithFrame:frame] retain];
-	marketCapitalization = [[self generateLabelWithFrame:frame] retain];
-	outstandingShares = [[self generateLabelWithFrame:frame] retain];
-	dividend = [[self generateLabelWithFrame:frame] retain];
-	dividendDate = [[self generateLabelWithFrame:frame] retain];
+	
+	segment = [[self generateLabel] retain];
+	[self setLabelFrame:segment];
+	
+	marketCapitalization = [[self generateLabel] retain];
+	outstandingShares = [[self generateLabel] retain];
+	[self setLeftLabelFrame:marketCapitalization andRightLabelFrame:outstandingShares];
+	
+	dividend = [[self generateLabel] retain];
+	dividendDate = [[self generateLabel] retain];
+	[self setLeftLabelFrame:dividend andRightLabelFrame:dividendDate];	
 	
 	NSString *chartHeader = NSLocalizedString(@"chartHeader", @"Chart");
 	chartHeaderView = [[self setHeader:chartHeader] retain];
-	chartButton = [[self generateButtonWithFrame:frame] retain];
+	chartButton = [[self generateButton] retain];
+	[self setButtonFrame:chartButton];
+	[chartButton addTarget:self action:@selector(imageWasTapped:) forControlEvents:UIControlEventTouchUpInside];
 	
 	scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, globalY);
 }
 
 - (void)updateSymbolInformation {
 	tickerName.text = [NSString stringWithFormat:@"%@ %@", self.symbol.tickerSymbol, self.symbol.companyName];
-	type.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"type", @"LocalizedString"), type];
-	isin.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"isin", @"LocalizedString"), isin];
-	currency.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"currency", @"LocalizedString"), currency];
-	country.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"country", @"LocalizedString"), country];
+	type.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"type", @"LocalizedString"), self.symbol.type];
+	isin.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"isin", @"LocalizedString"), self.symbol.isin];
+	currency.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"currency", @"LocalizedString"), self.symbol.currency];
+	country.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"country", @"LocalizedString"), self.symbol.country];
 }
 
 - (void)updateTradesInformation {	
-	lastTrade.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"lastTrade", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTrade]];
-	vwap.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"vwap", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP]];
-	lastTradeTime.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"lastTradeTime", @"LocalizedString"), [timeFormatter stringFromDate:self.symbol.symbolDynamicData.lastTradeTime]];
-	open.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"open", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.open]];
-	turnover.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"turnover", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.turnover]];
-	high.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"high", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.high]];
-	volume.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"volume", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.volume]];
-	low.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"low", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.low]];
+	lastTrade.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTrade", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTrade]];
+	vwap.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"vwap", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP]];
+	lastTradeTime.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTradeTime", @"LocalizedString"), [timeFormatter stringFromDate:self.symbol.symbolDynamicData.lastTradeTime]];
+	open.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"open", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.open]];
+	turnover.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"turnover", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.turnover]];
+	high.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"high", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.high]];
+	volume.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"volume", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.volume]];
+	low.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"low", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.low]];
 }
 - (void)updateFundamentalsInformation {
-	segment.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"segment", @"LocalizedString"), self.symbol.symbolDynamicData.segment];
-	marketCapitalization.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"marketCapialization", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.marketCapitalization]];
-	outstandingShares.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"outstandingShares", @"LocalizedString"), [integerFormatter stringFromNumber:self.symbol.symbolDynamicData.outstandingShares]];
-	dividend.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"dividend", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.dividend]];
-	dividendDate.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"dividendDate", @"LocalizedString"), [dateFormatter stringFromDate:self.symbol.symbolDynamicData.dividendDate]];
+	segment.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"segment", @"LocalizedString"), self.symbol.symbolDynamicData.segment];
+	marketCapitalization.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"marketCapitalization", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.marketCapitalization]];
+	outstandingShares.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"outstandingShares", @"LocalizedString"), [integerFormatter stringFromNumber:self.symbol.symbolDynamicData.outstandingShares]];
+	dividend.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"dividend", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.dividend]];
+	dividendDate.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"dividendDate", @"LocalizedString"), [dateFormatter stringFromDate:self.symbol.symbolDynamicData.dividendDate]];
 }
 
 - (void)updateChart {
-	UIImage *image = [UIImage imageWithData:self.symbol.chart.data];
+	Chart *chart = self.symbol.chart;
+	NSData *data = chart.data;
+	UIImage *image = [UIImage imageWithData:data];
 	[chartButton setBackgroundImage:image forState:UIControlStateNormal];
 }
 
@@ -279,6 +309,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
+	[self.symbol removeObserver:self forKeyPath:@"currency"];
 	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
 	[self.symbol removeObserver:self forKeyPath:@"chart.data"];
 	
@@ -310,10 +341,9 @@
 	[mainFont release];
 	[headerFont release];
 	
-	[dataView release];
 	[chartButton release];
 	[scrollView release];
-	[_symbol release];
+	[self.symbol release];
 
 	[super dealloc];
 }

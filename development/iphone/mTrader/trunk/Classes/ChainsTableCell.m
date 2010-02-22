@@ -41,7 +41,7 @@
 		[tickerLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		[tickerLabel setFont:tickerFont];
 		[tickerLabel setTextColor:[UIColor blackColor]];
-		[tickerLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[tickerLabel setHighlightedTextColor:[UIColor blackColor]];
 		[self.contentView addSubview:tickerLabel];
 		
 		NSString *tickerSample = @"XXXXXXXXXXXX";
@@ -53,7 +53,7 @@
 		descriptionLabel.textAlignment = UITextAlignmentLeft;
 		[descriptionLabel setFont:descriptionFont];
 		[descriptionLabel setTextColor:[UIColor lightGrayColor]];
-		[descriptionLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
 		[self.contentView addSubview:descriptionLabel];
 		
 		UIFont *centerLabelFont = [UIFont systemFontOfSize:17.0];
@@ -62,7 +62,7 @@
 		[centerLabel setFont:centerLabelFont];
 		[centerLabel setTextAlignment:UITextAlignmentRight];
 		[centerLabel setTextColor:[UIColor blackColor]];
-		[centerLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[centerLabel setHighlightedTextColor:[UIColor blackColor]];
 		[self.contentView addSubview:centerLabel];		
 		
 		UIFont *rightLabelFont = [UIFont systemFontOfSize:17.0];
@@ -71,7 +71,7 @@
 		[rightLabel setFont:rightLabelFont];
 		[rightLabel setTextAlignment:UITextAlignmentRight];
 		[rightLabel setTextColor:[UIColor blackColor]];
-		[rightLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[rightLabel setHighlightedTextColor:[UIColor blackColor]];
 		[self.contentView addSubview:rightLabel];
 		
 		UIFont *timeFont = [UIFont systemFontOfSize:12.0];
@@ -80,7 +80,7 @@
 		timeLabel.textAlignment = UITextAlignmentRight;
 		[timeLabel setFont:timeFont];
 		[timeLabel setTextColor:[UIColor lightGrayColor]];
-		[timeLabel setHighlightedTextColor:[UIColor whiteColor]];
+		[timeLabel setHighlightedTextColor:[UIColor lightGrayColor]];
 		[self.contentView addSubview:timeLabel];
 	}
     return self;

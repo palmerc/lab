@@ -7,7 +7,7 @@
 //
 
 
-#import "ChainsTableViewController.h"
+@class Symbol;
 
 @interface SymbolDetailController : UIViewController {
 @private
@@ -57,14 +57,18 @@
 	NSNumberFormatter *percentFormatter;
 }
 
-@property (nonatomic, retain, readonly) Symbol *symbol;
+@property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) UIToolbar *toolBar;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 
 - (void)imageWasTapped:(id)sender;
-- (CGRect)leftSideFrameWithLabel:(NSString *)label;
-- (CGRect)rightSideFrameWithLabel:(NSString *)label;
+- (void)setLabelFrame:(UILabel *)label;
+- (void)setLeftLabelFrame:(UILabel *)leftLabel andRightLabelFrame:(UILabel *)rightLabel;
+- (void)setButtonFrame:(UIButton *)button;
+
+- (UILabel *)generateLabel;
+- (UIButton *)generateButton;
 
 - (void)setupPage;
 - (void)updateSymbolInformation;
