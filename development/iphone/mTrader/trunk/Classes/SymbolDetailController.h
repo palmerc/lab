@@ -12,7 +12,7 @@
 @interface SymbolDetailController : UIViewController {
 @private
 	Symbol *_symbol;
-
+	
 	UIScrollView *scrollView;
 	
 	UIView *symbolsHeaderView;

@@ -167,13 +167,11 @@
 	if (control.selectedSegmentIndex == 0) {
 		NSLog(@"Details");
 	} else if (control.selectedSegmentIndex == 1) {
-		NSLog(@"%@", self.navigationController);
-		OrderBookController *orderBookController = [[OrderBookController alloc] init];
-		[self.navigationController pushViewController:orderBookController animated:NO];
+		OrderBookController *orderBookController = [[OrderBookController alloc] initWithSymbol:self.symbol];
+		orderBookController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+		[self presentModalViewController:orderBookController animated:YES];
+		
 		[orderBookController release];
-//		
-//		[viewController.view removeFromSuperview];
-//		[self.window addSubview:[mainViewController view]];
 	}
 }
 

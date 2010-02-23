@@ -6,11 +6,26 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 
+#import "mTraderCommunicator.h"
+@class Symbol;
 
-@interface OrderBookController : UITableViewController {
+@interface OrderBookController : UITableViewController <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
+@private
+	NSManagedObjectContext *managedObjectContext;
 
+	Symbol *_symbol;
+	
+	NSMutableArray *asks;
+	NSMutableArray *bids;
 }
+
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) NSArray *asks;
+@property (nonatomic, retain) NSArray *bids;
+
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (NSArray *)fetchOrderBookForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 
 @end

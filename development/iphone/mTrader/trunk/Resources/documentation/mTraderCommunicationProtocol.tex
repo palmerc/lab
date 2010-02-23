@@ -190,6 +190,14 @@ Authorization: username
 QFields: ...
 \end{verbatim}
 
+You can also limit the streaming of symbols to a specific symbol with the SecOid field. This example is used for orderbook in the mTrader client.
+\begin{verbatim}
+Action: q
+Authorization: username
+SecOid: feedTicker
+QFields: l;cp;v;d
+\end{verbatim}
+
 The streamed updates will not begin with an HTTP header. Only new actions will receive a header preamble.
 
 \chapter*{Handling Different Request Types}
@@ -230,6 +238,7 @@ QFields are specified using a semicolon seperated list of values:
 \item lo - low
 \item o - open
 \item v - volume
+\item d - orderdepth
 \end{itemize}
 
 An example QField:
@@ -250,6 +259,9 @@ Following a successful quote action you will receive:
 \end{enumerate}
 
 The quote line is comprised of the exchage number and ticker symbol and the data requested via the QField. The data will be in the order specified in the QField separated by semicolons. However, the number of response fields per update will be truncated to the last field with a changed value. Requesting every QField (12 currently), for example, may not result in 12 fields returned in each response.
+
+\section*{Streaming Manipulation}
+
 
 \section*{Add a security}
 Both success and failure begin with the HTTP response header.
@@ -385,5 +397,10 @@ ImageSize: xxx
 <ImageBegin>...<ImageEnd>
 \end{verbatim}
 
+
+\section*{OrderBook Data}
+OrderBook data is fixed at five orders. Ask and Bids are # separated and the price and size are separated by a \. Essentially the data is transmitted as a complete
+snapshot of the 5 bids and 5 asks and then the deltas are transmitted with unchanged cells being blank. The first first ask cell begins with a /. Clearly this is
+preformatted data and the delimeters triggered translation behavior in client.
 
 \end{document}

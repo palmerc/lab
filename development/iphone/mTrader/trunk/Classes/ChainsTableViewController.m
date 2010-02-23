@@ -44,8 +44,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	NSLog(@"Chains size -> x:%.1f y:%.1f width:%.1f height:%.1f", self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
-	NSLog(@"Chains size -> x:%.1f y:%.1f width:%.1f height:%.1f", self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
+	//NSLog(@"Chains size -> x:%.1f y:%.1f width:%.1f height:%.1f", self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+	//NSLog(@"Chains size -> x:%.1f y:%.1f width:%.1f height:%.1f", self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
 	self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
 
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
@@ -412,7 +412,7 @@
 	static NSInteger LOW = 9;
 	static NSInteger OPEN = 10;
 	static NSInteger VOLUME = 11;
-	//static NSInteger ORDERBOOK = 12;
+	static NSInteger ORDERBOOK = 12;
 
 	for (NSString *update in updates) {
 		
@@ -573,26 +573,6 @@
 			}
 		}
 		
-		// orderBook
-//		if ([values count] > ORDERBOOK) {
-//			NSArray *orderBook = [values objectAtIndex:ORDERBOOK];
-//			if ([orderBook count] > 0) {
-//				NSArray *oldOrderBook = [self fetchOrderBookForSymbol:tickerSymbol withFeedNumber:feedNumber];
-//				
-//				for (NSManagedObject *entry in oldOrderBook) {
-//					[self.managedObjectContext deleteObject:entry];
-//				}
-//				
-//				for (NSString *item in orderBook) {
-//					
-//					NSManagedObject *orderBookEntry = [NSEntityDescription insertNewObjectForEntityForName:@"OrderBookEntry" inManagedObjectContext:self.managedObjectContext];
-//					//orderBookEntry.bidSize =;
-//					//orderBookEntry.bidValue =;
-//					//orderBookEntry.askSize =;
-//					//orderBookEntry.askValue =;
-//				}
-//			}
-//		}
 		array = nil;
 	}
 	NSError *error;
@@ -1060,34 +1040,6 @@
 		return nil;
 	}
 }
-
-- (NSArray *)fetchOrderBookForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber {
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"OrderBookEntry" inManagedObjectContext:self.managedObjectContext];
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@)", feedNumber, tickerSymbol];
-	[request setPredicate:predicate];
-	
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"askValue" ascending:YES];
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	[sortDescriptor release];
-	
-	NSError *error = nil;
-	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	if (array == nil)
-	{
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
-	
-	if ([array count] == 1) {
-		return array;
-	} else {
-		return nil;
-	}
-}
-
-
 
 
 #pragma mark -

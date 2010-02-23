@@ -73,6 +73,8 @@
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
 		7EC00A2A112ABD320092873A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC00A29112ABD320092873A /* QuartzCore.framework */; };
 		7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE2A71F11172B0100B682BD /* CoreData.framework */; };
+		7EE4D3AB1134303F00B8ADA1 /* Ask.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE4D3AA1134303F00B8ADA1 /* Ask.m */; };
+		7EE4D3B01134304800B8ADA1 /* Bid.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE4D3AF1134304800B8ADA1 /* Bid.m */; };
 		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
 		C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
 /* End PBXBuildFile section */
@@ -166,6 +168,10 @@
 		7EB15D0310F1D24D003049C7 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
 		7EC00A29112ABD320092873A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		7EE4D3A91134303F00B8ADA1 /* Ask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ask.h; sourceTree = "<group>"; };
+		7EE4D3AA1134303F00B8ADA1 /* Ask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ask.m; sourceTree = "<group>"; };
+		7EE4D3AE1134304800B8ADA1 /* Bid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bid.h; sourceTree = "<group>"; };
+		7EE4D3AF1134304800B8ADA1 /* Bid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bid.m; sourceTree = "<group>"; };
 		7EF9464C11108D9F006B5CDE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		C73CE63510E7544200AF6D89 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		C73CE63610E7544200AF6D89 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
@@ -354,7 +360,6 @@
 		7E419AD610E20B7B0007808B /* Chains */ = {
 			isa = PBXGroup;
 			children = (
-				7E723BAC11294B350073A07B /* OrderBookCell */,
 				7ED92B8610F77F010016F656 /* ChainsCell */,
 				7E419AD710E20B920007808B /* ChainsTableViewController.h */,
 				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
@@ -478,10 +483,15 @@
 		7EC009C1112A96330092873A /* Symbol Detail and Orderbook */ = {
 			isa = PBXGroup;
 			children = (
+				7E723BAC11294B350073A07B /* OrderBookCell */,
 				7E723B601129413E0073A07B /* OrderBookController.h */,
 				7E723B611129413E0073A07B /* OrderBookController.m */,
 				7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */,
 				7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */,
+				7EE4D3A91134303F00B8ADA1 /* Ask.h */,
+				7EE4D3AA1134303F00B8ADA1 /* Ask.m */,
+				7EE4D3AE1134304800B8ADA1 /* Bid.h */,
+				7EE4D3AF1134304800B8ADA1 /* Bid.m */,
 			);
 			name = "Symbol Detail and Orderbook";
 			sourceTree = "<group>";
@@ -714,6 +724,8 @@
 				7E723B621129413E0073A07B /* OrderBookController.m in Sources */,
 				7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */,
 				7E2A0921112C3D3C00CF5EE1 /* SymbolDynamicData.m in Sources */,
+				7EE4D3AB1134303F00B8ADA1 /* Ask.m in Sources */,
+				7EE4D3B01134304800B8ADA1 /* Bid.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

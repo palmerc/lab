@@ -652,6 +652,30 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
+- (void)orderBookForFeedTicker:(NSString *)feedTicker {
+	NSString *username = self.defaults.username;
+	NSString *ActionQ = @"Action: q";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+	NSString *QFields = @"QFields: l;cp;v;d";
+	NSArray *getOrderBookArray = [NSArray arrayWithObjects:ActionQ, Authorization, SecOid, QFields, nil];
+
+	NSString *orderBookRequestString = [self arrayToFormattedString:getOrderBookArray];
+	[self.communicator writeString:orderBookRequestString];
+}
+
+- (void)stopStreamingData {	
+	NSString *username = self.defaults.username;
+	NSString *ActionQ = @"Action: q";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *QFields = @"QFields:";
+	NSArray *stopStreamingArray = [NSArray arrayWithObjects:ActionQ, Authorization, QFields, nil];
+	
+	NSString *stopStreamingRequestString = [self arrayToFormattedString:stopStreamingArray];
+	[self.communicator writeString:stopStreamingRequestString];
+	
+}
+
 - (void)staticDataForFeedTicker:(NSString *)feedTicker {
 	NSString *username = self.defaults.username;
 	NSString *language = @"EN";
