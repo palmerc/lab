@@ -81,6 +81,7 @@ enum {
 // mTrader server request methods
 - (void)login;
 - (void)logout;
+- (void)chainsStreaming;
 -(void) newsListFeeds;
 -(void) newsItemRequest:(NSString *)newsId;
 -(void) addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode;
@@ -88,6 +89,7 @@ enum {
 - (void)removeSecurity:(NSString *)feedTicker;
 - (BOOL)loginStatusHasChanged;
 - (void)staticDataForFeedTicker:(NSString *)feedTicker;
+- (void)dynamicDetailForFeedTicker:(NSString *)feedTicker;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 - (void)stopStreamingData;
 

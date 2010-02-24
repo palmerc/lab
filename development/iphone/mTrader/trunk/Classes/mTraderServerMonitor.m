@@ -88,8 +88,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		[alertView show];
 		[alertView release];
 	} else {
-		mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-		[communicator login];
+		[[mTraderCommunicator sharedManager] login];
 	}
 	
 	NSLog(@"Reachability is %d", status);

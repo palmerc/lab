@@ -7,10 +7,14 @@
 //
 
 
+#import "OrderBookController.h"
+#import "mTraderCommunicator.h"
 @class Symbol;
 
-@interface SymbolDetailController : UIViewController {
+@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookControllerDelegate> {
 @private
+	NSManagedObjectContext *managedObjectContext;
+	
 	Symbol *_symbol;
 	
 	UIScrollView *scrollView;
@@ -57,12 +61,13 @@
 	NSNumberFormatter *percentFormatter;
 }
 
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) UIToolbar *toolBar;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 
-- (void)viewSelect:(id)sender;
+- (void)orderBook:(id)sender;
 - (void)imageWasTapped:(id)sender;
 - (void)setLabelFrame:(UILabel *)label;
 - (void)setLeftLabelFrame:(UILabel *)leftLabel andRightLabelFrame:(UILabel *)rightLabel;
@@ -76,6 +81,8 @@
 - (void)updateTradesInformation;
 - (void)updateFundamentalsInformation;
 - (void)updateChart;
+
+- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 
 @end
 

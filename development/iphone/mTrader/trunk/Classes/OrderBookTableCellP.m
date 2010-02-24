@@ -110,17 +110,19 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-	CGContextRef ctx = UIGraphicsGetCurrentContext();
-	CGContextSetRGBFillColor(ctx, 0.0, 0.0, 1.0, 0.5);
-	NSLog(@"%f", bid.percent);
-	CGContextFillRect(ctx, CGRectMake(0.0, 0.0, bid.percent * 320.0 / 4.0, 50.0));
-	
-	CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.5);
-	NSLog(@"%f", ask.percent);
 	CGFloat widthOfLabel = 320.0/4.0;
-	CGFloat widthOfRect = ask.percent * widthOfLabel;
-	CGFloat askOffset = widthOfLabel - widthOfRect;
-	CGContextFillRect(ctx, CGRectMake(3 * widthOfLabel + askOffset, 0.0, ask.percent * 320.0 / 4.0, 50.0));
+	CGFloat askWidth = ask.percent * widthOfLabel;
+	CGFloat bidWidth = bid.percent * widthOfLabel;
+	CGFloat askOffset = widthOfLabel - askWidth;
+
+	// bid bar
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+	CGContextSetRGBFillColor(ctx, 0.0, 0.0, 1.0, 0.25);
+	CGContextFillRect(ctx, CGRectMake(0.0, 0.0, bidWidth, 50.0));
+	
+	// ask bar
+	CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.25);
+	CGContextFillRect(ctx, CGRectMake(widthOfLabel * 3 + askOffset, 0.0, askWidth, 50.0));
 	
 	[super drawRect:rect];
 }
@@ -140,6 +142,7 @@
 	self.bidSizeLabel.text = [bid.bidSize stringValue];
 	self.bidValueLabel.text = [doubleFormatter stringFromNumber:bid.bidValue];
 	
+	[self setNeedsDisplay];
 }
 
 - (void)setAsk:(Ask *)newAsk {
@@ -157,6 +160,8 @@
 	
 	self.askSizeLabel.text = [ask.askSize stringValue];
 	self.askValueLabel.text = [doubleFormatter stringFromNumber:ask.askValue];
+	
+	[self setNeedsDisplay];
 }
 
 #pragma mark -

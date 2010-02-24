@@ -360,13 +360,9 @@
 		7E419AD610E20B7B0007808B /* Chains */ = {
 			isa = PBXGroup;
 			children = (
-				7ED92B8610F77F010016F656 /* ChainsCell */,
-				7E419AD710E20B920007808B /* ChainsTableViewController.h */,
-				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
-				7E9CD698111DAAC9009B0087 /* ChainsNavigationViewController.h */,
-				7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */,
-				7E29B80110F4B96500816D9B /* SymbolAddController.h */,
-				7E29B80210F4B96500816D9B /* SymbolAddController.m */,
+				7EB3DBA3113552D700145DDC /* Add Symbol */,
+				7EB3DBA2113552AD00145DDC /* Navigation Controller */,
+				7ED92B8610F77F010016F656 /* Chains Table */,
 				7EC009C1112A96330092873A /* Symbol Detail and Orderbook */,
 			);
 			name = Chains;
@@ -453,13 +449,19 @@
 			name = Exchanges;
 			sourceTree = "<group>";
 		};
-		7E723BAC11294B350073A07B /* OrderBookCell */ = {
+		7E723BAC11294B350073A07B /* OrderBook */ = {
 			isa = PBXGroup;
 			children = (
+				7E723B601129413E0073A07B /* OrderBookController.h */,
+				7E723B611129413E0073A07B /* OrderBookController.m */,
 				7E723BB411294B930073A07B /* OrderBookTableCellP.h */,
 				7E723BB511294B930073A07B /* OrderBookTableCellP.m */,
+				7EE4D3A91134303F00B8ADA1 /* Ask.h */,
+				7EE4D3AA1134303F00B8ADA1 /* Ask.m */,
+				7EE4D3AE1134304800B8ADA1 /* Bid.h */,
+				7EE4D3AF1134304800B8ADA1 /* Bid.m */,
 			);
-			name = OrderBookCell;
+			name = OrderBook;
 			sourceTree = "<group>";
 		};
 		7EAE4F851118407300B2FCB4 /* Models and Model Classes */ = {
@@ -480,29 +482,51 @@
 			name = "User Defaults";
 			sourceTree = "<group>";
 		};
+		7EB3DBA2113552AD00145DDC /* Navigation Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7E9CD698111DAAC9009B0087 /* ChainsNavigationViewController.h */,
+				7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */,
+			);
+			name = "Navigation Controller";
+			sourceTree = "<group>";
+		};
+		7EB3DBA3113552D700145DDC /* Add Symbol */ = {
+			isa = PBXGroup;
+			children = (
+				7E29B80110F4B96500816D9B /* SymbolAddController.h */,
+				7E29B80210F4B96500816D9B /* SymbolAddController.m */,
+			);
+			name = "Add Symbol";
+			sourceTree = "<group>";
+		};
+		7EB3DBAC1135536000145DDC /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */,
+				7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */,
+			);
+			name = Detail;
+			sourceTree = "<group>";
+		};
 		7EC009C1112A96330092873A /* Symbol Detail and Orderbook */ = {
 			isa = PBXGroup;
 			children = (
-				7E723BAC11294B350073A07B /* OrderBookCell */,
-				7E723B601129413E0073A07B /* OrderBookController.h */,
-				7E723B611129413E0073A07B /* OrderBookController.m */,
-				7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */,
-				7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */,
-				7EE4D3A91134303F00B8ADA1 /* Ask.h */,
-				7EE4D3AA1134303F00B8ADA1 /* Ask.m */,
-				7EE4D3AE1134304800B8ADA1 /* Bid.h */,
-				7EE4D3AF1134304800B8ADA1 /* Bid.m */,
+				7EB3DBAC1135536000145DDC /* Detail */,
+				7E723BAC11294B350073A07B /* OrderBook */,
 			);
 			name = "Symbol Detail and Orderbook";
 			sourceTree = "<group>";
 		};
-		7ED92B8610F77F010016F656 /* ChainsCell */ = {
+		7ED92B8610F77F010016F656 /* Chains Table */ = {
 			isa = PBXGroup;
 			children = (
+				7E419AD710E20B920007808B /* ChainsTableViewController.h */,
+				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
 				7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */,
 				7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */,
 			);
-			name = ChainsCell;
+			name = "Chains Table";
 			sourceTree = "<group>";
 		};
 		C73CE2F710E3BE3E00AF6D89 /* Translations */ = {

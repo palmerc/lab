@@ -44,22 +44,16 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	self = [super init];
 	if (self != nil) {
 		_communicator = [[Communicator alloc] initWithSocket:url onPort:port];
-		self.communicator.delegate = self;
+		_communicator.delegate = self;
 		_defaults = [UserDefaults sharedManager];
 		
 		isLoggedIn = NO;
 		loginStatusHasChanged = NO;
-		self.blockBuffer = [[NSMutableArray alloc] init];
+		_blockBuffer = [[NSMutableArray alloc] init];
 		contentLength = 0;
 		state = LOGIN;
 	}
 	return self;
-}
-
-- (void)dealloc {
-	[self.blockBuffer release];
-	[self.communicator release];
-	[super dealloc];
 }
 
 #pragma mark Singleton Methods
@@ -97,8 +91,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (id)autorelease {
 	return self;
 }
-
-
 
 #pragma mark Data Received
 
@@ -637,7 +629,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
 		NSString *ConnectionType = @"ConnType: Socket";
 		NSString *Streaming = @"Streaming: 1";
-		NSString *QFields = @"QFields: l;cp;b;a;av;bv;c;h;lo;o;v";
+		NSString *QFields = @"QFields: l;cp;b;a;c";
 		
 		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, ConnectionType, Streaming, QFields, nil];
 		NSString *loginString = [self arrayToFormattedString:loginArray];
@@ -714,6 +706,30 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *newsListFeedsString = [self arrayToFormattedString:getNewsListFeedsArray];
 	
 	[self.communicator writeString:newsListFeedsString];
+}
+
+- (void)chainsStreaming {
+	NSString *username = self.defaults.username;
+	NSString *ActionQ = @"Action: q";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *SecOid = [NSString stringWithFormat:@"SecOid:"];
+	NSString *QFields = @"QFields: l;cp;b;a;c";
+	NSArray *getDynamicDetailArray = [NSArray arrayWithObjects:ActionQ, Authorization, SecOid, QFields, nil];
+	
+	NSString *dynamicDetailRequestString = [self arrayToFormattedString:getDynamicDetailArray];
+	[self.communicator writeString:dynamicDetailRequestString];	
+}
+
+- (void)dynamicDetailForFeedTicker:(NSString *)feedTicker {
+	NSString *username = self.defaults.username;
+	NSString *ActionQ = @"Action: q";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+	NSString *QFields = @"QFields: l;h;lo;o;v";
+	NSArray *getDynamicDetailArray = [NSArray arrayWithObjects:ActionQ, Authorization, SecOid, QFields, nil];
+	
+	NSString *dynamicDetailRequestString = [self arrayToFormattedString:getDynamicDetailArray];
+	[self.communicator writeString:dynamicDetailRequestString];	
 }
 
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {
@@ -831,6 +847,15 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[mutableProduct release];
 	
 	return finalProduct;
+}
+
+#pragma mark -
+#pragma mark Memory management
+
+- (void)dealloc {
+	[self.blockBuffer release];
+	[self.communicator release];
+	[super dealloc];
 }
 
 @end

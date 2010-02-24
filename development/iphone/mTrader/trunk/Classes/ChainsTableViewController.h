@@ -64,7 +64,6 @@ typedef enum {
 - (Feed *)fetchFeedByName:(NSString *)feedName;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString	*)mCode;
-- (NSArray *)fetchOrderBookForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 
 @end
 

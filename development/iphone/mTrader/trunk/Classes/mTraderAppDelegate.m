@@ -196,7 +196,6 @@
     [managedObjectModel release];
     [persistentStoreCoordinator release];
 	
-	[defaults release];
 	[_tabController release];
 	[window release];
     [super dealloc];

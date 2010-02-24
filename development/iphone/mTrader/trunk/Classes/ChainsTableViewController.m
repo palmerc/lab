@@ -87,6 +87,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	self.communicator.symbolsDelegate = self;
+	if ([self.communicator isLoggedIn]) {
+		[self.communicator chainsStreaming];
+	}
+	
 	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
 	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
 	centerControl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -110,11 +115,6 @@
 	[rightBarItem release];
 	
 }
-
-- (void)viewWillDisappear:(BOOL)animated {
-//	self.toolBar.items = nil;
-}
-
 
 #pragma mark -
 #pragma mark TableViewDataSource Methods
@@ -198,6 +198,7 @@
 	
 	// Give it the toolbar
 	symbolDetail.toolBar = self.toolBar;
+	symbolDetail.managedObjectContext = self.managedObjectContext; 
 	
 	// Push the view onto the Navigation Controller
 	[self.navigationController pushViewController:symbolDetail animated:YES];
@@ -405,15 +406,15 @@
 	static NSInteger PERCENT_CHANGE = 2;
 	static NSInteger BID_PRICE = 3;
 	static NSInteger ASK_PRICE = 4;
-	static NSInteger ASK_VOLUME = 5;
-	static NSInteger BID_VOLUME = 6;
-	static NSInteger CHANGE = 7;
-	static NSInteger HIGH = 8;
-	static NSInteger LOW = 9;
-	static NSInteger OPEN = 10;
-	static NSInteger VOLUME = 11;
-	static NSInteger ORDERBOOK = 12;
-
+	static NSInteger CHANGE = 5;
+/*
+	static NSInteger ASK_VOLUME = 5; // kill
+	static NSInteger BID_VOLUME = 6; // kill
+	static NSInteger HIGH = 8; // kill
+	static NSInteger LOW = 9; // kill
+	static NSInteger OPEN = 10; // kill
+	static NSInteger VOLUME = 11; // kill
+*/
 	for (NSString *update in updates) {
 		
 		NSArray *values = [StringHelpers cleanComponents:[update componentsSeparatedByString:@";"]];
@@ -484,7 +485,7 @@
 				symbolDynamicData.askPrice = [NSNumber numberWithDouble:[askPrice doubleValue]];
 			}
 		}
-		
+		/*
 		// ask volume
 		if ([values count] > ASK_VOLUME) {
 			NSString *askVolume = [values objectAtIndex:ASK_VOLUME];
@@ -516,7 +517,7 @@
 				symbolDynamicData.bidVolume = [NSNumber numberWithInteger:[bidVolume integerValue] * multiplier];
 			}
 		}
-		
+		*/
 		// change
 		if ([values count] > CHANGE) {
 			NSString *change = [values objectAtIndex:CHANGE];
@@ -526,7 +527,7 @@
 				symbolDynamicData.change = [NSNumber numberWithDouble:[change doubleValue]];
 			}
 		}
-		
+		/*
 		// high
 		if ([values count] > HIGH) {
 			NSString *high = [values objectAtIndex:HIGH];
@@ -572,6 +573,7 @@
 				symbolDynamicData.volume = [NSNumber numberWithDouble:[volume doubleValue]  * multiplier];
 			}
 		}
+		*/
 		
 		array = nil;
 	}
@@ -579,234 +581,6 @@
 	if (![self.managedObjectContext save:&error]) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	}
-}
-
-- (void)staticUpdates:(NSDictionary *)updateDictionary {
-	static NSDateFormatter *dateFormatter = nil;
-	if (dateFormatter == nil) {
-		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	}
-	
-	static NSDateFormatter *timeFormatter = nil;
-	if (timeFormatter == nil) {
-		timeFormatter = [[NSDateFormatter alloc] init];
-		[timeFormatter setDateFormat:@"HH:mm:ss"];
-	}
-	
-	static NSNumberFormatter *doubleFormatter = nil;
-	if (doubleFormatter == nil) {
-		doubleFormatter = [[NSNumberFormatter alloc] init];
-		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[doubleFormatter setUsesSignificantDigits:YES];
-	}
-	
-	static NSNumberFormatter *integerFormatter = nil;
-	if (integerFormatter == nil) {
-		integerFormatter = [[NSNumberFormatter alloc] init];
-		[integerFormatter setNumberStyle:NSNumberFormatterNoStyle];
-	}
-	
-	static NSNumberFormatter *percentFormatter = nil;
-	if (percentFormatter == nil) {
-		percentFormatter = [[NSNumberFormatter alloc] init];
-		[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-		[percentFormatter setUsesSignificantDigits:YES];
-	}
-		
-	NSArray *feedTickerComponents = [[updateDictionary objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
-	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
-	
-	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
-	if ([updateDictionary objectForKey:@"Bid"]) {
-		symbol.symbolDynamicData.bidPrice = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Bid"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"B Size"]) {
-		NSString *bidSize = [updateDictionary objectForKey:@"B Size"];
-		NSUInteger multiplier = 1;
-		if ([bidSize rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
-		} else if ([bidSize rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
-		}		
-		symbol.symbolDynamicData.bidSize = [NSNumber numberWithInteger:[bidSize integerValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"Ask"]) { 
-		symbol.symbolDynamicData.askPrice = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Ask"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"A Size"]) { 
-		NSString *askSize = [updateDictionary objectForKey:@"A Size"];
-		NSUInteger multiplier = 1;
-		if ([askSize rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
-		} else if ([askSize rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
-		}
-		symbol.symbolDynamicData.askSize = [NSNumber numberWithInteger:[askSize integerValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"Pr Cls"]) { 
-		symbol.symbolDynamicData.previousClose = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Pr Cls"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"Open"]) { 
-		symbol.symbolDynamicData.open = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Open"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"High"]) { 
-		symbol.symbolDynamicData.high = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"High"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"Low"]) { 
-		symbol.symbolDynamicData.low = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Low"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"Last"]) { 
-		symbol.symbolDynamicData.lastTrade = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Last"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"L +/-"]) { 
-		symbol.symbolDynamicData.lastTradeChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"L +/-"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"L +/-%"]) {
-		symbol.symbolDynamicData.lastTradePercentChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"L +/-%"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"O +/-"]) { 
-		symbol.symbolDynamicData.openChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"O +/-"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"O +/-%"]) {
-		symbol.symbolDynamicData.openPercentChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"O +/-%"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"Volume"]) {
-		NSString *volume = [updateDictionary objectForKey:@"Volume"];
-		float multiplier = 1.0;
-		if ([volume rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000.0;
-		} else if ([volume rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000.0;
-		}
-		symbol.symbolDynamicData.volume = [NSNumber numberWithDouble:[volume doubleValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"Turnover"]) {
-		NSString *turnover = [updateDictionary objectForKey:@"Turnover"];
-		NSUInteger multiplier = 1;
-		if ([turnover rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
-		} else if ([turnover rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
-		}		
-		symbol.symbolDynamicData.turnover = [NSNumber numberWithInteger:[turnover integerValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"OnVolume"]) {
-		NSString *onVolume = [updateDictionary objectForKey:@"OnVolume"];
-		NSUInteger multiplier = 1;
-		if ([onVolume rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
-		} else if ([onVolume rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
-		}
-		symbol.symbolDynamicData.onVolume = [NSNumber numberWithInteger:[onVolume integerValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"OnValue"]) {
-		NSString *onValue = [updateDictionary objectForKey:@"OnValue"];
-		NSUInteger multiplier = 1;
-		if ([onValue rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
-		} else if ([onValue rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
-		}
-		symbol.symbolDynamicData.onValue = [NSNumber numberWithDouble:[onValue doubleValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"Time"]) { 
-		symbol.symbolDynamicData.lastTradeTime = [dateFormatter dateFromString:[updateDictionary objectForKey:@"Time"]];
-	}
-	if ([updateDictionary objectForKey:@"VWAP"]) { 
-		symbol.symbolDynamicData.VWAP = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"VWAP"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"AvgVol"]) {
-		symbol.symbolDynamicData.averageVolume = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"AvgVol"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"AvgVal"]) { 
-		symbol.symbolDynamicData.averageValue = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"AvgVal"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"Status"]) { 
-		symbol.symbolDynamicData.tradingStatus = [updateDictionary objectForKey:@"Status"];
-	}
-	if ([updateDictionary objectForKey:@"B Lot"]) {
-		NSString *bidLot = [updateDictionary objectForKey:@"B Lot"];
-		NSUInteger multiplier = 1;
-		if ([bidLot rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
-		} else if ([bidLot rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
-		}
-		symbol.symbolDynamicData.buyLot = [NSNumber numberWithInteger:[bidLot integerValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"BLValue"]) { 
-		symbol.symbolDynamicData.buyLotValue = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"BLValue"] doubleValue]];
-	}
-	if ([updateDictionary objectForKey:@"Shares"]) {
-		NSString *shares = [updateDictionary objectForKey:@"Shares"];
-		NSUInteger multiplier = 1;
-		if ([shares rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000;
-		} else if ([shares rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000;
-		}
-		symbol.symbolDynamicData.outstandingShares = [NSNumber numberWithInteger:[shares integerValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"M Cap"]) {
-		NSString *marketCapitalization = [updateDictionary objectForKey:@"M Cap"];
-		NSLog(@"MARKET CAP IS %@", marketCapitalization);
-		float multiplier = 1.0;
-		if ([marketCapitalization rangeOfString:@"k"].location != NSNotFound) {
-			multiplier = 1000.0;
-		} else if ([marketCapitalization rangeOfString:@"m"].location != NSNotFound) {
-			multiplier = 1000000.0;
-		}
-		symbol.symbolDynamicData.marketCapitalization = [NSNumber numberWithDouble:[marketCapitalization doubleValue] * multiplier];
-	}
-	if ([updateDictionary objectForKey:@"Exchange"]) {
-		//
-	}
-	if ([updateDictionary objectForKey:@"Country"]) {
-		symbol.country = [updateDictionary objectForKey:@"Country"];
-	}
-	if ([updateDictionary objectForKey:@"Description"]) {
-		//
-	}
-	if ([updateDictionary objectForKey:@"Symbol"]) {
-		//
-	}
-	if ([updateDictionary objectForKey:@"ISIN"]) { 
-		//
-	}
-	if ([updateDictionary objectForKey:@"Currency"]) { 
-		symbol.currency = [updateDictionary objectForKey:@"Currency"];
-	}
-	
-//	if (symbolDetail && [symbolDetail respondsToSelector:@selector(setValues)]) {
-//		[symbolDetail renderMe];
-//	}
-}
-
-- (void)chartUpdate:(NSDictionary *)chartData {
-	NSArray *feedTickerComponents = [[chartData objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
-	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
-	
-	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
-	
-	Chart *chart = (Chart *)[NSEntityDescription insertNewObjectForEntityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
-	chart.height = [chartData objectForKey:@"height"];
-	chart.width = [chartData objectForKey:@"width"];
-	chart.size = [chartData objectForKey:@"size"];
-	chart.type = [chartData objectForKey:@"type"];
-	NSData *data = [chartData objectForKey:@"data"];
-	chart.data = data;
-	symbol.chart = chart;
-	
-//	NSError *error;
-//	[self.managedObjectContext save:&error];
-	//if (symbolDetail && [symbolDetail respondsToSelector:@selector(setChart)]) {
-//		[symbolDetail setChart];
-//	}
-	
 }
 
 #pragma mark -

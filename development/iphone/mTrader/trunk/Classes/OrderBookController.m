@@ -22,58 +22,65 @@
 @synthesize managedObjectContext;
 @synthesize asks, bids;
 @synthesize symbol = _symbol;
+@synthesize table;
+@synthesize delegate;
 
 - (id)initWithSymbol:(Symbol *)symbol {
 	self = [super init];
 	if (self != nil) {
 		self.symbol = symbol;
 		self.managedObjectContext = [symbol managedObjectContext];
-		
+				
+		askSizeLabel = [[self generateLabel] retain];
+		askSizeLabel.text = @"Ask Size";
+		askValueLabel = [[self generateLabel] retain];
+		askValueLabel.text = @"Ask Price";
+		bidSizeLabel = [[self generateLabel] retain];
+		bidSizeLabel.text = @"Bid Size";
+		bidValueLabel = [[self generateLabel] retain];
+		bidValueLabel.text = @"Bid Price";
+		table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
 		asks = [[NSMutableArray alloc] init];
 		bids = [[NSMutableArray alloc] init];
+
+		[self.view addSubview:table];
 	}
 	return self;
 }
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
-    }
-    return self;
-}
-*/
-
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	self.title = @"Orderbook";
 	
-	[[mTraderCommunicator sharedManager] stopStreamingData];
-	[mTraderCommunicator sharedManager].symbolsDelegate = self;
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[[mTraderCommunicator sharedManager] orderBookForFeedTicker:feedTicker];
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
+	self.navigationItem.rightBarButtonItem = doneButton;
+	[doneButton release];
+	
+	[super viewDidLoad];
 }
 
-
-/*
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+	CGRect viewFrame = self.view.bounds;
+	
+	CGFloat width = 320.0 / 4;
+	CGSize textSize = [@"X" sizeWithFont:[UIFont systemFontOfSize:17.0]];
+	CGFloat y = viewFrame.origin.y;
+	askSizeLabel.frame = CGRectMake(0.0, y, width, textSize.height);
+	askValueLabel.frame = CGRectMake(width, y, width, textSize.height);
+	bidSizeLabel.frame = CGRectMake(width * 2, y, width, textSize.height);
+	bidValueLabel.frame = CGRectMake(width * 3, y, width, textSize.height);
+	viewFrame.origin.y += textSize.height;
+	
+	table.frame = viewFrame;
+	table.delegate = self;
+	table.dataSource = self;
+	
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	[communicator stopStreamingData];
+	communicator.symbolsDelegate = self;
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	[communicator orderBookForFeedTicker:feedTicker];
+	
 }
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -90,11 +97,17 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+- (UILabel *)generateLabel {
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+	
+	label.backgroundColor = [UIColor whiteColor];
+	label.font = [UIFont systemFontOfSize:17.0];
+	label.textColor = [UIColor blackColor];
+	label.textAlignment = UITextAlignmentCenter;
+	
+	[self.view addSubview:label];
+	return label;
 }
-
 
 #pragma mark Table view methods
 
@@ -108,9 +121,9 @@
 	return [asks count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return nil;	
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//	return nil;	
+//}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -136,12 +149,12 @@
 	cell.ask = ask;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here. Create and push another view controller.
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
-}
+//}
 
 
 /*
@@ -329,31 +342,54 @@
 			sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"bidSize" ascending:NO] autorelease];
 			sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
 			NSArray *sortedBids = [bids sortedArrayUsingDescriptors:sortDescriptors];
-					
-			Ask *biggestAskSize = [sortedAsks objectAtIndex:0];
-			Bid *biggestBidSize = [sortedBids objectAtIndex:0];
 			
-			for (Ask *ask in asks) {
-				ask.percent = [ask.askSize floatValue] / [biggestAskSize.askSize floatValue];
+			if ([sortedAsks count] > 0) {
+				Ask *biggestAskSize = [sortedAsks objectAtIndex:0];
+				
+				for (Ask *ask in asks) {
+					ask.percent = [ask.askSize floatValue] / [biggestAskSize.askSize floatValue];
+				}
 			}
 			
-			for (Bid *bid in bids) {
-				bid.percent = [bid.bidSize floatValue] / [biggestBidSize.bidSize floatValue];
+			if ([sortedBids count] > 0) {
+				Bid *biggestBidSize = [sortedBids objectAtIndex:0];
+					
+				for (Bid *bid in bids) {
+					bid.percent = [bid.bidSize floatValue] / [biggestBidSize.bidSize floatValue];
+				}
 			}
 		}
 		array = nil;
 	}
 	
-	[self.tableView reloadData];
+	[self.table reloadData];
 }
 
+- (void)done:(id)sender {
+	[[mTraderCommunicator sharedManager] stopStreamingData];
+	[mTraderCommunicator sharedManager].symbolsDelegate = nil;
+
+	[self.delegate orderBookControllerDidFinish:self];
+}
+
+#pragma mark -
+#pragma mark Debugging methods
+ // Very helpful debug when things seem not to be working.
+ - (BOOL)respondsToSelector:(SEL)sel {
+	 NSLog(@"Queried about %@ in OrderBookController", NSStringFromSelector(sel));
+	 return [super respondsToSelector:sel];
+ }
+
+#pragma mark -
+#pragma mark Memory management
 - (void)dealloc {
+	[self.asks release];
+	[self.bids release];
 	[self.symbol release];
 	[self.managedObjectContext release];
-	
+	[table release];
     [super dealloc];
 }
-
 
 @end
 

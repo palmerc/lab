@@ -8,13 +8,22 @@
 
 
 #import "mTraderCommunicator.h"
+@protocol OrderBookControllerDelegate;
 @class Symbol;
 
-@interface OrderBookController : UITableViewController <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
+@interface OrderBookController : UIViewController <NSFetchedResultsControllerDelegate, SymbolsDataDelegate, UITableViewDataSource, UITableViewDelegate> {
 @private
 	NSManagedObjectContext *managedObjectContext;
 
 	Symbol *_symbol;
+	
+	id <OrderBookControllerDelegate> delegate;
+	
+	UITableView *table;
+	UILabel *askSizeLabel;
+	UILabel *askValueLabel;
+	UILabel *bidSizeLabel;
+	UILabel *bidValueLabel;
 	
 	NSMutableArray *asks;
 	NSMutableArray *bids;
@@ -22,10 +31,16 @@
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
+@property (assign) id <OrderBookControllerDelegate> delegate;
+@property (nonatomic, retain) UITableView *table;
 @property (nonatomic, retain) NSArray *asks;
 @property (nonatomic, retain) NSArray *bids;
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
-- (NSArray *)fetchOrderBookForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
+- (UILabel *)generateLabel;
 
+@end
+
+@protocol OrderBookControllerDelegate
+- (void)orderBookControllerDidFinish:(OrderBookController *)controller;
 @end
