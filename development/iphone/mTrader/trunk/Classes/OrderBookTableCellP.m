@@ -31,7 +31,7 @@
 #pragma mark Initialization
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-		self.mainFont = [UIFont boldSystemFontOfSize:17.0];
+		self.mainFont = [UIFont systemFontOfSize:17.0];
 		self.bidSizeLabel = [self createLabel];		
 		self.bidValueLabel = [self createLabel];
 		self.askSizeLabel = [self createLabel];

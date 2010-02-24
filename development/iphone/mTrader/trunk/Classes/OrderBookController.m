@@ -32,13 +32,13 @@
 		self.managedObjectContext = [symbol managedObjectContext];
 				
 		askSizeLabel = [[self generateLabel] retain];
-		askSizeLabel.text = @"Ask Size";
+		askSizeLabel.text = @"A Size";
 		askValueLabel = [[self generateLabel] retain];
-		askValueLabel.text = @"Ask Price";
+		askValueLabel.text = @"A Price";
 		bidSizeLabel = [[self generateLabel] retain];
-		bidSizeLabel.text = @"Bid Size";
+		bidSizeLabel.text = @"B Size";
 		bidValueLabel = [[self generateLabel] retain];
-		bidValueLabel.text = @"Bid Price";
+		bidValueLabel.text = @"B Price";
 		table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
 		asks = [[NSMutableArray alloc] init];
 		bids = [[NSMutableArray alloc] init];
@@ -62,12 +62,13 @@
 	CGRect viewFrame = self.view.bounds;
 	
 	CGFloat width = 320.0 / 4;
-	CGSize textSize = [@"X" sizeWithFont:[UIFont systemFontOfSize:17.0]];
+	CGSize textSize = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:17.0]];
 	CGFloat y = viewFrame.origin.y;
-	askSizeLabel.frame = CGRectMake(0.0, y, width, textSize.height);
-	askValueLabel.frame = CGRectMake(width, y, width, textSize.height);
-	bidSizeLabel.frame = CGRectMake(width * 2, y, width, textSize.height);
-	bidValueLabel.frame = CGRectMake(width * 3, y, width, textSize.height);
+	bidSizeLabel.frame = CGRectMake(0.0, y, width, textSize.height);
+	bidValueLabel.frame = CGRectMake(width, y, width, textSize.height);
+	askValueLabel.frame = CGRectMake(width * 2, y, width, textSize.height);
+	askSizeLabel.frame = CGRectMake(width * 3, y, width, textSize.height);
+
 	viewFrame.origin.y += textSize.height;
 	
 	table.frame = viewFrame;
@@ -101,7 +102,7 @@
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
 	
 	label.backgroundColor = [UIColor whiteColor];
-	label.font = [UIFont systemFontOfSize:17.0];
+	label.font = [UIFont boldSystemFontOfSize:17.0];
 	label.textColor = [UIColor blackColor];
 	label.textAlignment = UITextAlignmentCenter;
 	
@@ -147,6 +148,11 @@
 
 	cell.bid = bid;
 	cell.ask = ask;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGSize size = [@"X" sizeWithFont:[UIFont systemFontOfSize:17.0]];
+	return size.height;
 }
 
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

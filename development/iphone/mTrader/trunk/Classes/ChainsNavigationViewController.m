@@ -21,6 +21,10 @@
 	self = [super init];
 	if (self != nil) {
 		_chainsTableViewController = [rootViewController retain];
+		UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];	
+		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", "My Stocks tab label")  image:anImage tag:CHAINS];
+		self.tabBarItem = theItem;
+		[theItem release];
 	}
 	return self;
 }
