@@ -10,7 +10,7 @@
 
 @class Reachability;
 
-@interface mTraderServerMonitor : NSObject <mTraderServerMonitorDelegate> {
+@interface mTraderServerMonitor : NSObject <mTraderServerMonitorDelegate, UIAlertViewDelegate> {
 @private
 	Reachability *_reachability;
 	NSString *_server;
