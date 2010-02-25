@@ -20,10 +20,11 @@
 	id <OrderBookControllerDelegate> delegate;
 	
 	UITableView *table;
-	UILabel *askSizeLabel;
-	UILabel *askValueLabel;
-	UILabel *bidSizeLabel;
-	UILabel *bidValueLabel;
+	
+	UIView *askSizeLabel;
+	UIView *askValueLabel;
+	UIView *bidSizeLabel;
+	UIView *bidValueLabel;
 	
 	NSMutableArray *asks;
 	NSMutableArray *bids;
@@ -37,7 +38,7 @@
 @property (nonatomic, retain) NSArray *bids;
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
-- (UILabel *)generateLabel;
+- (UIView *)setHeader:(NSString *)header withFrame:(CGRect)frame;
 
 @end
 

@@ -13,9 +13,6 @@
 @class Feed;
 @class Chart;
 @protocol SymbolsDataDelegate;
-@protocol mTraderServerDataDelegate;
-@protocol StockAddDelegate;
-@protocol NewsItemDataDelegate;
 @protocol mTraderServerMonitorDelegate;
 
 enum {
@@ -40,9 +37,7 @@ enum {
 
 @interface mTraderCommunicator : NSObject <CommunicatorDataDelegate> {
 	id <SymbolsDataDelegate> symbolsDelegate;
-	id <mTraderServerDataDelegate> mTraderServerDataDelegate;
 	id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
-	id <NewsItemDataDelegate> newsItemDelegate;
 
 	Communicator *_communicator;
 	UserDefaults *_defaults;
@@ -61,8 +56,6 @@ enum {
 }
 
 @property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
-@property (nonatomic, assign) id <mTraderServerDataDelegate> mTraderServerDataDelegate;
-@property (nonatomic, assign) id <NewsItemDataDelegate> newsItemDelegate;
 @property (nonatomic, assign) id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, assign) UserDefaults *defaults;
@@ -129,6 +122,7 @@ enum {
 @end
 
 @protocol SymbolsDataDelegate <NSObject>
+@optional
 - (void)replaceAllSymbols:(NSString *)symbols;
 - (void)addSymbols:(NSString *)symbols;
 - (void)updateSymbols:(NSArray *)symbols;
@@ -136,21 +130,8 @@ enum {
 - (void)addExchanges:(NSArray *)exchanges;
 - (void)failedToAddNoSuchSecurity;
 - (void)failedToAddAlreadyExists;
-- (void)chartUpdate:(NSDictionary *)chart;
-@end
-
-
-// Delegate Protocols
-@protocol mTraderServerDataDelegate <NSObject>
-@optional
-- (void)addFeed:(Feed *)feed;
-- (void)addSymbol:(Symbol *)symbol;
-- (void)addSymbol:(Symbol *)symbol withFeed:(Feed *)feed;
-- (void)addExchanges:(NSArray *)exchanges;
 - (void)removedSecurity:(NSString *)feedTicker;
+- (void)chartUpdate:(NSDictionary *)chart;
 - (void)newsListFeedsUpdates:(NSArray *)newsList;
+- (void)newsItemUpdate:(NSArray *)newsItemContents;
 @end
-
-@protocol NewsItemDataDelegate <NSObject>
--(void) newsItemUpdate:(NSArray *)newsItemContents;
-@end;

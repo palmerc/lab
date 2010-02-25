@@ -7,6 +7,7 @@
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
+
 #import "mTraderCommunicator.h"
 #import "mTraderServerMonitor.h"
 #import "NSMutableArray+QueueAdditions.h"
@@ -18,9 +19,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 @synthesize server = _server;
 @synthesize port = _port;
 @synthesize symbolsDelegate;
-@synthesize mTraderServerDataDelegate;
 @synthesize mTraderServerMonitorDelegate;
-@synthesize newsItemDelegate;
 @synthesize isLoggedIn;
 @synthesize communicator = _communicator;
 @synthesize defaults = _defaults;
@@ -415,8 +414,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"SecOid:"].location == 0) {
 		NSString *feedTicker = [self cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
-		if (self.mTraderServerDataDelegate && [self.mTraderServerDataDelegate respondsToSelector:@selector(removedSecurity:)]) {
-			[self.mTraderServerDataDelegate removedSecurity:feedTicker];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(removedSecurity:)]) {
+			[self.symbolsDelegate removedSecurity:feedTicker];
 		}
 	}
 	
@@ -480,8 +479,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSString *newsArticles = [self dataToString:data];
 		NSArray *newsArticlesArray = [newsArticles componentsSeparatedByString:@"|"];
 		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
-		if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
-			[self.mTraderServerDataDelegate newsListFeedsUpdates:newsArticlesArray];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
+			[self.symbolsDelegate newsListFeedsUpdates:newsArticlesArray];
 		}
 		state = PROCESSING;
 	}
@@ -497,8 +496,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}	
 	
 	if ([self.blockBuffer count] == 0) {
-		if (self.newsItemDelegate && [self.newsItemDelegate respondsToSelector:@selector(newsItemUpdate:)]) {
-			[self.newsItemDelegate newsItemUpdate:newsItem];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsItemUpdate:)]) {
+			[self.symbolsDelegate newsItemUpdate:newsItem];
 		}
 		
 		state = PROCESSING;
@@ -523,72 +522,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSArray *exchangesArray = [dataPortion componentsSeparatedByString:@","];
 	return exchangesArray;
 }
-
-/*
-- (void)symbolsParsing:(NSString *)symbols {
-	// remove the part of the string preceding the colon, and the rest of the symbols are colon separated.
-	NSString *symbolsSansCRLF = [self cleanString:symbols];
-	NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
-	
-	// For each symbol
-	for (NSString *row in rows) {
-		if (![row isEqualToString:@""]) {
-			Symbol *symbol = [[Symbol alloc] init];
-			
-			// The symbol data is separated by semi-colons.
-			NSArray *columns = [self cleanStrings:[row componentsSeparatedByString:@";"]];
-			
-			// Clean up the white space.
-			symbol.feedTicker = [columns objectAtIndex:0];
-			
-			// Split the feedNumberAndTicker into two components
-			NSArray *feedNumberAndTicker = [symbol.feedTicker componentsSeparatedByString:@"/"];
-			symbol.feedNumber = [feedNumberAndTicker objectAtIndex:0];
-			NSString *tickerToo = [feedNumberAndTicker objectAtIndex:1];
-			NSString *ticker = [columns objectAtIndex:1];
-			// The ticker symbol from field 0 should match the same symbol in field 1
-			assert([ticker isEqualToString:tickerToo]);
-			symbol.tickerSymbol = ticker;
-			
-			symbol.name = [columns objectAtIndex:2];
-			NSString *feedDescriptionAndCode = [columns objectAtIndex:3];
-			symbol.type = [columns objectAtIndex:4];
-			symbol.orderbook = [columns objectAtIndex:5];
-			symbol.isin = [columns objectAtIndex:6];
-			symbol.exchangeCode = [columns objectAtIndex:7];
-			
-			Feed *feed = [[Feed alloc] init];
-			feed.feedNumber = symbol.feedNumber;
-			// Obj-C doesn't have regex so we will look from the end of the string to get the [xxx] feed code. 
-			NSCharacterSet *leftSquareBracket = [NSCharacterSet characterSetWithCharactersInString:@"["]; 
-			NSRange feedCodeRange = [feedDescriptionAndCode rangeOfCharacterFromSet:leftSquareBracket options:NSBackwardsSearch];
-			NSInteger lengthOfFeedString = [feedDescriptionAndCode length];
-			
-			// Range compensating for the removal of square brackets
-			NSRange codeRange;
-			codeRange.location = feedCodeRange.location + 1;
-			codeRange.length = (lengthOfFeedString - feedCodeRange.location) - 2;
-			
-			NSRange descriptionRange;
-			descriptionRange.location = 0;
-			descriptionRange.length = lengthOfFeedString - codeRange.length - 2;
-			
-			NSString *feedDescription = [feedDescriptionAndCode substringWithRange:descriptionRange];
-			NSString *feedCode = [feedDescriptionAndCode substringWithRange:codeRange];
-			feed.feedDescription = feedDescription;
-			feed.code = feedCode;
-			
-			if (mTraderServerDataDelegate && [mTraderServerDataDelegate respondsToSelector:@selector(addSymbol: withFeed:)]) {
-				[self.mTraderServerDataDelegate addSymbol:symbol withFeed:feed];
-			}
-			[symbol release];
-			[feed release];
-			symbol = nil;
-			feed = nil;
-		}
-	}
-}
-*/
 
 - (BOOL)loginStatusHasChanged {
 	BOOL result = NO;
@@ -682,7 +615,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[self.communicator writeString:statDataRequestString];
 }
 
--(void) newsItemRequest:(NSString *)newsId {
+- (void)newsItemRequest:(NSString *)newsId {
 	NSString *username = self.defaults.username;
 	NSString *ActionNewsBody = @"Action: NewsBody";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
@@ -694,7 +627,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[self.communicator writeString:newsItemRequestString];
 }
 
--(void) newsListFeeds {
+- (void)newsListFeeds {
 	NSString *username = self.defaults.username;
 	NSString *ActionNewsListFeeds = @"Action: NewsListFeeds";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];

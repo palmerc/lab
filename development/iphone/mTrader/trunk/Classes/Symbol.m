@@ -10,7 +10,6 @@
 
 #import "Chart.h"
 #import "Feed.h"
-#import "OrderBookEntry.h"
 #import "SymbolDynamicData.h"
 
 @implementation Symbol 

@@ -13,7 +13,6 @@
 
 @implementation NewsViewController
 @synthesize communicator;
-@synthesize previousmTraderServerDataDelegate;
 @synthesize newsArray = _newsArray;
 
 #pragma mark Lifecycle
@@ -56,13 +55,14 @@
 	UIBarButtonItem *refreshNews = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshNews)];
 	self.navigationItem.rightBarButtonItem = refreshNews;
 	[refreshNews release];
-	
-	self.previousmTraderServerDataDelegate = self.communicator.mTraderServerDataDelegate;
-	
-	self.communicator.mTraderServerDataDelegate = self;
+		
 	[self.communicator newsListFeeds];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[self.communicator stopStreamingData];
+	self.communicator.symbolsDelegate = self;
+}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -78,10 +78,6 @@
     [super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
-}
-
--(void) viewWillDisappear:(BOOL)animated {
-	self.communicator.mTraderServerDataDelegate = self.previousmTraderServerDataDelegate;
 }
 
 - (void)viewDidUnload {

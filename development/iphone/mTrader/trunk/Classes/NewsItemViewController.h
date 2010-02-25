@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "mTraderCommunicator.h"
 
-@interface NewsItemViewController : UIViewController <NewsItemDataDelegate> {
+@interface NewsItemViewController : UIViewController <SymbolsDataDelegate> {
 	NSString *_newsItemID;
 	IBOutlet UILabel *date;
 	IBOutlet UILabel *time;

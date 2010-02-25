@@ -19,11 +19,7 @@
 	self = [super init];
 	if (self != nil) {
 		self.newsItemID = newsItemID;
-		
-		mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-		communicator.newsItemDelegate = self;
-		[communicator newsItemRequest:newsItemID];
-		
+				
 		self.hidesBottomBarWhenPushed = YES;
 		self.title = newsItemID;
 	}
@@ -61,8 +57,6 @@
 	[stringToMeasure release];
 }
 
-
-
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
@@ -81,18 +75,14 @@
 	// e.g. self.myOutlet = nil;
 }
 
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	NSLog(@"Rotation %@ %@", toInterfaceOrientation, duration);
 }
 
+#pragma mark -
 #pragma mark Delegation
 
--(void) newsItemUpdate:(NSArray *)newItemContents {
+- (void)newsItemUpdate:(NSArray *)newItemContents {
 	UIFont *font = [UIFont fontWithName:@"Courier" size:14];
 	self.time.text = [newItemContents objectAtIndex:1];
 	self.time.font = font;
@@ -122,6 +112,10 @@
 	NSString *aCleanString = [string stringByTrimmingCharactersInSet:whitespaceAndNewline];
 	
 	return aCleanString;
+}
+
+- (void)dealloc {
+    [super dealloc];
 }
 
 @end

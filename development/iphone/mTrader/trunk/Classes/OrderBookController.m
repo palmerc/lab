@@ -9,6 +9,8 @@
 
 #import "OrderBookController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "OrderBookTableCellP.h"
 #import "mTraderCommunicator.h"
 #import "StringHelpers.h"
@@ -30,15 +32,7 @@
 	if (self != nil) {
 		self.symbol = symbol;
 		self.managedObjectContext = [symbol managedObjectContext];
-				
-		askSizeLabel = [[self generateLabel] retain];
-		askSizeLabel.text = @"A Size";
-		askValueLabel = [[self generateLabel] retain];
-		askValueLabel.text = @"A Price";
-		bidSizeLabel = [[self generateLabel] retain];
-		bidSizeLabel.text = @"B Size";
-		bidValueLabel = [[self generateLabel] retain];
-		bidValueLabel.text = @"B Price";
+		
 		table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
 		asks = [[NSMutableArray alloc] init];
 		bids = [[NSMutableArray alloc] init];
@@ -49,7 +43,7 @@
 }
 
 - (void)viewDidLoad {
-	self.title = @"Orderbook";
+	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
 	self.navigationItem.rightBarButtonItem = doneButton;
@@ -62,13 +56,17 @@
 	CGRect viewFrame = self.view.bounds;
 	
 	CGFloat width = 320.0 / 4;
-	CGSize textSize = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:17.0]];
+	CGSize textSize = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:18.0]];
 	CGFloat y = viewFrame.origin.y;
-	bidSizeLabel.frame = CGRectMake(0.0, y, width, textSize.height);
-	bidValueLabel.frame = CGRectMake(width, y, width, textSize.height);
-	askValueLabel.frame = CGRectMake(width * 2, y, width, textSize.height);
-	askSizeLabel.frame = CGRectMake(width * 3, y, width, textSize.height);
-
+	CGRect frame = CGRectMake(0.0, y, width, textSize.height);
+	askSizeLabel = [[self setHeader:@"A Size" withFrame:frame] retain];
+	frame = CGRectMake(width, y, width, textSize.height);
+	askValueLabel = [[self setHeader:@"A Price" withFrame:frame] retain];
+	frame = CGRectMake(width * 2, y, width, textSize.height);
+	bidSizeLabel = [[self setHeader:@"B Size" withFrame:frame] retain];
+	frame = CGRectMake(width * 3, y, width, textSize.height);
+	bidValueLabel = [[self setHeader:@"B Price" withFrame:frame] retain];
+	
 	viewFrame.origin.y += textSize.height;
 	
 	table.frame = viewFrame;
@@ -98,16 +96,49 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (UILabel *)generateLabel {
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+#define TEXT_LEFT_MARGIN    8.0
+
+- (UIView *)setHeader:(NSString *)header withFrame:(CGRect)frame {
+	UIFont *headerFont = [UIFont boldSystemFontOfSize:18.0];
+
+	UIColor *sectionTextColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+	UIColor *sectionTextShadowColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	CGSize shadowOffset = CGSizeMake(0.0, 1.0);
 	
-	label.backgroundColor = [UIColor whiteColor];
-	label.font = [UIFont boldSystemFontOfSize:17.0];
-	label.textColor = [UIColor blackColor];
-	label.textAlignment = UITextAlignmentCenter;
+	// Render the dynamic gradient
+	CAGradientLayer *headerGradient = [CAGradientLayer layer];
+	UIColor *topLine = [UIColor colorWithRed:111.0/255.0 green:118.0/255.0 blue:123.0/255.0 alpha:1.0];
+	UIColor *shine = [UIColor colorWithRed:165.0/255.0 green:177/255.0 blue:186.0/255.0 alpha:1.0];
+	UIColor *topOfFade = [UIColor colorWithRed:144.0/255.0 green:159.0/255.0 blue:170.0/255.0 alpha:1.0];
+	UIColor *bottomOfFade = [UIColor colorWithRed:184.0/255.0 green:193.0/255.0 blue:200.0/255.0 alpha:1.0];
+	UIColor *bottomLine = [UIColor colorWithRed:152.0/255.0 green:158.0/255.0 blue:164.0/255.0 alpha:1.0];
+	NSArray *colors = [NSArray arrayWithObjects:(id)topLine.CGColor, (id)shine.CGColor, (id)topOfFade.CGColor, (id)bottomOfFade.CGColor, (id)bottomLine.CGColor, nil];
+	NSArray *locations = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0], [NSNumber numberWithFloat:0.05],[NSNumber numberWithFloat:0.10],[NSNumber numberWithFloat:0.95],[NSNumber numberWithFloat:1.0],nil];
+	headerGradient.colors = colors;
+	headerGradient.locations = locations;
 	
-	[self.view addSubview:label];
-	return label;
+	CGSize headerSize = [header sizeWithFont:headerFont];
+	CGFloat xOffset = (frame.size.width - headerSize.width)/2;
+	CGRect labelFrame = CGRectMake(xOffset, 0.0, headerSize.width, headerSize.height);
+	
+	UIView *headerView = [[[UIView alloc] initWithFrame:frame] autorelease];
+	UILabel *label = [[UILabel alloc] initWithFrame:labelFrame];
+	
+	[headerView.layer insertSublayer:headerGradient atIndex:0];
+	headerGradient.frame = headerView.bounds;
+	
+	label.text = header;
+	[label setFont:headerFont];
+	[label setTextColor:sectionTextColor];
+	[label setShadowColor:sectionTextShadowColor];
+	[label setShadowOffset:shadowOffset];
+	[label setBackgroundColor:[UIColor clearColor]];
+	
+	[headerView addSubview:label];
+	[self.view addSubview:headerView];
+	
+	[label release];
+	return headerView;
 }
 
 #pragma mark Table view methods
