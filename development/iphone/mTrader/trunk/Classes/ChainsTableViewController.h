@@ -10,6 +10,7 @@
 #import "mTraderCommunicator.h"
 #import "SymbolAddController.h"
 
+@class NewsFeed;
 @class Feed;
 @class Symbol;
 @class SymbolDetailController;
@@ -60,6 +61,7 @@ typedef enum {
 - (void)add:(id)sender;
 
 - (void)deleteAllSymbols;
+- (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;

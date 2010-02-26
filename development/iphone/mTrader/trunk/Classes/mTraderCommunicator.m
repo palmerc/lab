@@ -268,7 +268,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *string = [self dataToString:data];
 
 	if ([string rangeOfString:@"NewsFeeds:"].location == 0) {
-		//[self newsFeedsParsing];
+		NSArray *feeds = [self exchangesParsing:string];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addNewsFeeds:)]) {
+			[self.symbolsDelegate addNewsFeeds:feeds];
+		}
 		if (symbolsDefined == NO) {
 			state = PROCESSING;
 		}
@@ -634,11 +637,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[self.communicator writeString:newsItemRequestString];
 }
 
-- (void)newsListFeeds {
+- (void)newsListFeed:(NSString *)mCode {
 	NSString *username = self.defaults.username;
 	NSString *ActionNewsListFeeds = @"Action: NewsListFeeds";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
-	NSString *newsFeeds = @"NewsFeeds: AllNews";
+	NSString *newsFeeds = [NSString stringWithFormat:@"NewsFeeds: [%@]", mCode];
 	NSString *days = @"Days: 30";
 	NSString *maxCount = @"MaxCount: 50";
 	

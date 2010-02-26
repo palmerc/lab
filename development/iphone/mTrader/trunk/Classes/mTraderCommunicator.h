@@ -75,9 +75,9 @@ enum {
 - (void)login;
 - (void)logout;
 - (void)chainsStreaming;
--(void) newsListFeeds;
--(void) newsItemRequest:(NSString *)newsId;
--(void) addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode;
+- (void)newsListFeed:(NSString *)mCode;
+- (void)newsItemRequest:(NSString *)newsId;
+- (void)addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode;
 - (void)orderBookForFeedTicker:(NSString *)feedTicker;
 - (void)removeSecurity:(NSString *)feedTicker;
 - (BOOL)loginStatusHasChanged;
@@ -128,6 +128,7 @@ enum {
 - (void)updateSymbols:(NSArray *)symbols;
 - (void)staticUpdates:(NSDictionary *)updateDictionary;
 - (void)addExchanges:(NSArray *)exchanges;
+- (void)addNewsFeeds:(NSArray *)feeds;
 - (void)failedToAddNoSuchSecurity;
 - (void)failedToAddAlreadyExists;
 - (void)removedSecurity:(NSString *)feedTicker;

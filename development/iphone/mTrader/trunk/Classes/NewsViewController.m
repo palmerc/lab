@@ -10,8 +10,10 @@
 #import "NewsItemViewController.h"
 #import "mTraderAppDelegate.h"
 #import "mTraderCommunicator.h"
+#import "NewsFeed.h"
 
 @implementation NewsViewController
+@synthesize managedObjectContext, fetchedResultsController;
 @synthesize communicator;
 @synthesize newsArray = _newsArray;
 
@@ -28,6 +30,7 @@
 		_newsArray = [[NSMutableArray alloc] init];
 
 		communicator = [mTraderCommunicator sharedManager];
+		mCode = @"AllNews";
 	}
 	return self;
 }
@@ -42,16 +45,28 @@
 }
 */
 
-/*
+
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
+	[super loadView];
+	
+	NSError *error;
+	if (![self.fetchedResultsController performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();  // Fail
+	}
 }
-*/
+
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+	UIBarButtonItem *selectFeed = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(selectNewsFeed:)];
+	self.navigationItem.leftBarButtonItem = selectFeed;
+	[selectFeed release];
+	
 	UIBarButtonItem *refreshNews = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshNews)];
 	self.navigationItem.rightBarButtonItem = refreshNews;
 	[refreshNews release];
@@ -59,7 +74,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	self.communicator.symbolsDelegate = self;
-	[self.communicator newsListFeeds];
+	[self.communicator newsListFeed:mCode];
 	[self.communicator stopStreamingData];
 }
 
@@ -84,11 +99,6 @@
 	// e.g. self.myOutlet = nil;
 }
 
-
-- (void)dealloc {
-	[self.newsArray release];
-    [super dealloc];
-}
 
 #pragma mark TableViewDataSourceDelegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -125,7 +135,17 @@
 	
 	return cell;
 }
+#pragma mark -
+#pragma mark UIPickerViewDataSource Required Methods
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+	return [[fetchedResultsController sections] count];
+}
 
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:component];
+    return [sectionInfo numberOfObjects];
+}
 
 #pragma mark TableViewDelegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -138,27 +158,115 @@
 	
 }
 
+#pragma mark -
+#pragma mark UIPickerViewDelegate Methods
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
+	NewsFeed *feed = (NewsFeed *)[fetchedResultsController objectAtIndexPath:indexPath];
+	mCode = feed.mCode;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
+	NewsFeed *feed = (NewsFeed *)[fetchedResultsController objectAtIndexPath:indexPath];
+	NSString *feedName = feed.name;
+	return feedName;
+}
+
 #pragma mark Delegation
 
 -(void) newsListFeedsUpdates:(NSArray *)newsList {
 	for (NSString *news in newsList) {
 		NSArray *components = [news componentsSeparatedByString:@";"];
-		NSString *key = [components objectAtIndex:0];
-		NSString *value = [components objectAtIndex:4];
-		NSArray *tuple = [NSArray arrayWithObjects:key, value, nil];
+		if ([components count] >= 4) {
+			NSString *key = [components objectAtIndex:0];
+			NSString *value = [components objectAtIndex:4];
+			NSArray *tuple = [NSArray arrayWithObjects:key, value, nil];
 		
-		[self.newsArray addObject:tuple];
+			[self.newsArray addObject:tuple];
+		}
 	}
 	
 	[self.tableView reloadData];
 }
 
+
 #pragma mark News Refresh
 
 -(void) refreshNews {
 	[self.newsArray removeAllObjects];
-	[self.communicator newsListFeeds];
+	[self.communicator newsListFeed:mCode];
 	[self.tableView reloadData];
+}
+
+- (void)selectNewsFeed:(id)sender {
+	UIActionSheet *menu = [[UIActionSheet alloc] initWithTitle:@"Select a News Feed" delegate:self cancelButtonTitle:@"Done" destructiveButtonTitle:@"Cancel" otherButtonTitles:@"All News Feeds", nil];
+	UIPickerView *feedSelector = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, 218.0, 0.0, 0.0)];
+	feedSelector.showsSelectionIndicator = YES;
+	feedSelector.dataSource = self;
+	feedSelector.delegate = self;
+	[menu addSubview:feedSelector];
+	[feedSelector release];
+	[menu showInView:self.tableView];
+	[menu setBounds:CGRectMake(0.0, 0.0, 320.0, 700.0)];
+	[menu release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 0) {
+		return;
+	} else if (buttonIndex == 1) {
+		mCode = @"AllNews";
+		[self.newsArray removeAllObjects];
+		[communicator newsListFeed:mCode];
+	} else if (buttonIndex == 2) {
+		// Selected News Feed
+		[self.newsArray removeAllObjects];
+		[communicator newsListFeed:mCode];
+	}
+}
+
+#pragma mark -
+#pragma mark Fetched results controller
+
+/**
+ Returns the fetched results controller. Creates and configures the controller if necessary.
+ */
+- (NSFetchedResultsController *)fetchedResultsController {
+	
+    if (fetchedResultsController != nil) {
+        return fetchedResultsController;
+    }
+    
+	// Create and configure a fetch request with the Book entity.
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+	[fetchRequest setEntity:entity];
+	
+	// Create the sort descriptors array.
+	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
+	[fetchRequest setSortDescriptors:sortDescriptors];
+	
+	// Create and initialize the fetch results controller.
+	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+	self.fetchedResultsController = aFetchedResultsController;
+	fetchedResultsController.delegate = self;
+	
+	// Memory management.
+	[aFetchedResultsController release];
+	[fetchRequest release];
+	[mCodeDescriptor release];
+	[sortDescriptors release];
+	
+	return fetchedResultsController;
+}
+
+#pragma mark -
+#pragma mark Memory management
+- (void)dealloc {
+	[self.newsArray release];
+    [super dealloc];
 }
 
 @end

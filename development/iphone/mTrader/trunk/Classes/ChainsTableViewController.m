@@ -14,6 +14,7 @@
 #import "mTraderAppDelegate.h"
 #import "mTraderCommunicator.h"
 
+#import "NewsFeed.h"
 #import "Feed.h";
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
@@ -250,6 +251,49 @@
 /**
  * Delegation
  */
+
+- (void)addNewsFeeds:(NSArray *)feeds {
+	feeds = [StringHelpers cleanComponents:feeds];
+	for (NSString *feed in feeds) {
+		
+		// Separate the Description from the mCode
+		NSRange leftBracketRange = [feed rangeOfString:@"["];
+		NSRange rightBracketRange = [feed rangeOfString:@"]"];
+		NSRange leftParenthesisRange = [feed rangeOfString:@"("];
+		NSRange rightParenthesisRange = [feed rangeOfString:@")"];
+		
+		NSRange typeRange;
+		typeRange.location = leftParenthesisRange.location + 1;
+		typeRange.length = rightParenthesisRange.location - typeRange.location;
+		NSString *typeCode = [feed substringWithRange:typeRange]; // (S) 
+		
+		NSRange mCodeRange;
+		mCodeRange.location = leftBracketRange.location + 1;
+		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
+		NSString *mCode = [feed substringWithRange:mCodeRange]; // OSS
+		
+		NSRange descriptionRange;
+		descriptionRange.location = 0;
+		descriptionRange.length = leftBracketRange.location - 1;
+		NSString *feedName = [feed substringWithRange:descriptionRange]; // Oslo Stocks
+		
+		NewsFeed *newsFeed = [self fetchNewsFeed:mCode];
+		if (newsFeed == nil) {
+			newsFeed = (NewsFeed *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+		}
+		
+		newsFeed.mCode = mCode;
+		newsFeed.name = feedName;
+		newsFeed.type = typeCode;
+	}
+	
+	NSError *error;
+	if (![self.managedObjectContext save:&error]) {
+		// Handle the error
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();
+	}
+}
 
 - (void)addExchanges:(NSArray *)exchanges {
 	exchanges = [StringHelpers cleanComponents:exchanges];
@@ -691,6 +735,33 @@
 	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
 	[self.tableView endUpdates];
 }
+
+- (NewsFeed *)fetchNewsFeed:(NSString *)mCode {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(mCode=%@)", mCode];
+	[request setPredicate:predicate];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mCode" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	if ([array count] == 1) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
+}
+
 
 - (Feed *)fetchFeed:(NSString *)mCode {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];

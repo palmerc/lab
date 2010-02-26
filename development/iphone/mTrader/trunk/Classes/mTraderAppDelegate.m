@@ -48,6 +48,7 @@
 	
 	NewsViewController *news = [[NewsViewController alloc] init];
 	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
+	news.managedObjectContext = self.managedObjectContext;
 	
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
 	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
