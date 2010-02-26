@@ -110,6 +110,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 -(void) stateMachine {
 	while ([self.blockBuffer count] > 0) {
+		NSLog(@"STATE: %d", state);
 		switch (state) {
 			case HEADER:
 				[self headerParsing];
@@ -232,7 +233,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		}
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Request: q"].location == 0) {
-		state = QUOTE;
+		if ([self.blockBuffer count] == 0) {
+			state = PROCESSING;
+		} else {
+			state = QUOTE;
+		}
 	} else if ([string rangeOfString:@"Request: NewsBody/OK"].location == 0) {
 		state = NEWSITEM;
 	} else if ([string rangeOfString:@"Request: NewsListFeeds/OK"].location == 0) {
@@ -325,6 +330,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(kickedOut)]) {
 			[self.mTraderServerMonitorDelegate kickedOut];
 		}
+	} else {
+		state = PROCESSING;
 	}
 }
 
@@ -486,7 +493,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
--(void) newsBodyOK {
+- (void)newsBodyOK {
 	NSMutableArray *newsItem = [[NSMutableArray alloc] init];
 	while ([self.blockBuffer count] > 0) {
 		NSData *data = [self.blockBuffer deQueue];

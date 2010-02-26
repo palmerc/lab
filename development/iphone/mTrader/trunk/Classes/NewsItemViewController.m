@@ -55,6 +55,10 @@
 	}
 	sizeOfLine = [stringToMeasure sizeWithFont:font];
 	[stringToMeasure release];
+	
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	communicator.symbolsDelegate = self;
+	[communicator newsItemRequest:self.newsItemID];
 }
 
 // Override to allow orientations other than the default portrait orientation.
@@ -102,10 +106,10 @@
 	}
 	self.body.text = [cleanedTextLines componentsJoinedByString:@"\n"];
 	self.body.font = font;
-		
+	
 	[cleanedTextLines release];
 }
-	 
+
 - (NSString *)cleanString:(NSString *)string {
 	NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 	

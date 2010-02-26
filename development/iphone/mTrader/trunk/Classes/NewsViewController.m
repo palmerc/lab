@@ -55,13 +55,12 @@
 	UIBarButtonItem *refreshNews = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshNews)];
 	self.navigationItem.rightBarButtonItem = refreshNews;
 	[refreshNews release];
-		
-	[self.communicator newsListFeeds];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[self.communicator stopStreamingData];
 	self.communicator.symbolsDelegate = self;
+	[self.communicator newsListFeeds];
+	[self.communicator stopStreamingData];
 }
 
 /*
