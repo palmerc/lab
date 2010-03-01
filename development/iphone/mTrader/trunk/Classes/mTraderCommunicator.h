@@ -32,6 +32,7 @@ enum {
 	ADDSEC,
 	REMSEC,
 	STATDATA,
+	HISTDATA,
 	KICKOUT
 } states;
 
@@ -82,15 +83,16 @@ enum {
 - (void)removeSecurity:(NSString *)feedTicker;
 - (BOOL)loginStatusHasChanged;
 - (void)staticDataForFeedTicker:(NSString *)feedTicker;
+- (void)tradesRequest:(NSString *)feedTicker;
 - (void)dynamicDetailForFeedTicker:(NSString *)feedTicker;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 - (void)stopStreamingData;
 
 // State machine methods
--(void) stateMachine;
--(void) headerParsing;
--(void) fixedLength;
--(void) staticResponse;
+- (void)stateMachine;
+- (void)headerParsing;
+- (void)fixedLength;
+- (void)staticResponse;
 - (void)chartHandling;
 - (void)loginHandling;
 - (void)preprocessing;
@@ -98,15 +100,17 @@ enum {
 - (void)quoteHandling;
 - (void)addSecurityOK;
 - (void)removeSecurityOK;
--(void) newsListFeedsOK;
--(void) newsBodyOK;
+- (void)newsListFeedsOK;
+- (void)newsBodyOK;
 - (void)staticDataOK;
+- (void)historyDataOK;
 
 // Parsing methods
 - (NSArray *)quotesParsing:(NSString *)quotes;
--(NSArray *)exchangesParsing:(NSString *)exchanges;
+- (NSArray *)exchangesParsing:(NSString *)exchanges;
 //- (void)symbolsParsing:(NSString *)symbols;
 - (void)staticDataParsing:(NSString *)secOid;
+- (void)historyDataParsing:(NSString *)secOid;
 
 // Helper methods
 - (NSString *)dataFromRHS:(NSString *)string;
@@ -127,6 +131,7 @@ enum {
 - (void)addSymbols:(NSString *)symbols;
 - (void)updateSymbols:(NSArray *)symbols;
 - (void)staticUpdates:(NSDictionary *)updateDictionary;
+- (void)tradesUpdate:(NSDictionary *)updateDictionary;
 - (void)addExchanges:(NSArray *)exchanges;
 - (void)addNewsFeeds:(NSArray *)feeds;
 - (void)failedToAddNoSuchSecurity;

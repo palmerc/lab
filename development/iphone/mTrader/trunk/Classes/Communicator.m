@@ -74,6 +74,8 @@
 		
 			bytesRead = [self.inputStream read:&currentByte maxLength:1];
 			if (bytesRead == 1) {
+				[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
 				[self.dataBuffer appendBytes:&currentByte length:1];
 				
 				if ((previousByte == '\r' && currentByte == '\r') || (previousByte == '\r' && currentByte =='\n')) {
@@ -82,6 +84,7 @@
 					if (self.delegate && [self.delegate respondsToSelector:@selector(dataReceived)]) {
 						[self.delegate dataReceived];
 					}
+					[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 					[self.dataBuffer release];
 					self.dataBuffer = nil;
 				}

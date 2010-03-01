@@ -151,6 +151,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			case STATDATA:
 				[self staticDataOK];
 				break;
+			case HISTDATA:
+				[self historyDataOK];
+				break;
 			default:
 				NSLog(@"Invalid state: %d", state);
 				break;
@@ -222,6 +225,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		state = CHART;
 	} else if ([string rangeOfString:@"Request: StaticData/OK"].location == 0) {
 		state = STATDATA;
+	} else if ([string rangeOfString:@"Request: HistTrades/OK"].location == 0) {
+		state = HISTDATA;
 	} else if ([string rangeOfString:@"Request: addSec/failed.NoSuchSec"].location == 0) {
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(failedToAddNoSuchSecurity)]) {
 			[self.symbolsDelegate failedToAddNoSuchSecurity];
@@ -441,6 +446,15 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
+- (void)historyDataOK {
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"SecOid:"].location == 0) {
+		[self historyDataParsing:string];
+	}
+}
+
 #pragma mark Parsing
 /**
  * These are methods that parse blocks of data
@@ -448,7 +462,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
  */
 - (void)staticDataParsing:(NSString *)secOid {
 	NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc] init];
-
+	
 	if ([secOid rangeOfString:@"SecOid:"].location == 0) {
 		NSString *feedTicker = [self cleanString:[[secOid componentsSeparatedByString:@":"] objectAtIndex:1]];
 		[dataDictionary setObject:feedTicker forKey:@"feedTicker"];
@@ -456,14 +470,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
-		
+	
 	if ([string rangeOfString:@"Staticdata:"].location == 0) {
 		NSRange staticDataRange = [string rangeOfString:@"Staticdata: "];
 		NSRange restOfTheDataRange;
 		restOfTheDataRange.location = staticDataRange.length;
 		restOfTheDataRange.length = [string length] - staticDataRange.length;
 		NSString *staticDataString = [string substringWithRange:restOfTheDataRange];
-						
+		
 		NSArray *staticDataRows = [staticDataString componentsSeparatedByString:@";"];
 		for (NSString *row in staticDataRows) {
 			NSRange separatorRange = [row rangeOfString:@":"];
@@ -476,6 +490,50 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(staticUpdates:)]) {
 		[self.symbolsDelegate staticUpdates:dataDictionary];
+	}
+	state = PROCESSING;
+	[dataDictionary release];
+}
+
+- (void)historyDataParsing:(NSString *)secOid {
+	NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc] init];
+	
+	if ([secOid rangeOfString:@"SecOid:"].location == 0) {
+		NSString *feedTicker = [self cleanString:[[secOid componentsSeparatedByString:@":"] objectAtIndex:1]];
+		[dataDictionary setObject:feedTicker forKey:@"feedTicker"];
+	}
+	
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"FirstTrade:"].location == 0) {
+		NSString *firstTrade = [self cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
+		[dataDictionary setObject:firstTrade forKey:@"firstTrade"];
+	}
+	
+	data = [self.blockBuffer deQueue];
+	string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"CountTrades:"].location == 0) {
+		NSString *firstTrade = [self cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
+		[dataDictionary setObject:firstTrade forKey:@"countTrades"];
+	}
+	
+	data = [self.blockBuffer deQueue];
+	string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"Trades:"].location == 0) {
+		NSArray *tradesArray = [string componentsSeparatedByString:@":"];
+		tradesArray = [self stripOffFirstElement:tradesArray];
+		
+		NSString *tradesString = [tradesArray componentsJoinedByString:@":"];
+		tradesString = [self cleanString:tradesString];
+		
+		[dataDictionary setObject:tradesString forKey:@"trades"];
+	}
+	
+	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(tradesUpdate:)]) {
+		[self.symbolsDelegate tradesUpdate:dataDictionary];
 	}
 	state = PROCESSING;
 	[dataDictionary release];
@@ -623,6 +681,24 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *statDataRequestString = [self arrayToFormattedString:getStatDataArray];
 	
 	[self.communicator writeString:statDataRequestString];
+}
+
+- (void)tradesRequest:(NSString *)feedTicker {
+	NSInteger index = -1;
+	NSInteger count = 30;
+	
+	NSString *username = self.defaults.username;
+	NSString *ActionStatData = @"Action: HistTrades";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+	NSString *Index = [NSString stringWithFormat:@"Index: %d", index];
+	NSString *Count = [NSString stringWithFormat:@"Count: %d", count];
+	NSString *Columns = [NSString stringWithFormat:@"Columns: %@", @"TPVAY"];
+	
+	NSArray *getTradesArray = [NSArray arrayWithObjects:ActionStatData, Authorization, SecOid, Index, Count, Columns, nil];
+	NSString *tradesRequestString = [self arrayToFormattedString:getTradesArray];
+	
+	[self.communicator writeString:tradesRequestString];
 }
 
 - (void)newsItemRequest:(NSString *)newsId {

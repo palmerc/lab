@@ -403,4 +403,28 @@ OrderBook data is fixed at five orders. Ask and Bids are # separated and the pri
 snapshot of the 5 bids and 5 asks and then the deltas are transmitted with unchanged cells being blank. The first first ask cell begins with a /. Clearly this is
 preformatted data and the delimeters triggered translation behavior in client.
 
+\section*{Trades}
+\begin{verbatim}
+Action: HistTrades
+Authorization: username
+SecOid: feedTicker
+Index: -1
+Count: 30
+Columns: TPVAY
+\end{verbatim}
+
+The index being -1 means provide the newest
+Columns: T - Time, P - Price, V - Volume, B - Buyer, S - Seller, A - Buyer & Seller, Y - Type 
+
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+
+Request: HistTrades/OK
+SecOid: 18177/TEL
+FirstTrade: -1
+CountTrades: 985
+Trades: 11:52:06;75.85;100;/|11:52:06;75.85;900;/|
+\end{verbatim}
+
 \end{document}

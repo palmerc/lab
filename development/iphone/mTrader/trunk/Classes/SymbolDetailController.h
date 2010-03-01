@@ -8,10 +8,13 @@
 
 
 #import "OrderBookController.h"
+#import "TradesController.h"
+#import "SymbolNewsController.h"
+#import "ChartController.h"
 #import "mTraderCommunicator.h"
 @class Symbol;
 
-@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookControllerDelegate> {
+@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookControllerDelegate, TradesControllerDelegate, SymbolNewsDelegate, ChartDelegate> {
 @private
 	NSManagedObjectContext *managedObjectContext;
 	

@@ -14,6 +14,9 @@
 #import "mTraderCommunicator.h"
 #import "StringHelpers.h"
 #import "OrderBookController.h"
+#import "TradesController.h"
+#import "ChartController.h";
+#import "SymbolNewsController.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
@@ -46,9 +49,12 @@
 }
 
 - (void)viewDidLoad {
-	UIBarButtonItem *orderBookButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"orderBook", @"Symbol OrderBook") style:UIBarButtonItemStyleBordered target:self action:@selector(orderBook:)];	
-	[self.toolBar setItems:[NSArray arrayWithObject:orderBookButton]];
-		
+	UIBarButtonItem *orderBookButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"orderBook", @"Symbol OrderBook") style:UIBarButtonItemStyleBordered target:self action:@selector(orderBook:)];
+	UIBarButtonItem *tradesButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"trades", @"Symbol Trades") style:UIBarButtonItemStyleBordered target:self action:@selector(trades:)];	
+	UIBarButtonItem *chartButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"chart", @"Symbol Chart") style:UIBarButtonItemStyleBordered target:self action:@selector(chart:)];	
+	UIBarButtonItem *newsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"news", @"Symbol News") style:UIBarButtonItemStyleBordered target:self action:@selector(news:)];
+	[self.toolBar setItems:[NSArray arrayWithObjects:orderBookButton, tradesButton, chartButton, newsButton, nil]];
+	
 	dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	
@@ -179,6 +185,42 @@
 	[navController release];
 }
 
+- (void)trades:(id)sender {
+	TradesController *tradesController = [[TradesController alloc] initWithSymbol:self.symbol];
+	tradesController.delegate = self;
+	tradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tradesController];
+	[tradesController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
+- (void)chart:(id)sender {
+	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
+	chartController.delegate = self;
+	chartController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
+	[chartController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
+- (void)news:(id)sender {
+	SymbolNewsController *symbolNewsController = [[SymbolNewsController alloc] initWithSymbol:self.symbol];
+	symbolNewsController.delegate = self;
+	symbolNewsController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:symbolNewsController];
+	[symbolNewsController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
 - (UILabel *)generateLabel {
 	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
 	[label setTextColor:[UIColor blackColor]];
@@ -202,7 +244,7 @@
 
 - (void)setLabelFrame:(UILabel *)label {
 	CGSize fontSize = [@"X" sizeWithFont:mainFont];
-	label.frame = CGRectMake(TEXT_LEFT_MARGIN, globalY, self.view.bounds.size.width / 2 - TEXT_LEFT_MARGIN, fontSize.height);
+	label.frame = CGRectMake(TEXT_LEFT_MARGIN, globalY, self.view.bounds.size.width - TEXT_LEFT_MARGIN * 2	, fontSize.height);
 	globalY += fontSize.height;
 }
 
@@ -278,7 +320,7 @@
 }
 
 - (void)updateSymbolInformation {
-	tickerName.text = [NSString stringWithFormat:@"%@ %@", self.symbol.tickerSymbol, self.symbol.companyName];
+	tickerName.text = [NSString stringWithFormat:@"%@", self.symbol.companyName];
 	type.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"type", @"LocalizedString"), self.symbol.type];
 	isin.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"isin", @"LocalizedString"), self.symbol.isin];
 	currency.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"currency", @"LocalizedString"), self.symbol.currency];
@@ -703,6 +745,10 @@
 }
 
 - (void)orderBookControllerDidFinish:(OrderBookController *)orderBookController {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)tradesControllerDidFinish:(TradesController *)tradesController {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
