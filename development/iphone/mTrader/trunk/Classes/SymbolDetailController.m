@@ -35,9 +35,7 @@
 		self.symbol = symbol;
 		[self.symbol addObserver:self forKeyPath:@"currency" options:NSKeyValueObservingOptionNew context:nil];
 		[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
-		[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
 
-		period = 0;
 		globalY = 0.0;
 		
 		headerFont = [[UIFont boldSystemFontOfSize:18.0] retain];
@@ -82,7 +80,6 @@
 	[self updateSymbolInformation];
 	[self updateTradesInformation];
 	[self updateFundamentalsInformation];
-	[self updateChart];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -92,8 +89,6 @@
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
 	[communicator staticDataForFeedTicker:feedTicker];
 	[communicator dynamicDetailForFeedTicker:feedTicker];
-	
-	[communicator graphForFeedTicker:feedTicker period:period width:280 height:280 orientation:@"A"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -109,8 +104,6 @@
 		[self updateFundamentalsInformation];
 	} else if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"]) {
 		[self updateTradesInformation];
-	} else if ([keyPath isEqualToString:@"chart.data"]) {
-		[self updateChart];
 	}
 }
 
@@ -201,6 +194,7 @@
 	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
 	chartController.delegate = self;
 	chartController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	chartController.managedObjectContext = self.managedObjectContext;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
 	[chartController release];
@@ -255,11 +249,6 @@
 	globalY += fontSize.height;
 }
 
-- (void)setButtonFrame:(UIButton *)button {
-	button.frame = CGRectMake(20.0, globalY, 280.0, 280.0);
-	globalY += 280.0;
-}
-
 - (void)setupPage {
 	globalY = 0.0;
 	
@@ -309,12 +298,6 @@
 	dividend = [[self generateLabel] retain];
 	dividendDate = [[self generateLabel] retain];
 	[self setLeftLabelFrame:dividend andRightLabelFrame:dividendDate];	
-	
-	NSString *chartHeader = NSLocalizedString(@"chartHeader", @"Chart");
-	chartHeaderView = [[self setHeader:chartHeader] retain];
-	chartButton = [[self generateButton] retain];
-	[self setButtonFrame:chartButton];
-	[chartButton addTarget:self action:@selector(imageWasTapped:) forControlEvents:UIControlEventTouchUpInside];
 	
 	scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, globalY);
 }
@@ -529,13 +512,6 @@
 	}
 }
 
-- (void)updateChart {
-	Chart *chart = self.symbol.chart;
-	NSData *data = chart.data;
-	UIImage *image = [UIImage imageWithData:data];
-	[chartButton setBackgroundImage:image forState:UIControlStateNormal];
-}
-
 - (void)staticUpdates:(NSDictionary *)updateDictionary {
 	NSArray *feedTickerComponents = [[updateDictionary objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
@@ -704,51 +680,19 @@
 	}
 }
 
-- (void)chartUpdate:(NSDictionary *)chartData {
-	NSArray *feedTickerComponents = [[chartData objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
-	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
-	
-	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
-	
-	Chart *chart = (Chart *)[NSEntityDescription insertNewObjectForEntityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
-	chart.height = [chartData objectForKey:@"height"];
-	chart.width = [chartData objectForKey:@"width"];
-	chart.size = [chartData objectForKey:@"size"];
-	chart.type = [chartData objectForKey:@"type"];
-	NSData *data = [chartData objectForKey:@"data"];
-	chart.data = data;
-	symbol.chart = chart;	
-}
-
-#pragma mark -
-#pragma mark Actions
-- (void)imageWasTapped:(id)sender {
-	//[chartActivity startAnimating];
-	//chartActivity.hidden = NO;
-	switch (period) {
-		case 0:
-			period = 30;
-			break;
-		case 30:
-			period = 365;
-			break;
-		case 365:
-			period = 0;
-			break;
-		default:
-			break;
-	}
-	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:period width:280 height:280 orientation:@"A"];
-}
-
-- (void)orderBookControllerDidFinish:(OrderBookController *)orderBookController {
+- (void)orderBookControllerDidFinish:(OrderBookController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)tradesControllerDidFinish:(TradesController *)tradesController {
+- (void)tradesControllerDidFinish:(TradesController *)controller {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)chartControllerDidFinish:(ChartController *)controller {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)symbolNewsControllerDidFinish:(SymbolNewsController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -792,7 +736,6 @@
 - (void)dealloc {
 	[self.symbol removeObserver:self forKeyPath:@"currency"];
 	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
-	[self.symbol removeObserver:self forKeyPath:@"chart.data"];
 	
 	[tickerName release];
 	[type release];
@@ -824,7 +767,6 @@
 	
 	[toolBar release];
 	
-	[chartButton release];
 	[scrollView release];
 	[self.symbol release];
 	[managedObjectContext release];

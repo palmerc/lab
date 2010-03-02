@@ -7,15 +7,28 @@
 //
 
 
-@protocol SymbolNewsDelegate;
+#import "mTraderCommunicator.h"
 
-@interface SymbolNewsController : UIViewController {
-	id <SymbolNewsDelegate> delegate;
+@class Symbol;
+@protocol SymbolNewsControllerDelegate;
+
+@interface SymbolNewsController : UIViewController <SymbolsDataDelegate> {
+@private
+	id <SymbolNewsControllerDelegate> delegate;
+	
+	Symbol *_symbol;
+	
+	NSArray *newsArray;
+	
+	UITableView *table;
 }
 
-@property (assign) id <SymbolNewsDelegate> delegate;
+@property (assign) id <SymbolNewsControllerDelegate> delegate;
+@property (nonatomic, retain) Symbol *symbol;
+
 - (id)initWithSymbol:(Symbol *)symbol;
 @end
 
-@protocol SymbolNewsDelegate
+@protocol SymbolNewsControllerDelegate
+- (void)symbolNewsControllerDidFinish:(SymbolNewsController *)controller;
 @end

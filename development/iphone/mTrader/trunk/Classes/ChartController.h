@@ -7,16 +7,37 @@
 //
 
 
-@protocol ChartDelegate;
+#import "mTraderCommunicator.h"
+@class Symbol;
+@protocol ChartControllerDelegate;
 
-@interface ChartController : UIViewController {
-	id <ChartDelegate> delegate;
+@interface ChartController : UIViewController <SymbolsDataDelegate> {
+@private
+	id <ChartControllerDelegate> delegate;
+	NSManagedObjectContext *_managedObjectContext;
+		
+	Symbol *_symbol;
+	UIImageView *_chart;
+	UIToolbar *_toolBar;
+		
+	NSUInteger period;
+	CGFloat globalY;
+
 }
 
-@property (assign) id <ChartDelegate> delegate;
+@property (assign) id <ChartControllerDelegate> delegate;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) UIImageView *chart;
+@property (nonatomic, retain) UIToolbar *toolBar;
 
 - (id)initWithSymbol:(Symbol *)symbol;
+- (void)updateChart;
+
+- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
+
 @end
 
-@protocol ChartDelegate
+@protocol ChartControllerDelegate
+- (void)chartControllerDidFinish:(ChartController *)controller;
 @end

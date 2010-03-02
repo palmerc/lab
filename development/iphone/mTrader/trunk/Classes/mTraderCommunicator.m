@@ -136,6 +136,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			case NEWSFEEDS:
 				[self newsListFeedsOK];
 				break;
+			case NEWSLIST:
+				[self newsListOK];
+				break;
 			case NEWSITEM:
 				[self newsBodyOK];
 				break;
@@ -247,6 +250,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		state = NEWSITEM;
 	} else if ([string rangeOfString:@"Request: NewsListFeeds/OK"].location == 0) {
 		state = NEWSFEEDS;
+	} else if ([string rangeOfString:@"Request: NewsList/OK"].location == 0) {
+		state = NEWSLIST;
 	}
 }
 
@@ -539,7 +544,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[dataDictionary release];
 }
 
--(void) newsListFeedsOK {
+- (void)newsListFeedsOK {
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
 	
@@ -553,6 +558,22 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		state = PROCESSING;
 	}
 }
+
+- (void)newsListOK {
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if ([string rangeOfString:@"News:"].location == 0) {
+		NSString *newsArticles = [self dataToString:data];
+		NSArray *newsArticlesArray = [newsArticles componentsSeparatedByString:@"|"];
+		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
+			[self.symbolsDelegate newsListFeedsUpdates:newsArticlesArray];
+		}
+		state = PROCESSING;
+	}
+}
+
 
 - (void)newsBodyOK {
 	NSMutableArray *newsItem = [[NSMutableArray alloc] init];
@@ -725,6 +746,20 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *newsListFeedsString = [self arrayToFormattedString:getNewsListFeedsArray];
 	
 	[self.communicator writeString:newsListFeedsString];
+}
+
+- (void)symbolNewsForFeedTicker:(NSString *)feedTicker {
+	NSString *username = self.defaults.username;
+	NSString *ActionNewsList = @"Action: NewsList";
+	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+	NSString *days = @"Days: 30";
+	NSString *maxCount = @"MaxCount: 50";
+	
+	NSArray *getSymbolNewsListFeedsArray = [NSArray arrayWithObjects:ActionNewsList, Authorization, SecOid, days, maxCount, nil];
+	NSString *symbolNewsListFeedsString = [self arrayToFormattedString:getSymbolNewsListFeedsArray];
+	
+	[self.communicator writeString:symbolNewsListFeedsString];	
 }
 
 - (void)chainsStreaming {

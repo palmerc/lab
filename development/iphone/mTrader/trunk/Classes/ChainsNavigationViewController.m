@@ -44,7 +44,7 @@
 	frame = CGRectMake(0.0f, frame.size.height - 49.0f, frame.size.width, 44.0f);
 	_toolBar = [[UIToolbar alloc] initWithFrame:frame];
 	[view addSubview:self.toolBar];
-	[self.toolBar release];
+	//[self.toolBar release];
 
 	self.view = view;
 	[view release];

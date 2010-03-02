@@ -25,6 +25,7 @@ enum {
 	PREPROCESSING,
 	PROCESSING,
 	NEWSFEEDS,
+	NEWSLIST,
 	NEWSITEM,
 	QUOTE,
 	QUOTES,
@@ -85,6 +86,7 @@ enum {
 - (void)staticDataForFeedTicker:(NSString *)feedTicker;
 - (void)tradesRequest:(NSString *)feedTicker;
 - (void)dynamicDetailForFeedTicker:(NSString *)feedTicker;
+- (void)symbolNewsForFeedTicker:(NSString *)feedTicker;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 - (void)stopStreamingData;
 
@@ -101,6 +103,7 @@ enum {
 - (void)addSecurityOK;
 - (void)removeSecurityOK;
 - (void)newsListFeedsOK;
+- (void)newsListOK;
 - (void)newsBodyOK;
 - (void)staticDataOK;
 - (void)historyDataOK;

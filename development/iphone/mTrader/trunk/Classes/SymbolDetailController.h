@@ -14,7 +14,7 @@
 #import "mTraderCommunicator.h"
 @class Symbol;
 
-@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookControllerDelegate, TradesControllerDelegate, SymbolNewsDelegate, ChartDelegate> {
+@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookControllerDelegate, TradesControllerDelegate, SymbolNewsControllerDelegate, ChartControllerDelegate> {
 @private
 	NSManagedObjectContext *managedObjectContext;
 	
@@ -25,9 +25,7 @@
 	UIView *symbolsHeaderView;
 	UIView *tradesHeaderView;
 	UIView *fundamentalsHeaderView;
-	UIView *chartHeaderView;
-	UIButton *chartButton;
-	
+
 	UILabel *tickerName;
 	UILabel *type;
 	UILabel *isin;
@@ -55,7 +53,6 @@
 	UIFont *mainFont;
 	
 	CGFloat globalY;
-	NSUInteger period;
 	
 	NSDateFormatter *dateFormatter;
 	NSDateFormatter *timeFormatter;
@@ -71,19 +68,15 @@
 - (id)initWithSymbol:(Symbol *)symbol;
 
 - (void)orderBook:(id)sender;
-- (void)imageWasTapped:(id)sender;
 - (void)setLabelFrame:(UILabel *)label;
 - (void)setLeftLabelFrame:(UILabel *)leftLabel andRightLabelFrame:(UILabel *)rightLabel;
-- (void)setButtonFrame:(UIButton *)button;
 
 - (UILabel *)generateLabel;
-- (UIButton *)generateButton;
 
 - (void)setupPage;
 - (void)updateSymbolInformation;
 - (void)updateTradesInformation;
 - (void)updateFundamentalsInformation;
-- (void)updateChart;
 
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 
