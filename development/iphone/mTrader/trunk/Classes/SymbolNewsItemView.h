@@ -9,19 +9,16 @@
 
 @interface SymbolNewsItemView : UIView <UIScrollViewDelegate> {
 @private
-	UIScrollView *scrollView;
+	UIScrollView *_scrollView;
 	UILabel *_headlineLabel;
 	UILabel *_feedLabel;
 	UILabel *_dateTimeLabel;
 	UILabel *_bodyLabel;
 	
 	NSString *_flags;
-	
-	UIFont *headlineLabelFont;
-	UIFont *bottomLineLabelFont;
-	UIFont *bodyLabelFont;
 }
 
+@property (nonatomic, retain) UIScrollView *scrollView;
 @property (nonatomic, retain) UILabel *headlineLabel;
 @property (nonatomic, retain) UILabel *feedLabel;
 @property (nonatomic, retain) UILabel *dateTimeLabel;

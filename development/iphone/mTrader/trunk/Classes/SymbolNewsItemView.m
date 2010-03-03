@@ -11,6 +11,7 @@
 
 
 @implementation SymbolNewsItemView
+@synthesize scrollView = _scrollView;
 @synthesize feedLabel = _feedLabel;
 @synthesize dateTimeLabel = _dateTimeLabel;
 @synthesize headlineLabel = _headlineLabel;
@@ -19,39 +20,39 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {		
-		headlineLabelFont = [[UIFont boldSystemFontOfSize:14.0] retain];
-		bottomLineLabelFont = [[UIFont systemFontOfSize:12.0] retain];
-		bodyLabelFont = [[UIFont systemFontOfSize:12.0] retain];
-		
 		[self setBackgroundColor:[UIColor whiteColor]];
 		
-		scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
-		scrollView.delegate = self;
-		[self addSubview:scrollView];
+		_scrollView = [[UIScrollView alloc] initWithFrame:frame];
+		self.scrollView.delegate = self;
+		self.scrollView.alwaysBounceVertical = YES;
+		self.scrollView.bounces = YES;
+		self.scrollView.minimumZoomScale = 1.0;
+		self.scrollView.maximumZoomScale = 2.0;
+		[self addSubview:self.scrollView];
 		
 		_headlineLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		self.headlineLabel.font = headlineLabelFont;
+		self.headlineLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.headlineLabel.textColor = [UIColor blackColor];
 		self.headlineLabel.numberOfLines = 0;
 		
 		_bodyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		self.bodyLabel.font = bodyLabelFont;
+		self.bodyLabel.font = [UIFont systemFontOfSize:12.0];
 		self.bodyLabel.textColor = [UIColor blackColor];
 		self.bodyLabel.numberOfLines = 0;
 		
 		_feedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		self.feedLabel.font = bottomLineLabelFont;
+		self.feedLabel.font = [UIFont systemFontOfSize:12.0];
 		self.feedLabel.textAlignment = UITextAlignmentRight;
 		self.feedLabel.textColor = [UIColor lightGrayColor];
 		
 		_dateTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		self.dateTimeLabel.font = bottomLineLabelFont;
+		self.dateTimeLabel.font = [UIFont systemFontOfSize:12.0];
 		self.dateTimeLabel.textColor = [UIColor lightGrayColor];
 
-		[scrollView addSubview:self.headlineLabel];
-		[scrollView addSubview:self.bodyLabel];
-		[scrollView addSubview:self.feedLabel];
-		[scrollView addSubview:self.dateTimeLabel];
+		[self.scrollView addSubview:self.headlineLabel];
+		[self.scrollView addSubview:self.bodyLabel];
+		[self.scrollView addSubview:self.feedLabel];
+		[self.scrollView addSubview:self.dateTimeLabel];
 		
     }
     return self;
@@ -75,7 +76,7 @@
 	
 	CGRect frame = self.frame;
 	frame.size.height -= Y_PADDING;
-	scrollView.frame = frame;
+	self.scrollView.frame = frame;
 	
 	CGFloat x = TEXT_LEFT_MARGIN;
 	CGFloat y = Y_PADDING;
@@ -85,23 +86,39 @@
 	
 	self.headlineLabel.frame = CGRectMake(x, y, width - TEXT_LEFT_MARGIN - TEXT_RIGHT_MARGIN, height);
 	
+	[self.dateTimeLabel sizeToFit];
+	[self.feedLabel sizeToFit];
+	
 	CGFloat halfWidth = width / 2.0f;
-	height = [@"X" sizeWithFont:bottomLineLabelFont].height;
 
-	self.dateTimeLabel.frame = CGRectMake(x, sumY, halfWidth - TEXT_LEFT_MARGIN, height);	
-	self.feedLabel.frame = CGRectMake(halfWidth, sumY, halfWidth - TEXT_RIGHT_MARGIN, height);
+	self.dateTimeLabel.frame = CGRectMake(x, sumY, halfWidth - TEXT_LEFT_MARGIN, self.dateTimeLabel.frame.size.height);	
+	self.feedLabel.frame = CGRectMake(halfWidth, sumY, halfWidth - TEXT_RIGHT_MARGIN, self.feedLabel.frame.size.height);
 	sumY += height;
 	
 	height = self.bodyLabel.frame.size.height;
 	self.bodyLabel.frame = CGRectMake(x, sumY, width - TEXT_LEFT_MARGIN - TEXT_RIGHT_MARGIN, height);
 	sumY += height;
 	
-	scrollView.contentSize = CGSizeMake(frame.size.width, sumY);
+	self.scrollView.contentSize = CGSizeMake(frame.size.width, sumY);
 }
 
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
+//- (void)drawRect:(CGRect)rect {
+//    // Drawing code
+//}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate methods
+
+//- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+//	return self.scrollView;
+//}
+//
+//- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale {
+//	self.headlineLabel.font = [UIFont boldSystemFontOfSize:14.0 * scale];
+//	self.dateTimeLabel.font = [UIFont systemFontOfSize:12.0 * scale];
+//	self.feedLabel.font = [UIFont systemFontOfSize:12.0 * scale];
+//	self.bodyLabel.font = [UIFont systemFontOfSize:12.0 * scale];
+//}
 
 #pragma mark -
 #pragma mark Debugging methods
@@ -122,11 +139,7 @@
 	
 	[_flags release];
 	
-	[headlineLabelFont release];
-	[bottomLineLabelFont release];
-	[bodyLabelFont release];
-	
-	[scrollView release];
+	[_scrollView release];
 	
     [super dealloc];
 }
