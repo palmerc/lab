@@ -11,7 +11,8 @@
 #import "mTraderCommunicator.h"
 #import "mTraderServerMonitor.h"
 #import "NSMutableArray+QueueAdditions.h"
-#import "UserDefaults.h";
+#import "UserDefaults.h"
+#import "StringHelpers.h"
 
 @implementation mTraderCommunicator
 
@@ -565,7 +566,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"News:"].location == 0) {
 		NSString *newsArticles = [self dataToString:data];
-		NSArray *newsArticlesArray = [newsArticles componentsSeparatedByString:@"|"];
+		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
+		colonSeparatedComponents = [self stripOffFirstElement:colonSeparatedComponents];
+		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
+		NSArray *newsArticlesArray = [StringHelpers cleanComponents:[newsArticles componentsSeparatedByString:@"|"]];
 		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
 			[self.symbolsDelegate newsListFeedsUpdates:newsArticlesArray];

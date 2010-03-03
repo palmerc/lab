@@ -10,6 +10,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7E093066113E5C2B00F164A3 /* SymbolNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E093065113E5C2B00F164A3 /* SymbolNewsCell.m */; };
+		7E093136113E895800F164A3 /* SymbolNewsItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E093135113E895800F164A3 /* SymbolNewsItemController.m */; };
+		7E093235113EA9B900F164A3 /* SymbolNewsItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E093234113EA9B900F164A3 /* SymbolNewsItemView.m */; };
 		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
 		7E15C7DD10F35A23007A45E8 /* ChainsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */; };
 		7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED41117371A00445735 /* StringHelpers.m */; };
@@ -100,6 +103,12 @@
 		1D6058910D05DD3D006BFB54 /* mTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7E093064113E5C2B00F164A3 /* SymbolNewsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsCell.h; sourceTree = "<group>"; };
+		7E093065113E5C2B00F164A3 /* SymbolNewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsCell.m; sourceTree = "<group>"; };
+		7E093134113E895800F164A3 /* SymbolNewsItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsItemController.h; sourceTree = "<group>"; };
+		7E093135113E895800F164A3 /* SymbolNewsItemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsItemController.m; sourceTree = "<group>"; };
+		7E093233113EA9B900F164A3 /* SymbolNewsItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsItemView.h; sourceTree = "<group>"; };
+		7E093234113EA9B900F164A3 /* SymbolNewsItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsItemView.m; sourceTree = "<group>"; };
 		7E15C52E10F32632007A45E8 /* Starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Starter.h; sourceTree = "<group>"; };
 		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
 		7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChainsTableCell.h; sourceTree = "<group>"; };
@@ -496,6 +505,12 @@
 			children = (
 				7E59A8C7113C1485001FD328 /* SymbolNewsController.h */,
 				7E59A8C8113C1485001FD328 /* SymbolNewsController.m */,
+				7E093064113E5C2B00F164A3 /* SymbolNewsCell.h */,
+				7E093065113E5C2B00F164A3 /* SymbolNewsCell.m */,
+				7E093134113E895800F164A3 /* SymbolNewsItemController.h */,
+				7E093135113E895800F164A3 /* SymbolNewsItemController.m */,
+				7E093233113EA9B900F164A3 /* SymbolNewsItemView.h */,
+				7E093234113EA9B900F164A3 /* SymbolNewsItemView.m */,
 			);
 			name = News;
 			sourceTree = "<group>";
@@ -810,6 +825,9 @@
 				7E59A814113C013E001FD328 /* Trade.m in Sources */,
 				7E59A8C9113C1485001FD328 /* SymbolNewsController.m in Sources */,
 				7E59A8CC113C14A0001FD328 /* ChartController.m in Sources */,
+				7E093066113E5C2B00F164A3 /* SymbolNewsCell.m in Sources */,
+				7E093136113E895800F164A3 /* SymbolNewsItemController.m in Sources */,
+				7E093235113EA9B900F164A3 /* SymbolNewsItemView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

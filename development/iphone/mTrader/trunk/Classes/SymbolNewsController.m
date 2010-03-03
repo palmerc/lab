@@ -10,56 +10,53 @@
 
 #import "Feed.h"
 #import "Symbol.h"
+#import "SymbolNewsCell.h"
+#import "SymbolNewsItemController.h"
 
 @implementation SymbolNewsController
 @synthesize delegate;
+@synthesize communicator;
 @synthesize symbol = _symbol;
 
 #pragma mark -
 #pragma mark Initialization
 
 - (id)initWithSymbol:(Symbol *)symbol {
-    if (self = [super init]) {
+	self = [super init];
+    if (self != nil) {
 		self.symbol = symbol;
 		newsArray = nil;
 		
 		table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+		table.delegate = self;
+		table.dataSource = self;
+		
 		[self.view addSubview:table];
 	}
     return self;
 }
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
 - (void)viewWillAppear:(BOOL)animated {
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
 	
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	communicator = [mTraderCommunicator sharedManager];
 	communicator.symbolsDelegate = self;
 	[communicator symbolNewsForFeedTicker:feedTicker];
 }
 
 - (void)viewDidLoad {
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
-	
+		
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-	self.navigationItem.rightBarButtonItem = doneButton;
+	self.navigationItem.leftBarButtonItem = doneButton;
 	[doneButton release];
 	
+	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+	self.navigationItem.rightBarButtonItem = refreshButton;
+	[refreshButton release];
+	
+	table.frame = self.view.bounds;
+		
 	[super viewDidLoad];
 }
 
@@ -84,8 +81,7 @@
 }
 
 #pragma mark -
-#pragma mark TableView methods
-#pragma mark Table view methods
+#pragma mark TableView datasource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -101,24 +97,37 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"SymbolNewsCell";
+    static NSString *CellIdentifier = @"SymbolSymbolNewsCell";
     
-    NewsCell *cell = (NewsCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    SymbolNewsCell *cell = (SymbolNewsCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[NewsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[SymbolNewsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
-- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+- (void)configureCell:(SymbolNewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	NSInteger row = indexPath.row;
-	News *n = [newsArray objectAtIndex:row];
-	
-	cell.news = n;
+	NSArray *newsItem = [newsArray objectAtIndex:row];
+	cell.newsItem = newsItem;
 }
 
+#pragma mark -
+#pragma mark TableView delegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	SymbolNewsItemController *newsItemController = [[SymbolNewsItemController alloc] init];
+	
+	NSArray *articleArray = [newsArray objectAtIndex:indexPath.row];
+	NSString *feedArticle = [articleArray objectAtIndex:0];
+	newsItemController.feedArticle = feedArticle;
+	
+	[self.navigationController pushViewController:newsItemController animated:YES];
+	
+	[newsItemController release];
+}
 
 #pragma mark -
 #pragma mark Delegation
@@ -126,15 +135,19 @@
 -(void) newsListFeedsUpdates:(NSArray *)newsList {
 	if (newsArray != nil) {
 		[newsArray release];
+		newsArray = nil;
 	}
 	
-	NSMutableArray *tempStorage = [[NSMutableArray alloc] init];
+	NSMutableArray *tempStorage = [[[NSMutableArray alloc] init] autorelease];
 	for (NSString *news in newsList) {
 		NSArray *components = [news componentsSeparatedByString:@";"];
 		if ([components count] >= 4) {
-			NSString *key = [components objectAtIndex:0];
-			NSString *value = [components objectAtIndex:4];
-			NSArray *tuple = [NSArray arrayWithObjects:key, value, nil];
+			NSString *feedArticle = [components objectAtIndex:0];
+			NSString *flag = [components objectAtIndex:1];
+			NSString *date = [components objectAtIndex:2];
+			NSString *time = [components objectAtIndex:3];
+			NSString *headline = [components objectAtIndex:4];
+			NSArray *tuple = [NSArray arrayWithObjects:feedArticle, flag, date, time, headline, nil];
 			
 			[tempStorage addObject:tuple];
 		}
@@ -142,9 +155,8 @@
 	
 	newsArray = (NSArray *)tempStorage;
 	[newsArray retain];
-	[tempStorage release];
 	
-	//[self.tableView reloadData];
+	[table reloadData];
 }
 
 #pragma mark -
@@ -152,6 +164,12 @@
 
 - (void)done:(id)sender {
 	[self.delegate symbolNewsControllerDidFinish:self];
+}
+
+- (void)refresh:(id)sender {
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+
+	[communicator symbolNewsForFeedTicker:feedTicker];
 }
 
 #pragma mark -
