@@ -39,19 +39,39 @@
 		globalY = 0.0;
 		
 		headerFont = [[UIFont boldSystemFontOfSize:18.0] retain];
-		mainFont = [[UIFont systemFontOfSize:14.0] retain];
-		
-		self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
+		mainFont = [[UIFont systemFontOfSize:14.0] retain];		
 	}
     return self;
 }
 
 - (void)viewDidLoad {
-	UIBarButtonItem *orderBookButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"orderBook", @"Symbol OrderBook") style:UIBarButtonItemStyleBordered target:self action:@selector(orderBook:)];
-	UIBarButtonItem *tradesButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"trades", @"Symbol Trades") style:UIBarButtonItemStyleBordered target:self action:@selector(trades:)];	
-	UIBarButtonItem *chartButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"chart", @"Symbol Chart") style:UIBarButtonItemStyleBordered target:self action:@selector(chart:)];	
-	UIBarButtonItem *newsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"news", @"Symbol News") style:UIBarButtonItemStyleBordered target:self action:@selector(news:)];
-	[self.toolBar setItems:[NSArray arrayWithObjects:orderBookButton, tradesButton, chartButton, newsButton, nil]];
+	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
+
+	NSMutableArray *barButtonItems = [[NSMutableArray alloc] init];
+	NSString *type = self.symbol.type;
+	if (![type isEqualToString:@"Index"] && ![type isEqualToString:@"Exchange Rate"]) {
+		UIBarButtonItem *orderBookButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"orderBook", @"Symbol OrderBook") style:UIBarButtonItemStyleBordered target:self action:@selector(orderBook:)];
+		[barButtonItems addObject:orderBookButton];
+		[orderBookButton release];
+	}
+	
+	UIBarButtonItem *tradesButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"trades", @"Symbol Trades") style:UIBarButtonItemStyleBordered target:self action:@selector(trades:)];
+	[barButtonItems addObject:tradesButton];
+	[tradesButton release];
+	
+	UIBarButtonItem *chartButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"chart", @"Symbol Chart") style:UIBarButtonItemStyleBordered target:self action:@selector(chart:)];
+	[barButtonItems addObject:chartButton];
+	[chartButton release];
+	
+	if (![type isEqualToString:@"Index"] && ![type isEqualToString:@"Exchange Rate"]) {
+		UIBarButtonItem *newsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"news", @"Symbol News") style:UIBarButtonItemStyleBordered target:self action:@selector(news:)];
+		[barButtonItems addObject:newsButton];
+		[newsButton release];
+	}
+	
+	[self.toolBar setItems:barButtonItems];
+	[barButtonItems release];
+	
 	
 	dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
