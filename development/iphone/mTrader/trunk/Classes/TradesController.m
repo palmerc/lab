@@ -26,9 +26,6 @@
 	if (self != nil) {
 		_symbol = symbol;
 		_trades = nil;
-		table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-				
-		[self.view addSubview:table];
 	}
 	return self;
 }
@@ -36,9 +33,16 @@
 - (void)viewDidLoad {
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
+	table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+	[self.view addSubview:table];
+	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-	self.navigationItem.rightBarButtonItem = doneButton;
+	self.navigationItem.leftBarButtonItem = doneButton;
 	[doneButton release];
+	
+	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+	self.navigationItem.rightBarButtonItem = refreshButton;
+	[refreshButton release];
 	
 	[super viewDidLoad];
 }
@@ -57,6 +61,7 @@
 	tradeVolumeLabel = [[self setHeader:@"Size" withFrame:frame] retain];
 	
 	viewFrame.origin.y += textSize.height;
+	viewFrame.size.height -= textSize.height;
 	
 	table.frame = viewFrame;
 	table.delegate = self;
@@ -115,7 +120,7 @@
 	return headerView;
 }
 
-#pragma mark Table view methods
+#pragma mark Tableview methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -149,6 +154,11 @@
 	cell.trade = t;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGSize size = [@"X" sizeWithFont:[UIFont systemFontOfSize:17.0]];
+	return size.height;
+}
+
 - (void)tradesUpdate:(NSDictionary *)updateDictionary {
 	NSString *tradesString = [updateDictionary objectForKey:@"trades"];
 	NSArray *tradesComponents = [tradesString componentsSeparatedByString:@"|"];
@@ -168,6 +178,7 @@
 		[tradesTemporaryStorage addObject:t];
 		[t release];
 	}
+		
 	self.trades = tradesTemporaryStorage;
 	[tradesTemporaryStorage release];
 	
@@ -176,6 +187,12 @@
 
 - (void)done:(id)sender {
 	[self.delegate tradesControllerDidFinish:self];
+}
+
+- (void)refresh:(id)sender {
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	[communicator tradesRequest:feedTicker];
 }
 
 - (void)dealloc {

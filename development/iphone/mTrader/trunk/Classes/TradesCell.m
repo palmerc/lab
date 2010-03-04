@@ -28,6 +28,7 @@
 		
 		mainFont = [[UIFont systemFontOfSize:17.0] retain];
 		time = [[self createLabel] retain];
+		time.textAlignment = UITextAlignmentCenter;
 		price = [[self createLabel] retain];
 		volume = [[self createLabel] retain];
     }
@@ -71,7 +72,7 @@
 	CGSize size = [@"X" sizeWithFont:mainFont];
 	
 	CGFloat width = screenBounds.size.width / 3;
-	return CGRectMake(0.0, 0.0, width, size.height);
+	return CGRectMake(8.0f, 0.0, width - 10.0f, size.height);
 }
 
 - (CGRect)_priceLabelFrame {
@@ -79,14 +80,14 @@
 	CGSize size = [@"X" sizeWithFont:mainFont];
 	CGFloat width = screenBounds.size.width / 3;
 	
-	return CGRectMake(width, 0.0, width, size.height);
+	return CGRectMake(width, 0.0, width - 6.0f, size.height);
 }
 
 - (CGRect)_volumeLabelFrame {
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	CGSize size = [@"X" sizeWithFont:mainFont];
 	CGFloat width = screenBounds.size.width / 3;
-	return CGRectMake(width * 2, 0.0, width, size.height);
+	return CGRectMake(width * 2, 0.0, width - 10.0f, size.height);
 }
 
 - (void)dealloc {
