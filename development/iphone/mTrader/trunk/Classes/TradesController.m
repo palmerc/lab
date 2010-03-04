@@ -165,6 +165,9 @@
 	NSMutableArray *tradesTemporaryStorage = [[NSMutableArray alloc] init];
 	
 	for (NSString *trade in tradesComponents) {
+		if ([trade isEqualToString:@""]) {
+			continue;
+		}
 		NSArray *parts = [trade componentsSeparatedByString:@";"];
 		Trade *t = [[Trade alloc] init];
 		NSString *time = [parts objectAtIndex:0];
