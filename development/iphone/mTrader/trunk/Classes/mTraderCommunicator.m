@@ -783,7 +783,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *ActionQ = @"Action: q";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
-	NSString *QFields = @"QFields: l;h;lo;o;v";
+	NSString *QFields = @"QFields: l;cp;c;h;lo;o;v";
 	NSArray *getDynamicDetailArray = [NSArray arrayWithObjects:ActionQ, Authorization, SecOid, QFields, nil];
 	
 	NSString *dynamicDetailRequestString = [self arrayToFormattedString:getDynamicDetailArray];

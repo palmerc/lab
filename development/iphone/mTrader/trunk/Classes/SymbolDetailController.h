@@ -33,13 +33,22 @@
 	UILabel *country;
 	
 	UILabel *lastTrade;
-	UILabel *vwap;
 	UILabel *lastTradeTime;
+	UILabel *lastTradeChange;
+	UILabel *lastTradePercentChange;
+	UILabel *vwap;
 	UILabel *open;
 	UILabel *turnover;
 	UILabel *high;
 	UILabel *volume;
 	UILabel *low;
+	UILabel *buyLot;
+	UILabel *buyLotValue;
+	UILabel *trades;
+	UILabel *tradingStatus;
+	UILabel *averageValue;
+	UILabel *averageVolume;
+	UILabel *onVolume;
 	
 	UILabel *segment;
 	UILabel *marketCapitalization;

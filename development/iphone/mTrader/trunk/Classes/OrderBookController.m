@@ -46,7 +46,7 @@
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-	self.navigationItem.rightBarButtonItem = doneButton;
+	self.navigationItem.leftBarButtonItem = doneButton;
 	[doneButton release];
 	
 	[super viewDidLoad];

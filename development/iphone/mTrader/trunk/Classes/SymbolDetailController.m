@@ -268,22 +268,41 @@
 	
 	NSString *tradesHeader = NSLocalizedString(@"tradesInformationHeader", @"Trades Information");
 	tradesHeaderView = [[self setHeader:tradesHeader] retain];
-
+	
 	lastTrade = [[self generateLabel] retain];
-	vwap = [[self generateLabel] retain];
-	[self setLeftLabelFrame:lastTrade andRightLabelFrame:vwap];
+	open = [[self generateLabel] retain];
+	[self setLeftLabelFrame:lastTrade andRightLabelFrame:open];
 
 	lastTradeTime = [[self generateLabel] retain];
-	open = [[self generateLabel] retain];
-	[self setLeftLabelFrame:lastTradeTime andRightLabelFrame:open];
+	high = [[self generateLabel] retain];
+	[self setLeftLabelFrame:lastTradeTime andRightLabelFrame:high];
+	
+	lastTradeChange = [[self generateLabel] retain];
+	low = [[self generateLabel] retain];
+	[self setLeftLabelFrame:lastTradeChange andRightLabelFrame:low];
+
+	lastTradePercentChange = [[self generateLabel] retain];
+	buyLot = [[self generateLabel] retain];
+	[self setLeftLabelFrame:lastTradePercentChange andRightLabelFrame:buyLot];
+
+	vwap = [[self generateLabel] retain];
+	buyLotValue = [[self generateLabel] retain];
+	[self setLeftLabelFrame:vwap andRightLabelFrame:buyLotValue];
+
+	trades = [[self generateLabel] retain];
+	averageVolume = [[self generateLabel] retain];
+	[self setLeftLabelFrame:trades andRightLabelFrame:averageVolume];
 
 	turnover = [[self generateLabel] retain];
-	high = [[self generateLabel] retain];
-	[self setLeftLabelFrame:turnover andRightLabelFrame:high];
+	averageValue = [[self generateLabel] retain];
+	[self setLeftLabelFrame:turnover andRightLabelFrame:averageValue];
 
 	volume = [[self generateLabel] retain];
-	low = [[self generateLabel] retain];
-	[self setLeftLabelFrame:volume andRightLabelFrame:low];
+	onVolume = [[self generateLabel] retain];
+	[self setLeftLabelFrame:volume andRightLabelFrame:onVolume];
+
+	tradingStatus = [[self generateLabel] retain];	
+	[self setLabelFrame:tradingStatus];
 
 	NSString *fundamentalsHeader = NSLocalizedString(@"fundamentalsInformationHeader", @"Fundamentals");
 	fundamentalsHeaderView = [[self setHeader:fundamentalsHeader] retain];
@@ -312,14 +331,24 @@
 
 - (void)updateTradesInformation {	
 	lastTrade.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTrade", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTrade]];
-	vwap.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"vwap", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP]];
 	lastTradeTime.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTradeTime", @"LocalizedString"), [timeFormatter stringFromDate:self.symbol.symbolDynamicData.lastTradeTime]];
+	lastTradeChange.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTradeChange", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTradeChange]];
+	lastTradePercentChange.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTradePercentChange", @"LocalizedString"), [percentFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTradePercentChange]];
+	vwap.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"vwap", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP]];
 	open.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"open", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.open]];
 	turnover.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"turnover", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.turnover]];
 	high.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"high", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.high]];
 	volume.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"volume", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.volume]];
 	low.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"low", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.low]];
+	buyLot.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"buyLot", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.buyLot]];
+	buyLotValue.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"buyLotValue", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.buyLotValue]];
+	trades.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"trades", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.onVolume]];
+	tradingStatus.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"tradingStatus", @"LocalizedString"), self.symbol.symbolDynamicData.tradingStatus];
+	averageValue.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"averageValue", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.averageValue]];
+	averageVolume.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"averageVolume", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.averageVolume]];
+	onVolume.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"onVolume", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.onVolume]];
 }
+
 - (void)updateFundamentalsInformation {
 	segment.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"segment", @"LocalizedString"), self.symbol.symbolDynamicData.segment];
 	marketCapitalization.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"marketCapitalization", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.marketCapitalization]];
@@ -332,16 +361,16 @@
 - (void)updateSymbols:(NSArray *)updates {
 	static NSInteger FEED_TICKER = 0;
 	static NSInteger LAST_TRADE = 1;
-	static NSInteger HIGH = 2; 
-	static NSInteger LOW = 3; 
-	static NSInteger OPEN = 4;
-	static NSInteger VOLUME = 5;
+	static NSInteger PERCENT_CHANGE = 2;
+	static NSInteger CHANGE = 3;
+	static NSInteger HIGH = 4; 
+	static NSInteger LOW = 5; 
+	static NSInteger OPEN = 6;
+	static NSInteger VOLUME = 7;
 
 	/*
-	static NSInteger PERCENT_CHANGE = 2;
 	static NSInteger BID_PRICE = 3;
 	static NSInteger ASK_PRICE = 4;
-	static NSInteger CHANGE = 5;
 	static NSInteger ASK_VOLUME = 5;
 	static NSInteger BID_VOLUME = 6;
 	*/
@@ -385,7 +414,6 @@
 				symbolDynamicData.lastTradeTime = [NSDate date];
 			}
 		}
-		/*
 		// percent change
 		if ([values count] > PERCENT_CHANGE) {
 			NSString *percentChange = [values objectAtIndex:PERCENT_CHANGE];
@@ -396,6 +424,7 @@
 			}
 		}
 		
+		/*
 		// bid price
 		if ([values count] > BID_PRICE) {
 			NSString *bidPrice = [values objectAtIndex:BID_PRICE];
@@ -447,7 +476,7 @@
 		 symbolDynamicData.bidVolume = [NSNumber numberWithInteger:[bidVolume integerValue] * multiplier];
 		 }
 		 }
-		 
+		*/
 		// change
 		if ([values count] > CHANGE) {
 			NSString *change = [values objectAtIndex:CHANGE];
@@ -457,7 +486,7 @@
 				symbolDynamicData.change = [NSNumber numberWithDouble:[change doubleValue]];
 			}
 		}
-		*/
+		 
 		 // high
 		if ([values count] > HIGH) {
 			NSString *highString = [values objectAtIndex:HIGH];
@@ -563,13 +592,13 @@
 		symbol.symbolDynamicData.lastTradeChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"L +/-"] doubleValue]];
 	}
 	if ([updateDictionary objectForKey:@"L +/-%"]) {
-		symbol.symbolDynamicData.lastTradePercentChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"L +/-%"] doubleValue]];
+		symbol.symbolDynamicData.lastTradePercentChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"L +/-%"] doubleValue]/100.0f];
 	}
 	if ([updateDictionary objectForKey:@"O +/-"]) { 
 		symbol.symbolDynamicData.openChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"O +/-"] doubleValue]];
 	}
 	if ([updateDictionary objectForKey:@"O +/-%"]) {
-		symbol.symbolDynamicData.openPercentChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"O +/-%"] doubleValue]];
+		symbol.symbolDynamicData.openPercentChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"O +/-%"] doubleValue]/100.0f];
 	}
 	if ([updateDictionary objectForKey:@"Volume"]) {
 		NSString *volumeString = [updateDictionary objectForKey:@"Volume"];
@@ -592,14 +621,14 @@
 		symbol.symbolDynamicData.turnover = [NSNumber numberWithInteger:[turnoverString integerValue] * multiplier];
 	}
 	if ([updateDictionary objectForKey:@"OnVolume"]) {
-		NSString *onVolume = [updateDictionary objectForKey:@"OnVolume"];
+		NSString *onVolumeString = [updateDictionary objectForKey:@"OnVolume"];
 		NSUInteger multiplier = 1;
-		if ([onVolume rangeOfString:@"k"].location != NSNotFound) {
+		if ([onVolumeString rangeOfString:@"k"].location != NSNotFound) {
 			multiplier = 1000;
-		} else if ([onVolume rangeOfString:@"m"].location != NSNotFound) {
+		} else if ([onVolumeString rangeOfString:@"m"].location != NSNotFound) {
 			multiplier = 1000000;
 		}
-		symbol.symbolDynamicData.onVolume = [NSNumber numberWithInteger:[onVolume integerValue] * multiplier];
+		symbol.symbolDynamicData.onVolume = [NSNumber numberWithInteger:[onVolumeString integerValue] * multiplier];
 	}
 	if ([updateDictionary objectForKey:@"OnValue"]) {
 		NSString *onValue = [updateDictionary objectForKey:@"OnValue"];
@@ -755,6 +784,16 @@
 	[outstandingShares release];
 	[dividend release];
 	[dividendDate release];
+	[lastTradeChange release];
+	[lastTradePercentChange release];
+	[buyLot release];
+	[buyLotValue release];
+	[trades release];
+	[tradingStatus release];
+	[averageValue release];
+	[averageVolume release];
+	[onVolume release];
+	
 	
 	[dateFormatter release];
 	[timeFormatter release];

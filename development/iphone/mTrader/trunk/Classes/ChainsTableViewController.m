@@ -406,6 +406,10 @@
 			symbol.orderBook = orderBook;
 			if ([type isEqualToString:@"1"]) {
 				symbol.type = @"Stock";
+			} else if ([type isEqualToString:@"2"]) {
+				symbol.type = @"Index";
+			} else if ([type isEqualToString:@"3"]) {
+				symbol.type = @"Exchange Rate";
 			} else {
 				symbol.type = type;
 			}

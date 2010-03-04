@@ -387,10 +387,7 @@
 		7E419AD610E20B7B0007808B /* Chains */ = {
 			isa = PBXGroup;
 			children = (
-				7EC009C1112A96330092873A /* Symbol Detail and Orderbook */,
-				7EB3DBA3113552D700145DDC /* Add Symbol */,
 				7EB3DBA2113552AD00145DDC /* Navigation Controller */,
-				7ED92B8610F77F010016F656 /* Chains Table */,
 			);
 			name = Chains;
 			sourceTree = "<group>";
@@ -551,6 +548,7 @@
 		7EB3DBA2113552AD00145DDC /* Navigation Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7ED92B8610F77F010016F656 /* Chains Table */,
 				7E9CD698111DAAC9009B0087 /* ChainsNavigationViewController.h */,
 				7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */,
 			);
@@ -569,27 +567,21 @@
 		7EB3DBAC1135536000145DDC /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				7E59A8B4113C12F2001FD328 /* News */,
+				7E59A8B3113C12AB001FD328 /* Chart */,
+				7E59A718113BD99D001FD328 /* Trades */,
+				7E723BAC11294B350073A07B /* OrderBook */,
 				7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */,
 				7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
 		};
-		7EC009C1112A96330092873A /* Symbol Detail and Orderbook */ = {
-			isa = PBXGroup;
-			children = (
-				7E59A8B4113C12F2001FD328 /* News */,
-				7E59A8B3113C12AB001FD328 /* Chart */,
-				7E59A718113BD99D001FD328 /* Trades */,
-				7EB3DBAC1135536000145DDC /* Detail */,
-				7E723BAC11294B350073A07B /* OrderBook */,
-			);
-			name = "Symbol Detail and Orderbook";
-			sourceTree = "<group>";
-		};
 		7ED92B8610F77F010016F656 /* Chains Table */ = {
 			isa = PBXGroup;
 			children = (
+				7EB3DBAC1135536000145DDC /* Detail */,
+				7EB3DBA3113552D700145DDC /* Add Symbol */,
 				7E419AD710E20B920007808B /* ChainsTableViewController.h */,
 				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
 				7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */,
