@@ -42,10 +42,14 @@
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-	self.navigationItem.rightBarButtonItem = doneButton;
+	self.navigationItem.leftBarButtonItem = doneButton;
 	[doneButton release];
 	
-	NSArray *items = [NSArray arrayWithObjects:@"1d", @"1w", @"1m", @"1y", nil];
+	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+	self.navigationItem.rightBarButtonItem = refreshButton;
+	[refreshButton release];
+	
+	NSArray *items = [NSArray arrayWithObjects:@"1 day", @"1 month", @"1 year", nil];
 	UISegmentedControl *chartPeriodSelector = [[UISegmentedControl alloc] initWithItems:items];
 	chartPeriodSelector.segmentedControlStyle = UISegmentedControlStyleBar;
 	chartPeriodSelector.selectedSegmentIndex = 0;
@@ -128,12 +132,9 @@
 			period = 0;
 			break;
 		case 1:
-			period = 7;
-			break;
-		case 2:
 			period = 30;
 			break;
-		case 3:
+		case 2:
 			period = 365;
 			break;
 		default:
@@ -176,6 +177,14 @@
 #pragma mark Actions
 - (void)done:(id)sender {
 	[self.delegate chartControllerDidFinish:self];
+}
+
+- (void)refresh:(id)sender {
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	
+	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];
 }
 
 #pragma mark -
