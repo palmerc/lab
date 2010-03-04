@@ -11,6 +11,7 @@
 
 }
 
++ (NSString *)cleanString:(NSString *)aString;
 + (NSArray *)cleanComponents:(NSArray *)arrayOfStrings;
 
 @end

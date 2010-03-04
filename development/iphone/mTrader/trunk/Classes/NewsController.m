@@ -1,89 +1,82 @@
 //
-//  NewsViewController.m
+//  NewsController.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 23.12.09.
-//  Copyright 2009 InFront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 01.03.10.
+//  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "NewsViewController.h"
-#import "NewsItemViewController.h"
+#import "NewsController.h"
+
 #import "mTraderAppDelegate.h"
-#import "mTraderCommunicator.h"
 #import "NewsFeed.h"
+#import "Feed.h"
+#import "Symbol.h"
+#import "NewsCell.h"
+#import "NewsItemController.h"
 
-@implementation NewsViewController
-@synthesize managedObjectContext, fetchedResultsController;
-@synthesize communicator;
-@synthesize newsArray = _newsArray;
+@implementation NewsController
+@synthesize communicator, managedObjectContext, fetchedResultsController;
+@synthesize mCode = _mCode;
 
-#pragma mark Lifecycle
+#pragma mark -
+#pragma mark Initialization
 
 - (id)init {
 	self = [super init];
-	if (self != nil) {
+    if (self != nil) {
 		self.title = NSLocalizedString(@"NewsTab", "News tab label");
 		UIImage* anImage = [UIImage imageNamed:@"newsTabButton.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];
-		_newsArray = [[NSMutableArray alloc] init];
-
-		communicator = [mTraderCommunicator sharedManager];
-		mCode = @"AllNews";
+		
+		newsArray = nil;
+		
+		table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+		table.delegate = self;
+		table.dataSource = self;
+		
+		[self.view addSubview:table];
+		
+		self.mCode = @"AllNews";
 	}
-	return self;
-}
-
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
     return self;
 }
-*/
 
+- (void)viewWillAppear:(BOOL)animated {	
+	table.frame = self.view.bounds;
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-	[super loadView];
-	
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
+	
+	communicator = [mTraderCommunicator sharedManager];
+	[communicator stopStreamingData];
+	communicator.symbolsDelegate = self;
+	[communicator newsListFeed:self.mCode];
 }
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
+- (void)viewDidLoad {	
 	UIBarButtonItem *selectFeed = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(selectNewsFeed:)];
 	self.navigationItem.leftBarButtonItem = selectFeed;
 	[selectFeed release];
-	
-	UIBarButtonItem *refreshNews = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshNews)];
-	self.navigationItem.rightBarButtonItem = refreshNews;
-	[refreshNews release];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	self.communicator.symbolsDelegate = self;
-	[self.communicator newsListFeed:mCode];
-	[self.communicator stopStreamingData];
+		
+	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+	self.navigationItem.rightBarButtonItem = refreshButton;
+	[refreshButton release];
+		
+	[super viewDidLoad];
 }
 
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    //return (interfaceOrientation == UIInterfaceOrientationPortrait);
-	return NO;
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
 
@@ -99,63 +92,65 @@
 	// e.g. self.myOutlet = nil;
 }
 
+#pragma mark -
+#pragma mark TableView datasource methods
 
-#pragma mark TableViewDataSourceDelegate Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 1;
+    return 1;
 }
 
+
+// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [self.newsArray count];
+    return [newsArray count];
 }
 
+
+// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *CellIdentifier = @"NewsCell";
-	
-	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	if (cell == nil) {
-		cell = [[UITableViewCell alloc] init];
-		cell.textLabel.numberOfLines = 0;
-	}
-	
-	NSString *cellText = [[self.newsArray objectAtIndex:indexPath.row] objectAtIndex:1];
-	if ([cellText rangeOfString:@"***"].location == 0) {
-		[cell.contentView setBackgroundColor:[UIColor redColor]];
-		cellText = [cellText substringFromIndex:3];
-	} else if ([cellText rangeOfString:@"*"].location == 0) {
-		[cell.contentView setBackgroundColor:[UIColor blueColor]];
-		cellText = [cellText substringFromIndex:1];
-	} else if ([cellText rangeOfString:@"="].location == 0) {
-		[cell.contentView setBackgroundColor:[UIColor greenColor]];
-		cellText = [cellText substringFromIndex:1];
-	}
-	UIFont *font = [UIFont fontWithName:@"Courier" size:14];
-	[cell.textLabel setFont:font];
-	[cell.textLabel setText:cellText];
-	
-	return cell;
+    
+    static NSString *CellIdentifier = @"NewsCell";
+    
+    NewsCell *cell = (NewsCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[NewsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+	[self configureCell:cell atIndexPath:indexPath animated:NO];
+    return cell;
 }
+
+- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+	NSInteger row = indexPath.row;
+	NSArray *newsItem = [newsArray objectAtIndex:row];
+	cell.newsItem = newsItem;
+}
+
+#pragma mark -
+#pragma mark TableView delegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	NewsItemController *newsItemController = [[NewsItemController alloc] init];
+	
+	NSArray *articleArray = [newsArray objectAtIndex:indexPath.row];
+	NSString *feedArticle = [articleArray objectAtIndex:0];
+	newsItemController.feedArticle = feedArticle;
+	
+	[self.navigationController pushViewController:newsItemController animated:YES];
+	
+	[newsItemController release];
+}
+
+
 #pragma mark -
 #pragma mark UIPickerViewDataSource Required Methods
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
 	return [[fetchedResultsController sections] count];
 }
 
-
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:component];
     return [sectionInfo numberOfObjects];
-}
-
-#pragma mark TableViewDelegate Methods
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSUInteger row = indexPath.row;
-	
-	NSArray *tuple = [self.newsArray objectAtIndex:row];
-	NSString *newsID = [tuple objectAtIndex:0];
-	NewsItemViewController *newsItemViewController = [[NewsItemViewController alloc] initWithNewsItem:newsID];
-	[self.navigationController pushViewController:newsItemViewController animated:YES];
-	
 }
 
 #pragma mark -
@@ -163,7 +158,7 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
 	NewsFeed *feed = (NewsFeed *)[fetchedResultsController objectAtIndexPath:indexPath];
-	mCode = feed.mCode;
+	self.mCode = feed.mCode;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
@@ -173,30 +168,43 @@
 	return feedName;
 }
 
-#pragma mark Delegation
+#pragma mark -
+#pragma mark mTraderCommunicatorDelegate methods
 
 -(void) newsListFeedsUpdates:(NSArray *)newsList {
+	if (newsArray != nil) {
+		[newsArray release];
+		newsArray = nil;
+	}
+	
+	NSMutableArray *tempStorage = [[[NSMutableArray alloc] init] autorelease];
 	for (NSString *news in newsList) {
 		NSArray *components = [news componentsSeparatedByString:@";"];
 		if ([components count] >= 4) {
-			NSString *key = [components objectAtIndex:0];
-			NSString *value = [components objectAtIndex:4];
-			NSArray *tuple = [NSArray arrayWithObjects:key, value, nil];
-		
-			[self.newsArray addObject:tuple];
+			NSString *feedArticle = [components objectAtIndex:0];
+			NSString *flag = [components objectAtIndex:1];
+			NSString *date = [components objectAtIndex:2];
+			NSString *time = [components objectAtIndex:3];
+			NSString *headline = [components objectAtIndex:4];
+			NSArray *tuple = [NSArray arrayWithObjects:feedArticle, flag, date, time, headline, nil];
+			
+			[tempStorage addObject:tuple];
 		}
 	}
 	
-	[self.tableView reloadData];
+	newsArray = (NSArray *)tempStorage;
+	[newsArray retain];
+	
+	[table reloadData];
 }
 
+#pragma mark -
+#pragma mark Actions
 
-#pragma mark News Refresh
-
--(void) refreshNews {
-	[self.newsArray removeAllObjects];
-	[self.communicator newsListFeed:mCode];
-	[self.tableView reloadData];
+- (void)refresh:(id)sender {
+	[newsArray release];
+	newsArray = nil;
+	[self.communicator newsListFeed:self.mCode];
 }
 
 - (void)selectNewsFeed:(id)sender {
@@ -207,7 +215,7 @@
 	feedSelector.delegate = self;
 	[menu addSubview:feedSelector];
 	[feedSelector release];
-	[menu showInView:self.tableView];
+	[menu showInView:table];
 	[menu setBounds:CGRectMake(0.0, 0.0, 320.0, 700.0)];
 	[menu release];
 }
@@ -216,13 +224,14 @@
 	if (buttonIndex == 0) {
 		return;
 	} else if (buttonIndex == 1) {
-		mCode = @"AllNews";
-		[self.newsArray removeAllObjects];
-		[communicator newsListFeed:mCode];
+		self.mCode = @"AllNews";
+		[newsArray release];
+		newsArray = nil;
+		[communicator newsListFeed:self.mCode];
 	} else if (buttonIndex == 2) {
-		// Selected News Feed
-		[self.newsArray removeAllObjects];
-		[communicator newsListFeed:mCode];
+		[newsArray release];
+		newsArray = nil;
+		[communicator newsListFeed:self.mCode];
 	}
 }
 
@@ -261,12 +270,24 @@
 	
 	return fetchedResultsController;
 }
-
+/*
+#pragma mark -
+#pragma mark Debugging methods
+// Very helpful debug when things seem not to be working.
+- (BOOL)respondsToSelector:(SEL)sel {
+	NSLog(@"Queried about %@ in NewsController", NSStringFromSelector(sel));
+	return [super respondsToSelector:sel];
+}
+*/
 #pragma mark -
 #pragma mark Memory management
+
 - (void)dealloc {
-	[self.newsArray release];
+	[_mCode release];
+	[table release];
+	[newsArray release];
     [super dealloc];
 }
+
 
 @end

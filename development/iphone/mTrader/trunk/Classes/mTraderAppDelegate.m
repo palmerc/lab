@@ -11,7 +11,7 @@
 #import "UserDefaults.h"
 #import "ChainsTableViewController.h"
 #import "ChainsNavigationViewController.h"
-#import "NewsViewController.h"
+#import "NewsController.h"
 #import "SettingsTableViewController.h"
 
 @implementation mTraderAppDelegate
@@ -46,7 +46,7 @@
 	ChainsNavigationViewController *chainsNavigationController = [[ChainsNavigationViewController alloc] initWithContentViewController:rootViewController];
 	[rootViewController release];
 	
-	NewsViewController *news = [[NewsViewController alloc] init];
+	NewsController *news = [[NewsController alloc] init];
 	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
 	news.managedObjectContext = self.managedObjectContext;
 	

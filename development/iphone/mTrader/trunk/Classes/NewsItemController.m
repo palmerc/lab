@@ -1,17 +1,17 @@
 //
-//  SymbolNewsItemController.m
+//  NewsItemController.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 03.03.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "SymbolNewsItemController.h"
+#import "NewsItemController.h"
 
 #import "SymbolNewsItemView.h"
 #import "StringHelpers.h"
 
-@implementation SymbolNewsItemController
+@implementation NewsItemController
 @synthesize feedArticle = _feedArticle;
 
 - (id)init {
@@ -84,15 +84,15 @@
 	
 	[newsItemView setNeedsLayout];
 }
-
+/*
 #pragma mark -
 #pragma mark Debugging methods
 // Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
-	NSLog(@"Queried about %@ in SymbolNewsItemController", NSStringFromSelector(sel));
+	NSLog(@"Queried about %@ in NewsItemController", NSStringFromSelector(sel));
 	return [super respondsToSelector:sel];
 }
-
+*/
 #pragma mark -
 #pragma mark Memory management
 

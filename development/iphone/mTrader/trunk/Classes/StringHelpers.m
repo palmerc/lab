@@ -11,6 +11,16 @@
 
 @implementation StringHelpers
 
++ (NSString *)cleanString:(NSString *)aString {
+	
+	if (aString == nil) {
+		return nil;
+	}
+	
+	NSCharacterSet *whitespaceAndNewline = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+	return [aString stringByTrimmingCharactersInSet:whitespaceAndNewline];
+}
+
 + (NSArray *)cleanComponents:(NSArray *)arrayOfStrings {
 	
 	if (arrayOfStrings == nil) {
@@ -28,6 +38,7 @@
 }
 
 + (NSArray *)componentsOfFeedNameAndCode:(NSString *)feedNameAndCode {
+	
 	// Separate the Description from the mCode
 	NSRange leftBracketRange = [feedNameAndCode rangeOfString:@"["];
 	NSRange rightBracketRange = [feedNameAndCode rangeOfString:@"]"];
