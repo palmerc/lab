@@ -27,39 +27,66 @@
 	UIView *fundamentalsHeaderView;
 
 	UILabel *tickerName;
+	UILabel *typeLabel;
 	UILabel *type;
+	UILabel *isinLabel;
 	UILabel *isin;
+	UILabel *currencyLabel;
 	UILabel *currency;
+	UILabel *countryLabel; 
 	UILabel *country;
 	
+	UILabel *lastTradeLabel;
 	UILabel *lastTrade;
+	UILabel *lastTradeTimeLabel;
 	UILabel *lastTradeTime;
+	UILabel *lastTradeChangeLabel;
 	UILabel *lastTradeChange;
+	UILabel *lastTradePercentChangeLabel;
 	UILabel *lastTradePercentChange;
+	UILabel *vwapLabel;
 	UILabel *vwap;
+	UILabel *openLabel;
 	UILabel *open;
+	UILabel *turnoverLabel;
 	UILabel *turnover;
+	UILabel *highLabel;
 	UILabel *high;
+	UILabel *volumeLabel;
 	UILabel *volume;
+	UILabel *lowLabel;
 	UILabel *low;
+	UILabel *buyLotLabel;
 	UILabel *buyLot;
+	UILabel *buyLotValueLabel;
 	UILabel *buyLotValue;
+	UILabel *tradesLabel;
 	UILabel *trades;
+	UILabel *tradingStatusLabel;
 	UILabel *tradingStatus;
+	UILabel *averageValueLabel;
 	UILabel *averageValue;
+	UILabel *averageVolumeLabel;
 	UILabel *averageVolume;
+	UILabel *onVolumeLabel;
 	UILabel *onVolume;
 	
+	UILabel *segmentLabel;
 	UILabel *segment;
+	UILabel *marketCapitalizationLabel;
 	UILabel *marketCapitalization;
+	UILabel *outstandingSharesLabel;
 	UILabel *outstandingShares;
+	UILabel *dividendLabel;
 	UILabel *dividend;
+	UILabel *dividendDateLabel;
 	UILabel *dividendDate;
 	
 	UIToolbar *toolBar;
 	
 	UIFont *headerFont;
 	UIFont *mainFont;
+	UIFont *mainFontBold;
 	
 	CGFloat globalY;
 	
@@ -78,9 +105,9 @@
 
 - (void)orderBook:(id)sender;
 - (void)setLabelFrame:(UILabel *)label;
-- (void)setLeftLabelFrame:(UILabel *)leftLabel andRightLabelFrame:(UILabel *)rightLabel;
+- (void)setLeftLabelFrame:(UILabel *)leftLabel andLeftData:(UILabel *)leftDataLabel andRightLabelFrame:(UILabel *)rightLabel andRightData:(UILabel *)rightDataLabel;
 
-- (UILabel *)generateLabel;
+- (UILabel *)generateLabelWithText:(NSString *)text;
 
 - (void)setupPage;
 - (void)updateSymbolInformation;

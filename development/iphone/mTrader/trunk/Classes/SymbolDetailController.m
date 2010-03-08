@@ -39,7 +39,8 @@
 		globalY = 0.0;
 		
 		headerFont = [[UIFont boldSystemFontOfSize:18.0] retain];
-		mainFont = [[UIFont systemFontOfSize:14.0] retain];		
+		mainFont = [[UIFont systemFontOfSize:14.0] retain];
+		mainFontBold = [[UIFont boldSystemFontOfSize:14.0] retain];		
 	}
     return self;
 }
@@ -48,8 +49,8 @@
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 
 	NSMutableArray *barButtonItems = [[NSMutableArray alloc] init];
-	NSString *type = self.symbol.type;
-	if (![type isEqualToString:@"Index"] && ![type isEqualToString:@"Exchange Rate"]) {
+	NSString *sType = self.symbol.type;
+	if (![sType isEqualToString:@"Index"] && ![sType isEqualToString:@"Exchange Rate"]) {
 		UIBarButtonItem *orderBookButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"orderBook", @"Symbol OrderBook") style:UIBarButtonItemStyleBordered target:self action:@selector(orderBook:)];
 		[barButtonItems addObject:orderBookButton];
 		[orderBookButton release];
@@ -63,7 +64,7 @@
 	[barButtonItems addObject:chartButton];
 	[chartButton release];
 	
-	if (![type isEqualToString:@"Index"] && ![type isEqualToString:@"Exchange Rate"]) {
+	if (![sType isEqualToString:@"Index"] && ![sType isEqualToString:@"Exchange Rate"]) {
 		UIBarButtonItem *newsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"news", @"Symbol News") style:UIBarButtonItemStyleBordered target:self action:@selector(news:)];
 		[barButtonItems addObject:newsButton];
 		[newsButton release];
@@ -81,14 +82,14 @@
 	
 	doubleFormatter = [[NSNumberFormatter alloc] init];
 	[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	[doubleFormatter setUsesSignificantDigits:YES];
+	//[doubleFormatter setUsesSignificantDigits:YES];
 	
 	integerFormatter = [[NSNumberFormatter alloc] init];
 	[integerFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	
 	percentFormatter = [[NSNumberFormatter alloc] init];
 	[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-	[percentFormatter setUsesSignificantDigits:YES];
+	//[percentFormatter setUsesSignificantDigits:YES];
 	
 	CGRect viewBounds = self.view.bounds;
 	scrollView = [[UIScrollView alloc] initWithFrame:viewBounds];
@@ -235,9 +236,21 @@
 	[navController release];
 }
 
-- (UILabel *)generateLabel {
+- (UILabel *)generateLabelWithText:(NSString *)text {
+	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+	[label setText:text];
+	[label setTextColor:[UIColor darkGrayColor]];
+	[label setTextAlignment:UITextAlignmentLeft];
+	[label setBackgroundColor:[UIColor clearColor]];
+	[label setFont:mainFont];
+	[scrollView addSubview:label];
+	return label;
+}
+
+- (UILabel *)generateDataLabel {
 	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
 	[label setTextColor:[UIColor blackColor]];
+	[label setTextAlignment:UITextAlignmentRight];
 	[label setBackgroundColor:[UIColor clearColor]];
 	[label setFont:mainFont];
 	[scrollView addSubview:label];
@@ -262,11 +275,17 @@
 	globalY += fontSize.height;
 }
 
-- (void)setLeftLabelFrame:(UILabel *)leftLabel andRightLabelFrame:(UILabel *)rightLabel {
-	CGSize fontSize = [@"X" sizeWithFont:mainFont];
-	leftLabel.frame = CGRectMake(TEXT_LEFT_MARGIN, globalY, self.view.bounds.size.width / 2 - TEXT_LEFT_MARGIN, fontSize.height);
-	rightLabel.frame = CGRectMake(self.view.bounds.size.width / 2, globalY, self.view.bounds.size.width / 2 - TEXT_RIGHT_MARGIN, fontSize.height);
-	globalY += fontSize.height;
+- (void)setLeftLabelFrame:(UILabel *)leftLabel andLeftData:(UILabel *)leftDataLabel andRightLabelFrame:(UILabel *)rightLabel andRightData:(UILabel *)rightDataLabel {
+	CGSize leftFontSize = [leftLabel.text sizeWithFont:mainFontBold];
+	CGFloat halfWidth = self.view.bounds.size.width / 2;
+	leftLabel.frame = CGRectMake(TEXT_LEFT_MARGIN, globalY, leftFontSize.width, leftFontSize.height);
+	leftDataLabel.frame = CGRectMake(TEXT_LEFT_MARGIN + leftFontSize.width, globalY, halfWidth - leftFontSize.width - TEXT_LEFT_MARGIN - 4.0f, leftFontSize.height);
+
+	CGSize rightFontSize = [rightLabel.text sizeWithFont:mainFontBold];
+	rightLabel.frame = CGRectMake(halfWidth + 4.0f, globalY, rightFontSize.width, rightFontSize.height);
+	rightDataLabel.frame = CGRectMake(halfWidth + 4.0f + rightFontSize.width, globalY, self.view.bounds.size.width - rightFontSize.width - 4.0f - halfWidth - TEXT_RIGHT_MARGIN, rightFontSize.height);
+
+	globalY += leftFontSize.height;
 }
 
 - (void)setupPage {
@@ -275,106 +294,169 @@
 	NSString *symbolHeader = NSLocalizedString(@"symbolInformationHeader", @"Symbol Information");
 	symbolsHeaderView = [[self setHeader:symbolHeader] retain];
 	
-	tickerName = [[self generateLabel] retain];
+	tickerName = [[self generateLabelWithText:nil] retain];
+	tickerName.textColor = [UIColor blackColor];
+	tickerName.font = mainFontBold;
+	
 	[self setLabelFrame:tickerName];
 	
-	type = [[self generateLabel] retain];
-	isin = [[self generateLabel] retain];
-	[self setLeftLabelFrame:type andRightLabelFrame:isin];
+	NSString *typeLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"type", @"LocalizedString")];
+	typeLabel = [[self generateLabelWithText:typeLabelString] retain];
+	type = [[self generateDataLabel] retain];
 	
-	currency = [[self generateLabel] retain];
-	country = [[self generateLabel] retain];
-	[self setLeftLabelFrame:currency andRightLabelFrame:country];
+	NSString *isinLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"isin", @"LocalizedString")];
+	isinLabel = [[self generateLabelWithText:isinLabelString] retain];
+	isin = [[self generateDataLabel] retain];
+	
+	[self setLeftLabelFrame:typeLabel andLeftData:type andRightLabelFrame:isinLabel andRightData:isin];
+	
+	NSString *currencyLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"currency", @"LocalizedString")];
+	currencyLabel = [[self generateLabelWithText:currencyLabelString] retain];
+	currency = [[self generateDataLabel] retain];
+	NSString *countryLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"country", @"LocalizedString")];
+	countryLabel = [[self generateLabelWithText:countryLabelString] retain];
+	country = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:currencyLabel andLeftData:currency andRightLabelFrame:countryLabel andRightData:country];
 	
 	NSString *tradesHeader = NSLocalizedString(@"tradesInformationHeader", @"Trades Information");
 	tradesHeaderView = [[self setHeader:tradesHeader] retain];
 	
-	lastTrade = [[self generateLabel] retain];
-	open = [[self generateLabel] retain];
-	[self setLeftLabelFrame:lastTrade andRightLabelFrame:open];
-
-	lastTradeTime = [[self generateLabel] retain];
-	high = [[self generateLabel] retain];
-	[self setLeftLabelFrame:lastTradeTime andRightLabelFrame:high];
+	NSString *lastTradeLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"lastTrade", @"LocalizedString")];
+	lastTradeLabel = [[self generateLabelWithText:lastTradeLabelString] retain];
 	
-	lastTradeChange = [[self generateLabel] retain];
-	low = [[self generateLabel] retain];
-	[self setLeftLabelFrame:lastTradeChange andRightLabelFrame:low];
+	lastTrade = [[self generateDataLabel] retain];
+	NSString *openLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"open", @"LocalizedString")];
+	openLabel = [[self generateLabelWithText:openLabelString] retain];
+	open = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:lastTradeLabel andLeftData:lastTrade andRightLabelFrame:openLabel andRightData:open];
 
-	lastTradePercentChange = [[self generateLabel] retain];
-	buyLot = [[self generateLabel] retain];
-	[self setLeftLabelFrame:lastTradePercentChange andRightLabelFrame:buyLot];
+	NSString *lastTradeTimeLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"lastTradeTime", @"LocalizedString")];
+	lastTradeTimeLabel = [[self generateLabelWithText:lastTradeTimeLabelString] retain];
+	lastTradeTime = [[self generateDataLabel] retain];
+	NSString *highLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"high", @"LocalizedString")];
+	highLabel = [[self generateLabelWithText:highLabelString] retain];
+	high = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:lastTradeTimeLabel andLeftData:lastTradeTime andRightLabelFrame:highLabel andRightData:high];
+	
+	NSString *lastTradeChangeLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"lastTradeChange", @"LocalizedString")];
+	lastTradeChangeLabel = [[self generateLabelWithText:lastTradeChangeLabelString] retain];
+	lastTradeChange = [[self generateDataLabel] retain];
+	NSString *lowLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"low", @"LocalizedString")];
+	lowLabel = [[self generateLabelWithText:lowLabelString] retain];
+	low = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:lastTradeChangeLabel andLeftData:lastTradeChange andRightLabelFrame:lowLabel andRightData:low];
 
-	vwap = [[self generateLabel] retain];
-	buyLotValue = [[self generateLabel] retain];
-	[self setLeftLabelFrame:vwap andRightLabelFrame:buyLotValue];
+	NSString *lastTradePercentChangeLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"lastTradePercentChange", @"LocalizedString")];
+	lastTradePercentChangeLabel = [[self generateLabelWithText:lastTradePercentChangeLabelString] retain];
+	lastTradePercentChange = [[self generateDataLabel] retain];
+	NSString *buyLotLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"buyLot", @"LocalizedString")];
+	buyLotLabel = [[self generateLabelWithText:buyLotLabelString] retain];
+	buyLot = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:lastTradePercentChangeLabel andLeftData:lastTradePercentChange andRightLabelFrame:buyLotLabel andRightData:buyLot];
 
-	trades = [[self generateLabel] retain];
-	averageVolume = [[self generateLabel] retain];
-	[self setLeftLabelFrame:trades andRightLabelFrame:averageVolume];
+	NSString *vwapLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"vwap", @"LocalizedString")];
+	vwapLabel = [[self generateLabelWithText:vwapLabelString] retain];
+	vwap = [[self generateDataLabel] retain];
+	NSString *buyLotValueLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"buyLotValue", @"LocalizedString")];
+	buyLotValueLabel = [[self generateLabelWithText:buyLotValueLabelString] retain];
+	buyLotValue = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:vwapLabel andLeftData:vwap andRightLabelFrame:buyLotValueLabel andRightData:buyLotValue];
 
-	turnover = [[self generateLabel] retain];
-	averageValue = [[self generateLabel] retain];
-	[self setLeftLabelFrame:turnover andRightLabelFrame:averageValue];
+	NSString *tradesLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"trades", @"LocalizedString")];
+	tradesLabel = [[self generateLabelWithText:tradesLabelString] retain];
+	trades = [[self generateDataLabel] retain];
+	NSString *averageVolumeLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"averageVolume", @"LocalizedString")];
+	averageVolumeLabel = [[self generateLabelWithText:averageVolumeLabelString] retain];
+	averageVolume = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:tradesLabel andLeftData:trades andRightLabelFrame:averageVolumeLabel andRightData:averageVolume];
 
-	volume = [[self generateLabel] retain];
-	onVolume = [[self generateLabel] retain];
-	[self setLeftLabelFrame:volume andRightLabelFrame:onVolume];
+	NSString *turnoverLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"turnover", @"LocalizedString")];
+	turnoverLabel = [[self generateLabelWithText:turnoverLabelString] retain];
+	turnover = [[self generateDataLabel] retain];
+	NSString *averageValueLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"averageValue", @"LocalizedString")];
+	averageValueLabel = [[self generateLabelWithText:averageValueLabelString] retain];
+	averageValue = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:turnoverLabel andLeftData:turnover andRightLabelFrame:averageValueLabel andRightData:averageValue];
 
-	tradingStatus = [[self generateLabel] retain];	
+	NSString *volumeLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"volume", @"LocalizedString")];
+	volumeLabel = [[self generateLabelWithText:volumeLabelString] retain];
+	volume = [[self generateDataLabel] retain];
+	NSString *onVolumeLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"onVolume", @"LocalizedString")];
+	onVolumeLabel = [[self generateLabelWithText:onVolumeLabelString] retain];
+	onVolume = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:volumeLabel andLeftData:volume andRightLabelFrame:onVolumeLabel andRightData:onVolume];
+
+	NSString *tradingStatusLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"tradingStatus", @"LocalizedString")];
+	tradingStatusLabel = [[self generateLabelWithText:tradingStatusLabelString] retain];
+	tradingStatus = [[self generateDataLabel] retain];	
 	[self setLabelFrame:tradingStatus];
 
 	NSString *fundamentalsHeader = NSLocalizedString(@"fundamentalsInformationHeader", @"Fundamentals");
 	fundamentalsHeaderView = [[self setHeader:fundamentalsHeader] retain];
 	
-	segment = [[self generateLabel] retain];
+	NSString *segmentLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"segment", @"LocalizedString")];
+	segment = [[self generateLabelWithText:segmentLabelString] retain];
+	segment.font = mainFont;
 	[self setLabelFrame:segment];
 	
-	marketCapitalization = [[self generateLabel] retain];
-	outstandingShares = [[self generateLabel] retain];
-	[self setLeftLabelFrame:marketCapitalization andRightLabelFrame:outstandingShares];
+	NSString *marketCapitalizationLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"marketCapitalization", @"LocalizedString")];
+	marketCapitalizationLabel = [[self generateLabelWithText:marketCapitalizationLabelString] retain];
+	marketCapitalization = [[self generateDataLabel] retain];
+	NSString *outstandingSharesLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"outstandingShares", @"LocalizedString")];
+	outstandingSharesLabel = [[self generateLabelWithText:outstandingSharesLabelString] retain];outstandingShares = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:marketCapitalizationLabel andLeftData:marketCapitalization andRightLabelFrame:outstandingSharesLabel andRightData:outstandingShares];
 	
-	dividend = [[self generateLabel] retain];
-	dividendDate = [[self generateLabel] retain];
-	[self setLeftLabelFrame:dividend andRightLabelFrame:dividendDate];	
+	NSString *dividendLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"dividend", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.dividend]];
+	dividendLabel = [[self generateLabelWithText:dividendLabelString] retain];
+	dividend = [[self generateDataLabel] retain];
+	NSString *dividendDateLabelString = [NSString stringWithFormat:@"%@:", NSLocalizedString(@"dividendDate", @"LocalizedString"), [dateFormatter stringFromDate:self.symbol.symbolDynamicData.dividendDate]];
+	dividendDateLabel = [[self generateLabelWithText:dividendDateLabelString] retain];
+	dividendDate = [[self generateDataLabel] retain];
+	[self setLeftLabelFrame:dividendLabel andLeftData:dividend andRightLabelFrame:dividendDateLabel andRightData:dividendDate];	
 	
 	scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, globalY);
 }
 
 - (void)updateSymbolInformation {
 	tickerName.text = [NSString stringWithFormat:@"%@", self.symbol.companyName];
-	type.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"type", @"LocalizedString"), self.symbol.type];
-	isin.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"isin", @"LocalizedString"), self.symbol.isin];
-	currency.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"currency", @"LocalizedString"), self.symbol.currency];
-	country.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"country", @"LocalizedString"), self.symbol.country];
+	type.text = [NSString stringWithFormat:@"%@", self.symbol.type];
+	isin.text = [NSString stringWithFormat:@"%@", self.symbol.isin];
+	currency.text = [NSString stringWithFormat:@"%@", self.symbol.currency];
+	country.text = [NSString stringWithFormat:@"%@", self.symbol.country];
 }
 
 - (void)updateTradesInformation {	
-	lastTrade.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTrade", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTrade]];
-	lastTradeTime.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTradeTime", @"LocalizedString"), [timeFormatter stringFromDate:self.symbol.symbolDynamicData.lastTradeTime]];
-	lastTradeChange.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTradeChange", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTradeChange]];
-	lastTradePercentChange.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"lastTradePercentChange", @"LocalizedString"), [percentFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTradePercentChange]];
-	vwap.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"vwap", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP]];
-	open.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"open", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.open]];
-	turnover.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"turnover", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.turnover]];
-	high.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"high", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.high]];
-	volume.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"volume", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.volume]];
-	low.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"low", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.low]];
-	buyLot.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"buyLot", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.buyLot]];
-	buyLotValue.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"buyLotValue", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.buyLotValue]];
-	trades.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"trades", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.onVolume]];
-	tradingStatus.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"tradingStatus", @"LocalizedString"), self.symbol.symbolDynamicData.tradingStatus];
-	averageValue.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"averageValue", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.averageValue]];
-	averageVolume.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"averageVolume", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.averageVolume]];
-	onVolume.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"onVolume", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.onVolume]];
+	lastTrade.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTrade]];
+	lastTradeTime.text = [NSString stringWithFormat:@"%@", [timeFormatter stringFromDate:self.symbol.symbolDynamicData.lastTradeTime]];
+	lastTradeChange.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTradeChange]];
+	lastTradePercentChange.text = [NSString stringWithFormat:@"%@", [percentFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTradePercentChange]];
+	vwap.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP]];
+	open.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.open]];
+	
+	turnover.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.turnover]];
+	high.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.high]];
+	
+	volume.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.volume]];
+	low.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.low]];
+	buyLot.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.buyLot]];
+	buyLotValue.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.buyLotValue]];
+	
+	trades.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.onVolume]];
+	tradingStatus.text = [NSString stringWithFormat:@"%@", self.symbol.symbolDynamicData.tradingStatus];
+	averageValue.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.averageValue]];
+	averageVolume.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.averageVolume]];
+	
+	onVolume.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.onVolume]];
 }
 
 - (void)updateFundamentalsInformation {
-	segment.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"segment", @"LocalizedString"), self.symbol.symbolDynamicData.segment];
-	marketCapitalization.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"marketCapitalization", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.marketCapitalization]];
-	outstandingShares.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"outstandingShares", @"LocalizedString"), [integerFormatter stringFromNumber:self.symbol.symbolDynamicData.outstandingShares]];
-	dividend.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"dividend", @"LocalizedString"), [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.dividend]];
-	dividendDate.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"dividendDate", @"LocalizedString"), [dateFormatter stringFromDate:self.symbol.symbolDynamicData.dividendDate]];
+	segment.text = [NSString stringWithFormat:@"%@", self.symbol.symbolDynamicData.segment];
+	
+	marketCapitalization.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.marketCapitalization]];
+	
+	outstandingShares.text = [NSString stringWithFormat:@"%@", [integerFormatter stringFromNumber:self.symbol.symbolDynamicData.outstandingShares]];
+	dividend.text = [NSString stringWithFormat:@"%@", [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.dividend]];
+	dividendDate.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:self.symbol.symbolDynamicData.dividendDate]];
 }
 
 // l;h;lo;o;v
@@ -822,6 +904,7 @@
 	[percentFormatter release];
 	
 	[mainFont release];
+	[mainFontBold release];
 	[headerFont release];
 	
 	[toolBar release];
