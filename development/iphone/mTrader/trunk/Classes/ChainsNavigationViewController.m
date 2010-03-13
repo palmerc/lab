@@ -37,18 +37,19 @@
 	CGRect frame = contentView.frame;
 	UIView *view = [[UIView alloc] initWithFrame:frame];
 	
-	frame = CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height - 44.0f);
+	//frame = CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height - 44.0f);
+	frame = CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height);
 	contentView.frame = frame;
 	[view addSubview:contentView];
 	
-	frame = CGRectMake(0.0f, frame.size.height - 49.0f, frame.size.width, 44.0f);
-	_toolBar = [[UIToolbar alloc] initWithFrame:frame];
-	[view addSubview:self.toolBar];
+	//frame = CGRectMake(0.0f, frame.size.height - 49.0f, frame.size.width, 44.0f);
+	//_toolBar = [[UIToolbar alloc] initWithFrame:frame];
+	//[view addSubview:self.toolBar];
 	//[self.toolBar release];
 
 	self.view = view;
 	[view release];
-	((ChainsTableViewController *)self.chainsTableViewController).toolBar = self.toolBar;
+	//((ChainsTableViewController *)self.chainsTableViewController).toolBar = self.toolBar;
 	[self pushViewController:self.chainsTableViewController animated:NO];
 }
 

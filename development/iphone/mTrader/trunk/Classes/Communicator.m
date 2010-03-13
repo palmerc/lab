@@ -109,6 +109,7 @@
  *
  */
 - (void)writeString:(NSString *)string {
+	NSLog(@"%@", string);
 	NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
 		
 	// Convert it to a C-string

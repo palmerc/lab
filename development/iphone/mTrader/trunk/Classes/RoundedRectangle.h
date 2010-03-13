@@ -6,20 +6,19 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#define kDefaultStrokeColor         [UIColor darkGrayColor]
-#define kDefaultRectColor           [UIColor whiteColor]
-#define kDefaultStrokeWidth         0.75
-#define kDefaultCornerRadius        10.0
+#define kBlur 3.0
 
 @interface RoundedRectangle : UIView {
-    UIColor     *strokeColor;
-    UIColor     *rectColor;
+    UIColor     *_strokeColor;
+    UIColor     *_rectColor;
     CGFloat     strokeWidth;
     CGFloat     cornerRadius;
+	CGFloat     padding;
 }
 @property (nonatomic, retain) UIColor *strokeColor;
 @property (nonatomic, retain) UIColor *rectColor;
 @property CGFloat strokeWidth;
 @property CGFloat cornerRadius;
+@property CGFloat padding;
 
 @end

@@ -35,7 +35,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	// Start up the Singleton services
-	Starter *starter = [[Starter alloc] init];
+	Starter *starter = [[Starter alloc] initWithManagedObjectContext:self.managedObjectContext];
 	[starter release];
 		
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

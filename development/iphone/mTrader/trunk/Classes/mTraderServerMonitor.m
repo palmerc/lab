@@ -64,7 +64,18 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-		self.reachability = [Reachability reachabilityWithHostName:self.server];
+		
+		NSMutableCharacterSet *ipAddrSet = [[[NSMutableCharacterSet alloc] init] autorelease];
+		[ipAddrSet addCharactersInString:@"0123456789"];
+		[ipAddrSet addCharactersInString:@"."];
+		
+		NSArray *characters = [self.server componentsSeparatedByCharactersInSet:ipAddrSet];
+		if ([characters count] - 1 == [self.server length]) {
+			self.reachability = [Reachability reachabilityWithAddress:self.server];
+		} else {
+			self.reachability = [Reachability reachabilityWithHostName:self.server];
+		}
+		
 		[self.reachability startNotifer];
 		
 		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;

@@ -13,6 +13,8 @@
 
 #import "mTraderAppDelegate.h"
 #import "mTraderCommunicator.h"
+#import "QFields.h"
+#import "SymbolDataController.h"
 
 #import "NewsFeed.h"
 #import "Feed.h";
@@ -26,14 +28,14 @@
 #import "StringHelpers.h"
 
 @implementation ChainsTableViewController
-@synthesize communicator;
-@synthesize fetchedResultsController;
+@synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize toolBar = _toolBar;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
+		_fetchedResultsController = nil;
 	}
 	return self;
 }
@@ -45,8 +47,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	//NSLog(@"Chains size -> x:%.1f y:%.1f width:%.1f height:%.1f", self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
-	//NSLog(@"Chains size -> x:%.1f y:%.1f width:%.1f height:%.1f", self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
 	self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
 
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
@@ -57,29 +57,20 @@
 		abort();  // Fail
 	}
 	
-	
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 	
 	// Setup right and left bar buttons
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
 	self.navigationItem.rightBarButtonItem = addItem;
 	[addItem release];
-	
-	// Establish the delegation of incoming symbols to be given to us.
-	self.communicator = [mTraderCommunicator sharedManager];
-	self.communicator.symbolsDelegate = self;
 }
 
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
 }
 
 - (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
@@ -88,9 +79,17 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	self.communicator.symbolsDelegate = self;
-	if ([self.communicator isLoggedIn]) {
-		[self.communicator chainsStreaming];
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	if ([communicator isLoggedIn]) {
+		QFields *qFields = [[QFields alloc] init];
+		qFields.lastTrade = YES;
+		qFields.bidPrice = YES;
+		qFields.askPrice = YES;
+		qFields.change = YES;
+		qFields.changePercent = YES;
+		communicator.qFields = qFields;
+		[qFields release];
+		[communicator setStreamingForFeedTicker:nil];
 	}
 	
 	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
@@ -122,18 +121,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
-	return [[fetchedResultsController sections] count];
+	return [[self.fetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
     return [sectionInfo numberOfObjects];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	NSInteger count = [[fetchedResultsController sections] count];
+	NSInteger count = [[self.fetchedResultsController sections] count];
 	if (count > 0) {
-		id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+		id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
 		return [sectionInfo name];
 	}
 	return nil;	
@@ -154,9 +153,9 @@
 }
 
 - (void)configureCell:(ChainsTableCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	cell.centerOption = centerOption;
-	cell.rightOption = rightOption;
-	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[fetchedResultsController objectAtIndexPath:indexPath];
+//	cell.centerOption = centerOption;
+//	cell.rightOption = rightOption;
+	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
 	if (animated == YES) {
@@ -177,22 +176,17 @@
 // This method is required to catch the swipe to delete gesture.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
-		SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[fetchedResultsController objectAtIndexPath:indexPath];
-		NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", symbolDynamicData.symbol.feed.feedNumber, symbolDynamicData.symbol.tickerSymbol];
-		[communicator removeSecurity:feedTicker];
+		SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 		
 		[self.managedObjectContext deleteObject:symbolDynamicData.symbol];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }	
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+		SymbolDataController *dataController = [SymbolDataController sharedManager];
+		[dataController removeSymbol:symbolDynamicData.symbol];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	// Request the latest static data and chart
-	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[fetchedResultsController objectAtIndexPath:indexPath];
+	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	
 	// Generate the view	
 	symbolDetail = [[SymbolDetailController alloc] initWithSymbol:symbolDynamicData.symbol];
@@ -209,224 +203,43 @@
 #pragma mark -
 #pragma mark UIButton selectors
 
-- (void)centerSelection:(id)sender {
-	UISegmentedControl *control = sender;
-	switch (control.selectedSegmentIndex) {
-		case LAST_TRADE:
-			centerOption = LAST_TRADE;
-			break;
-		case BID_PRICE:
-			centerOption = BID_PRICE;
-			break;
-		case ASK_PRICE:
-			centerOption = ASK_PRICE;
-			break;
-		default:
-			break;
-	}
-	[self.tableView reloadData];
-}
+//- (void)centerSelection:(id)sender {
+//	UISegmentedControl *control = sender;
+//	switch (control.selectedSegmentIndex) {
+//		case LAST_TRADE:
+//			centerOption = LAST_TRADE;
+//			break;
+//		case BID_PRICE:
+//			centerOption = BID_PRICE;
+//			break;
+//		case ASK_PRICE:
+//			centerOption = ASK_PRICE;
+//			break;
+//		default:
+//			break;
+//	}
+//	[self.tableView reloadData];
+//}
+//
+//- (void)rightSelection:(id)sender {
+//	UISegmentedControl *control = sender;
+//	switch (control.selectedSegmentIndex) {
+//		case LAST_TRADE_PERCENT_CHANGE:
+//			rightOption = LAST_TRADE_PERCENT_CHANGE;
+//			break;
+//		case LAST_TRADE_CHANGE:
+//			rightOption = LAST_TRADE_CHANGE;
+//			break;
+//		case LAST_TRADE_TOO:
+//			rightOption = LAST_TRADE_TOO;
+//			break;
+//		default:
+//			break;
+//	}
+//	[self.tableView reloadData];
+//}
 
-- (void)rightSelection:(id)sender {
-	UISegmentedControl *control = sender;
-	switch (control.selectedSegmentIndex) {
-		case LAST_TRADE_PERCENT_CHANGE:
-			rightOption = LAST_TRADE_PERCENT_CHANGE;
-			break;
-		case LAST_TRADE_CHANGE:
-			rightOption = LAST_TRADE_CHANGE;
-			break;
-		case LAST_TRADE_TOO:
-			rightOption = LAST_TRADE_TOO;
-			break;
-		default:
-			break;
-	}
-	[self.tableView reloadData];
-}
 
-
-#pragma mark -
-#pragma mark Delegation
-/**
- * Delegation
- */
-
-- (void)addNewsFeeds:(NSArray *)feeds {
-	feeds = [StringHelpers cleanComponents:feeds];
-	for (NSString *feed in feeds) {
-		
-		// Separate the Description from the mCode
-		NSRange leftBracketRange = [feed rangeOfString:@"["];
-		NSRange rightBracketRange = [feed rangeOfString:@"]"];
-		NSRange leftParenthesisRange = [feed rangeOfString:@"("];
-		NSRange rightParenthesisRange = [feed rangeOfString:@")"];
-		
-		NSRange typeRange;
-		typeRange.location = leftParenthesisRange.location + 1;
-		typeRange.length = rightParenthesisRange.location - typeRange.location;
-		NSString *typeCode = [feed substringWithRange:typeRange]; // (S) 
-		
-		NSRange mCodeRange;
-		mCodeRange.location = leftBracketRange.location + 1;
-		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
-		NSString *mCode = [feed substringWithRange:mCodeRange]; // OSS
-		
-		NSRange descriptionRange;
-		descriptionRange.location = 0;
-		descriptionRange.length = leftBracketRange.location - 1;
-		NSString *feedName = [feed substringWithRange:descriptionRange]; // Oslo Stocks
-		
-		NewsFeed *newsFeed = [self fetchNewsFeed:mCode];
-		if (newsFeed == nil) {
-			newsFeed = (NewsFeed *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
-		}
-		
-		newsFeed.mCode = mCode;
-		newsFeed.name = feedName;
-		newsFeed.type = typeCode;
-	}
-	
-	NSError *error;
-	if (![self.managedObjectContext save:&error]) {
-		// Handle the error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-	}
-}
-
-- (void)addExchanges:(NSArray *)exchanges {
-	exchanges = [StringHelpers cleanComponents:exchanges];
-	for (NSString *exchangeCode in exchanges) {
-		
-		// Separate the Description from the mCode
-		NSRange leftBracketRange = [exchangeCode rangeOfString:@"["];
-		NSRange rightBracketRange = [exchangeCode rangeOfString:@"]"];
-		NSRange leftParenthesisRange = [exchangeCode rangeOfString:@"("];
-		NSRange rightParenthesisRange = [exchangeCode rangeOfString:@")"];
-		
-		NSRange typeRange;
-		typeRange.location = leftParenthesisRange.location + 1;
-		typeRange.length = rightParenthesisRange.location - typeRange.location;
-		NSString *typeCode = [exchangeCode substringWithRange:typeRange]; // (S) 
-		
-		NSRange mCodeRange;
-		mCodeRange.location = leftBracketRange.location + 1;
-		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
-		NSString *mCode = [exchangeCode substringWithRange:mCodeRange]; // OSS
-		
-		NSRange descriptionRange;
-		descriptionRange.location = 0;
-		descriptionRange.length = leftBracketRange.location - 1;
-		NSString *feedName = [exchangeCode substringWithRange:descriptionRange]; // Oslo Stocks
-		
-		Feed *feed = [self fetchFeedByName:feedName];
-		if (feed == nil) {
-			feed = (Feed *)[NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
-		}
-		
-		feed.mCode = mCode;
-		feed.feedName = feedName;
-		feed.typeCode = typeCode;
-	}
-	
-	NSError *error;
-	if (![self.managedObjectContext save:&error]) {
-		// Handle the error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-	}
-}
-
-- (void)replaceAllSymbols:(NSString *)symbols {
-	[self deleteAllSymbols];
-	[self addSymbols:symbols];
-}
-
-- (void)addSymbols:(NSString *)symbols {
-	static NSInteger FEED_TICKER = 0;
-	static NSInteger TICKER_SYMBOL = 1;
-	static NSInteger COMPANY_NAME = 2;
-	static NSInteger EXCHANGE_CODE = 3;
-	static NSInteger TYPE = 4;
-	static NSInteger ORDER_BOOK = 5;
-	static NSInteger ISIN = 6;
-	
-	// insert the objects
-	NSArray *rows = [symbols componentsSeparatedByString:@":"];	
-	for (NSString *row in rows) {
-		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
-		stockComponents = [StringHelpers cleanComponents:stockComponents];
-		NSString *feedTicker = [stockComponents objectAtIndex:FEED_TICKER];
-		NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-		NSString *feedNumberString = [feedTickerComponents objectAtIndex:0];
-		NSNumber *feedNumber = [NSNumber numberWithInteger:[feedNumberString integerValue]];
-		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
-		NSString *tickerSymbol = [stockComponents objectAtIndex:TICKER_SYMBOL];
-		NSString *companyName = [stockComponents objectAtIndex:COMPANY_NAME];
-		NSString *exchangeCode = [stockComponents objectAtIndex:EXCHANGE_CODE];
-		NSString *orderBook = [stockComponents objectAtIndex:ORDER_BOOK];
-		NSString *type = [stockComponents objectAtIndex:TYPE];
-		NSString *isin = [stockComponents objectAtIndex:ISIN];
-		
-		// Separate the Description from the mCode
-		NSRange leftBracketRange = [exchangeCode rangeOfString:@"["];
-		NSRange rightBracketRange = [exchangeCode rangeOfString:@"]"];
-		
-		NSRange mCodeRange;
-		mCodeRange.location = leftBracketRange.location + 1;
-		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
-		NSString *mCode = [exchangeCode substringWithRange:mCodeRange]; // OSS
-		
-		NSRange descriptionRange;
-		descriptionRange.location = 0;
-		descriptionRange.length = leftBracketRange.location - 1;
-		NSString *feedName = [exchangeCode substringWithRange:descriptionRange]; // Oslo Stocks
-	
-		// Prevent double insertions
-		Feed *feed = [self fetchFeed:mCode];
-		if (feed == nil) {
-			feed = (Feed *)[NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
-			feed.mCode = mCode; // OSS
-			feed.feedName = feedName;	// Oslo Stocks
-			feed.typeCode = @"";
-		}
-		
-		feed.feedNumber = feedNumber; // 18177
-		
-		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeed:mCode]; 
-		if (symbol == nil) {
-			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
-			symbol.tickerSymbol = tickerSymbol;
-			
-			symbol.index = [NSNumber numberWithInteger:[[[fetchedResultsController sections] objectAtIndex:0] numberOfObjects]];
-			symbol.companyName = companyName;
-			symbol.country = nil;
-			symbol.currency = nil;
-			symbol.orderBook = orderBook;
-			if ([type isEqualToString:@"1"]) {
-				symbol.type = @"Stock";
-			} else if ([type isEqualToString:@"2"]) {
-				symbol.type = @"Index";
-			} else if ([type isEqualToString:@"3"]) {
-				symbol.type = @"Exchange Rate";
-			} else {
-				symbol.type = type;
-			}
-			symbol.isin = isin;
-			symbol.symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
-
-			[feed addSymbolsObject:symbol];
-		}
-	}
-	// save the objects
-	NSError *error;
-	if (![self.managedObjectContext save:&error]) {
-		// Handle the error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();  // Fail
-	}
-}
 
 - (void)failedToAddAlreadyExists {
 	NSString *alertTitle = @"Add Security Failed";
@@ -444,192 +257,6 @@
 	[alertView show];
 }
 
-/**
- * This method should receive a list of symbols that have been updated and should
- * update any rows necessary.
- */
-- (void)updateSymbols:(NSArray *)updates {
-	static NSInteger FEED_TICKER = 0;
-	static NSInteger LAST_TRADE = 1;
-	static NSInteger PERCENT_CHANGE = 2;
-	static NSInteger BID_PRICE = 3;
-	static NSInteger ASK_PRICE = 4;
-	static NSInteger CHANGE = 5;
-/*
-	static NSInteger ASK_VOLUME = 5; // kill
-	static NSInteger BID_VOLUME = 6; // kill
-	static NSInteger HIGH = 8; // kill
-	static NSInteger LOW = 9; // kill
-	static NSInteger OPEN = 10; // kill
-	static NSInteger VOLUME = 11; // kill
-*/
-	for (NSString *update in updates) {
-		
-		NSArray *values = [StringHelpers cleanComponents:[update componentsSeparatedByString:@";"]];
-
-		NSString *feedTicker = [values objectAtIndex:FEED_TICKER];
-		NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-		NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
-		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
-		
-		NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-		NSEntityDescription *entity = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
-		[request setEntity:entity];
-		
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feed.feedNumber=%@) AND (tickerSymbol=%@)", feedNumber, tickerSymbol];
-		[request setPredicate:predicate];
-		
-		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tickerSymbol" ascending:YES];
-		[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-		[sortDescriptor release];
-		
-		NSError *error = nil;
-		NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		if (array == nil)
-		{
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		}
-				
-		Symbol *symbol = [array objectAtIndex:0];
-		SymbolDynamicData *symbolDynamicData = symbol.symbolDynamicData;
-		
-		// last trade
-		if ([values count] > LAST_TRADE) {
-			NSString *lastTrade = [values objectAtIndex:LAST_TRADE];
-			if ([lastTrade isEqualToString:@"--"] == YES || [lastTrade isEqualToString:@"-"] == YES) {
-				symbolDynamicData.lastTrade = nil;
-			} else if ([lastTrade isEqualToString:@""] == NO) {
-				symbolDynamicData.lastTrade = [NSNumber numberWithDouble:[lastTrade doubleValue]];
-				symbolDynamicData.lastTradeTime = [NSDate date];
-			}
-		}
-		
-		// percent change
-		if ([values count] > PERCENT_CHANGE) {
-			NSString *percentChange = [values objectAtIndex:PERCENT_CHANGE];
-			if ([percentChange isEqualToString:@"--"] == YES || [percentChange isEqualToString:@"-"] == YES) {
-				symbolDynamicData.changePercent = nil;
-			} else if ([percentChange isEqualToString:@""] == NO) {
-				symbolDynamicData.changePercent = [NSNumber numberWithDouble:([percentChange doubleValue]/100.0)];
-			}
-		}
-		
-		// bid price
-		if ([values count] > BID_PRICE) {
-			NSString *bidPrice = [values objectAtIndex:BID_PRICE];
-				if ([bidPrice isEqualToString:@"--"] == YES || [bidPrice isEqualToString:@"-"] == YES) {
-					symbolDynamicData.bidPrice = nil;
-				} else if ([bidPrice isEqualToString:@""] == NO) {
-					symbolDynamicData.bidPrice = [NSNumber numberWithDouble:[bidPrice doubleValue]];
-				}
-		}
-		
-		// ask price
-		if ([values count] > ASK_PRICE) {
-			NSString *askPrice = [values objectAtIndex:ASK_PRICE];
-			if ([askPrice isEqualToString:@"--"] == YES || [askPrice isEqualToString:@"-"] == YES) {
-				symbolDynamicData.askPrice = nil;
-			} else if ([askPrice isEqualToString:@""] == NO) {
-				symbolDynamicData.askPrice = [NSNumber numberWithDouble:[askPrice doubleValue]];
-			}
-		}
-		/*
-		// ask volume
-		if ([values count] > ASK_VOLUME) {
-			NSString *askVolume = [values objectAtIndex:ASK_VOLUME];
-			if ([askVolume isEqualToString:@"--"] == YES || [askVolume isEqualToString:@"-"] == YES) {
-				symbolDynamicData.askVolume = nil;
-			} else if ([askVolume isEqualToString:@""] == NO) {
-				NSUInteger multiplier = 1;
-				if ([askVolume rangeOfString:@"k"].location != NSNotFound) {
-					multiplier = 1000;
-				} else if ([askVolume rangeOfString:@"m"].location != NSNotFound) {
-					multiplier = 1000000;
-				}				
-				symbolDynamicData.askVolume = [NSNumber numberWithInteger:[askVolume integerValue] * multiplier];
-			}
-		}
-		
-		// bid volume
-		if ([values count] > BID_VOLUME) {
-			NSString *bidVolume = [values objectAtIndex:BID_VOLUME];
-			if ([bidVolume isEqualToString:@"--"] == YES || [bidVolume isEqualToString:@"-"] == YES) {
-				symbolDynamicData.bidVolume = nil;
-			} else if ([bidVolume isEqualToString:@""] == NO) {
-				NSUInteger multiplier = 1;
-				if ([bidVolume rangeOfString:@"k"].location != NSNotFound) {
-					multiplier = 1000;
-				} else if ([bidVolume rangeOfString:@"m"].location != NSNotFound) {
-					multiplier = 1000000;
-				}				
-				symbolDynamicData.bidVolume = [NSNumber numberWithInteger:[bidVolume integerValue] * multiplier];
-			}
-		}
-		*/
-		// change
-		if ([values count] > CHANGE) {
-			NSString *change = [values objectAtIndex:CHANGE];
-			if ([change isEqualToString:@"--"] == YES || [change isEqualToString:@"-"] == YES) {
-				symbolDynamicData.change = nil;
-			} else if ([change isEqualToString:@""] == NO) {
-				symbolDynamicData.change = [NSNumber numberWithDouble:[change doubleValue]];
-			}
-		}
-		/*
-		// high
-		if ([values count] > HIGH) {
-			NSString *high = [values objectAtIndex:HIGH];
-			if ([high isEqualToString:@"--"] == YES || [high isEqualToString:@"-"] == YES) {
-				symbolDynamicData.high = nil;
-			} else if ([high isEqualToString:@""] == NO) {
-				symbolDynamicData.high = [NSNumber numberWithDouble:[high doubleValue]];
-			}
-		}
-		
-		// low
-		if ([values count] > LOW) {
-			NSString *low = [values objectAtIndex:LOW];
-			if ([low isEqualToString:@"--"] == YES || [low isEqualToString:@"-"] == YES) {
-				symbolDynamicData.low = nil;
-			} else if ([low isEqualToString:@""] == NO) {
-				symbolDynamicData.low = [NSNumber numberWithDouble:[low doubleValue]];
-			}
-		}
-		
-		// open
-		if ([values count] > OPEN) {
-			NSString *open = [values objectAtIndex:OPEN];
-			if ([open isEqualToString:@"--"] == YES || [open isEqualToString:@"-"] == YES) {
-				symbolDynamicData.open = nil;
-			} else if ([open isEqualToString:@""] == NO) {
-				symbolDynamicData.open = [NSNumber numberWithDouble:[open doubleValue]];
-			}
-		}
-		
-		// volume
-		if ([values count] > VOLUME) {
-			NSString *volume = [values objectAtIndex:VOLUME];
-			if ([volume isEqualToString:@"--"] == YES || [volume isEqualToString:@"-"] == YES) {
-				symbolDynamicData.volume = nil;
-			} else if ([volume isEqualToString:@""] == NO) {
-				float multiplier = 1.0;
-				if ([volume rangeOfString:@"k"].location != NSNotFound) {
-					multiplier = 1000.0;
-				} else if ([volume rangeOfString:@"m"].location != NSNotFound) {
-					multiplier = 1000000.0;
-				}
-				symbolDynamicData.volume = [NSNumber numberWithDouble:[volume doubleValue]  * multiplier];
-			}
-		}
-		*/
-		
-		array = nil;
-	}
-	NSError *error;
-	if (![self.managedObjectContext save:&error]) {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
-}
 
 #pragma mark -
 #pragma mark UI Actions
@@ -656,8 +283,8 @@
  */
 - (NSFetchedResultsController *)fetchedResultsController {
 	
-    if (fetchedResultsController != nil) {
-        return fetchedResultsController;
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
     }
     
 	// Create and configure a fetch request with the Book entity.
@@ -673,14 +300,14 @@
 	// Create and initialize the fetch results controller.
 	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
 	self.fetchedResultsController = aFetchedResultsController;
-	fetchedResultsController.delegate = self;
+	_fetchedResultsController.delegate = self;
 	
 	// Memory management.
 	[aFetchedResultsController release];
 	[fetchRequest release];
 	[sortDescriptors release];
 	
-	return fetchedResultsController;
+	return _fetchedResultsController;
 }
 
 /**
@@ -740,170 +367,13 @@
 	[self.tableView endUpdates];
 }
 
-- (NewsFeed *)fetchNewsFeed:(NSString *)mCode {
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(mCode=%@)", mCode];
-	[request setPredicate:predicate];
-	
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mCode" ascending:YES];
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	[sortDescriptor release];
-	
-	NSError *error = nil;
-	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	if (array == nil)
-	{
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
-	
-	if ([array count] == 1) {
-		return [array objectAtIndex:0];
-	} else {
-		return nil;
-	}
-}
-
-
-- (Feed *)fetchFeed:(NSString *)mCode {
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(mCode=%@)", mCode];
-	[request setPredicate:predicate];
-	
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mCode" ascending:YES];
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	[sortDescriptor release];
-	
-	NSError *error = nil;
-	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	if (array == nil)
-	{
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
-	
-	if ([array count] == 1) {
-		return [array objectAtIndex:0];
-	} else {
-		return nil;
-	}
-}
-
-- (Feed *)fetchFeedByName:(NSString *)feedName {
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feedName=%@)", feedName];
-	[request setPredicate:predicate];
-	
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feedName" ascending:YES];
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	[sortDescriptor release];
-	
-	NSError *error = nil;
-	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	if (array == nil)
-	{
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
-	
-	if ([array count] == 1) {
-		return [array objectAtIndex:0];
-	} else {
-		return nil;
-	}	
-}
-
-- (void)deleteAllSymbols {
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	[request setIncludesPropertyValues:NO];
-	[request setIncludesSubentities:NO];
-
-	NSError *error = nil;
-	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	if (array == nil) {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
-
-	for (Symbol *symbol in array) {
-		[self.managedObjectContext deleteObject:symbol];
-	}
-}
-
- - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber {
-	 NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
-	 NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	 [request setEntity:entityDescription];
-	 
-	 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feed.feedNumber=%@) AND (tickerSymbol=%@)", feedNumber, tickerSymbol];
-	 [request setPredicate:predicate];
-	 
-	 NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tickerSymbol" ascending:YES];
-	 [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	 [sortDescriptor release];
-	 
-	 NSError *error = nil;
-	 NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	 if (array == nil)
-	 {
-		 NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	 }
-	 
-	 if ([array count] == 1) {
-		 return [array objectAtIndex:0];
-	 } else {
-		 return nil;
-	 }
- }
-	 
-	 
-- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode {
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feed.mCode=%@) AND (tickerSymbol=%@)", mCode, tickerSymbol];
-	[request setPredicate:predicate];
-	
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tickerSymbol" ascending:YES];
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	[sortDescriptor release];
-	
-	NSError *error = nil;
-	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	if (array == nil)
-	{
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
-	
-	if ([array count] == 1) {
-		return [array objectAtIndex:0];
-	} else {
-		return nil;
-	}
-}
-
-
-#pragma mark -
-#pragma mark Debugging methods
-/*
-// Very helpful debug when things seem not to be working.
-- (BOOL)respondsToSelector:(SEL)sel {
-    NSLog(@"Queried about %@", NSStringFromSelector(sel));
-    return [super respondsToSelector:sel];
-}
-*/
 #pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
+	[_managedObjectContext release];
+	[_fetchedResultsController release];
+	
 	[self.toolBar release];
     [super dealloc];
 }

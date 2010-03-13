@@ -12,7 +12,11 @@
 #import "SymbolNewsController.h"
 #import "ChartController.h"
 #import "mTraderCommunicator.h"
+
 @class Symbol;
+@class LastChangeView;
+@class TradesInfoView;
+@class OrderBookView;
 
 @interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookControllerDelegate, TradesControllerDelegate, SymbolNewsControllerDelegate, ChartControllerDelegate> {
 @private
@@ -20,8 +24,13 @@
 	
 	Symbol *_symbol;
 	
-	UIScrollView *scrollView;
+	LastChangeView *lastBox;
+	TradesInfoView *tradesBox;
+	OrderBookView *orderBox;
+
 	
+	UIScrollView *scrollView;
+		
 	UIView *symbolsHeaderView;
 	UIView *tradesHeaderView;
 	UIView *fundamentalsHeaderView;
@@ -84,6 +93,7 @@
 	
 	UIToolbar *toolBar;
 	
+	UIFont *lastFont;
 	UIFont *headerFont;
 	UIFont *mainFont;
 	UIFont *mainFontBold;

@@ -30,7 +30,7 @@
 #pragma mark -
 #pragma mark ChainsTableCell implementation
 @implementation ChainsTableCell
-@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerLabel, rightLabel, timeLabel, centerOption, rightOption;
+@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerLabel, rightLabel, timeLabel; //, centerOption, rightOption;
 
 #pragma mark -
 #pragma mark Initialization
@@ -225,52 +225,52 @@
 	}
 
 	NSString *centerString = @"-";
-	switch (centerOption) {
-		case LAST_TRADE:
-			if (symbolDynamicData.lastTrade != nil) {
-				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
-			}			
-			break;
-		case BID_PRICE:
-			if (symbolDynamicData.bidPrice != nil) {
-				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
-			}
-			break;
-		case ASK_PRICE:
-			if (symbolDynamicData.askSize != nil) {
-				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
-			}
-			break;
-		default:
-			break;
-	}
+//	switch (centerOption) {
+//		case LAST_TRADE:
+//			if (symbolDynamicData.lastTrade != nil) {
+//				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+//			}			
+//			break;
+//		case BID_PRICE:
+//			if (symbolDynamicData.bidPrice != nil) {
+//				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
+//			}
+//			break;
+//		case ASK_PRICE:
+//			if (symbolDynamicData.askSize != nil) {
+//				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
+//			}
+//			break;
+//		default:
+//			break;
+//	}
 	self.centerLabel.text = centerString;
 	self.centerLabel.textColor = textColor;
 
 	NSString *rightString = @"-";
-	switch (rightOption) {
-		case LAST_TRADE_PERCENT_CHANGE:
-			if (symbolDynamicData.changePercent != nil) {
-				rightString = [percentFormatter stringFromNumber:symbolDynamicData.changePercent];
-			}
-			break;
-		case LAST_TRADE_CHANGE:
-			if (symbolDynamicData.change != nil) {
-				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.change];
-			}
-			break;
-		case LAST_TRADE_TOO:
-			if (symbolDynamicData.lastTrade != nil) {
-				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
-			}
-			break;
-		default:
-			break;
-	}
+//	switch (rightOption) {
+//		case LAST_TRADE_PERCENT_CHANGE:
+//			if (symbolDynamicData.changePercent != nil) {
+//				rightString = [percentFormatter stringFromNumber:symbolDynamicData.changePercent];
+//			}
+//			break;
+//		case LAST_TRADE_CHANGE:
+//			if (symbolDynamicData.change != nil) {
+//				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.change];
+//			}
+//			break;
+//		case LAST_TRADE_TOO:
+//			if (symbolDynamicData.lastTrade != nil) {
+//				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+//			}
+//			break;
+//		default:
+//			break;
+//	}
 	self.rightLabel.text = rightString;
 	self.rightLabel.textColor = textColor;
 	
-	NSDate *tradeTime = symbolDynamicData.lastTradeTime;
+	NSDate *tradeTime = [NSDate dateWithTimeIntervalSince1970:[symbolDynamicData.lastTradeTime intValue]];
 	NSString *timeString = [NSString stringWithFormat:@"%@ %@", [dateFormatter stringFromDate:tradeTime], [timeFormatter stringFromDate:tradeTime]];
 	self.timeLabel.text = timeString;
 }

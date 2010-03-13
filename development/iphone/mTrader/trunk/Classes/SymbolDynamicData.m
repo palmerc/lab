@@ -34,6 +34,7 @@
 @dynamic askVolume;
 @dynamic openChange;
 @dynamic change;
+@dynamic changeArrow;
 @dynamic outstandingShares;
 @dynamic changePercent;
 @dynamic buyLotValue;

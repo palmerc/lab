@@ -9,12 +9,15 @@
 #import "Starter.h"
 #import "UserDefaults.h"
 #import "mTraderServerMonitor.h"
+#import "SymbolDataController.h"
 
 @implementation Starter
+@synthesize managedObjectContext = _managedObjectContext;
 
-- (id)init {
+- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
+		self.managedObjectContext = managedObjectContext;
 		[self starter];
 	}
 	
@@ -25,11 +28,15 @@
 - (void)starter {
 	[UserDefaults sharedManager];
 	[mTraderServerMonitor sharedManager];
+	
+	SymbolDataController *dataController = [SymbolDataController sharedManager];
+	dataController.managedObjectContext = self.managedObjectContext;
 }
 
 
 - (void)dealloc {
-	// We didn't allocate anything
+	[_managedObjectContext release];
+	
 	[super dealloc];
 }
 

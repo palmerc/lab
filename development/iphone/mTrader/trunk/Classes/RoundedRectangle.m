@@ -9,19 +9,25 @@
 #import "RoundedRectangle.h"
 
 @implementation RoundedRectangle
-@synthesize strokeColor;
-@synthesize rectColor;
+@synthesize strokeColor = _strokeColor;
+@synthesize rectColor = _rectColor;
 @synthesize strokeWidth;
 @synthesize cornerRadius;
+@synthesize padding;
+
+#pragma mark -
+#pragma mark Initialization
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 		self.opaque = NO;
-        self.strokeColor = kDefaultStrokeColor;
-        self.backgroundColor = [UIColor clearColor];
-        self.rectColor = kDefaultRectColor;
-        self.strokeWidth = kDefaultStrokeWidth;
-        self.cornerRadius = kDefaultCornerRadius;
+		self.backgroundColor = [UIColor clearColor];
+
+        self.strokeColor = [UIColor darkGrayColor];
+        self.rectColor = [UIColor whiteColor];
+        self.strokeWidth = 0.0f;
+        self.cornerRadius = 0.0f;
+		self.padding = 0.0f;
     }
     return self;
 }
@@ -30,27 +36,34 @@
 - (void)drawRect:(CGRect)rect {
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
-	CGContextSetShadow(context, CGSizeMake(2,-2), 3);
+	CGContextSetShadow(context, CGSizeMake(2,-2), kBlur);
 	CGContextSetStrokeColorWithColor(context, [self.strokeColor CGColor]);
 	CGContextSetFillColorWithColor(context, [self.rectColor CGColor]);
-	CGContextSetLineWidth(context, strokeWidth);
+	CGContextSetLineWidth(context, self.strokeWidth);
 	
-	NSLog(@"%f %f %f %f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-	CGFloat fw = rect.size.width - 4.5 - strokeWidth;
-	CGFloat fh = rect.size.height - 4.5 - strokeWidth;
-	CGFloat zero = strokeWidth + 6.0;
+	CGFloat leftPaddingReduction = self.padding;
+	CGFloat topPaddingReduction = self.padding;
+	CGFloat fw = rect.size.width - leftPaddingReduction - self.strokeWidth;
+	CGFloat fh = rect.size.height - topPaddingReduction - self.strokeWidth;
+	CGFloat zero = self.strokeWidth + leftPaddingReduction;
 
 	CGContextMoveToPoint(context, fw, floor(fh/2));
-	CGContextAddArcToPoint(context, fw, fh, floor(fw/2), fh, cornerRadius);
-	CGContextAddArcToPoint(context, zero, fh, zero, floor(fh/2), cornerRadius);
-	CGContextAddArcToPoint(context, zero, zero, floor(fw/2), zero, cornerRadius);
-	CGContextAddArcToPoint(context, fw, zero, fw, floor(fh/2), cornerRadius);
+	CGContextAddArcToPoint(context, fw, fh, floor(fw/2), fh, self.cornerRadius);
+	CGContextAddArcToPoint(context, zero, fh, zero, floor(fh/2), self.cornerRadius);
+	CGContextAddArcToPoint(context, zero, zero, floor(fw/2), zero, self.cornerRadius);
+	CGContextAddArcToPoint(context, fw, zero, fw, floor(fh/2), self.cornerRadius);
 
 	CGContextClosePath(context);
 	CGContextDrawPath(context, kCGPathFillStroke);
 }
 
+#pragma mark -
+#pragma mark Memory management
+
 - (void)dealloc {
+	[_strokeColor release];
+	[_rectColor release];
+	
     [super dealloc];
 }
 

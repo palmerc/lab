@@ -55,8 +55,6 @@
 	}
 	
 	communicator = [mTraderCommunicator sharedManager];
-	[communicator stopStreamingData];
-	communicator.symbolsDelegate = self;
 	[communicator newsListFeed:self.mCode];
 }
 

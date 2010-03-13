@@ -22,8 +22,8 @@
 	
 @private
 	CGSize tickerLabelSize;
-	CenterOptions centerOption;
-	RightOptions rightOption;
+//	CenterOptions centerOption;
+//	RightOptions rightOption;
 }
 
 @property (nonatomic, retain) SymbolDynamicData *symbolDynamicData;
@@ -32,7 +32,7 @@
 @property (nonatomic, retain) UILabel *centerLabel;
 @property (nonatomic, retain) UILabel *rightLabel;
 @property (nonatomic, retain) UILabel *timeLabel;
-@property (assign) CenterOptions centerOption;
-@property (assign) RightOptions rightOption;
+//@property (assign) CenterOptions centerOption;
+//@property (assign) RightOptions rightOption;
 
 @end

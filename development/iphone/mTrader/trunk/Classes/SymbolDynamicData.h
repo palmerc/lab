@@ -15,7 +15,7 @@
 }
 
 @property (nonatomic, retain) NSNumber * bidSize;
-@property (nonatomic, retain) NSNumber * bidVolume;
+@property (nonatomic, retain) NSString * bidVolume;
 @property (nonatomic, retain) NSNumber * lastTradeChange;
 @property (nonatomic, retain) NSNumber * dividend;
 @property (nonatomic, retain) NSNumber * previousClose;
@@ -23,7 +23,7 @@
 @property (nonatomic, retain) NSNumber * buyLot;
 @property (nonatomic, retain) NSNumber * onValue;
 @property (nonatomic, retain) NSString * segment;
-@property (nonatomic, retain) NSNumber * volume;
+@property (nonatomic, retain) NSString * volume;
 @property (nonatomic, retain) NSNumber * high;
 @property (nonatomic, retain) NSNumber * VWAP;
 @property (nonatomic, retain) NSNumber * openPercentChange;
@@ -32,10 +32,11 @@
 @property (nonatomic, retain) NSNumber * lastTradePercentChange;
 @property (nonatomic, retain) NSNumber * lastTrade;
 @property (nonatomic, retain) NSNumber * bidPrice;
-@property (nonatomic, retain) NSDate * lastTradeTime;
-@property (nonatomic, retain) NSNumber * askVolume;
+@property (nonatomic, retain) NSNumber * lastTradeTime;
+@property (nonatomic, retain) NSString * askVolume;
 @property (nonatomic, retain) NSNumber * openChange;
 @property (nonatomic, retain) NSNumber * change;
+@property (nonatomic, retain) NSNumber * changeArrow;
 @property (nonatomic, retain) NSNumber * outstandingShares;
 @property (nonatomic, retain) NSNumber * changePercent;
 @property (nonatomic, retain) NSNumber * buyLotValue;

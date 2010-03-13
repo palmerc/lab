@@ -11,7 +11,7 @@
 @protocol OrderBookControllerDelegate;
 @class Symbol;
 
-@interface OrderBookController : UIViewController <NSFetchedResultsControllerDelegate, SymbolsDataDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface OrderBookController : UIViewController <NSFetchedResultsControllerDelegate, SymbolsDataDelegate, UITableViewDelegate, UITableViewDataSource> {
 @private
 	NSManagedObjectContext *managedObjectContext;
 
@@ -42,6 +42,6 @@
 
 @end
 
-@protocol OrderBookControllerDelegate
-- (void)orderBookControllerDidFinish:(OrderBookController *)controller;
-@end
+//@protocol OrderBookControllerDelegate
+//- (void)orderBookControllerDidFinish:(OrderBookController *)controller;
+//@end

@@ -8,7 +8,10 @@
 
 
 @interface Starter : NSObject {
+	NSManagedObjectContext *_managedObjectContext;
 }
+
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 - (void)starter;
 

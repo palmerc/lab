@@ -15,41 +15,38 @@
 @class Symbol;
 @class SymbolDetailController;
 
-typedef enum {
-	LAST_TRADE = 0,
-	BID_PRICE,
-	ASK_PRICE
-} CenterOptions;
-
-typedef enum {
-	LAST_TRADE_PERCENT_CHANGE = 0,
-	LAST_TRADE_CHANGE,
-	LAST_TRADE_TOO
-} RightOptions;
-
-typedef enum {
-	NOCHANGE = 0,
-	UP,
-	DOWN
-} changeEnum;
+//typedef enum {
+//	LAST_TRADE = 0,
+//	BID_PRICE,
+//	ASK_PRICE
+//} CenterOptions;
+//
+//typedef enum {
+//	LAST_TRADE_PERCENT_CHANGE = 0,
+//	LAST_TRADE_CHANGE,
+//	LAST_TRADE_TOO
+//} RightOptions;
+//
+//typedef enum {
+//	NOCHANGE = 0,
+//	UP,
+//	DOWN
+//} changeEnum;
 
 @interface ChainsTableViewController : UITableViewController <SymbolAddControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
-	mTraderCommunicator *communicator;
-	
 	NSUInteger currentValueType;
 	
 @private
 	SymbolDetailController *symbolDetail;
 	
-	NSFetchedResultsController *fetchedResultsController;
+	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
 		
-	CenterOptions centerOption;
-	RightOptions rightOption;
+	//CenterOptions centerOption;
+	//RightOptions rightOption;
 	UIToolbar *_toolBar;
 }
 
-@property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) UIToolbar *toolBar;

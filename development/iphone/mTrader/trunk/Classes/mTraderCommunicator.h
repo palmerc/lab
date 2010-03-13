@@ -12,6 +12,7 @@
 @class Symbol;
 @class Feed;
 @class Chart;
+@class QFields;
 @protocol SymbolsDataDelegate;
 @protocol mTraderServerMonitorDelegate;
 
@@ -38,6 +39,7 @@ enum {
 } states;
 
 @interface mTraderCommunicator : NSObject <CommunicatorDataDelegate> {
+@private
 	id <SymbolsDataDelegate> symbolsDelegate;
 	id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 
@@ -50,9 +52,11 @@ enum {
 	
 	NSData *_currentLine;
 	NSMutableArray *_blockBuffer;
+	QFields *_qFields;
+	
 	NSUInteger contentLength;
 	NSUInteger state;
-@private
+	
 	NSString *_server;
 	NSString *_port;
 }
@@ -64,6 +68,7 @@ enum {
 @property (readonly) BOOL isLoggedIn;
 @property (nonatomic, retain) NSData *currentLine;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
+@property (nonatomic, retain) QFields *qFields;
 @property (nonatomic, assign) NSUInteger state;
 @property (nonatomic, assign) NSUInteger contentLength;
 @property (nonatomic, assign) NSString *server;
@@ -76,16 +81,16 @@ enum {
 // mTrader server request methods
 - (void)login;
 - (void)logout;
-- (void)chainsStreaming;
+- (BOOL)loginStatusHasChanged;
+
 - (void)newsListFeed:(NSString *)mCode;
 - (void)newsItemRequest:(NSString *)newsId;
+
 - (void)addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode;
-- (void)orderBookForFeedTicker:(NSString *)feedTicker;
 - (void)removeSecurity:(NSString *)feedTicker;
-- (BOOL)loginStatusHasChanged;
+- (void)setStreamingForFeedTicker:(NSString *)feedTicker;
 - (void)staticDataForFeedTicker:(NSString *)feedTicker;
 - (void)tradesRequest:(NSString *)feedTicker;
-- (void)dynamicDetailForFeedTicker:(NSString *)feedTicker;
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
 - (void)stopStreamingData;
@@ -120,8 +125,6 @@ enum {
 - (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
 - (NSArray *)stripOffFirstElement:(NSArray *)array;
 - (NSString *)dataToString:(NSData *)data;
-- (NSString *)cleanString:(NSString *)string;
-- (NSArray *)cleanStrings:(NSArray *)strings;
 @end
 
 @protocol mTraderServerMonitorDelegate <NSObject>
