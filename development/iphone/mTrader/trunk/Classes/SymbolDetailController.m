@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "mTraderCommunicator.h"
+#import "QFields.h"
 #import "StringHelpers.h"
 
 #import "LastChangeView.h"
@@ -39,8 +40,6 @@
 - (id)initWithSymbol:(Symbol *)symbol {
     if (self = [super init]) {
 		self.symbol = symbol;
-		[self.symbol addObserver:self forKeyPath:@"currency" options:NSKeyValueObservingOptionNew context:nil];
-		[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
 	}
     return self;
 }
@@ -71,18 +70,34 @@
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[communicator staticDataForFeedTicker:feedTicker];	
+	[communicator staticDataForFeedTicker:feedTicker];
+	
+	QFields *qFields = [[QFields alloc] init];
+	qFields.timeStamp = YES;
+	qFields.lastTrade = YES;
+	qFields.change = YES;
+	qFields.changePercent = YES;
+	qFields.open = YES;
+	qFields.high = YES;
+	qFields.low = YES;
+	qFields.volume = YES;
+	qFields.orderBook = YES;
+	
+	communicator.qFields = qFields;
+	[qFields release];
+	
+	[communicator setStreamingForFeedTicker:feedTicker];	
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	//NSLog(@"KVO Update: %@ %@ %@ %@", keyPath, object, change, context);
-	if ([keyPath isEqualToString:@"currency"]) {
-		[self updateSymbolInformation];
-		[self updateFundamentalsInformation];
-	} else if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"]) {
-		[self updateTradesInformation];
-	}
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+//	//NSLog(@"KVO Update: %@ %@ %@ %@", keyPath, object, change, context);
+//	if ([keyPath isEqualToString:@"currency"]) {
+//		[self updateSymbolInformation];
+//		[self updateFundamentalsInformation];
+//	} else if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"]) {
+//		[self updateTradesInformation];
+//	}
+//}
 
 #pragma mark -
 #pragma mark Layout the views
@@ -821,8 +836,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	[self.symbol removeObserver:self forKeyPath:@"currency"];
-	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
+	//[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
 	
 //	[tickerName release];
 //	[type release];

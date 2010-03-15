@@ -224,6 +224,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
 		loginStatusHasChanged = YES;
 		isLoggedIn = YES;
+		
+		[[UserDefaults sharedManager] saveSettings];
+		
 		state = PREPROCESSING;
 	} else if  ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
 		state = ADDSEC;
@@ -267,6 +270,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
 		loginStatusHasChanged = YES;
 		isLoggedIn = YES;
+		
 		state = PREPROCESSING;
 	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
 		loginStatusHasChanged = YES;
@@ -287,7 +291,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addNewsFeeds:)]) {
 			[self.symbolsDelegate addNewsFeeds:feeds];
 		}
-		state = PROCESSING;
+		state = QUOTE;
 	} else if ([string rangeOfString:@"Securities:"].location == 0) {
 		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
 		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
@@ -603,7 +607,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	
 	NSArray *quotesAndTheRest = [self stripOffFirstElement:[quotesString componentsSeparatedByString:@":"]];
-	NSString *theRest = [StringHelpers cleanString:[quotesAndTheRest objectAtIndex:0]];
+	quotesAndTheRest = [StringHelpers cleanComponents:quotesAndTheRest];
+	NSString *theRest = [quotesAndTheRest componentsJoinedByString:@":"];
+	
 	NSArray *quotesStrings = [theRest componentsSeparatedByString:@"|"];
 	quotesStrings = [StringHelpers cleanComponents:quotesStrings];
 	
@@ -663,7 +669,12 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSString *Streaming = @"Streaming: 1";
 		
 		QFields *qFields = [[QFields alloc] init];
+		qFields.timeStamp = YES;
 		qFields.lastTrade = YES;
+		qFields.bidPrice = YES;
+		qFields.askPrice = YES;
+		qFields.change = YES;
+		qFields.changePercent = YES;
 		self.qFields = qFields;
 		[qFields release];
 		NSString *QFieldsServerString = [NSString stringWithFormat:@"QFields: %@", [qFields getCurrentQFieldsServerString]];

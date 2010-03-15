@@ -7,6 +7,10 @@
 //
 
 #import "LastChangeView.h"
+
+#import "mTraderCommunicator.h"
+
+#import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
 #import "Chart.h"
@@ -32,13 +36,13 @@
 		[self addSubview:self.last];
 		
 		_lastChange = [[UILabel alloc] initWithFrame:CGRectZero];
-		self.lastChange.font = [UIFont systemFontOfSize:14.0];
+		self.lastChange.font = [UIFont boldSystemFontOfSize:14.0];
 		self.lastChange.adjustsFontSizeToFitWidth = YES;
 		self.lastChange.textAlignment = UITextAlignmentLeft;
 		[self addSubview:self.lastChange];
 		
 		_lastPercentChange = [[UILabel alloc] initWithFrame:CGRectZero];
-		self.lastPercentChange.font = [UIFont systemFontOfSize:14.0];
+		self.lastPercentChange.font = [UIFont boldSystemFontOfSize:14.0];
 		self.lastPercentChange.adjustsFontSizeToFitWidth = YES;
 		self.lastPercentChange.textAlignment = UITextAlignmentRight;
 		[self addSubview:self.lastPercentChange];
@@ -49,7 +53,7 @@
 		[self addSubview:self.time];
 		
 		_chart = [[UIImageView alloc] initWithFrame:CGRectZero];
-		self.chart.backgroundColor = [UIColor lightGrayColor];
+		self.chart.backgroundColor = [UIColor clearColor];
 		[self addSubview:self.chart];
 	}
 	return self;
@@ -83,10 +87,36 @@
 	CGFloat toEdgePadding = self.padding + super.strokeWidth;
 	CGFloat maxChartWidth = rect.size.width - toEdgePadding * 2.0f;
 	self.chart.frame = CGRectMake(toEdgePadding, globalY, maxChartWidth, globalY);
+	chartWidth = lroundf(maxChartWidth) - 1;
+	chartHeight = lroundf(globalY) - 1;
+	
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:365 width:chartWidth height:chartHeight orientation:@"A"];
 }
 
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
+	
+	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
+	[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
+	
+	[self updateSymbol];
+	[self setNeedsDisplay];
+}
+
+- (void)updateChart {
+	NSData *data = self.symbol.chart.data;
+	UIImage *image = [UIImage imageWithData:data];
+	self.chart.image = image;
+}
+
+- (void)updateSymbol {
+	static NSNumberFormatter *percentFormatter = nil;
+	if (percentFormatter == nil) {
+		percentFormatter = [[NSNumberFormatter alloc] init];
+		[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+		[percentFormatter setUsesSignificantDigits:YES];
+	}
 	
 	static NSNumberFormatter *doubleFormatter = nil;
 	if (doubleFormatter == nil) {
@@ -94,28 +124,57 @@
 		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	}
 	
-	static NSDateFormatter *timeFormatter = nil;
-	if (timeFormatter == nil) {
-		timeFormatter = [[NSDateFormatter alloc] init];
-		[timeFormatter setDateFormat:@"HH:mm:ss"];
+	// Red Font for Down, Blue Font for Up, Black for No Change
+	UIColor *textColor = nil;
+	
+	NSComparisonResult comparison = [self.symbol.symbolDynamicData.change compare:[NSNumber numberWithDouble:0.0]];
+	switch (comparison) {
+		case NSOrderedAscending:
+			textColor = [UIColor redColor];
+			break;
+		case NSOrderedDescending:
+			textColor = [UIColor blueColor];
+			break;
+		case NSOrderedSame:
+			textColor = [UIColor blackColor];
+			break;
+		default:
+			textColor = [UIColor blackColor];
+			break;
 	}
 	
+	[self.lastChange setTextColor:textColor];
+	[self.lastPercentChange setTextColor:textColor];
+	
+	NSUInteger decimals = [self.symbol.feed.decimals integerValue];
+	[doubleFormatter setMinimumFractionDigits:decimals];
+	[doubleFormatter setMaximumFractionDigits:decimals];
+	
 	self.last.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTrade];
-	self.lastChange.text = [self.symbol.symbolDynamicData.lastTradeChange stringValue];
-	self.lastPercentChange.text = [self.symbol.symbolDynamicData.lastTradePercentChange stringValue];
-	//self.time.text = [timeFormatter stringFromDate:self.symbol.symbolDynamicData.lastTradeTime];
-	self.time.text = @"12:00:00";
+	self.lastChange.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.change];
+	self.lastPercentChange.text = [percentFormatter stringFromNumber:self.symbol.symbolDynamicData.changePercent];
+	self.time.text = self.symbol.symbolDynamicData.lastTradeTime;
 	
 	UIImage *image = [UIImage imageWithData:self.symbol.chart.data];
 	self.chart.image = image;
-	
-	[self setNeedsLayout];
+}
 
+#pragma mark -
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"]) {
+		[self updateSymbol];
+	} else if ([keyPath isEqualToString:@"chart.data"]) {
+		[self updateChart];
+	}
 }
 
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
+	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
+	[self.symbol removeObserver:self forKeyPath:@"chart.data"];
+	
 	[_symbol release];
 	[_time release];
 	[_last release];

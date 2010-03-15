@@ -62,5 +62,6 @@
 @property (nonatomic, retain) UILabel *avgValLabel;
 @property (nonatomic, retain) UILabel *avgVal;
 
+- (void)updateSymbol;
 
 @end

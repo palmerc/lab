@@ -17,5 +17,6 @@
 @dynamic mCode;
 @dynamic symbols;
 @dynamic typeCode;
+@dynamic decimals;
 
 @end

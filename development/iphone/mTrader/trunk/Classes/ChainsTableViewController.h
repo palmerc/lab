@@ -15,17 +15,17 @@
 @class Symbol;
 @class SymbolDetailController;
 
-//typedef enum {
-//	LAST_TRADE = 0,
-//	BID_PRICE,
-//	ASK_PRICE
-//} CenterOptions;
-//
-//typedef enum {
-//	LAST_TRADE_PERCENT_CHANGE = 0,
-//	LAST_TRADE_CHANGE,
-//	LAST_TRADE_TOO
-//} RightOptions;
+typedef enum {
+	CLAST = 0,
+	CBID,
+	CASK
+} CenterOptions;
+
+typedef enum {
+	RCHANGE_PERCENT = 0,
+	RCHANGE,
+	RLAST
+} RightOptions;
 //
 //typedef enum {
 //	NOCHANGE = 0,

@@ -147,7 +147,7 @@ static SymbolDataController *sharedDataController = nil;
 	for (NSString *exchangeCode in exchanges) {
 		NSArray *exchangeComponents = [exchangeCode componentsSeparatedByString:@":"];
 		
-		if ([exchangeComponents count] != 3) {
+		if ([exchangeComponents count] != 4) {
 			NSLog(@"Exchange %@ rejected. Improper number of fields");
 			continue;
 		}
@@ -156,6 +156,7 @@ static SymbolDataController *sharedDataController = nil;
 		NSString *mCode = [exchangeComponents objectAtIndex:1];
 		
 		NSString *description = [exchangeComponents objectAtIndex:2];
+		NSString *decimals = [exchangeComponents objectAtIndex:3];
 		
 		// Separate the Description from the mCode
 		NSRange leftBracketRange = [description rangeOfString:@"["];
@@ -182,6 +183,7 @@ static SymbolDataController *sharedDataController = nil;
 		feed.mCode = mCode;
 		feed.feedName = feedName;
 		feed.typeCode = typeCode;
+		feed.decimals = [NSNumber numberWithInteger:[decimals integerValue]];
 	}
 	
 	NSError *error;
@@ -318,7 +320,7 @@ static SymbolDataController *sharedDataController = nil;
 			if ([timeStamp isEqualToString:@"--"] == YES || [timeStamp isEqualToString:@"-"] == YES) {
 				symbol.symbolDynamicData.lastTradeTime = nil;
 			} else if ([timeStamp isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.lastTradeTime = [NSNumber numberWithInteger:[timeStamp integerValue]];
+				symbol.symbolDynamicData.lastTradeTime = timeStamp;
 			}
 		}
 		
@@ -562,6 +564,124 @@ static SymbolDataController *sharedDataController = nil;
 	if (![self.managedObjectContext save:&saveError]) {
 		NSLog(@"Unresolved error %@, %@", saveError, [saveError userInfo]);
 	}
+}
+
+- (void)staticUpdates:(NSDictionary *)updateDictionary {
+	NSArray *feedTickerComponents = [[updateDictionary objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+	
+	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
+	if ([updateDictionary objectForKey:@"Bid"]) {
+		symbol.symbolDynamicData.bidPrice = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Bid"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"B Size"]) {
+		symbol.symbolDynamicData.bidSize = [updateDictionary objectForKey:@"B Size"];
+	}
+	if ([updateDictionary objectForKey:@"Ask"]) { 
+		symbol.symbolDynamicData.askPrice = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Ask"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"A Size"]) { 
+		symbol.symbolDynamicData.askSize = [updateDictionary objectForKey:@"A Size"];
+	}
+	if ([updateDictionary objectForKey:@"Pr Cls"]) { 
+		symbol.symbolDynamicData.previousClose = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Pr Cls"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"Open"]) { 
+		symbol.symbolDynamicData.open = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Open"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"High"]) { 
+		symbol.symbolDynamicData.high = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"High"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"Low"]) { 
+		symbol.symbolDynamicData.low = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Low"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"Last"]) { 
+		symbol.symbolDynamicData.lastTrade = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Last"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"L +/-"]) { 
+		symbol.symbolDynamicData.change = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"L +/-"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"L +/-%"]) {
+		symbol.symbolDynamicData.changePercent = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"L +/-%"] doubleValue]/100.0f];
+	}
+	if ([updateDictionary objectForKey:@"O +/-"]) { 
+		symbol.symbolDynamicData.openChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"O +/-"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"O +/-%"]) {
+		symbol.symbolDynamicData.openPercentChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"O +/-%"] doubleValue]/100.0f];
+	}
+	if ([updateDictionary objectForKey:@"Volume"]) {
+		symbol.symbolDynamicData.volume = [updateDictionary objectForKey:@"Volume"];
+	}
+	if ([updateDictionary objectForKey:@"Turnover"]) {
+		symbol.symbolDynamicData.turnover = [updateDictionary objectForKey:@"Turnover"];
+	}
+	if ([updateDictionary objectForKey:@"OnVolume"]) {
+		symbol.symbolDynamicData.onVolume = [updateDictionary objectForKey:@"OnVolume"];
+	}
+	if ([updateDictionary objectForKey:@"OnValue"]) {
+		symbol.symbolDynamicData.onValue = [updateDictionary objectForKey:@"OnValue"];
+	}
+	if ([updateDictionary objectForKey:@"VWAP"]) { 
+		symbol.symbolDynamicData.VWAP = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"VWAP"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"AvgVol"]) {
+		symbol.symbolDynamicData.averageVolume = [updateDictionary objectForKey:@"AvgVol"];
+	}
+	if ([updateDictionary objectForKey:@"AvgVal"]) { 
+		symbol.symbolDynamicData.averageValue = [updateDictionary objectForKey:@"AvgVal"];
+	}
+	if ([updateDictionary objectForKey:@"Status"]) { 
+		symbol.symbolDynamicData.tradingStatus = [updateDictionary objectForKey:@"Status"];
+	}
+	if ([updateDictionary objectForKey:@"B Lot"]) {
+		symbol.symbolDynamicData.buyLot = [updateDictionary objectForKey:@"B Lot"];
+	}
+	if ([updateDictionary objectForKey:@"BLValue"]) { 
+		symbol.symbolDynamicData.buyLotValue = [updateDictionary objectForKey:@"BLValue"];
+	}
+	if ([updateDictionary objectForKey:@"Shares"]) {
+		symbol.symbolDynamicData.outstandingShares = [updateDictionary objectForKey:@"Shares"];
+	}
+	if ([updateDictionary objectForKey:@"M Cap"]) {
+		symbol.symbolDynamicData.marketCapitalization = [updateDictionary objectForKey:@"M Cap"];
+	}
+	if ([updateDictionary objectForKey:@"Exchange"]) {
+		//
+	}
+	if ([updateDictionary objectForKey:@"Country"]) {
+		symbol.country = [updateDictionary objectForKey:@"Country"];
+	}
+	if ([updateDictionary objectForKey:@"Description"]) {
+		//
+	}
+	if ([updateDictionary objectForKey:@"Symbol"]) {
+		//
+	}
+	if ([updateDictionary objectForKey:@"ISIN"]) { 
+		//
+	}
+	if ([updateDictionary objectForKey:@"Currency"]) { 
+		symbol.currency = [updateDictionary objectForKey:@"Currency"];
+	}
+}
+
+- (void)chartUpdate:(NSDictionary *)chartData {
+	NSArray *feedTickerComponents = [[chartData objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+	
+	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
+	
+	Chart *chart = (Chart *)[NSEntityDescription insertNewObjectForEntityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
+	chart.height = [chartData objectForKey:@"height"];
+	chart.width = [chartData objectForKey:@"width"];
+	chart.size = [chartData objectForKey:@"size"];
+	chart.type = [chartData objectForKey:@"type"];
+	NSData *data = [chartData objectForKey:@"data"];
+	chart.data = data;
+	symbol.chart = chart;
 }
 
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode {

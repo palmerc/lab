@@ -18,7 +18,7 @@
 @property (nonatomic, retain) NSString * mCode;
 @property (nonatomic, retain) NSSet* symbols;
 @property (nonatomic, retain) NSString * typeCode;
-
+@property (nonatomic, retain) NSNumber * decimals;
 @end
 
 

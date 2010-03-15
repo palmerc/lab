@@ -247,32 +247,45 @@
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
 	
+	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
+	
+	[self updateSymbol];
+	[self setNeedsDisplay];
+}
+
+- (void)updateSymbol {
 	static NSNumberFormatter *doubleFormatter = nil;
 	if (doubleFormatter == nil) {
 		doubleFormatter = [[NSNumberFormatter alloc] init];
 		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	}
 	
-	self.open.text = @"0";
-	self.high.text = @"0";
-	self.low.text = @"0";
-	self.vwap.text = @"0";
-	self.volume.text = @"0";
+	self.open.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.open];
+	self.high.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.high];
+	self.low.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.low];
+	self.vwap.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP];
+	self.volume.text = self.symbol.symbolDynamicData.volume;
 	self.trades.text = @"0";
-	self.turnover.text = @"0";
-	self.bLot.text = @"0";
-	self.bLotVal.text = @"0";
-	self.avgVal.text = @"0";
-	self.avgVol.text = @"0";
-	
-	
-	[self setNeedsLayout];
-	
+	self.turnover.text = self.symbol.symbolDynamicData.turnover;
+	self.bLot.text = self.symbol.symbolDynamicData.buyLot;
+	self.bLotVal.text = self.symbol.symbolDynamicData.buyLotValue;
+	self.avgVal.text = self.symbol.symbolDynamicData.averageValue;
+	self.avgVol.text = self.symbol.symbolDynamicData.averageVolume;
+}
+
+#pragma mark -
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"]) {
+		[self updateSymbol];
+	}
 }
 
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
+	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
+	
 	[_symbol release];
 	[_openLabel release]; 
 	[_open release];

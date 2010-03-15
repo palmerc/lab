@@ -14,7 +14,6 @@
 
 @dynamic bidSize;
 @dynamic bidVolume;
-@dynamic lastTradeChange;
 @dynamic dividend;
 @dynamic previousClose;
 @dynamic low;
@@ -27,7 +26,6 @@
 @dynamic openPercentChange;
 @dynamic averageValue;
 @dynamic turnover;
-@dynamic lastTradePercentChange;
 @dynamic lastTrade;
 @dynamic bidPrice;
 @dynamic lastTradeTime;

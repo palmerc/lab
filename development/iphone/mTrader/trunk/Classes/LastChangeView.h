@@ -20,6 +20,9 @@
 	UILabel *_lastPercentChange;
 	
 	UIImageView *_chart;
+	
+	NSUInteger chartWidth;
+	NSUInteger chartHeight;
 }
 
 @property (nonatomic, retain) Symbol *symbol;
@@ -28,5 +31,8 @@
 @property (nonatomic, retain) UILabel *lastChange;
 @property (nonatomic, retain) UILabel *lastPercentChange;
 @property (nonatomic, retain) UIImageView *chart;
+
+- (void)updateSymbol;
+- (void)updateChart;
 
 @end

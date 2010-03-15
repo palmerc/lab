@@ -30,7 +30,7 @@
 #pragma mark -
 #pragma mark ChainsTableCell implementation
 @implementation ChainsTableCell
-@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerLabel, rightLabel, timeLabel; //, centerOption, rightOption;
+@synthesize symbolDynamicData, tickerLabel, descriptionLabel, centerLabel, rightLabel, timeLabel, centerOption, rightOption;
 
 #pragma mark -
 #pragma mark Initialization
@@ -41,7 +41,7 @@
 		[tickerLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		[tickerLabel setFont:tickerFont];
 		[tickerLabel setTextColor:[UIColor blackColor]];
-		[tickerLabel setHighlightedTextColor:[UIColor blackColor]];
+		//[tickerLabel setHighlightedTextColor:[UIColor blackColor]];
 		[self.contentView addSubview:tickerLabel];
 		
 		NSString *tickerSample = @"XXXXXXXXXXXX";
@@ -52,8 +52,8 @@
 		[descriptionLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		descriptionLabel.textAlignment = UITextAlignmentLeft;
 		[descriptionLabel setFont:descriptionFont];
-		[descriptionLabel setTextColor:[UIColor lightGrayColor]];
-		[descriptionLabel setHighlightedTextColor:[UIColor lightGrayColor]];
+		[descriptionLabel setTextColor:[UIColor darkGrayColor]];
+		//[descriptionLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:descriptionLabel];
 		
 		UIFont *centerLabelFont = [UIFont systemFontOfSize:17.0];
@@ -62,7 +62,8 @@
 		[centerLabel setFont:centerLabelFont];
 		[centerLabel setTextAlignment:UITextAlignmentRight];
 		[centerLabel setTextColor:[UIColor blackColor]];
-		[centerLabel setHighlightedTextColor:[UIColor blackColor]];
+		//[centerLabel setHighlightedTextColor:[UIColor blackColor]];
+		[centerLabel setAdjustsFontSizeToFitWidth:YES];
 		[self.contentView addSubview:centerLabel];		
 		
 		UIFont *rightLabelFont = [UIFont systemFontOfSize:17.0];
@@ -71,7 +72,8 @@
 		[rightLabel setFont:rightLabelFont];
 		[rightLabel setTextAlignment:UITextAlignmentRight];
 		[rightLabel setTextColor:[UIColor blackColor]];
-		[rightLabel setHighlightedTextColor:[UIColor blackColor]];
+		//[rightLabel setHighlightedTextColor:[UIColor blackColor]];
+		[rightLabel setAdjustsFontSizeToFitWidth:YES];
 		[self.contentView addSubview:rightLabel];
 		
 		UIFont *timeFont = [UIFont systemFontOfSize:12.0];
@@ -79,8 +81,8 @@
 		[timeLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		timeLabel.textAlignment = UITextAlignmentRight;
 		[timeLabel setFont:timeFont];
-		[timeLabel setTextColor:[UIColor lightGrayColor]];
-		[timeLabel setHighlightedTextColor:[UIColor lightGrayColor]];
+		[timeLabel setTextColor:[UIColor darkGrayColor]];
+		//[timeLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:timeLabel];
 	}
     return self;
@@ -171,23 +173,10 @@
 
 
 - (void)setSymbolDynamicData:(SymbolDynamicData *)newSymbolDynamicData {
-	static NSDateFormatter *dateFormatter = nil;
-	if (dateFormatter == nil) {
-		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	}
-	
-	static NSDateFormatter *timeFormatter = nil;
-	if (timeFormatter == nil) {
-		timeFormatter = [[NSDateFormatter alloc] init];
-		[timeFormatter setDateFormat:@"HH:mm:ss"];
-	}
-	
 	static NSNumberFormatter *doubleFormatter = nil;
 	if (doubleFormatter == nil) {
 		doubleFormatter = [[NSNumberFormatter alloc] init];
 		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[doubleFormatter setUsesSignificantDigits:YES];
 	}
 	
 	static NSNumberFormatter *percentFormatter = nil;
@@ -224,54 +213,57 @@
 			break;
 	}
 
+	NSUInteger decimals = [symbolDynamicData.symbol.feed.decimals integerValue];
+	[doubleFormatter setMinimumFractionDigits:decimals];
+	[doubleFormatter setMaximumFractionDigits:decimals];
+	
 	NSString *centerString = @"-";
-//	switch (centerOption) {
-//		case LAST_TRADE:
-//			if (symbolDynamicData.lastTrade != nil) {
-//				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
-//			}			
-//			break;
-//		case BID_PRICE:
-//			if (symbolDynamicData.bidPrice != nil) {
-//				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
-//			}
-//			break;
-//		case ASK_PRICE:
-//			if (symbolDynamicData.askSize != nil) {
-//				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
-//			}
-//			break;
-//		default:
-//			break;
-//	}
+	switch (centerOption) {
+		case CLAST:
+			if (symbolDynamicData.lastTrade != nil) {
+				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			}			
+			break;
+		case CBID:
+			if (symbolDynamicData.bidPrice != nil) {
+				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.bidPrice];
+			}
+			break;
+		case CASK:
+			if (symbolDynamicData.askSize != nil) {
+				centerString = [doubleFormatter stringFromNumber:symbolDynamicData.askPrice];
+			}
+			break;
+		default:
+			break;
+	}
 	self.centerLabel.text = centerString;
 	self.centerLabel.textColor = textColor;
 
 	NSString *rightString = @"-";
-//	switch (rightOption) {
-//		case LAST_TRADE_PERCENT_CHANGE:
-//			if (symbolDynamicData.changePercent != nil) {
-//				rightString = [percentFormatter stringFromNumber:symbolDynamicData.changePercent];
-//			}
-//			break;
-//		case LAST_TRADE_CHANGE:
-//			if (symbolDynamicData.change != nil) {
-//				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.change];
-//			}
-//			break;
-//		case LAST_TRADE_TOO:
-//			if (symbolDynamicData.lastTrade != nil) {
-//				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
-//			}
-//			break;
-//		default:
-//			break;
-//	}
+	switch (rightOption) {
+		case RCHANGE_PERCENT:
+			if (symbolDynamicData.changePercent != nil) {
+				rightString = [percentFormatter stringFromNumber:symbolDynamicData.changePercent];
+			}
+			break;
+		case RCHANGE:
+			if (symbolDynamicData.change != nil) {
+				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.change];
+			}
+			break;
+		case RLAST:
+			if (symbolDynamicData.lastTrade != nil) {
+				rightString = [doubleFormatter stringFromNumber:symbolDynamicData.lastTrade];
+			}
+			break;
+		default:
+			break;
+	}
 	self.rightLabel.text = rightString;
 	self.rightLabel.textColor = textColor;
 	
-	NSDate *tradeTime = [NSDate dateWithTimeIntervalSince1970:[symbolDynamicData.lastTradeTime intValue]];
-	NSString *timeString = [NSString stringWithFormat:@"%@ %@", [dateFormatter stringFromDate:tradeTime], [timeFormatter stringFromDate:tradeTime]];
+	NSString *timeString = symbolDynamicData.lastTradeTime;
 	self.timeLabel.text = timeString;
 }
 

@@ -78,7 +78,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
 	[[UserDefaults sharedManager] saveSettings];
 	
-    NSError *error;
+	NSError *error;
     if (managedObjectContext != nil) {
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
 			// Update to handle the error appropriately.

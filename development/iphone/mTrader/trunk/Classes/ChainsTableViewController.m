@@ -82,6 +82,7 @@
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	if ([communicator isLoggedIn]) {
 		QFields *qFields = [[QFields alloc] init];
+		qFields.timeStamp = YES;
 		qFields.lastTrade = YES;
 		qFields.bidPrice = YES;
 		qFields.askPrice = YES;

@@ -166,14 +166,21 @@
 - (NSDictionary *)dictionaryFromQuote:(NSArray *)quote {
 	NSMutableDictionary *dictionary = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSString *feedTicker = [quote objectAtIndex:FEEDTICKER];
+	NSString *feedTicker = [quote objectAtIndex:0];
 	[dictionary setValue:feedTicker forKey:@"feedTicker"];
 	
-	int i = 1;
+	NSMutableArray *revisedQuote = [NSMutableArray arrayWithArray:quote];
+	[revisedQuote removeObjectAtIndex:0];
+	quote = revisedQuote;
+	
+	int i = 0;
 	for (NSString *value in quote) {
-		for (; qFieldsStateArray[i] == YES; i++);
+		while (qFieldsStateArray[i] == NO) {
+			i++;
+		} 
 		NSString *key = [NSString stringWithFormat:@"%d", i];
 		[dictionary setValue:value forKey:key];
+		i++;
 	}
 	return dictionary;
 }
