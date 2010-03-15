@@ -11,6 +11,7 @@
 
 @implementation NewsFeed 
 
+@dynamic feedNumber;
 @dynamic name;
 @dynamic mCode;
 @dynamic type;

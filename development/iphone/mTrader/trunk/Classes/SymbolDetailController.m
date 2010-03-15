@@ -74,10 +74,6 @@
 	[communicator staticDataForFeedTicker:feedTicker];	
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-}
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	//NSLog(@"KVO Update: %@ %@ %@ %@", keyPath, object, change, context);
 	if ([keyPath isEqualToString:@"currency"]) {

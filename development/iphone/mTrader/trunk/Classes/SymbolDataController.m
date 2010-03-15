@@ -95,33 +95,40 @@ static SymbolDataController *sharedDataController = nil;
 - (void)addNewsFeeds:(NSArray *)feeds {
 	feeds = [StringHelpers cleanComponents:feeds];
 	for (NSString *feed in feeds) {
+		NSArray *exchangeComponents = [feed componentsSeparatedByString:@":"];
+		
+		if ([exchangeComponents count] != 3) {
+			NSLog(@"Exchange %@ rejected. Improper number of fields");
+			continue;
+		}
+		
+		NSString *feedNumber = [exchangeComponents objectAtIndex:0];
+		NSString *mCode = [exchangeComponents objectAtIndex:1];
+		
+		NSString *description = [exchangeComponents objectAtIndex:2];
 		
 		// Separate the Description from the mCode
-		NSRange leftBracketRange = [feed rangeOfString:@"["];
-		NSRange rightBracketRange = [feed rangeOfString:@"]"];
-		NSRange leftParenthesisRange = [feed rangeOfString:@"("];
-		NSRange rightParenthesisRange = [feed rangeOfString:@")"];
+		NSRange leftBracketRange = [description rangeOfString:@"["];
+		//NSRange rightBracketRange = [description rangeOfString:@"]"];
+		NSRange leftParenthesisRange = [description rangeOfString:@"("];
+		NSRange rightParenthesisRange = [description rangeOfString:@")"];
 		
 		NSRange typeRange;
 		typeRange.location = leftParenthesisRange.location + 1;
 		typeRange.length = rightParenthesisRange.location - typeRange.location;
-		NSString *typeCode = [feed substringWithRange:typeRange]; // (S) 
-		
-		NSRange mCodeRange;
-		mCodeRange.location = leftBracketRange.location + 1;
-		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
-		NSString *mCode = [feed substringWithRange:mCodeRange]; // OSS
+		NSString *typeCode = [description substringWithRange:typeRange]; // (S) 
 		
 		NSRange descriptionRange;
 		descriptionRange.location = 0;
 		descriptionRange.length = leftBracketRange.location - 1;
-		NSString *feedName = [feed substringWithRange:descriptionRange]; // Oslo Stocks
+		NSString *feedName = [description substringWithRange:descriptionRange]; // Oslo Stocks		
 		
 		NewsFeed *newsFeed = [self fetchNewsFeed:mCode];
 		if (newsFeed == nil) {
 			newsFeed = (NewsFeed *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
 		}
 		
+		newsFeed.feedNumber = [NSNumber numberWithInteger:[feedNumber integerValue]];
 		newsFeed.mCode = mCode;
 		newsFeed.name = feedName;
 		newsFeed.type = typeCode;
@@ -138,33 +145,40 @@ static SymbolDataController *sharedDataController = nil;
 - (void)addExchanges:(NSArray *)exchanges {
 	exchanges = [StringHelpers cleanComponents:exchanges];
 	for (NSString *exchangeCode in exchanges) {
+		NSArray *exchangeComponents = [exchangeCode componentsSeparatedByString:@":"];
+		
+		if ([exchangeComponents count] != 3) {
+			NSLog(@"Exchange %@ rejected. Improper number of fields");
+			continue;
+		}
+		
+		NSString *feedNumber = [exchangeComponents objectAtIndex:0];
+		NSString *mCode = [exchangeComponents objectAtIndex:1];
+		
+		NSString *description = [exchangeComponents objectAtIndex:2];
 		
 		// Separate the Description from the mCode
-		NSRange leftBracketRange = [exchangeCode rangeOfString:@"["];
-		NSRange rightBracketRange = [exchangeCode rangeOfString:@"]"];
-		NSRange leftParenthesisRange = [exchangeCode rangeOfString:@"("];
-		NSRange rightParenthesisRange = [exchangeCode rangeOfString:@")"];
+		NSRange leftBracketRange = [description rangeOfString:@"["];
+		//NSRange rightBracketRange = [description rangeOfString:@"]"];
+		NSRange leftParenthesisRange = [description rangeOfString:@"("];
+		NSRange rightParenthesisRange = [description rangeOfString:@")"];
 		
 		NSRange typeRange;
 		typeRange.location = leftParenthesisRange.location + 1;
 		typeRange.length = rightParenthesisRange.location - typeRange.location;
-		NSString *typeCode = [exchangeCode substringWithRange:typeRange]; // (S) 
-		
-		NSRange mCodeRange;
-		mCodeRange.location = leftBracketRange.location + 1;
-		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
-		NSString *mCode = [exchangeCode substringWithRange:mCodeRange]; // OSS
-		
+		NSString *typeCode = [description substringWithRange:typeRange]; // (S) 
+				
 		NSRange descriptionRange;
 		descriptionRange.location = 0;
 		descriptionRange.length = leftBracketRange.location - 1;
-		NSString *feedName = [exchangeCode substringWithRange:descriptionRange]; // Oslo Stocks
+		NSString *feedName = [description substringWithRange:descriptionRange]; // Oslo Stocks
 		
 		Feed *feed = [self fetchFeedByName:feedName];
 		if (feed == nil) {
 			feed = (Feed *)[NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
 		}
 		
+		feed.feedNumber = [NSNumber numberWithInteger:[feedNumber integerValue]];
 		feed.mCode = mCode;
 		feed.feedName = feedName;
 		feed.typeCode = typeCode;
@@ -186,23 +200,25 @@ static SymbolDataController *sharedDataController = nil;
 - (void)addSymbols:(NSString *)symbols {
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
 
-	static NSInteger FEED_TICKER = 0;
+	//static NSInteger FEED_TICKER = 0;
 	static NSInteger TICKER_SYMBOL = 1;
 	static NSInteger COMPANY_NAME = 2;
 	static NSInteger EXCHANGE_CODE = 3;
 	static NSInteger TYPE = 4;
 	static NSInteger ORDER_BOOK = 5;
 	static NSInteger ISIN = 6;
+	//static NSInteger EXCHANGE_NUMBER = 7;
+	static NSInteger FIELD_COUNT = 8;
 	
 	// insert the objects
 	NSArray *rows = [symbols componentsSeparatedByString:@":"];	
 	for (NSString *row in rows) {
 		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
+		if ([stockComponents count] != FIELD_COUNT) {
+			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
+			continue;
+		}
 		stockComponents = [StringHelpers cleanComponents:stockComponents];
-		NSString *feedTicker = [stockComponents objectAtIndex:FEED_TICKER];
-		NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-		NSString *feedNumberString = [feedTickerComponents objectAtIndex:0];
-		NSNumber *feedNumber = [NSNumber numberWithInteger:[feedNumberString integerValue]];
 		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
 		NSString *tickerSymbol = [stockComponents objectAtIndex:TICKER_SYMBOL];
 		NSString *companyName = [stockComponents objectAtIndex:COMPANY_NAME];
@@ -219,23 +235,10 @@ static SymbolDataController *sharedDataController = nil;
 		mCodeRange.location = leftBracketRange.location + 1;
 		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
 		NSString *mCode = [exchangeCode substringWithRange:mCodeRange]; // OSS
-		
-		NSRange descriptionRange;
-		descriptionRange.location = 0;
-		descriptionRange.length = leftBracketRange.location - 1;
-		NSString *feedName = [exchangeCode substringWithRange:descriptionRange]; // Oslo Stocks
+
 		
 		// Prevent double insertions
-		Feed *feed = [self fetchFeed:mCode];
-		if (feed == nil) {
-			feed = (Feed *)[NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
-			feed.mCode = mCode; // OSS
-			feed.feedName = feedName;	// Oslo Stocks
-			feed.typeCode = @"";
-		}
-		
-		feed.feedNumber = feedNumber; // 18177
-		
+		Feed *feed = [self fetchFeed:mCode];		
 		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeed:mCode]; 
 		if (symbol == nil) {
 			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
@@ -297,6 +300,12 @@ static SymbolDataController *sharedDataController = nil;
 		if (resultSetArray == nil)
 		{
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			continue;
+		}
+		
+		if ([resultSetArray count] == 0) {
+			NSLog(@"Symbol Update failed for %@. Unable to locate symbol.", feedTicker);
+			continue;
 		}
 		
 		Symbol *symbol = [resultSetArray objectAtIndex:0];

@@ -13,6 +13,7 @@
 {
 }
 
+@property (nonatomic, retain) NSNumber * feedNumber;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * mCode;
 @property (nonatomic, retain) NSString * type;

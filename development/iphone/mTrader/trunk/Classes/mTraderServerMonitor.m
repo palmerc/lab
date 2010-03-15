@@ -10,6 +10,7 @@
 #import "mTraderCommunicator.h"
 #import "Reachability.h"
 
+#import <arpa/inet.h>
 
 @implementation mTraderServerMonitor
 
@@ -64,21 +65,31 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
 		
 		NSMutableCharacterSet *ipAddrSet = [[[NSMutableCharacterSet alloc] init] autorelease];
-		[ipAddrSet addCharactersInString:@"0123456789"];
-		[ipAddrSet addCharactersInString:@"."];
+		[ipAddrSet addCharactersInString:@"0123456789."];
 		
 		NSArray *characters = [self.server componentsSeparatedByCharactersInSet:ipAddrSet];
 		if ([characters count] - 1 == [self.server length]) {
-			self.reachability = [Reachability reachabilityWithAddress:self.server];
+			struct sockaddr_in hostAddress;
+			bzero(&hostAddress, sizeof(hostAddress));
+			hostAddress.sin_len = sizeof(hostAddress);
+			hostAddress.sin_family = AF_INET;
+			const char* addr = [self.server cStringUsingEncoding:NSASCIIStringEncoding];
+			hostAddress.sin_addr.s_addr = inet_addr(addr);
+			hostAddress.sin_port = [self.port integerValue];
+			self.reachability = [Reachability reachabilityWithAddress:&hostAddress];
 		} else {
 			self.reachability = [Reachability reachabilityWithHostName:self.server];
 		}
 		
 		[self.reachability startNotifer];
+		NetworkStatus status = [self.reachability currentReachabilityStatus];
 		
-		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
+		if (status == ReachableViaWiFi || ReachableViaWWAN) {
+			[[mTraderCommunicator sharedManager] login];
+		}
 	}
 	return self;
 }

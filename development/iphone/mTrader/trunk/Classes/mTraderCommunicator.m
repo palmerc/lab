@@ -288,7 +288,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			[self.symbolsDelegate addNewsFeeds:feeds];
 		}
 		state = PROCESSING;
-	} else if ([string rangeOfString:@"Symbols:"].location == 0) {
+	} else if ([string rangeOfString:@"Securities:"].location == 0) {
 		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
 		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
 		if (([rows count] == 1) && ([[rows objectAtIndex:0] isEqualToString:@""])) {
@@ -619,8 +619,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (NSArray *)exchangesParsing:(NSString *)exchanges {
 	NSArray *arrayOfComponents = [self stripOffFirstElement:[exchanges componentsSeparatedByString:@":"]];
-	NSString *dataPortion = [StringHelpers cleanString:[arrayOfComponents objectAtIndex:0]];
-	NSArray *exchangesArray = [dataPortion componentsSeparatedByString:@","];
+	exchanges = [arrayOfComponents componentsJoinedByString:@":"];
+	NSArray *exchangesArray = [exchanges componentsSeparatedByString:@","];
+	exchangesArray = [StringHelpers cleanComponents:exchangesArray];
 	return exchangesArray;
 }
 
@@ -656,12 +657,18 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
 		NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
 		NSString *Client = @"Client: mTrader";
+		NSString *Protocol = @"Protocol: 2.0";
 		NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
 		NSString *ConnectionType = @"ConnType: Socket";
 		NSString *Streaming = @"Streaming: 1";
-		NSString *QFields = @"QFields:";
 		
-		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, ConnectionType, Streaming, QFields, nil];
+		QFields *qFields = [[QFields alloc] init];
+		qFields.lastTrade = YES;
+		self.qFields = qFields;
+		[qFields release];
+		NSString *QFieldsServerString = [NSString stringWithFormat:@"QFields: %@", [qFields getCurrentQFieldsServerString]];
+		
+		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, Protocol, ConnectionType, Streaming, QFieldsServerString, nil];
 		NSString *loginString = [self arrayToFormattedString:loginArray];
 		
 		if ([self.communicator isConnected]) {
@@ -744,14 +751,12 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[serverRequestArray addObject:authorization];
 	
 	// SecOid:
-	NSString *secOid = nil;
 	// stream all symbols
-	if (feedTicker == nil) {
-		secOid = @"SecOid:";
-	} else {
-		secOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+	if (feedTicker != nil) {
+		NSString *secOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
+		[serverRequestArray addObject:secOid];
 	}
-	[serverRequestArray addObject:secOid];
+	
 	
 	// QFields:
 	NSString *QFieldsString = [NSString stringWithFormat:@"QFields: %@", [self.qFields getCurrentQFieldsServerString]];
