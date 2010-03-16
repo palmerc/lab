@@ -13,6 +13,7 @@
 @class Feed;
 @class Symbol;
 @class NewsFeed;
+@class BidAsk;
 
 @interface SymbolDataController : NSObject <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
 @private
@@ -28,6 +29,7 @@
 
 + (SymbolDataController *)sharedManager;
 
+- (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index;
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;

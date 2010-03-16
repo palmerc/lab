@@ -17,6 +17,7 @@
 #import "SymbolDynamicData.h"
 #import "Chart.h"
 #import "NewsFeed.h"
+#import "BidAsk.h"
 
 static SymbolDataController *sharedDataController = nil;
 
@@ -458,105 +459,69 @@ static SymbolDataController *sharedDataController = nil;
 		
 		// orderBook
 		NSString *orderBookKey = [NSString stringWithFormat:@"%d", ORDERBOOK];
-		if ([update objectForKey:orderBookKey]) {
+		if ([update objectForKey:orderBookKey]) {						
+			// Bid then Ask -
+			NSString *orderBookString = [update valueForKey:orderBookKey];
+			NSArray *orderBook = [orderBookString componentsSeparatedByString:@"/"];
+			orderBook = [StringHelpers cleanComponents:orderBook];
 			
-			NSFetchRequest *bidRequest = [[[NSFetchRequest alloc] init] autorelease];
-			NSEntityDescription *bidEntity = [NSEntityDescription entityForName:@"Bid" inManagedObjectContext:self.managedObjectContext];
-			[bidRequest setEntity:bidEntity];
-			
-			NSPredicate *bidPredicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@)", feedNumber, tickerSymbol];
-			[bidRequest setPredicate:bidPredicate];
-			
-			NSSortDescriptor *bidSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-			[bidRequest setSortDescriptors:[NSArray arrayWithObject:bidSortDescriptor]];
-			[bidSortDescriptor release];
-			
-			NSError *bidError = nil;
-			NSArray *bidsArray = [self.managedObjectContext executeFetchRequest:bidRequest error:&bidError];
-			if (bidsArray == nil)
-			{
-				NSLog(@"Unresolved error %@, %@", bidError, [bidError userInfo]);
+			if ([orderBook count] != 2) {
+				NSLog(@"Orderbook has the wrong number of fields. %@", orderBookString);
 			}
 			
-			NSFetchRequest *askRequest = [[[NSFetchRequest alloc] init] autorelease];
-			NSEntityDescription *askEntity = [NSEntityDescription entityForName:@"Ask" inManagedObjectContext:self.managedObjectContext];
-			[askRequest setEntity:askEntity];
-			
-			NSPredicate *askPredicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@)", feedNumber, tickerSymbol];
-			[askRequest setPredicate:askPredicate];
-			
-			NSSortDescriptor *askSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-			[askRequest setSortDescriptors:[NSArray arrayWithObject:askSortDescriptor]];
-			[askSortDescriptor release];
-			
-			NSError *askError = nil;
-			NSArray *asksArray = [self.managedObjectContext executeFetchRequest:askRequest error:&askError];
-			if (asksArray == nil)
-			{
-				NSLog(@"Unresolved error %@, %@", askError, [askError userInfo]);
+			NSString *bidsString = [orderBook objectAtIndex:0];
+			NSArray *bids = [bidsString componentsSeparatedByString:@"#"];
+			for (int i = 0; i < [bids count]; i++) {
+				NSString *bid = [bids objectAtIndex:i]; 
+				if (![bid isEqualToString:@""]) {
+					BidAsk *bidAsk = [self fetchBidAskForFeedTicker:feedTicker atIndex:i];
+					if (bidAsk == nil) {
+						bidAsk = [NSEntityDescription insertNewObjectForEntityForName:@"BidAsk" inManagedObjectContext:self.managedObjectContext];
+					}
+					
+					NSArray *pieces = [bid componentsSeparatedByString:@"\\"];
+					
+					NSString *value = [pieces objectAtIndex:0];
+					NSString *size = [pieces objectAtIndex:1];
+					
+					float multiplier = 1.0;
+					if ([size rangeOfString:@"k"].location != NSNotFound) {
+						multiplier = 1000.0;
+					} else if ([size rangeOfString:@"m"].location != NSNotFound) {
+						multiplier = 1000000.0;
+					}
+					
+					bidAsk.bidPrice = [NSNumber numberWithDouble:[value doubleValue]];
+					bidAsk.bidSize = [NSNumber numberWithInteger:[size integerValue] * multiplier];
+				}
 			}
-
-			// Bid then Ask - 
-
-			//NSArray *orderBook = [[update valueForKey:orderBookKey] componentsSeparatedByString:@"#"];
-//			orderBook = [StringHelpers cleanComponents:orderBook];
-//			NSInteger half = [orderBook count] / 2;
-//			
-//			for (int i = 0; i < half; i++) {
-//				NSString *orderBookString = [orderBook objectAtIndex:i];
-//				if (![orderBookString isEqualToString:@""]) {
-//					[NSEntityDescription insertNewObjectForEntityForName:@"Bid" inManagedObjectContext:self.managedObjectContext];
-//					
-//					NSArray *pieces = [orderBookString componentsSeparatedByString:@"\\"];
-//					[bidsArray objectAtIndex:i];
-//					NSString *value = [pieces objectAtIndex:0];
-//					NSString *size = [pieces objectAtIndex:1];
-//					
-//					float multiplier = 1.0;
-//					if ([size rangeOfString:@"k"].location != NSNotFound) {
-//						multiplier = 1000.0;
-//					} else if ([size rangeOfString:@"m"].location != NSNotFound) {
-//						multiplier = 1000000.0;
-//					}
-//					
-//					bid.bidValue = [NSNumber numberWithDouble:[value doubleValue]];
-//					bid.bidSize = [NSNumber numberWithInteger:[size integerValue] * multiplier];
-//					[bids insertObject:bid atIndex:i];
-//					[bid release];
-//				}
-//			}
-//			
-//			for (int i = 0; i < half; i++) {
-//				NSString *orderBookString = [orderBook objectAtIndex:i + half];
-//				if (![orderBookString isEqualToString:@""] && ![orderBookString isEqualToString:@"/"]) {
-//					if ([asks count] > i) {
-//						[asks removeObjectAtIndex:i];
-//					}
-//					
-//					if ([orderBookString rangeOfString:@"/"].location == 0) {
-//						orderBookString = [orderBookString substringFromIndex:1];
-//					}
-//					NSArray *pieces = [orderBookString componentsSeparatedByString:@"\\"];
-//					[NSEntityDescription insertNewObjectForEntityForName:@"Ask" inManagedObjectContext:self.managedObjectContext];
-//					NSString *value = [pieces objectAtIndex:0];
-//					NSString *size = [pieces objectAtIndex:1];
-//					
-//					float multiplier = 1.0;
-//					if ([size rangeOfString:@"k"].location != NSNotFound) {
-//						multiplier = 1000.0;
-//					} else if ([size rangeOfString:@"m"].location != NSNotFound) {
-//						multiplier = 1000000.0;
-//					}
-//					
-//					ask.askValue = [NSNumber numberWithDouble:[value doubleValue]];
-//					ask.askSize = [NSNumber numberWithInteger:[size integerValue] * multiplier];
-//					[asks insertObject:ask atIndex:i];
-//					[ask release];
-//				}
-//			}
 			
-			asksArray = nil;
-			bidsArray = nil;
+			NSString *asksString = [orderBook objectAtIndex:1];
+			NSArray *asks = [asksString componentsSeparatedByString:@"#"];
+			for (int i = 0; i < [asks count]; i++) {
+				NSString *ask = [asks objectAtIndex:i];
+				if (![ask isEqualToString:@""] && ![ask isEqualToString:@"/"]) {
+					BidAsk *bidAsk = [self fetchBidAskForFeedTicker:feedTicker atIndex:i];
+					if (bidAsk == nil) {
+						bidAsk = [NSEntityDescription insertNewObjectForEntityForName:@"BidAsk" inManagedObjectContext:self.managedObjectContext];
+					}			
+					
+					NSArray *pieces = [ask componentsSeparatedByString:@"\\"];
+					
+					NSString *value = [pieces objectAtIndex:0];
+					NSString *size = [pieces objectAtIndex:1];
+					
+					float multiplier = 1.0;
+					if ([size rangeOfString:@"k"].location != NSNotFound) {
+						multiplier = 1000.0;
+					} else if ([size rangeOfString:@"m"].location != NSNotFound) {
+						multiplier = 1000000.0;
+					}
+					
+					bidAsk.askPrice = [NSNumber numberWithDouble:[value doubleValue]];
+					bidAsk.askSize = [NSNumber numberWithInteger:[size integerValue] * multiplier];
+				}
+			}
 		}
 	}
 		
@@ -682,6 +647,36 @@ static SymbolDataController *sharedDataController = nil;
 	NSData *data = [chartData objectForKey:@"data"];
 	chart.data = data;
 	symbol.chart = chart;
+}
+
+- (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index {
+	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+	
+	NSFetchRequest *bidAskRequest = [[[NSFetchRequest alloc] init] autorelease];
+	NSEntityDescription *bidAskEntity = [NSEntityDescription entityForName:@"BidAsk" inManagedObjectContext:self.managedObjectContext];
+	[bidAskRequest setEntity:bidAskEntity];
+	
+	NSPredicate *bidAskPredicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@) AND (index=%d)", feedNumber, tickerSymbol, index];
+	[bidAskRequest setPredicate:bidAskPredicate];
+	
+	NSSortDescriptor *bidAskSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+	[bidAskRequest setSortDescriptors:[NSArray arrayWithObject:bidAskSortDescriptor]];
+	[bidAskSortDescriptor release];
+	
+	NSError *bidAskError = nil;
+	NSArray *bidAskArray = [self.managedObjectContext executeFetchRequest:bidAskRequest error:&bidAskError];
+	if (bidAskArray == nil)
+	{
+		NSLog(@"Unresolved error %@, %@", bidAskError, [bidAskError userInfo]);
+	}
+	
+	if ([bidAskArray count] == 1) {
+		return [bidAskArray objectAtIndex:0];
+	} else {
+		return nil;
+	}
 }
 
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode {
