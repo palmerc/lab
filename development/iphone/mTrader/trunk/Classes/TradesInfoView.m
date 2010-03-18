@@ -177,6 +177,8 @@
 	return self;
 }
 
+#pragma mark -
+#pragma mark UIView drawing
 - (void)drawRect:(CGRect)rect {
 	super.padding = 6.0f;
 	super.cornerRadius = 10.0f;
@@ -244,6 +246,8 @@
 	self.avgVal.frame = CGRectMake(leftPadding + avgValLabelSize.width, globalY, maxWidth - avgValLabelSize.width, avgValLabelSize.height);	
 }
 
+#pragma mark -
+#pragma mark Symbol methods
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
 	

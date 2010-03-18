@@ -59,6 +59,7 @@
 	return self;
 }
 
+#pragma mark UIView drawing
 - (void)drawRect:(CGRect)rect {
 	super.padding = 6.0f;
 	super.cornerRadius = 10.0f;
@@ -94,6 +95,8 @@
 	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:365 width:chartWidth height:chartHeight orientation:@"A"];
 }
 
+#pragma mark -
+#pragma mark Symbol methods
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
 	

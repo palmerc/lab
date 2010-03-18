@@ -40,6 +40,10 @@
 		abort();  // Fail
 	}
 	
+
+}
+
+- (void)viewDidLoad {
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:0];
     NSInteger count = [sectionInfo numberOfObjects];
 	NSInteger ossIndex = 0;
@@ -52,21 +56,22 @@
 			break;
 		}
 	}
-	//[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];
+	[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];
 	
 	//self.searchBar.delegate = self;
 	//self.searchBar.placeholder = @"Stock Ticker Symbol";
-	//self.searchBar.showsCancelButton = YES;
+	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)]; 
+	self.navigationItem.leftBarButtonItem = cancelItem;
 	
 	communicator = [mTraderCommunicator sharedManager];
 	
-	[self.submitButton setTitle:@"Cancel" forState:UIControlStateNormal];
+	[self.submitButton setTitle:@"Add" forState:UIControlStateNormal];
 	
-	[self.tickerField addTarget:self action:@selector(editing:) forControlEvents:UIControlEventEditingChanged];
-	//self.tickerField.delegate = self;
-	//self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
-	//self.tickerField.autocorrectionType = UITextAutocorrectionTypeNo;
-	//self.tickerField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
+	self.tickerField.delegate = self;
+	self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
+	self.tickerField.autocorrectionType = UITextAutocorrectionTypeNo;
+	self.tickerField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -126,18 +131,14 @@
 	}
 }
 
-#pragma mark -
-#pragma mark UITextFieldDelegate methods
-
-- (void)editing:(id)sender {
-	UITextField *textField = sender;
-	if (![textField.text isEqualToString:@""]) {
-		[self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];
-	} else {
-		[self.submitButton setTitle:@"Cancel" forState:UIControlStateNormal];
-	}
+- (void)cancel:(id)sender {
+	[self.tickerField resignFirstResponder];	
+	[self.delegate symbolAddControllerDidFinish:self didAddSymbol:nil];
 }
 
+
+#pragma mark -
+#pragma mark UITextFieldDelegate methods
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	[textField resignFirstResponder];
 	return YES;

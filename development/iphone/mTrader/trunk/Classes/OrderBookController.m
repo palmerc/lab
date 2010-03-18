@@ -17,21 +17,22 @@
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
-#import "Ask.h"
-#import "Bid.h"
+#import "BidAsk.h"
+
+#import "SymbolDataController.h"
 
 @implementation OrderBookController
-@synthesize managedObjectContext;
-@synthesize asks, bids;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize symbol = _symbol;
+@synthesize bidAsks = _bidAsks;
 @synthesize table;
 @synthesize delegate;
 
-- (id)init {
+- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
-	if (self != nil) {				
-		asks = [[NSMutableArray alloc] init];
-		bids = [[NSMutableArray alloc] init];
+	if (self != nil) {
+		self.managedObjectContext = managedObjectContext;
 	}
 	return self;
 }
@@ -47,6 +48,14 @@
 	
 	self.view = aView;
 	[aView release];
+	
+	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
+//	NSError *error;
+//	if (![self.fetchedResultsController performFetch:&error]) {
+//		// Update to handle the error appropriately.
+//		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+//		abort();  // Fail
+//	}
 }
 
 //- (void)viewDidLoad {
@@ -61,34 +70,34 @@
 //	[super viewDidLoad];
 //}
 
-- (void)viewWillAppear:(BOOL)animated {
-	CGRect viewFrame = self.view.bounds;
-	
-	CGFloat width = 320.0 / 4;
-	CGSize textSize = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:18.0]];
-	CGFloat y = viewFrame.origin.y;
-	CGRect frame = CGRectMake(0.0, y, width, textSize.height);
-	askSizeLabel = [[self setHeader:@"A Size" withFrame:frame] retain];
-	frame = CGRectMake(width, y, width, textSize.height);
-	askValueLabel = [[self setHeader:@"A Price" withFrame:frame] retain];
-	frame = CGRectMake(width * 2, y, width, textSize.height);
-	bidSizeLabel = [[self setHeader:@"B Size" withFrame:frame] retain];
-	frame = CGRectMake(width * 3, y, width, textSize.height);
-	bidValueLabel = [[self setHeader:@"B Price" withFrame:frame] retain];
-	
-	viewFrame.origin.y += textSize.height;
-	
-	//table.frame = viewFrame;
-	//table.delegate = self;
-	//table.dataSource = self;
-	
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	[communicator stopStreamingData];
-	communicator.symbolsDelegate = self;
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[communicator orderBookForFeedTicker:feedTicker];
-	
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//	CGRect viewFrame = self.view.bounds;
+//	
+//	CGFloat width = 320.0 / 4;
+//	CGSize textSize = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:18.0]];
+//	CGFloat y = viewFrame.origin.y;
+//	CGRect frame = CGRectMake(0.0, y, width, textSize.height);
+//	askSizeLabel = [[self setHeader:@"A Size" withFrame:frame] retain];
+//	frame = CGRectMake(width, y, width, textSize.height);
+//	askValueLabel = [[self setHeader:@"A Price" withFrame:frame] retain];
+//	frame = CGRectMake(width * 2, y, width, textSize.height);
+//	bidSizeLabel = [[self setHeader:@"B Size" withFrame:frame] retain];
+//	frame = CGRectMake(width * 3, y, width, textSize.height);
+//	bidValueLabel = [[self setHeader:@"B Price" withFrame:frame] retain];
+//	
+//	viewFrame.origin.y += textSize.height;
+//	
+//	//table.frame = viewFrame;
+//	//table.delegate = self;
+//	//table.dataSource = self;
+//	
+//	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+//	[communicator stopStreamingData];
+//	communicator.symbolsDelegate = self;
+//	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+//	[communicator orderBookForFeedTicker:feedTicker];
+//	
+//}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -98,12 +107,12 @@
 }
 */
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
+//- (void)didReceiveMemoryWarning {
+//	// Releases the view if it doesn't have a superview.
+//    [super didReceiveMemoryWarning];
+//	
+//	// Release any cached data, images, etc that aren't in use.
+//}
 
 #define TEXT_LEFT_MARGIN    8.0
 
@@ -150,44 +159,37 @@
 	return headerView;
 }
 
-#pragma mark Table view methods
+
+#pragma mark -
+#pragma mark TableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+	
+	return 1;
 }
 
-
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [asks count];
+	return [self.bidAsks count];
 }
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//	return nil;	
-//}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *CellIdentifier = @"OrderBookCell";
+    static NSString *CellIdentifier = @"ChainsTableCell";
     
     OrderBookTableCellP *cell = (OrderBookTableCellP *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[OrderBookTableCellP alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
+    // Configure the cell.
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
-
 - (void)configureCell:(OrderBookTableCellP *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	NSInteger row = indexPath.row;
-	Ask *ask = [asks objectAtIndex:row];
-	Bid *bid = [bids objectAtIndex:row];
+	BidAsk *bidAsk = [self.bidAsks objectAtIndex:indexPath.row];
 
-	cell.bid = bid;
-	cell.ask = ask;
+	cell.bidAsk = bidAsk;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -195,6 +197,27 @@
 	return size.height;
 }
 
+- (void)setSymbol:(Symbol *)symbol {
+	_symbol = [symbol retain];
+	[self.symbol addObserver:self forKeyPath:@"bidsAsks" options:NSKeyValueObservingOptionNew context:nil];
+	[self updateSymbol];
+}
+
+- (void)updateSymbol {
+	NSArray *bidsAsks = [SymbolDataController fetchBidAsksForSymbol:self.symbol.tickerSymbol withFeed:self.symbol.feed.mCode inManagedObjectContext:self.managedObjectContext];
+	self.bidAsks = bidsAsks;
+	
+	[self.table reloadData];
+}
+
+
+#pragma mark -
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if ([keyPath isEqualToString:@"bidsAsks"]) {
+		[self updateSymbol];
+	}
+}
 
 
 //- (void)done:(id)sender {
@@ -203,6 +226,99 @@
 //
 //	[self.delegate orderBookControllerDidFinish:self];
 //}
+
+#pragma mark -
+#pragma mark Fetched results controller
+
+/**
+ Returns the fetched results controller. Creates and configures the controller if necessary.
+ */
+//- (NSFetchedResultsController *)fetchedResultsController {
+//	
+//    if (_fetchedResultsController != nil) {
+//        return _fetchedResultsController;
+//    }
+//    
+//	// Create and configure a fetch request with the Book entity.
+//	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//	NSEntityDescription *entity = [NSEntityDescription entityForName:@"BidAsk" inManagedObjectContext:self.managedObjectContext];
+//	[fetchRequest setEntity:entity];
+//	
+//	// Create the sort descriptors array.
+//	NSSortDescriptor *tickerDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+//	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:tickerDescriptor, nil];
+//	[fetchRequest setSortDescriptors:sortDescriptors];
+//	
+//	// Create and initialize the fetch results controller.
+//	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"symbol.tickerSymbol" cacheName:@"Root"];
+//	self.fetchedResultsController = aFetchedResultsController;
+//	_fetchedResultsController.delegate = self;
+//	
+//	// Memory management.
+//	[aFetchedResultsController release];
+//	[fetchRequest release];
+//	[sortDescriptors release];
+//	
+//	return _fetchedResultsController;
+//}
+
+/**
+ Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.
+ */
+
+//- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+//	
+//	// The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+//	[self.table beginUpdates];
+//}
+//
+//
+//- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+//	
+//	UITableView *tableView = self.table;
+//	
+//	switch(type) {
+//			
+//		case NSFetchedResultsChangeInsert:
+//			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//			break;
+//			
+//		case NSFetchedResultsChangeDelete:
+//			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//			break;
+//			
+//		case NSFetchedResultsChangeUpdate:
+//			[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
+//			break;
+//			
+//		case NSFetchedResultsChangeMove:
+//            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            break;
+//    }
+//}
+//
+//
+//- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+//	
+//	switch(type) {
+//			
+//		case NSFetchedResultsChangeInsert:
+//			[self.table insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+//			break;
+//			
+//		case NSFetchedResultsChangeDelete:
+//			[self.table deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+//			break;
+//	}
+//}
+//
+//
+//- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+//	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+//	[self.table endUpdates];
+//}
+
 
 #pragma mark -
 #pragma mark Debugging methods
@@ -215,10 +331,10 @@
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[self.asks release];
-	[self.bids release];
-	[self.symbol release];
-	[self.managedObjectContext release];
+	[self.symbol removeObserver:self forKeyPath:@"bidsAsks"];
+	
+	[_symbol release];
+	[_managedObjectContext release];
 	[table release];
     [super dealloc];
 }

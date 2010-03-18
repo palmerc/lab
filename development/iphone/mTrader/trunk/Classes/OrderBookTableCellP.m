@@ -8,8 +8,9 @@
 
 
 #import "OrderBookTableCellP.h"
-#import "Ask.h"
-#import "Bid.h"
+#import "BidAsk.h"
+#import "Feed.h"
+#import "Symbol.h"
 
 #pragma mark -
 #pragma mark SubviewFrames category
@@ -25,7 +26,8 @@
 #pragma mark -
 #pragma mark ChainsTableCell implementation
 @implementation OrderBookTableCellP
-@synthesize mainFont, bid, ask, bidSizeLabel, bidValueLabel, askSizeLabel, askValueLabel;
+@synthesize bidAsk = _bidAsk;
+@synthesize mainFont, bidSizeLabel, bidValueLabel, askSizeLabel, askValueLabel;
 
 #pragma mark -
 #pragma mark Initialization
@@ -37,8 +39,7 @@
 		self.askSizeLabel = [self createLabel];
 		self.askValueLabel = [self createLabel];
 		
-		bid = nil;
-		ask = nil;
+		_bidAsk = nil;
 	}
     return self;
 }
@@ -111,55 +112,42 @@
 
 - (void)drawRect:(CGRect)rect {
 	CGFloat widthOfLabel = 320.0/4.0;
-	CGFloat askWidth = ask.percent * widthOfLabel;
-	CGFloat bidWidth = bid.percent * widthOfLabel;
+	CGFloat askWidth = [self.bidAsk.askPercent floatValue] * widthOfLabel;
+	CGFloat bidWidth = [self.bidAsk.bidPercent floatValue] * widthOfLabel;
 	CGFloat askOffset = widthOfLabel - askWidth;
 
 	// bid bar
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	CGContextSetRGBFillColor(ctx, 0.0, 0.0, 1.0, 0.25);
-	CGContextFillRect(ctx, CGRectMake(0.0, 0.0, bidWidth, 50.0));
+	CGContextFillRect(ctx, CGRectMake(widthOfLabel - bidWidth, 0.0, bidWidth, 50.0));
 	
 	// ask bar
 	CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.25);
-	CGContextFillRect(ctx, CGRectMake(widthOfLabel * 3 + askOffset, 0.0, askWidth, 50.0));
+	CGContextFillRect(ctx, CGRectMake(widthOfLabel * 3, 0.0, askWidth, 50.0));
 	
 	[super drawRect:rect];
 }
 
-- (void)setBid:(Bid *)newBid {
+- (void)setBidAsk:(BidAsk *)newBidAsk {
 	static NSNumberFormatter *doubleFormatter = nil;
 	if (doubleFormatter == nil) {
 		doubleFormatter = [[NSNumberFormatter alloc] init];
 		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[doubleFormatter setUsesSignificantDigits:YES];
 	}
 	
-	if (newBid != bid) {
-		[bid release];
-		bid = [newBid retain];
-	}
-	self.bidSizeLabel.text = [bid.bidSize stringValue];
-	self.bidValueLabel.text = [doubleFormatter stringFromNumber:bid.bidValue];
-	
-	[self setNeedsDisplay];
-}
-
-- (void)setAsk:(Ask *)newAsk {
-	static NSNumberFormatter *doubleFormatter = nil;
-	if (doubleFormatter == nil) {
-		doubleFormatter = [[NSNumberFormatter alloc] init];
-		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[doubleFormatter setUsesSignificantDigits:YES];
+	if (newBidAsk != self.bidAsk) {
+		[_bidAsk release];
+		_bidAsk = [newBidAsk retain];
 	}
 	
-	if (newAsk != ask) {
-		[ask release];
-		ask = [newAsk retain];
-	}
+	NSUInteger decimals = [self.bidAsk.symbol.feed.decimals integerValue];
+	[doubleFormatter setMinimumFractionDigits:decimals];
+	[doubleFormatter setMaximumFractionDigits:decimals];
 	
-	self.askSizeLabel.text = [ask.askSize stringValue];
-	self.askValueLabel.text = [doubleFormatter stringFromNumber:ask.askValue];
+	self.bidSizeLabel.text = [self.bidAsk.bidSize stringValue];
+	self.bidValueLabel.text = [doubleFormatter stringFromNumber:self.bidAsk.bidPrice];
+	self.askSizeLabel.text = [self.bidAsk.askSize stringValue];
+	self.askValueLabel.text = [doubleFormatter stringFromNumber:self.bidAsk.askPrice];
 	
 	[self setNeedsDisplay];
 }
@@ -173,8 +161,7 @@
 	[askSizeLabel release];
 	[askValueLabel release];
 	[mainFont release];
-	[ask release];
-	[bid release];
+	[_bidAsk release];
     [super dealloc];
 }
 

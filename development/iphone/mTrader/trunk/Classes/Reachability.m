@@ -58,7 +58,7 @@
 
 #define kShouldPrintReachabilityFlags 1
 
-static void PrintReachabilityFlags(SCNetworkReachabilityFlags    flags, const char* comment)
+static void PrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char* comment)
 {
 #if kShouldPrintReachabilityFlags
 	

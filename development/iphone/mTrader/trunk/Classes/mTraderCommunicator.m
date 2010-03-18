@@ -56,6 +56,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		_qFields = nil;
 		contentLength = 0;
 		state = LOGIN;
+		
+		[self.communicator startConnection];
 	}
 	return self;
 }
@@ -112,7 +114,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		[self.blockBuffer removeAllObjects];
 	}
 }	
-	
+
+- (void)isConnected {
+	[self login];
+}
+
 -(void) stateMachine {
 	while ([self.blockBuffer count] > 0) {
 		NSLog(@"STATE: %d", state);
@@ -655,7 +661,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *username = self.defaults.username;
 	NSString *password = self.defaults.password;
 	
-	if (username != nil && password != nil) {
+	username = [StringHelpers cleanString:username];
+	password = [StringHelpers cleanString:password];
+	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
 		NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 		NSString *build = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
 		
@@ -682,13 +690,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, Protocol, ConnectionType, Streaming, QFieldsServerString, nil];
 		NSString *loginString = [self arrayToFormattedString:loginArray];
 		
-		if ([self.communicator isConnected]) {
-			[self.communicator stopConnection];
-			isLoggedIn = NO;
+		if ([self.communicator isConnected] == YES) {
+			[self.communicator writeString:loginString];
 		}
-		
-		[self.communicator startConnection];
-		[self.communicator writeString:loginString];
 	}
 }
 

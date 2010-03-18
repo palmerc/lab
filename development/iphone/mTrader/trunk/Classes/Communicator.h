@@ -43,6 +43,7 @@
 
 
 @protocol CommunicatorDataDelegate <NSObject>
+- (void)isConnected;
 - (void)dataReceived;
 @end
 

@@ -13,9 +13,11 @@
 
 @interface OrderBookController : UIViewController <NSFetchedResultsControllerDelegate, SymbolsDataDelegate, UITableViewDelegate, UITableViewDataSource> {
 @private
-	NSManagedObjectContext *managedObjectContext;
+	NSManagedObjectContext *_managedObjectContext;
+	NSFetchedResultsController *_fetchedResultsController;
 
 	Symbol *_symbol;
+	NSArray *_bidAsks;	
 	
 	id <OrderBookControllerDelegate> delegate;
 	
@@ -25,20 +27,20 @@
 	UIView *askValueLabel;
 	UIView *bidSizeLabel;
 	UIView *bidValueLabel;
-	
-	NSMutableArray *asks;
-	NSMutableArray *bids;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) NSArray *bidAsks;
 @property (assign) id <OrderBookControllerDelegate> delegate;
 @property (nonatomic, retain) UITableView *table;
-@property (nonatomic, retain) NSArray *asks;
-@property (nonatomic, retain) NSArray *bids;
 
+- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+- (void)updateSymbol;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 - (UIView *)setHeader:(NSString *)header withFrame:(CGRect)frame;
+- (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;
 
 @end
 

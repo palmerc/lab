@@ -128,7 +128,8 @@ enum {
 @end
 
 @protocol mTraderServerMonitorDelegate <NSObject>
--(void) kickedOut;
+- (void)disconnected;
+- (void)kickedOut;
 @end
 
 @protocol SymbolsDataDelegate <NSObject>

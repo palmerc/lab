@@ -60,8 +60,11 @@
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)streamEvent {
 	switch (streamEvent) {
 		case NSStreamEventNone:
+			NSLog(@"NSStreamEventNone");
 			break;
 		case NSStreamEventOpenCompleted:
+			self.isConnected = YES;
+			[self.delegate isConnected];
 			break;
 		case NSStreamEventHasBytesAvailable:
 		{
@@ -96,11 +99,13 @@
 		case NSStreamEventHasSpaceAvailable:
 			break;
 		case NSStreamEventErrorOccurred:
+			self.isConnected = NO;
 			break;
 		case NSStreamEventEndEncountered:
+			self.isConnected = NO;
 			break;
 		default:
-			assert(NO);
+			NSLog(@"default");
 	}
 }
 
@@ -109,18 +114,20 @@
  *
  */
 - (void)writeString:(NSString *)string {
-	NSLog(@"%@", string);
-	NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
+	if ([self.outputStream hasSpaceAvailable]) {
+		NSLog(@"%@", string);
+		NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
 		
-	// Convert it to a C-string
-	int bytesRemaining = [data length];
-	uint8_t *theBytes = (uint8_t *)[data bytes];
-	
-	while (0 < bytesRemaining) {
-		int bytesWritten = 0;
-		bytesWritten = [self.outputStream write:theBytes maxLength:bytesRemaining];
-		bytesRemaining -= bytesWritten;
-		theBytes += bytesWritten;
+		// Convert it to a C-string
+		int bytesRemaining = [data length];
+		uint8_t *theBytes = (uint8_t *)[data bytes];
+		
+		while (0 < bytesRemaining) {
+			int bytesWritten = 0;
+			bytesWritten = [self.outputStream write:theBytes maxLength:bytesRemaining];
+			bytesRemaining -= bytesWritten;
+			theBytes += bytesWritten;
+		}
 	}
 }
 
@@ -162,8 +169,6 @@
 	
 	[self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[self.outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	
-	self.isConnected = YES;
 }
 
 /**
@@ -182,12 +187,7 @@
 	
 	self.inputStream = nil;
 	self.outputStream = nil;
-	
-	self.isConnected = NO;
 }
-
-#pragma mark -
-#pragma mark Concurrency
 
 #pragma mark -
 #pragma mark Memory management

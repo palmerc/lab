@@ -28,6 +28,7 @@
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 + (SymbolDataController *)sharedManager;
++ (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index;
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;

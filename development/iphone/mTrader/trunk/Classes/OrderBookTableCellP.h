@@ -7,12 +7,10 @@
 //
 
 
-@class Ask;
-@class Bid;
+@class BidAsk;
 @interface OrderBookTableCellP : UITableViewCell {
 @private
-	Ask *ask;
-	Bid *bid;
+	BidAsk *_bidAsk;
 	
 	UIFont *mainFont;
 	UILabel *bidSizeLabel;
@@ -21,8 +19,7 @@
 	UILabel *askValueLabel;
 }
 
-@property (nonatomic, retain) Ask *ask;
-@property (nonatomic, retain) Bid *bid;
+@property (nonatomic, retain) BidAsk *bidAsk;
 @property (nonatomic, retain) UIFont *mainFont;
 @property (nonatomic, retain) UILabel *bidSizeLabel;
 @property (nonatomic, retain) UILabel *bidValueLabel;
