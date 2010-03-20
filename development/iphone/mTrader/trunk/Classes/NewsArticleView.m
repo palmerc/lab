@@ -23,11 +23,6 @@
 		[self setBackgroundColor:[UIColor whiteColor]];
 		
 		_scrollView = [[UIScrollView alloc] initWithFrame:frame];
-		self.scrollView.delegate = self;
-		self.scrollView.alwaysBounceVertical = YES;
-		self.scrollView.bounces = YES;
-		self.scrollView.minimumZoomScale = 1.0;
-		self.scrollView.maximumZoomScale = 2.0;
 		[self addSubview:self.scrollView];
 		
 		_headlineLabel = [[UILabel alloc] initWithFrame:CGRectZero];

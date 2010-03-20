@@ -69,7 +69,7 @@
 	body = [StringHelpers cleanString:body];
 	self.newsArticleView.bodyLabel.text = body;
 	
-	[self.newsArticleView setNeedsLayout];
+	[self.newsArticleView layoutSubviews];
 }
 
 #pragma mark -
