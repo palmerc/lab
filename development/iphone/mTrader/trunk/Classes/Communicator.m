@@ -64,7 +64,7 @@
 			break;
 		case NSStreamEventOpenCompleted:
 			self.isConnected = YES;
-			[self.delegate isConnected];
+			[self.delegate connectionEstablished];
 			break;
 		case NSStreamEventHasBytesAvailable:
 		{

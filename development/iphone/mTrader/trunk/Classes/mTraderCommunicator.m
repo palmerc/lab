@@ -115,7 +115,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 }	
 
-- (void)isConnected {
+- (void)connectionEstablished {
 	[self login];
 }
 
@@ -661,6 +661,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
  */
 
 - (void)login {
+	if (self.communicator.isConnected == NO) {
+		[self.communicator startConnection];
+	}	
+	
 	NSString *username = self.defaults.username;
 	NSString *password = self.defaults.password;
 	
@@ -693,7 +697,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, Protocol, ConnectionType, Streaming, QFieldsServerString, nil];
 		NSString *loginString = [self arrayToFormattedString:loginArray];
 		
-		if ([self.communicator isConnected] == YES) {
+		if (self.communicator.isConnected == YES) {
 			[self.communicator writeString:loginString];
 		}
 	}
@@ -847,7 +851,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSArray *getNewsListFeedsArray = [NSArray arrayWithObjects:ActionNewsListFeeds, Authorization, newsFeeds, days, maxCount, nil];
 	NSString *newsListFeedsString = [self arrayToFormattedString:getNewsListFeedsArray];
 	
-	[self.communicator writeString:newsListFeedsString];
+	if (isLoggedIn == YES) {
+		[self.communicator writeString:newsListFeedsString];
+	}
 }
 
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker {

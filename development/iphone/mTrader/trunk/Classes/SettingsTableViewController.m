@@ -121,7 +121,7 @@
 		[cell.textLabel setText:[loginSectionArray objectAtIndex:indexPath.row]];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(120, 5, 200, 35)];
+		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(120, 5, 175, 35)];
 		textField.delegate = self;
 		textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -169,16 +169,25 @@
 
 // Text Field Delegate Methods
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+	NSString *username = defaults.username;
+	NSString *password = defaults.password;
+	
+	BOOL update = NO;
 	if (textField.tag == USERNAME_FIELD) {
-		defaults.username = textField.text;
+		if (![username isEqualToString:textField.text]) {
+			defaults.username = textField.text;
+			update = YES;
+		}
 	} else if (textField.tag == PASSWORD_FIELD) {
-		defaults.password = textField.text;
+		if (![password isEqualToString:textField.text]) {
+			defaults.password = textField.text;
+			update = YES;
+		}
 	}
 	
-	NSString *username = self.userTextField.text;
-	NSString *password = self.passwordTextField.text;
 	// As long as username and password are not empty or nil attempt to connect
-	if (username != nil && password != nil) {
+	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
+		[defaults saveSettings];
 		[communicator login];
 	}
 }
