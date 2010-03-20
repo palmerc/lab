@@ -71,8 +71,8 @@
 			uint8_t currentByte;
 			int bytesRead = 0;
 			
-			if (self.dataBuffer == nil) {
-				self.dataBuffer = [[NSMutableData alloc] init];
+			if (_dataBuffer == nil) {
+				_dataBuffer = [[NSMutableData alloc] init];
 			}
 		
 			bytesRead = [self.inputStream read:&currentByte maxLength:1];
@@ -88,8 +88,8 @@
 						[self.delegate dataReceived];
 					}
 					[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-					[self.dataBuffer release];
-					self.dataBuffer = nil;
+					[_dataBuffer release];
+					_dataBuffer = nil;
 				}
 				
 				previousByte = currentByte;
@@ -195,8 +195,8 @@
 	[self.host release];
 	[self.inputStream release];
 	[self.outputStream release];
-	[self.dataBuffer release];
-	[self.lineBuffer release];
+	[_dataBuffer release];
+	[_lineBuffer release];
 	
 	[super dealloc];
 }

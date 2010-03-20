@@ -15,11 +15,13 @@
 #import "Symbol.h"
 #import "NewsCell.h"
 #import "NewsArticleController.h"
+#import "SymbolDataController.h"
 
 @implementation NewsController
 @synthesize communicator;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize feedsFetchedResultsController = _feedsFetchedResultsController;
 @synthesize mCode = _mCode;
 
 #pragma mark -
@@ -30,6 +32,7 @@
     if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
 		_fetchedResultsController = nil;
+		_feedsFetchedResultsController = nil;
 		
 		self.title = NSLocalizedString(@"NewsTab", "News tab label");
 		UIImage* anImage = [UIImage imageNamed:@"newsTabButton.png"];	
@@ -58,6 +61,12 @@
 - (void)viewDidLoad {
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();  // Fail
+	}
+	
+	if (![self.feedsFetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
@@ -154,11 +163,11 @@
 #pragma mark -
 #pragma mark UIPickerViewDataSource Required Methods
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-	return [[self.fetchedResultsController sections] count];
+	return [[self.feedsFetchedResultsController sections] count];
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:component];
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.feedsFetchedResultsController sections] objectAtIndex:component];
     return [sectionInfo numberOfObjects];
 }
 
@@ -166,13 +175,13 @@
 #pragma mark UIPickerViewDelegate Methods
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	NewsFeed *feed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	NewsFeed *feed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
 	self.mCode = feed.mCode;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	NewsFeed *feed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	NewsFeed *feed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
 	NSString *feedName = feed.name;
 	return feedName;
 }
@@ -181,6 +190,7 @@
 #pragma mark Actions
 
 - (void)refresh:(id)sender {
+	[[SymbolDataController sharedManager] deleteAllNews];
 	[self.communicator newsListFeed:self.mCode];
 }
 
@@ -243,6 +253,37 @@
 	
 	return _fetchedResultsController;
 }
+
+- (NSFetchedResultsController *)feedsFetchedResultsController {
+	
+    if (_feedsFetchedResultsController != nil) {
+        return _feedsFetchedResultsController;
+    }
+    
+	// Create and configure a fetch request with the Book entity.
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+	[fetchRequest setEntity:entity];
+	
+	// Create the sort descriptors array.
+	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
+	[fetchRequest setSortDescriptors:sortDescriptors];
+	
+	// Create and initialize the fetch results controller.
+	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+	self.feedsFetchedResultsController = aFetchedResultsController;
+	_feedsFetchedResultsController.delegate = self;
+	
+	// Memory management.
+	[aFetchedResultsController release];
+	[fetchRequest release];
+	[mCodeDescriptor release];
+	[sortDescriptors release];
+	
+	return _feedsFetchedResultsController;
+}
+
 
 /**
  Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.
@@ -315,6 +356,8 @@
 
 - (void)dealloc {
 	[_fetchedResultsController release];
+	[_feedsFetchedResultsController release];
+
 	[_managedObjectContext release];
 	
 	[_mCode release];

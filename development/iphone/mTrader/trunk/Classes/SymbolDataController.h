@@ -39,6 +39,7 @@
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;
 - (void)addSymbols:(NSString *)symbols;
+- (void)deleteAllNews;
 - (void)deleteAllSymbols;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;

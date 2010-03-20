@@ -56,9 +56,6 @@ enum {
 	
 	NSUInteger contentLength;
 	NSUInteger state;
-	
-	NSString *_server;
-	NSString *_port;
 }
 
 @property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
@@ -71,8 +68,6 @@ enum {
 @property (nonatomic, retain) QFields *qFields;
 @property (nonatomic, assign) NSUInteger state;
 @property (nonatomic, assign) NSUInteger contentLength;
-@property (nonatomic, assign) NSString *server;
-@property (nonatomic, assign) NSString *port;
 
 // The singleton class method
 + (mTraderCommunicator *)sharedManager;
@@ -93,7 +88,6 @@ enum {
 - (void)tradesRequest:(NSString *)feedTicker;
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
-- (void)stopStreamingData;
 
 // State machine methods
 - (void)stateMachine;
@@ -116,7 +110,6 @@ enum {
 // Parsing methods
 - (NSArray *)quotesParsing:(NSString *)quotes;
 - (NSArray *)exchangesParsing:(NSString *)exchanges;
-//- (void)symbolsParsing:(NSString *)symbols;
 - (void)staticDataParsing:(NSString *)secOid;
 - (void)historyDataParsing:(NSString *)secOid;
 

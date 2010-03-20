@@ -17,6 +17,7 @@
 	mTraderCommunicator *communicator;
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
+	NSFetchedResultsController *_feedsFetchedResultsController;
 	
 	NSString *_mCode;	
 	
@@ -26,6 +27,7 @@
 @property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain) NSFetchedResultsController *feedsFetchedResultsController;
 @property (nonatomic, retain) NSString *mCode;
 
 - (id)initWithMangagedObjectContext:(NSManagedObjectContext *)managedObjectContext;

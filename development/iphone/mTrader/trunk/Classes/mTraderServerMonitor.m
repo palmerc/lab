@@ -88,7 +88,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		NetworkStatus status = [self.reachability currentReachabilityStatus];
 		
 		if (status == ReachableViaWiFi || status == ReachableViaWWAN) {
-			[[mTraderCommunicator sharedManager] login];
+			//[[mTraderCommunicator sharedManager] login];
 		}
 	}
 	return self;

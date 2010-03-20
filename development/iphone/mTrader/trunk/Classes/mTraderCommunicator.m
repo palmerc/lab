@@ -19,8 +19,6 @@
 @implementation mTraderCommunicator
 
 static mTraderCommunicator *sharedCommunicator = nil;
-@synthesize server = _server;
-@synthesize port = _port;
 @synthesize symbolsDelegate;
 @synthesize mTraderServerMonitorDelegate;
 @synthesize isLoggedIn;
@@ -697,7 +695,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, Protocol, ConnectionType, Streaming, QFieldsServerString, nil];
 		NSString *loginString = [self arrayToFormattedString:loginArray];
 		
-		if (self.communicator.isConnected == YES) {
+		if (self.communicator.isConnected == YES && isLoggedIn == NO) {
 			[self.communicator writeString:loginString];
 		}
 	}

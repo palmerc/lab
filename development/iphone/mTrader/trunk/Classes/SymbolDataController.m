@@ -838,6 +838,25 @@ static SymbolDataController *sharedDataController = nil;
 	}
 }
 
+- (void)deleteAllNews {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	for (NewsArticle *newsArticle in array) {
+		[self.managedObjectContext deleteObject:newsArticle];
+	}	
+}
+
+
 - (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSString *)feedNumber {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
