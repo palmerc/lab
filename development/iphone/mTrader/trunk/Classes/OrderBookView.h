@@ -17,11 +17,21 @@
 @private	
 	Symbol *_symbol;
 	OrderBookController *orderBookController;
+	
+	UILabel *askSizeLabel;
+	UILabel *askValueLabel;
+	UILabel *bidSizeLabel;
+	UILabel *bidValueLabel;
+	UILabel *tradingStatusLabel;
 }
 
 @property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) UILabel *askSizeLabel;
+@property (nonatomic, retain) UILabel *askValueLabel;
+@property (nonatomic, retain) UILabel *bidSizeLabel;
+@property (nonatomic, retain) UILabel *bidValueLabel;
+@property (nonatomic, retain) UILabel *tradingStatusLabel;
 
 - (id)initWithFrame:(CGRect)frame andManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-- (void)configureCell:(OrderBookTableCellP *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
 @end

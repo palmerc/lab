@@ -616,6 +616,9 @@ static SymbolDataController *sharedDataController = nil;
 	if ([updateDictionary objectForKey:@"O +/-%"]) {
 		symbol.symbolDynamicData.openPercentChange = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"O +/-%"] doubleValue]/100.0f];
 	}
+	if ([updateDictionary objectForKey:@"Trades"]) {
+		symbol.symbolDynamicData.trades = [updateDictionary objectForKey:@"Trades"];
+	}	
 	if ([updateDictionary objectForKey:@"Volume"]) {
 		symbol.symbolDynamicData.volume = [updateDictionary objectForKey:@"Volume"];
 	}

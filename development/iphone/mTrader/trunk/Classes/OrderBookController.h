@@ -15,18 +15,15 @@
 @private
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
-
+	
+	UIFont *tableFont;
+	
 	Symbol *_symbol;
 	NSArray *_bidAsks;	
 	
 	id <OrderBookControllerDelegate> delegate;
 	
 	UITableView *table;
-	
-	UIView *askSizeLabel;
-	UIView *askValueLabel;
-	UIView *bidSizeLabel;
-	UIView *bidValueLabel;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
@@ -39,11 +36,6 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)updateSymbol;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
-- (UIView *)setHeader:(NSString *)header withFrame:(CGRect)frame;
 - (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;
 
 @end
-
-//@protocol OrderBookControllerDelegate
-//- (void)orderBookControllerDidFinish:(OrderBookController *)controller;
-//@end

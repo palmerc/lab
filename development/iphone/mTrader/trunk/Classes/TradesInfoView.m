@@ -185,7 +185,7 @@
 	super.strokeWidth = 0.75f;
 	[super drawRect:rect];
 	
-	CGFloat leftPadding = self.padding + super.strokeWidth + kBlur;
+	CGFloat leftPadding = ceilf(self.padding + super.strokeWidth + kBlur);
 	CGFloat maxWidth = rect.size.width - leftPadding * 2.0f;
 		
 	UIFont *labelFont = [UIFont boldSystemFontOfSize:14.0];
@@ -269,7 +269,7 @@
 	self.low.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.low];
 	self.vwap.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP];
 	self.volume.text = self.symbol.symbolDynamicData.volume;
-	self.trades.text = @"0";
+	self.trades.text = self.symbol.symbolDynamicData.trades;
 	self.turnover.text = self.symbol.symbolDynamicData.turnover;
 	self.bLot.text = self.symbol.symbolDynamicData.buyLot;
 	self.bLotVal.text = self.symbol.symbolDynamicData.buyLotValue;

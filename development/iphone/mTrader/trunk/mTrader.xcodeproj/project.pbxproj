@@ -84,6 +84,7 @@
 		7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508611185CD500B2FCB4 /* Symbol.m */; };
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
 		7EC00A2A112ABD320092873A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC00A29112ABD320092873A /* QuartzCore.framework */; };
+		7EC84A941153B01B0083C82B /* GradientLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC84A931153B01B0083C82B /* GradientLabel.m */; };
 		7EDDBC11114FB04F009BBF80 /* BidAsk.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDBC10114FB04F009BBF80 /* BidAsk.m */; };
 		7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE2A71F11172B0100B682BD /* CoreData.framework */; };
 		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
@@ -210,6 +211,8 @@
 		7EB15D0210F1D24D003049C7 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
 		7EB15D0310F1D24D003049C7 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
 		7EC00A29112ABD320092873A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7EC84A921153B01B0083C82B /* GradientLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientLabel.h; sourceTree = "<group>"; };
+		7EC84A931153B01B0083C82B /* GradientLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientLabel.m; sourceTree = "<group>"; };
 		7EDDBC0F114FB04F009BBF80 /* BidAsk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidAsk.h; sourceTree = "<group>"; };
 		7EDDBC10114FB04F009BBF80 /* BidAsk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidAsk.m; sourceTree = "<group>"; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -534,6 +537,8 @@
 				7E723B611129413E0073A07B /* OrderBookController.m */,
 				7E723BB411294B930073A07B /* OrderBookTableCellP.h */,
 				7E723BB511294B930073A07B /* OrderBookTableCellP.m */,
+				7EC84A921153B01B0083C82B /* GradientLabel.h */,
+				7EC84A931153B01B0083C82B /* GradientLabel.m */,
 			);
 			name = OrderBook;
 			sourceTree = "<group>";
@@ -843,6 +848,7 @@
 				7E38640911494AB300CA1086 /* SymbolDataController.m in Sources */,
 				7E57C012114A834600A1AF93 /* QFields.m in Sources */,
 				7EDDBC11114FB04F009BBF80 /* BidAsk.m in Sources */,
+				7EC84A941153B01B0083C82B /* GradientLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

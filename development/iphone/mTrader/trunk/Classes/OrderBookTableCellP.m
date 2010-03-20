@@ -27,28 +27,40 @@
 #pragma mark ChainsTableCell implementation
 @implementation OrderBookTableCellP
 @synthesize bidAsk = _bidAsk;
-@synthesize mainFont, bidSizeLabel, bidValueLabel, askSizeLabel, askValueLabel;
+@synthesize size, mainFont, bidSizeLabel, bidValueLabel, askSizeLabel, askValueLabel;
 
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-		self.mainFont = [UIFont systemFontOfSize:17.0];
-		self.bidSizeLabel = [self createLabel];		
-		self.bidValueLabel = [self createLabel];
-		self.askSizeLabel = [self createLabel];
-		self.askValueLabel = [self createLabel];
-		
+		size = CGSizeZero;
+		mainFont = nil;
+		bidSizeLabel = [self createLabel];		
+		bidValueLabel = [self createLabel];
+		askSizeLabel = [self createLabel];
+		askValueLabel = [self createLabel];
+					
 		_bidAsk = nil;
 	}
     return self;
 }
 
+- (void)setMainFont:(UIFont *)font {
+	if (mainFont != nil) {
+		[mainFont release];
+	}
+	mainFont = [font retain];
+	CGSize fontSize = [@"X" sizeWithFont:font];
+	lineHeight = fontSize.height;
+	
+	[self setNeedsDisplay];
+}
+
 - (UILabel *)createLabel {	
 	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
 	[label setBackgroundColor:[UIColor clearColor]];
-	[label setFont:mainFont];
 	[label setTextColor:[UIColor blackColor]];
+	[label setAdjustsFontSizeToFitWidth:YES];
 	[label setTextAlignment:UITextAlignmentRight];
 	[label setHighlightedTextColor:[UIColor blackColor]];
 	[self.contentView addSubview:label];
@@ -72,58 +84,42 @@
 
 }
 
-#define TEXT_LEFT_MARGIN    8.0
-#define TEXT_RIGHT_MARGIN   8.0
-#define TIME_WIDTH          102.0
-#define DESCRIPTION_WIDTH   200.0
-
 /*
  Return the frame of the various subviews -- these are dependent on the editing state of the cell.
  */
 - (CGRect)_bidSizeLabelFrame {
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	CGSize size = [@"X" sizeWithFont:mainFont];
-	
-	CGFloat width = screenBounds.size.width / 4;
-	return CGRectMake(0.0, 0.0, width, size.height);
+	CGFloat width = floorf(self.size.width / 4.0f);
+	return CGRectMake(0.0, 0.0, width, lineHeight);
 }
 
 - (CGRect)_bidValueLabelFrame {
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = screenBounds.size.width / 4;
-	
-	return CGRectMake(width, 0.0, width, size.height);
+	CGFloat width = floorf(self.size.width / 4.0f);
+	return CGRectMake(width, 0.0, width, lineHeight);
 }
 
 - (CGRect)_askValueLabelFrame {
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = screenBounds.size.width / 4;
-	return CGRectMake(width * 2, 0.0, width, size.height);
+	CGFloat width = floorf(self.size.width / 4.0f);
+	return CGRectMake(width * 2, 0.0, width, lineHeight);
 }
 
 - (CGRect)_askSizeLabelFrame {
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = screenBounds.size.width / 4;
-	return CGRectMake(width * 3, 0.0, width, size.height);
+	CGFloat width = floorf(self.size.width / 4.0f);
+	return CGRectMake(width * 3, 0.0, width, lineHeight);
 }
 
 - (void)drawRect:(CGRect)rect {
-	CGFloat widthOfLabel = 320.0/4.0;
+	CGFloat widthOfLabel = floorf(self.size.width / 4.0f);
 	CGFloat askWidth = [self.bidAsk.askPercent floatValue] * widthOfLabel;
 	CGFloat bidWidth = [self.bidAsk.bidPercent floatValue] * widthOfLabel;
-	CGFloat askOffset = widthOfLabel - askWidth;
 
 	// bid bar
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	CGContextSetRGBFillColor(ctx, 0.0, 0.0, 1.0, 0.25);
-	CGContextFillRect(ctx, CGRectMake(widthOfLabel - bidWidth, 0.0, bidWidth, 50.0));
+	CGContextFillRect(ctx, CGRectMake(widthOfLabel - bidWidth, 0.0, bidWidth, lineHeight));
 	
 	// ask bar
 	CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.25);
-	CGContextFillRect(ctx, CGRectMake(widthOfLabel * 3, 0.0, askWidth, 50.0));
+	CGContextFillRect(ctx, CGRectMake(widthOfLabel * 3, 0.0, askWidth, lineHeight));
 	
 	[super drawRect:rect];
 }
@@ -144,6 +140,10 @@
 	[doubleFormatter setMinimumFractionDigits:decimals];
 	[doubleFormatter setMaximumFractionDigits:decimals];
 	
+	self.bidSizeLabel.font = mainFont;
+	self.bidValueLabel.font = mainFont;
+	self.askSizeLabel.font = mainFont;
+	self.askValueLabel.font = mainFont;
 	self.bidSizeLabel.text = [self.bidAsk.bidSize stringValue];
 	self.bidValueLabel.text = [doubleFormatter stringFromNumber:self.bidAsk.bidPrice];
 	self.askSizeLabel.text = [self.bidAsk.askSize stringValue];

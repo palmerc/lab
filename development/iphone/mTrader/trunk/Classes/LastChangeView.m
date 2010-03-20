@@ -66,7 +66,7 @@
 	super.strokeWidth = 0.75f;
 	[super drawRect:rect];
 	
-	CGFloat leftPadding = self.padding + super.strokeWidth + kBlur;
+	CGFloat leftPadding = ceilf(self.padding + super.strokeWidth + kBlur);
 	CGFloat maxWidth = rect.size.width - leftPadding * 2.0f;
 	
 	CGSize lastFontSize = [@"X" sizeWithFont:self.last.font];

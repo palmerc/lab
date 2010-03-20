@@ -22,6 +22,7 @@
 @property (nonatomic, retain) NSString * buyLot;
 @property (nonatomic, retain) NSNumber * onValue;
 @property (nonatomic, retain) NSString * segment;
+@property (nonatomic, retain) NSString * trades;
 @property (nonatomic, retain) NSString * volume;
 @property (nonatomic, retain) NSNumber * high;
 @property (nonatomic, retain) NSNumber * VWAP;

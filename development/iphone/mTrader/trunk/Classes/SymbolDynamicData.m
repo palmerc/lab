@@ -20,6 +20,7 @@
 @dynamic buyLot;
 @dynamic onValue;
 @dynamic segment;
+@dynamic trades;
 @dynamic volume;
 @dynamic high;
 @dynamic VWAP;
