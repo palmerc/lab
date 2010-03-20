@@ -130,7 +130,7 @@ static SymbolDataController *sharedDataController = nil;
 			newsFeed = (NewsFeed *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
 		}
 		
-		newsFeed.feedNumber = [NSNumber numberWithInteger:[feedNumber integerValue]];
+		newsFeed.feedNumber = feedNumber;
 		newsFeed.mCode = mCode;
 		newsFeed.name = feedName;
 		newsFeed.type = typeCode;
@@ -705,12 +705,16 @@ static SymbolDataController *sharedDataController = nil;
 			NSString *headline = [components objectAtIndex:4];
 			
 			NSArray *feedArticleComponents = [feedArticle componentsSeparatedByString:@"/"];			
-			NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedArticleComponents objectAtIndex:0] integerValue]];
+			NSString *feedNumber = [feedArticleComponents objectAtIndex:0];
 			NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
 			
 			NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:feedNumber];
 			if (article == nil) {
 				NewsFeed *feed = [self fetchNewsFeedWithNumber:feedNumber];
+				if (feed == nil) {
+					continue;
+				}
+				
 				article = (NewsArticle *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 				article.newsFeed = feed;
 				[feed addNewsArticlesObject:article];
@@ -733,7 +737,7 @@ static SymbolDataController *sharedDataController = nil;
 	NSString *body = [newsItemContents objectAtIndex:4];
 	
 	NSArray *feedArticleComponents = [feedArticle componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedArticleComponents objectAtIndex:0] integerValue]];
+	NSString *feedNumber = [feedArticleComponents objectAtIndex:0];
 	NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
 	
 	body = [body stringByReplacingOccurrencesOfString:@"||" withString:@"\n"];
@@ -808,7 +812,7 @@ static SymbolDataController *sharedDataController = nil;
 	}
 }
 
-- (NewsFeed *)fetchNewsFeedWithNumber:(NSNumber *)feedNumber {
+- (NewsFeed *)fetchNewsFeedWithNumber:(NSString *)feedNumber {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -834,7 +838,7 @@ static SymbolDataController *sharedDataController = nil;
 	}
 }
 
-- (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSNumber *)feedNumber {
+- (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSString *)feedNumber {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];

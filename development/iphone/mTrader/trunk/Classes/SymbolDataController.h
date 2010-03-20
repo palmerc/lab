@@ -33,8 +33,8 @@
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index;
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
-- (NewsFeed *)fetchNewsFeedWithNumber:(NSNumber *)feedNumber;
-- (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSNumber *)feedNumber;
+- (NewsFeed *)fetchNewsFeedWithNumber:(NSString *)feedNumber;
+- (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSString *)feedNumber;
 
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;

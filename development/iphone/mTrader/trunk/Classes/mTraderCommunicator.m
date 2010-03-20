@@ -556,6 +556,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"News:"].location == 0) {
 		NSString *newsArticles = [self dataToString:data];
+		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
+		colonSeparatedComponents = [self stripOffFirstElement:colonSeparatedComponents];
+		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
 		NSArray *newsArticlesArray = [newsArticles componentsSeparatedByString:@"|"];
 		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
