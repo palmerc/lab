@@ -17,6 +17,7 @@
 #import "SymbolDynamicData.h"
 #import "Chart.h"
 #import "NewsFeed.h"
+#import "NewsArticle.h"
 #import "BidAsk.h"
 
 static SymbolDataController *sharedDataController = nil;
@@ -692,6 +693,65 @@ static SymbolDataController *sharedDataController = nil;
 	symbol.chart = chart;
 }
 
+-(void) newsListFeedsUpdates:(NSArray *)newsList {
+	for (NSString *news in newsList) {
+		NSArray *components = [news componentsSeparatedByString:@";"];
+		components = [StringHelpers cleanComponents:components];
+		if ([components count] >= 4) {
+			NSString *feedArticle = [components objectAtIndex:0];
+			NSString *flag = [components objectAtIndex:1];
+			NSString *date = [components objectAtIndex:2];
+			NSString *time = [components objectAtIndex:3];
+			NSString *headline = [components objectAtIndex:4];
+			
+			NSArray *feedArticleComponents = [feedArticle componentsSeparatedByString:@"/"];			
+			NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedArticleComponents objectAtIndex:0] integerValue]];
+			NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
+			
+			NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:feedNumber];
+			if (article == nil) {
+				NewsFeed *feed = [self fetchNewsFeedWithNumber:feedNumber];
+				article = (NewsArticle *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+				article.newsFeed = feed;
+				[feed addNewsArticlesObject:article];
+								
+				article.articleNumber = articleNumber;
+				article.flag = flag;
+				article.date = date;
+				article.time = time;
+				article.headline = headline;
+			}
+			
+		}
+	}
+}
+
+- (void)newsItemUpdate:(NSArray *)newsItemContents {
+	newsItemContents = [StringHelpers cleanComponents:newsItemContents];
+	NSString *feedArticle = [newsItemContents objectAtIndex:0];
+	NSString *headline = [newsItemContents objectAtIndex:3];
+	NSString *body = [newsItemContents objectAtIndex:4];
+	
+	NSArray *feedArticleComponents = [feedArticle componentsSeparatedByString:@"/"];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedArticleComponents objectAtIndex:0] integerValue]];
+	NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
+	
+	body = [body stringByReplacingOccurrencesOfString:@"||" withString:@"\n"];
+	body = [StringHelpers cleanString:body];
+
+	NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:feedNumber];
+	if (article == nil) {
+		NewsFeed *feed = [self fetchNewsFeedWithNumber:feedNumber];
+		article = (NewsArticle *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+		article.newsFeed = feed;
+		[feed addNewsArticlesObject:article];
+		article.articleNumber = articleNumber;
+	}
+	
+	article.headline = headline;
+	article.body = body;
+}
+
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index {
 	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
@@ -748,6 +808,58 @@ static SymbolDataController *sharedDataController = nil;
 	}
 }
 
+- (NewsFeed *)fetchNewsFeedWithNumber:(NSNumber *)feedNumber {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feedNumber=%@)", feedNumber];
+	[request setPredicate:predicate];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feedNumber" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	if ([array count] == 1) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
+}
+
+- (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSNumber *)feedNumber {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(newsFeed.feedNumber=%@) AND (articleNumber=%@)", feedNumber, articleNumber];
+	[request setPredicate:predicate];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"articleNumber" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	if ([array count] == 1) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
+	
+}
 
 - (Feed *)fetchFeed:(NSString *)mCode {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];

@@ -46,7 +46,7 @@
 	ChainsNavigationViewController *chainsNavigationController = [[ChainsNavigationViewController alloc] initWithContentViewController:rootViewController];
 	[rootViewController release];
 	
-	NewsController *news = [[NewsController alloc] init];
+	NewsController *news = [[NewsController alloc] initWithMangagedObjectContext:self.managedObjectContext];
 	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
 	news.managedObjectContext = self.managedObjectContext;
 	

@@ -1,5 +1,5 @@
 //
-//  NewsItemView.m
+//  NewsArticleView.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 03.03.10.
@@ -7,10 +7,10 @@
 //
 
 
-#import "NewsItemView.h"
+#import "NewsArticleView.h"
 
 
-@implementation NewsItemView
+@implementation NewsArticleView
 @synthesize scrollView = _scrollView;
 @synthesize feedLabel = _feedLabel;
 @synthesize dateTimeLabel = _dateTimeLabel;
@@ -48,7 +48,7 @@
 		_dateTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.dateTimeLabel.font = [UIFont systemFontOfSize:12.0];
 		self.dateTimeLabel.textColor = [UIColor lightGrayColor];
-
+		
 		[self.scrollView addSubview:self.headlineLabel];
 		[self.scrollView addSubview:self.bodyLabel];
 		[self.scrollView addSubview:self.feedLabel];
@@ -90,7 +90,7 @@
 	[self.feedLabel sizeToFit];
 	
 	CGFloat halfWidth = width / 2.0f;
-
+	
 	self.dateTimeLabel.frame = CGRectMake(x, sumY, halfWidth - TEXT_LEFT_MARGIN, self.dateTimeLabel.frame.size.height);	
 	self.feedLabel.frame = CGRectMake(halfWidth, sumY, halfWidth - TEXT_RIGHT_MARGIN, self.feedLabel.frame.size.height);
 	sumY += height;
@@ -124,7 +124,7 @@
 #pragma mark Debugging methods
 // Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
-	NSLog(@"Queried about %@ in NewsItemView", NSStringFromSelector(sel));
+	NSLog(@"Queried about %@ in NewsArticleView", NSStringFromSelector(sel));
 	return [super respondsToSelector:sel];
 }
 

@@ -13,6 +13,7 @@
 @class Feed;
 @class Symbol;
 @class NewsFeed;
+@class NewsArticle;
 @class BidAsk;
 
 @interface SymbolDataController : NSObject <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
@@ -32,6 +33,9 @@
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index;
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
+- (NewsFeed *)fetchNewsFeedWithNumber:(NSNumber *)feedNumber;
+- (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSNumber *)feedNumber;
+
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;
 - (void)addSymbols:(NSString *)symbols;

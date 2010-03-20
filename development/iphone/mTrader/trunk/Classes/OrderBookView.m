@@ -36,7 +36,6 @@
   	super.padding = 6.0f;
 	super.cornerRadius = 10.0f;
 	super.strokeWidth = 0.75f;
-	[super drawRect:rect];
 	
 	UIFont *headerFont = [UIFont boldSystemFontOfSize:18.0];
 
@@ -89,6 +88,8 @@
 	[self addSubview:bidSizeLabel];
 	[self addSubview:bidValueLabel];
 	[self addSubview:tradingStatusLabel];
+	
+	[super drawRect:rect];
 }
 
 - (void)setSymbol:(Symbol *)symbol {

@@ -10,28 +10,32 @@
 
 #import "mTraderAppDelegate.h"
 #import "NewsFeed.h"
+#import "NewsArticle.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "NewsCell.h"
-#import "NewsItemController.h"
+#import "NewsArticleController.h"
 
 @implementation NewsController
-@synthesize communicator, managedObjectContext, fetchedResultsController;
+@synthesize communicator;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize mCode = _mCode;
 
 #pragma mark -
 #pragma mark Initialization
 
-- (id)init {
+- (id)initWithMangagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
     if (self != nil) {
+		self.managedObjectContext = managedObjectContext;
+		_fetchedResultsController = nil;
+		
 		self.title = NSLocalizedString(@"NewsTab", "News tab label");
 		UIImage* anImage = [UIImage imageNamed:@"newsTabButton.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];
-		
-		newsArray = nil;
 		
 		table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
 		table.delegate = self;
@@ -46,7 +50,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {	
 	table.frame = self.view.bounds;
+	
+	communicator = [mTraderCommunicator sharedManager];
+	[communicator newsListFeed:self.mCode];
+}
 
+- (void)viewDidLoad {
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
@@ -54,11 +63,6 @@
 		abort();  // Fail
 	}
 	
-	communicator = [mTraderCommunicator sharedManager];
-	[communicator newsListFeed:self.mCode];
-}
-
-- (void)viewDidLoad {	
 	UIBarButtonItem *selectFeed = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(selectNewsFeed:)];
 	self.navigationItem.leftBarButtonItem = selectFeed;
 	[selectFeed release];
@@ -94,15 +98,24 @@
 #pragma mark TableView datasource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+	return [[self.fetchedResultsController sections] count];
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [newsArray count];
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	NSInteger count = [[self.fetchedResultsController sections] count];
+	if (count > 0) {
+		id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+		return [sectionInfo name];
+	}
+	return nil;	
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -119,35 +132,33 @@
 }
 
 - (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	NSInteger row = indexPath.row;
-	NSArray *newsItem = [newsArray objectAtIndex:row];
-	cell.newsItem = newsItem;
+	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	cell.newsArticle = newsArticle;
 }
 
 #pragma mark -
 #pragma mark TableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NewsItemController *newsItemController = [[NewsItemController alloc] init];
+	NewsArticleController *newsArticleController = [[NewsArticleController alloc] init];
+
+	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	newsArticleController.newsArticle = newsArticle;
 	
-	NSArray *articleArray = [newsArray objectAtIndex:indexPath.row];
-	NSString *feedArticle = [articleArray objectAtIndex:0];
-	newsItemController.feedArticle = feedArticle;
+	[self.navigationController pushViewController:newsArticleController animated:YES];
 	
-	[self.navigationController pushViewController:newsItemController animated:YES];
-	
-	[newsItemController release];
+	[newsArticleController release];
 }
 
 
 #pragma mark -
 #pragma mark UIPickerViewDataSource Required Methods
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-	return [[fetchedResultsController sections] count];
+	return [[self.fetchedResultsController sections] count];
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:component];
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:component];
     return [sectionInfo numberOfObjects];
 }
 
@@ -155,53 +166,21 @@
 #pragma mark UIPickerViewDelegate Methods
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	NewsFeed *feed = (NewsFeed *)[fetchedResultsController objectAtIndexPath:indexPath];
+	NewsFeed *feed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	self.mCode = feed.mCode;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	NewsFeed *feed = (NewsFeed *)[fetchedResultsController objectAtIndexPath:indexPath];
+	NewsFeed *feed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	NSString *feedName = feed.name;
 	return feedName;
-}
-
-#pragma mark -
-#pragma mark mTraderCommunicatorDelegate methods
-
--(void) newsListFeedsUpdates:(NSArray *)newsList {
-	if (newsArray != nil) {
-		[newsArray release];
-		newsArray = nil;
-	}
-	
-	NSMutableArray *tempStorage = [[[NSMutableArray alloc] init] autorelease];
-	for (NSString *news in newsList) {
-		NSArray *components = [news componentsSeparatedByString:@";"];
-		if ([components count] >= 4) {
-			NSString *feedArticle = [components objectAtIndex:0];
-			NSString *flag = [components objectAtIndex:1];
-			NSString *date = [components objectAtIndex:2];
-			NSString *time = [components objectAtIndex:3];
-			NSString *headline = [components objectAtIndex:4];
-			NSArray *tuple = [NSArray arrayWithObjects:feedArticle, flag, date, time, headline, nil];
-			
-			[tempStorage addObject:tuple];
-		}
-	}
-	
-	newsArray = (NSArray *)tempStorage;
-	[newsArray retain];
-	
-	[table reloadData];
 }
 
 #pragma mark -
 #pragma mark Actions
 
 - (void)refresh:(id)sender {
-	[newsArray release];
-	newsArray = nil;
 	[self.communicator newsListFeed:self.mCode];
 }
 
@@ -223,12 +202,8 @@
 		return;
 	} else if (buttonIndex == 1) {
 		self.mCode = @"AllNews";
-		[newsArray release];
-		newsArray = nil;
 		[communicator newsListFeed:self.mCode];
 	} else if (buttonIndex == 2) {
-		[newsArray release];
-		newsArray = nil;
 		[communicator newsListFeed:self.mCode];
 	}
 }
@@ -241,24 +216,24 @@
  */
 - (NSFetchedResultsController *)fetchedResultsController {
 	
-    if (fetchedResultsController != nil) {
-        return fetchedResultsController;
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
     }
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
 	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"articleNumber" ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
 	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
 	self.fetchedResultsController = aFetchedResultsController;
-	fetchedResultsController.delegate = self;
+	_fetchedResultsController.delegate = self;
 	
 	// Memory management.
 	[aFetchedResultsController release];
@@ -266,8 +241,66 @@
 	[mCodeDescriptor release];
 	[sortDescriptors release];
 	
-	return fetchedResultsController;
+	return _fetchedResultsController;
 }
+
+/**
+ Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.
+ */
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+	
+	// The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+	[table beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+	
+	UITableView *tableView = table;
+	
+	switch(type) {
+			
+		case NSFetchedResultsChangeInsert:
+			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeUpdate:
+			[self configureCell:(NewsCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
+			break;
+			
+		case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+	
+	switch(type) {
+			
+		case NSFetchedResultsChangeInsert:
+			[table insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[table deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+	}
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+	[table endUpdates];
+}
+
 /*
 #pragma mark -
 #pragma mark Debugging methods
@@ -281,9 +314,11 @@
 #pragma mark Memory management
 
 - (void)dealloc {
+	[_fetchedResultsController release];
+	[_managedObjectContext release];
+	
 	[_mCode release];
 	[table release];
-	[newsArray release];
     [super dealloc];
 }
 

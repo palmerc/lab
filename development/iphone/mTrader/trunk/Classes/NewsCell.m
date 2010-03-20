@@ -7,6 +7,8 @@
 //
 
 #import "NewsCell.h"
+#import "NewsFeed.h"
+#import "NewsArticle.h"
 
 #pragma mark -
 #pragma mark SubviewFrames category
@@ -18,14 +20,14 @@
 @end
 
 @implementation NewsCell
-@synthesize newsItem = _newsItem;
+@synthesize newsArticle = _newsArticle;
 
 #pragma mark -
 #pragma mark Initialization
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-		_newsItem = nil;
+		_newsArticle = nil;
 		
 		headlineLabelFont = [[UIFont systemFontOfSize:14.0] retain];
 		headlineLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -103,13 +105,12 @@
 #pragma mark -
 #pragma mark Overriden accessor methods
 
-- (void)setNewsItem:(NSArray *)array {
-	NSString *feedArticle = [array objectAtIndex:0];
-	NSArray *feedItemComponents = [feedArticle componentsSeparatedByString:@"/"];
-	NSString *feed = [feedItemComponents objectAtIndex:0];	
-	feedLabel.text = feed;
+- (void)setNewsArticle:(NewsArticle *)newsArticle {
+	_newsArticle = [newsArticle retain];
 	
-	NSString *flag = [array objectAtIndex:1];
+	feedLabel.text = newsArticle.newsFeed.mCode;
+	
+	NSString *flag = newsArticle.flag;
 	if ([flag isEqualToString:@"F"]) {
 		[headlineLabel setTextColor:[UIColor redColor]];
 	} else if ([flag isEqualToString:@"U"]) {
@@ -119,8 +120,8 @@
 	}
 
 	
-	headlineLabel.text = [array objectAtIndex:4];
-	dateTimeLabel.text = [NSString stringWithFormat:@"%@ %@", [array objectAtIndex:2], [array objectAtIndex:3]];
+	headlineLabel.text = newsArticle.headline;
+	dateTimeLabel.text = [NSString stringWithFormat:@"%@ %@", newsArticle.date, newsArticle.time];
 }
 /*
 #pragma mark -
@@ -137,7 +138,10 @@
 - (void)dealloc {
 	[headlineLabelFont release];
 	[bottomLineLabelFont release];
-	[_newsItem release];
+	[feedLabel release];
+	[headlineLabel release];
+	[dateTimeLabel release];
+	[_newsArticle release];
     [super dealloc];
 }
 

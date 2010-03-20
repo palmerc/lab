@@ -2,12 +2,13 @@
 //  NewsFeed.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 26.02.10.
-//  Copyright 2010 Infront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 20.03.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "NewsFeed.h"
 
+#import "NewsArticle.h"
 
 @implementation NewsFeed 
 
@@ -15,5 +16,6 @@
 @dynamic name;
 @dynamic mCode;
 @dynamic type;
+@dynamic newsArticles;
 
 @end
