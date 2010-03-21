@@ -39,20 +39,14 @@
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];
-		
-		table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-		table.delegate = self;
-		table.dataSource = self;
-		
-		[self.view addSubview:table];
-		
+			
 		self.mCode = @"AllNews";
 	}
     return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {	
-	table.frame = self.view.bounds;
+	self.tableView.frame = self.view.bounds;
 	
 	communicator = [mTraderCommunicator sharedManager];
 	[communicator newsListFeed:self.mCode];
@@ -157,6 +151,7 @@
 	[self.navigationController pushViewController:newsArticleController animated:YES];
 	
 	[newsArticleController release];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
@@ -202,7 +197,7 @@
 	feedSelector.delegate = self;
 	[menu addSubview:feedSelector];
 	[feedSelector release];
-	[menu showInView:table];
+	[menu showInView:self.tableView];
 	[menu setBounds:CGRectMake(0.0, 0.0, 320.0, 700.0)];
 	[menu release];
 }
@@ -212,10 +207,10 @@
 		return;
 	} else if (buttonIndex == 1) {
 		self.mCode = @"AllNews";
-		[communicator newsListFeed:self.mCode];
-	} else if (buttonIndex == 2) {
-		[communicator newsListFeed:self.mCode];
 	}
+	
+	[[SymbolDataController sharedManager] deleteAllNews];
+	[self.communicator newsListFeed:self.mCode];
 }
 
 #pragma mark -
@@ -292,14 +287,13 @@
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
 	
 	// The fetch controller is about to start sending change notifications, so prepare the table view for updates.
-	[table beginUpdates];
+	[self.tableView beginUpdates];
 }
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-	
-	UITableView *tableView = table;
-	
+	UITableView *tableView = self.tableView;
+
 	switch(type) {
 			
 		case NSFetchedResultsChangeInsert:
@@ -309,15 +303,6 @@
 		case NSFetchedResultsChangeDelete:
 			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 			break;
-			
-		case NSFetchedResultsChangeUpdate:
-			[self configureCell:(NewsCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
-			break;
-			
-		case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
     }
 }
 
@@ -327,11 +312,11 @@
 	switch(type) {
 			
 		case NSFetchedResultsChangeInsert:
-			[table insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			[table deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
 			break;
 	}
 }
@@ -339,7 +324,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
 	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-	[table endUpdates];
+	[self.tableView endUpdates];
 }
 
 /*
@@ -361,7 +346,6 @@
 	[_managedObjectContext release];
 	
 	[_mCode release];
-	[table release];
     [super dealloc];
 }
 

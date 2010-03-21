@@ -702,6 +702,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)logout {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSString *ActionLogout = @"Action: Logout";
 	NSArray *logoutArray = [NSArray arrayWithObjects:ActionLogout, nil];
 	NSString *logoutString = [self arrayToFormattedString:logoutArray];
@@ -709,6 +712,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSString *username = self.defaults.username;
 	
 	NSString *ActionAddSec = @"Action: addSec";
@@ -723,6 +729,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)removeSecurity:(NSString *)feedTicker {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSString *username = self.defaults.username;
 	
 	NSString *ActionRemSec = @"Action: remSec";
@@ -736,6 +745,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)staticDataForFeedTicker:(NSString *)feedTicker {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSString *username = self.defaults.username;
 	NSString *language = @"EN";
 	NSString *ActionStatData = @"Action: StatData";
@@ -755,7 +767,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
  *
  */
 - (void)setStreamingForFeedTicker:(NSString *)feedTicker {
-	if (self.qFields == nil) {
+	if ( isLoggedIn == NO || self.qFields == nil) {
 		return;
 	}
 	
@@ -789,6 +801,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)tradesRequest:(NSString *)feedTicker {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSInteger index = -1;
 	NSInteger count = 30;
 	
@@ -807,6 +822,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSString *imgType = @"PNG"; // We only support one type of image currently although GIF is also specified in client.
 	
 	NSString *username = self.defaults.username;
@@ -827,6 +845,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 // News Requests
 - (void)newsItemRequest:(NSString *)newsId {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSString *username = self.defaults.username;
 	NSString *ActionNewsBody = @"Action: NewsBody";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
@@ -839,6 +860,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)newsListFeed:(NSString *)mCode {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSString *username = self.defaults.username;
 	NSString *ActionNewsListFeeds = @"Action: NewsListFeeds";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
@@ -855,6 +879,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
 	NSString *username = self.defaults.username;
 	NSString *ActionNewsList = @"Action: NewsList";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];

@@ -118,6 +118,8 @@
 #pragma mark TableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 	SymbolNewsItemController *newsItemController = [[SymbolNewsItemController alloc] init];
 	
 	NSArray *articleArray = [newsArray objectAtIndex:indexPath.row];

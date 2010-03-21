@@ -733,7 +733,6 @@ static SymbolDataController *sharedDataController = nil;
 - (void)newsItemUpdate:(NSArray *)newsItemContents {
 	newsItemContents = [StringHelpers cleanComponents:newsItemContents];
 	NSString *feedArticle = [newsItemContents objectAtIndex:0];
-	NSString *headline = [newsItemContents objectAtIndex:3];
 	NSString *body = [newsItemContents objectAtIndex:4];
 	
 	NSArray *feedArticleComponents = [feedArticle componentsSeparatedByString:@"/"];
@@ -752,7 +751,6 @@ static SymbolDataController *sharedDataController = nil;
 		article.articleNumber = articleNumber;
 	}
 	
-	article.headline = headline;
 	article.body = body;
 }
 

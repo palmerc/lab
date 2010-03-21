@@ -12,7 +12,7 @@
 @class NewsCell;
 @protocol NewsControllerDelegate;
 
-@interface NewsController : UIViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate> {
+@interface NewsController : UITableViewController <NSFetchedResultsControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate> {
 @private
 	mTraderCommunicator *communicator;
 	NSManagedObjectContext *_managedObjectContext;
@@ -20,8 +20,6 @@
 	NSFetchedResultsController *_feedsFetchedResultsController;
 	
 	NSString *_mCode;	
-	
-	UITableView *table;
 }
 
 @property (assign) mTraderCommunicator *communicator;
@@ -32,4 +30,5 @@
 
 - (id)initWithMangagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)refresh:(id)sender;
 @end
