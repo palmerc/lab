@@ -9,8 +9,8 @@
 #import "mTraderAppDelegate.h"
 #import "Starter.h"
 #import "UserDefaults.h"
-#import "ChainsTableViewController.h"
-#import "ChainsNavigationViewController.h"
+#import "MyListViewController.h"
+#import "MyListNavigationController.h"
 #import "NewsController.h"
 #import "SettingsTableViewController.h"
 
@@ -42,8 +42,8 @@
 	//NSLog(@"Window size -> x:%.1f y:%.1f width:%.1f height:%.1f", window.frame.origin.x, window.frame.origin.y, window.frame.size.width, window.frame.size.height);
 	window.backgroundColor = [UIColor lightGrayColor];
 	
-	UIViewController *rootViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
-	ChainsNavigationViewController *chainsNavigationController = [[ChainsNavigationViewController alloc] initWithContentViewController:rootViewController];
+	UIViewController *rootViewController = [[MyListViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	ChainsNavigationViewController *myListNavigationController = [[MyListNavigationController alloc] initWithContentViewController:rootViewController];
 	[rootViewController release];
 	
 	NewsController *news = [[NewsController alloc] initWithMangagedObjectContext:self.managedObjectContext];
@@ -53,7 +53,7 @@
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
 	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
 
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:chainsNavigationController, newsNavigationController, settingsNavigationController, nil];
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];
 		
 	_tabController = [[UITabBarController alloc] init];
 	//NSLog(@"TabController size -> x:%.1f y:%.1f width:%.1f height:%.1f", _tabController.view.frame.origin.x, _tabController.view.frame.origin.y, _tabController.view.frame.size.width, _tabController.view.frame.size.height);
@@ -66,7 +66,7 @@
 	[news release];
 	[settings release];
 	
-	[chainsNavigationController release];
+	[myListNavigationController release];
 	[newsNavigationController release];
 	[settingsNavigationController release];
 }

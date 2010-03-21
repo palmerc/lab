@@ -13,6 +13,7 @@
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
+- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)starter;
 
 @end

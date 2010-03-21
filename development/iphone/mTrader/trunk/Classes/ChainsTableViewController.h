@@ -33,7 +33,7 @@ typedef enum {
 //	DOWN
 //} changeEnum;
 
-@interface ChainsTableViewController : UITableViewController <SymbolAddControllerDelegate, SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
+@interface ChainsTableViewController : UITableViewController <SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
 	NSUInteger currentValueType;
 	
 @private
@@ -42,8 +42,8 @@ typedef enum {
 	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
 		
-	//CenterOptions centerOption;
-	//RightOptions rightOption;
+	CenterOptions centerOption;
+	RightOptions rightOption;
 	UIToolbar *_toolBar;
 }
 
@@ -55,7 +55,8 @@ typedef enum {
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
-- (void)add:(id)sender;
+- (void)centerSelection:(id)sender;
+- (void)rightSelection:(id)sender;
 
 - (void)deleteAllSymbols;
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;

@@ -46,9 +46,6 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-	self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
-
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
@@ -56,13 +53,6 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
-	
-	self.navigationItem.leftBarButtonItem = self.editButtonItem;
-	
-	// Setup right and left bar buttons
-	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
-	self.navigationItem.rightBarButtonItem = addItem;
-	[addItem release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -93,27 +83,27 @@
 		[communicator setStreamingForFeedTicker:nil];
 	}
 	
-	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
-	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
-	centerControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	centerControl.selectedSegmentIndex = 0;
-	[centerControl addTarget:self action:@selector(centerSelection:) forControlEvents:UIControlEventValueChanged];
-	
-	unichar upDownArrowsChar = 0x21C5;
-	NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
-	NSArray *rightItems = [NSArray arrayWithObjects: @"%", upDownArrows, @"Last", nil];
-	UISegmentedControl *rightControl = [[UISegmentedControl alloc] initWithItems:rightItems];
-	rightControl.segmentedControlStyle = UISegmentedControlStyleBar;
-	rightControl.selectedSegmentIndex = 0;
-	[rightControl addTarget:self action:@selector(rightSelection:) forControlEvents:UIControlEventValueChanged];
-	
-	UIBarButtonItem *centerBarItem = [[UIBarButtonItem alloc] initWithCustomView:centerControl];
-	UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightControl];
-	[centerControl release];
-	[rightControl release];
-	[self.toolBar setItems:[NSArray arrayWithObjects:centerBarItem, rightBarItem, nil]];
-	[centerBarItem release];
-	[rightBarItem release];
+//	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
+//	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
+//	centerControl.segmentedControlStyle = UISegmentedControlStyleBar;
+//	centerControl.selectedSegmentIndex = 0;
+//	[centerControl addTarget:self action:@selector(centerSelection:) forControlEvents:UIControlEventValueChanged];
+//	
+//	unichar upDownArrowsChar = 0x21C5;
+//	NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
+//	NSArray *rightItems = [NSArray arrayWithObjects: @"%", upDownArrows, @"Last", nil];
+//	UISegmentedControl *rightControl = [[UISegmentedControl alloc] initWithItems:rightItems];
+//	rightControl.segmentedControlStyle = UISegmentedControlStyleBar;
+//	rightControl.selectedSegmentIndex = 0;
+//	[rightControl addTarget:self action:@selector(rightSelection:) forControlEvents:UIControlEventValueChanged];
+//	
+//	UIBarButtonItem *centerBarItem = [[UIBarButtonItem alloc] initWithCustomView:centerControl];
+//	UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightControl];
+//	[centerControl release];
+//	[rightControl release];
+//	[self.toolBar setItems:[NSArray arrayWithObjects:centerBarItem, rightBarItem, nil]];
+//	[centerBarItem release];
+//	[rightBarItem release];
 	
 }
 
@@ -154,8 +144,8 @@
 }
 
 - (void)configureCell:(ChainsTableCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-//	cell.centerOption = centerOption;
-//	cell.rightOption = rightOption;
+	cell.centerOption = centerOption;
+	cell.rightOption = rightOption;
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
@@ -199,81 +189,55 @@
 	// Push the view onto the Navigation Controller
 	[self.navigationController pushViewController:symbolDetail animated:YES];
 	[symbolDetail release];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
 #pragma mark UIButton selectors
 
-//- (void)centerSelection:(id)sender {
-//	UISegmentedControl *control = sender;
-//	switch (control.selectedSegmentIndex) {
-//		case LAST_TRADE:
-//			centerOption = LAST_TRADE;
-//			break;
-//		case BID_PRICE:
-//			centerOption = BID_PRICE;
-//			break;
-//		case ASK_PRICE:
-//			centerOption = ASK_PRICE;
-//			break;
-//		default:
-//			break;
-//	}
-//	[self.tableView reloadData];
-//}
-//
-//- (void)rightSelection:(id)sender {
-//	UISegmentedControl *control = sender;
-//	switch (control.selectedSegmentIndex) {
-//		case LAST_TRADE_PERCENT_CHANGE:
-//			rightOption = LAST_TRADE_PERCENT_CHANGE;
-//			break;
-//		case LAST_TRADE_CHANGE:
-//			rightOption = LAST_TRADE_CHANGE;
-//			break;
-//		case LAST_TRADE_TOO:
-//			rightOption = LAST_TRADE_TOO;
-//			break;
-//		default:
-//			break;
-//	}
-//	[self.tableView reloadData];
-//}
-
-
-
-- (void)failedToAddAlreadyExists {
-	NSString *alertTitle = @"Add Security Failed";
-	NSString *alertMessage = @"The ticker symbol you requested is already in your list.";
-	NSString *alertCancel = @"Dismiss";
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
-	[alertView show];	
-}
-
-- (void)failedToAddNoSuchSecurity {
-	NSString *alertTitle = @"Add Security Failed";
-	NSString *alertMessage = @"The ticker symbol you requested was not found.";
-	NSString *alertCancel = @"Dismiss";
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
-	[alertView show];
-}
-
-
-#pragma mark -
-#pragma mark UI Actions
-- (void)add:(id)sender {
-	SymbolAddController *controller = [[SymbolAddController alloc] initWithNibName:@"SymbolAddView" bundle:nil];
-	controller.delegate = self;
-	controller.managedObjectContext = self.managedObjectContext;
+- (void)centerSelection:(id)sender {
+	UIButton *button = (UIButton *)sender;
 	
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-	[controller release];
-	[self.parentViewController presentModalViewController:navigationController animated:YES];
-	[navigationController release];
+	switch (centerOption) {
+		case CLAST:
+			centerOption = CBID;
+			[button setTitle:@"Bid" forState:UIControlStateNormal];
+			break;
+		case CBID:
+			centerOption = CASK;
+			[button setTitle:@"Ask" forState:UIControlStateNormal];
+			break;
+		case CASK:
+			centerOption = CLAST;
+			[button setTitle:@"Last" forState:UIControlStateNormal];
+			break;
+		default:
+			break;
+	}
+	[self.tableView reloadData];
 }
 
-- (void)symbolAddControllerDidFinish:(SymbolAddController *)stockSearchController didAddSymbol:(NSString *)tickerSymbol {
-	[self dismissModalViewControllerAnimated:YES];
+- (void)rightSelection:(id)sender {
+	UIButton *button = (UIButton *)sender;
+	switch (rightOption) {
+		case RCHANGE_PERCENT:
+			rightOption = RCHANGE;
+			unichar upDownArrowsChar = 0x21C5;
+			NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
+			[button setTitle:upDownArrows forState:UIControlStateNormal];
+			break;
+		case RCHANGE:
+			rightOption = RLAST;
+			[button setTitle:@"Last" forState:UIControlStateNormal];
+			break;
+		case RLAST:
+			rightOption = RCHANGE_PERCENT;
+			[button setTitle:@"%" forState:UIControlStateNormal];
+			break;
+		default:
+			break;
+	}
+	[self.tableView reloadData];
 }
 
 #pragma mark -

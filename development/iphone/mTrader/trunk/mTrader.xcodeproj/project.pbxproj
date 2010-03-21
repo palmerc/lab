@@ -78,7 +78,7 @@
 		7E723B621129413E0073A07B /* OrderBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723B611129413E0073A07B /* OrderBookController.m */; };
 		7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723BB511294B930073A07B /* OrderBookTableCellP.m */; };
 		7E8A6FD110F604B4003D7E29 /* SymbolDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */; };
-		7E9CD69A111DAAC9009B0087 /* ChainsNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */; };
+		7E9CD69A111DAAC9009B0087 /* MyListNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */; };
 		7EAE508711185CD500B2FCB4 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508411185CD500B2FCB4 /* Feed.m */; };
 		7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508611185CD500B2FCB4 /* Symbol.m */; };
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
@@ -86,6 +86,8 @@
 		7EC84A941153B01B0083C82B /* GradientLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC84A931153B01B0083C82B /* GradientLabel.m */; };
 		7EC84D991154E9AF0083C82B /* NewsArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC84D981154E9AF0083C82B /* NewsArticle.m */; };
 		7EC84DA21154EDA20083C82B /* NewsFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC84DA11154EDA20083C82B /* NewsFeed.m */; };
+		7ED5D7B2115677D3007EB033 /* MyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED5D7B1115677D3007EB033 /* MyListViewController.m */; };
+		7ED5D8EF11568F9F007EB033 /* Mtrader_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ED5D8EE11568F9F007EB033 /* Mtrader_16.png */; };
 		7EDDBC11114FB04F009BBF80 /* BidAsk.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDBC10114FB04F009BBF80 /* BidAsk.m */; };
 		7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE2A71F11172B0100B682BD /* CoreData.framework */; };
 		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
@@ -201,8 +203,8 @@
 		7E723BB511294B930073A07B /* OrderBookTableCellP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookTableCellP.m; sourceTree = "<group>"; };
 		7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDetailController.h; sourceTree = "<group>"; };
 		7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDetailController.m; sourceTree = "<group>"; };
-		7E9CD698111DAAC9009B0087 /* ChainsNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChainsNavigationViewController.h; sourceTree = "<group>"; };
-		7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChainsNavigationViewController.m; sourceTree = "<group>"; };
+		7E9CD698111DAAC9009B0087 /* MyListNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListNavigationController.h; sourceTree = "<group>"; };
+		7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListNavigationController.m; sourceTree = "<group>"; };
 		7EAE508311185CD500B2FCB4 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
 		7EAE508411185CD500B2FCB4 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		7EAE508511185CD500B2FCB4 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
@@ -216,6 +218,9 @@
 		7EC84D981154E9AF0083C82B /* NewsArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsArticle.m; sourceTree = "<group>"; };
 		7EC84DA01154EDA20083C82B /* NewsFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeed.h; sourceTree = "<group>"; };
 		7EC84DA11154EDA20083C82B /* NewsFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeed.m; sourceTree = "<group>"; };
+		7ED5D7B0115677D3007EB033 /* MyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListViewController.h; sourceTree = "<group>"; };
+		7ED5D7B1115677D3007EB033 /* MyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListViewController.m; sourceTree = "<group>"; };
+		7ED5D8EE11568F9F007EB033 /* Mtrader_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mtrader_16.png; sourceTree = "<group>"; };
 		7EDDBC0F114FB04F009BBF80 /* BidAsk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidAsk.h; sourceTree = "<group>"; };
 		7EDDBC10114FB04F009BBF80 /* BidAsk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidAsk.m; sourceTree = "<group>"; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -415,6 +420,7 @@
 		7E419AFA10E20DD00007808B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				7ED5D8EE11568F9F007EB033 /* Mtrader_16.png */,
 				7E377F9211171BB10080A84B /* infront.png */,
 				7E377F9311171BB10080A84B /* myStocksTabButton.png */,
 				7E377F9411171BB10080A84B /* newsTabButton.png */,
@@ -569,8 +575,8 @@
 			isa = PBXGroup;
 			children = (
 				7ED92B8610F77F010016F656 /* Chains Table */,
-				7E9CD698111DAAC9009B0087 /* ChainsNavigationViewController.h */,
-				7E9CD699111DAAC9009B0087 /* ChainsNavigationViewController.m */,
+				7E9CD698111DAAC9009B0087 /* MyListNavigationController.h */,
+				7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */,
 			);
 			name = "Navigation Controller";
 			sourceTree = "<group>";
@@ -614,6 +620,8 @@
 				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
 				7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */,
 				7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */,
+				7ED5D7B0115677D3007EB033 /* MyListViewController.h */,
+				7ED5D7B1115677D3007EB033 /* MyListViewController.m */,
 			);
 			name = "Chains Table";
 			sourceTree = "<group>";
@@ -748,6 +756,7 @@
 				7E377F9711171BB10080A84B /* myStocksTabButton.png in Resources */,
 				7E377F9811171BB10080A84B /* newsTabButton.png in Resources */,
 				7E377F9911171BB10080A84B /* settingsTabButton.png in Resources */,
+				7ED5D8EF11568F9F007EB033 /* Mtrader_16.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,7 +837,7 @@
 				7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */,
 				7EAE508711185CD500B2FCB4 /* Feed.m in Sources */,
 				7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */,
-				7E9CD69A111DAAC9009B0087 /* ChainsNavigationViewController.m in Sources */,
+				7E9CD69A111DAAC9009B0087 /* MyListNavigationController.m in Sources */,
 				7E2D30A3112599BE0016CFD1 /* Chart.m in Sources */,
 				7E723B621129413E0073A07B /* OrderBookController.m in Sources */,
 				7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */,
@@ -855,6 +864,7 @@
 				7EC84A941153B01B0083C82B /* GradientLabel.m in Sources */,
 				7EC84D991154E9AF0083C82B /* NewsArticle.m in Sources */,
 				7EC84DA21154EDA20083C82B /* NewsFeed.m in Sources */,
+				7ED5D7B2115677D3007EB033 /* MyListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
