@@ -12,6 +12,7 @@
 @class mTraderCommunicator;
 @class Feed;
 @class Symbol;
+@class Trade;
 @class NewsFeed;
 @class NewsArticle;
 @class BidAsk;
@@ -30,8 +31,10 @@
 
 + (SymbolDataController *)sharedManager;
 + (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
++ (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index;
+- (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index;
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
 - (NewsFeed *)fetchNewsFeedWithNumber:(NSString *)feedNumber;
 - (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSString *)feedNumber;
@@ -41,6 +44,7 @@
 - (void)addSymbols:(NSString *)symbols;
 - (void)deleteAllNews;
 - (void)deleteAllSymbols;
+- (void)deleteAllTrades;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;
 - (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;

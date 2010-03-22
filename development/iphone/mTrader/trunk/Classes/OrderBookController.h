@@ -11,31 +11,28 @@
 @protocol OrderBookControllerDelegate;
 @class Symbol;
 
-@interface OrderBookController : UIViewController <NSFetchedResultsControllerDelegate, SymbolsDataDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface OrderBookController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 @private
+	id <OrderBookControllerDelegate> delegate;
+
 	NSManagedObjectContext *_managedObjectContext;
-	NSFetchedResultsController *_fetchedResultsController;
 	
 	UIFont *tableFont;
 	
 	Symbol *_symbol;
 	NSArray *_bidAsks;	
-	
-	id <OrderBookControllerDelegate> delegate;
-	
+		
 	UITableView *table;
 }
 
+@property (assign) id <OrderBookControllerDelegate> delegate;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) NSArray *bidAsks;
-@property (assign) id <OrderBookControllerDelegate> delegate;
 @property (nonatomic, retain) UITableView *table;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)updateSymbol;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
-- (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;
 
 @end

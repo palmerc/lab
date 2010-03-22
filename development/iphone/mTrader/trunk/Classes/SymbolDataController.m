@@ -15,6 +15,7 @@
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
+#import "Trade.h"
 #import "Chart.h"
 #import "NewsFeed.h"
 #import "NewsArticle.h"
@@ -674,6 +675,16 @@ static SymbolDataController *sharedDataController = nil;
 	if ([updateDictionary objectForKey:@"Currency"]) { 
 		symbol.currency = [updateDictionary objectForKey:@"Currency"];
 	}
+	if ([updateDictionary objectForKey:@"Segment"]) { 
+		symbol.symbolDynamicData.segment = [updateDictionary objectForKey:@"Segment"];
+	}
+	if ([updateDictionary objectForKey:@"Dividend"]) { 
+		symbol.symbolDynamicData.dividend = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Dividend"] doubleValue]];
+	}
+	if ([updateDictionary objectForKey:@"DivDate"]) { 
+		symbol.symbolDynamicData.dividendDate = [updateDictionary objectForKey:@"DivDate"];
+	}
+	
 }
 
 - (void)chartUpdate:(NSDictionary *)chartData {
@@ -756,6 +767,75 @@ static SymbolDataController *sharedDataController = nil;
 	}
 	
 	article.body = body;
+}
+
+- (void)tradesUpdate:(NSDictionary *)updateDictionary {
+	// Delete all trades
+
+	NSString *feedTicker = [updateDictionary objectForKey:@"feedTicker"];
+	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+	
+	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
+	
+	NSString *tradesString = [updateDictionary objectForKey:@"trades"];
+	NSArray *tradesComponents = [tradesString componentsSeparatedByString:@"|"];
+	
+	for (int i = 0; i < [tradesComponents count]; i++) {
+		NSString *tradeItem = [tradesComponents objectAtIndex:i];
+		if ([tradeItem isEqualToString:@""]) {
+			continue;
+		}
+		
+		Trade *trade = [self fetchTradeForSymbol:feedTicker atIndex:i];
+		if (trade == nil) {
+			trade = (Trade *)[NSEntityDescription insertNewObjectForEntityForName:@"Trade" inManagedObjectContext:self.managedObjectContext];
+			
+			NSArray *parts = [tradeItem componentsSeparatedByString:@";"];
+			NSString *time = [parts objectAtIndex:0];
+			NSString *price = [parts objectAtIndex:1];
+			NSString *volume = [parts objectAtIndex:2];
+			
+			trade.price = price;
+			trade.volume = volume;
+			trade.time = time;
+			trade.index = [NSNumber numberWithInteger:i];
+			
+			trade.symbol = symbol;
+			[symbol addTradesObject:trade];
+		}
+	}
+}
+
+- (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index {	
+	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+	
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:self.managedObjectContext];
+	[request setEntity:entity];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@) AND (index=%@)", feedNumber, tickerSymbol, [NSNumber numberWithInteger:index]];
+	[request setPredicate:predicate];
+	
+	NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:descriptor]];
+	[descriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	if ([array count] == 1) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
 }
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index {
@@ -1057,7 +1137,33 @@ static SymbolDataController *sharedDataController = nil;
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	}
 	
-	if ([array count] > 1) {
+	if ([array count] > 0) {
+		return array;
+	} else {
+		return nil;
+	}
+}
+
++ (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@)", feedNumber, tickerSymbol];
+	[request setPredicate:predicate];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	if ([array count] > 0) {
 		return array;
 	} else {
 		return nil;

@@ -12,9 +12,10 @@
 @class Symbol;
 @class TradesCell;
 
-@interface TradesController : UIViewController <SymbolsDataDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface TradesController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 @private
 	id <TradesControllerDelegate> delegate;
+	NSManagedObjectContext *_managedObjectContext;
 	
 	UITableView *table;
 	UIView *tradeTimeLabel;
@@ -26,11 +27,13 @@
 }
 
 @property (assign) id <TradesControllerDelegate> delegate;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) NSArray *trades;
 
 - (UIView *)setHeader:(NSString *)header withFrame:(CGRect)frame;
 - (void)configureCell:(TradesCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)updateTrades;
 @end
 
 

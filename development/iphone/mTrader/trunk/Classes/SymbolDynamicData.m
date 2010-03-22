@@ -2,7 +2,7 @@
 //  SymbolDynamicData.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 17.02.10.
+//  Created by Cameron Lowell Palmer on 22.03.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -20,20 +20,19 @@
 @dynamic buyLot;
 @dynamic onValue;
 @dynamic segment;
-@dynamic trades;
 @dynamic volume;
 @dynamic high;
 @dynamic VWAP;
 @dynamic openPercentChange;
 @dynamic averageValue;
 @dynamic turnover;
+@dynamic trades;
 @dynamic lastTrade;
 @dynamic bidPrice;
 @dynamic lastTradeTime;
 @dynamic askVolume;
 @dynamic openChange;
 @dynamic change;
-@dynamic changeArrow;
 @dynamic outstandingShares;
 @dynamic changePercent;
 @dynamic buyLotValue;
@@ -41,6 +40,7 @@
 @dynamic onVolume;
 @dynamic tradingStatus;
 @dynamic averageVolume;
+@dynamic changeArrow;
 @dynamic open;
 @dynamic askSize;
 @dynamic askPrice;

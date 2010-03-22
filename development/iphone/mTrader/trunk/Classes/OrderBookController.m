@@ -20,12 +20,11 @@
 #import "SymbolDataController.h"
 
 @implementation OrderBookController
+@synthesize delegate;
 @synthesize managedObjectContext = _managedObjectContext;
-@synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize symbol = _symbol;
 @synthesize bidAsks = _bidAsks;
 @synthesize table;
-@synthesize delegate;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];

@@ -68,10 +68,10 @@
 		7E41BA7011404C8400277A67 /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E41BA6C11404C8400277A67 /* NewsController.m */; };
 		7E41BA7111404C8400277A67 /* NewsArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E41BA6E11404C8400277A67 /* NewsArticleView.m */; };
 		7E41BA8A1140520200277A67 /* NewsArticleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E41BA891140520200277A67 /* NewsArticleController.m */; };
+		7E4C5F12115786AE0003C31E /* Trade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C5F11115786AE0003C31E /* Trade.m */; };
 		7E57C012114A834600A1AF93 /* QFields.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E57C011114A834600A1AF93 /* QFields.m */; };
 		7E59A71B113BD9C2001FD328 /* TradesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A71A113BD9C2001FD328 /* TradesController.m */; };
 		7E59A71E113BD9F2001FD328 /* TradesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A71D113BD9F2001FD328 /* TradesCell.m */; };
-		7E59A814113C013E001FD328 /* Trade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A813113C013E001FD328 /* Trade.m */; };
 		7E59A8C9113C1485001FD328 /* SymbolNewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A8C8113C1485001FD328 /* SymbolNewsController.m */; };
 		7E59A8CC113C14A0001FD328 /* ChartController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A8CB113C14A0001FD328 /* ChartController.m */; };
 		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
@@ -185,14 +185,14 @@
 		7E41BA6E11404C8400277A67 /* NewsArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsArticleView.m; sourceTree = "<group>"; };
 		7E41BA881140520200277A67 /* NewsArticleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsArticleController.h; sourceTree = "<group>"; };
 		7E41BA891140520200277A67 /* NewsArticleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsArticleController.m; sourceTree = "<group>"; };
+		7E4C5F10115786AE0003C31E /* Trade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trade.h; sourceTree = "<group>"; };
+		7E4C5F11115786AE0003C31E /* Trade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trade.m; sourceTree = "<group>"; };
 		7E57C010114A834600A1AF93 /* QFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QFields.h; sourceTree = "<group>"; };
 		7E57C011114A834600A1AF93 /* QFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QFields.m; sourceTree = "<group>"; };
 		7E59A719113BD9C2001FD328 /* TradesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesController.h; sourceTree = "<group>"; };
 		7E59A71A113BD9C2001FD328 /* TradesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesController.m; sourceTree = "<group>"; };
 		7E59A71C113BD9F2001FD328 /* TradesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesCell.h; sourceTree = "<group>"; };
 		7E59A71D113BD9F2001FD328 /* TradesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesCell.m; sourceTree = "<group>"; };
-		7E59A812113C013E001FD328 /* Trade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trade.h; sourceTree = "<group>"; };
-		7E59A813113C013E001FD328 /* Trade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trade.m; sourceTree = "<group>"; };
 		7E59A8C7113C1485001FD328 /* SymbolNewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsController.h; sourceTree = "<group>"; };
 		7E59A8C8113C1485001FD328 /* SymbolNewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsController.m; sourceTree = "<group>"; };
 		7E59A8CA113C14A0001FD328 /* ChartController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartController.h; sourceTree = "<group>"; };
@@ -485,6 +485,8 @@
 		7E51A3E2112167A000C3922E /* Symbols */ = {
 			isa = PBXGroup;
 			children = (
+				7E4C5F10115786AE0003C31E /* Trade.h */,
+				7E4C5F11115786AE0003C31E /* Trade.m */,
 				7EC84DA01154EDA20083C82B /* NewsFeed.h */,
 				7EC84DA11154EDA20083C82B /* NewsFeed.m */,
 				7EC84D971154E9AF0083C82B /* NewsArticle.h */,
@@ -511,8 +513,6 @@
 				7E59A71A113BD9C2001FD328 /* TradesController.m */,
 				7E59A71C113BD9F2001FD328 /* TradesCell.h */,
 				7E59A71D113BD9F2001FD328 /* TradesCell.m */,
-				7E59A812113C013E001FD328 /* Trade.h */,
-				7E59A813113C013E001FD328 /* Trade.m */,
 			);
 			name = Trades;
 			sourceTree = "<group>";
@@ -844,7 +844,6 @@
 				7E2A0921112C3D3C00CF5EE1 /* SymbolDynamicData.m in Sources */,
 				7E59A71B113BD9C2001FD328 /* TradesController.m in Sources */,
 				7E59A71E113BD9F2001FD328 /* TradesCell.m in Sources */,
-				7E59A814113C013E001FD328 /* Trade.m in Sources */,
 				7E59A8C9113C1485001FD328 /* SymbolNewsController.m in Sources */,
 				7E59A8CC113C14A0001FD328 /* ChartController.m in Sources */,
 				7E093066113E5C2B00F164A3 /* SymbolNewsCell.m in Sources */,
@@ -865,6 +864,7 @@
 				7EC84D991154E9AF0083C82B /* NewsArticle.m in Sources */,
 				7EC84DA21154EDA20083C82B /* NewsFeed.m in Sources */,
 				7ED5D7B2115677D3007EB033 /* MyListViewController.m in Sources */,
+				7E4C5F12115786AE0003C31E /* Trade.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

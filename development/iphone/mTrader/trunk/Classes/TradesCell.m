@@ -63,8 +63,8 @@
 	}
 		
 	time.text = aTrade.time;
-	price.text = [doubleFormatter stringFromNumber:aTrade.price];
-	volume.text = [doubleFormatter stringFromNumber:aTrade.volume];
+	price.text = aTrade.price;
+	volume.text = aTrade.volume;
 }
 
 - (CGRect)_timeLabelFrame {

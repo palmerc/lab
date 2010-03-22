@@ -54,6 +54,7 @@
 
 	CGRect tradesFrame = CGRectMake(160.0, 0.0, 160.0, 220.0);
 	tradesBox = [[TradesInfoView alloc] initWithFrame:tradesFrame];
+	tradesBox.viewController = self;
 	tradesBox.symbol = self.symbol;
 	
 	CGRect orderFrame = CGRectMake(0.0, 220.0, 320.0, 150.0);
@@ -169,18 +170,20 @@
 //	[navController release];
 //}
 //
-//- (void)trades:(id)sender {
-//	TradesController *tradesController = [[TradesController alloc] initWithSymbol:self.symbol];
-//	tradesController.delegate = self;
-//	tradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//	
-//	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tradesController];
-//	[tradesController release];
-//	
-//	[self presentModalViewController:navController animated:YES];
-//	[navController release];
-//}
-//
+
+- (void)trades:(id)sender {
+	TradesController *tradesController = [[TradesController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	tradesController.symbol = self.symbol;
+	tradesController.managedObjectContext = self.managedObjectContext;
+	tradesController.delegate = self;
+	tradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tradesController];
+	[tradesController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
 
 - (void)chart:(id)sender {
 	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
@@ -434,10 +437,10 @@
 //	[self dismissModalViewControllerAnimated:YES];
 //}
 //
-//- (void)tradesControllerDidFinish:(TradesController *)controller {
-//	[self dismissModalViewControllerAnimated:YES];
-//}
-//
+- (void)tradesControllerDidFinish:(TradesController *)controller {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 - (void)chartControllerDidFinish:(ChartController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 

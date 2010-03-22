@@ -8,9 +8,12 @@
 
 #import "TradesController.h"
 
+#import "SymbolDataController.h"
+
 #import <QuartzCore/QuartzCore.h>
 #import "mTraderCommunicator.h"
 #import "Symbol.h"
+#import "SymbolDynamicData.h"
 #import "Feed.h"
 #import "Trade.h"
 
@@ -18,13 +21,15 @@
 
 @implementation TradesController
 @synthesize delegate;
+@synthesize managedObjectContext = _managedObjectContext;
 @synthesize symbol = _symbol;
 @synthesize trades = _trades;
 
-- (id)initWithSymbol:(Symbol *)symbol {
+- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
-		_symbol = symbol;
+		self.managedObjectContext = managedObjectContext;
+		_symbol = nil;
 		_trades = nil;
 	}
 	return self;
@@ -67,11 +72,8 @@
 	table.delegate = self;
 	table.dataSource = self;
 	
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	[communicator stopStreamingData];
-	communicator.symbolsDelegate = self;
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[communicator tradesRequest:feedTicker];
+	[[mTraderCommunicator sharedManager] tradesRequest:feedTicker];
 	
 }
 
@@ -120,38 +122,38 @@
 	return headerView;
 }
 
-#pragma mark Tableview methods
+#pragma mark -
+#pragma mark TableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+	
+	return 1;
 }
 
-
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.trades count];
+	return [self.trades count];
 }
-
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     static NSString *CellIdentifier = @"TradesCell";
     
     TradesCell *cell = (TradesCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[TradesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
+		//cell.mainFont = [UIFont systemFontOfSize:17.0];
+		//cell.size = CGSizeMake(self.table.frame.size.width, self.table.frame.size.height);
+	}
     
+    // Configure the cell.
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
 - (void)configureCell:(TradesCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	NSInteger row = indexPath.row;
-	Trade *t = [self.trades objectAtIndex:row];
+	Trade *trade =  [self.trades objectAtIndex:indexPath.row];
 	
-	cell.trade = t;
+	cell.trade = trade;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -159,33 +161,26 @@
 	return size.height;
 }
 
-- (void)tradesUpdate:(NSDictionary *)updateDictionary {
-	NSString *tradesString = [updateDictionary objectForKey:@"trades"];
-	NSArray *tradesComponents = [tradesString componentsSeparatedByString:@"|"];
-	NSMutableArray *tradesTemporaryStorage = [[NSMutableArray alloc] init];
-	
-	for (NSString *trade in tradesComponents) {
-		if ([trade isEqualToString:@""]) {
-			continue;
-		}
-		NSArray *parts = [trade componentsSeparatedByString:@";"];
-		Trade *t = [[Trade alloc] init];
-		NSString *time = [parts objectAtIndex:0];
-		NSString *price = [parts objectAtIndex:1];
-		NSString *volume = [parts objectAtIndex:2];
-		
-		t.time = time;
-		t.price = [NSNumber numberWithDouble:[price doubleValue]];
-		t.volume = [NSNumber numberWithInteger:[volume integerValue]];
-		
-		[tradesTemporaryStorage addObject:t];
-		[t release];
-	}
-		
-	self.trades = tradesTemporaryStorage;
-	[tradesTemporaryStorage release];
+- (void)setSymbol:(Symbol *)symbol {
+	_symbol = [symbol retain];
+	[self.symbol addObserver:self forKeyPath:@"trades" options:NSKeyValueObservingOptionNew context:nil];
+	[self updateTrades];
+}
+
+- (void)updateTrades {
+	NSArray *trades = [SymbolDataController fetchTradesForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
+	self.trades = trades;
 	
 	[table reloadData];
+}
+
+
+#pragma mark -
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if ([keyPath isEqualToString:@"trades"]) {
+		[self updateTrades];
+	}
 }
 
 - (void)done:(id)sender {
@@ -199,10 +194,16 @@
 }
 
 - (void)dealloc {
+	[_managedObjectContext release];
+	[_symbol release];
+	[_trades release];
+	
 	[tradeTimeLabel release];
 	[tradePriceLabel release];
 	[tradeVolumeLabel release];
-	[_trades release];
+	
+	[table release];
+	
     [super dealloc];
 }
 

@@ -27,7 +27,7 @@ typedef enum {
 	RLAST
 } RightOptions;
 
-@interface ChainsTableViewController : UITableViewController <SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
+@interface ChainsTableViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
 	NSUInteger currentValueType;
 	
 @private

@@ -81,7 +81,6 @@
 	tradingStatusLabel.textAlignment = UITextAlignmentCenter;
 	tradingStatusLabel.textColor = [UIColor blackColor];
 	tradingStatusLabel.font = [UIFont systemFontOfSize:17.0];
-	tradingStatusLabel.text = self.symbol.symbolDynamicData.tradingStatus;
 	
 	[self addSubview:askSizeLabel];
 	[self addSubview:askValueLabel];
@@ -92,15 +91,30 @@
 	[super drawRect:rect];
 }
 
+- (void)updateTradingStatus {
+	tradingStatusLabel.text = self.symbol.symbolDynamicData.tradingStatus;
+}
+
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
-	
+	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.tradingStatus" options:NSKeyValueObservingOptionNew context:nil];
+
 	orderBookController.symbol = _symbol;
+}
+
+#pragma mark -
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if ([keyPath isEqualToString:@"symbolDynamicData.tradingStatus"]) {
+		[self updateTradingStatus];
+	}
 }
 
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
+	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.tradingStatus"];
+	
 	[askSizeLabel release];
 	[askValueLabel release];
 	[bidValueLabel release];

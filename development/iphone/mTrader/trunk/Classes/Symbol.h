@@ -2,7 +2,7 @@
 //  Symbol.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 16.03.10.
+//  Created by Cameron Lowell Palmer on 22.03.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -12,6 +12,7 @@
 @class Chart;
 @class Feed;
 @class SymbolDynamicData;
+@class Trade;
 
 @interface Symbol :  NSManagedObject  
 {
@@ -28,6 +29,7 @@
 @property (nonatomic, retain) Chart * chart;
 @property (nonatomic, retain) Feed * feed;
 @property (nonatomic, retain) NSSet* bidsAsks;
+@property (nonatomic, retain) NSSet* trades;
 @property (nonatomic, retain) SymbolDynamicData * symbolDynamicData;
 
 @end
@@ -38,6 +40,11 @@
 - (void)removeBidsAsksObject:(BidAsk *)value;
 - (void)addBidsAsks:(NSSet *)value;
 - (void)removeBidsAsks:(NSSet *)value;
+
+- (void)addTradesObject:(Trade *)value;
+- (void)removeTradesObject:(Trade *)value;
+- (void)addTrades:(NSSet *)value;
+- (void)removeTrades:(NSSet *)value;
 
 @end
 
