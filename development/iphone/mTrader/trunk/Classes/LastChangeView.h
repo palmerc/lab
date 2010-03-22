@@ -8,10 +8,14 @@
 
 #import "RoundedRectangle.h"
 
+#import "ChartController.h"
+
 @class Symbol;
 
 @interface LastChangeView : RoundedRectangle {
 @private
+	UIViewController *_viewController;
+	
 	Symbol *_symbol;
 	
 	UILabel *_time;
@@ -19,18 +23,19 @@
 	UILabel *_lastChange;
 	UILabel *_lastPercentChange;
 	
-	UIImageView *_chart;
+	UIButton *_chart;
 	
 	NSUInteger chartWidth;
 	NSUInteger chartHeight;
 }
 
+@property (nonatomic, retain) UIViewController *viewController;
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) UILabel *time;
 @property (nonatomic, retain) UILabel *last;
 @property (nonatomic, retain) UILabel *lastChange;
 @property (nonatomic, retain) UILabel *lastPercentChange;
-@property (nonatomic, retain) UIImageView *chart;
+@property (nonatomic, retain) UIButton *chart;
 
 - (void)updateSymbol;
 - (void)updateChart;

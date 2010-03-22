@@ -26,12 +26,6 @@ typedef enum {
 	RCHANGE,
 	RLAST
 } RightOptions;
-//
-//typedef enum {
-//	NOCHANGE = 0,
-//	UP,
-//	DOWN
-//} changeEnum;
 
 @interface ChainsTableViewController : UITableViewController <SymbolsDataDelegate, NSFetchedResultsControllerDelegate> {
 	NSUInteger currentValueType;
@@ -41,16 +35,15 @@ typedef enum {
 	
 	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
-		
+	UINavigationController *_navigationController;
+	
 	CenterOptions centerOption;
 	RightOptions rightOption;
-	UIToolbar *_toolBar;
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) UIToolbar *toolBar;
-
+@property (nonatomic, retain) UINavigationController *navigationController;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;

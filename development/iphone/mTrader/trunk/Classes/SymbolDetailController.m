@@ -32,7 +32,6 @@
 @implementation SymbolDetailController
 @synthesize managedObjectContext;
 @synthesize symbol = _symbol;
-@synthesize toolBar;
 
 #pragma mark -
 #pragma mark Initialization
@@ -45,12 +44,12 @@
 }
 
 - (void)viewDidLoad {
-	self.toolBar.hidden = YES;
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	
 	CGRect lastFrame = CGRectMake(0.0, 0.0, 160.0, 220.0);
 	lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
+	lastBox.viewController = self;
 	lastBox.symbol = self.symbol;
 
 	CGRect tradesFrame = CGRectMake(160.0, 0.0, 160.0, 220.0);
@@ -182,18 +181,19 @@
 //	[navController release];
 //}
 //
-//- (void)chart:(id)sender {
-//	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
-//	chartController.delegate = self;
-//	chartController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//	chartController.managedObjectContext = self.managedObjectContext;
-//	
-//	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
-//	[chartController release];
-//	
-//	[self presentModalViewController:navController animated:YES];
-//	[navController release];
-//}
+
+- (void)chart:(id)sender {
+	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
+	chartController.delegate = self;
+	chartController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
+	[chartController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
 //
 //- (void)news:(id)sender {
 //	SymbolNewsController *symbolNewsController = [[SymbolNewsController alloc] initWithSymbol:self.symbol];
@@ -438,9 +438,11 @@
 //	[self dismissModalViewControllerAnimated:YES];
 //}
 //
-//- (void)chartControllerDidFinish:(ChartController *)controller {
-//	[self dismissModalViewControllerAnimated:YES];
-//}
+- (void)chartControllerDidFinish:(ChartController *)controller {
+	[self dismissModalViewControllerAnimated:YES];
+
+	[lastBox setNeedsDisplay];
+}
 //
 //- (void)symbolNewsControllerDidFinish:(SymbolNewsController *)controller {
 //	[self dismissModalViewControllerAnimated:YES];

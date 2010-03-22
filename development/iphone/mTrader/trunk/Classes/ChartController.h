@@ -11,10 +11,9 @@
 @class Symbol;
 @protocol ChartControllerDelegate;
 
-@interface ChartController : UIViewController <SymbolsDataDelegate> {
+@interface ChartController : UIViewController {
 @private
 	id <ChartControllerDelegate> delegate;
-	NSManagedObjectContext *_managedObjectContext;
 		
 	Symbol *_symbol;
 	UIImageView *_chart;
@@ -26,15 +25,12 @@
 }
 
 @property (assign) id <ChartControllerDelegate> delegate;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) UIImageView *chart;
 @property (nonatomic, retain) UIToolbar *toolBar;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 - (void)updateChart;
-
-- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 
 @end
 

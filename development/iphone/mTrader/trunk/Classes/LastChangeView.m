@@ -9,6 +9,7 @@
 #import "LastChangeView.h"
 
 #import "mTraderCommunicator.h"
+#import "ChartController.h"
 
 #import "Feed.h"
 #import "Symbol.h"
@@ -17,6 +18,7 @@
 
 
 @implementation LastChangeView
+@synthesize viewController = _viewController;
 @synthesize symbol = _symbol;
 @synthesize time = _time;
 @synthesize last = _last;
@@ -52,7 +54,8 @@
 		self.time.textAlignment = UITextAlignmentLeft;
 		[self addSubview:self.time];
 		
-		_chart = [[UIImageView alloc] initWithFrame:CGRectZero];
+		_chart = [[UIButton alloc] initWithFrame:CGRectZero];
+		[self.chart addTarget:self.viewController action:@selector(chart:) forControlEvents:UIControlEventTouchUpInside];
 		self.chart.backgroundColor = [UIColor clearColor];
 		[self addSubview:self.chart];
 	}
@@ -110,7 +113,7 @@
 - (void)updateChart {
 	NSData *data = self.symbol.chart.data;
 	UIImage *image = [UIImage imageWithData:data];
-	self.chart.image = image;
+	[self.chart setImage:image forState:UIControlStateNormal];
 }
 
 - (void)updateSymbol {
@@ -159,7 +162,7 @@
 	self.time.text = self.symbol.symbolDynamicData.lastTradeTime;
 	
 	UIImage *image = [UIImage imageWithData:self.symbol.chart.data];
-	self.chart.image = image;
+	[self.chart setImage:image forState:UIControlStateNormal];
 }
 
 #pragma mark -

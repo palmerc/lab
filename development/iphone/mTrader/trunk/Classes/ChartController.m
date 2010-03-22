@@ -15,7 +15,6 @@
 
 @implementation ChartController
 @synthesize delegate;
-@synthesize managedObjectContext = _managedObjectContext;;
 @synthesize symbol = _symbol;
 @synthesize chart = _chart;
 @synthesize toolBar = _toolBar;
@@ -26,8 +25,8 @@
 - (id)initWithSymbol:(Symbol *)symbol {
     if (self = [super init]) {
 		self.symbol = symbol;
+		[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
 		
-		_managedObjectContext = nil;
 		_chart = nil;
 		
 		period = 0;
@@ -36,9 +35,10 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad {	
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
+	self.view.backgroundColor = [UIColor whiteColor];
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
@@ -77,9 +77,7 @@
 - (void)viewWillAppear:(BOOL)animated {
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
-	communicator.symbolsDelegate = self;
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-		
 	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];
 }
 
@@ -100,25 +98,6 @@
 	NSData *data = chartChart.data;
 	UIImage *image = [UIImage imageWithData:data];
 	self.chart.image = image;		
-}
-
-- (void)chartUpdate:(NSDictionary *)chartData {
-	NSArray *feedTickerComponents = [[chartData objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
-	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
-	
-	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
-	
-	Chart *chart = (Chart *)[NSEntityDescription insertNewObjectForEntityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
-	chart.height = [chartData objectForKey:@"height"];
-	chart.width = [chartData objectForKey:@"width"];
-	chart.size = [chartData objectForKey:@"size"];
-	chart.type = [chartData objectForKey:@"type"];
-	NSData *data = [chartData objectForKey:@"data"];
-	chart.data = data;
-	symbol.chart = chart;
-	
-	[self updateChart];
 }
 
 #pragma mark -
@@ -146,30 +125,10 @@
 }
 
 #pragma mark -
-#pragma mark Core Data Lookups
-- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber {
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feed.feedNumber=%@) AND (tickerSymbol=%@)", feedNumber, tickerSymbol];
-	[request setPredicate:predicate];
-	
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tickerSymbol" ascending:YES];
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	[sortDescriptor release];
-	
-	NSError *error = nil;
-	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	if (array == nil)
-	{
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
-	
-	if ([array count] == 1) {
-		return [array objectAtIndex:0];
-	} else {
-		return nil;
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if ([keyPath isEqualToString:@"chart.data"]) {
+		[self updateChart];
 	}
 }
 
@@ -190,9 +149,8 @@
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[_symbol release];
-	[_managedObjectContext release];
-	
+	[self.symbol removeObserver:self forKeyPath:@"chart.data"];
+	[_symbol release];	
 	[_chart release];
 	
     [super dealloc];

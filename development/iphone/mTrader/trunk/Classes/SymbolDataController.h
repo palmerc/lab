@@ -43,6 +43,7 @@
 - (void)deleteAllSymbols;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;
+- (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 - (void)removeSymbol:(Symbol *)symbol;
 
 @end

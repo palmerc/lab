@@ -90,9 +90,7 @@
 	UILabel *dividend;
 	UILabel *dividendDateLabel;
 	UILabel *dividendDate;
-	
-	UIToolbar *toolBar;
-	
+		
 	UIFont *lastFont;
 	UIFont *headerFont;
 	UIFont *mainFont;

@@ -13,6 +13,7 @@
 @implementation MyListViewController
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize tableViewController = _tableViewController;
+@synthesize navigationController = _navigationController; 
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
@@ -78,6 +79,8 @@
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
 	self.navigationItem.rightBarButtonItem = addItem;
 	[addItem release];
+	
+	self.tableViewController.navigationController = self.navigationController;
 }
 
 

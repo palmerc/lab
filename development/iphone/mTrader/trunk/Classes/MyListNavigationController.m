@@ -20,6 +20,8 @@
 	self = [super init];
 	if (self != nil) {
 		_myListViewController = [rootViewController retain];
+		self.myListViewController.navigationController = self;
+
 		UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", "My Stocks tab label")  image:anImage tag:CHAINS];
 		self.tabBarItem = theItem;

@@ -16,10 +16,12 @@
 	NSManagedObjectContext *_managedObjectContext;
 
 	ChainsTableViewController *_tableViewController;
+	UINavigationController *_navigationController;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) ChainsTableViewController *tableViewController;
+@property (nonatomic, retain) UINavigationController *navigationController;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)add:(id)sender;

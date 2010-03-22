@@ -682,8 +682,11 @@ static SymbolDataController *sharedDataController = nil;
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 	
 	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
+	Chart *chart = [self fetchChart:tickerSymbol withFeedNumber:feedNumber];
+	if (chart == nil) {
+		chart = (Chart *)[NSEntityDescription insertNewObjectForEntityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
+	}
 	
-	Chart *chart = (Chart *)[NSEntityDescription insertNewObjectForEntityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
 	chart.height = [chartData objectForKey:@"height"];
 	chart.width = [chartData objectForKey:@"width"];
 	chart.size = [chartData objectForKey:@"size"];
@@ -691,6 +694,7 @@ static SymbolDataController *sharedDataController = nil;
 	NSData *data = [chartData objectForKey:@"data"];
 	chart.data = data;
 	symbol.chart = chart;
+	chart.symbol = symbol;
 }
 
 -(void) newsListFeedsUpdates:(NSArray *)newsList {
@@ -977,6 +981,29 @@ static SymbolDataController *sharedDataController = nil;
 		return nil;
 	}
 }
+
+- (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@)", feedNumber, tickerSymbol];
+	[request setPredicate:predicate];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	if ([array count] == 1) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
+}
+
 
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];

@@ -25,12 +25,11 @@
 #import "SymbolDetailController.h"
 #import "OrderBookController.h"
 
-#import "StringHelpers.h"
-
+#import "StringHelpers.h"f
 @implementation ChainsTableViewController
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize managedObjectContext = _managedObjectContext;
-@synthesize toolBar = _toolBar;
+@synthesize navigationController = _navigationController;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	if (self != nil) {
@@ -55,9 +54,11 @@
 	}
 }
 
+/*
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
 }
+*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -65,7 +66,6 @@
 
 - (void)viewDidUnload {
 	self.fetchedResultsController = nil;
-	self.toolBar = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -82,29 +82,6 @@
 		[qFields release];
 		[communicator setStreamingForFeedTicker:nil];
 	}
-	
-//	NSArray *centerItems = [NSArray arrayWithObjects:@"Last", @"Bid", @"Ask", nil];
-//	UISegmentedControl *centerControl = [[UISegmentedControl alloc] initWithItems:centerItems];
-//	centerControl.segmentedControlStyle = UISegmentedControlStyleBar;
-//	centerControl.selectedSegmentIndex = 0;
-//	[centerControl addTarget:self action:@selector(centerSelection:) forControlEvents:UIControlEventValueChanged];
-//	
-//	unichar upDownArrowsChar = 0x21C5;
-//	NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
-//	NSArray *rightItems = [NSArray arrayWithObjects: @"%", upDownArrows, @"Last", nil];
-//	UISegmentedControl *rightControl = [[UISegmentedControl alloc] initWithItems:rightItems];
-//	rightControl.segmentedControlStyle = UISegmentedControlStyleBar;
-//	rightControl.selectedSegmentIndex = 0;
-//	[rightControl addTarget:self action:@selector(rightSelection:) forControlEvents:UIControlEventValueChanged];
-//	
-//	UIBarButtonItem *centerBarItem = [[UIBarButtonItem alloc] initWithCustomView:centerControl];
-//	UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithCustomView:rightControl];
-//	[centerControl release];
-//	[rightControl release];
-//	[self.toolBar setItems:[NSArray arrayWithObjects:centerBarItem, rightBarItem, nil]];
-//	[centerBarItem release];
-//	[rightBarItem release];
-	
 }
 
 #pragma mark -
@@ -183,7 +160,6 @@
 	symbolDetail = [[SymbolDetailController alloc] initWithSymbol:symbolDynamicData.symbol];
 	
 	// Give it the toolbar
-	symbolDetail.toolBar = self.toolBar;
 	symbolDetail.managedObjectContext = self.managedObjectContext; 
 	
 	// Push the view onto the Navigation Controller
@@ -339,7 +315,6 @@
 	[_managedObjectContext release];
 	[_fetchedResultsController release];
 	
-	[self.toolBar release];
     [super dealloc];
 }
 
