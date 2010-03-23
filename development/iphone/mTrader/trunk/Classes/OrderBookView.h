@@ -17,20 +17,22 @@
 @private	
 	Symbol *_symbol;
 	OrderBookController *orderBookController;
-	
+	UIViewController *_viewController;
+
+	UIButton *orderBookButton;
 	UILabel *askSizeLabel;
 	UILabel *askValueLabel;
 	UILabel *bidSizeLabel;
 	UILabel *bidValueLabel;
-	UILabel *tradingStatusLabel;
 }
 
 @property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) UIViewController *viewController;
+@property (nonatomic, retain) UIButton *orderBookButton;
 @property (nonatomic, retain) UILabel *askSizeLabel;
 @property (nonatomic, retain) UILabel *askValueLabel;
 @property (nonatomic, retain) UILabel *bidSizeLabel;
 @property (nonatomic, retain) UILabel *bidValueLabel;
-@property (nonatomic, retain) UILabel *tradingStatusLabel;
 
 - (id)initWithFrame:(CGRect)frame andManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 

@@ -27,13 +27,13 @@
 #pragma mark ChainsTableCell implementation
 @implementation OrderBookTableCellP
 @synthesize bidAsk = _bidAsk;
-@synthesize size, mainFont, bidSizeLabel, bidValueLabel, askSizeLabel, askValueLabel;
+@synthesize maxWidth, mainFont, bidSizeLabel, bidValueLabel, askSizeLabel, askValueLabel;
 
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-		size = CGSizeZero;
+		maxWidth = 0.0f;
 		mainFont = nil;
 		bidSizeLabel = [self createLabel];		
 		bidValueLabel = [self createLabel];
@@ -41,6 +41,7 @@
 		askValueLabel = [self createLabel];
 					
 		_bidAsk = nil;
+		
 	}
     return self;
 }
@@ -88,27 +89,27 @@
  Return the frame of the various subviews -- these are dependent on the editing state of the cell.
  */
 - (CGRect)_bidSizeLabelFrame {
-	CGFloat width = floorf(self.size.width / 4.0f);
+	CGFloat width = floorf(self.maxWidth / 4.0f);
 	return CGRectMake(0.0, 0.0, width, lineHeight);
 }
 
 - (CGRect)_bidValueLabelFrame {
-	CGFloat width = floorf(self.size.width / 4.0f);
+	CGFloat width = floorf(self.maxWidth / 4.0f);
 	return CGRectMake(width, 0.0, width, lineHeight);
 }
 
 - (CGRect)_askValueLabelFrame {
-	CGFloat width = floorf(self.size.width / 4.0f);
+	CGFloat width = floorf(self.maxWidth / 4.0f);
 	return CGRectMake(width * 2, 0.0, width, lineHeight);
 }
 
 - (CGRect)_askSizeLabelFrame {
-	CGFloat width = floorf(self.size.width / 4.0f);
+	CGFloat width = floorf(self.maxWidth / 4.0f);
 	return CGRectMake(width * 3, 0.0, width, lineHeight);
 }
 
 - (void)drawRect:(CGRect)rect {
-	CGFloat widthOfLabel = floorf(self.size.width / 4.0f);
+	CGFloat widthOfLabel = floorf(self.maxWidth / 4.0f);
 	CGFloat askWidth = [self.bidAsk.askPercent floatValue] * widthOfLabel;
 	CGFloat bidWidth = [self.bidAsk.bidPercent floatValue] * widthOfLabel;
 

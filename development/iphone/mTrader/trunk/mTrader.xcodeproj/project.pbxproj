@@ -77,6 +77,8 @@
 		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E723B621129413E0073A07B /* OrderBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723B611129413E0073A07B /* OrderBookController.m */; };
 		7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723BB511294B930073A07B /* OrderBookTableCellP.m */; };
+		7E795A0A11590024006E35F4 /* SymbolNewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A0911590024006E35F4 /* SymbolNewsView.m */; };
+		7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A8E11591292006E35F4 /* OrderBookModalController.m */; };
 		7E8A6FD110F604B4003D7E29 /* SymbolDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */; };
 		7E9CD69A111DAAC9009B0087 /* MyListNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */; };
 		7EAE508711185CD500B2FCB4 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508411185CD500B2FCB4 /* Feed.m */; };
@@ -201,6 +203,10 @@
 		7E723B611129413E0073A07B /* OrderBookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookController.m; sourceTree = "<group>"; };
 		7E723BB411294B930073A07B /* OrderBookTableCellP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookTableCellP.h; sourceTree = "<group>"; };
 		7E723BB511294B930073A07B /* OrderBookTableCellP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookTableCellP.m; sourceTree = "<group>"; };
+		7E795A0811590024006E35F4 /* SymbolNewsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsView.h; sourceTree = "<group>"; };
+		7E795A0911590024006E35F4 /* SymbolNewsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsView.m; sourceTree = "<group>"; };
+		7E795A8D11591292006E35F4 /* OrderBookModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookModalController.h; sourceTree = "<group>"; };
+		7E795A8E11591292006E35F4 /* OrderBookModalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookModalController.m; sourceTree = "<group>"; };
 		7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDetailController.h; sourceTree = "<group>"; };
 		7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDetailController.m; sourceTree = "<group>"; };
 		7E9CD698111DAAC9009B0087 /* MyListNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListNavigationController.h; sourceTree = "<group>"; };
@@ -544,6 +550,8 @@
 		7E723BAC11294B350073A07B /* OrderBook */ = {
 			isa = PBXGroup;
 			children = (
+				7E795A8D11591292006E35F4 /* OrderBookModalController.h */,
+				7E795A8E11591292006E35F4 /* OrderBookModalController.m */,
 				7E723B601129413E0073A07B /* OrderBookController.h */,
 				7E723B611129413E0073A07B /* OrderBookController.m */,
 				7E723BB411294B930073A07B /* OrderBookTableCellP.h */,
@@ -605,6 +613,8 @@
 				7E38610611490BE300CA1086 /* TradesInfoView.m */,
 				7E38626A1149239A00CA1086 /* OrderBookView.h */,
 				7E38626B1149239A00CA1086 /* OrderBookView.m */,
+				7E795A0811590024006E35F4 /* SymbolNewsView.h */,
+				7E795A0911590024006E35F4 /* SymbolNewsView.m */,
 				7E3FC7EB114551BC00C438CF /* RoundedRectangle.h */,
 				7E3FC7EC114551BC00C438CF /* RoundedRectangle.m */,
 			);
@@ -865,6 +875,8 @@
 				7EC84DA21154EDA20083C82B /* NewsFeed.m in Sources */,
 				7ED5D7B2115677D3007EB033 /* MyListViewController.m in Sources */,
 				7E4C5F12115786AE0003C31E /* Trade.m in Sources */,
+				7E795A0A11590024006E35F4 /* SymbolNewsView.m in Sources */,
+				7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

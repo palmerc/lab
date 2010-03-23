@@ -7,7 +7,7 @@
 //
 
 
-#import "OrderBookController.h"
+#import "OrderBookModalController.h"
 #import "TradesController.h"
 #import "SymbolNewsController.h"
 #import "ChartController.h"
@@ -17,8 +17,9 @@
 @class LastChangeView;
 @class TradesInfoView;
 @class OrderBookView;
+@class SymbolNewsView;
 
-@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookControllerDelegate, TradesControllerDelegate, SymbolNewsControllerDelegate, ChartControllerDelegate> {
+@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookModalControllerDelegate, TradesControllerDelegate, SymbolNewsControllerDelegate, ChartControllerDelegate> {
 @private
 	NSManagedObjectContext *managedObjectContext;
 	
@@ -27,7 +28,7 @@
 	LastChangeView *lastBox;
 	TradesInfoView *tradesBox;
 	OrderBookView *orderBox;
-
+	SymbolNewsView *newsBox;
 	
 	UIScrollView *scrollView;
 		
@@ -107,7 +108,6 @@
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) UIToolbar *toolBar;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 

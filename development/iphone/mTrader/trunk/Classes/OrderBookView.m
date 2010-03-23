@@ -3,7 +3,7 @@
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 11.03.10.
-//  Copyright 2010 Infront AS. All rights reserved.
+//  Copyright 2010  AS. All rights reserved.
 //
 
 #import "OrderBookView.h"
@@ -16,7 +16,8 @@
 
 @implementation OrderBookView
 @synthesize symbol = _symbol;
-@synthesize askSizeLabel, askValueLabel, bidSizeLabel, bidValueLabel, tradingStatusLabel;
+@synthesize viewController = _viewController;
+@synthesize orderBookButton, askSizeLabel, askValueLabel, bidSizeLabel, bidValueLabel;
 
 #pragma mark -
 #pragma mark Initialization
@@ -33,6 +34,7 @@
 #pragma mark -
 #pragma mark UIView drawing
 - (void)drawRect:(CGRect)rect {
+
   	super.padding = 6.0f;
 	super.cornerRadius = 10.0f;
 	super.strokeWidth = 0.75f;
@@ -51,9 +53,10 @@
 	CGRect askSizeLabelFrame = CGRectMake(leftPadding + labelWidth * 3.0f, leftPadding, labelWidth, headerFontSize.height);
 
 
-	CGRect tableFrame = CGRectMake(leftPadding, leftPadding + headerFontSize.height, maxWidth, maxHeight - headerFontSize.height * 2.0f);
-
-	CGRect tradingStatusLabelFrame = CGRectMake(leftPadding, leftPadding + headerFontSize.height + tableFrame.size.height, maxWidth, headerFontSize.height);
+	CGRect tableFrame = CGRectMake(leftPadding, leftPadding + headerFontSize.height, maxWidth, maxHeight - headerFontSize.height);
+	
+	orderBookButton = [[UIButton alloc] initWithFrame:rect];
+	[orderBookButton addTarget:self.viewController action:@selector(orderBook:) forControlEvents:UIControlEventTouchUpInside];
 	
 	askSizeLabel = [[GradientLabel alloc] initWithFrame:askSizeLabelFrame];
 	askSizeLabel.textAlignment = UITextAlignmentCenter;
@@ -75,51 +78,31 @@
 	bidValueLabel.font = headerFont;
 	bidValueLabel.text = @"B Price";
 
-	orderBookController.table.frame = tableFrame;
+	orderBookController.view.frame = tableFrame;
 	
-	tradingStatusLabel = [[UILabel alloc] initWithFrame:tradingStatusLabelFrame];
-	tradingStatusLabel.textAlignment = UITextAlignmentCenter;
-	tradingStatusLabel.textColor = [UIColor blackColor];
-	tradingStatusLabel.font = [UIFont systemFontOfSize:17.0];
-	
-	[self addSubview:askSizeLabel];
-	[self addSubview:askValueLabel];
-	[self addSubview:bidSizeLabel];
-	[self addSubview:bidValueLabel];
-	[self addSubview:tradingStatusLabel];
+	[self addSubview:orderBookButton];
+	[orderBookButton addSubview:askSizeLabel];
+	[orderBookButton addSubview:askValueLabel];
+	[orderBookButton addSubview:bidSizeLabel];
+	[orderBookButton addSubview:bidValueLabel];
 	
 	[super drawRect:rect];
 }
 
-- (void)updateTradingStatus {
-	tradingStatusLabel.text = self.symbol.symbolDynamicData.tradingStatus;
-}
-
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
-	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.tradingStatus" options:NSKeyValueObservingOptionNew context:nil];
-
 	orderBookController.symbol = _symbol;
 }
 
-#pragma mark -
-#pragma mark KVO
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if ([keyPath isEqualToString:@"symbolDynamicData.tradingStatus"]) {
-		[self updateTradingStatus];
-	}
-}
 
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.tradingStatus"];
-	
 	[askSizeLabel release];
 	[askValueLabel release];
 	[bidValueLabel release];
 	[bidSizeLabel release];
-	[tradingStatusLabel release];
+	[orderBookButton release];
 	
 	[_symbol release];
 	

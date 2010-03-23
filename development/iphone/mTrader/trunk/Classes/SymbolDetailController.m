@@ -12,12 +12,14 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "mTraderCommunicator.h"
+#import "SymbolDataController.h"
 #import "QFields.h"
 #import "StringHelpers.h"
 
 #import "LastChangeView.h"
 #import "TradesInfoView.h"
 #import "OrderBookView.h"
+#import "SymbolNewsView.h"
 
 #import "RoundedRectangle.h"
 #import "OrderBookController.h"
@@ -45,7 +47,13 @@
 
 - (void)viewDidLoad {
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
-	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+	
+	UIScrollView* containerView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+	containerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+	containerView.scrollEnabled = YES;
+	containerView.bounces = NO;
+	containerView.contentSize = CGSizeMake(self.view.frame.size.width, 520.0f);
+	self.view = containerView;
 	
 	CGRect lastFrame = CGRectMake(0.0, 0.0, 160.0, 220.0);
 	lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
@@ -61,16 +69,22 @@
 	orderBox = [[OrderBookView alloc] initWithFrame:orderFrame andManagedObjectContext:self.managedObjectContext];
 	orderBox.symbol = self.symbol;
 	
+	CGRect newsFrame = CGRectMake(0.0, 370.0, 320.0, 150.0);
+	newsBox = [[SymbolNewsView alloc] initWithFrame:newsFrame];
+	newsBox.symbol = self.symbol;
+	
 	[self.view addSubview:lastBox];
 	[self.view addSubview:tradesBox];
 	[self.view addSubview:orderBox];
+	[self.view addSubview:newsBox];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[communicator staticDataForFeedTicker:feedTicker];
+	
+	[[SymbolDataController sharedManager] deleteAllBidsAsks];
 	
 	QFields *qFields = [[QFields alloc] init];
 	qFields.timeStamp = YES;
@@ -158,23 +172,22 @@
 //	return headerView;
 //}
 //
-//- (void)orderBook:(id)sender {
-//	OrderBookController *orderBookController = [[OrderBookController alloc] initWithSymbol:self.symbol];
-//	orderBookController.delegate = self;
-//	orderBookController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//	
-//	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:orderBookController];
-//	[orderBookController release];
-//	
-//	[self presentModalViewController:navController animated:YES];
-//	[navController release];
-//}
-//
+- (void)orderBook:(id)sender {
+	OrderBookModalController *orderBookController = [[OrderBookModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	orderBookController.symbol = self.symbol;
+	orderBookController.delegate = self;
+	orderBookController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:orderBookController];
+	[orderBookController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
 
 - (void)trades:(id)sender {
 	TradesController *tradesController = [[TradesController alloc] initWithManagedObjectContext:self.managedObjectContext];
 	tradesController.symbol = self.symbol;
-	tradesController.managedObjectContext = self.managedObjectContext;
 	tradesController.delegate = self;
 	tradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	
@@ -433,10 +446,10 @@
 //	dividendDate.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:self.symbol.symbolDynamicData.dividendDate]];
 //}
 //
-//- (void)orderBookControllerDidFinish:(OrderBookController *)controller {
-//	[self dismissModalViewControllerAnimated:YES];
-//}
-//
+- (void)orderBookModalControllerDidFinish:(OrderBookModalController *)controller {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 - (void)tradesControllerDidFinish:(TradesController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 }

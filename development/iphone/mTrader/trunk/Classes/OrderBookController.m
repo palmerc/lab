@@ -20,34 +20,18 @@
 #import "SymbolDataController.h"
 
 @implementation OrderBookController
-@synthesize delegate;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize symbol = _symbol;
 @synthesize bidAsks = _bidAsks;
-@synthesize table;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
-		
-		tableFont = nil;
+		[SymbolDataController sharedManager].orderBookDelegate = self;
+		tableFont = [[UIFont systemFontOfSize:17.0] retain];
 	}
 	return self;
-}
-
-- (void)loadView {
-	UIView *aView = [[UIView alloc] init];
-		
-	tableFont = [[UIFont systemFontOfSize:17.0] retain];
-	table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-	table.delegate = self;
-	table.dataSource = self;
-	
-	[aView addSubview:table];
-	
-	self.view = aView;
-	[aView release];
 }
 
 #pragma mark -
@@ -64,13 +48,14 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"ChainsTableCell";
+    static NSString *CellIdentifier = @"OrderBookTableCellP";
     
     OrderBookTableCellP *cell = (OrderBookTableCellP *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[OrderBookTableCellP alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		cell.mainFont = [UIFont systemFontOfSize:17.0];
-		cell.size = CGSizeMake(self.table.frame.size.width, self.table.frame.size.height);
+		cell.mainFont = tableFont;
+		cell.maxWidth = self.tableView.frame.size.width;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
     
     // Configure the cell.
@@ -89,26 +74,11 @@
 	return size.height;
 }
 
-- (void)setSymbol:(Symbol *)symbol {
-	_symbol = [symbol retain];
-	[self.symbol addObserver:self forKeyPath:@"bidsAsks" options:NSKeyValueObservingOptionNew context:nil];
-	[self updateSymbol];
-}
-
-- (void)updateSymbol {
-	NSArray *bidsAsks = [SymbolDataController fetchBidAsksForSymbol:self.symbol.tickerSymbol withFeed:self.symbol.feed.mCode inManagedObjectContext:self.managedObjectContext];
+- (void)updateOrderBook {
+	NSArray *bidsAsks = [SymbolDataController fetchBidAsksForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
 	self.bidAsks = bidsAsks;
 	
-	[self.table reloadData];
-}
-
-
-#pragma mark -
-#pragma mark KVO
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if ([keyPath isEqualToString:@"bidsAsks"]) {
-		[self updateSymbol];
-	}
+	[self.tableView reloadData];
 }
 
 //#pragma mark -
@@ -121,13 +91,10 @@
 
 #pragma mark -
 #pragma mark Memory management
-- (void)dealloc {
-	[self.symbol removeObserver:self forKeyPath:@"bidsAsks"];
-	
+- (void)dealloc {	
 	[tableFont release];
 	[_symbol release];
 	[_managedObjectContext release];
-	[table release];
     [super dealloc];
 }
 

@@ -12,7 +12,7 @@
 @private
 	BidAsk *_bidAsk;
 	
-	CGSize size;
+	CGFloat maxWidth;
 	CGFloat lineHeight;
 	UIFont *mainFont;
 	UILabel *bidSizeLabel;
@@ -22,7 +22,7 @@
 }
 
 @property (nonatomic, retain) BidAsk *bidAsk;
-@property (nonatomic, assign) CGSize size;
+@property (nonatomic, assign) CGFloat maxWidth;
 @property (nonatomic, retain) UIFont *mainFont;
 @property (nonatomic, retain) UILabel *bidSizeLabel;
 @property (nonatomic, retain) UILabel *bidValueLabel;

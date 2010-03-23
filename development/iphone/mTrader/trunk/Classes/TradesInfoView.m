@@ -7,6 +7,9 @@
 //
 
 #import "TradesInfoView.h"
+
+#import "mTraderCommunicator.h"
+#import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
 #import "Chart.h"
@@ -259,6 +262,9 @@
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
 	
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
+	[[mTraderCommunicator sharedManager] staticDataForFeedTicker:feedTicker];
+
 	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
 	
 	[self updateSymbol];

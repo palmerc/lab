@@ -13,7 +13,7 @@
 @class SymbolNewsCell;
 @protocol SymbolNewsControllerDelegate;
 
-@interface SymbolNewsController : UIViewController <SymbolsDataDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface SymbolNewsController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 @private
 	id <SymbolNewsControllerDelegate> delegate;
 	mTraderCommunicator *communicator;

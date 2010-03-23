@@ -51,13 +51,6 @@ typedef enum {
 - (void)centerSelection:(id)sender;
 - (void)rightSelection:(id)sender;
 
-- (void)deleteAllSymbols;
-- (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
-- (Feed *)fetchFeed:(NSString *)mCode;
-- (Feed *)fetchFeedByName:(NSString *)feedName;
-- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
-- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString	*)mCode;
-
 @end
 
 
