@@ -25,7 +25,7 @@
 #import "OrderBookController.h"
 #import "TradesController.h"
 #import "ChartController.h";
-#import "SymbolNewsController.h"
+#import "SymbolNewsModalController.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
@@ -57,12 +57,10 @@
 	
 	CGRect lastFrame = CGRectMake(0.0, 0.0, 160.0, 220.0);
 	lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
-	lastBox.viewController = self;
 	lastBox.symbol = self.symbol;
 
 	CGRect tradesFrame = CGRectMake(160.0, 0.0, 160.0, 220.0);
 	tradesBox = [[TradesInfoView alloc] initWithFrame:tradesFrame];
-	tradesBox.viewController = self;
 	tradesBox.symbol = self.symbol;
 	
 	CGRect orderFrame = CGRectMake(0.0, 220.0, 320.0, 150.0);
@@ -70,7 +68,7 @@
 	orderBox.symbol = self.symbol;
 	
 	CGRect newsFrame = CGRectMake(0.0, 370.0, 320.0, 150.0);
-	newsBox = [[SymbolNewsView alloc] initWithFrame:newsFrame];
+	newsBox = [[SymbolNewsView alloc] initWithFrame:newsFrame andManagedObjectContext:self.managedObjectContext];
 	newsBox.symbol = self.symbol;
 	
 	[self.view addSubview:lastBox];
@@ -210,18 +208,19 @@
 	[navController release];
 }
 
-//
-//- (void)news:(id)sender {
-//	SymbolNewsController *symbolNewsController = [[SymbolNewsController alloc] initWithSymbol:self.symbol];
-//	symbolNewsController.delegate = self;
-//	symbolNewsController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//	
-//	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:symbolNewsController];
-//	[symbolNewsController release];
-//	
-//	[self presentModalViewController:navController animated:YES];
-//	[navController release];
-//}
+
+- (void)news:(id)sender {
+	SymbolNewsModalController *symbolNewsController = [[SymbolNewsModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	symbolNewsController.symbol = self.symbol;
+	symbolNewsController.delegate = self;
+	symbolNewsController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:symbolNewsController];
+	[symbolNewsController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
 
 //- (UILabel *)generateLabelWithText:(NSString *)text {
 //	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
@@ -459,11 +458,11 @@
 
 	[lastBox setNeedsDisplay];
 }
-//
-//- (void)symbolNewsControllerDidFinish:(SymbolNewsController *)controller {
-//	[self dismissModalViewControllerAnimated:YES];
-//}
-//
+
+- (void)symbolNewsModalControllerDidFinish:(SymbolNewsModalController *)controller {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 
 #pragma mark -
 #pragma mark Debugging methods

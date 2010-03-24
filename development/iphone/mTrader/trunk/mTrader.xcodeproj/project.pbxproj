@@ -10,9 +10,6 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
-		7E093066113E5C2B00F164A3 /* SymbolNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E093065113E5C2B00F164A3 /* SymbolNewsCell.m */; };
-		7E093136113E895800F164A3 /* SymbolNewsItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E093135113E895800F164A3 /* SymbolNewsItemController.m */; };
-		7E093235113EA9B900F164A3 /* SymbolNewsItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E093234113EA9B900F164A3 /* SymbolNewsItemView.m */; };
 		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
 		7E15C7DD10F35A23007A45E8 /* ChainsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */; };
 		7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED41117371A00445735 /* StringHelpers.m */; };
@@ -92,6 +89,7 @@
 		7ED5D8EF11568F9F007EB033 /* Mtrader_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ED5D8EE11568F9F007EB033 /* Mtrader_16.png */; };
 		7EDDBC11114FB04F009BBF80 /* BidAsk.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDBC10114FB04F009BBF80 /* BidAsk.m */; };
 		7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE2A71F11172B0100B682BD /* CoreData.framework */; };
+		7EF2A556115A114C0049A8C1 /* SymbolNewsModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A555115A114C0049A8C1 /* SymbolNewsModalController.m */; };
 		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
 		C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
 /* End PBXBuildFile section */
@@ -111,12 +109,6 @@
 		1D6058910D05DD3D006BFB54 /* mTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		7E093064113E5C2B00F164A3 /* SymbolNewsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsCell.h; sourceTree = "<group>"; };
-		7E093065113E5C2B00F164A3 /* SymbolNewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsCell.m; sourceTree = "<group>"; };
-		7E093134113E895800F164A3 /* SymbolNewsItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsItemController.h; sourceTree = "<group>"; };
-		7E093135113E895800F164A3 /* SymbolNewsItemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsItemController.m; sourceTree = "<group>"; };
-		7E093233113EA9B900F164A3 /* SymbolNewsItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsItemView.h; sourceTree = "<group>"; };
-		7E093234113EA9B900F164A3 /* SymbolNewsItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsItemView.m; sourceTree = "<group>"; };
 		7E15C52E10F32632007A45E8 /* Starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Starter.h; sourceTree = "<group>"; };
 		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
 		7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChainsTableCell.h; sourceTree = "<group>"; };
@@ -230,6 +222,8 @@
 		7EDDBC0F114FB04F009BBF80 /* BidAsk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidAsk.h; sourceTree = "<group>"; };
 		7EDDBC10114FB04F009BBF80 /* BidAsk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidAsk.m; sourceTree = "<group>"; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		7EF2A554115A114C0049A8C1 /* SymbolNewsModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsModalController.h; sourceTree = "<group>"; };
+		7EF2A555115A114C0049A8C1 /* SymbolNewsModalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsModalController.m; sourceTree = "<group>"; };
 		7EF9464C11108D9F006B5CDE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		C73CE63510E7544200AF6D89 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		C73CE63610E7544200AF6D89 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
@@ -537,12 +531,8 @@
 			children = (
 				7E59A8C7113C1485001FD328 /* SymbolNewsController.h */,
 				7E59A8C8113C1485001FD328 /* SymbolNewsController.m */,
-				7E093064113E5C2B00F164A3 /* SymbolNewsCell.h */,
-				7E093065113E5C2B00F164A3 /* SymbolNewsCell.m */,
-				7E093134113E895800F164A3 /* SymbolNewsItemController.h */,
-				7E093135113E895800F164A3 /* SymbolNewsItemController.m */,
-				7E093233113EA9B900F164A3 /* SymbolNewsItemView.h */,
-				7E093234113EA9B900F164A3 /* SymbolNewsItemView.m */,
+				7EF2A554115A114C0049A8C1 /* SymbolNewsModalController.h */,
+				7EF2A555115A114C0049A8C1 /* SymbolNewsModalController.m */,
 			);
 			name = News;
 			sourceTree = "<group>";
@@ -856,9 +846,6 @@
 				7E59A71E113BD9F2001FD328 /* TradesCell.m in Sources */,
 				7E59A8C9113C1485001FD328 /* SymbolNewsController.m in Sources */,
 				7E59A8CC113C14A0001FD328 /* ChartController.m in Sources */,
-				7E093066113E5C2B00F164A3 /* SymbolNewsCell.m in Sources */,
-				7E093136113E895800F164A3 /* SymbolNewsItemController.m in Sources */,
-				7E093235113EA9B900F164A3 /* SymbolNewsItemView.m in Sources */,
 				7E41BA6F11404C8400277A67 /* NewsCell.m in Sources */,
 				7E41BA7011404C8400277A67 /* NewsController.m in Sources */,
 				7E41BA7111404C8400277A67 /* NewsArticleView.m in Sources */,
@@ -877,6 +864,7 @@
 				7E4C5F12115786AE0003C31E /* Trade.m in Sources */,
 				7E795A0A11590024006E35F4 /* SymbolNewsView.m in Sources */,
 				7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */,
+				7EF2A556115A114C0049A8C1 /* SymbolNewsModalController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

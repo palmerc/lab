@@ -9,7 +9,7 @@
 
 #import "OrderBookModalController.h"
 #import "TradesController.h"
-#import "SymbolNewsController.h"
+#import "SymbolNewsModalController.h"
 #import "ChartController.h"
 #import "mTraderCommunicator.h"
 
@@ -19,7 +19,7 @@
 @class OrderBookView;
 @class SymbolNewsView;
 
-@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookModalControllerDelegate, TradesControllerDelegate, SymbolNewsControllerDelegate, ChartControllerDelegate> {
+@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookModalControllerDelegate, TradesControllerDelegate, SymbolNewsModalControllerDelegate, ChartControllerDelegate> {
 @private
 	NSManagedObjectContext *managedObjectContext;
 	

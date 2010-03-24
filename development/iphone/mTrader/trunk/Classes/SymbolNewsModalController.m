@@ -6,7 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "SymbolNewsController.h"
+#import "SymbolNewsModalController.h"
 
 #import "mTraderCommunicator.h"
 #import "SymbolDataController.h"
@@ -18,7 +18,8 @@
 #import "Symbol.h"
 #import "NewsArticle.h"
 
-@implementation SymbolNewsController
+@implementation SymbolNewsModalController
+@synthesize delegate;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize symbol = _symbol;
@@ -30,6 +31,7 @@
     if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
 		_fetchedResultsController = nil;
+		delegate = nil;
 		_symbol = nil;
 	}
     return self;
@@ -56,19 +58,16 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[[SymbolDataController sharedManager] deleteAllNews];
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[communicator symbolNewsForFeedTicker:feedTicker];	
+	[self refresh:self];
 }
 
 /*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -222,6 +221,16 @@
 	[self.tableView endUpdates];
 }
 
+- (void)done:(id)sender {
+	[self.delegate symbolNewsModalControllerDidFinish:self];
+}
+
+- (void)refresh:(id)sender {
+	[[SymbolDataController sharedManager] deleteAllNews];
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	[communicator symbolNewsForFeedTicker:feedTicker];
+}
 #pragma mark -
 #pragma mark Memory management
 
