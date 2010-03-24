@@ -43,16 +43,16 @@
 		[dateTimeLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		[dateTimeLabel setFont:bottomLineLabelFont];
 		[dateTimeLabel setTextAlignment:UITextAlignmentLeft];
-		[dateTimeLabel setTextColor:[UIColor lightGrayColor]];
-		[dateTimeLabel setHighlightedTextColor:[UIColor lightGrayColor]];
+		[dateTimeLabel setTextColor:[UIColor darkGrayColor]];
+		[dateTimeLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:dateTimeLabel];
 		
 		feedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		[feedLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		feedLabel.textAlignment = UITextAlignmentRight;
 		[feedLabel setFont:bottomLineLabelFont];
-		[feedLabel setTextColor:[UIColor lightGrayColor]];
-		[feedLabel setHighlightedTextColor:[UIColor lightGrayColor]];
+		[feedLabel setTextColor:[UIColor darkGrayColor]];
+		[feedLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:feedLabel];
     }
     return self;
@@ -83,23 +83,21 @@
 }
 
 - (CGRect)_dateTimeLabelFrame {
-	CGRect bounds = [[UIScreen mainScreen] bounds];
-	CGSize fontSize = [@"X" sizeWithFont:bottomLineLabelFont];
+	CGSize fontSize = [dateTimeLabel.text sizeWithFont:bottomLineLabelFont];
 
-	CGFloat width = (bounds.size.width - TEXT_LEFT_MARGIN - TEXT_RIGHT_MARGIN) / 2;
+	CGFloat width = fontSize.width;
 	CGFloat height = fontSize.height;
 	
 	return CGRectMake(TEXT_LEFT_MARGIN, 24.0, width, height);
 }
 
 - (CGRect)_feedLabelFrame {
-	CGRect bounds = [[UIScreen mainScreen] bounds];
-	CGSize fontSize = [@"X" sizeWithFont:bottomLineLabelFont];
+	CGSize fontSize = [dateTimeLabel.text sizeWithFont:bottomLineLabelFont];
 
-	CGFloat width = (bounds.size.width - TEXT_LEFT_MARGIN - TEXT_RIGHT_MARGIN) / 2;
+	CGFloat width = fontSize.width;
 	CGFloat height = fontSize.height;
 	
-	return CGRectMake(TEXT_LEFT_MARGIN + width, 24.0, width, height);
+	return CGRectMake(width, 24.0, self.frame.size.width - width - 2.0f, height);
 }
 
 #pragma mark -
@@ -108,7 +106,7 @@
 - (void)setNewsArticle:(NewsArticle *)newsArticle {
 	_newsArticle = [newsArticle retain];
 	
-	feedLabel.text = newsArticle.newsFeed.mCode;
+	feedLabel.text = newsArticle.newsFeed.name;
 	
 	NSString *flag = newsArticle.flag;
 	if ([flag isEqualToString:@"F"]) {

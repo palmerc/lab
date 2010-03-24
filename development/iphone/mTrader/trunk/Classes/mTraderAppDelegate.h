@@ -15,7 +15,7 @@ typedef enum {
 	SETTINGS = 3
 } tabs;
 
-@interface mTraderAppDelegate : NSObject <UIApplicationDelegate> {
+@interface mTraderAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate> {
 @private
 	NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;

@@ -68,22 +68,6 @@
 	self.fetchedResultsController = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	if ([communicator isLoggedIn]) {
-		QFields *qFields = [[QFields alloc] init];
-		qFields.timeStamp = YES;
-		qFields.lastTrade = YES;
-		qFields.bidPrice = YES;
-		qFields.askPrice = YES;
-		qFields.change = YES;
-		qFields.changePercent = YES;
-		communicator.qFields = qFields;
-		[qFields release];
-		[communicator setStreamingForFeedTicker:nil];
-	}
-}
-
 #pragma mark -
 #pragma mark TableViewDataSource Methods
 

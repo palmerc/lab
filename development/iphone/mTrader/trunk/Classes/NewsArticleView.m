@@ -38,11 +38,11 @@
 		_feedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.feedLabel.font = [UIFont systemFontOfSize:12.0];
 		self.feedLabel.textAlignment = UITextAlignmentRight;
-		self.feedLabel.textColor = [UIColor lightGrayColor];
+		self.feedLabel.textColor = [UIColor darkGrayColor];
 		
 		_dateTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.dateTimeLabel.font = [UIFont systemFontOfSize:12.0];
-		self.dateTimeLabel.textColor = [UIColor lightGrayColor];
+		self.dateTimeLabel.textColor = [UIColor darkGrayColor];
 		
 		[self.scrollView addSubview:self.headlineLabel];
 		[self.scrollView addSubview:self.bodyLabel];

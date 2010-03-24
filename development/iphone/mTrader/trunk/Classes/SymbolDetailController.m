@@ -78,27 +78,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	
-	[[SymbolDataController sharedManager] deleteAllBidsAsks];
-	
-	QFields *qFields = [[QFields alloc] init];
-	qFields.timeStamp = YES;
-	qFields.lastTrade = YES;
-	qFields.change = YES;
-	qFields.changePercent = YES;
-	qFields.open = YES;
-	qFields.high = YES;
-	qFields.low = YES;
-	qFields.volume = YES;
-	qFields.orderBook = YES;
-	
-	communicator.qFields = qFields;
-	[qFields release];
-	
-	[communicator setStreamingForFeedTicker:feedTicker];	
 }
 
 //- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

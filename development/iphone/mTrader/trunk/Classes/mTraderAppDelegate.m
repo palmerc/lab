@@ -43,7 +43,7 @@
 	window.backgroundColor = [UIColor lightGrayColor];
 	
 	UIViewController *rootViewController = [[MyListViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
-	ChainsNavigationViewController *myListNavigationController = [[MyListNavigationController alloc] initWithContentViewController:rootViewController];
+	MyListNavigationController *myListNavigationController = [[MyListNavigationController alloc] initWithContentViewController:rootViewController];
 	[rootViewController release];
 	
 	NewsController *news = [[NewsController alloc] initWithMangagedObjectContext:self.managedObjectContext];

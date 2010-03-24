@@ -9,7 +9,7 @@
 
 @class MyListViewController;
 
-@interface MyListNavigationController : UINavigationController {
+@interface MyListNavigationController : UINavigationController <UINavigationControllerDelegate> {
 @private
 	MyListViewController *_myListViewController;
 }
