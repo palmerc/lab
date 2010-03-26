@@ -7,7 +7,10 @@
 //
 
 #import "mTraderServerMonitor.h"
+
 #import "mTraderCommunicator.h"
+#import "UserDefaults.h"
+
 #import "Reachability.h"
 
 #import <arpa/inet.h>
@@ -61,10 +64,14 @@ static mTraderServerMonitor *sharedMonitor = nil;
 - (id)init {
 	self = [super init];
 	if (self != nil) {
+		isLoggedIn = NO;
+		
 		self.server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+		
+		
 		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
 		
 		NSMutableCharacterSet *ipAddrSet = [[[NSMutableCharacterSet alloc] init] autorelease];
@@ -85,13 +92,26 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		}
 		
 		[self.reachability startNotifer];
-		NetworkStatus status = [self.reachability currentReachabilityStatus];
-		
-		if (status == ReachableViaWiFi || status == ReachableViaWWAN) {
-			//[[mTraderCommunicator sharedManager] login];
-		}
 	}
 	return self;
+}
+
+- (BOOL)hasUsernameAndPasswordDefined {
+	UserDefaults *userDefaults = [UserDefaults sharedManager];
+	NSString *username = userDefaults.username;
+	NSString *password = userDefaults.password;
+	
+	if (username == nil || password == nil || [username isEqualToString:@""] || [password isEqualToString:@""]) {
+		return NO;
+	}
+	
+	return YES;
+}
+
+- (void)attemptConnection {
+	if (isConnected && !isLoggedIn && hasUsernameAndPasswordDefined) {
+		[[mTraderCommunicator sharedManager] login];
+	}
 }
 
 #pragma mark -
@@ -110,11 +130,38 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		[alertView show];
 		[alertView release];
 	} else {
-		[[mTraderCommunicator sharedManager] login];
+		//[self attemptConnection];
 	}
 	
 	NSLog(@"Reachability is %d", status);
 }
+
+#pragma mark -
+#pragma mark CommunicatorMonitorDelegate methods
+
+- (void)connected {
+	isConnected = YES;
+	[self attemptConnection];
+}
+
+- (void)disconnected {
+	isConnected = NO;
+	isLoggedIn = NO;
+}
+
+#pragma mark -
+#pragma mark mTraderCommunicatorMonitorDelegate methods
+
+- (void)loginFailed:(NSString *)message {
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	[alertView show];
+	[alertView release];
+}
+
+- (void)loginSuccessful {
+	isLoggedIn = YES;
+}
+
 
 -(void) kickedOut {
 	NSLog(@"Kicked out");

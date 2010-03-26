@@ -7,7 +7,6 @@
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
-
 @protocol CommunicatorDataDelegate;
 
 @interface Communicator : NSOperation {
@@ -26,6 +25,7 @@
 }
 
 @property (nonatomic, assign) id <CommunicatorDataDelegate> delegate;
+
 @property (nonatomic, retain) NSString *host;
 @property NSInteger port;
 @property (nonatomic, retain) NSInputStream *inputStream;
@@ -41,9 +41,9 @@
 - (NSData *)readLine;
 @end
 
-
 @protocol CommunicatorDataDelegate <NSObject>
-- (void)connectionEstablished;
 - (void)dataReceived;
+- (void)connected;
+- (void)disconnected;
 @end
 

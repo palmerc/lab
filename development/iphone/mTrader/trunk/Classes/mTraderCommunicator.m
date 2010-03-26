@@ -111,10 +111,18 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		[self stateMachine];
 		[self.blockBuffer removeAllObjects];
 	}
-}	
+}
 
-- (void)connectionEstablished {
-	[self login];
+- (void)connected {
+	if (self.mTraderServerMonitorDelegate && [mTraderServerMonitorDelegate respondsToSelector:@selector(connected)]) {
+		[self.mTraderServerMonitorDelegate connected];
+	}
+}
+
+- (void)disconnected {
+	if (self.mTraderServerMonitorDelegate && [mTraderServerMonitorDelegate respondsToSelector:@selector(disconnected)]) {
+		[self.mTraderServerMonitorDelegate disconnected];
+	}
 }
 
 -(void) stateMachine {
@@ -212,10 +220,16 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
 		loginStatusHasChanged = YES;
+		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
+			[self.mTraderServerMonitorDelegate loginFailed:@"UsrPwd"];
+		}
 		isLoggedIn = NO;
 		state = LOGIN;
 	} else if ([string rangeOfString:@"Request: login/failed.DeniedAccess"].location == 0) {
 		loginStatusHasChanged = YES;
+		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
+			[self.mTraderServerMonitorDelegate loginFailed:@"DeniedAccess"];
+		}
 		isLoggedIn = NO;
 		state = LOGIN;
 	} 
@@ -227,10 +241,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
 		loginStatusHasChanged = YES;
-		isLoggedIn = YES;
-		
-		[[UserDefaults sharedManager] saveSettings];
-		
+		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginSuccess)]) {
+			[self.mTraderServerMonitorDelegate loginSuccessful];
+		}		
 		state = PREPROCESSING;
 	} else if  ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
 		state = ADDSEC;
@@ -648,9 +661,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	return result;
 }
 
-- (void)setStreaming {
-}
-
 #pragma mark -
 #pragma mark mTrader Server Requests
 /**
@@ -659,10 +669,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
  */
 
 - (void)login {
-	if (self.communicator.isConnected == NO) {
-		[self.communicator startConnection];
-	}	
-	
 	NSString *username = self.defaults.username;
 	NSString *password = self.defaults.password;
 	
@@ -695,9 +701,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, Protocol, ConnectionType, Streaming, QFieldsServerString, nil];
 		NSString *loginString = [self arrayToFormattedString:loginArray];
 		
-		if (self.communicator.isConnected == YES && isLoggedIn == NO) {
-			[self.communicator writeString:loginString];
-		}
+		[self.communicator writeString:loginString];
 	}
 }
 

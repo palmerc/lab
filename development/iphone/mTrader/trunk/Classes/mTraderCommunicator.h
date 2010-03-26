@@ -121,8 +121,11 @@ enum {
 @end
 
 @protocol mTraderServerMonitorDelegate <NSObject>
+- (void)connected;
 - (void)disconnected;
 - (void)kickedOut;
+- (void)loginSuccessful;
+- (void)loginFailed:(NSString *)message;
 @end
 
 @protocol SymbolsDataDelegate <NSObject>

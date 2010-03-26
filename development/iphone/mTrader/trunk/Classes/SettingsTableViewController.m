@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.m
+//  SettingsTableViewController.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
@@ -7,10 +7,14 @@
 //
 
 #import "SettingsTableViewController.h"
-#import "AboutViewController.h"
+
 #import "mTraderAppDelegate.h"
+
 #import "mTraderCommunicator.h"
+#import "mTraderServerMonitor.h"
 #import "UserDefaults.h"
+
+#import "AboutViewController.h"
 
 @implementation SettingsTableViewController
 @synthesize tableView;
@@ -163,7 +167,7 @@
 	// As long as username and password are not empty or nil attempt to connect
 	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
 		[defaults saveSettings];
-		[communicator login];
+		[[mTraderServerMonitor sharedManager] attemptConnection];
 	}
 }
 

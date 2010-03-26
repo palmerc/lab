@@ -63,8 +63,11 @@
 			NSLog(@"NSStreamEventNone");
 			break;
 		case NSStreamEventOpenCompleted:
+			if (self.delegate && [self.delegate respondsToSelector:@selector(connected)]) {
+				[self.delegate connected];
+			}
 			self.isConnected = YES;
-			[self.delegate connectionEstablished];
+
 			break;
 		case NSStreamEventHasBytesAvailable:
 		{
@@ -99,9 +102,15 @@
 		case NSStreamEventHasSpaceAvailable:
 			break;
 		case NSStreamEventErrorOccurred:
+			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
+				[self.delegate disconnected];
+			}			
 			self.isConnected = NO;
 			break;
 		case NSStreamEventEndEncountered:
+			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
+				[self.delegate disconnected];
+			}
 			self.isConnected = NO;
 			break;
 		default:

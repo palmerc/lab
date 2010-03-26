@@ -7,6 +7,7 @@
 //
 
 #import "mTraderCommunicator.h"
+#import "Communicator.h"
 
 @class Reachability;
 
@@ -15,11 +16,16 @@
 	Reachability *_reachability;
 	NSString *_server;
 	NSString *_port;
+	
+	BOOL isConnected;
+	BOOL isLoggedIn;
+	BOOL hasUsernameAndPasswordDefined;
 }
 @property (nonatomic,retain) Reachability *reachability;
 @property (nonatomic,retain) NSString *server;
 @property (nonatomic,retain) NSString *port;
 
 + (mTraderServerMonitor *)sharedManager;
+- (void)attemptConnection;
 
 @end
