@@ -54,8 +54,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		_qFields = nil;
 		contentLength = 0;
 		state = LOGIN;
-		
-		[self.communicator startConnection];
 	}
 	return self;
 }

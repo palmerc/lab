@@ -68,32 +68,36 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		
 		self.server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
+		_reachability = nil;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-		
-		
+				
 		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
 		
-		NSMutableCharacterSet *ipAddrSet = [[[NSMutableCharacterSet alloc] init] autorelease];
-		[ipAddrSet addCharactersInString:@"0123456789."];
-		
-		NSArray *characters = [self.server componentsSeparatedByCharactersInSet:ipAddrSet];
-		if ([characters count] - 1 == [self.server length]) {
-			struct sockaddr_in hostAddress;
-			bzero(&hostAddress, sizeof(hostAddress));
-			hostAddress.sin_len = sizeof(hostAddress);
-			hostAddress.sin_family = AF_INET;
-			const char* addr = [self.server cStringUsingEncoding:NSASCIIStringEncoding];
-			hostAddress.sin_addr.s_addr = inet_addr(addr);
-			hostAddress.sin_port = [self.port integerValue];
-			self.reachability = [Reachability reachabilityWithAddress:&hostAddress];
-		} else {
-			self.reachability = [Reachability reachabilityWithHostName:self.server];
-		}
-		
-		[self.reachability startNotifer];
+		[self startReachability];
 	}
 	return self;
+}
+
+- (void)startReachability {
+	NSMutableCharacterSet *ipAddrSet = [[[NSMutableCharacterSet alloc] init] autorelease];
+	[ipAddrSet addCharactersInString:@"0123456789."];
+	
+	NSArray *characters = [self.server componentsSeparatedByCharactersInSet:ipAddrSet];
+	if ([characters count] - 1 == [self.server length]) {
+		struct sockaddr_in hostAddress;
+		bzero(&hostAddress, sizeof(hostAddress));
+		hostAddress.sin_len = sizeof(hostAddress);
+		hostAddress.sin_family = AF_INET;
+		const char* addr = [self.server cStringUsingEncoding:NSASCIIStringEncoding];
+		hostAddress.sin_addr.s_addr = inet_addr(addr);
+		hostAddress.sin_port = [self.port integerValue];
+		self.reachability = [Reachability reachabilityWithAddress:&hostAddress];
+	} else {
+		self.reachability = [Reachability reachabilityWithHostName:self.server];
+	}
+	[_reachability retain];
+	[self.reachability startNotifer];	
 }
 
 - (BOOL)hasUsernameAndPasswordDefined {
@@ -129,15 +133,9 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	Reachability *reachNoteObject = [note object];
 	NetworkStatus status = [reachNoteObject currentReachabilityStatus];
 	
-	if (status == NotReachable) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-		[alertView show];
-		[alertView release];
-	} else {
-		//[self attemptConnection];
+	if (status == ReachableViaWiFi || status == ReachableViaWWAN) {
+		[self attemptConnection];
 	}
-	
-	NSLog(@"Reachability is %d", status);
 }
 
 #pragma mark -
@@ -151,11 +149,22 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 - (void)disconnected {
+	if (isConnected == NO && isLoggedIn == NO) {
+		return;
+	}
 	isConnected = NO;
 	isLoggedIn = NO;
+	[[mTraderCommunicator sharedManager].communicator stopConnection];
+	
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	[alertView show];
+	[alertView release];
+	
+	[self startReachability];
 }
 
 - (void)loginFailed:(NSString *)message {
+	isLoggedIn = NO;
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
@@ -180,10 +189,12 @@ static mTraderServerMonitor *sharedMonitor = nil;
 #pragma mark -
 #pragma mark Memory management
 -(void) dealloc {
-	[self.server release];
-	[self.port release];
-	[self.reachability stopNotifer];
-	[self.reachability release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[_server release];
+	[_port release];
+	[_reachability stopNotifer];
+	[_reachability release];
 	[super dealloc];
 }
 

@@ -20,11 +20,12 @@
 	BOOL isConnected;
 	BOOL isLoggedIn;
 }
-@property (nonatomic,retain) Reachability *reachability;
-@property (nonatomic,retain) NSString *server;
-@property (nonatomic,retain) NSString *port;
+@property (nonatomic, retain) Reachability *reachability;
+@property (nonatomic, retain) NSString *server;
+@property (nonatomic, retain) NSString *port;
 
 + (mTraderServerMonitor *)sharedManager;
 - (void)attemptConnection;
+- (void)startReachability;
 
 @end
