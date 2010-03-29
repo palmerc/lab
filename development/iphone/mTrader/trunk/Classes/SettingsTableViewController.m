@@ -28,7 +28,7 @@
 		defaults = [UserDefaults sharedManager];
 		communicator = [mTraderCommunicator sharedManager];
 		
-		UIImage* anImage = [UIImage imageNamed:@"settingsTabButton.png"];
+		UIImage* anImage = [UIImage imageNamed:@"SettingsTab.png"];
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTab", @"The settings tab label") image:anImage tag:SETTINGS];
 		self.tabBarItem = theItem;
 		[theItem release];

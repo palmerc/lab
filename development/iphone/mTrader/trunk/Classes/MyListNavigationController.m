@@ -29,7 +29,7 @@
 		_myListViewController = [rootViewController retain];
 		self.myListViewController.navigationController = self;
 		self.delegate = self;
-		UIImage* anImage = [UIImage imageNamed:@"myStocksTabButton.png"];	
+		UIImage* anImage = [UIImage imageNamed:@"MyListTab.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", "My Stocks tab label")  image:anImage tag:CHAINS];
 		self.tabBarItem = theItem;
 		[theItem release];

@@ -35,7 +35,7 @@
 		_feedsFetchedResultsController = nil;
 		
 		self.title = NSLocalizedString(@"NewsTab", "News tab label");
-		UIImage* anImage = [UIImage imageNamed:@"newsTabButton.png"];	
+		UIImage* anImage = [UIImage imageNamed:@"NewsTab.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];
