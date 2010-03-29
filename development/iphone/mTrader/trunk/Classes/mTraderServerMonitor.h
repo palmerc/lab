@@ -19,7 +19,6 @@
 	
 	BOOL isConnected;
 	BOOL isLoggedIn;
-	BOOL hasUsernameAndPasswordDefined;
 }
 @property (nonatomic,retain) Reachability *reachability;
 @property (nonatomic,retain) NSString *server;

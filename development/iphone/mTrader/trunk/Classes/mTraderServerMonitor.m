@@ -109,7 +109,11 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 - (void)attemptConnection {
-	if (isConnected && !isLoggedIn && hasUsernameAndPasswordDefined) {
+	if (isConnected == NO) {
+		[[mTraderCommunicator sharedManager].communicator startConnection];
+	}
+	
+	if (isConnected && !isLoggedIn && [self hasUsernameAndPasswordDefined]) {
 		[[mTraderCommunicator sharedManager] login];
 	}
 }
@@ -137,20 +141,19 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 #pragma mark -
-#pragma mark CommunicatorMonitorDelegate methods
+#pragma mark mTraderCommunicatorMonitorDelegate methods
 
 - (void)connected {
 	isConnected = YES;
-	[self attemptConnection];
+	if (isLoggedIn == NO) {
+		[self attemptConnection];
+	}
 }
 
 - (void)disconnected {
 	isConnected = NO;
 	isLoggedIn = NO;
 }
-
-#pragma mark -
-#pragma mark mTraderCommunicatorMonitorDelegate methods
 
 - (void)loginFailed:(NSString *)message {
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
@@ -161,7 +164,6 @@ static mTraderServerMonitor *sharedMonitor = nil;
 - (void)loginSuccessful {
 	isLoggedIn = YES;
 }
-
 
 -(void) kickedOut {
 	NSLog(@"Kicked out");

@@ -154,19 +154,24 @@
 	BOOL update = NO;
 	if (textField.tag == USERNAME_FIELD) {
 		if (![username isEqualToString:textField.text]) {
-			defaults.username = textField.text;
+			username = textField.text;
 			update = YES;
 		}
 	} else if (textField.tag == PASSWORD_FIELD) {
 		if (![password isEqualToString:textField.text]) {
-			defaults.password = textField.text;
+			password = textField.text;
 			update = YES;
 		}
 	}
 	
+	if (update == YES) {
+		defaults.username = username;
+		defaults.password = password;
+		[defaults saveSettings];
+	}
+	
 	// As long as username and password are not empty or nil attempt to connect
 	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
-		[defaults saveSettings];
 		[[mTraderServerMonitor sharedManager] attemptConnection];
 	}
 }

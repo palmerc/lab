@@ -285,11 +285,17 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *string = [self dataToString:data];
 	
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
+		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginSuccessful)]) {
+			[self.mTraderServerMonitorDelegate loginSuccessful];
+		}
 		loginStatusHasChanged = YES;
 		isLoggedIn = YES;
 		
 		state = PREPROCESSING;
 	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
+		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
+			[self.mTraderServerMonitorDelegate loginFailed:@"UsrPwd"];
+		}
 		loginStatusHasChanged = YES;
 		isLoggedIn = NO;
 	}

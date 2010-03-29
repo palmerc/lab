@@ -38,15 +38,17 @@
 		7E2DA19311046EBC002CE93F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */; };
 		7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */; };
 		7E33CBC91100AE5600C2737F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E33CBC81100AE5600C2737F /* Reachability.m */; };
+		7E3451B11160A06D0099B393 /* mTraderIcon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3451B01160A06D0099B393 /* mTraderIcon_57.png */; };
+		7E3451C41160A13E0099B393 /* mTraderIcon_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3451C31160A13E0099B393 /* mTraderIcon_512.png */; };
+		7E3451CB1160A3770099B393 /* MyListTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3451CA1160A3770099B393 /* MyListTab.png */; };
+		7E3451D61160AA560099B393 /* NewsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3451D51160AA560099B393 /* NewsTab.png */; };
 		7E377F7011171B000080A84B /* mTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F6F11171B000080A84B /* mTraderCommunicator.m */; };
 		7E377F7311171B1C0080A84B /* mTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7211171B1C0080A84B /* mTraderAppDelegate.m */; };
 		7E377F7511171B300080A84B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7411171B300080A84B /* main.m */; };
 		7E377F8211171B7B0080A84B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F7D11171B7B0080A84B /* Localizable.strings */; };
 		7E377F8B11171B970080A84B /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8411171B970080A84B /* AboutView.xib */; };
 		7E377F9111171B970080A84B /* SymbolAddView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8A11171B970080A84B /* SymbolAddView.xib */; };
-		7E377F9711171BB10080A84B /* myStocksTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9311171BB10080A84B /* myStocksTabButton.png */; };
-		7E377F9811171BB10080A84B /* newsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9411171BB10080A84B /* newsTabButton.png */; };
-		7E377F9911171BB10080A84B /* settingsTabButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9511171BB10080A84B /* settingsTabButton.png */; };
+		7E377F9911171BB10080A84B /* SettingsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9511171BB10080A84B /* SettingsTab.png */; };
 		7E38610711490BE300CA1086 /* TradesInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38610611490BE300CA1086 /* TradesInfoView.m */; };
 		7E38626C1149239A00CA1086 /* OrderBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38626B1149239A00CA1086 /* OrderBookView.m */; };
 		7E38640911494AB300CA1086 /* SymbolDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38640811494AB300CA1086 /* SymbolDataController.m */; };
@@ -74,7 +76,6 @@
 		7E8A6FD110F604B4003D7E29 /* SymbolDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */; };
 		7E9CD69A111DAAC9009B0087 /* MyListNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */; };
 		7EA8DF09115BC2600034EB3D /* Mtrader_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8DF08115BC2600034EB3D /* Mtrader_16.png */; };
-		7EA8DF11115BC3110034EB3D /* infront.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8DF10115BC3110034EB3D /* infront.png */; };
 		7EAE508711185CD500B2FCB4 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508411185CD500B2FCB4 /* Feed.m */; };
 		7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508611185CD500B2FCB4 /* Symbol.m */; };
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
@@ -125,6 +126,10 @@
 		7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7E33CBC71100AE5600C2737F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		7E33CBC81100AE5600C2737F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		7E3451B01160A06D0099B393 /* mTraderIcon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mTraderIcon_57.png; sourceTree = "<group>"; };
+		7E3451C31160A13E0099B393 /* mTraderIcon_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mTraderIcon_512.png; sourceTree = "<group>"; };
+		7E3451CA1160A3770099B393 /* MyListTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyListTab.png; sourceTree = "<group>"; };
+		7E3451D51160AA560099B393 /* NewsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewsTab.png; sourceTree = "<group>"; };
 		7E377F6811171AEB0080A84B /* mTraderCommunicatorUnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mTraderCommunicatorUnitTests.h; path = Tests/mTraderCommunicatorUnitTests.h; sourceTree = "<group>"; };
 		7E377F6911171AEB0080A84B /* mTraderCommunicatorUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mTraderCommunicatorUnitTests.m; path = Tests/mTraderCommunicatorUnitTests.m; sourceTree = "<group>"; };
 		7E377F6A11171AEB0080A84B /* mTraderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mTraderTests.h; path = Tests/mTraderTests.h; sourceTree = "<group>"; };
@@ -140,9 +145,7 @@
 		7E377F7E11171B7B0080A84B /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		7E377F8411171B970080A84B /* AboutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutView.xib; path = Resources/AboutView.xib; sourceTree = "<group>"; };
 		7E377F8A11171B970080A84B /* SymbolAddView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SymbolAddView.xib; path = Resources/SymbolAddView.xib; sourceTree = "<group>"; };
-		7E377F9311171BB10080A84B /* myStocksTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = myStocksTabButton.png; path = Resources/myStocksTabButton.png; sourceTree = "<group>"; };
-		7E377F9411171BB10080A84B /* newsTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newsTabButton.png; path = Resources/newsTabButton.png; sourceTree = "<group>"; };
-		7E377F9511171BB10080A84B /* settingsTabButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settingsTabButton.png; path = Resources/settingsTabButton.png; sourceTree = "<group>"; };
+		7E377F9511171BB10080A84B /* SettingsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SettingsTab.png; path = Resources/SettingsTab.png; sourceTree = "<group>"; };
 		7E377F9A11171BC60080A84B /* mTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTrader-Info.plist"; sourceTree = "<group>"; };
 		7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTraderTesting-Info.plist"; sourceTree = "<group>"; };
 		7E38610511490BE300CA1086 /* TradesInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesInfoView.h; sourceTree = "<group>"; };
@@ -196,7 +199,6 @@
 		7E9CD698111DAAC9009B0087 /* MyListNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListNavigationController.h; sourceTree = "<group>"; };
 		7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListNavigationController.m; sourceTree = "<group>"; };
 		7EA8DF08115BC2600034EB3D /* Mtrader_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Mtrader_16.png; path = Resources/Mtrader_16.png; sourceTree = "<group>"; };
-		7EA8DF10115BC3110034EB3D /* infront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = infront.png; path = Resources/infront.png; sourceTree = "<group>"; };
 		7EAE508311185CD500B2FCB4 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
 		7EAE508411185CD500B2FCB4 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		7EAE508511185CD500B2FCB4 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
@@ -406,11 +408,12 @@
 		7E419AFA10E20DD00007808B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				7EA8DF10115BC3110034EB3D /* infront.png */,
+				7E3451C31160A13E0099B393 /* mTraderIcon_512.png */,
+				7E3451B01160A06D0099B393 /* mTraderIcon_57.png */,
 				7EA8DF08115BC2600034EB3D /* Mtrader_16.png */,
-				7E377F9311171BB10080A84B /* myStocksTabButton.png */,
-				7E377F9411171BB10080A84B /* newsTabButton.png */,
-				7E377F9511171BB10080A84B /* settingsTabButton.png */,
+				7E3451CA1160A3770099B393 /* MyListTab.png */,
+				7E3451D51160AA560099B393 /* NewsTab.png */,
+				7E377F9511171BB10080A84B /* SettingsTab.png */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -734,11 +737,12 @@
 				7E377F8211171B7B0080A84B /* Localizable.strings in Resources */,
 				7E377F8B11171B970080A84B /* AboutView.xib in Resources */,
 				7E377F9111171B970080A84B /* SymbolAddView.xib in Resources */,
-				7E377F9711171BB10080A84B /* myStocksTabButton.png in Resources */,
-				7E377F9811171BB10080A84B /* newsTabButton.png in Resources */,
-				7E377F9911171BB10080A84B /* settingsTabButton.png in Resources */,
+				7E377F9911171BB10080A84B /* SettingsTab.png in Resources */,
 				7EA8DF09115BC2600034EB3D /* Mtrader_16.png in Resources */,
-				7EA8DF11115BC3110034EB3D /* infront.png in Resources */,
+				7E3451B11160A06D0099B393 /* mTraderIcon_57.png in Resources */,
+				7E3451C41160A13E0099B393 /* mTraderIcon_512.png in Resources */,
+				7E3451CB1160A3770099B393 /* MyListTab.png in Resources */,
+				7E3451D61160AA560099B393 /* NewsTab.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
