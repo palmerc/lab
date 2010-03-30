@@ -711,6 +711,8 @@ static SymbolDataController *sharedDataController = nil;
 }
 
 -(void) newsListFeedsUpdates:(NSArray *)newsList {
+	[self deleteAllNews];
+	
 	for (NSString *news in newsList) {
 		NSArray *components = [news componentsSeparatedByString:@";"];
 		components = [StringHelpers cleanComponents:components];

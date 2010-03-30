@@ -104,6 +104,8 @@
 	_symbol = [symbol retain];
 	
 	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
+	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.change" options:NSKeyValueObservingOptionNew context:nil];
+	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.changePercent" options:NSKeyValueObservingOptionNew context:nil];
 	[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
 	
 	[self updateSymbol];
@@ -168,7 +170,9 @@
 #pragma mark -
 #pragma mark KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"]) {
+	if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"] || 
+		[keyPath isEqualToString:@"symbolDynamicData.change"] || 
+		[keyPath isEqualToString:@"symbolDynamicData.changePercent"]) {
 		[self updateSymbol];
 	} else if ([keyPath isEqualToString:@"chart.data"]) {
 		[self updateChart];
@@ -179,6 +183,8 @@
 #pragma mark Memory management
 - (void)dealloc {
 	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
+	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.change"];
+	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.changePercent"];
 	[self.symbol removeObserver:self forKeyPath:@"chart.data"];
 	
 	[_symbol release];

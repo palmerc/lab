@@ -58,8 +58,6 @@
 	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];
 		
 	_tabController = [[UITabBarController alloc] init];
-	//NSLog(@"TabController size -> x:%.1f y:%.1f width:%.1f height:%.1f", _tabController.view.frame.origin.x, _tabController.view.frame.origin.y, _tabController.view.frame.size.width, _tabController.view.frame.size.height);
-	//NSLog(@"TabController size -> x:%.1f y:%.1f width:%.1f height:%.1f", _tabController.view.bounds.origin.x, _tabController.view.bounds.origin.y, _tabController.view.bounds.size.width, _tabController.view.bounds.size.height);
 	self.tabController.viewControllers = viewControllersArray;
 	 	
 	[window addSubview:self.tabController.view];

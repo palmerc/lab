@@ -90,6 +90,7 @@
 	} else if ([viewController isMemberOfClass:SymbolDetailController.class]) {
 		Symbol *symbol = ((SymbolDetailController *)viewController).symbol;
 		
+		[[SymbolDataController sharedManager] deleteAllNews];
 		[[SymbolDataController sharedManager] deleteAllBidsAsks];
 		
 		NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [symbol.feed.feedNumber stringValue], symbol.tickerSymbol];
@@ -111,13 +112,13 @@
 	}
 }
 
-#pragma mark -
-#pragma mark Debugging methods
-// Very helpful debug when things seem not to be working.
-- (BOOL)respondsToSelector:(SEL)sel {
-	NSLog(@"Queried about %@ in MyListNavigationController", NSStringFromSelector(sel));
-	return [super respondsToSelector:sel];
-}
+//#pragma mark -
+//#pragma mark Debugging methods
+//// Very helpful debug when things seem not to be working.
+//- (BOOL)respondsToSelector:(SEL)sel {
+//	NSLog(@"Queried about %@ in MyListNavigationController", NSStringFromSelector(sel));
+//	return [super respondsToSelector:sel];
+//}
 
 - (void)dealloc {
 	[_myListViewController release];

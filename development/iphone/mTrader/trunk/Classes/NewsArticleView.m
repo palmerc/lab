@@ -115,13 +115,13 @@
 //	self.bodyLabel.font = [UIFont systemFontOfSize:12.0 * scale];
 //}
 
-#pragma mark -
-#pragma mark Debugging methods
-// Very helpful debug when things seem not to be working.
-- (BOOL)respondsToSelector:(SEL)sel {
-	NSLog(@"Queried about %@ in NewsArticleView", NSStringFromSelector(sel));
-	return [super respondsToSelector:sel];
-}
+//#pragma mark -
+//#pragma mark Debugging methods
+//// Very helpful debug when things seem not to be working.
+//- (BOOL)respondsToSelector:(SEL)sel {
+//	NSLog(@"Queried about %@ in NewsArticleView", NSStringFromSelector(sel));
+//	return [super respondsToSelector:sel];
+//}
 
 #pragma mark -
 #pragma mark Memory management

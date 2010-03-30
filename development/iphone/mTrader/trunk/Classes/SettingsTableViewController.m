@@ -14,6 +14,7 @@
 #import "mTraderServerMonitor.h"
 #import "UserDefaults.h"
 
+#import "QFields.h"
 #import "AboutViewController.h"
 
 @implementation SettingsTableViewController
@@ -46,29 +47,14 @@
 	return self;
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return NO;
-}
-*/
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+- (void)viewWillAppear:(BOOL)animated {
+	QFields *qFields = [[QFields alloc] init];
+	communicator.qFields = qFields;
+	[qFields release];
 	
-	// Release any cached data, images, etc that aren't in use.
+	[communicator setStreamingForFeedTicker:nil];
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
-
-- (void)dealloc {
-    [super dealloc];
-}
 
 // Table View Data Source Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -179,6 +165,16 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
 	return YES;
+}
+
+- (void)dealloc {
+	[sectionsArray release];
+	[loginSectionArray release];
+	[infrontSectionArray release];
+	
+	[tableView release];
+	
+    [super dealloc];
 }
 
 @end
