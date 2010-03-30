@@ -24,6 +24,7 @@
 @property (nonatomic, retain) UINavigationController *navigationController;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+- (void)changeQFieldsStreaming;
 - (void)add:(id)sender;
 
 @end

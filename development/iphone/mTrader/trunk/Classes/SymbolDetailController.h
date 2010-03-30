@@ -41,6 +41,7 @@
 @property (nonatomic, retain) Symbol *symbol;
 
 - (id)initWithSymbol:(Symbol *)symbol;
+- (void)changeQFieldsStreaming;
 
 @end
 

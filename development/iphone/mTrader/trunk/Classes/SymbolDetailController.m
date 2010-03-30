@@ -13,7 +13,6 @@
 
 #import "mTraderCommunicator.h"
 #import "SymbolDataController.h"
-#import "QFields.h"
 #import "StringHelpers.h"
 
 #import "LastChangeView.h"
@@ -28,6 +27,7 @@
 #import "SymbolNewsModalController.h"
 #import "Feed.h"
 #import "Symbol.h"
+#import "QFields.h"
 
 @implementation SymbolDetailController
 @synthesize managedObjectContext;
@@ -73,6 +73,34 @@
 	[self.view addSubview:tradesBox];
 	[self.view addSubview:orderBox];
 	[self.view addSubview:newsBox];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[self changeQFieldsStreaming];
+}
+
+- (void)changeQFieldsStreaming {
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	
+	[[SymbolDataController sharedManager] deleteAllNews];
+	[[SymbolDataController sharedManager] deleteAllBidsAsks];
+	
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	
+	QFields *qFields = [[QFields alloc] init];
+	qFields.timeStamp = YES;
+	qFields.lastTrade = YES;
+	qFields.change = YES;
+	qFields.changePercent = YES;
+	qFields.open = YES;
+	qFields.high = YES;
+	qFields.low = YES;
+	qFields.volume = YES;
+	qFields.orderBook = YES;
+	communicator.qFields = qFields;
+	[qFields release];
+	
+	[communicator setStreamingForFeedTicker:feedTicker];	
 }
 
 - (void)orderBook:(id)sender {

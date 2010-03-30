@@ -9,6 +9,7 @@
 #import "MyListViewController.h"
 
 #import "ChainsTableViewController.h"
+#import "QFields.h"
 
 @implementation MyListViewController
 @synthesize managedObjectContext = _managedObjectContext;
@@ -73,7 +74,7 @@
 
 	//CGRect buttonFrame = CGRectMake(0.0f, 0.0f, 85.0f, 37.0f);
 	
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self.tableViewController action:@selector(setEditing:animated:)];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self.tableViewController action:@selector(toggleEditing)];
 	
 	// Setup right and left bar buttons
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
@@ -83,6 +84,25 @@
 	self.tableViewController.navigationController = self.navigationController;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[self changeQFieldsStreaming];
+}
+
+- (void)changeQFieldsStreaming {
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
+	
+	QFields *qFields = [[QFields alloc] init];
+	qFields.timeStamp = YES;
+	qFields.lastTrade = YES;
+	qFields.bidPrice = YES;
+	qFields.askPrice = YES;
+	qFields.change = YES;
+	qFields.changePercent = YES;
+	communicator.qFields = qFields;
+	[qFields release];
+	
+	[communicator setStreamingForFeedTicker:nil];	
+}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -137,8 +157,6 @@
 - (void)symbolAddControllerDidFinish:(SymbolAddController *)stockSearchController didAddSymbol:(NSString *)tickerSymbol {
 	[self dismissModalViewControllerAnimated:YES];
 }
-
-
 
 - (void)dealloc {
 	[_managedObjectContext release];

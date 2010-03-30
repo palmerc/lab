@@ -16,6 +16,7 @@
 #import "NewsCell.h"
 #import "NewsArticleController.h"
 #import "SymbolDataController.h"
+#import "QFields.h"
 
 @implementation NewsController
 @synthesize communicator;
@@ -49,6 +50,13 @@
 	self.tableView.frame = self.view.bounds;
 	
 	communicator = [mTraderCommunicator sharedManager];
+
+	QFields *qFields = [[QFields alloc] init];
+	communicator.qFields = qFields;
+	[qFields release];
+		
+	[communicator setStreamingForFeedTicker:nil];
+	
 	[communicator newsListFeed:self.mCode];
 }
 

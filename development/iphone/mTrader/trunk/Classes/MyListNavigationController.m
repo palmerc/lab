@@ -73,42 +73,13 @@
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 
 	if ([viewController isMemberOfClass:MyListViewController.class]) {
-		QFields *qFields = [[QFields alloc] init];
-		qFields.timeStamp = YES;
-		qFields.lastTrade = YES;
-		qFields.bidPrice = YES;
-		qFields.askPrice = YES;
-		qFields.change = YES;
-		qFields.changePercent = YES;
-		communicator.qFields = qFields;
-		[qFields release];
-		
-		[communicator setStreamingForFeedTicker:nil];
+		MyListViewController *myListViewController = (MyListViewController *)viewController;
+		[myListViewController changeQFieldsStreaming];
 	} else if ([viewController isMemberOfClass:SymbolDetailController.class]) {
-		Symbol *symbol = ((SymbolDetailController *)viewController).symbol;
-		
-		[[SymbolDataController sharedManager] deleteAllNews];
-		[[SymbolDataController sharedManager] deleteAllBidsAsks];
-		
-		NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [symbol.feed.feedNumber stringValue], symbol.tickerSymbol];
-
-		QFields *qFields = [[QFields alloc] init];
-		qFields.timeStamp = YES;
-		qFields.lastTrade = YES;
-		qFields.change = YES;
-		qFields.changePercent = YES;
-		qFields.open = YES;
-		qFields.high = YES;
-		qFields.low = YES;
-		qFields.volume = YES;
-		qFields.orderBook = YES;
-		communicator.qFields = qFields;
-		[qFields release];
-		
-		[communicator setStreamingForFeedTicker:feedTicker];
+		SymbolDetailController *symbolDetailController = (SymbolDetailController *)viewController;
+		[symbolDetailController changeQFieldsStreaming];
 	}
 }
 

@@ -20,7 +20,6 @@
 #import "Feed.h";
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
-#import "Chart.h"
 
 #import "SymbolDetailController.h"
 #import "OrderBookController.h"
@@ -198,6 +197,11 @@
 			break;
 	}
 	[self.tableView reloadData];
+}
+
+- (void)toggleEditing {
+	[self setEditing:YES animated:YES];
+	self.navigationItem.leftBarButtonItem.title = @"Done";	
 }
 
 #pragma mark -
