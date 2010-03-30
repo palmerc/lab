@@ -8,6 +8,7 @@
 
 
 @class ChainsNavigationViewController;
+@class Reachability;
 
 typedef enum {
 	CHAINS = 1,

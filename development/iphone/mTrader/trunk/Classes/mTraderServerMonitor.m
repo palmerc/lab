@@ -70,7 +70,6 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		_reachability = nil;
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 				
 		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
 		
@@ -79,7 +78,43 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	return self;
 }
 
+#pragma mark -
+#pragma mark Reachability
+
+- (void)updateReachability:(Reachability *)curReach {
+	NetworkStatus netStatus = [curReach currentReachabilityStatus];
+	BOOL connectionRequired= [curReach connectionRequired];
+	
+	NSString *status = nil;
+	switch (netStatus) {
+		case NotReachable:
+			status = @"Not reachable";
+			break;
+		case ReachableViaWiFi:
+			status = @"Reachable via WiFi";
+			[self attemptConnection];
+			break;
+		case ReachableViaWWAN:
+			status = @"Reachable via WWAN";
+			[self attemptConnection];
+			break;
+		default:
+			break;
+	}
+	
+	NSLog(@"Network Status: %@  Required: %d", status, connectionRequired);
+}
+
+- (void)reachabilityChanged:(NSNotification *)note {
+	Reachability *reach = [note object];
+	NSParameterAssert([reach isKindOfClass:[Reachability class]]);
+	
+	[self updateReachability:reach];
+}
+
 - (void)startReachability {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+	
 	NSMutableCharacterSet *ipAddrSet = [[[NSMutableCharacterSet alloc] init] autorelease];
 	[ipAddrSet addCharactersInString:@"0123456789."];
 	
@@ -92,11 +127,10 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		const char* addr = [self.server cStringUsingEncoding:NSASCIIStringEncoding];
 		hostAddress.sin_addr.s_addr = inet_addr(addr);
 		hostAddress.sin_port = [self.port integerValue];
-		self.reachability = [Reachability reachabilityWithAddress:&hostAddress];
+		_reachability = [[Reachability reachabilityWithAddress:&hostAddress] retain];
 	} else {
-		self.reachability = [Reachability reachabilityWithHostName:self.server];
+		_reachability = [[Reachability reachabilityWithHostName:self.server] retain];
 	}
-	[_reachability retain];
 	[self.reachability startNotifer];	
 }
 
@@ -122,21 +156,6 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	}
 }
 
-#pragma mark -
-#pragma mark Reachability
-/**
- * Delegate methods from Communicator
- *
- */
-
-- (void)reachabilityChanged:(NSNotification *)note {
-	Reachability *reachNoteObject = [note object];
-	NetworkStatus status = [reachNoteObject currentReachabilityStatus];
-	
-	if (status == ReachableViaWiFi || status == ReachableViaWWAN) {
-		[self attemptConnection];
-	}
-}
 
 #pragma mark -
 #pragma mark mTraderCommunicatorMonitorDelegate methods
@@ -154,13 +173,10 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	}
 	isConnected = NO;
 	isLoggedIn = NO;
-	[[mTraderCommunicator sharedManager].communicator stopConnection];
 	
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
-	[alertView release];
-	
-	[self startReachability];
+	[alertView release];	
 }
 
 - (void)loginFailed:(NSString *)message {

@@ -14,6 +14,8 @@
 @interface mTraderServerMonitor : NSObject <mTraderServerMonitorDelegate, UIAlertViewDelegate> {
 @private
 	Reachability *_reachability;
+
+	
 	NSString *_server;
 	NSString *_port;
 	
