@@ -50,7 +50,6 @@
 - (void)deleteAllNews;
 - (void)deleteAllSymbols;
 - (void)deleteAllBidsAsks;
-- (void)deleteAllTrades;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;
 - (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;

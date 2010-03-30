@@ -31,7 +31,6 @@
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
-- (id)initWithSymbol:(Symbol *)symbol inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 @end
 

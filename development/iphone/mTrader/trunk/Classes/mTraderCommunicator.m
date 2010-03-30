@@ -125,7 +125,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 -(void) stateMachine {
 	while ([self.blockBuffer count] > 0) {
-		NSLog(@"STATE: %d", state);
+		//NSLog(@"STATE: %d", state);
 		switch (state) {
 			case HEADER:
 				[self headerParsing];
