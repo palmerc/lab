@@ -191,6 +191,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 -(void) kickedOut {
+	[self.reachability stopNotifer];
 	NSLog(@"Kicked out");
 	[[mTraderCommunicator sharedManager].communicator stopConnection];
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
