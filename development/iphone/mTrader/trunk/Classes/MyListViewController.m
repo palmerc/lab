@@ -135,23 +135,6 @@
 	[super setEditing:editing animated:animated];
 }
 
-- (void)failedToAddAlreadyExists {
-	NSString *alertTitle = @"Add Security Failed";
-	NSString *alertMessage = @"The ticker symbol you requested is already in your list.";
-	NSString *alertCancel = @"Dismiss";
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
-	[alertView show];	
-}
-
-- (void)failedToAddNoSuchSecurity {
-	NSString *alertTitle = @"Add Security Failed";
-	NSString *alertMessage = @"The ticker symbol you requested was not found.";
-	NSString *alertCancel = @"Dismiss";
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
-	[alertView show];
-}
-
-
 #pragma mark -
 #pragma mark UI Actions
 - (void)add:(id)sender {
