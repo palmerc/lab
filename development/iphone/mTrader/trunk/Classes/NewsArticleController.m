@@ -32,12 +32,6 @@
 	self.view = _newsArticleView;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-	
-    [super viewDidLoad];
-}
-
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -70,6 +64,8 @@
 	self.newsArticleView.bodyLabel.text = body;
 	
 	[self.newsArticleView layoutSubviews];
+	
+	[self.newsArticle removeObserver:self forKeyPath:@"body"];
 }
 
 #pragma mark -
@@ -77,12 +73,10 @@
 
 - (void)setNewsArticle:(NewsArticle *)newsArticle {
 	_newsArticle = [newsArticle retain];
-	[self.newsArticle addObserver:self forKeyPath:@"body" options:NSKeyValueObservingOptionNew context:nil];
-	
-	NSString *feedArticle = [NSString stringWithFormat:@"%@/%@", newsArticle.newsFeed.feedNumber, newsArticle.articleNumber];
+	NSString *feedArticle = [NSString stringWithFormat:@"%@/%@", self.newsArticle.newsFeed.feedNumber, self.newsArticle.articleNumber];
 	[[mTraderCommunicator sharedManager] newsItemRequest:feedArticle];
 	
-	[self updateNewsArticle];
+	[self.newsArticle addObserver:self forKeyPath:@"body" options:NSKeyValueObservingOptionNew context:nil];
 }
 /*
 #pragma mark -
@@ -106,7 +100,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	[self.newsArticle removeObserver:self forKeyPath:@"body"];
+	//[self.newsArticle removeObserver:self forKeyPath:@"body"];
 	
 	[_newsArticle release];
 	[_newsArticleView release];

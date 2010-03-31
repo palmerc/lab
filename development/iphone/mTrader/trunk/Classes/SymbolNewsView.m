@@ -46,9 +46,6 @@
 	UIButton *newsButton = [[UIButton alloc] initWithFrame:rect];
 	[newsButton addTarget:self.viewController action:@selector(news:) forControlEvents:UIControlEventTouchUpInside];
 	
-	
-	
-	
 	[self addSubview:newsButton];
 	[newsButton release];
 	

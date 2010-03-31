@@ -100,7 +100,8 @@
 	communicator.qFields = qFields;
 	[qFields release];
 	
-	[communicator setStreamingForFeedTicker:feedTicker];	
+	[communicator setStreamingForFeedTicker:feedTicker];
+	[communicator symbolNewsForFeedTicker:feedTicker];	
 }
 
 - (void)orderBook:(id)sender {
