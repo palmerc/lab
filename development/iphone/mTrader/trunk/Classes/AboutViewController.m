@@ -29,8 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-	NSString *build = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
-	self.versionTextField.text = [NSString stringWithFormat:@"v%@.%@", version, build];
+	self.versionTextField.text = [NSString stringWithFormat:@"v%@", version];
 }
 
 /*

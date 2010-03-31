@@ -680,14 +680,13 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	password = [StringHelpers cleanString:password];
 	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
 		NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-		NSString *build = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
 		
 		NSString *ActionLogin = @"Action: login";
 		NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
 		NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
 		NSString *Client = @"Client: mTrader";
 		NSString *Protocol = @"Protocol: 2.0";
-		NSString *Version = [NSString stringWithFormat:@"VerType: %@.%@", version, build];
+		NSString *Version = [NSString stringWithFormat:@"VerType: %@", version];
 		NSString *ConnectionType = @"ConnType: Socket";
 		NSString *Streaming = @"Streaming: 1";
 		
