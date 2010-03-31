@@ -102,7 +102,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (void)dataReceived {
 	NSData *data = [self.communicator readLine];
 	NSString *string = [self dataToString:data];
-	NSLog(@"Received: %@", string);
+	//NSLog(@"Received: %@", string);
 	if (![string isEqualToString:@"\r\r"]) {
 		[self.blockBuffer addObject:data];
 	} else {

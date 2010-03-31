@@ -20,6 +20,7 @@
 	self = [super init];
 	if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
+		_tableViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
 	}
 	return self;
 }
@@ -33,12 +34,10 @@
 	
 	aView.backgroundColor = [UIColor whiteColor];
 	
-	
 	UIImage *mTraderImage = [UIImage imageNamed:@"Mtrader_16.png"];
 	UIImageView *mTraderBranding = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 112.0f, 16.0f)];
 	mTraderBranding.image = mTraderImage;
 	
-	_tableViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
 	
 	CGRect buttonFrame = CGRectMake(0.0f, 2.0f, 85.0f, 37.0f);
 	buttonFrame.origin.x = frame.size.width - 85.0f * 2.0f - 4.0f;
@@ -73,15 +72,12 @@
 	self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
 
 	//CGRect buttonFrame = CGRectMake(0.0f, 0.0f, 85.0f, 37.0f);
-	
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self.tableViewController action:@selector(toggleEditing)];
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;	
 	
 	// Setup right and left bar buttons
 	UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
 	self.navigationItem.rightBarButtonItem = addItem;
 	[addItem release];
-	
-	self.tableViewController.navigationController = self.navigationController;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -124,6 +120,21 @@
 	// e.g. self.myOutlet = nil;
 }
 
+- (void)setNavigationController:(UINavigationController *)navigationController {
+	if (self.navigationController != nil) {
+		[_navigationController release];
+	}
+	
+	_navigationController = [navigationController retain];
+	self.tableViewController.navigationController = self.navigationController;	
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+	[self.tableViewController toggleEditing];
+	
+	[super setEditing:editing animated:animated];
+}
+
 - (void)failedToAddAlreadyExists {
 	NSString *alertTitle = @"Add Security Failed";
 	NSString *alertMessage = @"The ticker symbol you requested is already in your list.";
@@ -158,6 +169,17 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
+//#pragma mark -
+//#pragma mark Debugging methods
+//// Very helpful debug when things seem not to be working.
+//- (BOOL)respondsToSelector:(SEL)sel {
+//	NSLog(@"Queried about %@ in MyListViewController", NSStringFromSelector(sel));
+//	return [super respondsToSelector:sel];
+//}
+
+
+#pragma mark -
+#pragma mark Memory management
 - (void)dealloc {
 	[_managedObjectContext release];
 	[_tableViewController release];

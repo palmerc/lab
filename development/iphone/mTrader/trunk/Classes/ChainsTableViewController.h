@@ -39,6 +39,8 @@ typedef enum {
 	
 	CenterOptions centerOption;
 	RightOptions rightOption;
+	
+	BOOL editing;
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
@@ -48,6 +50,7 @@ typedef enum {
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
+- (void)toggleEditing;
 - (void)centerSelection:(id)sender;
 - (void)rightSelection:(id)sender;
 

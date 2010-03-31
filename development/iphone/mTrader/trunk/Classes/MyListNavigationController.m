@@ -28,6 +28,7 @@
 	if (self != nil) {
 		_myListViewController = [rootViewController retain];
 		self.myListViewController.navigationController = self;
+
 		self.delegate = self;
 		UIImage* anImage = [UIImage imageNamed:@"MyListTab.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", "My Stocks tab label")  image:anImage tag:CHAINS];
@@ -45,7 +46,7 @@
 	UIView *aView = [[UIView alloc] initWithFrame:frame];
 	[aView addSubview:contentView];
 	[contentView addSubview:self.myListViewController.view];
-	
+
 	self.view = aView;
 	[aView release];
 	[self pushViewController:self.myListViewController animated:NO];

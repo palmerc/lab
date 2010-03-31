@@ -32,6 +32,7 @@
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	if (self != nil) {
+		editing = NO;
 		self.managedObjectContext = managedObjectContext;
 		_fetchedResultsController = nil;
 	}
@@ -44,6 +45,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
@@ -118,6 +120,16 @@
 		[UIView setAnimationDuration:1.0];
 		[cell.contentView setBackgroundColor:backgroundColor];
 		[UIView commitAnimations];
+	}
+}
+
+- (void)toggleEditing {
+	if (editing == YES) {
+		editing = NO;
+		[self setEditing:NO animated:YES];
+	} else {
+		editing = YES;
+		[self setEditing:YES animated:YES];
 	}
 }
 
@@ -199,11 +211,6 @@
 	[self.tableView reloadData];
 }
 
-- (void)toggleEditing {
-	[self setEditing:YES animated:YES];
-	self.navigationItem.leftBarButtonItem.title = @"Done";	
-}
-
 #pragma mark -
 #pragma mark Fetched results controller
 
@@ -249,7 +256,6 @@
 	[self.tableView beginUpdates];
 }
 
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
 	
 	UITableView *tableView = self.tableView;
@@ -275,7 +281,6 @@
     }
 }
 
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
 	
 	switch(type) {
@@ -290,16 +295,25 @@
 	}
 }
 
-
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
 	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
 	[self.tableView endUpdates];
 }
 
+//#pragma mark -
+//#pragma mark Debugging methods
+//// Very helpful debug when things seem not to be working.
+//- (BOOL)respondsToSelector:(SEL)sel {
+//	NSLog(@"Queried about %@ in ChainsTableViewController", NSStringFromSelector(sel));
+//	return [super respondsToSelector:sel];
+//}
+
 #pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
+	[_navigationController release];
+	
 	[_managedObjectContext release];
 	[_fetchedResultsController release];
 	
