@@ -100,8 +100,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	//[self.newsArticle removeObserver:self forKeyPath:@"body"];
-	
+
 	[_newsArticle release];
 	[_newsArticleView release];
     [super dealloc];
