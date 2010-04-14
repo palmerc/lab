@@ -11,29 +11,20 @@
 @class mTraderCommunicator;
 @protocol SymbolAddControllerDelegate;
 
-@interface SymbolAddController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, NSFetchedResultsControllerDelegate> {
+@interface SymbolAddController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate> {
 	id <SymbolAddControllerDelegate> delegate;
-	
-	NSFetchedResultsController *fetchedResultsController;
-	NSManagedObjectContext *managedObjectContext;
 
 	mTraderCommunicator *communicator;
-	UITextField *_tickerField;
-	UIButton *_submitButton;
-	UIPickerView *_exchangePicker;
-	NSString *mCode;
+	
+	UISearchDisplayController *searchController;
 }
 
-@property (assign) id <SymbolAddControllerDelegate> delegate;
-@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) IBOutlet UITextField *tickerField;
-@property (nonatomic, retain) IBOutlet UIButton *submitButton;
-@property (nonatomic, retain) IBOutlet UIPickerView *exchangePicker;
-@property (nonatomic, retain) NSString *mCode;
+@property (nonatomic, assign) id <SymbolAddControllerDelegate> delegate;
 
--(IBAction) submit:(id)sender;
+- (void)changeQFieldsStreaming;
+
 @end
+
 
 @protocol SymbolAddControllerDelegate
 - (void)symbolAddControllerDidFinish:(SymbolAddController *)controller didAddSymbol:(NSString *)tickerSymbol;

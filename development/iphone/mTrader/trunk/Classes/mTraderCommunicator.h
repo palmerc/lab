@@ -31,6 +31,7 @@ enum {
 	QUOTE,
 	QUOTES,
 	STATIC,
+	SEARCHRESULTS,
 	ADDSEC,
 	REMSEC,
 	STATDATA,
@@ -81,6 +82,7 @@ enum {
 - (void)newsListFeed:(NSString *)mCode;
 - (void)newsItemRequest:(NSString *)newsId;
 
+- (void)symbolSearch:(NSString *)symbol;
 - (void)addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode;
 - (void)removeSecurity:(NSString *)feedTicker;
 - (void)setStreamingForFeedTicker:(NSString *)feedTicker;
@@ -99,6 +101,7 @@ enum {
 - (void)preprocessing;
 - (void)processingLoop;
 - (void)quoteHandling;
+- (void)searchResultsHandling;
 - (void)addSecurityOK;
 - (void)removeSecurityOK;
 - (void)newsListFeedsOK;

@@ -47,7 +47,6 @@
 		7E377F7511171B300080A84B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7411171B300080A84B /* main.m */; };
 		7E377F8211171B7B0080A84B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F7D11171B7B0080A84B /* Localizable.strings */; };
 		7E377F8B11171B970080A84B /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8411171B970080A84B /* AboutView.xib */; };
-		7E377F9111171B970080A84B /* SymbolAddView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8A11171B970080A84B /* SymbolAddView.xib */; };
 		7E377F9911171BB10080A84B /* SettingsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9511171BB10080A84B /* SettingsTab.png */; };
 		7E38610711490BE300CA1086 /* TradesInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38610611490BE300CA1086 /* TradesInfoView.m */; };
 		7E38626C1149239A00CA1086 /* OrderBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38626B1149239A00CA1086 /* OrderBookView.m */; };
@@ -144,7 +143,6 @@
 		7E377F7911171B650080A84B /* StateDiagram.dot */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StateDiagram.dot; sourceTree = "<group>"; };
 		7E377F7E11171B7B0080A84B /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		7E377F8411171B970080A84B /* AboutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutView.xib; path = Resources/AboutView.xib; sourceTree = "<group>"; };
-		7E377F8A11171B970080A84B /* SymbolAddView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SymbolAddView.xib; path = Resources/SymbolAddView.xib; sourceTree = "<group>"; };
 		7E377F9511171BB10080A84B /* SettingsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SettingsTab.png; path = Resources/SettingsTab.png; sourceTree = "<group>"; };
 		7E377F9A11171BC60080A84B /* mTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTrader-Info.plist"; sourceTree = "<group>"; };
 		7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTraderTesting-Info.plist"; sourceTree = "<group>"; };
@@ -298,6 +296,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				7E7E37921174B7F00059CD1E /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -322,7 +321,6 @@
 				C73CE2F710E3BE3E00AF6D89 /* Translations */,
 				7E419AFA10E20DD00007808B /* Graphics */,
 				7E377F8411171B970080A84B /* AboutView.xib */,
-				7E377F8A11171B970080A84B /* SymbolAddView.xib */,
 				7E377F9A11171BC60080A84B /* mTrader-Info.plist */,
 				7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */,
 				7E2DA15D11046873002CE93F /* LogicTests-Info.plist */,
@@ -541,6 +539,13 @@
 			name = OrderBook;
 			sourceTree = "<group>";
 		};
+		7E7E37921174B7F00059CD1E /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Resources-iPad";
+			sourceTree = "<group>";
+		};
 		7EAE4F851118407300B2FCB4 /* Models and Model Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,7 +741,6 @@
 				7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */,
 				7E377F8211171B7B0080A84B /* Localizable.strings in Resources */,
 				7E377F8B11171B970080A84B /* AboutView.xib in Resources */,
-				7E377F9111171B970080A84B /* SymbolAddView.xib in Resources */,
 				7E377F9911171BB10080A84B /* SettingsTab.png in Resources */,
 				7EA8DF09115BC2600034EB3D /* Mtrader_16.png in Resources */,
 				7E3451B11160A06D0099B393 /* mTraderIcon_57.png in Resources */,
@@ -915,6 +919,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -923,6 +928,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
 				INFOPLIST_FILE = "mTrader-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
@@ -930,7 +936,8 @@
 				PRODUCT_NAME = mTrader;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -938,6 +945,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
@@ -951,7 +959,8 @@
 				PRODUCT_NAME = mTrader;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1114,16 +1123,17 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Cameron Palmer (Z25F57B2YT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cameron Palmer (Z25F57B2YT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "6D39B26E-C761-494D-B215-1547A8E3AEC5";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6D39B26E-C761-494D-B215-1547A8E3AEC5";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.1.2;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Distribution;
 		};
@@ -1131,6 +1141,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
@@ -1144,7 +1155,8 @@
 				PRODUCT_NAME = mTrader;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Distribution;
 		};
@@ -1229,8 +1241,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

@@ -149,7 +149,7 @@
         return CGRectMake(EDITING_INSET + TEXT_LEFT_MARGIN, 4.0, self.contentView.bounds.size.width - EDITING_INSET - TEXT_LEFT_MARGIN, 16.0);
     }
 	else {
-        return CGRectMake(TEXT_LEFT_MARGIN + tickerLabelSize.width, 4.0, BUTTON_WIDTH, 16.0);
+        return CGRectMake(self.frame.size.width - BUTTON_WIDTH * 2 - TEXT_RIGHT_MARGIN, 4.0, BUTTON_WIDTH, 16.0);
     }
 }
 
@@ -158,7 +158,7 @@
         return CGRectMake(EDITING_INSET + TEXT_LEFT_MARGIN, 4.0, self.contentView.bounds.size.width - EDITING_INSET - TEXT_LEFT_MARGIN, 16.0);
     }
 	else {
-        return CGRectMake(TEXT_LEFT_MARGIN + tickerLabelSize.width + BUTTON_WIDTH, 4.0, BUTTON_WIDTH, 16.0);
+        return CGRectMake(self.frame.size.width - BUTTON_WIDTH - TEXT_RIGHT_MARGIN, 4.0, BUTTON_WIDTH, 16.0);
     }
 }
 
@@ -167,7 +167,7 @@
         return CGRectMake(EDITING_INSET + TEXT_LEFT_MARGIN, 24.0, self.contentView.bounds.size.width - EDITING_INSET - TEXT_LEFT_MARGIN, 16.0);
     }
 	else {
-        return CGRectMake(TEXT_LEFT_MARGIN + DESCRIPTION_WIDTH, 24.0, TIME_WIDTH, 16.0);
+        return CGRectMake(self.frame.size.width - TIME_WIDTH - TEXT_RIGHT_MARGIN, 24.0, TIME_WIDTH, 16.0);
     }
 }
 

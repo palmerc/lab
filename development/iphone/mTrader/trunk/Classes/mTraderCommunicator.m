@@ -160,6 +160,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			case QUOTE:
 				[self quoteHandling];
 				break;
+			case SEARCHRESULTS:
+				[self searchResultsHandling];
+				 break;
 			case ADDSEC:
 				[self addSecurityOK];
 				break;
@@ -243,10 +246,13 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			[self.mTraderServerMonitorDelegate loginSuccessful];
 		}		
 		state = PREPROCESSING;
-	} else if  ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
+	} else if ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
 		state = ADDSEC;
-	} else if  ([string rangeOfString:@"Request: remSec/OK"].location == 0) {
+	} else if ([string rangeOfString:@"Request: remSec/OK"].location == 0) {
 		state = REMSEC;
+	} else if ([string rangeOfString:@"Request: incSearch/OK"].location == 0) {
+		state = SEARCHRESULTS;
+	} else if ([string rangeOfString:@"incSearch/failed.NoHit"].location == 0) {
 	} else if ([string rangeOfString:@"Request: Chart/OK"].location == 0) {
 		state = CHART;
 	} else if ([string rangeOfString:@"Request: StaticData/OK"].location == 0) {
@@ -432,6 +438,17 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	[chart release];
 	state = PROCESSING;		
+}
+
+- (void)searchResultsHandling {
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
+	if (![string rangeOfString:@""].location == 0) {	
+		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
+		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@";"]];
+		state = PROCESSING;
+	}	
 }
 
 - (void)addSecurityOK {
@@ -900,6 +917,20 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *symbolNewsListFeedsString = [self arrayToFormattedString:getSymbolNewsListFeedsArray];
 	
 	[self.communicator writeString:symbolNewsListFeedsString];	
+}
+
+- (void)symbolSearch:(NSString *)symbol {
+	if ( isLoggedIn == NO ) {
+		return;
+	}
+	
+	NSString *ActionIncSearch = @"Action: incSearch";
+	NSString *Search = [NSString stringWithFormat:@"Search: %@", symbol];
+	
+	NSArray *symbolSearchRequest = [NSArray arrayWithObjects:ActionIncSearch, Search, nil];
+	NSString *symbolSearchString = [self arrayToFormattedString:symbolSearchRequest];
+	
+	[self.communicator writeString:symbolSearchString];		
 }
 
 #pragma mark -

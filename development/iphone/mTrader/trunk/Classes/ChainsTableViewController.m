@@ -31,6 +31,7 @@
 @synthesize navigationController = _navigationController;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	self = [super init];
 	if (self != nil) {
 		editing = NO;
 		self.managedObjectContext = managedObjectContext;
@@ -45,7 +46,6 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
