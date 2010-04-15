@@ -132,8 +132,8 @@ enum {
 @end
 
 @protocol SymbolsDataDelegate <NSObject>
-@optional
 - (void)replaceAllSymbols:(NSString *)symbols;
+- (void)searchResults:(NSArray *)results;
 - (void)addSymbols:(NSString *)symbols;
 - (void)updateSymbols:(NSArray *)symbols;
 - (void)staticUpdates:(NSDictionary *)updateDictionary;
@@ -142,8 +142,9 @@ enum {
 - (void)addNewsFeeds:(NSArray *)feeds;
 - (void)failedToAddNoSuchSecurity;
 - (void)failedToAddAlreadyExists;
-- (void)removedSecurity:(NSString *)feedTicker;
 - (void)chartUpdate:(NSDictionary *)chart;
 - (void)newsListFeedsUpdates:(NSArray *)newsList;
 - (void)newsItemUpdate:(NSArray *)newsItemContents;
+@optional
+- (void)removedSecurity:(NSString *)feedTicker;
 @end

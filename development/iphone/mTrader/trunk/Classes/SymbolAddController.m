@@ -13,17 +13,22 @@
 #import "QFields.h"
 #import "mTraderCommunicator.h"
 
-
-
 @implementation SymbolAddController
 @synthesize delegate;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize searchResults = _searchResults;
  
 #pragma mark -
 #pragma mark Application Lifecycle
 
 - (void)viewDidLoad {
 	self.title = @"Add a Symbol";
+	self.view.backgroundColor = [UIColor whiteColor];
+	
 	communicator = [mTraderCommunicator sharedManager];
+	
+	[SymbolDataController sharedManager].searchDelegate = self;
+	_searchResults = nil;
 	
 	UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
 	self.navigationItem.leftBarButtonItem = cancel;
@@ -46,6 +51,10 @@
 	[searchBar release];
 }
 
+- (void)viewDidUnload {
+	[SymbolDataController sharedManager].searchDelegate = nil;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[self changeQFieldsStreaming];
 }
@@ -61,6 +70,7 @@
 
 - (void)dealloc {
 	[searchController release];
+	[_searchResults release];
 	
 	[super dealloc];
 }
@@ -73,12 +83,16 @@
 #pragma mark UISearchDisplayController Delegate Methods
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-	NSLog(@"%@", searchString);
+	NSLog(@"Search String is: %@", searchString);
 	[communicator symbolSearch:searchString];
 	
 	return NO;
 }
 
+- (void)searchResultsUpdate:(NSArray *)results {
+	self.searchResults = results;
+	[self.searchDisplayController.searchResultsTableView reloadData];
+}
 
 #pragma mark -
 #pragma mark Debugging methods
@@ -90,21 +104,26 @@
 }
 
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"SearchTableCell";
     
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
-    
+	
+	NSArray *row = [self.searchResults objectAtIndex:indexPath.row];
+	
+	Feed *feed = [[SymbolDataController sharedManager] fetchFeedByNumber:[row objectAtIndex:0]];
+	
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [row objectAtIndex:1], feed.mCode];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [row objectAtIndex:2]];
     // Configure the cell.
     return cell;	
 }
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
-	return 0;
+	return [self.searchResults count];
 }
 
 @end

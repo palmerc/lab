@@ -102,7 +102,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (void)dataReceived {
 	NSData *data = [self.communicator readLine];
 	NSString *string = [self dataToString:data];
-	//NSLog(@"Received: %@", string);
+	NSLog(@"<< %@", string);
 	if (![string isEqualToString:@"\r\r"]) {
 		[self.blockBuffer addObject:data];
 	} else {
@@ -444,11 +444,22 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
 	
-	if (![string rangeOfString:@""].location == 0) {	
+	NSMutableArray *results = [NSMutableArray array];
+	while ([self.blockBuffer count] > 0) {	
 		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
-		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@";"]];
-		state = PROCESSING;
-	}	
+		NSArray *columns = [symbolsSansCRLF componentsSeparatedByString:@";"];
+				
+		[results addObject:columns];
+		
+		data = [self.blockBuffer deQueue];
+		string = [self dataToString:data];
+	}
+	
+	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
+		[self.symbolsDelegate searchResults:results];
+	}
+	
+	state = PROCESSING;
 }
 
 - (void)addSecurityOK {

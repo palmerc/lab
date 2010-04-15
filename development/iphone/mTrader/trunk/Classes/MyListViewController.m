@@ -140,6 +140,7 @@
 - (void)add:(id)sender {
 	SymbolAddController *controller = [[SymbolAddController alloc] init];
 	controller.delegate = self;
+	controller.managedObjectContext = self.managedObjectContext;
 	
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
 	[controller release];

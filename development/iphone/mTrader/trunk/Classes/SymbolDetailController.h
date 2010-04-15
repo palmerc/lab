@@ -19,7 +19,7 @@
 @class OrderBookView;
 @class SymbolNewsView;
 
-@interface SymbolDetailController : UIViewController <SymbolsDataDelegate, OrderBookModalControllerDelegate, TradesControllerDelegate, SymbolNewsModalControllerDelegate, ChartControllerDelegate> {
+@interface SymbolDetailController : UIViewController <OrderBookModalControllerDelegate, TradesControllerDelegate, SymbolNewsModalControllerDelegate, ChartControllerDelegate> {
 @private
 	NSManagedObjectContext *managedObjectContext;
 	

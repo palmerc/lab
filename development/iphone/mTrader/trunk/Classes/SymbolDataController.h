@@ -18,10 +18,12 @@
 @class BidAsk;
 
 @protocol OrderBookDelegate;
+@protocol SearchResultsDelegate;
 
 @interface SymbolDataController : NSObject <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
 @private
 	id <OrderBookDelegate> orderBookDelegate;
+	id <SearchResultsDelegate> searchDelegate;
 
 	mTraderCommunicator *communicator;
 	
@@ -30,6 +32,7 @@
 }
 
 @property (nonatomic, assign) id <OrderBookDelegate> orderBookDelegate;
+@property (nonatomic, assign) id <SearchResultsDelegate> searchDelegate;
 @property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
@@ -46,6 +49,7 @@
 
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;
+- (Feed *)fetchFeedByNumber:(NSString *)feedNumber;
 - (void)addSymbols:(NSString *)symbols;
 - (void)deleteAllNews;
 - (void)deleteAllSymbols;
@@ -59,4 +63,8 @@
 
 @protocol OrderBookDelegate <NSObject>
 - (void)updateOrderBook;
+@end
+
+@protocol SearchResultsDelegate <NSObject>
+- (void)searchResultsUpdate:(NSArray *)results;
 @end

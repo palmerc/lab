@@ -25,6 +25,7 @@ static SymbolDataController *sharedDataController = nil;
 
 @implementation SymbolDataController
 @synthesize orderBookDelegate;
+@synthesize searchDelegate;
 @synthesize communicator;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize managedObjectContext = _managedObjectContext;
@@ -195,6 +196,22 @@ static SymbolDataController *sharedDataController = nil;
 		// Handle the error
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
+	}
+}
+
+- (void)searchResults:(NSArray *)results {
+	NSMutableArray *filteredResults = [NSMutableArray array];
+	
+	for (NSArray *rows in results) {
+		NSString *feedNumber = [rows objectAtIndex:0];
+		if ([self fetchFeedByNumber:feedNumber] != nil) {
+			
+		}
+	}
+	
+	
+	if (self.searchDelegate && [self.searchDelegate respondsToSelector:@selector(searchResultsUpdate:)]) {
+		[self.searchDelegate searchResultsUpdate:results];
 	}
 }
 
@@ -1027,6 +1044,33 @@ static SymbolDataController *sharedDataController = nil;
 	} else {
 		return nil;
 	}
+}
+
+- (Feed *)fetchFeedByNumber:(NSString *)feedNumber {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feedNumber=%@)", feedNumber];
+	[request setPredicate:predicate];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feedNumber" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil)
+	{
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	if ([array count] == 1) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}	
+	
 }
 
 - (Feed *)fetchFeedByName:(NSString *)feedName {

@@ -124,7 +124,7 @@
  */
 - (void)writeString:(NSString *)string {
 	if ([self.outputStream hasSpaceAvailable]) {
-		//NSLog(@"%@", string);
+		NSLog(@">> %@", string);
 		NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
 		
 		// Convert it to a C-string
