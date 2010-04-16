@@ -31,6 +31,7 @@ enum {
 	QUOTE,
 	QUOTES,
 	STATIC,
+	SEARCHNOHIT,
 	SEARCHRESULTS,
 	ADDSEC,
 	REMSEC,
@@ -101,6 +102,7 @@ enum {
 - (void)preprocessing;
 - (void)processingLoop;
 - (void)quoteHandling;
+- (void)searchNoHit;
 - (void)searchResultsHandling;
 - (void)addSecurityOK;
 - (void)removeSecurityOK;

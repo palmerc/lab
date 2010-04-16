@@ -90,6 +90,9 @@
 }
 
 - (void)searchResultsUpdate:(NSArray *)results {
+	if (results == nil) {
+		results = [NSArray array];
+	}
 	self.searchResults = results;
 	[self.searchDisplayController.searchResultsTableView reloadData];
 }

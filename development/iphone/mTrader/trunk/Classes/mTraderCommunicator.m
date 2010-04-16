@@ -160,6 +160,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			case QUOTE:
 				[self quoteHandling];
 				break;
+			case SEARCHNOHIT:
+				[self searchNoHit];
+				break;
 			case SEARCHRESULTS:
 				[self searchResultsHandling];
 				 break;
@@ -252,7 +255,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		state = REMSEC;
 	} else if ([string rangeOfString:@"Request: incSearch/OK"].location == 0) {
 		state = SEARCHRESULTS;
-	} else if ([string rangeOfString:@"incSearch/failed.NoHit"].location == 0) {
+	} else if ([string rangeOfString:@"Request: incSearch/failed.NoHit"].location == 0) {
+		state = SEARCHNOHIT;
 	} else if ([string rangeOfString:@"Request: Chart/OK"].location == 0) {
 		state = CHART;
 	} else if ([string rangeOfString:@"Request: StaticData/OK"].location == 0) {
@@ -438,6 +442,12 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	[chart release];
 	state = PROCESSING;		
+}
+
+- (void)searchNoHit {
+	if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
+		[self.symbolsDelegate searchResults:nil];
+	}
 }
 
 - (void)searchResultsHandling {
