@@ -200,16 +200,6 @@ static SymbolDataController *sharedDataController = nil;
 }
 
 - (void)searchResults:(NSArray *)results {
-	NSMutableArray *filteredResults = [NSMutableArray array];
-	
-	for (NSArray *rows in results) {
-		NSString *feedNumber = [rows objectAtIndex:0];
-		if ([self fetchFeedByNumber:feedNumber] != nil) {
-			
-		}
-	}
-	
-	
 	if (self.searchDelegate && [self.searchDelegate respondsToSelector:@selector(searchResultsUpdate:)]) {
 		[self.searchDelegate searchResultsUpdate:results];
 	}

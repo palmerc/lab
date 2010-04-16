@@ -98,10 +98,10 @@
 #pragma mark Debugging methods
 
 // Very helpful debug when things seem not to be working.
-- (BOOL)respondsToSelector:(SEL)sel {
-	 NSLog(@"Queried about %@", NSStringFromSelector(sel));
-	 return [super respondsToSelector:sel];
-}
+//- (BOOL)respondsToSelector:(SEL)sel {
+//	 NSLog(@"Queried about %@", NSStringFromSelector(sel));
+//	 return [super respondsToSelector:sel];
+//}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -114,9 +114,7 @@
 	
 	NSArray *row = [self.searchResults objectAtIndex:indexPath.row];
 	
-	Feed *feed = [[SymbolDataController sharedManager] fetchFeedByNumber:[row objectAtIndex:0]];
-	
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [row objectAtIndex:1], feed.mCode];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [row objectAtIndex:1], [row objectAtIndex:0]];
 	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [row objectAtIndex:2]];
     // Configure the cell.
     return cell;	
@@ -124,6 +122,13 @@
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
 	return [self.searchResults count];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSArray *row = [self.searchResults objectAtIndex:indexPath.row];
+	
+	[communicator addSecurity:[row objectAtIndex:1] withMCode:[row objectAtIndex:0]];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
