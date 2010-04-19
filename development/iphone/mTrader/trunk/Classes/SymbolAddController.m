@@ -37,16 +37,10 @@
 	CGRect searchFrame = self.view.bounds;
 	searchFrame.size.height = 44.0f;
 	UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
-	searchBar.showsCancelButton = NO;
-	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+	searchBar.delegate = self;
 	searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	searchBar.placeholder = @"Ticker Symbol or Name";
-	searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-	
-	searchController.delegate = self;
-	searchController.searchResultsDataSource = self;
-	searchController.searchResultsDelegate = self;
-	
+
 	[self.view addSubview:searchBar];
 	[searchBar release];
 }
@@ -69,7 +63,6 @@
 }
 
 - (void)dealloc {
-	[searchController release];
 	[_searchResults release];
 	
 	[super dealloc];
@@ -82,19 +75,30 @@
 #pragma mark -
 #pragma mark UISearchDisplayController Delegate Methods
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-	NSLog(@"Search String is: %@", searchString);
-	[communicator symbolSearch:searchString];
-	
-	return NO;
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+	if (![searchText isEqualToString:@""]) {
+		[communicator symbolSearch:searchText];
+	} else {
+		[self searchResultsUpdate:nil];
+	}
 }
 
 - (void)searchResultsUpdate:(NSArray *)results {
 	if (results == nil) {
 		results = [NSArray array];
+	} else {
+		NSSet *results = [NSSet setWithArray:results];
+		
+		NSArray *existingSymbols = [[SymbolDataController sharedManager] fetchAllSymbols];	
+		for (
+		NSPredicate *filter = [NSPredicate predicateWithFormat:@" MATCHES %@" argumentArray:existingSymbols];
 	}
 	self.searchResults = results;
-	[self.searchDisplayController.searchResultsTableView reloadData];
+	[self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+	[searchBar resignFirstResponder];
 }
 
 #pragma mark -
@@ -119,7 +123,6 @@
 	
 	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [row objectAtIndex:1], [row objectAtIndex:0]];
 	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [row objectAtIndex:2]];
-    // Configure the cell.
     return cell;	
 }
 

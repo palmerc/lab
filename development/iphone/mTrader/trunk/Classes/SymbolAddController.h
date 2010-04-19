@@ -12,13 +12,13 @@
 @class mTraderCommunicator;
 @protocol SymbolAddControllerDelegate;
 
-@interface SymbolAddController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, SearchResultsDelegate> {
+@interface SymbolAddController : UITableViewController <UISearchBarDelegate, SearchResultsDelegate> {
 	id <SymbolAddControllerDelegate> delegate;
 	NSManagedObjectContext *_managedObjectContext;
 	
 	mTraderCommunicator *communicator;
 	
-	UISearchDisplayController *searchController;
+	//UISearchDisplayController *searchController;
 	
 	NSArray *_searchResults;
 }
