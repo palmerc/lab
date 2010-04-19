@@ -448,6 +448,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
 		[self.symbolsDelegate searchResults:nil];
 	}
+	state = PROCESSING;
 }
 
 - (void)searchResultsHandling {
