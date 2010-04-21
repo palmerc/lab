@@ -86,12 +86,6 @@
 - (void)searchResultsUpdate:(NSArray *)results {
 	if (results == nil) {
 		results = [NSArray array];
-	} else {
-		NSSet *results = [NSSet setWithArray:results];
-		
-		NSArray *existingSymbols = [[SymbolDataController sharedManager] fetchAllSymbols];	
-		for (
-		NSPredicate *filter = [NSPredicate predicateWithFormat:@" MATCHES %@" argumentArray:existingSymbols];
 	}
 	self.searchResults = results;
 	[self.tableView reloadData];

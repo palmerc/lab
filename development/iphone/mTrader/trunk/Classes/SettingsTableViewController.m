@@ -82,15 +82,28 @@
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
+	
+	[self configureCell:cell indexPath:indexPath];
+	
+	return cell;
+}
+
+- (void)configureCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath{
 	if (indexPath.section == LOGINDETAILS) {
-		[cell.textLabel setText:[loginSectionArray objectAtIndex:indexPath.row]];
+		NSString *aText = [loginSectionArray objectAtIndex:indexPath.row];
+		[cell.textLabel setText:aText];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(120, 5, 175, 35)];
+		CGRect frame = CGRectMake(110.0f, 0.0f, cell.frame.size.width - 130.0f, 44.0f);
+		UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 		textField.delegate = self;
 		textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		textField.textColor = [[UIColor alloc] initWithRed:.25 green:.35 blue:.55 alpha:1];
+		
+		UIColor *textColor = [[UIColor alloc] initWithRed:.25 green:.35 blue:.55 alpha:1];
+		textField.textColor = textColor;
+		[textColor release];
+		
 		textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		textField.borderStyle = UITextBorderStyleNone;
 		textField.returnKeyType = UIReturnKeyDone;
@@ -106,7 +119,7 @@
 			self.passwordTextField = textField;
 		}
 		
-		[cell addSubview:textField];
+		[cell.contentView addSubview:textField];
 		
 	} else if (indexPath.section == INFRONT) {
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -114,7 +127,6 @@
 	} else {
 		[cell.textLabel setText:@"Hello, Dolly!"];
 	}
-	return cell;
 }
 
 // Table View Delegate Method
