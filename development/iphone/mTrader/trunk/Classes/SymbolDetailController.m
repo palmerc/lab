@@ -45,27 +45,28 @@
 
 - (void)viewDidLoad {
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
+	CGRect windowFrame = self.view.frame;
 	
 	UIScrollView* containerView = [[UIScrollView alloc] initWithFrame:self.view.frame];
 	containerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	containerView.scrollEnabled = YES;
 	containerView.bounces = NO;
-	containerView.contentSize = CGSizeMake(self.view.frame.size.width, 520.0f);
+	containerView.contentSize = CGSizeMake(windowFrame.size.width, 520.0f);
 	self.view = containerView;
 	
-	CGRect lastFrame = CGRectMake(0.0, 0.0, 160.0, 220.0);
+	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 220.0);
 	lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
 	lastBox.symbol = self.symbol;
 
-	CGRect tradesFrame = CGRectMake(160.0, 0.0, 160.0, 220.0);
+	CGRect tradesFrame = CGRectMake(windowFrame.size.width / 2.0f, 0.0, windowFrame.size.width / 2.0f, 220.0);
 	tradesBox = [[TradesInfoView alloc] initWithFrame:tradesFrame];
 	tradesBox.symbol = self.symbol;
 	
-	CGRect orderFrame = CGRectMake(0.0, 220.0, 320.0, 150.0);
+	CGRect orderFrame = CGRectMake(0.0, 220.0, windowFrame.size.width, 150.0);
 	orderBox = [[OrderBookView alloc] initWithFrame:orderFrame andManagedObjectContext:self.managedObjectContext];
 	orderBox.symbol = self.symbol;
 	
-	CGRect newsFrame = CGRectMake(0.0, 370.0, 320.0, 150.0);
+	CGRect newsFrame = CGRectMake(0.0, 370.0, windowFrame.size.width, 150.0);
 	newsBox = [[SymbolNewsView alloc] initWithFrame:newsFrame andManagedObjectContext:self.managedObjectContext];
 	newsBox.symbol = self.symbol;
 	
