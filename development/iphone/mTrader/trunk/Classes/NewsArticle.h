@@ -14,9 +14,8 @@
 {
 }
 
-@property (nonatomic, retain) NSString * time;
 @property (nonatomic, retain) NSString * flag;
-@property (nonatomic, retain) NSString * date;
+@property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSString * articleNumber;
 @property (nonatomic, retain) NSString * body;
 @property (nonatomic, retain) NSString * headline;

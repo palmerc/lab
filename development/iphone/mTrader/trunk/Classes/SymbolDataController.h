@@ -6,7 +6,6 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-
 #import "mTraderCommunicator.h"
 
 @class mTraderCommunicator;

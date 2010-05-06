@@ -9,6 +9,9 @@
 #import "NewsController.h"
 
 #import "mTraderAppDelegate.h"
+#import "UserDefaults.h"
+#import "FeedsTableViewController.h"
+
 #import "NewsFeed.h"
 #import "NewsArticle.h"
 #import "Feed.h"
@@ -23,7 +26,8 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize feedsFetchedResultsController = _feedsFetchedResultsController;
-@synthesize mCode = _mCode;
+@synthesize feedsPopover = _feedsPopover;
+@synthesize newsFeed = _newsFeed;
 
 #pragma mark -
 #pragma mark Initialization
@@ -35,54 +39,74 @@
 		_fetchedResultsController = nil;
 		_feedsFetchedResultsController = nil;
 		
-		self.title = NSLocalizedString(@"NewsTab", "News tab label");
+		_feedsPopover = nil;
+		_newsFeed = nil;
+		
 		UIImage* anImage = [UIImage imageNamed:@"NewsTab.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];
-			
-		self.mCode = @"AllNews";
 	}
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {	
-	self.tableView.frame = self.view.bounds;
+- (void)viewDidLoad {		
+	// Set the feed to All News by default
+	NSString *returnedNewsFeedNumber = [UserDefaults sharedManager].newsFeedNumber;
+	NSString *feedNumber = nil;
 	
-	communicator = [mTraderCommunicator sharedManager];
-
-	QFields *qFields = [[QFields alloc] init];
-	communicator.qFields = qFields;
-	[qFields release];
+	NSInteger feedIntegerValue = [returnedNewsFeedNumber integerValue];
+	if (returnedNewsFeedNumber && feedIntegerValue >= 0) {
+		feedNumber = returnedNewsFeedNumber;
+	} else {
+		feedNumber = @"0";
+	}
 		
-	[communicator setStreamingForFeedTicker:nil];
+	self.newsFeed = [[SymbolDataController sharedManager] fetchNewsFeedWithNumber:feedNumber];
 	
-	[communicator newsListFeed:self.mCode];
-}
-
-- (void)viewDidLoad {
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
-	
+
 	if (![self.feedsFetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();  // Fail
 	}
 	
-	UIBarButtonItem *selectFeed = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(selectNewsFeed:)];
-	self.navigationItem.leftBarButtonItem = selectFeed;
-	[selectFeed release];
+	feedBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(feedBarButtonItemAction:)];
+	self.navigationItem.leftBarButtonItem = feedBarButtonItem;
+	[feedBarButtonItem release];
 		
 	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
-		
+	
+	FeedsTableViewController *feedsTableViewController = [[FeedsTableViewController alloc] init];
+	feedsTableViewController.delegate = self;
+	feedsTableViewController.managedObjectContext = self.managedObjectContext;
+	
+	_feedsPopover = [[UIPopoverController alloc] initWithContentViewController:feedsTableViewController];
+	[feedsTableViewController release];
+	
 	[super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {	
+	self.tableView.frame = self.view.bounds;
+	
+	communicator = [mTraderCommunicator sharedManager];
+	
+	QFields *qFields = [[QFields alloc] init];
+	communicator.qFields = qFields;
+	[qFields release];
+	
+	[communicator setStreamingForFeedTicker:nil];
+	
+	[communicator newsListFeed:self.newsFeed.mCode];
 }
 
 /*
@@ -92,18 +116,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
 
 #pragma mark -
 #pragma mark TableView datasource methods
@@ -178,8 +190,7 @@
 #pragma mark UIPickerViewDelegate Methods
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	NewsFeed *feed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
-	self.mCode = feed.mCode;
+	self.newsFeed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
@@ -194,31 +205,44 @@
 
 - (void)refresh:(id)sender {
 	[[SymbolDataController sharedManager] deleteAllNews];
-	[self.communicator newsListFeed:self.mCode];
+	[self.communicator newsListFeed:self.newsFeed.mCode];
 }
 
-- (void)selectNewsFeed:(id)sender {
-	UIActionSheet *menu = [[UIActionSheet alloc] initWithTitle:@"Select a News Feed" delegate:self cancelButtonTitle:@"Done" destructiveButtonTitle:@"Cancel" otherButtonTitles:@"All News Feeds", nil];
-	UIPickerView *feedSelector = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, 218.0, 0.0, 0.0)];
-	feedSelector.showsSelectionIndicator = YES;
-	feedSelector.dataSource = self;
-	feedSelector.delegate = self;
-	[menu addSubview:feedSelector];
-	[feedSelector release];
-	[menu showInView:self.tableView];
-	[menu setBounds:CGRectMake(0.0, 0.0, 320.0, 700.0)];
-	[menu release];
+- (void)feedBarButtonItemAction:(id)sender {	
+	if ([_feedsPopover isPopoverVisible]) {
+		[_feedsPopover dismissPopoverAnimated:YES];
+	} else {
+		[_feedsPopover presentPopoverFromBarButtonItem:feedBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	}
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 0) {
-		return;
-	} else if (buttonIndex == 1) {
-		self.mCode = @"AllNews";
-	}
+	//if (buttonIndex == 0) {
+//		return;
+//	} else if (buttonIndex == 1) {
+//		self.mCode = @"AllNews";
+//	}
+//	
+//	[[SymbolDataController sharedManager] deleteAllNews];
+//	[self.communicator newsListFeed:self.mCode];
+}
+
+#pragma mark -
+#pragma mark NewsFeedChoiceDelegate methods
+- (void)newsFeedWasSelected:(NewsFeed *)aNewsFeed {
+	// Dismiss the popover by calling the toggle
+	[self feedBarButtonItemAction:self];
 	
-	[[SymbolDataController sharedManager] deleteAllNews];
-	[self.communicator newsListFeed:self.mCode];
+	// Fire off request for news related to the choice made if different from current choice
+	if ([aNewsFeed.feedNumber isEqualToString:self.newsFeed.feedNumber]) {
+		return;
+	} else {
+		self.newsFeed = aNewsFeed;
+		self.title = aNewsFeed.name;
+		[[mTraderCommunicator sharedManager] newsListFeed:aNewsFeed.mCode];
+		NSLog(@"%@ vs. %@", self.newsFeed.mCode, aNewsFeed.mCode);
+		
+	}
 }
 
 #pragma mark -
@@ -239,8 +263,8 @@
 	[fetchRequest setEntity:entity];
 	
 	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"articleNumber" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
+	NSSortDescriptor *dateDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:dateDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
@@ -251,7 +275,7 @@
 	// Memory management.
 	[aFetchedResultsController release];
 	[fetchRequest release];
-	[mCodeDescriptor release];
+	[dateDescriptor release];
 	[sortDescriptors release];
 	
 	return _fetchedResultsController;
@@ -347,13 +371,28 @@
 #pragma mark -
 #pragma mark Memory management
 
+- (void)didReceiveMemoryWarning {
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
+}
+
+- (void)viewDidUnload {
+	// Release any retained subviews of the main view.
+	self.feedsPopover = nil;
+	self.newsFeed = nil;
+}
+
 - (void)dealloc {
+	[_feedsPopover release];
+	
 	[_fetchedResultsController release];
 	[_feedsFetchedResultsController release];
 
 	[_managedObjectContext release];
 	
-	[_mCode release];
+	[_newsFeed release];
     [super dealloc];
 }
 

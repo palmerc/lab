@@ -12,7 +12,6 @@
 #import "QFields.h"
 
 #import "OrderBookController.h"
-#import "GradientLabel.h"
 
 #import "Feed.h"
 #import "Symbol.h"
@@ -58,22 +57,22 @@
 	CGRect askValueLabelFrame = CGRectMake(0.0f + labelWidth * 2.0f, 0.0f, labelWidth, headerFontSize.height);
 	CGRect askSizeLabelFrame = CGRectMake(0.0f + labelWidth * 3.0f, 0.0f, labelWidth, headerFontSize.height);
 	
-	askSizeLabel = [[GradientLabel alloc] initWithFrame:askSizeLabelFrame];
+	askSizeLabel = [[UILabel alloc] initWithFrame:askSizeLabelFrame];
 	askSizeLabel.textAlignment = UITextAlignmentCenter;
 	askSizeLabel.font = headerFont;
 	askSizeLabel.text = @"A Size";
 	
-	askValueLabel = [[GradientLabel alloc] initWithFrame:askValueLabelFrame];
+	askValueLabel = [[UILabel alloc] initWithFrame:askValueLabelFrame];
 	askValueLabel.textAlignment = UITextAlignmentCenter;
 	askValueLabel.font = headerFont;
 	askValueLabel.text = @"A Price";
 	
-	bidSizeLabel = [[GradientLabel alloc] initWithFrame:bidSizeLabelFrame];
+	bidSizeLabel = [[UILabel alloc] initWithFrame:bidSizeLabelFrame];
 	bidSizeLabel.textAlignment = UITextAlignmentCenter;
 	bidSizeLabel.font = headerFont;
 	bidSizeLabel.text = @"B Size";
 	
-	bidValueLabel = [[GradientLabel alloc] initWithFrame:bidValueLabelFrame];
+	bidValueLabel = [[UILabel alloc] initWithFrame:bidValueLabelFrame];
 	bidValueLabel.textAlignment = UITextAlignmentCenter;
 	bidValueLabel.font = headerFont;
 	bidValueLabel.text = @"B Price";

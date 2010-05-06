@@ -12,7 +12,6 @@
 
 @implementation NewsArticle 
 
-@dynamic time;
 @dynamic flag;
 @dynamic date;
 @dynamic articleNumber;

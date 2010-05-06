@@ -42,14 +42,14 @@
 		dateTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		[dateTimeLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		[dateTimeLabel setFont:bottomLineLabelFont];
-		[dateTimeLabel setTextAlignment:UITextAlignmentLeft];
+		[dateTimeLabel setTextAlignment:UITextAlignmentRight];
 		[dateTimeLabel setTextColor:[UIColor darkGrayColor]];
 		[dateTimeLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:dateTimeLabel];
 		
 		feedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		[feedLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
-		feedLabel.textAlignment = UITextAlignmentRight;
+		feedLabel.textAlignment = UITextAlignmentLeft;
 		[feedLabel setFont:bottomLineLabelFont];
 		[feedLabel setTextColor:[UIColor darkGrayColor]];
 		[feedLabel setHighlightedTextColor:[UIColor darkGrayColor]];
@@ -82,8 +82,8 @@
 	return CGRectMake(TEXT_LEFT_MARGIN, 2.0, width, height);
 }
 
-- (CGRect)_dateTimeLabelFrame {
-	CGSize fontSize = [dateTimeLabel.text sizeWithFont:bottomLineLabelFont];
+- (CGRect)_feedLabelFrame {
+	CGSize fontSize = [feedLabel.text sizeWithFont:bottomLineLabelFont];
 
 	CGFloat width = fontSize.width;
 	CGFloat height = fontSize.height;
@@ -91,19 +91,26 @@
 	return CGRectMake(TEXT_LEFT_MARGIN, 24.0, width, height);
 }
 
-- (CGRect)_feedLabelFrame {
+- (CGRect)_dateTimeLabelFrame {
 	CGSize fontSize = [dateTimeLabel.text sizeWithFont:bottomLineLabelFont];
 
 	CGFloat width = fontSize.width;
 	CGFloat height = fontSize.height;
 	
-	return CGRectMake(width, 24.0, self.frame.size.width - width - 2.0f, height);
+	return CGRectMake(self.frame.size.width - width - TEXT_RIGHT_MARGIN, 24.0, width, height);
 }
 
 #pragma mark -
 #pragma mark Overriden accessor methods
 
 - (void)setNewsArticle:(NewsArticle *)newsArticle {
+	static NSDateFormatter *dateFormatter = nil;
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+	}
+	
 	_newsArticle = [newsArticle retain];
 	
 	feedLabel.text = newsArticle.newsFeed.name;
@@ -119,7 +126,7 @@
 
 	
 	headlineLabel.text = newsArticle.headline;
-	dateTimeLabel.text = [NSString stringWithFormat:@"%@ %@", newsArticle.date, newsArticle.time];
+	dateTimeLabel.text = [dateFormatter stringFromDate:newsArticle.date];
 }
 /*
 #pragma mark -

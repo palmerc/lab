@@ -8,6 +8,8 @@
 @interface UserDefaults : NSObject {
 	NSString *username;
 	NSString *password;
+	
+	NSString *newsFeedNumber;
 }
 
 + (UserDefaults *)sharedManager;
@@ -15,5 +17,6 @@
 
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, retain) NSString *password;
+@property (nonatomic, retain) NSString *newsFeedNumber;
 
 @end

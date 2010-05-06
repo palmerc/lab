@@ -9,24 +9,30 @@
 
 #import "mTraderCommunicator.h"
 
-@class NewsCell;
-@protocol NewsControllerDelegate;
+#import "FeedsTableViewController.h"
 
-@interface NewsController : UITableViewController <NSFetchedResultsControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate> {
+@class NewsCell;
+@class NewsFeed;
+
+@interface NewsController : UITableViewController <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, NewsFeedChoiceDelegate> {
 @private
 	mTraderCommunicator *communicator;
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
 	NSFetchedResultsController *_feedsFetchedResultsController;
 	
-	NSString *_mCode;	
+	UIBarButtonItem *feedBarButtonItem;
+	UIPopoverController *_feedsPopover;
+	
+	NewsFeed *_newsFeed;	
 }
 
 @property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *feedsFetchedResultsController;
-@property (nonatomic, retain) NSString *mCode;
+@property (nonatomic, retain) UIPopoverController *feedsPopover;
+@property (nonatomic, retain) NewsFeed *newsFeed;
 
 - (id)initWithMangagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;

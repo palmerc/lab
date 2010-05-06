@@ -12,6 +12,7 @@
 @implementation UserDefaults
 @synthesize username;
 @synthesize password;
+@synthesize newsFeedNumber;
 
 static UserDefaults *sharedDefaults = nil;
 
@@ -23,8 +24,9 @@ static UserDefaults *sharedDefaults = nil;
 		
 		self.username = [defaults stringForKey:@"username"];
 		self.password = [defaults stringForKey:@"password"];
+		self.newsFeedNumber = [defaults stringForKey:@"newsFeedNumber"];
 				
-		if (self.username == @"" || self.password == @"") {
+		if ([self.username isEqualToString:@""] || [self.password isEqualToString:@""]) {
 			NSString *title = @"Username and/or password missing";
 			NSString *message = @"Please add your username and password for the mTrader service in the setting's tab.";
 			NSString *cancelButtonTitle = @"Dismiss";
@@ -33,7 +35,7 @@ static UserDefaults *sharedDefaults = nil;
 			[alert show];
 			[alert release];
 		}
-		
+				
 		[defaults release];
 	}
 	
@@ -84,6 +86,7 @@ static UserDefaults *sharedDefaults = nil;
 	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
 	[defaults setObject:self.username forKey:@"username"];
 	[defaults setObject:self.password forKey:@"password"];
+	[defaults setObject:self.newsFeedNumber forKey:@"newsFeedNumber"];
 }
 
 @end

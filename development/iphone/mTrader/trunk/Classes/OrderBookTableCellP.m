@@ -150,7 +150,7 @@
 	self.askSizeLabel.text = [self.bidAsk.askSize stringValue];
 	self.askValueLabel.text = [doubleFormatter stringFromNumber:self.bidAsk.askPrice];
 	
-	[self setNeedsDisplay];
+	[self setNeedsLayout];
 }
 
 #pragma mark -

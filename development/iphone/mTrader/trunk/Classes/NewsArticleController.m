@@ -53,8 +53,15 @@
 }
 
 - (void)updateNewsArticle {
+	static NSDateFormatter *dateFormatter = nil;
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+	}
+	
 	self.title = self.newsArticle.newsFeed.mCode;
-	self.newsArticleView.dateTimeLabel.text = [NSString stringWithFormat:@"%@ %@", self.newsArticle.date, self.newsArticle.time];
+	self.newsArticleView.dateTimeLabel.text = [dateFormatter stringFromDate:self.newsArticle.date];
 	self.newsArticleView.feedLabel.text = self.newsArticle.newsFeed.name;
 	self.newsArticleView.flags = self.newsArticle.flag;
 	self.newsArticleView.headlineLabel.text = self.newsArticle.headline;

@@ -99,7 +99,13 @@ static SymbolDataController *sharedDataController = nil;
 
 - (void)addNewsFeeds:(NSArray *)feeds {
 	feeds = [StringHelpers cleanComponents:feeds];
-	for (NSString *feed in feeds) {
+	
+	NSString *allNewsLocalizedString = NSLocalizedString(@"AllNews", "All News Feeds Localization");
+	NSString *feedString = [NSString stringWithFormat:@"0:AllNews:%@ [AllNews](S)", allNewsLocalizedString];
+	NSArray *modifiedFeeds = [NSArray arrayWithObject:feedString];
+	modifiedFeeds = [modifiedFeeds arrayByAddingObjectsFromArray:feeds];
+	
+	for (NSString *feed in modifiedFeeds) {
 		NSArray *exchangeComponents = [feed componentsSeparatedByString:@":"];
 		
 		if ([exchangeComponents count] != 3) {
@@ -718,7 +724,28 @@ static SymbolDataController *sharedDataController = nil;
 }
 
 -(void) newsListFeedsUpdates:(NSArray *)newsList {
+	static NSTimeZone *timeZone = nil;
+	if (timeZone == nil) {
+		timeZone = [NSTimeZone timeZoneWithName:@"CET"];
+	}
+	
+	static NSDateFormatter *dateFormatter = nil;
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setTimeZone:timeZone];
+		[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+	}
+	
+	static NSDateFormatter *yearFormatter = nil;
+	if (yearFormatter == nil) {
+		yearFormatter = [[NSDateFormatter alloc] init];
+		[yearFormatter setDateFormat:@"yyyy"];
+	}
+	
 	[self deleteAllNews];
+		
+	NSDate *today = [NSDate date];
+	NSString *year = [yearFormatter stringFromDate:today];
 	
 	for (NSString *news in newsList) {
 		NSArray *components = [news componentsSeparatedByString:@";"];
@@ -726,7 +753,16 @@ static SymbolDataController *sharedDataController = nil;
 		if ([components count] >= 4) {
 			NSString *feedArticle = [components objectAtIndex:0];
 			NSString *flag = [components objectAtIndex:1];
+			
+			NSString *month = nil;
+			NSString *day = nil;
 			NSString *date = [components objectAtIndex:2];
+			if (![date isEqualToString:@""]) {
+				NSArray *dateComponents = [date componentsSeparatedByString:@"."];
+				month = [dateComponents objectAtIndex:1];
+				day = [dateComponents objectAtIndex:0];
+			}
+			
 			NSString *time = [components objectAtIndex:3];
 			NSString *headline = [components objectAtIndex:4];
 			
@@ -734,6 +770,9 @@ static SymbolDataController *sharedDataController = nil;
 			NSString *feedNumber = [feedArticleComponents objectAtIndex:0];
 			NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
 			
+			NSString *formattedDateString = [NSString stringWithFormat:@"%@-%@-%@ %@:00", year, month, day, time];
+			NSDate *properDate = [dateFormatter dateFromString:formattedDateString];
+						
 			NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:feedNumber];
 			if (article == nil) {
 				NewsFeed *feed = [self fetchNewsFeedWithNumber:feedNumber];
@@ -747,8 +786,8 @@ static SymbolDataController *sharedDataController = nil;
 								
 				article.articleNumber = articleNumber;
 				article.flag = flag;
-				article.date = date;
-				article.time = time;
+								
+				article.date = properDate;
 				article.headline = headline;
 			}
 			

@@ -10,7 +10,7 @@
 
 @class Symbol;
 
-@interface Trade :  NSManagedObject  
+@interface Trade :  NSManagedObject
 {
 }
 

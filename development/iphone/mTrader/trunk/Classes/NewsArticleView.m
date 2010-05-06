@@ -37,11 +37,12 @@
 		
 		_feedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.feedLabel.font = [UIFont systemFontOfSize:12.0];
-		self.feedLabel.textAlignment = UITextAlignmentRight;
+		self.feedLabel.textAlignment = UITextAlignmentLeft;
 		self.feedLabel.textColor = [UIColor darkGrayColor];
 		
 		_dateTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.dateTimeLabel.font = [UIFont systemFontOfSize:12.0];
+		self.dateTimeLabel.textAlignment = UITextAlignmentRight;
 		self.dateTimeLabel.textColor = [UIColor darkGrayColor];
 		
 		[self.scrollView addSubview:self.headlineLabel];
@@ -86,8 +87,8 @@
 	
 	CGFloat halfWidth = width / 2.0f;
 	
-	self.dateTimeLabel.frame = CGRectMake(x, sumY, halfWidth - TEXT_LEFT_MARGIN, self.dateTimeLabel.frame.size.height);	
-	self.feedLabel.frame = CGRectMake(halfWidth, sumY, halfWidth - TEXT_RIGHT_MARGIN, self.feedLabel.frame.size.height);
+	self.feedLabel.frame = CGRectMake(x, sumY, halfWidth - TEXT_LEFT_MARGIN, self.feedLabel.frame.size.height);	
+	self.dateTimeLabel.frame = CGRectMake(halfWidth, sumY, halfWidth - TEXT_RIGHT_MARGIN, self.dateTimeLabel.frame.size.height);
 	sumY += height;
 	
 	height = self.bodyLabel.frame.size.height;
