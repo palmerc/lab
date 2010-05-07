@@ -741,8 +741,6 @@ static SymbolDataController *sharedDataController = nil;
 		yearFormatter = [[NSDateFormatter alloc] init];
 		[yearFormatter setDateFormat:@"yyyy"];
 	}
-	
-	[self deleteAllNews];
 		
 	NSDate *today = [NSDate date];
 	NSString *year = [yearFormatter stringFromDate:today];
@@ -793,6 +791,8 @@ static SymbolDataController *sharedDataController = nil;
 			
 		}
 	}
+	
+	[self maxNewsArticles:250];
 }
 
 - (void)newsItemUpdate:(NSArray *)newsItemContents {
@@ -983,6 +983,30 @@ static SymbolDataController *sharedDataController = nil;
 		return [array objectAtIndex:0];
 	} else {
 		return nil;
+	}
+}
+
+- (void)maxNewsArticles:(NSInteger)max {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+		
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		return;
+	}
+	
+	for (int i = max; i < [array count]; i++) {
+		NewsArticle *newsArticle = [array objectAtIndex:i];
+		[self.managedObjectContext deleteObject:newsArticle];
 	}
 }
 

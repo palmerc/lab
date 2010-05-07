@@ -13,6 +13,7 @@
 
 @class NewsCell;
 @class NewsFeed;
+@class FeedsTableViewController;
 
 @interface NewsController : UITableViewController <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, NewsFeedChoiceDelegate> {
 @private
@@ -23,6 +24,7 @@
 	
 	UIBarButtonItem *feedBarButtonItem;
 	UIPopoverController *_feedsPopover;
+	FeedsTableViewController *feedsTableViewController;
 	
 	NewsFeed *_newsFeed;	
 }

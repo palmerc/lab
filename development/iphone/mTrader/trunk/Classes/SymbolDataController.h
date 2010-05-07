@@ -50,6 +50,7 @@
 - (Feed *)fetchFeedByName:(NSString *)feedName;
 - (Feed *)fetchFeedByNumber:(NSString *)feedNumber;
 - (void)addSymbols:(NSString *)symbols;
+- (void)maxNewsArticles:(NSInteger)max;
 - (void)deleteAllNews;
 - (void)deleteAllSymbols;
 - (void)deleteAllBidsAsks;

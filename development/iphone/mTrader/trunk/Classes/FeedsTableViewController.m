@@ -9,6 +9,7 @@
 #import "FeedsTableViewController.h"
 
 #import "NewsFeed.h"
+#import "UserDefaults.h"
 
 @implementation FeedsTableViewController
 @synthesize delegate;
@@ -93,6 +94,14 @@
 	NSString *feedName = feed.name;
     
 	[cell.textLabel setText:feedName];
+	NSString *currentNumber = [UserDefaults sharedManager].newsFeedNumber;
+	if ([feed.feedNumber isEqualToString:currentNumber]) {
+		previousChoice = indexPath;
+		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+	} else {
+		cell.accessoryType = UITableViewCellAccessoryNone;
+	}
+
 	return cell;
 }
 
@@ -104,6 +113,9 @@
 	if (self.delegate && [self.delegate respondsToSelector:@selector(newsFeedWasSelected:)]) {
 		NewsFeed *newsFeed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 		[self.delegate newsFeedWasSelected:(NewsFeed *)newsFeed];
+		
+		[UserDefaults sharedManager].newsFeedNumber = newsFeed.feedNumber;
+		[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:previousChoice, indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
 	}
 }
 

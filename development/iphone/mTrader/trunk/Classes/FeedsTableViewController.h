@@ -16,6 +16,8 @@
 	
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
+	
+	NSIndexPath *previousChoice;
 }
 
 @property (nonatomic, assign) id <NewsFeedChoiceDelegate> delegate;

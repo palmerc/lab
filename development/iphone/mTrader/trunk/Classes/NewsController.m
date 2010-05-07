@@ -60,9 +60,12 @@
 		feedNumber = returnedNewsFeedNumber;
 	} else {
 		feedNumber = @"0";
+		[UserDefaults sharedManager].newsFeedNumber = feedNumber;
 	}
 		
 	self.newsFeed = [[SymbolDataController sharedManager] fetchNewsFeedWithNumber:feedNumber];
+	self.title = self.newsFeed.name;
+	self.tabBarItem.title = NSLocalizedString(@"NewsTab", "News tab label");
 	
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
@@ -85,7 +88,7 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
-	FeedsTableViewController *feedsTableViewController = [[FeedsTableViewController alloc] init];
+	feedsTableViewController = [[FeedsTableViewController alloc] init];
 	feedsTableViewController.delegate = self;
 	feedsTableViewController.managedObjectContext = self.managedObjectContext;
 	
@@ -204,7 +207,6 @@
 #pragma mark Actions
 
 - (void)refresh:(id)sender {
-	[[SymbolDataController sharedManager] deleteAllNews];
 	[self.communicator newsListFeed:self.newsFeed.mCode];
 }
 
@@ -231,7 +233,8 @@
 #pragma mark NewsFeedChoiceDelegate methods
 - (void)newsFeedWasSelected:(NewsFeed *)aNewsFeed {
 	// Dismiss the popover by calling the toggle
-	[self feedBarButtonItemAction:self];
+	[self feedBarButtonItemAction:nil];
+	[[SymbolDataController sharedManager] deleteAllNews];
 	
 	// Fire off request for news related to the choice made if different from current choice
 	if ([aNewsFeed.feedNumber isEqualToString:self.newsFeed.feedNumber]) {
@@ -239,9 +242,9 @@
 	} else {
 		self.newsFeed = aNewsFeed;
 		self.title = aNewsFeed.name;
-		[[mTraderCommunicator sharedManager] newsListFeed:aNewsFeed.mCode];
-		NSLog(@"%@ vs. %@", self.newsFeed.mCode, aNewsFeed.mCode);
-		
+		self.tabBarItem.title = NSLocalizedString(@"NewsTab", "News tab label");
+		[[mTraderCommunicator sharedManager] newsListFeed:aNewsFeed.mCode];	
+		[UserDefaults sharedManager].newsFeedNumber = aNewsFeed.feedNumber;
 	}
 }
 
