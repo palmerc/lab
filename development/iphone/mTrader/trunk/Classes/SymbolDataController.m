@@ -230,6 +230,7 @@ static SymbolDataController *sharedDataController = nil;
 	static NSInteger FIELD_COUNT = 8;
 	
 	// insert the objects
+	NSInteger index = 0;
 	NSArray *rows = [symbols componentsSeparatedByString:@":"];	
 	for (NSString *row in rows) {
 		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
@@ -263,7 +264,7 @@ static SymbolDataController *sharedDataController = nil;
 			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
 			symbol.tickerSymbol = tickerSymbol;
 			
-			symbol.index = [NSNumber numberWithInteger:[[[self.fetchedResultsController sections] objectAtIndex:0] numberOfObjects]];
+			symbol.index = [NSNumber numberWithInteger:index];
 			symbol.companyName = companyName;
 			symbol.country = nil;
 			symbol.currency = nil;
@@ -281,7 +282,12 @@ static SymbolDataController *sharedDataController = nil;
 			symbol.symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
 			
 			[feed addSymbolsObject:symbol];
+			
+			NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", symbol.feed.feedNumber, symbol.tickerSymbol];
+			[[mTraderCommunicator sharedManager] staticDataForFeedTicker:feedTicker];
 		}
+		
+		index++;
 	}
 	// save the objects
 	NSError *error;
@@ -297,6 +303,27 @@ static SymbolDataController *sharedDataController = nil;
  * update any rows necessary.
  */
 - (void)updateSymbols:(NSArray *)updates {
+	static NSTimeZone *timeZone = nil;
+	if (timeZone == nil) {
+		timeZone = [NSTimeZone timeZoneWithName:@"CET"];
+	}
+	
+	static NSDateFormatter *dateFormatter = nil;
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setTimeZone:timeZone];
+		[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+	}
+	
+	static NSDateFormatter *yearFormatter = nil;
+	if (yearFormatter == nil) {
+		yearFormatter = [[NSDateFormatter alloc] init];
+		[yearFormatter setDateFormat:@"yyyy-MM-dd"];
+	}
+	
+	NSDate *today = [NSDate date];
+	NSString *todayString = [yearFormatter stringFromDate:today];
+	
 	for (NSDictionary *update in updates) {
 		NSString *feedTicker = [update objectForKey:@"feedTicker"];
 		NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
@@ -337,7 +364,9 @@ static SymbolDataController *sharedDataController = nil;
 			if ([timeStamp isEqualToString:@"--"] == YES || [timeStamp isEqualToString:@"-"] == YES) {
 				symbol.symbolDynamicData.lastTradeTime = nil;
 			} else if ([timeStamp isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.lastTradeTime = timeStamp;
+				NSString *dateFormattedString = [NSString stringWithFormat:@"%@ %@", todayString, timeStamp];
+				NSDate *lastTradeTime = [dateFormatter dateFromString:dateFormattedString];
+				symbol.symbolDynamicData.lastTradeTime = lastTradeTime;
 			}
 		}
 		

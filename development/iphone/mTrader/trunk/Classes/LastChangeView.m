@@ -119,6 +119,12 @@
 }
 
 - (void)updateSymbol {
+	static NSDateFormatter *dateFormatter = nil;
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+	}
+	
 	static NSNumberFormatter *percentFormatter = nil;
 	if (percentFormatter == nil) {
 		percentFormatter = [[NSNumberFormatter alloc] init];
@@ -161,7 +167,7 @@
 	self.last.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.lastTrade];
 	self.lastChange.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.change];
 	self.lastPercentChange.text = [percentFormatter stringFromNumber:self.symbol.symbolDynamicData.changePercent];
-	self.time.text = self.symbol.symbolDynamicData.lastTradeTime;
+	self.time.text = [dateFormatter stringFromDate:self.symbol.symbolDynamicData.lastTradeTime];
 	
 	UIImage *image = [UIImage imageWithData:self.symbol.chart.data];
 	[self.chart setImage:image forState:UIControlStateNormal];

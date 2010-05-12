@@ -156,7 +156,7 @@
 	[fetchRequest setEntity:entity];
 	
 	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"articleNumber" ascending:NO];
+	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	

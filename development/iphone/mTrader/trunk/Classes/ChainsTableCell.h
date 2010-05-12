@@ -12,15 +12,16 @@
 @class SymbolDynamicData;
 
 @interface ChainsTableCell : UITableViewCell {
-	SymbolDynamicData *symbolDynamicData;
-	
-	UILabel *tickerLabel;
-	UILabel *descriptionLabel;
-	UILabel *centerLabel;
-	UILabel *rightLabel;
-	UILabel *timeLabel;
-	
 @private
+	SymbolDynamicData *_symbolDynamicData;
+	
+	UILabel *_tickerLabel;
+	UILabel *_descriptionLabel;
+	UILabel *_centerLabel;
+	UILabel *_rightLabel;
+	UILabel *_currencyLabel;
+	UILabel *_timeLabel;
+	
 	CGSize tickerLabelSize;
 	CenterOptions centerOption;
 	RightOptions rightOption;
@@ -31,6 +32,7 @@
 @property (nonatomic, retain) UILabel *descriptionLabel;
 @property (nonatomic, retain) UILabel *centerLabel;
 @property (nonatomic, retain) UILabel *rightLabel;
+@property (nonatomic, retain) UILabel *currencyLabel;
 @property (nonatomic, retain) UILabel *timeLabel;
 @property (assign) CenterOptions centerOption;
 @property (assign) RightOptions rightOption;

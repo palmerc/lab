@@ -74,6 +74,7 @@
 		7E8A6FD110F604B4003D7E29 /* SymbolDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */; };
 		7E9CD69A111DAAC9009B0087 /* MyListNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */; };
 		7EA8DF09115BC2600034EB3D /* Mtrader_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8DF08115BC2600034EB3D /* Mtrader_16.png */; };
+		7EAAFABA119AC78500B6600C /* MyListTableCellPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAFAB9119AC78500B6600C /* MyListTableCellPad.m */; };
 		7EAE508711185CD500B2FCB4 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508411185CD500B2FCB4 /* Feed.m */; };
 		7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508611185CD500B2FCB4 /* Symbol.m */; };
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
@@ -196,6 +197,8 @@
 		7E9CD698111DAAC9009B0087 /* MyListNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListNavigationController.h; sourceTree = "<group>"; };
 		7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListNavigationController.m; sourceTree = "<group>"; };
 		7EA8DF08115BC2600034EB3D /* Mtrader_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Mtrader_16.png; path = Resources/Mtrader_16.png; sourceTree = "<group>"; };
+		7EAAFAB8119AC78500B6600C /* MyListTableCellPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListTableCellPad.h; sourceTree = "<group>"; };
+		7EAAFAB9119AC78500B6600C /* MyListTableCellPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListTableCellPad.m; sourceTree = "<group>"; };
 		7EAE508311185CD500B2FCB4 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
 		7EAE508411185CD500B2FCB4 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		7EAE508511185CD500B2FCB4 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
@@ -544,6 +547,24 @@
 			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
+		7EAAFAB2119AC72600B6600C /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */,
+				7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		7EAAFAB5119AC75800B6600C /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				7EAAFAB8119AC78500B6600C /* MyListTableCellPad.h */,
+				7EAAFAB9119AC78500B6600C /* MyListTableCellPad.m */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		7EAE4F851118407300B2FCB4 /* Models and Model Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,10 +630,10 @@
 			children = (
 				7EB3DBAC1135536000145DDC /* Detail */,
 				7EB3DBA3113552D700145DDC /* Add Symbol */,
+				7EAAFAB5119AC75800B6600C /* iPad */,
+				7EAAFAB2119AC72600B6600C /* iPhone */,
 				7E419AD710E20B920007808B /* ChainsTableViewController.h */,
 				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
-				7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */,
-				7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */,
 				7ED5D7B0115677D3007EB033 /* MyListViewController.h */,
 				7ED5D7B1115677D3007EB033 /* MyListViewController.m */,
 			);
@@ -878,6 +899,7 @@
 				7EF2A556115A114C0049A8C1 /* SymbolNewsModalController.m in Sources */,
 				7EF6FE881190246E0001D3A9 /* FeedsTableViewController.m in Sources */,
 				7EBD16401192EEE5006CDAF5 /* mTraderDM.xcdatamodeld in Sources */,
+				7EAAFABA119AC78500B6600C /* MyListTableCellPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1152,7 +1174,11 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				HEADER_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1270,7 +1296,11 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				HEADER_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1288,7 +1318,11 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				HEADER_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

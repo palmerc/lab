@@ -48,7 +48,8 @@ typedef enum {
 @property (nonatomic, retain) UINavigationController *navigationController;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)configurePadCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)configurePhoneCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
 - (void)toggleEditing;
 - (void)centerSelection:(id)sender;

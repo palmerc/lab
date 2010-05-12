@@ -1,13 +1,12 @@
 //
-//  ChainsTableCell.m
+//  MyListTableCellPad.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 05.01.10.
-//  Copyright 2010 InFront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 12.05.10.
+//  Copyright 2010 Infront AS. All rights reserved.
 //
 
-
-#import "ChainsTableCell.h"
+#import "MyListTableCellPad.h"
 
 #import "Feed.h"
 #import "Symbol.h"
@@ -17,28 +16,35 @@
 #pragma mark -
 #pragma mark SubviewFrames category
 
-@interface ChainsTableCell (SubviewFrames)
+@interface MyListTableCellPad (SubviewFrames)
 - (CGRect)_tickerLabelFrame;
 - (CGRect)_descriptionLabelFrame;
-- (CGRect)_centerLabelFrame;
-- (CGRect)_rightLabelFrame;
+
+- (CGRect)_bidLabelFrame;
+- (CGRect)_askLabelFrame;
+- (CGRect)_lastLabelFrame;
+- (CGRect)_lastChangeLabelFrame;
+- (CGRect)_lastPercentLabelFrame;
+
 - (CGRect)_currencyLabelFrame;
 - (CGRect)_timeLabelFrame;
 @end
 
-
-
 #pragma mark -
-#pragma mark ChainsTableCell implementation
-@implementation ChainsTableCell
+#pragma mark MyListTableCellPad implementation
+@implementation MyListTableCellPad
 @synthesize symbolDynamicData = _symbolDynamicData; 
 @synthesize tickerLabel = _tickerLabel;
 @synthesize descriptionLabel = _descriptionLabel;
-@synthesize centerLabel = _centerLabel;
-@synthesize rightLabel = _rightLabel;
+
+@synthesize bidLabel = _bidLabel;
+@synthesize askLabel = _askLabel;
+@synthesize lastLabel = _lastLabel;
+@synthesize lastChangeLabel = _lastChangeLabel;
+@synthesize lastPercentLabel = _lastPercentLabel;
+
 @synthesize currencyLabel = _currencyLabel;
 @synthesize timeLabel = _timeLabel;
-@synthesize centerOption, rightOption;
 
 #pragma mark -
 #pragma mark Initialization
@@ -52,9 +58,6 @@
 		//[tickerLabel setHighlightedTextColor:[UIColor blackColor]];
 		[self.contentView addSubview:_tickerLabel];
 		
-		NSString *tickerSample = @"XXXXXXXXXXXX";
-		tickerLabelSize = [tickerSample sizeWithFont:tickerFont];
-		
 		UIFont *descriptionFont = [UIFont systemFontOfSize:12.0];
 		_descriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		[_descriptionLabel setBackgroundColor:[UIColor clearColor]];
@@ -64,25 +67,55 @@
 		//[descriptionLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:_descriptionLabel];
 		
-		UIFont *centerLabelFont = [UIFont systemFontOfSize:17.0];
-		_centerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[_centerLabel setBackgroundColor:[UIColor clearColor]];
-		[_centerLabel setFont:centerLabelFont];
-		[_centerLabel setTextAlignment:UITextAlignmentRight];
-		[_centerLabel setTextColor:[UIColor blackColor]];
-		//[centerLabel setHighlightedTextColor:[UIColor blackColor]];
-		[_centerLabel setAdjustsFontSizeToFitWidth:YES];
-		[self.contentView addSubview:_centerLabel];		
+		UIFont *bidLabelFont = [UIFont systemFontOfSize:17.0];
+		_bidLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_bidLabel setBackgroundColor:[UIColor clearColor]];
+		[_bidLabel setFont:bidLabelFont];
+		[_bidLabel setTextAlignment:UITextAlignmentRight];
+		[_bidLabel setTextColor:[UIColor blackColor]];
+		//[bidLabel setHighlightedTextColor:[UIColor blackColor]];
+		[_bidLabel setAdjustsFontSizeToFitWidth:YES];
+		[self.contentView addSubview:_bidLabel];
 		
-		UIFont *rightLabelFont = [UIFont systemFontOfSize:17.0];
-		_rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[_rightLabel setBackgroundColor:[UIColor clearColor]];
-		[_rightLabel setFont:rightLabelFont];
-		[_rightLabel setTextAlignment:UITextAlignmentRight];
-		[_rightLabel setTextColor:[UIColor blackColor]];
-		//[rightLabel setHighlightedTextColor:[UIColor blackColor]];
-		[_rightLabel setAdjustsFontSizeToFitWidth:YES];
-		[self.contentView addSubview:_rightLabel];
+		UIFont *askLabelFont = [UIFont systemFontOfSize:17.0];
+		_askLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_askLabel setBackgroundColor:[UIColor clearColor]];
+		[_askLabel setFont:askLabelFont];
+		[_askLabel setTextAlignment:UITextAlignmentRight];
+		[_askLabel setTextColor:[UIColor blackColor]];
+		//[askLabel setHighlightedTextColor:[UIColor blackColor]];
+		[_askLabel setAdjustsFontSizeToFitWidth:YES];
+		[self.contentView addSubview:_askLabel];
+		
+		UIFont *lastLabelFont = [UIFont systemFontOfSize:17.0];
+		_lastLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_lastLabel setBackgroundColor:[UIColor clearColor]];
+		[_lastLabel setFont:lastLabelFont];
+		[_lastLabel setTextAlignment:UITextAlignmentRight];
+		[_lastLabel setTextColor:[UIColor blackColor]];
+		//[lastLabel setHighlightedTextColor:[UIColor blackColor]];
+		[_lastLabel setAdjustsFontSizeToFitWidth:YES];
+		[self.contentView addSubview:_lastLabel];		
+		
+		UIFont *lastChangeLabelFont = [UIFont systemFontOfSize:17.0];
+		_lastChangeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_lastChangeLabel setBackgroundColor:[UIColor clearColor]];
+		[_lastChangeLabel setFont:lastChangeLabelFont];
+		[_lastChangeLabel setTextAlignment:UITextAlignmentRight];
+		[_lastChangeLabel setTextColor:[UIColor blackColor]];
+		//[lastChangeLabel setHighlightedTextColor:[UIColor blackColor]];
+		[_lastChangeLabel setAdjustsFontSizeToFitWidth:YES];
+		[self.contentView addSubview:_lastChangeLabel];
+		
+		UIFont *lastPercentLabelFont = [UIFont systemFontOfSize:17.0];
+		_lastPercentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_lastPercentLabel setBackgroundColor:[UIColor clearColor]];
+		[_lastPercentLabel setFont:lastPercentLabelFont];
+		[_lastPercentLabel setTextAlignment:UITextAlignmentRight];
+		[_lastPercentLabel setTextColor:[UIColor blackColor]];
+		//[lastPercentLabel setHighlightedTextColor:[UIColor blackColor]];
+		[_lastPercentLabel setAdjustsFontSizeToFitWidth:YES];
+		[self.contentView addSubview:_lastPercentLabel];
 		
 		UIFont *currencyFont = [UIFont systemFontOfSize:12.0];
 		_currencyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -116,23 +149,33 @@
 	
     [_tickerLabel setFrame:[self _tickerLabelFrame]];
 	[_descriptionLabel setFrame:[self _descriptionLabelFrame]];
-	[_centerLabel setFrame:[self _centerLabelFrame]];
-	[_rightLabel setFrame:[self _rightLabelFrame]];
+	
+	[_bidLabel setFrame:[self _bidLabelFrame]];
+	[_askLabel setFrame:[self _askLabelFrame]];
+	[_lastLabel setFrame:[self _lastLabelFrame]];
+	[_lastChangeLabel setFrame:[self _lastChangeLabelFrame]];
+	[_lastPercentLabel setFrame:[self _lastPercentLabelFrame]];
+	
 	[_currencyLabel setFrame:[self _currencyLabelFrame]];
 	[_timeLabel setFrame:[self _timeLabelFrame]];
     if (self.editing) {
-        _centerLabel.alpha = 0.0;
-		_rightLabel.alpha = 0.0;
+		_bidLabel.alpha = 0.0;
+		_askLabel.alpha = 0.0;
+        _lastLabel.alpha = 0.0;
+		_lastChangeLabel.alpha = 0.0;
+		_lastPercentLabel.alpha = 0.0;
 		_currencyLabel.alpha = 0.0;
 		_timeLabel.alpha = 0.0;
     } else {
-        _centerLabel.alpha = 1.0;
-		_rightLabel.alpha = 1.0;
+		_bidLabel.alpha = 1.0;
+		_askLabel.alpha = 1.0;
+        _lastLabel.alpha = 1.0;
+		_lastChangeLabel.alpha = 1.0;
+		_lastPercentLabel.alpha = 1.0;
 		_currencyLabel.alpha = 1.0;
 		_timeLabel.alpha = 1.0;
     }
 }
-
 
 #define EDITING_INSET       10.0
 #define TEXT_LEFT_MARGIN    8.0
@@ -145,7 +188,7 @@
  Return the frame of the various subviews -- these are dependent on the editing state of the cell.
  */
 - (CGRect)_tickerLabelFrame {
-
+	
 	if (self.editing) {
         return CGRectMake(EDITING_INSET + TEXT_LEFT_MARGIN, 2.0, self.frame.size.width - EDITING_INSET - TEXT_LEFT_MARGIN - TEXT_RIGHT_MARGIN, 16.0);
     } else {
@@ -162,11 +205,23 @@
     }
 }
 
-- (CGRect)_centerLabelFrame {
+- (CGRect)_bidLabelFrame {
+    return CGRectMake(self.frame.size.width - BUTTON_WIDTH * 5 - TEXT_RIGHT_MARGIN, 4.0, BUTTON_WIDTH, 16.0);
+}
+
+- (CGRect)_askLabelFrame {
+	return CGRectMake(self.frame.size.width - BUTTON_WIDTH * 4 - TEXT_RIGHT_MARGIN, 4.0, BUTTON_WIDTH, 16.0);
+}
+
+- (CGRect)_lastLabelFrame {
+    return CGRectMake(self.frame.size.width - BUTTON_WIDTH * 3 - TEXT_RIGHT_MARGIN, 4.0, BUTTON_WIDTH, 16.0);
+}
+
+- (CGRect)_lastChangeLabelFrame {
     return CGRectMake(self.frame.size.width - BUTTON_WIDTH * 2 - TEXT_RIGHT_MARGIN, 4.0, BUTTON_WIDTH, 16.0);
 }
 
-- (CGRect)_rightLabelFrame {
+- (CGRect)_lastPercentLabelFrame {
     return CGRectMake(self.frame.size.width - BUTTON_WIDTH - TEXT_RIGHT_MARGIN, 4.0, BUTTON_WIDTH, 16.0);
 }
 
@@ -208,7 +263,7 @@
 	
 	self.tickerLabel.text = [NSString stringWithFormat:@"%@ (%@)", self.symbolDynamicData.symbol.tickerSymbol, self.symbolDynamicData.symbol.feed.mCode];
 	self.descriptionLabel.text = self.symbolDynamicData.symbol.companyName;
-
+	
 	// Red Font for Down, Blue Font for Up, Black for No Change
 	UIColor *textColor = nil;
 	
@@ -227,57 +282,46 @@
 			textColor = [UIColor blackColor];
 			break;
 	}
-
+	
 	NSUInteger decimals = [self.symbolDynamicData.symbol.feed.decimals integerValue];
 	[doubleFormatter setMinimumFractionDigits:decimals];
 	[doubleFormatter setMaximumFractionDigits:decimals];
-	
-	NSString *centerString = @"-";
-	switch (centerOption) {
-		case CLAST:
-			if (self.symbolDynamicData.lastTrade != nil) {
-				centerString = [doubleFormatter stringFromNumber:self.symbolDynamicData.lastTrade];
-			}			
-			break;
-		case CBID:
-			if (self.symbolDynamicData.bidPrice != nil) {
-				centerString = [doubleFormatter stringFromNumber:self.symbolDynamicData.bidPrice];
-			}
-			break;
-		case CASK:
-			if (self.symbolDynamicData.askSize != nil) {
-				centerString = [doubleFormatter stringFromNumber:self.symbolDynamicData.askPrice];
-			}
-			break;
-		default:
-			break;
-	}
-	self.centerLabel.text = centerString;
-	self.centerLabel.textColor = textColor;
 
-	NSString *rightString = @"-";
-	switch (rightOption) {
-		case RCHANGE_PERCENT:
-			if (self.symbolDynamicData.changePercent != nil) {
-				rightString = [percentFormatter stringFromNumber:self.symbolDynamicData.changePercent];
-			}
-			break;
-		case RCHANGE:
-			if (self.symbolDynamicData.change != nil) {
-				rightString = [doubleFormatter stringFromNumber:self.symbolDynamicData.change];
-			}
-			break;
-		case RLAST:
-			if (self.symbolDynamicData.lastTrade != nil) {
-				rightString = [doubleFormatter stringFromNumber:self.symbolDynamicData.lastTrade];
-			}
-			break;
-		default:
-			break;
+	if (self.symbolDynamicData.bidPrice != nil) {
+		self.bidLabel.text = [doubleFormatter stringFromNumber:self.symbolDynamicData.bidPrice];
+	} else {
+		self.bidLabel.text = @"-";
 	}
-	self.rightLabel.text = rightString;
-	self.rightLabel.textColor = textColor;
+	self.bidLabel.textColor = textColor;
 	
+	if (self.symbolDynamicData.askPrice != nil) {
+		self.askLabel.text = [doubleFormatter stringFromNumber:self.symbolDynamicData.askPrice];
+	} else {
+		self.askLabel.text = @"-";
+	}
+	self.askLabel.textColor = textColor;
+	
+	if (self.symbolDynamicData.lastTrade != nil) {
+		self.lastLabel.text = [doubleFormatter stringFromNumber:self.symbolDynamicData.lastTrade];
+	} else {
+		self.lastLabel.text = @"-";
+	}
+	self.lastLabel.textColor = textColor;
+	
+	if (self.symbolDynamicData.changePercent != nil) {
+		self.lastPercentLabel.text = [percentFormatter stringFromNumber:self.symbolDynamicData.changePercent];
+	} else {
+		self.lastPercentLabel.text = @"-";
+	}
+	self.lastPercentLabel.textColor = textColor;
+		
+	if (self.symbolDynamicData.change != nil) {
+		self.lastChangeLabel.text = [doubleFormatter stringFromNumber:self.symbolDynamicData.change];
+	} else {
+		self.lastChangeLabel.text = @"-";
+	}
+	self.lastChangeLabel.textColor = textColor;
+		
 	self.currencyLabel.text = self.symbolDynamicData.symbol.currency;
 	NSString *timeString = [dateFormatter stringFromDate:self.symbolDynamicData.lastTradeTime];
 	self.timeLabel.text = timeString;
@@ -292,13 +336,15 @@
 	[_symbolDynamicData release];
 	[_tickerLabel release];
 	[_descriptionLabel release];
-	[_centerLabel release];
-	[_rightLabel release];
+	[_bidLabel release];
+	[_askLabel release];
+	[_lastLabel release];
+	[_lastChangeLabel release];
+	[_lastPercentLabel release];
 	[_currencyLabel release];
 	[_timeLabel release];
 	
     [super dealloc];
 }
-
 
 @end

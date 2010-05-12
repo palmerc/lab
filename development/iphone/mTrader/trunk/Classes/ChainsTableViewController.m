@@ -6,9 +6,9 @@
 //  Copyright 2009 InFront AS. All rights reserved.
 //
 
-
 #import "ChainsTableViewController.h"
 
+#import "MyListTableCellPad.h"
 #import "ChainsTableCell.h"
 
 #import "mTraderAppDelegate.h"
@@ -24,7 +24,8 @@
 #import "SymbolDetailController.h"
 #import "OrderBookController.h"
 
-#import "StringHelpers.h"f
+#import "StringHelpers.h"
+
 @implementation ChainsTableViewController
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize managedObjectContext = _managedObjectContext;
@@ -73,7 +74,6 @@
 #pragma mark TableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	
 	return [[self.fetchedResultsController sections] count];
 }
 
@@ -93,21 +93,46 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"ChainsTableCell";
+    static NSString *CellIdentifier = @"MyListTableCell";
     
-    ChainsTableCell *cell = (ChainsTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[ChainsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-    // Configure the cell.
-	[self configureCell:cell atIndexPath:indexPath animated:NO];
-    return cell;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		MyListTableCellPad *cell = (MyListTableCellPad *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[[MyListTableCellPad alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		
+		[self configurePadCell:cell atIndexPath:indexPath animated:NO];
+		return cell;
+	} else {
+		ChainsTableCell *cell = (ChainsTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[[ChainsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		
+		[self configurePhoneCell:cell atIndexPath:indexPath animated:NO];
+		return cell;
+	}
 }
 
-- (void)configureCell:(ChainsTableCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+- (void)configurePhoneCell:(ChainsTableCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	cell.centerOption = centerOption;
 	cell.rightOption = rightOption;
+	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	cell.symbolDynamicData = symbolDynamicData;
+	
+	if (animated == YES) {
+		UIColor *flashColor = [UIColor yellowColor];
+		UIColor *backgroundColor = [UIColor whiteColor];
+		[cell.contentView setBackgroundColor:flashColor];
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+		[UIView setAnimationDuration:1.0];
+		[cell.contentView setBackgroundColor:backgroundColor];
+		[UIView commitAnimations];
+	}
+}
+
+- (void)configurePadCell:(MyListTableCellPad *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
@@ -271,7 +296,12 @@
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
-			[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				[self configurePadCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
+			} else {
+				[self configurePhoneCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
+			}
+
 			break;
 			
 		case NSFetchedResultsChangeMove:
