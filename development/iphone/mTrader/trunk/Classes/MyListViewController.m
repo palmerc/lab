@@ -25,6 +25,9 @@
 	return self;
 }
 
+#define TEXT_LEFT_MARGIN 8.0
+#define TEXT_RIGHT_MARGIN 8.0
+
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	[super loadView];
@@ -35,30 +38,67 @@
 	aView.backgroundColor = [UIColor whiteColor];
 	
 	UIImage *mTraderImage = [UIImage imageNamed:@"Mtrader_16.png"];
-	UIImageView *mTraderBranding = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 112.0f, 16.0f)];
+	UIImageView *mTraderBranding = [[UIImageView alloc] initWithFrame:CGRectMake(TEXT_LEFT_MARGIN, 10.0f, 112.0f, 16.0f)];
 	mTraderBranding.image = mTraderImage;
-	
+	[aView addSubview:mTraderBranding];
 	
 	CGRect buttonFrame = CGRectMake(0.0f, 2.0f, 85.0f, 37.0f);
-	buttonFrame.origin.x = frame.size.width - 85.0f * 2.0f - 4.0f;
+	CGRect buttonBounds = CGRectMake(0.0f, 0.0f, 83.0f, 37.0f);
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		buttonFrame.origin.x = frame.size.width - 85.0f * 5.0f - TEXT_RIGHT_MARGIN;
+		UIButton *bidButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+		[bidButton setTitle:@"Bid" forState:UIControlStateNormal];
+		bidButton.frame = buttonFrame;
+		bidButton.bounds = buttonBounds;
+		bidButton.backgroundColor = [UIColor whiteColor];
+	
+		buttonFrame.origin.x = frame.size.width - 85.0f * 4.0f - TEXT_RIGHT_MARGIN;
+		UIButton *askButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+		[askButton setTitle:@"Ask" forState:UIControlStateNormal];
+		askButton.frame = buttonFrame;
+		askButton.bounds = buttonBounds;
+		askButton.backgroundColor = [UIColor whiteColor];
+	
+		unichar upDownArrowsChar = 0x21C5;
+		NSString *upDownArrows = [NSString stringWithCharacters:&upDownArrowsChar length:1];
+		buttonFrame.origin.x = frame.size.width - 85.0f * 2.0f - TEXT_RIGHT_MARGIN;
+		UIButton *upDownButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+		[upDownButton setTitle:upDownArrows forState:UIControlStateNormal];
+		upDownButton.frame = buttonFrame;
+		upDownButton.bounds = buttonBounds;
+		upDownButton.backgroundColor = [UIColor whiteColor];
+		
+		[aView addSubview:bidButton];
+		[aView addSubview:askButton];
+		[aView addSubview:upDownButton];
+		
+		buttonFrame.origin.x = frame.size.width - 85.0f * 3.0f - TEXT_RIGHT_MARGIN;
+	} else {
+		buttonFrame.origin.x = frame.size.width - 85.0f * 2.0f - TEXT_RIGHT_MARGIN;
+	}
+	
 	UIButton *centerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	[centerButton setTitle:@"Last" forState:UIControlStateNormal];
 	centerButton.frame = buttonFrame;
+	centerButton.bounds = buttonBounds;
 	centerButton.backgroundColor = [UIColor whiteColor];
-	[centerButton addTarget:self.tableViewController action:@selector(centerSelection:) forControlEvents:UIControlEventTouchUpInside];
 	
-	buttonFrame.origin.x = frame.size.width - 85.0f - 2.0f;
+	buttonFrame.origin.x = frame.size.width - 85.0f - TEXT_RIGHT_MARGIN;
 	UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	[rightButton setTitle:@"%" forState:UIControlStateNormal];
 	rightButton.frame = buttonFrame;
+	rightButton.bounds = buttonBounds;
 	rightButton.backgroundColor = [UIColor whiteColor];
-	[rightButton addTarget:self.tableViewController action:@selector(rightSelection:) forControlEvents:UIControlEventTouchUpInside];
+	
+	if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+		[centerButton addTarget:self.tableViewController action:@selector(centerSelection:) forControlEvents:UIControlEventTouchUpInside];
+		[rightButton addTarget:self.tableViewController action:@selector(rightSelection:) forControlEvents:UIControlEventTouchUpInside];
+	}
 	
 	frame.origin.y = 39.0f;
 	frame.size.height -= 39.0f;
 	self.tableViewController.view.frame = frame;
 	
-	[aView addSubview:mTraderBranding];
 	[aView addSubview:centerButton];
 	[aView addSubview:rightButton];
 	[aView addSubview:self.tableViewController.view];

@@ -18,6 +18,7 @@
 @class TradesInfoView;
 @class OrderBookView;
 @class SymbolNewsView;
+@class ScrollViewPageControl;
 
 @interface SymbolDetailController : UIViewController <OrderBookModalControllerDelegate, TradesControllerDelegate, SymbolNewsModalControllerDelegate, ChartControllerDelegate> {
 @private
@@ -29,6 +30,7 @@
 	TradesInfoView *tradesBox;
 	OrderBookView *orderBox;
 	SymbolNewsView *newsBox;
+	ScrollViewPageControl *detailBox;
 	
 	UIScrollView *scrollView;
 		

@@ -19,6 +19,7 @@
 #import "TradesInfoView.h"
 #import "OrderBookView.h"
 #import "SymbolNewsView.h"
+#import "ScrollViewPageControl.h"
 
 #import "RoundedRectangle.h"
 #import "OrderBookController.h"
@@ -45,14 +46,7 @@
 
 - (void)viewDidLoad {
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
-	CGRect windowFrame = self.view.frame;
-	
-	UIScrollView* containerView = [[UIScrollView alloc] initWithFrame:self.view.frame];
-	containerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-	containerView.scrollEnabled = YES;
-	containerView.bounces = NO;
-	containerView.contentSize = CGSizeMake(windowFrame.size.width, 520.0f);
-	self.view = containerView;
+	CGRect windowFrame = self.view.bounds;
 	
 	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 220.0);
 	lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
@@ -70,10 +64,16 @@
 	newsBox = [[SymbolNewsView alloc] initWithFrame:newsFrame andManagedObjectContext:self.managedObjectContext];
 	newsBox.symbol = self.symbol;
 	
+	CGRect detailFrame = CGRectMake(5.0, windowFrame.size.height / 2.0f, windowFrame.size.width - 10.0, windowFrame.size.height / 2.0f - 120.0f);
+	detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
+	[detailBox pushView:orderBox];
+	[detailBox pushView:newsBox];
+	
 	[self.view addSubview:lastBox];
 	[self.view addSubview:tradesBox];
-	[self.view addSubview:orderBox];
-	[self.view addSubview:newsBox];
+	//[self.view addSubview:orderBox];
+	//[self.view addSubview:newsBox];
+	[self.view addSubview:detailBox.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -192,6 +192,7 @@
 	[tradesBox release];
 	[orderBox release];
 	[newsBox release];
+	[detailBox release];
 	
 	[_symbol release];
 	[managedObjectContext release];
