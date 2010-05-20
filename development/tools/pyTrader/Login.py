@@ -20,7 +20,7 @@ class Login:
 		protocolString = 'Protocol: %s\n' % (self.protocol)
 		versionString = 'VerType: %s\n' % (self.version)
 		connectionString = 'ConnType: %s\n' % (self.connection)
-		streamingString = 'Streaming: %d\n' % (self.streaming)
+		streamingString = 'Streaming: %d\n\n' % (self.streaming)
 
 		loginRequest = actionString + \
 			authorizationString + \

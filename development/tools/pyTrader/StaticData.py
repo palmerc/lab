@@ -10,7 +10,7 @@ class StaticData:
 		actionString = 'Action: StatData\n'
 		authorizationString = 'Authorization: %s\n' % (self.username)
 		securityString = 'SecOid: %s/%s\n' % (self.feedNumber, self.tickerSymbol)
-		languageString = 'Language: %s\n' % (self.language)
+		languageString = 'Language: %s\n\n' % (self.language)
 
 		staticDataRequest = actionString + \
 			authorizationString + \

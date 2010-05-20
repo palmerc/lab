@@ -18,7 +18,7 @@ class QFields:
 	def __str__(self):
 		actionString = 'Action: q\n'
 		authorizationString = 'Authorization: %s\n' % (self.username)
-		QFieldsString = 'QFields: l\n'
+		QFieldsString = 'QFields: l, b, a\n\n'
 	
 		QFieldsRequest = actionString + \
 			authorizationString + \
