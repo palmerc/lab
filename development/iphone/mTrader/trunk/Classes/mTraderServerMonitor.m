@@ -64,13 +64,12 @@ static mTraderServerMonitor *sharedMonitor = nil;
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		isLoggedIn = NO;
+		_isLoggedIn = NO;
 		
 		self.server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		_reachability = nil;
-		
-				
+						
 		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
 		
 		[self startReachability];
@@ -83,7 +82,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 
 - (void)updateReachability:(Reachability *)curReach {
 	NetworkStatus netStatus = [curReach currentReachabilityStatus];
-	BOOL connectionRequired= [curReach connectionRequired];
+	BOOL connectionRequired = [curReach connectionRequired];
 	
 	NSString *status = nil;
 	switch (netStatus) {
@@ -147,11 +146,11 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 - (void)attemptConnection {
-	if (isConnected == NO) {
+	if (_isConnected == NO) {
 		[[mTraderCommunicator sharedManager].communicator startConnection];
 	}
 	
-	if (isConnected && !isLoggedIn && [self hasUsernameAndPasswordDefined]) {
+	if (_isConnected && !_isLoggedIn && [self hasUsernameAndPasswordDefined]) {
 		[[mTraderCommunicator sharedManager] login];
 	}
 }
@@ -161,18 +160,18 @@ static mTraderServerMonitor *sharedMonitor = nil;
 #pragma mark mTraderCommunicatorMonitorDelegate methods
 
 - (void)connected {
-	isConnected = YES;
-	if (isLoggedIn == NO) {
+	_isConnected = YES;
+	if (_isLoggedIn == NO) {
 		[self attemptConnection];
 	}
 }
 
 - (void)disconnected {
-	if (isConnected == NO && isLoggedIn == NO) {
+	if (_isConnected == NO && _isLoggedIn == NO) {
 		return;
 	}
-	isConnected = NO;
-	isLoggedIn = NO;
+	_isConnected = NO;
+	_isLoggedIn = NO;
 	
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
@@ -180,14 +179,14 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 - (void)loginFailed:(NSString *)message {
-	isLoggedIn = NO;
+	_isLoggedIn = NO;
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
 }
 
 - (void)loginSuccessful {
-	isLoggedIn = YES;
+	_isLoggedIn = YES;
 }
 
 -(void) kickedOut {

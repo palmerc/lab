@@ -25,5 +25,6 @@
 @property (nonatomic, retain) NSMutableArray *views;
 
 - (void)pushView:(UIView *)view;
+- (void)adjustScrollView;
 
 @end

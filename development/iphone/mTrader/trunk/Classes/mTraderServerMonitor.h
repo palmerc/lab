@@ -19,8 +19,8 @@
 	NSString *_server;
 	NSString *_port;
 	
-	BOOL isConnected;
-	BOOL isLoggedIn;
+	BOOL _isConnected;
+	BOOL _isLoggedIn;
 }
 @property (nonatomic, retain) Reachability *reachability;
 @property (nonatomic, retain) NSString *server;

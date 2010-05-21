@@ -71,6 +71,11 @@
 		7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723BB511294B930073A07B /* OrderBookTableCellP.m */; };
 		7E795A0A11590024006E35F4 /* SymbolNewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A0911590024006E35F4 /* SymbolNewsView.m */; };
 		7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A8E11591292006E35F4 /* OrderBookModalController.m */; };
+		7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m */; };
+		7E7C97DF11A6C75400DFA31E /* CPHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C97DE11A6C75400DFA31E /* CPHost.m */; };
+		7E7C97E311A6C7E300DFA31E /* WWAN5.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7C97E011A6C7E300DFA31E /* WWAN5.png */; };
+		7E7C97E411A6C7E300DFA31E /* Airport.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7C97E111A6C7E300DFA31E /* Airport.png */; };
+		7E7C97E511A6C7E300DFA31E /* stop-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7C97E211A6C7E300DFA31E /* stop-32.png */; };
 		7E8A6FD110F604B4003D7E29 /* SymbolDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */; };
 		7E9CD69A111DAAC9009B0087 /* MyListNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */; };
 		7EA4D4ED119D6F6F00036EF6 /* ScrollViewPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4D4EC119D6F6F00036EF6 /* ScrollViewPageControl.m */; };
@@ -193,6 +198,13 @@
 		7E795A0911590024006E35F4 /* SymbolNewsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsView.m; sourceTree = "<group>"; };
 		7E795A8D11591292006E35F4 /* OrderBookModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookModalController.h; sourceTree = "<group>"; };
 		7E795A8E11591292006E35F4 /* OrderBookModalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookModalController.m; sourceTree = "<group>"; };
+		7E7C97DA11A6C6FF00DFA31E /* NetworkDiagnosticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkDiagnosticViewController.h; sourceTree = "<group>"; };
+		7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkDiagnosticViewController.m; sourceTree = "<group>"; };
+		7E7C97DD11A6C75400DFA31E /* CPHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHost.h; sourceTree = "<group>"; };
+		7E7C97DE11A6C75400DFA31E /* CPHost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPHost.m; sourceTree = "<group>"; };
+		7E7C97E011A6C7E300DFA31E /* WWAN5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WWAN5.png; sourceTree = "<group>"; };
+		7E7C97E111A6C7E300DFA31E /* Airport.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airport.png; sourceTree = "<group>"; };
+		7E7C97E211A6C7E300DFA31E /* stop-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-32.png"; sourceTree = "<group>"; };
 		7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDetailController.h; sourceTree = "<group>"; };
 		7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDetailController.m; sourceTree = "<group>"; };
 		7E9CD698111DAAC9009B0087 /* MyListNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListNavigationController.h; sourceTree = "<group>"; };
@@ -412,6 +424,9 @@
 		7E419AFA10E20DD00007808B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				7E7C97E011A6C7E300DFA31E /* WWAN5.png */,
+				7E7C97E111A6C7E300DFA31E /* Airport.png */,
+				7E7C97E211A6C7E300DFA31E /* stop-32.png */,
 				7E3451C31160A13E0099B393 /* mTraderIcon_512.png */,
 				7E3451B01160A06D0099B393 /* mTraderIcon_57.png */,
 				7EA8DF08115BC2600034EB3D /* Mtrader_16.png */,
@@ -425,6 +440,8 @@
 		7E419B1F10E20EDB0007808B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				7E7C97DA11A6C6FF00DFA31E /* NetworkDiagnosticViewController.h */,
+				7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m */,
 				7E419BC910E21A150007808B /* SettingsTableViewController.h */,
 				7E419BCA10E21A150007808B /* SettingsTableViewController.m */,
 				C73CE63510E7544200AF6D89 /* AboutViewController.h */,
@@ -446,6 +463,8 @@
 		7E419C6A10E2209B0007808B /* Communicator */ = {
 			isa = PBXGroup;
 			children = (
+				7E7C97DD11A6C75400DFA31E /* CPHost.h */,
+				7E7C97DE11A6C75400DFA31E /* CPHost.m */,
 				7E33CBC71100AE5600C2737F /* Reachability.h */,
 				7E33CBC81100AE5600C2737F /* Reachability.m */,
 				7E419C6B10E2209B0007808B /* Communicator.h */,
@@ -797,6 +816,9 @@
 				7E3451C41160A13E0099B393 /* mTraderIcon_512.png in Resources */,
 				7E3451CB1160A3770099B393 /* MyListTab.png in Resources */,
 				7E3451D61160AA560099B393 /* NewsTab.png in Resources */,
+				7E7C97E311A6C7E300DFA31E /* WWAN5.png in Resources */,
+				7E7C97E411A6C7E300DFA31E /* Airport.png in Resources */,
+				7E7C97E511A6C7E300DFA31E /* stop-32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -906,6 +928,8 @@
 				7EBD16401192EEE5006CDAF5 /* mTraderDM.xcdatamodeld in Sources */,
 				7EAAFABA119AC78500B6600C /* MyListTableCellPad.m in Sources */,
 				7EA4D4ED119D6F6F00036EF6 /* ScrollViewPageControl.m in Sources */,
+				7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m in Sources */,
+				7E7C97DF11A6C75400DFA31E /* CPHost.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

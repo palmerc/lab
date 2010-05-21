@@ -13,6 +13,8 @@
 
 @interface MyListViewController : UIViewController <SymbolAddControllerDelegate> {
 @private
+	CGRect _frame;
+	
 	NSManagedObjectContext *_managedObjectContext;
 
 	ChainsTableViewController *_tableViewController;
@@ -23,7 +25,7 @@
 @property (nonatomic, retain) ChainsTableViewController *tableViewController;
 @property (nonatomic, retain) UINavigationController *navigationController;
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+- (id)initWithFrame:(CGRect)frame andManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)changeQFieldsStreaming;
 - (void)add:(id)sender;
 

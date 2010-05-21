@@ -16,10 +16,11 @@
 @synthesize tableViewController = _tableViewController;
 @synthesize navigationController = _navigationController; 
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+- (id)initWithFrame:(CGRect)frame andManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
+		_frame = frame;
 		_tableViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
 	}
 	return self;
@@ -30,17 +31,24 @@
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
-	[super loadView];
-		
-	CGRect frame = self.view.bounds;
-	UIView *aView = [[UIView alloc] initWithFrame:frame];
+	UIView *aView = [[UIView alloc] initWithFrame:_frame];
+	aView.autoresizesSubviews = YES;
+	self.view = aView;
+	[aView release];
+}
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+	self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
 	
-	aView.backgroundColor = [UIColor whiteColor];
+	CGRect frame = self.view.bounds;
+	
+	self.view.backgroundColor = [UIColor whiteColor];
 	
 	UIImage *mTraderImage = [UIImage imageNamed:@"Mtrader_16.png"];
 	UIImageView *mTraderBranding = [[UIImageView alloc] initWithFrame:CGRectMake(TEXT_LEFT_MARGIN, 10.0f, 112.0f, 16.0f)];
 	mTraderBranding.image = mTraderImage;
-	[aView addSubview:mTraderBranding];
+	[self.view addSubview:mTraderBranding];
 	
 	CGRect buttonFrame = CGRectMake(0.0f, 2.0f, 85.0f, 37.0f);
 	CGRect buttonBounds = CGRectMake(0.0f, 0.0f, 83.0f, 37.0f);
@@ -68,9 +76,9 @@
 		upDownButton.bounds = buttonBounds;
 		upDownButton.backgroundColor = [UIColor whiteColor];
 		
-		[aView addSubview:bidButton];
-		[aView addSubview:askButton];
-		[aView addSubview:upDownButton];
+		[self.view addSubview:bidButton];
+		[self.view addSubview:askButton];
+		[self.view addSubview:upDownButton];
 		
 		buttonFrame.origin.x = frame.size.width - 85.0f * 3.0f - TEXT_RIGHT_MARGIN;
 	} else {
@@ -99,17 +107,9 @@
 	frame.size.height -= 39.0f;
 	self.tableViewController.view.frame = frame;
 	
-	[aView addSubview:centerButton];
-	[aView addSubview:rightButton];
-	[aView addSubview:self.tableViewController.view];
-	
-	self.view = aView;
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	self.title = NSLocalizedString(@"ChainsTab", @"Chains tab label");
+	[self.view addSubview:centerButton];
+	[self.view addSubview:rightButton];
+	[self.view addSubview:self.tableViewController.view];
 
 	//CGRect buttonFrame = CGRectMake(0.0f, 0.0f, 85.0f, 37.0f);
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;	

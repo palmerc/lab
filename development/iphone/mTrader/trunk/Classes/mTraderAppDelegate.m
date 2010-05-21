@@ -44,7 +44,7 @@
 	//NSLog(@"Window size -> x:%.1f y:%.1f width:%.1f height:%.1f", window.frame.origin.x, window.frame.origin.y, window.frame.size.width, window.frame.size.height);
 	window.backgroundColor = [UIColor lightGrayColor];
 	
-	UIViewController *rootViewController = [[MyListViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	UIViewController *rootViewController = [[MyListViewController alloc] initWithFrame:[[UIScreen mainScreen] bounds] andManagedObjectContext:self.managedObjectContext];
 	MyListNavigationController *myListNavigationController = [[MyListNavigationController alloc] initWithContentViewController:rootViewController];
 	[rootViewController release];
 	

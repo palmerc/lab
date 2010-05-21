@@ -48,31 +48,29 @@
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	CGRect windowFrame = self.view.bounds;
 	
-	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 220.0);
+	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 250.0f);
 	lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
 	lastBox.symbol = self.symbol;
 
-	CGRect tradesFrame = CGRectMake(windowFrame.size.width / 2.0f, 0.0, windowFrame.size.width / 2.0f, 220.0);
+	CGRect tradesFrame = CGRectMake(windowFrame.size.width / 2.0f, 0.0, windowFrame.size.width / 2.0f, 250.0f);
 	tradesBox = [[TradesInfoView alloc] initWithFrame:tradesFrame];
 	tradesBox.symbol = self.symbol;
 	
-	CGRect orderFrame = CGRectMake(0.0, 220.0, windowFrame.size.width, 150.0);
-	orderBox = [[OrderBookView alloc] initWithFrame:orderFrame andManagedObjectContext:self.managedObjectContext];
+	
+	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height / 2.0f);
+	orderBox = [[OrderBookView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
 	orderBox.symbol = self.symbol;
 	
-	CGRect newsFrame = CGRectMake(0.0, 370.0, windowFrame.size.width, 150.0);
-	newsBox = [[SymbolNewsView alloc] initWithFrame:newsFrame andManagedObjectContext:self.managedObjectContext];
+	newsBox = [[SymbolNewsView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
 	newsBox.symbol = self.symbol;
 	
-	CGRect detailFrame = CGRectMake(5.0, windowFrame.size.height / 2.0f, windowFrame.size.width - 10.0, windowFrame.size.height / 2.0f - 120.0f);
+	CGRect detailFrame = CGRectMake(0.0, 250.f, windowFrame.size.width, windowFrame.size.height - 250.0f);
 	detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
 	[detailBox pushView:orderBox];
 	[detailBox pushView:newsBox];
 	
 	[self.view addSubview:lastBox];
 	[self.view addSubview:tradesBox];
-	//[self.view addSubview:orderBox];
-	//[self.view addSubview:newsBox];
 	[self.view addSubview:detailBox.view];
 }
 
