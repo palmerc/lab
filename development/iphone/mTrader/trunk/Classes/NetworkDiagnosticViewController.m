@@ -19,22 +19,22 @@
 @synthesize server = _server;
 @synthesize port = _port;
 @synthesize frame = _frame;
-@synthesize remoteHost = _remoteHost;
-@synthesize remoteIP = _remoteIP;
-@synthesize remotePort = _remotePort;
-@synthesize remoteReachability = _remoteReachability;
-@synthesize connectionType = _connectionType;
-@synthesize yourIPAddress = _yourIPAddress;
-@synthesize loginStatus = _loginStatus;
 
 #pragma mark -
 
 - (id)init {
 	self = [super init];
 	if (self != nil) {
+		self.title = NSLocalizedString(@"netDiagnostics", @"Network Diagnostics Page");
 		self.server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		_reachability = nil;
+		
+		_headers = [[NSArray arrayWithObjects:@"Your IP Addresses", @"Server Details", @"Server Addresses", @"Reachability", nil] retain];
+		_interfaces = nil;
+		_serverDetails = [[NSArray arrayWithObjects:self.server, self.port, nil] retain];
+		_serverAddresses = nil;
+		_reachabilityDetails = nil;
 	}
 	return self;
 }
@@ -45,56 +45,10 @@
 }
 
 - (void)loadView {
-	UIView *aView = [[UIView alloc] initWithFrame:self.frame];
+	UITableView *aView = [[UITableView alloc] initWithFrame:self.frame style:UITableViewStyleGrouped];
 	aView.backgroundColor = [UIColor lightGrayColor];
-	
-	UIFont *labelFont = [UIFont systemFontOfSize:17.0f];
-	NSString *stringToMeasure = @"X";
-	CGSize textSize = [stringToMeasure sizeWithFont:labelFont];
-	CGRect labelFrame = CGRectMake(5.0, 20.0, self.frame.size.width - 5.0, textSize.height);
-	UIColor *labelTextColor = [UIColor blackColor];	
-	UIColor *labelBackgroundColor = [UIColor whiteColor];
-	
-	_remoteHost = [[UILabel alloc] initWithFrame:labelFrame];
-	_remoteHost.font = labelFont;
-	_remoteHost.textColor = labelTextColor;
-	_remoteHost.backgroundColor = labelBackgroundColor;
-	_remoteHost.text = self.server;
-	[aView addSubview:_remoteHost];
-	[_remoteHost release];
-	
-	labelFrame.origin.y += textSize.height;
-	_remoteIP = [[UILabel alloc] initWithFrame:labelFrame];
-	_remoteIP.font = labelFont;
-	_remoteIP.textColor = labelTextColor;
-	_remoteIP.backgroundColor = labelBackgroundColor;
-	[aView addSubview:_remoteIP];
-	[_remoteIP release];
-		
-	labelFrame.origin.y += textSize.height;
-	_remotePort = [[UILabel alloc] initWithFrame:labelFrame];
-	_remotePort.font = labelFont;
-	_remotePort.textColor = labelTextColor;
-	_remotePort.backgroundColor = labelBackgroundColor;
-	_remotePort.text = self.port;
-	[aView addSubview:_remotePort];	
-	[_remotePort release];
-	
-	labelFrame.origin.y += textSize.height;
-	_yourIPAddress = [[UILabel alloc] initWithFrame:labelFrame];
-	_yourIPAddress.font = labelFont;
-	_yourIPAddress.textColor = labelTextColor;
-	_yourIPAddress.backgroundColor = labelBackgroundColor;
-	[aView addSubview:_yourIPAddress];	
-	[_yourIPAddress release];
-	
-	labelFrame.origin.y += textSize.height;
-	_remoteReachability = [[UILabel alloc] initWithFrame:labelFrame];
-	_remoteReachability.font = labelFont;
-	_remoteReachability.backgroundColor = [UIColor whiteColor];
-	_remoteReachability.textColor = [UIColor blackColor];
-	[aView addSubview:_remoteReachability];
-	[_remoteReachability release];
+	aView.delegate = self;
+	aView.dataSource = self;
 	
 	self.view = aView;
 	[aView release];
@@ -126,6 +80,52 @@
 }
 
 #pragma mark -
+#pragma mark UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	static NSString *CellIdentifier = @"DiagnosticTableCell";
+    
+	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+	}
+	
+	if (indexPath.section == 0) {
+		[cell.textLabel setText:[_interfaces objectAtIndex:indexPath.row]];
+	} else if (indexPath.section == 1) {
+		[cell.textLabel setText:[_serverDetails objectAtIndex:indexPath.row]];
+	} else if (indexPath.section == 2) {
+		[cell.textLabel setText:[_serverAddresses objectAtIndex:indexPath.row]];
+	} else if (indexPath.section == 3) {
+		[cell.textLabel setText:[_reachabilityDetails objectAtIndex:indexPath.row]];
+	}
+		
+	return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return [_headers count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	if (section == 0) {
+		return [_interfaces count];
+	} else if (section == 1) {
+		return [_serverDetails count];	
+	} else if (section == 2) {
+		return [_serverAddresses count];
+	} else if (section == 3) {
+		return [_reachabilityDetails count];
+	} else {
+		return 0;
+	}
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	return [_headers objectAtIndex:section];
+}
+
+#pragma mark -
 - (void)reachabilityChanged:(NSNotification *)note {
 	Reachability *currentReachability = [note object];
 	NSParameterAssert([currentReachability isKindOfClass:[Reachability class]]);
@@ -137,8 +137,14 @@
 - (void)updateReachability:(Reachability *)reach {
 	const char *hostname = [self.server cStringUsingEncoding:NSASCIIStringEncoding];
 	struct hostent *remoteHostEnt = gethostbyname(hostname);
-	char **list = remoteHostEnt->h_addr_list;
-
+	char **list;
+	if (remoteHostEnt != NULL) {
+		list = remoteHostEnt->h_addr_list;	
+	}
+	
+	if (_serverAddresses != nil) {
+		[_serverAddresses release];
+	}
 	NSMutableArray *addresses = [NSMutableArray array];
 	for (int i = 0; i < sizeof(list) / sizeof(struct in_addr *); i++) {
 		struct in_addr *ip = (struct in_addr *)list[i];
@@ -146,12 +152,13 @@
 		NSString *ipAddress = [NSString stringWithCString:inet_ntoa(*ip) encoding:NSASCIIStringEncoding];
 		[addresses addObject:ipAddress];
 	}
+	_serverAddresses = [(NSArray *)addresses retain];
 	
-	for (NSString *address in addresses) {	
-		self.remoteIP.text = address;
-	}
 	NetworkStatus status = [reach currentReachabilityStatus];
 
+	if (_reachabilityDetails != nil) {
+		[_reachabilityDetails release];
+	}
 	NSString *remoteReachabilityText;
 	switch (status) {
 		case NotReachable:
@@ -166,27 +173,31 @@
 		default:
 			break;
 	}
-	self.remoteReachability.text = remoteReachabilityText;
-		
+	_reachabilityDetails = [[NSArray arrayWithObjects:remoteReachabilityText, nil] retain];
+	
+	if (_interfaces != nil) {
+		[_interfaces release];
+	}
 	NSMutableArray *interfaces = [NSMutableArray array];
 	NSDictionary *interfacesToAddresses = [CPHost interfacesToAddresses];
 	for (NSString *key in [interfacesToAddresses allKeys]) {
 		[interfaces addObject:[NSString stringWithFormat:@"%@: %@", key, [interfacesToAddresses objectForKey:key]]];
 	}
-	for (NSString *interface in interfaces) {
-		self.yourIPAddress.text = interface;
-	}
+	_interfaces = [(NSArray *)interfaces retain];
+	
+	[self.tableView reloadData];
 }
 
 #pragma mark -
 - (void)dealloc {
-	[_remoteHost release];
-	[_remoteIP release];
-	[_remotePort release];
-	[_remoteReachability release];
-	[_yourIPAddress release];
 	
 	[_reachability release];
+	[_headers release];
+	[_interfaces release];
+	[_serverDetails release];
+	[_serverAddresses release];
+	[_reachabilityDetails release];
+	
 	[super dealloc];
 }
 

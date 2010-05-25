@@ -536,15 +536,8 @@ static SymbolDataController *sharedDataController = nil;
 					NSString *value = [pieces objectAtIndex:0];
 					NSString *size = [pieces objectAtIndex:1];
 					
-					float multiplier = 1.0;
-					if ([size rangeOfString:@"k"].location != NSNotFound) {
-						multiplier = 1000.0;
-					} else if ([size rangeOfString:@"m"].location != NSNotFound) {
-						multiplier = 1000000.0;
-					}
-					
 					bidAsk.bidPrice = [NSNumber numberWithDouble:[value doubleValue]];
-					bidAsk.bidSize = [NSNumber numberWithDouble:[size doubleValue] * multiplier];
+					bidAsk.bidSize = [NSNumber numberWithDouble:[size doubleValue]];
 				}
 			}
 			
@@ -578,16 +571,9 @@ static SymbolDataController *sharedDataController = nil;
 					
 					NSString *value = [pieces objectAtIndex:0];
 					NSString *size = [pieces objectAtIndex:1];
-					
-					float multiplier = 1.0;
-					if ([size rangeOfString:@"k"].location != NSNotFound) {
-						multiplier = 1000.0;
-					} else if ([size rangeOfString:@"m"].location != NSNotFound) {
-						multiplier = 1000000.0;
-					}
-					
+								
 					bidAsk.askPrice = [NSNumber numberWithDouble:[value doubleValue]];
-					bidAsk.askSize = [NSNumber numberWithDouble:[size doubleValue] * multiplier];
+					bidAsk.askSize = [NSNumber numberWithDouble:[size doubleValue]];
 				}
 			}
 			
@@ -945,14 +931,9 @@ static SymbolDataController *sharedDataController = nil;
 	NSPredicate *bidAskPredicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@) AND (index=%@)", feedNumber, tickerSymbol, [NSNumber numberWithInteger:index]];
 	[bidAskRequest setPredicate:bidAskPredicate];
 	
-	NSSortDescriptor *bidAskSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
-	[bidAskRequest setSortDescriptors:[NSArray arrayWithObject:bidAskSortDescriptor]];
-	[bidAskSortDescriptor release];
-	
 	NSError *bidAskError = nil;
 	NSArray *bidAskArray = [self.managedObjectContext executeFetchRequest:bidAskRequest error:&bidAskError];
-	if (bidAskArray == nil)
-	{
+	if (bidAskArray == nil)	{
 		NSLog(@"Unresolved error %@, %@", bidAskError, [bidAskError userInfo]);
 	}
 	

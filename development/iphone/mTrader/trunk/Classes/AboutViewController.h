@@ -11,4 +11,6 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *versionTextField;
 
+- (IBAction)buttonAction;
+
 @end

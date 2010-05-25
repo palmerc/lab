@@ -16,14 +16,15 @@
 @interface OrderBookView : RoundedRectangle {
 @private	
 	Symbol *_symbol;
-	OrderBookController *orderBookController;
+	OrderBookController *_orderBookController;
 	UIViewController *_viewController;
 
-	UIButton *orderBookButton;
-	UILabel *askSizeLabel;
-	UILabel *askValueLabel;
-	UILabel *bidSizeLabel;
-	UILabel *bidValueLabel;
+	UIButton *_orderBookButton;
+	
+	UILabel *_askSizeLabel;
+	UILabel *_askValueLabel;
+	UILabel *_bidSizeLabel;
+	UILabel *_bidValueLabel;
 }
 
 @property (nonatomic, retain) Symbol *symbol;

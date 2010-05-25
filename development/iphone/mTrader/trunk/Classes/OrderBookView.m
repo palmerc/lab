@@ -24,8 +24,15 @@
     if (self = [super initWithFrame:frame]) {
 		_symbol = nil;
 		
-		orderBookController = [[OrderBookController alloc] initWithManagedObjectContext:managedObjectContext];
-		[self addSubview:orderBookController.view];
+		_orderBookController = [[OrderBookController alloc] initWithManagedObjectContext:managedObjectContext];
+		[self addSubview:_orderBookController.view];
+		
+		_viewController = nil;
+		_askSizeLabel = nil;
+		_askValueLabel = nil;
+		_bidSizeLabel = nil;
+		_bidValueLabel = nil;
+		_orderBookButton = nil;
     }
     return self;
 }
@@ -76,9 +83,9 @@
 	bidValueLabel.textAlignment = UITextAlignmentCenter;
 	bidValueLabel.font = headerFont;
 	bidValueLabel.text = @"B Price";
-
-	orderBookController.view.frame = tableFrame;
 	
+	_orderBookController.view.frame = tableFrame;
+
 	[self addSubview:orderBookButton];
 	[orderBookButton addSubview:askSizeLabel];
 	[orderBookButton addSubview:askValueLabel];
@@ -90,22 +97,23 @@
 
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
-	orderBookController.symbol = _symbol;
+	_orderBookController.symbol = _symbol;
 }
 
 
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[askSizeLabel release];
-	[askValueLabel release];
-	[bidValueLabel release];
-	[bidSizeLabel release];
-	[orderBookButton release];
+	[_askSizeLabel release];
+	[_askValueLabel release];
+	[_bidValueLabel release];
+	[_bidSizeLabel release];
+	[_orderBookButton release];
 	
 	[_symbol release];
 	
-	[orderBookController release];
+	[_viewController release];
+	[_orderBookController release];
 
     [super dealloc];
 }

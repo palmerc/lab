@@ -17,7 +17,7 @@
 @private
 	NSManagedObjectContext *_managedObjectContext;
 	
-	UIFont *tableFont;
+	UIFont *_tableFont;
 	
 	Symbol *_symbol;
 	NSArray *_bidAsks;	

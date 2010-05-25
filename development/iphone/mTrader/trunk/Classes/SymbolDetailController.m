@@ -31,7 +31,7 @@
 #import "QFields.h"
 
 @implementation SymbolDetailController
-@synthesize managedObjectContext;
+@synthesize managedObjectContext = _managedObjectContext;
 @synthesize symbol = _symbol;
 
 #pragma mark -
@@ -49,29 +49,29 @@
 	CGRect windowFrame = self.view.bounds;
 	
 	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 250.0f);
-	lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
-	lastBox.symbol = self.symbol;
+	_lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
+	_lastBox.symbol = self.symbol;
 
 	CGRect tradesFrame = CGRectMake(windowFrame.size.width / 2.0f, 0.0, windowFrame.size.width / 2.0f, 250.0f);
-	tradesBox = [[TradesInfoView alloc] initWithFrame:tradesFrame];
-	tradesBox.symbol = self.symbol;
+	_tradesBox = [[TradesInfoView alloc] initWithFrame:tradesFrame];
+	_tradesBox.symbol = self.symbol;
 	
 	
 	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height / 2.0f);
-	orderBox = [[OrderBookView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
-	orderBox.symbol = self.symbol;
+	_orderBox = [[OrderBookView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
+	_orderBox.symbol = self.symbol;
 	
-	newsBox = [[SymbolNewsView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
-	newsBox.symbol = self.symbol;
+	_newsBox = [[SymbolNewsView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
+	_newsBox.symbol = self.symbol;
 	
 	CGRect detailFrame = CGRectMake(0.0, 250.f, windowFrame.size.width, windowFrame.size.height - 250.0f);
-	detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
-	[detailBox pushView:orderBox];
-	[detailBox pushView:newsBox];
+	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
+	[_detailBox pushView:_orderBox];
+	[_detailBox pushView:_newsBox];
 	
-	[self.view addSubview:lastBox];
-	[self.view addSubview:tradesBox];
-	[self.view addSubview:detailBox.view];
+	[self.view addSubview:_lastBox];
+	[self.view addSubview:_tradesBox];
+	[self.view addSubview:_detailBox.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -102,6 +102,9 @@
 	[communicator setStreamingForFeedTicker:feedTicker];
 	[communicator symbolNewsForFeedTicker:feedTicker];	
 }
+
+#pragma mark -
+#pragma mark Action methods
 
 - (void)orderBook:(id)sender {
 	OrderBookModalController *orderBookController = [[OrderBookModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
@@ -155,6 +158,9 @@
 	[navController release];
 }
 
+#pragma mark -
+#pragma mark Modal view finished methods
+
 - (void)orderBookModalControllerDidFinish:(OrderBookModalController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -166,7 +172,7 @@
 - (void)chartControllerDidFinish:(ChartController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 
-	[lastBox setNeedsDisplay];
+	[_lastBox setNeedsDisplay];
 }
 
 - (void)symbolNewsModalControllerDidFinish:(SymbolNewsModalController *)controller {
@@ -174,8 +180,8 @@
 }
 
 
-//#pragma mark -
-//#pragma mark Debugging methods
+#pragma mark -
+#pragma mark Debugging methods
 //// Very helpful debug when things seem not to be working.
 //- (BOOL)respondsToSelector:(SEL)sel {
 //	NSLog(@"Queried about %@ in SymbolDetailController", NSStringFromSelector(sel));
@@ -186,14 +192,14 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	[lastBox release];
-	[tradesBox release];
-	[orderBox release];
-	[newsBox release];
-	[detailBox release];
+	[_lastBox release];
+	[_tradesBox release];
+	[_orderBox release];
+	[_newsBox release];
+	[_detailBox release];
 	
 	[_symbol release];
-	[managedObjectContext release];
+	[_managedObjectContext release];
 	[super dealloc];
 }
 

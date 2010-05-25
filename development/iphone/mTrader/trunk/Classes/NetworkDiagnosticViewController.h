@@ -15,24 +15,18 @@
 	NSString *_port;
 	
 	CGRect _frame;
-	UILabel *_remoteHost;
-	UILabel *_remoteIP;
-	UILabel *_remotePort;
-	UILabel *_remoteReachability;
-	UILabel *_yourIPAddress;
+	
+	NSArray *_headers;
+	NSArray *_interfaces;
+	NSArray *_serverDetails;
+	NSArray *_serverAddresses;
+	NSArray *_reachabilityDetails;
 }
 
 @property (nonatomic, retain) Reachability *reachability;
 @property (nonatomic, retain) NSString *server;
 @property (nonatomic, retain) NSString *port;
 @property (assign) CGRect frame;
-@property (nonatomic, retain) UILabel *remoteHost;
-@property (nonatomic, retain) UILabel *remoteIP;
-@property (nonatomic, retain) UILabel *remotePort;
-@property (nonatomic, retain) UILabel *remoteReachability;
-@property (nonatomic, retain) UILabel *connectionType;
-@property (nonatomic, retain) UILabel *yourIPAddress;
-@property (nonatomic, retain) UILabel *loginStatus;
 
 - (id)initWithFrame:(CGRect)frame;
 - (void)updateReachability:(Reachability *)reach;

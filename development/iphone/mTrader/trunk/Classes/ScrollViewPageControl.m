@@ -20,7 +20,8 @@
 	self = [super init];
 	if (self != nil) {
 		_frame = frame;
-		
+		_scrollView = nil;
+		_pageControl = nil;
 		_numberOfPages = 0;
 		_views = nil;
 	}
@@ -90,6 +91,7 @@
 	}
 	
 	[self.views addObject:view];
+	self.numberOfPages += 1;
 }
 
 - (void)setNumberOfPages:(NSUInteger)numberOfPages {
@@ -100,10 +102,10 @@
 #pragma mark -
 #pragma mark Debugging methods
 // Very helpful debug when things seem not to be working.
-- (BOOL)respondsToSelector:(SEL)sel {
-	NSLog(@"Queried about %@ in SymbolScrollView", NSStringFromSelector(sel));
-	return [super respondsToSelector:sel];
-}
+//- (BOOL)respondsToSelector:(SEL)sel {
+//	NSLog(@"Queried about %@ in SymbolScrollView", NSStringFromSelector(sel));
+//	return [super respondsToSelector:sel];
+//}
 
 - (void)dealloc {
 	[_scrollView release];

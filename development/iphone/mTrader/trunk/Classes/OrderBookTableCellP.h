@@ -12,13 +12,13 @@
 @private
 	BidAsk *_bidAsk;
 	
-	CGFloat maxWidth;
-	CGFloat lineHeight;
-	UIFont *mainFont;
-	UILabel *bidSizeLabel;
-	UILabel *bidValueLabel;
-	UILabel *askSizeLabel;
-	UILabel *askValueLabel;
+	CGFloat _maxWidth;
+	CGFloat _lineHeight;
+	UIFont *_mainFont;
+	UILabel *_bidSizeLabel;
+	UILabel *_bidValueLabel;
+	UILabel *_askSizeLabel;
+	UILabel *_askValueLabel;
 }
 
 @property (nonatomic, retain) BidAsk *bidAsk;

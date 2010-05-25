@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ScrollViewPageControl : UIViewController <UIScrollViewDelegate> {
+@private
 	CGRect _frame;
 	UIScrollView *_scrollView;
 	UIPageControl *_pageControl;

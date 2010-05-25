@@ -22,21 +22,15 @@
 
 @interface SymbolDetailController : UIViewController <OrderBookModalControllerDelegate, TradesControllerDelegate, SymbolNewsModalControllerDelegate, ChartControllerDelegate> {
 @private
-	NSManagedObjectContext *managedObjectContext;
+	NSManagedObjectContext *_managedObjectContext;
 	
 	Symbol *_symbol;
 	
-	LastChangeView *lastBox;
-	TradesInfoView *tradesBox;
-	OrderBookView *orderBox;
-	SymbolNewsView *newsBox;
-	ScrollViewPageControl *detailBox;
-	
-	UIScrollView *scrollView;
-		
-	UIView *symbolsHeaderView;
-	UIView *tradesHeaderView;
-	UIView *fundamentalsHeaderView;
+	LastChangeView *_lastBox;
+	TradesInfoView *_tradesBox;
+	OrderBookView *_orderBox;
+	SymbolNewsView *_newsBox;
+	ScrollViewPageControl *_detailBox;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;

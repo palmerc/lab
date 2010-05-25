@@ -28,10 +28,16 @@
 	self = [super init];
 	if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
-		[SymbolDataController sharedManager].orderBookDelegate = self;
-		tableFont = [[UIFont systemFontOfSize:17.0] retain];
+		_tableFont = [[UIFont systemFontOfSize:17.0] retain];
+		
+		_symbol = nil;
+		_bidAsks = nil;
 	}
 	return self;
+}
+
+- (void)viewDidLoad {
+	[SymbolDataController sharedManager].orderBookDelegate = self;
 }
 
 #pragma mark -
@@ -53,11 +59,11 @@
     OrderBookTableCellP *cell = (OrderBookTableCellP *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[OrderBookTableCellP alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		cell.mainFont = tableFont;
-		cell.maxWidth = self.tableView.frame.size.width;
+		cell.mainFont = _tableFont;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
-    
+	cell.maxWidth = self.view.frame.size.width;
+
     // Configure the cell.
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
@@ -70,11 +76,16 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize size = [@"X" sizeWithFont:tableFont];
+    CGSize size = [@"X" sizeWithFont:_tableFont];
 	return size.height;
 }
 
 - (void)updateOrderBook {
+	if (_bidAsks != nil) {
+		[_bidAsks release];
+		_bidAsks = nil;
+	}
+	
 	NSArray *bidsAsks = [SymbolDataController fetchBidAsksForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
 	self.bidAsks = bidsAsks;
 	
@@ -92,8 +103,10 @@
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {	
-	[tableFont release];
+	[_tableFont release];
 	[_symbol release];
+	[_bidAsks release];
+	
 	[_managedObjectContext release];
     [super dealloc];
 }
