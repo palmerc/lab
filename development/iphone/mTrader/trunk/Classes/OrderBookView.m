@@ -16,7 +16,11 @@
 @implementation OrderBookView
 @synthesize symbol = _symbol;
 @synthesize viewController = _viewController;
-@synthesize orderBookButton, askSizeLabel, askValueLabel, bidSizeLabel, bidValueLabel;
+@synthesize orderBookButton = _orderBookButton;
+@synthesize askSizeLabel = _askSizeLabel;
+@synthesize askValueLabel = _askValueLabel;
+@synthesize bidSizeLabel = _bidSizeLabel;
+@synthesize bidValueLabel =  _bidValueLabel;
 
 #pragma mark -
 #pragma mark Initialization
@@ -61,36 +65,36 @@
 	NSLog(@"%f, %f", labelWidth * 4.0f, maxWidth);
 	CGRect tableFrame = CGRectMake(leftPadding, leftPadding + headerFontSize.height, maxWidth, maxHeight - headerFontSize.height);
 	
-	orderBookButton = [[UIButton alloc] initWithFrame:rect];
-	[orderBookButton addTarget:self.viewController action:@selector(orderBook:) forControlEvents:UIControlEventTouchUpInside];
+	_orderBookButton = [[UIButton alloc] initWithFrame:rect];
+	[_orderBookButton addTarget:self.viewController action:@selector(orderBook:) forControlEvents:UIControlEventTouchUpInside];
 	
-	askSizeLabel = [[UILabel alloc] initWithFrame:askSizeLabelFrame];
-	askSizeLabel.textAlignment = UITextAlignmentCenter;
-	askSizeLabel.font = headerFont;
-	askSizeLabel.text = @"A Size";
+	_askSizeLabel = [[UILabel alloc] initWithFrame:askSizeLabelFrame];
+	_askSizeLabel.textAlignment = UITextAlignmentCenter;
+	_askSizeLabel.font = headerFont;
+	_askSizeLabel.text = @"A Size";
 
-	askValueLabel = [[UILabel alloc] initWithFrame:askValueLabelFrame];
-	askValueLabel.textAlignment = UITextAlignmentCenter;
-	askValueLabel.font = headerFont;
-	askValueLabel.text = @"A Price";
+	_askValueLabel = [[UILabel alloc] initWithFrame:askValueLabelFrame];
+	_askValueLabel.textAlignment = UITextAlignmentCenter;
+	_askValueLabel.font = headerFont;
+	_askValueLabel.text = @"A Price";
 	
-	bidSizeLabel = [[UILabel alloc] initWithFrame:bidSizeLabelFrame];
-	bidSizeLabel.textAlignment = UITextAlignmentCenter;
-	bidSizeLabel.font = headerFont;
-	bidSizeLabel.text = @"B Size";
+	_bidSizeLabel = [[UILabel alloc] initWithFrame:bidSizeLabelFrame];
+	_bidSizeLabel.textAlignment = UITextAlignmentCenter;
+	_bidSizeLabel.font = headerFont;
+	_bidSizeLabel.text = @"B Size";
 
-	bidValueLabel = [[UILabel alloc] initWithFrame:bidValueLabelFrame];
-	bidValueLabel.textAlignment = UITextAlignmentCenter;
-	bidValueLabel.font = headerFont;
-	bidValueLabel.text = @"B Price";
+	_bidValueLabel = [[UILabel alloc] initWithFrame:bidValueLabelFrame];
+	_bidValueLabel.textAlignment = UITextAlignmentCenter;
+	_bidValueLabel.font = headerFont;
+	_bidValueLabel.text = @"B Price";
 	
 	_orderBookController.view.frame = tableFrame;
 
-	[self addSubview:orderBookButton];
-	[orderBookButton addSubview:askSizeLabel];
-	[orderBookButton addSubview:askValueLabel];
-	[orderBookButton addSubview:bidSizeLabel];
-	[orderBookButton addSubview:bidValueLabel];
+	[self addSubview:_orderBookButton];
+	[_orderBookButton addSubview:_askSizeLabel];
+	[_orderBookButton addSubview:_askValueLabel];
+	[_orderBookButton addSubview:_bidSizeLabel];
+	[_orderBookButton addSubview:_bidValueLabel];
 	
 	[super drawRect:rect];
 }

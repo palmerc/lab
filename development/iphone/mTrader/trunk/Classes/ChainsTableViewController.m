@@ -120,7 +120,7 @@
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
-	if (animated == YES) {
+	if ([symbolDynamicData.changeArrow intValue] == 2 || [symbolDynamicData.changeArrow intValue] == 3) {
 		UIColor *flashColor = [UIColor yellowColor];
 		UIColor *backgroundColor = [UIColor whiteColor];
 		[cell.contentView setBackgroundColor:flashColor];
@@ -136,7 +136,7 @@
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
-	if (animated == YES) {
+	if ([symbolDynamicData.changeArrow intValue] == 2 || [symbolDynamicData.changeArrow intValue] == 3) {
 		UIColor *flashColor = [UIColor yellowColor];
 		UIColor *backgroundColor = [UIColor whiteColor];
 		[cell.contentView setBackgroundColor:flashColor];
@@ -284,7 +284,7 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
 	
 	UITableView *tableView = self.tableView;
-	
+
 	switch(type) {
 			
 		case NSFetchedResultsChangeInsert:
@@ -327,7 +327,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
 	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-	[self.tableView endUpdates];
+	[self.tableView endUpdates];	
 }
 
 //#pragma mark -

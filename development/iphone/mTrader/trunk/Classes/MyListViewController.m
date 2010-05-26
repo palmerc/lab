@@ -134,6 +134,7 @@
 	qFields.askPrice = YES;
 	qFields.change = YES;
 	qFields.changePercent = YES;
+	qFields.changeArrow = YES;
 	communicator.qFields = qFields;
 	[qFields release];
 	

@@ -728,7 +728,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSString *Version = [NSString stringWithFormat:@"VerType: %@", version];
 		NSString *ConnectionType = @"ConnType: Socket";
 		NSString *Streaming = @"Streaming: 1";
-		
+
 		QFields *qFields = [[QFields alloc] init];
 		qFields.timeStamp = YES;
 		qFields.lastTrade = YES;
@@ -736,6 +736,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		qFields.askPrice = YES;
 		qFields.change = YES;
 		qFields.changePercent = YES;
+		qFields.changeArrow = YES;
 		self.qFields = qFields;
 		[qFields release];
 		NSString *QFieldsServerString = [NSString stringWithFormat:@"QFields: %@", [qFields getCurrentQFieldsServerString]];
