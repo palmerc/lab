@@ -57,17 +57,16 @@
 	_tradesBox.symbol = self.symbol;
 	
 	
-	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height / 2.0f);
+	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height - tradesFrame.size.height - 120.0f);
 	_orderBox = [[OrderBookView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
 	_orderBox.symbol = self.symbol;
 	
 	_newsBox = [[SymbolNewsView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
 	_newsBox.symbol = self.symbol;
 	
-	CGRect detailFrame = CGRectMake(0.0, 250.f, windowFrame.size.width, windowFrame.size.height - 250.0f);
+	CGRect detailFrame = CGRectMake(0.0, 250.f, windowFrame.size.width, windowFrame.size.height - 120.0f);
 	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
-	[_detailBox pushView:_orderBox];
-	[_detailBox pushView:_newsBox];
+	_detailBox.views = [NSArray arrayWithObjects:_orderBox, _newsBox, nil];
 	
 	[self.view addSubview:_lastBox];
 	[self.view addSubview:_tradesBox];

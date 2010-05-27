@@ -14,7 +14,7 @@
 	UIScrollView *_scrollView;
 	UIPageControl *_pageControl;
 	
-	NSMutableArray *_views;
+	NSArray *_views;
 	
 	NSUInteger _numberOfPages;
 }
@@ -23,9 +23,8 @@
 @property (assign) NSUInteger numberOfPages;
 @property (nonatomic, retain) UIScrollView *scrollView;
 @property (nonatomic, retain) UIPageControl *pageControl;
-@property (nonatomic, retain) NSMutableArray *views;
+@property (nonatomic, retain) NSArray *views;
 
-- (void)pushView:(UIView *)view;
 - (void)adjustScrollView;
 
 @end

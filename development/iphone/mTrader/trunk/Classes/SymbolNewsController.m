@@ -22,6 +22,7 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize symbol = _symbol;
+@synthesize newsAvailableLabel = _newsAvailableLabel;
 
 #pragma mark -
 #pragma mark Initialization
@@ -30,7 +31,10 @@
     if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
 		_fetchedResultsController = nil;
+		_newsAvailable = NO;
 		_symbol = nil;
+		
+		_newsAvailableLabel = nil;
 	}
     return self;
 }
@@ -52,6 +56,21 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
+	NSString *labelString = @"No News Available";
+	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
+	CGRect frame = self.view.bounds;
+	frame.origin.y = frame.origin.y + 10.0f;
+	frame.size.height = [labelString sizeWithFont:labelFont].height;
+	
+	_newsAvailableLabel = [[UILabel alloc] initWithFrame:frame];
+	self.newsAvailableLabel.textAlignment = UITextAlignmentCenter;
+	self.newsAvailableLabel.font = labelFont;
+	self.newsAvailableLabel.textColor = [UIColor blackColor];
+	self.newsAvailableLabel.backgroundColor = [UIColor clearColor];
+	self.newsAvailableLabel.text = labelString;
+	self.newsAvailableLabel.hidden = YES;
+	[self.tableView addSubview:self.newsAvailableLabel];
+	
     [super viewDidLoad];
 }
 
@@ -68,6 +87,7 @@
     [super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
+	self.fetchedResultsController = nil;
 }
 
 - (void)viewDidUnload {
@@ -86,7 +106,14 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+	NSUInteger noOfObjects = [sectionInfo numberOfObjects];
+	if (noOfObjects == 0) {
+		self.newsAvailableLabel.hidden = NO;
+	} else {
+		self.newsAvailableLabel.hidden = YES;
+	}
+	
+	return [sectionInfo numberOfObjects];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -108,7 +135,8 @@
         cell = [[[NewsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-	[self configureCell:cell atIndexPath:indexPath animated:NO];
+	[self configureCell:cell atIndexPath:indexPath animated:NO];	
+		
     return cell;
 }
 

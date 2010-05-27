@@ -17,11 +17,15 @@
 	NSFetchedResultsController *_fetchedResultsController;
 	
 	Symbol *_symbol;
+	BOOL _newsAvailable;
+	
+	UILabel *_newsAvailableLabel;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) UILabel *newsAvailableLabel;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 

@@ -38,8 +38,9 @@
 - (void)viewDidLoad {
 	CGRect scrollViewFrame, pageControlFrame;
 	scrollViewFrame = pageControlFrame = self.view.bounds;
-	scrollViewFrame.size.height = self.view.bounds.size.height - 10.0f;
-	pageControlFrame.size.height = 10.0f;
+	scrollViewFrame.size.height = self.view.bounds.size.height;
+	pageControlFrame.origin.y = scrollViewFrame.size.height - 250.0f;
+	pageControlFrame.size.height = 20.0f;
 	
 	_scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
 	self.scrollView.backgroundColor = [UIColor clearColor];
@@ -53,8 +54,10 @@
 	[self adjustScrollView];
 
 	_pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
-	self.pageControl.currentPage = 0;
-	self.pageControl.numberOfPages = 0;
+	self.pageControl.backgroundColor = [UIColor clearColor];
+	self.pageControl.currentPage = 1;
+	self.pageControl.numberOfPages = [_views count];
+	[self.pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
 	[self.view addSubview:self.pageControl];
 }
 
@@ -70,7 +73,7 @@
 
 - (void)adjustScrollView {
 	CGSize contentSize = self.scrollView.contentSize;
-	contentSize.height = self.frame.size.height - 10.0f;
+	contentSize.height = self.frame.size.height - 20.0f;
 	
 	for (UIView *view in self.views) {
 		CGRect viewFrame = view.frame;
@@ -85,18 +88,20 @@
 	self.scrollView.contentSize = contentSize;
 }
 
-- (void)pushView:(UIView *)view {
-	if (_views == nil) {
-		_views = [[NSMutableArray alloc] init];
-	}
-	
-	[self.views addObject:view];
-	self.numberOfPages += 1;
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+	CGFloat pageWidth = self.scrollView.frame.size.width;
+    int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    self.pageControl.currentPage = page;	
 }
 
-- (void)setNumberOfPages:(NSUInteger)numberOfPages {
-	_numberOfPages = numberOfPages;
-	self.pageControl.numberOfPages = numberOfPages;
+- (void)changePage:(id)sender {
+    int page = self.pageControl.currentPage;
+	
+	// update the scroll view to the appropriate page
+    CGRect frame = self.scrollView.frame;
+    frame.origin.x = frame.size.width * page;
+    frame.origin.y = 0;
+    [self.scrollView scrollRectToVisible:frame animated:YES];
 }
 
 #pragma mark -
