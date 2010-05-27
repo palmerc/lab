@@ -59,7 +59,6 @@
 	NSString *labelString = @"No News Available";
 	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
 	CGRect frame = self.view.bounds;
-	frame.origin.y = frame.origin.y + 10.0f;
 	frame.size.height = [labelString sizeWithFont:labelFont].height;
 	
 	_newsAvailableLabel = [[UILabel alloc] initWithFrame:frame];
