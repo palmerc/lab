@@ -543,7 +543,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		restOfTheDataRange.length = [string length] - staticDataRange.length;
 		NSString *staticDataString = [string substringWithRange:restOfTheDataRange];
 		
-		NSArray *staticDataRows = [staticDataString componentsSeparatedByString:@";"];
+		NSArray *staticDataRows = [StringHelpers cleanComponents:[staticDataString componentsSeparatedByString:@";"]];
 		for (NSString *row in staticDataRows) {
 			NSRange separatorRange = [row rangeOfString:@":"];
 			if (separatorRange.location != NSNotFound) {

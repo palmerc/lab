@@ -20,12 +20,15 @@
 	UIFont *_tableFont;
 	
 	Symbol *_symbol;
-	NSArray *_bidAsks;	
+	NSArray *_bidAsks;
+	
+	UILabel *_orderbookAvailableLabel;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) NSArray *bidAsks;
+@property (nonatomic, retain) UILabel *orderbookAvailableLabel;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;

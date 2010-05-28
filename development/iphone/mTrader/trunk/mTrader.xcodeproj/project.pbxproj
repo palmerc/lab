@@ -47,9 +47,12 @@
 		7E377F8211171B7B0080A84B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F7D11171B7B0080A84B /* Localizable.strings */; };
 		7E377F8B11171B970080A84B /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8411171B970080A84B /* AboutView.xib */; };
 		7E377F9911171BB10080A84B /* SettingsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9511171BB10080A84B /* SettingsTab.png */; };
-		7E38610711490BE300CA1086 /* TradesInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38610611490BE300CA1086 /* TradesInfoView.m */; };
+		7E38610711490BE300CA1086 /* TradesLiveInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38610611490BE300CA1086 /* TradesLiveInfoView.m */; };
 		7E38626C1149239A00CA1086 /* OrderBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38626B1149239A00CA1086 /* OrderBookView.m */; };
 		7E38640911494AB300CA1086 /* SymbolDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38640811494AB300CA1086 /* SymbolDataController.m */; };
+		7E3C9B8211AFB38D00B5EE52 /* OtherInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3C9B8111AFB38D00B5EE52 /* OtherInfoView.m */; };
+		7E3C9D0F11AFEC5D00B5EE52 /* TradesModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3C9D0E11AFEC5D00B5EE52 /* TradesModalController.m */; };
+		7E3C9D8011AFF87D00B5EE52 /* TradesInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3C9D7F11AFF87D00B5EE52 /* TradesInfoView.m */; };
 		7E3FC7ED114551BC00C438CF /* RoundedRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FC7EC114551BC00C438CF /* RoundedRectangle.m */; };
 		7E3FCBDC1146874C00C438CF /* LastChangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FCBDB1146874C00C438CF /* LastChangeView.m */; };
 		7E419AD910E20B920007808B /* ChainsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* ChainsTableViewController.m */; };
@@ -152,12 +155,18 @@
 		7E377F9511171BB10080A84B /* SettingsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SettingsTab.png; path = Resources/SettingsTab.png; sourceTree = "<group>"; };
 		7E377F9A11171BC60080A84B /* mTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTrader-Info.plist"; sourceTree = "<group>"; };
 		7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTraderTesting-Info.plist"; sourceTree = "<group>"; };
-		7E38610511490BE300CA1086 /* TradesInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesInfoView.h; sourceTree = "<group>"; };
-		7E38610611490BE300CA1086 /* TradesInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesInfoView.m; sourceTree = "<group>"; };
+		7E38610511490BE300CA1086 /* TradesLiveInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesLiveInfoView.h; sourceTree = "<group>"; };
+		7E38610611490BE300CA1086 /* TradesLiveInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesLiveInfoView.m; sourceTree = "<group>"; };
 		7E38626A1149239A00CA1086 /* OrderBookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookView.h; sourceTree = "<group>"; };
 		7E38626B1149239A00CA1086 /* OrderBookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookView.m; sourceTree = "<group>"; };
 		7E38640711494AB300CA1086 /* SymbolDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDataController.h; sourceTree = "<group>"; };
 		7E38640811494AB300CA1086 /* SymbolDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDataController.m; sourceTree = "<group>"; };
+		7E3C9B8011AFB38D00B5EE52 /* OtherInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherInfoView.h; sourceTree = "<group>"; };
+		7E3C9B8111AFB38D00B5EE52 /* OtherInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherInfoView.m; sourceTree = "<group>"; };
+		7E3C9D0D11AFEC5D00B5EE52 /* TradesModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesModalController.h; sourceTree = "<group>"; };
+		7E3C9D0E11AFEC5D00B5EE52 /* TradesModalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesModalController.m; sourceTree = "<group>"; };
+		7E3C9D7E11AFF87D00B5EE52 /* TradesInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesInfoView.h; sourceTree = "<group>"; };
+		7E3C9D7F11AFF87D00B5EE52 /* TradesInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesInfoView.m; sourceTree = "<group>"; };
 		7E3FC7EB114551BC00C438CF /* RoundedRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedRectangle.h; sourceTree = "<group>"; };
 		7E3FC7EC114551BC00C438CF /* RoundedRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedRectangle.m; sourceTree = "<group>"; };
 		7E3FCBDA1146874C00C438CF /* LastChangeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastChangeView.h; sourceTree = "<group>"; };
@@ -523,6 +532,8 @@
 			children = (
 				7E59A719113BD9C2001FD328 /* TradesController.h */,
 				7E59A71A113BD9C2001FD328 /* TradesController.m */,
+				7E3C9D0D11AFEC5D00B5EE52 /* TradesModalController.h */,
+				7E3C9D0E11AFEC5D00B5EE52 /* TradesModalController.m */,
 				7E59A71C113BD9F2001FD328 /* TradesCell.h */,
 				7E59A71D113BD9F2001FD328 /* TradesCell.m */,
 			);
@@ -635,8 +646,12 @@
 				7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */,
 				7E3FCBDA1146874C00C438CF /* LastChangeView.h */,
 				7E3FCBDB1146874C00C438CF /* LastChangeView.m */,
-				7E38610511490BE300CA1086 /* TradesInfoView.h */,
-				7E38610611490BE300CA1086 /* TradesInfoView.m */,
+				7E38610511490BE300CA1086 /* TradesLiveInfoView.h */,
+				7E38610611490BE300CA1086 /* TradesLiveInfoView.m */,
+				7E3C9D7E11AFF87D00B5EE52 /* TradesInfoView.h */,
+				7E3C9D7F11AFF87D00B5EE52 /* TradesInfoView.m */,
+				7E3C9B8011AFB38D00B5EE52 /* OtherInfoView.h */,
+				7E3C9B8111AFB38D00B5EE52 /* OtherInfoView.m */,
 				7E38626A1149239A00CA1086 /* OrderBookView.h */,
 				7E38626B1149239A00CA1086 /* OrderBookView.m */,
 				7E795A0811590024006E35F4 /* SymbolNewsView.h */,
@@ -912,7 +927,7 @@
 				7E41BA8A1140520200277A67 /* NewsArticleController.m in Sources */,
 				7E3FC7ED114551BC00C438CF /* RoundedRectangle.m in Sources */,
 				7E3FCBDC1146874C00C438CF /* LastChangeView.m in Sources */,
-				7E38610711490BE300CA1086 /* TradesInfoView.m in Sources */,
+				7E38610711490BE300CA1086 /* TradesLiveInfoView.m in Sources */,
 				7E38626C1149239A00CA1086 /* OrderBookView.m in Sources */,
 				7E38640911494AB300CA1086 /* SymbolDataController.m in Sources */,
 				7E57C012114A834600A1AF93 /* QFields.m in Sources */,
@@ -930,6 +945,9 @@
 				7EA4D4ED119D6F6F00036EF6 /* ScrollViewPageControl.m in Sources */,
 				7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m in Sources */,
 				7E7C97DF11A6C75400DFA31E /* CPHost.m in Sources */,
+				7E3C9B8211AFB38D00B5EE52 /* OtherInfoView.m in Sources */,
+				7E3C9D0F11AFEC5D00B5EE52 /* TradesModalController.m in Sources */,
+				7E3C9D8011AFF87D00B5EE52 /* TradesInfoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

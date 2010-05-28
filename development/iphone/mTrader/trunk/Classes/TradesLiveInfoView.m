@@ -1,12 +1,12 @@
 //
-//  TradesInfoView.m
+//  TradesLiveInfoView.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 09.03.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "TradesInfoView.h"
+#import "TradesLiveInfoView.h"
 
 #import "mTraderCommunicator.h"
 #import "Feed.h"
@@ -15,10 +15,8 @@
 #import "Chart.h"
 
 
-@implementation TradesInfoView
+@implementation TradesLiveInfoView
 @synthesize symbol = _symbol;
-@synthesize viewController = _viewController;
-@synthesize tradesButton = _tradesButton;
 @synthesize openLabel = _openLabel; 
 @synthesize open = _open;
 @synthesize highLabel = _highLabel;
@@ -46,58 +44,54 @@
 #pragma mark Initialization
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
-	if (self != nil) {
-		_tradesButton = [[UIButton alloc] initWithFrame:CGRectZero];
-		[self.tradesButton addTarget:self.viewController action:@selector(trades:) forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:self.tradesButton];
-		
+	if (self != nil) {	
 		_openLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.openLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.openLabel.textAlignment = UITextAlignmentLeft;
 		self.openLabel.text = NSLocalizedString(@"open", @"LocalizedString");
-		[self.tradesButton addSubview:self.openLabel];
+		[self addSubview:self.openLabel];
 		
 		_open = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.open.font = [UIFont systemFontOfSize:14.0];
 		self.open.adjustsFontSizeToFitWidth = YES;
 		self.open.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.open];
+		[self addSubview:self.open];
 		
 		_highLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.highLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.highLabel.textAlignment = UITextAlignmentLeft;
 		self.highLabel.text = NSLocalizedString(@"high", @"LocalizedString");
-		[self.tradesButton addSubview:self.highLabel];
+		[self addSubview:self.highLabel];
 		
 		_high = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.high.font = [UIFont systemFontOfSize:14.0];
 		self.high.adjustsFontSizeToFitWidth = YES;
 		self.high.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.high];
+		[self addSubview:self.high];
 		
 		_lowLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.lowLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.lowLabel.textAlignment = UITextAlignmentLeft;
 		self.lowLabel.text = NSLocalizedString(@"low", @"LocalizedString");
-		[self.tradesButton addSubview:self.lowLabel];
+		[self addSubview:self.lowLabel];
 		
 		_low = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.low.font = [UIFont systemFontOfSize:14.0];
 		self.low.adjustsFontSizeToFitWidth = YES;
 		self.low.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.low];
+		[self addSubview:self.low];
 		
 		_vwapLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.vwapLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.vwapLabel.textAlignment = UITextAlignmentLeft;
 		self.vwapLabel.text = NSLocalizedString(@"vwap", @"LocalizedString");
-		[self.tradesButton addSubview:self.vwapLabel];
+		[self addSubview:self.vwapLabel];
 		
 		_vwap = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.vwap.font = [UIFont systemFontOfSize:14.0];
 		self.vwap.adjustsFontSizeToFitWidth = YES;
 		self.vwap.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.vwap];
+		[self addSubview:self.vwap];
 		
 		_volumeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.volumeLabel.font = [UIFont boldSystemFontOfSize:14.0];
@@ -109,79 +103,79 @@
 		self.volume.font = [UIFont systemFontOfSize:14.0];
 		self.volume.adjustsFontSizeToFitWidth = YES;
 		self.volume.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.volume];
+		[self addSubview:self.volume];
 		
 		_tradesLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.tradesLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.tradesLabel.textAlignment = UITextAlignmentLeft;
 		self.tradesLabel.text = NSLocalizedString(@"trades", @"LocalizedString");
-		[self.tradesButton addSubview:self.tradesLabel];
+		[self addSubview:self.tradesLabel];
 		
 		_trades = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.trades.font = [UIFont systemFontOfSize:14.0];
 		self.trades.adjustsFontSizeToFitWidth = YES;
 		self.trades.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.trades];
+		[self addSubview:self.trades];
 		
 		_turnoverLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.turnoverLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.turnoverLabel.textAlignment = UITextAlignmentLeft;
 		self.turnoverLabel.text = NSLocalizedString(@"turnover", @"LocalizedString");
-		[self.tradesButton addSubview:self.turnoverLabel];
+		[self addSubview:self.turnoverLabel];
 		
 		_turnover = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.turnover.font = [UIFont systemFontOfSize:14.0];
 		self.turnover.adjustsFontSizeToFitWidth = YES;
 		self.turnover.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.turnover];
+		[self addSubview:self.turnover];
 		
 		_bLotLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.bLotLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.bLotLabel.textAlignment = UITextAlignmentLeft;
 		self.bLotLabel.text = NSLocalizedString(@"bLot", @"LocalizedString");
-		[self.tradesButton addSubview:self.bLotLabel];
+		[self addSubview:self.bLotLabel];
 		
 		_bLot = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.bLot.font = [UIFont systemFontOfSize:14.0];
 		self.bLot.adjustsFontSizeToFitWidth = YES;
 		self.bLot.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.bLot];
+		[self addSubview:self.bLot];
 		
 		_bLotValLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.bLotValLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.bLotValLabel.textAlignment = UITextAlignmentLeft;
 		self.bLotValLabel.text = NSLocalizedString(@"bLotVal", @"LocalizedString");
-		[self.tradesButton addSubview:self.bLotValLabel];
+		[self addSubview:self.bLotValLabel];
 		
 		_bLotVal = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.bLotVal.font = [UIFont systemFontOfSize:14.0];
 		self.bLotVal.adjustsFontSizeToFitWidth = YES;
 		self.bLotVal.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.bLotVal];
+		[self addSubview:self.bLotVal];
 		
 		_avgVolLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.avgVolLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.avgVolLabel.textAlignment = UITextAlignmentLeft;
 		self.avgVolLabel.text = NSLocalizedString(@"avgVol", @"LocalizedString");
-		[self.tradesButton addSubview:self.avgVolLabel];
+		[self addSubview:self.avgVolLabel];
 		
 		_avgVol = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.avgVol.font = [UIFont systemFontOfSize:14.0];
 		self.avgVol.adjustsFontSizeToFitWidth = YES;
 		self.avgVol.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.avgVol];
+		[self addSubview:self.avgVol];
 		
 		_avgValLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.avgValLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		self.avgValLabel.textAlignment = UITextAlignmentLeft;
 		self.avgValLabel.text = NSLocalizedString(@"avgVal", @"LocalizedString");
-		[self.tradesButton addSubview:self.avgValLabel];
+		[self addSubview:self.avgValLabel];
 		
 		_avgVal = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.avgVal.font = [UIFont systemFontOfSize:14.0];
 		self.avgVal.adjustsFontSizeToFitWidth = YES;
 		self.avgVal.textAlignment = UITextAlignmentRight;
-		[self.tradesButton addSubview:self.avgVal];
+		[self addSubview:self.avgVal];
 	}
 	return self;
 }
@@ -192,6 +186,7 @@
 	super.padding = 6.0f;
 	super.cornerRadius = 10.0f;
 	super.strokeWidth = 0.75f;
+	
 	[super drawRect:rect];
 	
 	CGFloat leftPadding = ceilf(self.padding + super.strokeWidth + kBlur);
@@ -253,8 +248,6 @@
 	CGSize avgValLabelSize = [self.avgValLabel.text sizeWithFont:labelFont];
 	self.avgValLabel.frame = CGRectMake(leftPadding, globalY, avgValLabelSize.width, avgValLabelSize.height);
 	self.avgVal.frame = CGRectMake(leftPadding + avgValLabelSize.width, globalY, maxWidth - avgValLabelSize.width, avgValLabelSize.height);	
-
-	self.tradesButton.frame = CGRectMake(0.0f, 0.0f, maxWidth, globalY);
 }
 
 #pragma mark -

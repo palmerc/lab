@@ -1,5 +1,5 @@
 //
-//  TradesInfoView.h
+//  TradesLiveInfoView.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 09.03.10.
@@ -10,12 +10,10 @@
 
 @class Symbol;
 
-@interface TradesInfoView : RoundedRectangle {
+@interface TradesLiveInfoView : RoundedRectangle {
 @private
 	Symbol *_symbol;
 	
-	UIViewController *_viewController;
-	UIButton *_tradesButton;
 	UILabel *_openLabel; 
 	UILabel *_open;
 	UILabel *_highLabel;
@@ -41,8 +39,6 @@
 }
 
 @property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) UIViewController *viewController;
-@property (nonatomic, retain) UIButton *tradesButton;
 @property (nonatomic, retain) UILabel *openLabel; 
 @property (nonatomic, retain) UILabel *open;
 @property (nonatomic, retain) UILabel *highLabel;

@@ -23,6 +23,7 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize symbol = _symbol;
 @synthesize bidAsks = _bidAsks;
+@synthesize orderbookAvailableLabel = _orderbookAvailableLabel;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
@@ -37,6 +38,20 @@
 }
 
 - (void)viewDidLoad {
+	NSString *labelString = @"No Orderbook Available";
+	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
+	CGRect frame = self.view.bounds;
+	frame.size.height = [labelString sizeWithFont:labelFont].height;
+	
+	_orderbookAvailableLabel = [[UILabel alloc] initWithFrame:frame];
+	self.orderbookAvailableLabel.textAlignment = UITextAlignmentCenter;
+	self.orderbookAvailableLabel.font = labelFont;
+	self.orderbookAvailableLabel.textColor = [UIColor blackColor];
+	self.orderbookAvailableLabel.backgroundColor = [UIColor clearColor];
+	self.orderbookAvailableLabel.text = labelString;
+	self.orderbookAvailableLabel.hidden = YES;
+	[self.tableView addSubview:self.orderbookAvailableLabel];
+	
 	[SymbolDataController sharedManager].orderBookDelegate = self;
 }
 
@@ -49,6 +64,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	NSUInteger rowCount = [self.bidAsks count];
+	
+	if (rowCount == 0) {
+		self.orderbookAvailableLabel.hidden = NO;
+	} else {
+		self.orderbookAvailableLabel.hidden = YES;
+	}	
 	return [self.bidAsks count];
 }
 

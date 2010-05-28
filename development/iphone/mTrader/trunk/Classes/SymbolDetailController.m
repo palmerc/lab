@@ -16,9 +16,11 @@
 #import "StringHelpers.h"
 
 #import "LastChangeView.h"
+#import "TradesLiveInfoView.h"
 #import "TradesInfoView.h"
 #import "OrderBookView.h"
 #import "SymbolNewsView.h"
+#import "OtherInfoView.h"
 #import "ScrollViewPageControl.h"
 
 #import "RoundedRectangle.h"
@@ -53,23 +55,28 @@
 	_lastBox.symbol = self.symbol;
 
 	CGRect tradesFrame = CGRectMake(windowFrame.size.width / 2.0f, 0.0, windowFrame.size.width / 2.0f, 250.0f);
-	_tradesBox = [[TradesInfoView alloc] initWithFrame:tradesFrame];
-	_tradesBox.symbol = self.symbol;
-	
+	_tradesLiveBox = [[TradesLiveInfoView alloc] initWithFrame:tradesFrame];
+	_tradesLiveBox.symbol = self.symbol;
 	
 	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height - tradesFrame.size.height - 120.0f);
 	_orderBox = [[OrderBookView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
 	_orderBox.symbol = self.symbol;
 	
+	_tradesBox = [[TradesInfoView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
+	_tradesBox.symbol = self.symbol;
+	
 	_newsBox = [[SymbolNewsView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
 	_newsBox.symbol = self.symbol;
 	
+	_otherBox = [[OtherInfoView alloc] initWithFrame:roundedFrame];
+	_otherBox.symbol = self.symbol;
+	
 	CGRect detailFrame = CGRectMake(0.0, 250.f, windowFrame.size.width, windowFrame.size.height - 120.0f);
 	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
-	_detailBox.views = [NSArray arrayWithObjects:_orderBox, _newsBox, nil];
+	_detailBox.views = [NSArray arrayWithObjects:_orderBox, _tradesBox, _newsBox, _otherBox, nil];
 	
 	[self.view addSubview:_lastBox];
-	[self.view addSubview:_tradesBox];
+	[self.view addSubview:_tradesLiveBox];
 	[self.view addSubview:_detailBox.view];
 }
 
@@ -121,8 +128,6 @@
 - (void)trades:(id)sender {
 	TradesController *tradesController = [[TradesController alloc] initWithManagedObjectContext:self.managedObjectContext];
 	tradesController.symbol = self.symbol;
-	tradesController.delegate = self;
-	tradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tradesController];
 	[tradesController release];
@@ -164,7 +169,7 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)tradesControllerDidFinish:(TradesController *)controller {
+- (void)tradesControllerDidFinish:(TradesModalController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -192,6 +197,7 @@
 
 - (void)dealloc {
 	[_lastBox release];
+	[_tradesLiveBox release];
 	[_tradesBox release];
 	[_orderBox release];
 	[_newsBox release];
