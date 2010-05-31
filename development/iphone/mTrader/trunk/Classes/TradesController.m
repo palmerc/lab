@@ -8,8 +8,6 @@
 
 #import "TradesController.h"
 
-#import "SymbolDataController.h"
-
 #import <QuartzCore/QuartzCore.h>
 #import "mTraderCommunicator.h"
 #import "Symbol.h"
@@ -49,6 +47,8 @@
 	self.tradesAvailableLabel.text = labelString;
 	self.tradesAvailableLabel.hidden = YES;
 	[self.tableView addSubview:self.tradesAvailableLabel];
+	
+	[SymbolDataController sharedManager].tradesDelegate = self;
 }
 
 #pragma mark -
@@ -102,7 +102,6 @@
 	}
 	_symbol = [symbol retain];
 	
-	[self.symbol addObserver:self forKeyPath:@"trades" options:NSKeyValueObservingOptionNew context:nil];
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
 	[[mTraderCommunicator sharedManager] tradesRequest:feedTicker];
 }
@@ -114,16 +113,7 @@
 	[self.tableView reloadData];
 }
 
-
-#pragma mark -
-#pragma mark KVO
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if ([keyPath isEqualToString:@"trades"]) {
-		[self updateTrades];
-	}
-}
-
-- (void)dealloc {
+- (void)dealloc {	
 	[_managedObjectContext release];
 	[_symbol release];
 	[_trades release];

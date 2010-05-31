@@ -8,11 +8,13 @@
 
 #import "mTraderCommunicator.h"
 
+#import "SymbolDataController.h"
+
 @protocol TradesControllerDelegate;
 @class Symbol;
 @class TradesCell;
 
-@interface TradesController : UITableViewController {
+@interface TradesController : UITableViewController <TradesDelegate> {
 @private
 	NSManagedObjectContext *_managedObjectContext;
 	

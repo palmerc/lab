@@ -25,6 +25,7 @@ static SymbolDataController *sharedDataController = nil;
 
 @implementation SymbolDataController
 @synthesize orderBookDelegate;
+@synthesize tradesDelegate;
 @synthesize searchDelegate;
 @synthesize communicator;
 @synthesize fetchedResultsController = _fetchedResultsController;
@@ -896,6 +897,10 @@ static SymbolDataController *sharedDataController = nil;
 			trade.symbol = symbol;
 			[symbol addTradesObject:trade];
 		}
+	}
+	
+	if (self.tradesDelegate && [self.tradesDelegate respondsToSelector:@selector(updateTrades)]) {
+		[self.tradesDelegate updateTrades];
 	}
 }
 

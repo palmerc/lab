@@ -126,8 +126,10 @@
 }
 
 - (void)trades:(id)sender {
-	TradesController *tradesController = [[TradesController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	TradesModalController *tradesController = [[TradesModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
 	tradesController.symbol = self.symbol;
+	tradesController.delegate = self;
+	tradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tradesController];
 	[tradesController release];

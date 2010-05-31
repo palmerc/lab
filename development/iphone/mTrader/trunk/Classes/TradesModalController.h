@@ -11,29 +11,24 @@
 @protocol TradesControllerDelegate;
 @class Symbol;
 @class TradesCell;
+@class TradesController;
 
-@interface TradesModalController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface TradesModalController : UIViewController {
 @private
 	id <TradesControllerDelegate> delegate;
+	
+	TradesController *_tradesController;
 	NSManagedObjectContext *_managedObjectContext;
 	
-	UITableView *table;
+	Symbol *_symbol;
 	UIView *tradeTimeLabel;
 	UIView *tradePriceLabel;
 	UIView *tradeVolumeLabel;
-	
-	Symbol *_symbol;
-	NSArray *_trades;
 }
 
 @property (assign) id <TradesControllerDelegate> delegate;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) NSArray *trades;
-
-- (UIView *)setHeader:(NSString *)header withFrame:(CGRect)frame;
-- (void)configureCell:(TradesCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
-- (void)updateTrades;
 @end
 
 

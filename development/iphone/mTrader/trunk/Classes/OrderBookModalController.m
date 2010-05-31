@@ -124,6 +124,9 @@
 */
 
 - (void)setSymbol:(Symbol *)symbol {
+	if (_symbol != nil) {
+		[_symbol release];
+	}
 	_symbol = [symbol retain];
 	
 	orderBook.symbol = self.symbol;
@@ -148,6 +151,12 @@
 
 
 - (void)dealloc {
+	[orderBook release];
+	[askSizeLabel release];
+	[askValueLabel release];
+	[bidSizeLabel release];
+	[bidValueLabel release];
+	
     [super dealloc];
 }
 
