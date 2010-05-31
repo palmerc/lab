@@ -128,6 +128,7 @@
 	[_tableFont release];
 	[_symbol release];
 	[_bidAsks release];
+	[_orderbookAvailableLabel release];
 	
 	[_managedObjectContext release];
     [super dealloc];

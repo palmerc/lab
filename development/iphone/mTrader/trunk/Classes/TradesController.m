@@ -23,6 +23,7 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize symbol = _symbol;
 @synthesize trades = _trades;
+@synthesize tradesAvailableLabel = _tradesAvailableLabel;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
@@ -34,6 +35,22 @@
 	return self;
 }
 
+- (void)viewDidLoad {
+	NSString *labelString = @"No Trades Data Available";
+	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
+	CGRect frame = self.view.bounds;
+	frame.size.height = [labelString sizeWithFont:labelFont].height;
+	
+	_tradesAvailableLabel = [[UILabel alloc] initWithFrame:frame];
+	self.tradesAvailableLabel.textAlignment = UITextAlignmentCenter;
+	self.tradesAvailableLabel.font = labelFont;
+	self.tradesAvailableLabel.textColor = [UIColor blackColor];
+	self.tradesAvailableLabel.backgroundColor = [UIColor clearColor];
+	self.tradesAvailableLabel.text = labelString;
+	self.tradesAvailableLabel.hidden = YES;
+	[self.tableView addSubview:self.tradesAvailableLabel];
+}
+
 #pragma mark -
 #pragma mark TableViewDataSource Methods
 
@@ -43,7 +60,15 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [self.trades count];
+	NSUInteger rowCount = [self.trades count];
+
+	if (rowCount == 0) {
+		self.tradesAvailableLabel.hidden = NO;
+	} else {
+		self.tradesAvailableLabel.hidden = YES;
+	}
+	
+	return rowCount;
 }
 
 // Customize the appearance of table view cells.
@@ -102,6 +127,7 @@
 	[_managedObjectContext release];
 	[_symbol release];
 	[_trades release];
+	[_tradesAvailableLabel release];
 
     [super dealloc];
 }

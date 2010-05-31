@@ -17,6 +17,7 @@
 - (CGRect)_timeLabelFrame;
 - (CGRect)_priceLabelFrame;
 - (CGRect)_volumeLabelFrame;
+- (CGRect)_buyerSellerLabelFrame;
 @end
 
 @implementation TradesCell
@@ -31,6 +32,7 @@
 		time.textAlignment = UITextAlignmentCenter;
 		price = [[self createLabel] retain];
 		volume = [[self createLabel] retain];
+		buyerSeller = [[self createLabel] retain];
     }
     return self;
 }
@@ -52,6 +54,8 @@
     [time setFrame:[self _timeLabelFrame]];
 	[price setFrame:[self _priceLabelFrame]];
 	[volume setFrame:[self _volumeLabelFrame]];
+	[buyerSeller setFrame:[self _buyerSellerLabelFrame]];
+	buyerSeller.textAlignment = UITextAlignmentLeft;
 }
 
 - (void)setTrade:(Trade *)aTrade {
@@ -65,29 +69,31 @@
 	time.text = aTrade.time;
 	price.text = aTrade.price;
 	volume.text = aTrade.volume;
+	buyerSeller.text = [NSString stringWithFormat:@"%@/%@", aTrade.buyer, aTrade.seller];;
 }
 
 - (CGRect)_timeLabelFrame {
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	CGSize size = [@"X" sizeWithFont:mainFont];
-	
-	CGFloat width = screenBounds.size.width / 3;
-	return CGRectMake(8.0f, 0.0, width - 10.0f, size.height);
+	CGSize size = [@"XX:XX:XX" sizeWithFont:mainFont];
+	return CGRectMake(0.0f, 0.0, size.width, size.height);
 }
 
-- (CGRect)_priceLabelFrame {
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
+- (CGRect)_buyerSellerLabelFrame {
 	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = screenBounds.size.width / 3;
-	
-	return CGRectMake(width, 0.0, width - 6.0f, size.height);
+	CGFloat width = floorf(self.bounds.size.width / 5.0f);
+	return CGRectMake(0.0f + width, 0.0, width, size.height);
 }
 
 - (CGRect)_volumeLabelFrame {
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = screenBounds.size.width / 3;
-	return CGRectMake(width * 2, 0.0, width - 10.0f, size.height);
+	CGFloat width = floorf(self.bounds.size.width / 5.0f);
+	return CGRectMake(0.0f + width * 2.0f, 0.0, width, size.height);
+}
+
+- (CGRect)_priceLabelFrame {
+	CGSize size = [@"X" sizeWithFont:mainFont];
+	CGFloat width = floorf(self.bounds.size.width / 5.0f);
+	
+	return CGRectMake(0.0f + width * 3.0f, 0.0, width, size.height);
 }
 
 - (void)dealloc {
@@ -95,6 +101,7 @@
 	[time release];
 	[price release];
 	[volume release];
+	[buyerSeller release];
 	
 	[trade release];
     

@@ -18,6 +18,7 @@
 	UILabel *time;
 	UILabel *price;
 	UILabel *volume;
+	UILabel *buyerSeller;
 }
 
 @property (nonatomic, retain) Trade *trade;

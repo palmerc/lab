@@ -346,7 +346,7 @@
 	self.dividendDate.text = self.symbol.symbolDynamicData.dividendDate;
 	self.shares.text = self.symbol.symbolDynamicData.outstandingShares;
 	self.marketCap.text = self.symbol.symbolDynamicData.marketCapitalization;
-	self.previousClose.text = [self.symbol.symbolDynamicData.previousClose stringValue];
+	self.previousClose.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.previousClose];
 	self.onVolume.text = self.symbol.symbolDynamicData.onVolume;
 	self.onValue.text = self.symbol.symbolDynamicData.onValue;
 }

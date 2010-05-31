@@ -18,11 +18,14 @@
 	
 	Symbol *_symbol;
 	NSArray *_trades;
+	
+	UILabel *_tradesAvailableLabel;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) NSArray *trades;
+@property (nonatomic, retain) UILabel *tradesAvailableLabel;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(TradesCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;

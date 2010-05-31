@@ -835,6 +835,10 @@ static SymbolDataController *sharedDataController = nil;
 }
 
 - (void)tradesUpdate:(NSDictionary *)updateDictionary {
+	// TPVAY
+	// Time, Price, Volume, Buy/Seller, Type
+	
+	
 	// Delete all trades
 
 	NSString *feedTicker = [updateDictionary objectForKey:@"feedTicker"];
@@ -858,13 +862,35 @@ static SymbolDataController *sharedDataController = nil;
 			trade = (Trade *)[NSEntityDescription insertNewObjectForEntityForName:@"Trade" inManagedObjectContext:self.managedObjectContext];
 			
 			NSArray *parts = [tradeItem componentsSeparatedByString:@";"];
-			NSString *time = [parts objectAtIndex:0];
-			NSString *price = [parts objectAtIndex:1];
-			NSString *volume = [parts objectAtIndex:2];
 			
-			trade.price = price;
-			trade.volume = volume;
-			trade.time = time;
+			NSInteger partCount = [parts count];
+			if (partCount > 0) {
+				NSString *time = [parts objectAtIndex:0];
+				trade.time = time;
+			}
+			
+			if (partCount > 1) {
+				NSString *price = [parts objectAtIndex:1];
+				trade.price = price;
+			}
+			
+			if (partCount > 2) {
+				NSString *volume = [parts objectAtIndex:2];
+				trade.volume = volume;
+			}
+			
+			if (partCount > 3) {
+				NSString *buyerSeller = [parts objectAtIndex:3];
+				NSArray *buyerSellerComponents = [buyerSeller componentsSeparatedByString:@"/"];
+				trade.buyer = [buyerSellerComponents objectAtIndex:0];
+				trade.seller = [buyerSellerComponents objectAtIndex:1];
+			}
+			
+			if (partCount > 4) {
+				NSString *type = [parts objectAtIndex:4];
+				trade.type = type;
+			}
+			
 			trade.index = [NSNumber numberWithInteger:i];
 			
 			trade.symbol = symbol;

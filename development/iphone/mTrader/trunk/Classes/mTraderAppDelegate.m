@@ -135,7 +135,7 @@
         return persistentStoreCoordinator;
     }
 	
-	NSURL *storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"mTrader.sqlite"]];
+	NSURL *storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"mTrader00.sqlite"]];
 	
 //	NSFileManager *fileManager = [NSFileManager defaultManager];
 //	// If the expected store doesn't exist, copy the default store.
