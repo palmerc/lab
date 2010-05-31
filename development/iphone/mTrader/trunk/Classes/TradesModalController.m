@@ -18,6 +18,7 @@
 
 @implementation TradesModalController
 @synthesize delegate;
+@synthesize tradesController = _tradesController;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize symbol = _symbol;
 
@@ -59,7 +60,7 @@
 	UILabel *sizeLabel = [[UILabel alloc] initWithFrame:sizeLabelFrame];
 	sizeLabel.textAlignment = UITextAlignmentRight;
 	sizeLabel.font = headerFont;
-	sizeLabel.text = @"Size";
+	sizeLabel.text = @"Volume";
 	
 	UILabel *buyerSellerLabel = [[UILabel alloc] initWithFrame:buyerSellerLabelFrame];
 	buyerSellerLabel.textAlignment = UITextAlignmentLeft;
@@ -83,7 +84,17 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
+	[SymbolDataController sharedManager].tradesDelegate = self;
+	
 	[super viewDidLoad];
+}
+
+- (void)trades {
+	
+}
+
+- (void)viewDidUnload {
+	[SymbolDataController sharedManager].tradesDelegate = nil;
 }
 
 - (void)setSymbol:(Symbol *)symbol {	
@@ -107,13 +118,18 @@
 	[communicator tradesRequest:feedTicker];
 }
 
+#pragma mark -
+#pragma mark Debugging methods
+// Very helpful debug when things seem not to be working.
+- (BOOL)respondsToSelector:(SEL)sel {
+	NSLog(@"Queried about %@ in TradesModalController", NSStringFromSelector(sel));
+	return [super respondsToSelector:sel];
+}
+
+
 - (void)dealloc {
 	[_managedObjectContext release];
 	[_symbol release];
-	
-	[tradeTimeLabel release];
-	[tradePriceLabel release];
-	[tradeVolumeLabel release];
 		
     [super dealloc];
 }

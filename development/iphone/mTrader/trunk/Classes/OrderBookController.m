@@ -114,17 +114,19 @@
 	[self.tableView reloadData];
 }
 
-//#pragma mark -
-//#pragma mark Debugging methods
-// // Very helpful debug when things seem not to be working.
-// - (BOOL)respondsToSelector:(SEL)sel {
-//	 NSLog(@"Queried about %@ in OrderBookController", NSStringFromSelector(sel));
-//	 return [super respondsToSelector:sel];
-// }
+#pragma mark -
+#pragma mark Debugging methods
+// Very helpful debug when things seem not to be working.
+//- (BOOL)respondsToSelector:(SEL)sel {
+//	NSLog(@"Queried about %@ in OrderBookController", NSStringFromSelector(sel));
+//	return [super respondsToSelector:sel];
+//}
 
 #pragma mark -
 #pragma mark Memory management
-- (void)dealloc {	
+- (void)dealloc {
+	[SymbolDataController sharedManager].orderBookDelegate = nil;	
+	
 	[_tableFont release];
 	[_symbol release];
 	[_bidAsks release];

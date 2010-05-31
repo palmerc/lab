@@ -25,6 +25,7 @@
 }
 
 @property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) TradesController *tradesController;
 @property (nonatomic, retain) UIViewController *viewController;
 @property (nonatomic, retain) UIButton *tradesButton;
 @property (nonatomic, retain) UILabel *timeLabel;

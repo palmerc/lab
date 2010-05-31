@@ -15,6 +15,7 @@
 @implementation TradesInfoView
 
 @synthesize symbol = _symbol;
+@synthesize tradesController = _tradesController; 
 @synthesize viewController = _viewController;
 @synthesize tradesButton = _tradesButton;
 @synthesize timeLabel = _timeLabel;
@@ -81,7 +82,7 @@
 	_sizeLabel = [[UILabel alloc] initWithFrame:sizeLabelFrame];
 	_sizeLabel.textAlignment = UITextAlignmentRight;
 	_sizeLabel.font = headerFont;
-	_sizeLabel.text = @"Size";
+	_sizeLabel.text = @"Volume";
 	
 	_buyerSellerLabel = [[UILabel alloc] initWithFrame:buyerSellerLabelFrame];
 	_buyerSellerLabel.textAlignment = UITextAlignmentLeft;

@@ -32,5 +32,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)configureCell:(TradesCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 - (void)updateTrades;
+- (void)refresh:(id)sender;
+
 @end
 

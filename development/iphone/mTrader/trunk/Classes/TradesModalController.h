@@ -8,12 +8,15 @@
 
 #import "mTraderCommunicator.h"
 
+#import "SymbolDataController.h"
+
 @protocol TradesControllerDelegate;
+
 @class Symbol;
 @class TradesCell;
 @class TradesController;
 
-@interface TradesModalController : UIViewController {
+@interface TradesModalController : UIViewController <TradesDelegate> {
 @private
 	id <TradesControllerDelegate> delegate;
 	
@@ -21,12 +24,10 @@
 	NSManagedObjectContext *_managedObjectContext;
 	
 	Symbol *_symbol;
-	UIView *tradeTimeLabel;
-	UIView *tradePriceLabel;
-	UIView *tradeVolumeLabel;
 }
 
 @property (assign) id <TradesControllerDelegate> delegate;
+@property (nonatomic, retain) TradesController *tradesController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
 @end

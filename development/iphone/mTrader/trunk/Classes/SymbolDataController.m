@@ -839,10 +839,11 @@ static SymbolDataController *sharedDataController = nil;
 	// TPVAY
 	// Time, Price, Volume, Buy/Seller, Type
 	
-	
-	// Delete all trades
-
 	NSString *feedTicker = [updateDictionary objectForKey:@"feedTicker"];
+
+	// Delete all trades
+	[self deleteTradesForFeedTicker:feedTicker];
+
 	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
@@ -1051,10 +1052,38 @@ static SymbolDataController *sharedDataController = nil;
 	}
 }
 
+- (void)deleteTradesForFeedTicker:(NSString *)feedTicker {
+	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+	
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@)", feedNumber, tickerSymbol];
+	[request setPredicate:predicate];
+	
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	for (Trade *trade in array) {
+		[self.managedObjectContext deleteObject:trade];
+	}	
+}
+
 - (void)deleteAllNews {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
+	
+	
 	[request setIncludesPropertyValues:NO];
 	[request setIncludesSubentities:NO];
 	

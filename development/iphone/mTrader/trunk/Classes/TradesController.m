@@ -51,6 +51,13 @@
 	[SymbolDataController sharedManager].tradesDelegate = self;
 }
 
+- (void)viewDidUnload {
+	id tradesDelegate = [SymbolDataController sharedManager].tradesDelegate;
+	if (tradesDelegate == self) {
+		tradesDelegate = nil;
+	}
+}
+
 #pragma mark -
 #pragma mark TableViewDataSource Methods
 
@@ -113,7 +120,12 @@
 	[self.tableView reloadData];
 }
 
-- (void)dealloc {	
+- (void)refresh:(id)sender {
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	[[mTraderCommunicator sharedManager] tradesRequest:feedTicker];
+}
+
+- (void)dealloc {
 	[_managedObjectContext release];
 	[_symbol release];
 	[_trades release];
