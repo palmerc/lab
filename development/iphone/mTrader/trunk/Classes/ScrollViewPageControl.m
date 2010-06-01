@@ -39,8 +39,7 @@
 	CGRect scrollViewFrame, pageControlFrame;
 	scrollViewFrame = pageControlFrame = self.view.bounds;
 	scrollViewFrame.size.height = self.view.bounds.size.height;
-	pageControlFrame.origin.y = scrollViewFrame.size.height - 250.0f;
-	pageControlFrame.size.height = 20.0f;
+
 	
 	_scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
 	self.scrollView.backgroundColor = [UIColor clearColor];
@@ -52,13 +51,22 @@
 	[self.view addSubview:self.scrollView];
 	
 	[self adjustScrollView];
-
-	_pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
-	self.pageControl.backgroundColor = [UIColor clearColor];
-	self.pageControl.currentPage = 1;
-	self.pageControl.numberOfPages = [_views count];
-	[self.pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
-	[self.view addSubview:self.pageControl];
+	
+	BOOL iPad = NO;
+#ifdef UI_USER_INTERFACE_IDIOM
+	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+#endif
+	
+	if (iPad) {	
+		pageControlFrame.origin.y = scrollViewFrame.size.height - 250.0f;
+		pageControlFrame.size.height = 20.0f;
+		_pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
+		self.pageControl.backgroundColor = [UIColor clearColor];
+		self.pageControl.currentPage = 1;
+		self.pageControl.numberOfPages = [_views count];
+		[self.pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
+		[self.view addSubview:self.pageControl];
+	}
 }
 
 - (void)viewDidUnload {

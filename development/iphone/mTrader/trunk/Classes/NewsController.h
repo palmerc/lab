@@ -15,7 +15,7 @@
 @class NewsFeed;
 @class FeedsTableViewController;
 
-@interface NewsController : UITableViewController <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, NewsFeedChoiceDelegate> {
+@interface NewsController : UITableViewController <NSFetchedResultsControllerDelegate, NewsFeedChoiceDelegate> {
 @private
 	mTraderCommunicator *communicator;
 	NSManagedObjectContext *_managedObjectContext;
@@ -23,7 +23,9 @@
 	NSFetchedResultsController *_feedsFetchedResultsController;
 	
 	UIBarButtonItem *feedBarButtonItem;
+#ifdef UI_USER_INTERFACE_IDIOM
 	UIPopoverController *_feedsPopover;
+#endif
 	FeedsTableViewController *feedsTableViewController;
 	
 	NewsFeed *_newsFeed;	
@@ -33,7 +35,9 @@
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *feedsFetchedResultsController;
+#ifdef UI_USER_INTERFACE_IDIOM
 @property (nonatomic, retain) UIPopoverController *feedsPopover;
+#endif
 @property (nonatomic, retain) NewsFeed *newsFeed;
 
 - (id)initWithMangagedObjectContext:(NSManagedObjectContext *)managedObjectContext;

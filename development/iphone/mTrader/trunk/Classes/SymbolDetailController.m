@@ -50,15 +50,15 @@
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	CGRect windowFrame = self.view.bounds;
 	
-	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 250.0f);
+	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 220.0f);
 	_lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
 	_lastBox.symbol = self.symbol;
 
-	CGRect tradesFrame = CGRectMake(windowFrame.size.width / 2.0f, 0.0, windowFrame.size.width / 2.0f, 250.0f);
+	CGRect tradesFrame = CGRectMake(windowFrame.size.width / 2.0f, 0.0, windowFrame.size.width / 2.0f, 220.0f);
 	_tradesLiveBox = [[TradesLiveInfoView alloc] initWithFrame:tradesFrame];
 	_tradesLiveBox.symbol = self.symbol;
 	
-	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height - tradesFrame.size.height - 120.0f);
+	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height - tradesFrame.size.height - 90.0f);
 	_orderBox = [[OrderBookView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
 	_orderBox.symbol = self.symbol;
 	
@@ -71,7 +71,7 @@
 	_otherBox = [[OtherInfoView alloc] initWithFrame:roundedFrame];
 	_otherBox.symbol = self.symbol;
 	
-	CGRect detailFrame = CGRectMake(0.0, 250.f, windowFrame.size.width, windowFrame.size.height - 120.0f);
+	CGRect detailFrame = CGRectMake(0.0, 220.f, windowFrame.size.width, windowFrame.size.height - 120.0f);
 	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
 	_detailBox.views = [NSArray arrayWithObjects:_orderBox, _tradesBox, _newsBox, _otherBox, nil];
 	

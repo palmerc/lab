@@ -27,12 +27,21 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
 		trade = nil;
 		
-		mainFont = [[UIFont systemFontOfSize:17.0] retain];
+		mainFont = [[UIFont systemFontOfSize:14.0] retain];
 		time = [[self createLabel] retain];
-		time.textAlignment = UITextAlignmentCenter;
+		time.textColor = [UIColor darkGrayColor];
+		time.font = [UIFont systemFontOfSize:12.0];
+		
 		price = [[self createLabel] retain];
+		price.font = mainFont;
+		
 		volume = [[self createLabel] retain];
+		volume.font = mainFont;
+		
 		buyerSeller = [[self createLabel] retain];
+		buyerSeller.font = mainFont;
+		buyerSeller.adjustsFontSizeToFitWidth = YES;
+		buyerSeller.textAlignment = UITextAlignmentLeft;
     }
     return self;
 }
@@ -55,7 +64,6 @@
 	[price setFrame:[self _priceLabelFrame]];
 	[volume setFrame:[self _volumeLabelFrame]];
 	[buyerSeller setFrame:[self _buyerSellerLabelFrame]];
-	buyerSeller.textAlignment = UITextAlignmentLeft;
 }
 
 - (void)setTrade:(Trade *)aTrade {
@@ -74,26 +82,25 @@
 
 - (CGRect)_timeLabelFrame {
 	CGSize size = [@"XX:XX:XX" sizeWithFont:mainFont];
-	return CGRectMake(0.0f, 0.0, size.width, size.height);
+	return CGRectMake(self.bounds.size.width - size.width, 16.0f, size.width, size.height);
 }
 
 - (CGRect)_buyerSellerLabelFrame {
-	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = floorf(self.bounds.size.width / 5.0f);
-	return CGRectMake(0.0f + width, 0.0, width, size.height);
+	CGSize size = [@"XXX/XXX" sizeWithFont:mainFont];
+	return CGRectMake(0.0f, 0.0f, size.width, size.height);
 }
 
 - (CGRect)_volumeLabelFrame {
 	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = floorf(self.bounds.size.width / 5.0f);
-	return CGRectMake(0.0f + width * 2.0f, 0.0, width, size.height);
+	CGFloat width = floorf(self.bounds.size.width / 3.0f);
+	return CGRectMake(0.0f + width, 0.0, width, size.height);
 }
 
 - (CGRect)_priceLabelFrame {
 	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = floorf(self.bounds.size.width / 5.0f);
+	CGFloat width = floorf(self.bounds.size.width / 3.0f);
 	
-	return CGRectMake(0.0f + width * 3.0f, 0.0, width, size.height);
+	return CGRectMake(0.0f + width * 2.0f, 0.0, width, size.height);
 }
 
 - (void)dealloc {

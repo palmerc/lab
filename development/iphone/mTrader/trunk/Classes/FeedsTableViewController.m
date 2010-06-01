@@ -116,6 +116,8 @@
 		
 		[UserDefaults sharedManager].newsFeedNumber = newsFeed.feedNumber;
 		[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:previousChoice, indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+		
+		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	}
 }
 

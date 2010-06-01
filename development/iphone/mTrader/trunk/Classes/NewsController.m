@@ -26,7 +26,9 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize feedsFetchedResultsController = _feedsFetchedResultsController;
+#ifdef UI_USER_INTERFACE_IDIOM
 @synthesize feedsPopover = _feedsPopover;
+#endif
 @synthesize newsFeed = _newsFeed;
 
 #pragma mark -
@@ -38,8 +40,9 @@
 		self.managedObjectContext = managedObjectContext;
 		_fetchedResultsController = nil;
 		_feedsFetchedResultsController = nil;
-		
+#ifdef UI_USER_INTERFACE_IDIOM
 		_feedsPopover = nil;
+#endif
 		_newsFeed = nil;
 		
 		UIImage* anImage = [UIImage imageNamed:@"NewsTab.png"];	
@@ -92,7 +95,9 @@
 	feedsTableViewController.delegate = self;
 	feedsTableViewController.managedObjectContext = self.managedObjectContext;
 	
+#ifdef UI_USER_INTERFACE_IDIOM
 	_feedsPopover = [[UIPopoverController alloc] initWithContentViewController:feedsTableViewController];
+#endif
 	[feedsTableViewController release];
 	
 	[super viewDidLoad];
@@ -210,23 +215,40 @@
 	[self.communicator newsListFeed:self.newsFeed.mCode];
 }
 
-- (void)feedBarButtonItemAction:(id)sender {	
-	if ([_feedsPopover isPopoverVisible]) {
-		[_feedsPopover dismissPopoverAnimated:YES];
+- (void)feedBarButtonItemAction:(id)sender {
+	BOOL iPad = NO;
+#ifdef UI_USER_INTERFACE_IDIOM
+	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+#endif
+	
+	if (iPad) {
+#ifdef UI_USER_INTERFACE_IDIOM
+		if ([_feedsPopover isPopoverVisible]) {
+			[_feedsPopover dismissPopoverAnimated:YES];
+		} else {
+			[_feedsPopover presentPopoverFromBarButtonItem:feedBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+		}
+#endif
 	} else {
-		[_feedsPopover presentPopoverFromBarButtonItem:feedBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+		FeedsTableViewController *feedsModalTableViewController = [[FeedsTableViewController alloc] init];
+		feedsModalTableViewController.delegate = self;
+		feedsModalTableViewController.managedObjectContext = self.managedObjectContext;
+		feedsModalTableViewController.title = @"Select News Feed";
+
+		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:feedsModalTableViewController];
+				
+		UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:self action:@selector(doneBarButtonItemAction:)];
+		feedsModalTableViewController.navigationItem.leftBarButtonItem = doneBarButtonItem;
+		[doneBarButtonItem release];
+		[feedsModalTableViewController release];
+		
+		[self presentModalViewController:navController animated:YES];
+		[navController release];
 	}
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	//if (buttonIndex == 0) {
-//		return;
-//	} else if (buttonIndex == 1) {
-//		self.mCode = @"AllNews";
-//	}
-//	
-//	[[SymbolDataController sharedManager] deleteAllNews];
-//	[self.communicator newsListFeed:self.mCode];
+- (void)doneBarButtonItemAction:(id)sender {
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark -
@@ -383,13 +405,16 @@
 
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
+#ifdef UI_USER_INTERFACE_IDIOM
 	self.feedsPopover = nil;
+#endif
 	self.newsFeed = nil;
 }
 
 - (void)dealloc {
+#ifdef UI_USER_INTERFACE_IDIOM
 	[_feedsPopover release];
-	
+#endif	
 	[_fetchedResultsController release];
 	[_feedsFetchedResultsController release];
 

@@ -18,20 +18,12 @@
 	
 	UIViewController *_viewController;
 	UIButton *_tradesButton;
-	UILabel *_timeLabel;
-	UILabel *_buyerSellerLabel;
-	UILabel *_priceLabel;
-	UILabel *_sizeLabel;
 }
 
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) TradesController *tradesController;
 @property (nonatomic, retain) UIViewController *viewController;
 @property (nonatomic, retain) UIButton *tradesButton;
-@property (nonatomic, retain) UILabel *timeLabel;
-@property (nonatomic, retain) UILabel *buyerSellerLabel;
-@property (nonatomic, retain) UILabel *priceLabel;
-@property (nonatomic, retain) UILabel *sizeLabel;
 
 - (id)initWithFrame:(CGRect)frame andManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 

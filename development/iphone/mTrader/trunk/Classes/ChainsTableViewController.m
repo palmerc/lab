@@ -95,7 +95,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"MyListTableCell";
     
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+	BOOL iPad = NO;
+	#ifdef UI_USER_INTERFACE_IDIOM
+	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+	#endif
+	if (iPad) {
 		MyListTableCellPad *cell = (MyListTableCellPad *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[[MyListTableCellPad alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -285,6 +289,11 @@
 	
 	UITableView *tableView = self.tableView;
 
+	BOOL iPad = NO;
+	#ifdef UI_USER_INTERFACE_IDIOM
+	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+	#endif
+	
 	switch(type) {
 			
 		case NSFetchedResultsChangeInsert:
@@ -296,7 +305,8 @@
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			
+			if (iPad) {
 				[self configurePadCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
 			} else {
 				[self configurePhoneCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];

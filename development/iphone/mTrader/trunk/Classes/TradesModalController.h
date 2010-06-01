@@ -16,7 +16,7 @@
 @class TradesCell;
 @class TradesController;
 
-@interface TradesModalController : UIViewController <TradesDelegate> {
+@interface TradesModalController : UIViewController {
 @private
 	id <TradesControllerDelegate> delegate;
 	

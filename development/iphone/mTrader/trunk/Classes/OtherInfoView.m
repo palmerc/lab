@@ -52,6 +52,10 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self != nil) {
+		isIPad = NO;
+#ifdef UI_USER_INTERFACE_IDIOM	
+		isIPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+#endif
 		
 		_description = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.description.font = [UIFont boldSystemFontOfSize:17.0];
@@ -265,53 +269,55 @@
 	self.status.frame = CGRectMake(leftPadding + statusLabelSize.width, globalY, maxWidth - statusLabelSize.width, statusSize.height);
 	globalY += statusSize.height;
 	
-	CGSize dividendLabelSize = [self.dividendLabel.text sizeWithFont:labelFont];
-	self.dividendLabel.frame = CGRectMake(leftPadding, globalY, dividendLabelSize.width, dividendLabelSize.height);
-	
-	CGSize dividendSize = [self.dividend.text sizeWithFont:labelFont];
-	self.dividend.frame = CGRectMake(leftPadding + dividendLabelSize.width, globalY, maxWidth - dividendLabelSize.width, dividendSize.height);
-	globalY += dividendSize.height;
-	
-	CGSize dividendDateLabelSize = [self.dividendDateLabel.text sizeWithFont:labelFont];
-	self.dividendDateLabel.frame = CGRectMake(leftPadding, globalY, dividendDateLabelSize.width, dividendDateLabelSize.height);
-	
-	CGSize dividendDateSize = [self.dividendDate.text sizeWithFont:labelFont];
-	self.dividendDate.frame = CGRectMake(leftPadding + dividendDateLabelSize.width, globalY, maxWidth - dividendDateLabelSize.width, dividendDateSize.height);
-	globalY += dividendDateSize.height;
-	
-	CGSize sharesLabelSize = [self.sharesLabel.text sizeWithFont:labelFont];
-	self.sharesLabel.frame = CGRectMake(leftPadding, globalY, sharesLabelSize.width, sharesLabelSize.height);
-	
-	CGSize sharesSize = [self.shares.text sizeWithFont:labelFont];
-	self.shares.frame = CGRectMake(leftPadding + sharesLabelSize.width, globalY, maxWidth - sharesLabelSize.width, sharesSize.height);
-	globalY += sharesSize.height;
-	
-	CGSize marketCapLabelSize = [self.marketCapLabel.text sizeWithFont:labelFont];
-	self.marketCapLabel.frame = CGRectMake(leftPadding, globalY, marketCapLabelSize.width, marketCapLabelSize.height);
-	
-	CGSize marketCapSize = [self.marketCap.text sizeWithFont:labelFont];
-	self.marketCap.frame = CGRectMake(leftPadding + marketCapLabelSize.width, globalY, maxWidth - marketCapLabelSize.width, marketCapSize.height);
-	globalY += marketCapSize.height;
-	
-	CGSize previousCloseLabelSize = [self.previousCloseLabel.text sizeWithFont:labelFont];
-	self.previousCloseLabel.frame = CGRectMake(leftPadding, globalY, previousCloseLabelSize.width, previousCloseLabelSize.height);
-	
-	CGSize previousCloseSize = [self.previousClose.text sizeWithFont:labelFont];
-	self.previousClose.frame = CGRectMake(leftPadding + previousCloseLabelSize.width, globalY, maxWidth - previousCloseLabelSize.width, previousCloseSize.height);
-	globalY += previousCloseSize.height;
-	
-	CGSize onVolumeLabelSize = [self.onVolumeLabel.text sizeWithFont:labelFont];
-	self.onVolumeLabel.frame = CGRectMake(leftPadding, globalY, onVolumeLabelSize.width, onVolumeLabelSize.height);
-	
-	CGSize onVolumeSize = [self.onVolume.text sizeWithFont:labelFont];
-	self.onVolume.frame = CGRectMake(leftPadding + onVolumeLabelSize.width, globalY, maxWidth - onVolumeLabelSize.width, onVolumeSize.height);
-	globalY += onVolumeSize.height;
-	
-	CGSize onValueLabelSize = [self.onValueLabel.text sizeWithFont:labelFont];
-	self.onValueLabel.frame = CGRectMake(leftPadding, globalY, onValueLabelSize.width, onValueLabelSize.height);
-	
-	CGSize onValueSize = [self.onValue.text sizeWithFont:labelFont];
-	self.onValue.frame = CGRectMake(leftPadding + onValueLabelSize.width, globalY, maxWidth - onValueLabelSize.width, onValueSize.height);
+	if (isIPad) {
+		CGSize dividendLabelSize = [self.dividendLabel.text sizeWithFont:labelFont];
+		self.dividendLabel.frame = CGRectMake(leftPadding, globalY, dividendLabelSize.width, dividendLabelSize.height);
+		
+		CGSize dividendSize = [self.dividend.text sizeWithFont:labelFont];
+		self.dividend.frame = CGRectMake(leftPadding + dividendLabelSize.width, globalY, maxWidth - dividendLabelSize.width, dividendSize.height);
+		globalY += dividendSize.height;
+		
+		CGSize dividendDateLabelSize = [self.dividendDateLabel.text sizeWithFont:labelFont];
+		self.dividendDateLabel.frame = CGRectMake(leftPadding, globalY, dividendDateLabelSize.width, dividendDateLabelSize.height);
+		
+		CGSize dividendDateSize = [self.dividendDate.text sizeWithFont:labelFont];
+		self.dividendDate.frame = CGRectMake(leftPadding + dividendDateLabelSize.width, globalY, maxWidth - dividendDateLabelSize.width, dividendDateSize.height);
+		globalY += dividendDateSize.height;
+		
+		CGSize sharesLabelSize = [self.sharesLabel.text sizeWithFont:labelFont];
+		self.sharesLabel.frame = CGRectMake(leftPadding, globalY, sharesLabelSize.width, sharesLabelSize.height);
+		
+		CGSize sharesSize = [self.shares.text sizeWithFont:labelFont];
+		self.shares.frame = CGRectMake(leftPadding + sharesLabelSize.width, globalY, maxWidth - sharesLabelSize.width, sharesSize.height);
+		globalY += sharesSize.height;
+		
+		CGSize marketCapLabelSize = [self.marketCapLabel.text sizeWithFont:labelFont];
+		self.marketCapLabel.frame = CGRectMake(leftPadding, globalY, marketCapLabelSize.width, marketCapLabelSize.height);
+		
+		CGSize marketCapSize = [self.marketCap.text sizeWithFont:labelFont];
+		self.marketCap.frame = CGRectMake(leftPadding + marketCapLabelSize.width, globalY, maxWidth - marketCapLabelSize.width, marketCapSize.height);
+		globalY += marketCapSize.height;
+		
+		CGSize previousCloseLabelSize = [self.previousCloseLabel.text sizeWithFont:labelFont];
+		self.previousCloseLabel.frame = CGRectMake(leftPadding, globalY, previousCloseLabelSize.width, previousCloseLabelSize.height);
+		
+		CGSize previousCloseSize = [self.previousClose.text sizeWithFont:labelFont];
+		self.previousClose.frame = CGRectMake(leftPadding + previousCloseLabelSize.width, globalY, maxWidth - previousCloseLabelSize.width, previousCloseSize.height);
+		globalY += previousCloseSize.height;
+		
+		CGSize onVolumeLabelSize = [self.onVolumeLabel.text sizeWithFont:labelFont];
+		self.onVolumeLabel.frame = CGRectMake(leftPadding, globalY, onVolumeLabelSize.width, onVolumeLabelSize.height);
+		
+		CGSize onVolumeSize = [self.onVolume.text sizeWithFont:labelFont];
+		self.onVolume.frame = CGRectMake(leftPadding + onVolumeLabelSize.width, globalY, maxWidth - onVolumeLabelSize.width, onVolumeSize.height);
+		globalY += onVolumeSize.height;
+		
+		CGSize onValueLabelSize = [self.onValueLabel.text sizeWithFont:labelFont];
+		self.onValueLabel.frame = CGRectMake(leftPadding, globalY, onValueLabelSize.width, onValueLabelSize.height);
+		
+		CGSize onValueSize = [self.onValue.text sizeWithFont:labelFont];
+		self.onValue.frame = CGRectMake(leftPadding + onValueLabelSize.width, globalY, maxWidth - onValueLabelSize.width, onValueSize.height);
+	}
 }
 
 #pragma mark -

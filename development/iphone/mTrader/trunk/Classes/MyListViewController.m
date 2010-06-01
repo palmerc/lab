@@ -52,7 +52,14 @@
 	
 	CGRect buttonFrame = CGRectMake(0.0f, 2.0f, 85.0f, 37.0f);
 	CGRect buttonBounds = CGRectMake(0.0f, 0.0f, 83.0f, 37.0f);
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+	
+	BOOL iPad = NO;
+	#ifdef UI_USER_INTERFACE_IDIOM
+	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+	#endif
+	
+	
+	if (iPad) {
 		buttonFrame.origin.x = frame.size.width - 85.0f * 5.0f - TEXT_RIGHT_MARGIN;
 		UIButton *bidButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 		[bidButton setTitle:@"Bid" forState:UIControlStateNormal];
@@ -98,7 +105,7 @@
 	rightButton.bounds = buttonBounds;
 	rightButton.backgroundColor = [UIColor whiteColor];
 	
-	if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+	if (!iPad) {
 		[centerButton addTarget:self.tableViewController action:@selector(centerSelection:) forControlEvents:UIControlEventTouchUpInside];
 		[rightButton addTarget:self.tableViewController action:@selector(rightSelection:) forControlEvents:UIControlEventTouchUpInside];
 	}

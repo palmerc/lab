@@ -40,17 +40,10 @@
 	UIFont *headerFont = [UIFont boldSystemFontOfSize:18.0];
 	
 	CGSize headerFontSize = [@"X" sizeWithFont:headerFont];
-	CGSize timeFontSize = [@"XX:XX:XX" sizeWithFont:headerFont];
-	CGFloat fifthWidth = floorf(self.view.bounds.size.width / 5.0f);
-	CGRect timeLabelFrame = CGRectMake(0.0f, 0.0f, timeFontSize.width, headerFontSize.height);
-	CGRect buyerSellerLabelFrame = CGRectMake(0.0f + fifthWidth, 0.0f, fifthWidth, headerFontSize.height);
-	CGRect sizeLabelFrame = CGRectMake(0.0f + fifthWidth * 2.0f, 0.0f, fifthWidth, headerFontSize.height);
-	CGRect priceLabelFrame = CGRectMake(0.0f + fifthWidth * 3.0f, 0.0f, fifthWidth, headerFontSize.height);
-		
-	UILabel *timeLabel = [[UILabel alloc] initWithFrame:timeLabelFrame];
-	timeLabel.textAlignment = UITextAlignmentCenter;
-	timeLabel.font = headerFont;
-	timeLabel.text = @"Time";
+	CGFloat fifthWidth = floorf(self.view.bounds.size.width / 3.0f);
+	CGRect buyerSellerLabelFrame = CGRectMake(0.0f, 0.0f, fifthWidth, headerFontSize.height);
+	CGRect sizeLabelFrame = CGRectMake(0.0f + fifthWidth, 0.0f, fifthWidth, headerFontSize.height);
+	CGRect priceLabelFrame = CGRectMake(0.0f + fifthWidth * 2.0f, 0.0f, fifthWidth, headerFontSize.height);
 	
 	UILabel *priceLabel = [[UILabel alloc] initWithFrame:priceLabelFrame];
 	priceLabel.textAlignment = UITextAlignmentRight;
@@ -65,13 +58,11 @@
 	UILabel *buyerSellerLabel = [[UILabel alloc] initWithFrame:buyerSellerLabelFrame];
 	buyerSellerLabel.textAlignment = UITextAlignmentLeft;
 	buyerSellerLabel.font = headerFont;
-	buyerSellerLabel.text = @"B/S";
+	buyerSellerLabel.text = @"Buyer/Seller";
 	
-	[self.view addSubview:timeLabel];
 	[self.view addSubview:buyerSellerLabel];
 	[self.view addSubview:priceLabel];
 	[self.view addSubview:sizeLabel];
-	[timeLabel release];
 	[buyerSellerLabel release];
 	[priceLabel release];
 	[sizeLabel release];
@@ -84,17 +75,7 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
-	[SymbolDataController sharedManager].tradesDelegate = self;
-	
 	[super viewDidLoad];
-}
-
-- (void)trades {
-	
-}
-
-- (void)viewDidUnload {
-	[SymbolDataController sharedManager].tradesDelegate = nil;
 }
 
 - (void)setSymbol:(Symbol *)symbol {	

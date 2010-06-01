@@ -98,9 +98,15 @@
 	cell.trade = trade;
 }
 
+#pragma mark -
+#pragma mark UITableViewDelegate methods
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize size = [@"X" sizeWithFont:[UIFont systemFontOfSize:17.0]];
-	return size.height;
+	UIFont *mainFont = [UIFont systemFontOfSize:14.0f];
+	UIFont *timeFont = [UIFont systemFontOfSize:12.0f];
+	CGSize mainSize = [@"X" sizeWithFont:mainFont];
+	CGSize timeSize = [@"X" sizeWithFont:timeFont];
+	
+	return mainSize.height + timeSize.height;
 }
 
 - (void)setSymbol:(Symbol *)symbol {
