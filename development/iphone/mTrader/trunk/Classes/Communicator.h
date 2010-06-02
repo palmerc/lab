@@ -17,10 +17,9 @@
 	
 	NSInputStream *_inputStream;
 	NSOutputStream *_outputStream;
-	NSMutableData *_dataBuffer;
 	NSMutableArray *_lineBuffer;
+	NSMutableData *_mutableDataBuffer;
 	
-	int previousByte;
 	BOOL _isConnected;
 }
 
@@ -30,8 +29,9 @@
 @property NSInteger port;
 @property (nonatomic, retain) NSInputStream *inputStream;
 @property (nonatomic, retain) NSOutputStream *outputStream;
-@property (nonatomic, retain) NSMutableData *dataBuffer;
 @property (nonatomic, retain) NSMutableArray *lineBuffer;
+@property (nonatomic, retain) NSMutableData *mutableDataBuffer;
+
 @property BOOL isConnected;
 
 - (id)initWithSocket:(NSString *)host onPort:(NSInteger)port;

@@ -15,9 +15,11 @@
 @synthesize port = _port;
 @synthesize inputStream = _inputStream;
 @synthesize outputStream = _outputStream;
-@synthesize dataBuffer = _dataBuffer;
 @synthesize lineBuffer = _lineBuffer;
+@synthesize mutableDataBuffer = _mutableDataBuffer;
 @synthesize isConnected = _isConnected;
+
+#define DEBUG 0
 
 #pragma mark -
 #pragma mark Initialization, Description, and Cleanup
@@ -35,10 +37,10 @@
 		_port = port;
 		_inputStream = nil;
 		_outputStream = nil;
-		_dataBuffer = nil;
 		_isConnected = NO;
 		
-		_lineBuffer = [[NSMutableArray alloc] init];
+		_lineBuffer = nil;
+		_mutableDataBuffer = nil;
 	}
 	return self;
 }
@@ -49,18 +51,15 @@
 
 #pragma mark Sending and Receiving
 /**
- * The rest of the class handles the business of the Communicator
- *
- */
-
-/**
  * stream: handleEvent: gets called whenever bytes are available
  *
  */
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)streamEvent {
 	switch (streamEvent) {
 		case NSStreamEventNone:
-			NSLog(@"NSStreamEventNone");
+#if DEBUG
+			NSLog(@"Communicator - NSStreamEventNone");
+#endif
 			break;
 		case NSStreamEventOpenCompleted:
 			if (self.delegate && [self.delegate respondsToSelector:@selector(connected)]) {
@@ -70,42 +69,27 @@
 
 			break;
 		case NSStreamEventHasBytesAvailable:
-		{
-			uint8_t currentByte;
-			int bytesRead = 0;
+			[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+			[NSThread detachNewThreadSelector:@selector(readAvailableBytes:) toTarget:self withObject:nil];
+			[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 			
-			if (_dataBuffer == nil) {
-				_dataBuffer = [[NSMutableData alloc] init];
-			}
-		
-			bytesRead = [self.inputStream read:&currentByte maxLength:1];
-			if (bytesRead == 1) {
-				[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
-				[self.dataBuffer appendBytes:&currentByte length:1];
-				
-				if ((previousByte == '\r' && currentByte == '\r') || (previousByte == '\r' && currentByte =='\n')) {
-					NSData *oneLine = [NSData dataWithData:self.dataBuffer];
-					[self.lineBuffer enQueue:oneLine];
-					if (self.delegate && [self.delegate respondsToSelector:@selector(dataReceived)]) {
-						[self.delegate dataReceived];
-					}
-					[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-					[_dataBuffer release];
-					_dataBuffer = nil;
-				}
-				
-				previousByte = currentByte;
-			}
-		}
 			break;
 		case NSStreamEventHasSpaceAvailable:
+#if DEBUG
+			NSLog(@"Communicator - Has Space Available");
+#endif
 			break;
 		case NSStreamEventErrorOccurred:
+		{
+#if DEBUG
+			NSError *theError = [aStream streamError];
+			NSLog(@"Communicator - NSStreamEventErrorOccurred: %@ %@", [theError code], [theError localizedDescription]);
+#endif
 			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
 				[self.delegate disconnected];
 			}			
 			self.isConnected = NO;
+		}
 			break;
 		case NSStreamEventEndEncountered:
 			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
@@ -114,18 +98,39 @@
 			self.isConnected = NO;
 			break;
 		default:
-			NSLog(@"default");
+#if DEBUG
+			NSLog(@"Communicator - NSStream handleEvent - default");
+#endif
+			break;
 	}
 }
 
-/**
- * Send data out on the connection as an ISO Latin 1 string
- *
- */
-- (void)writeString:(NSString *)string {
+#pragma mark -
+#pragma mark Threads For Reading and Writing
+- (void)readAvailableBytes:(id)sender {	
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	uint8_t buffer[2048];
+	bzero(buffer, sizeof(buffer));
+	int len = 0;
+	
+	len = [self.inputStream read:buffer maxLength:sizeof(buffer)];
+	if (len > 0) {
+		NSData *data = [NSData dataWithBytes:&buffer length:len];
+		[self performSelectorOnMainThread:@selector(dataReceived:) withObject:data waitUntilDone:NO];
+	}
+		
+	[pool release];
+}
+
+- (void)sendBytes:(NSString *)aString {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	if ([self.outputStream hasSpaceAvailable]) {
-		NSLog(@">> %@", string);
-		NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
+#if DEBUG
+		NSLog(@"->> {%@}", aString);
+#endif
+		NSData *data = [aString dataUsingEncoding:NSISOLatin1StringEncoding];
 		
 		// Convert it to a C-string
 		int bytesRemaining = [data length];
@@ -138,6 +143,56 @@
 			theBytes += bytesWritten;
 		}
 	}
+	
+	[pool release];
+}
+
+#pragma mark -
+#pragma mark Handle Data Returned From Thread
+
+- (void)dataReceived:(NSData *)dataBlock {
+	if (_lineBuffer == nil) {
+		_lineBuffer = [[NSMutableArray alloc] init];
+	}
+	
+	const char *bytes = [dataBlock bytes];
+	
+	char previousByte = 0;
+	char currentByte = 0;
+	for (int i = 0; i < [dataBlock length]; i++) {
+		if (_mutableDataBuffer == nil) {
+			_mutableDataBuffer = [[NSMutableData alloc] init];
+		}
+		
+		[self.mutableDataBuffer appendBytes:&bytes[i] length:1];
+		
+		currentByte = bytes[i];
+		if ((previousByte == '\r' && currentByte == '\r') || (previousByte == '\r' && currentByte == '\n')) {
+			NSData *aLine = self.mutableDataBuffer;
+			[self.lineBuffer enQueue:aLine];
+			
+			if (self.delegate && [self.delegate respondsToSelector:@selector(dataReceived)]) {
+				[self.delegate dataReceived];
+			}
+			
+			//NSLog(@"Length: %d, Content: %@", [aLine length], aLine);
+			[_mutableDataBuffer release];
+			_mutableDataBuffer = nil;
+		}
+		
+		previousByte = currentByte;
+	}
+}
+
+#pragma mark -
+#pragma mark Public Read and Write Methods
+
+/**
+ * Send data out on the connection as an ISO Latin 1 string
+ *
+ */
+- (void)writeString:(NSString *)aString {
+	[NSThread detachNewThreadSelector:@selector(sendBytes:) toTarget:self withObject:aString];
 }
 
 /**
@@ -146,7 +201,6 @@
  */
 - (NSData *)readLine {
 	NSData *oneLine = nil;
-	// dequeue strings until I find a \n
 	if ([self.lineBuffer count] > 0) {
 		oneLine = [self.lineBuffer deQueue];
 	}
@@ -175,9 +229,9 @@
 	
 	self.inputStream.delegate = self;
 	self.outputStream.delegate = self;
-	
-	[self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	[self.outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+		
+	[self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+	[self.outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 }
 
 /**
@@ -188,8 +242,8 @@
 	[self.inputStream close];
 	[self.outputStream close];
 	
-	[self.inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	[self.outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+	[self.inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+	[self.outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 	
 	[self.inputStream release];
 	[self.outputStream release];
@@ -201,11 +255,11 @@
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[self.host release];
-	[self.inputStream release];
-	[self.outputStream release];
-	[_dataBuffer release];
+	[_host release];
+	[_inputStream release];
+	[_outputStream release];
 	[_lineBuffer release];
+	[_mutableDataBuffer release];
 	
 	[super dealloc];
 }
