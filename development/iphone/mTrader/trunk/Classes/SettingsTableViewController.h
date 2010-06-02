@@ -19,8 +19,7 @@ typedef enum {
 @class UserDefaults;
 @class SettingsTableViewCell;
 
-@interface SettingsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
-	UITableView *tableView;
+@interface SettingsTableViewController : UITableViewController <UITextFieldDelegate> {
 	UIView *aboutView;
 	
 	UITextField *userTextField;
@@ -35,7 +34,6 @@ typedef enum {
 	mTraderCommunicator *communicator;
 }
 
-@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIView *aboutView;
 @property (nonatomic, retain) UITextField *userTextField;
 @property (nonatomic, retain) UITextField *passwordTextField;

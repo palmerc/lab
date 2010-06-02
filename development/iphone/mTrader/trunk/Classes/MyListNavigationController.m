@@ -21,15 +21,15 @@
 #import "Symbol.h"
 
 @implementation MyListNavigationController
-@synthesize myListViewController = _myListViewController;
+//@synthesize myListViewController = _myListViewController;
 
 - (id)initWithContentViewController:(UIViewController *)rootViewController {
-	self = [super init];
+	self = [super initWithRootViewController:rootViewController];
 	if (self != nil) {
-		_myListViewController = [rootViewController retain];
-		self.myListViewController.navigationController = self;
-
-		self.delegate = self;
+		//_myListViewController = rootViewController;
+		//myListViewController.navigationController = self;
+		//self.delegate = self;
+		
 		UIImage* anImage = [UIImage imageNamed:@"MyListTab.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"MyStocksTab", "My Stocks tab label")  image:anImage tag:CHAINS];
 		self.tabBarItem = theItem;
@@ -38,19 +38,19 @@
 	return self;
 }
 
-- (void)loadView {
-	[super loadView];
-	
-	UIView *contentView = self.view;
-	CGRect frame = self.view.frame;
-	UIView *aView = [[UIView alloc] initWithFrame:frame];
-	[aView addSubview:contentView];
-	[contentView addSubview:self.myListViewController.view];
-
-	self.view = aView;
-	[aView release];
-	[self pushViewController:self.myListViewController animated:NO];
-}
+//- (void)loadView {
+//	[super loadView];
+//	
+//	UIView *contentView = self.view;
+//	CGRect frame = self.view.frame;
+//	UIView *aView = [[UIView alloc] initWithFrame:frame];
+//	[aView addSubview:contentView];
+//	[contentView addSubview:self.myListViewController.view];
+//
+//	self.view = aView;
+//	[aView release];
+//	[self pushViewController:self.myListViewController animated:NO];
+//}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -70,7 +70,7 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.myListViewController = nil;
+	//self.myListViewController = nil;
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -93,7 +93,7 @@
 //}
 
 - (void)dealloc {
-	[_myListViewController release];
+	//[_myListViewController release];
 
     [super dealloc];
 }

@@ -17,7 +17,7 @@
 #import "SettingsTableViewController.h"
 
 @implementation mTraderAppDelegate
-@synthesize window;
+@synthesize window = _window;
 @synthesize tabController = _tabController;
 
 // +initialize is invoked before the class receives any other messages, so it
@@ -36,39 +36,42 @@
 #pragma mark Application lifecycle
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	CGRect windowFrame = [[UIScreen mainScreen] bounds];
+	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
+
+	managedObjectContext = nil;
+	managedObjectModel = nil;
+	persistentStoreCoordinator = nil;
+	
 	// Start up the Singleton services
 	Starter *starter = [[Starter alloc] initWithManagedObjectContext:self.managedObjectContext];
 	[starter release];
-		
-	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	//NSLog(@"Window size -> x:%.1f y:%.1f width:%.1f height:%.1f", window.frame.origin.x, window.frame.origin.y, window.frame.size.width, window.frame.size.height);
-	window.backgroundColor = [UIColor lightGrayColor];
-	
-	UIViewController *rootViewController = [[MyListViewController alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] andManagedObjectContext:self.managedObjectContext];
+
+	UIViewController *rootViewController = [[MyListViewController alloc] initWithFrame:applicationFrame andManagedObjectContext:self.managedObjectContext];
 	MyListNavigationController *myListNavigationController = [[MyListNavigationController alloc] initWithContentViewController:rootViewController];
 	[rootViewController release];
 	
 	NewsController *news = [[NewsController alloc] initWithMangagedObjectContext:self.managedObjectContext];
 	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
-	news.managedObjectContext = self.managedObjectContext;
-	
+	[news release];
+
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
 	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
-
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];
-		
-	_tabController = [[UITabBarController alloc] init];
-	self.tabController.viewControllers = viewControllersArray;
-	 	
-	[window addSubview:self.tabController.view];
-	[window makeKeyAndVisible];
-	
-	[news release];
 	[settings release];
 	
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];
 	[myListNavigationController release];
 	[newsNavigationController release];
 	[settingsNavigationController release];
+	
+	_tabController = [[UITabBarController alloc] init];
+	self.tabController.viewControllers = viewControllersArray;
+	
+	_window = [[UIWindow alloc] initWithFrame:windowFrame];
+	[_window addSubview:_tabController.view];
+	
+	_window.backgroundColor = [UIColor lightGrayColor];
+	[_window makeKeyAndVisible];
 }
 
 
@@ -97,7 +100,6 @@
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
 - (NSManagedObjectContext *)managedObjectContext {
-	
     if (managedObjectContext != nil) {
         return managedObjectContext;
     }
@@ -105,7 +107,7 @@
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
         managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator: coordinator];
+        [managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     return managedObjectContext;
 }
@@ -115,8 +117,7 @@
  Returns the managed object model for the application.
  If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
  */
-- (NSManagedObjectModel *)managedObjectModel {
-	
+- (NSManagedObjectModel *)managedObjectModel {	
     if (managedObjectModel != nil) {
         return managedObjectModel;
     }
@@ -194,7 +195,8 @@
     [persistentStoreCoordinator release];
 	
 	[_tabController release];
-	[window release];
+	[_window release];
+	
     [super dealloc];
 }
 

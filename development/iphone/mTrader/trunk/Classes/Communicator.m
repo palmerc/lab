@@ -70,7 +70,7 @@
 			break;
 		case NSStreamEventHasBytesAvailable:
 			[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-			[NSThread detachNewThreadSelector:@selector(readAvailableBytes:) toTarget:self withObject:nil];
+			[NSThread detachNewThreadSelector:@selector(readAvailableBytes:) toTarget:self withObject:(NSInputStream *)aStream];
 			[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 			
 			break;
@@ -107,17 +107,18 @@
 
 #pragma mark -
 #pragma mark Threads For Reading and Writing
-- (void)readAvailableBytes:(id)sender {	
+- (void)readAvailableBytes:(NSInputStream *)aStream {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSLog(@"%@", aStream);
 
-	uint8_t buffer[2048];
+	uint8_t buffer[4096];
 	bzero(buffer, sizeof(buffer));
-	int len = 0;
+	unsigned int len = 0;
 	
-	len = [self.inputStream read:buffer maxLength:sizeof(buffer)];
+	len = [aStream read:buffer maxLength:sizeof(buffer)];
 	if (len > 0) {
-		NSData *data = [NSData dataWithBytes:&buffer length:len];
-		[self performSelectorOnMainThread:@selector(dataReceived:) withObject:data waitUntilDone:NO];
+		NSData *data = [NSData dataWithBytes:(const void *)buffer length:len];
+		[self performSelectorOnMainThread:@selector(dataReceived:) withObject:data waitUntilDone:YES];
 	}
 		
 	[pool release];
@@ -175,7 +176,9 @@
 				[self.delegate dataReceived];
 			}
 			
-			//NSLog(@"Length: %d, Content: %@", [aLine length], aLine);
+#if DEBUG
+			NSLog(@"Length: %d, Content: %@", [aLine length], aLine);
+#endif
 			[_mutableDataBuffer release];
 			_mutableDataBuffer = nil;
 		}

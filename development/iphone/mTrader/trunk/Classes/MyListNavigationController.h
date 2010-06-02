@@ -11,10 +11,10 @@
 
 @interface MyListNavigationController : UINavigationController <UINavigationControllerDelegate> {
 @private
-	MyListViewController *_myListViewController;
+	//MyListViewController *_myListViewController;
 }
 
-@property (nonatomic, retain) MyListViewController *myListViewController;
+//@property (nonatomic, retain) MyListViewController *myListViewController;
 
 - (id)initWithContentViewController:(UIViewController *)rootViewController;
 

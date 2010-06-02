@@ -22,7 +22,7 @@ typedef enum {
     NSManagedObjectContext *managedObjectContext;
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 	
-	UIWindow *window;
+	UIWindow *_window;
 	UITabBarController *_tabController;
 	
 	NSUserDefaults *defaults;

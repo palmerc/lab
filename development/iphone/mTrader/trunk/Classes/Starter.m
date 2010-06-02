@@ -12,31 +12,27 @@
 #import "SymbolDataController.h"
 
 @implementation Starter
-@synthesize managedObjectContext = _managedObjectContext;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
-		[self starter];
+		[self starter:managedObjectContext];
 	}
 	
 	return self;
 }
 
 // This method's sole job is to kick off Singleton's
-- (void)starter {
+- (void)starter:(NSManagedObjectContext *)managedObjectContext {
 	[UserDefaults sharedManager];
 	[mTraderServerMonitor sharedManager];
 	
 	SymbolDataController *dataController = [SymbolDataController sharedManager];
-	dataController.managedObjectContext = self.managedObjectContext;
+	dataController.managedObjectContext = managedObjectContext;
 }
 
 
 - (void)dealloc {
-	[_managedObjectContext release];
-	
 	[super dealloc];
 }
 

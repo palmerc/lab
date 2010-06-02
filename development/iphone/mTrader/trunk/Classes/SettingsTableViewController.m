@@ -18,13 +18,12 @@
 #import "AboutViewController.h"
 
 @implementation SettingsTableViewController
-@synthesize tableView;
 @synthesize aboutView;
 @synthesize userTextField;
 @synthesize passwordTextField;
 
 - (id)init {
-	self = [super init];
+	self = [super initWithStyle:UITableViewStyleGrouped];
 	if (self != nil) {
 		defaults = [UserDefaults sharedManager];
 		communicator = [mTraderCommunicator sharedManager];
@@ -34,17 +33,17 @@
 		self.tabBarItem = theItem;
 		[theItem release];
 		
-		sectionsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"LoginSettings", @"Login settings for infront account"), NSLocalizedString(@"Company", @"Company name"), nil];
-		loginSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Username", @"Username string"), NSLocalizedString(@"Password", @"Password string"), nil];
-		infrontSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"About", @"About string"), nil];
+
 		self.title = NSLocalizedString(@"SettingsTab", @"The settings tab label");
 		
-		tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStyleGrouped];
-		tableView.delegate = self;
-		tableView.dataSource = self;
-		self.view = tableView;
 	}
 	return self;
+}
+
+- (void)viewDidLoad {
+	sectionsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"LoginSettings", @"Login settings for infront account"), NSLocalizedString(@"Company", @"Company name"), nil];
+	loginSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Username", @"Username string"), NSLocalizedString(@"Password", @"Password string"), nil];
+	infrontSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"About", @"About string"), nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -78,7 +77,7 @@
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	static NSString *CellIdentifier = @"SettingsCell";
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
@@ -183,8 +182,6 @@
 	[sectionsArray release];
 	[loginSectionArray release];
 	[infrontSectionArray release];
-	
-	[tableView release];
 	
     [super dealloc];
 }

@@ -61,7 +61,6 @@
 		_descriptionLabel.textAlignment = UITextAlignmentLeft;
 		[_descriptionLabel setFont:descriptionFont];
 		[_descriptionLabel setTextColor:[UIColor darkGrayColor]];
-		//[descriptionLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:_descriptionLabel];
 		
 		UIFont *centerLabelFont = [UIFont systemFontOfSize:17.0];
@@ -70,7 +69,6 @@
 		[_centerLabel setFont:centerLabelFont];
 		[_centerLabel setTextAlignment:UITextAlignmentRight];
 		[_centerLabel setTextColor:[UIColor blackColor]];
-		//[centerLabel setHighlightedTextColor:[UIColor blackColor]];
 		[_centerLabel setAdjustsFontSizeToFitWidth:YES];
 		[self.contentView addSubview:_centerLabel];		
 		
@@ -80,7 +78,6 @@
 		[_rightLabel setFont:rightLabelFont];
 		[_rightLabel setTextAlignment:UITextAlignmentRight];
 		[_rightLabel setTextColor:[UIColor blackColor]];
-		//[rightLabel setHighlightedTextColor:[UIColor blackColor]];
 		[_rightLabel setAdjustsFontSizeToFitWidth:YES];
 		[self.contentView addSubview:_rightLabel];
 		
@@ -90,7 +87,6 @@
 		_currencyLabel.textAlignment = UITextAlignmentRight;
 		[_currencyLabel setFont:currencyFont];
 		[_currencyLabel setTextColor:[UIColor darkGrayColor]];
-		//[timeLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:_currencyLabel];
 		
 		UIFont *timeFont = [UIFont systemFontOfSize:12.0];
@@ -99,7 +95,6 @@
 		_timeLabel.textAlignment = UITextAlignmentRight;
 		[_timeLabel setFont:timeFont];
 		[_timeLabel setTextColor:[UIColor darkGrayColor]];
-		//[timeLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:_timeLabel];
 	}
     return self;

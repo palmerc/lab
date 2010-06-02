@@ -8,12 +8,9 @@
 
 
 @interface Starter : NSObject {
-	NSManagedObjectContext *_managedObjectContext;
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-- (void)starter;
+- (void)starter:(NSManagedObjectContext *)managedObjectContext;
 
 @end
