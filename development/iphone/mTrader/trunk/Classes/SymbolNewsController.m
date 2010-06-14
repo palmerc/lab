@@ -9,7 +9,7 @@
 #import "SymbolNewsController.h"
 
 #import "mTraderCommunicator.h"
-#import "SymbolDataController.h"
+#import "DataController.h"
 #import "NewsArticleController.h"
 
 #import "NewsCell.h"

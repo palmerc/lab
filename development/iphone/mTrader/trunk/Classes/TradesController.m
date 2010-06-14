@@ -48,11 +48,11 @@
 	self.tradesAvailableLabel.hidden = YES;
 	[self.tableView addSubview:self.tradesAvailableLabel];
 	
-	[SymbolDataController sharedManager].tradesDelegate = self;
+	[DataController sharedManager].tradesDelegate = self;
 }
 
 - (void)viewDidUnload {
-	id tradesDelegate = [SymbolDataController sharedManager].tradesDelegate;
+	id tradesDelegate = [DataController sharedManager].tradesDelegate;
 	if (tradesDelegate == self) {
 		tradesDelegate = nil;
 	}
@@ -120,7 +120,7 @@
 }
 
 - (void)updateTrades {
-	NSArray *trades = [SymbolDataController fetchTradesForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
+	NSArray *trades = [DataController fetchTradesForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
 	self.trades = trades;
 	
 	[self.tableView reloadData];

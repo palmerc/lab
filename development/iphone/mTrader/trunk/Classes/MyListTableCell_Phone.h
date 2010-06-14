@@ -1,5 +1,5 @@
 //
-//  ChainsTableCell.h
+//  MyListTableCell_Phone.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 05.01.10.
@@ -7,11 +7,11 @@
 //
 
 
-#import "ChainsTableViewController.h"
+#import "MyListTableViewController_Phone.h"
 
 @class SymbolDynamicData;
 
-@interface ChainsTableCell : UITableViewCell {
+@interface MyListTableCell_Phone : UITableViewCell {
 @private
 	SymbolDynamicData *_symbolDynamicData;
 	

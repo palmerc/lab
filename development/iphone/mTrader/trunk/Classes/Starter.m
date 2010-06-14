@@ -9,7 +9,7 @@
 #import "Starter.h"
 #import "UserDefaults.h"
 #import "mTraderServerMonitor.h"
-#import "SymbolDataController.h"
+#import "DataController.h"
 
 @implementation Starter
 
@@ -27,7 +27,7 @@
 	[UserDefaults sharedManager];
 	[mTraderServerMonitor sharedManager];
 	
-	SymbolDataController *dataController = [SymbolDataController sharedManager];
+	DataController *dataController = [DataController sharedManager];
 	dataController.managedObjectContext = managedObjectContext;
 }
 

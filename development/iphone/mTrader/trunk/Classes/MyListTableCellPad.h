@@ -23,8 +23,6 @@
 	
 	UILabel *_currencyLabel;
 	UILabel *_timeLabel;
-	
-	CGSize tickerLabelSize;
 }
 
 @property (nonatomic, retain) SymbolDynamicData *symbolDynamicData;

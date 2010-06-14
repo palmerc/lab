@@ -6,7 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "SymbolDataController.h"
+#import "DataController.h"
 
 #import "mTraderCommunicator.h"
 #import "QFields.h"
@@ -21,9 +21,9 @@
 #import "NewsArticle.h"
 #import "BidAsk.h"
 
-static SymbolDataController *sharedDataController = nil;
+static DataController *sharedDataController = nil;
 
-@implementation SymbolDataController
+@implementation DataController
 @synthesize orderBookDelegate;
 @synthesize tradesDelegate;
 @synthesize searchDelegate;
@@ -49,7 +49,7 @@ static SymbolDataController *sharedDataController = nil;
  * Methods for Singleton implementation
  *
  */
-+ (SymbolDataController *)sharedManager {
++ (DataController *)sharedManager {
 	if (sharedDataController == nil) {
 		sharedDataController = [[super allocWithZone:NULL] init];
 	}
@@ -542,7 +542,7 @@ static SymbolDataController *sharedDataController = nil;
 				}
 			}
 			
-			NSArray *bidsToCalculate = [SymbolDataController fetchBidAsksForSymbol:symbol.tickerSymbol withFeedNumber:symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
+			NSArray *bidsToCalculate = [DataController fetchBidAsksForSymbol:symbol.tickerSymbol withFeedNumber:symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
 
 			bidsToCalculate = [bidsToCalculate sortedArrayUsingSelector:@selector(compareBidSize:)];
 			bidsToCalculate = [[bidsToCalculate reverseObjectEnumerator] allObjects];
@@ -578,7 +578,7 @@ static SymbolDataController *sharedDataController = nil;
 				}
 			}
 			
-			NSArray *asksToCalculate = [SymbolDataController fetchBidAsksForSymbol:symbol.tickerSymbol withFeedNumber:symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
+			NSArray *asksToCalculate = [DataController fetchBidAsksForSymbol:symbol.tickerSymbol withFeedNumber:symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
 
 			asksToCalculate = [asksToCalculate sortedArrayUsingSelector:@selector(compareAskSize:)];
 			asksToCalculate = [[asksToCalculate reverseObjectEnumerator] allObjects];
@@ -910,7 +910,8 @@ static SymbolDataController *sharedDataController = nil;
 	NSString *alertMessage = @"The ticker symbol you requested is already in your list.";
 	NSString *alertCancel = @"Dismiss";
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
-	[alertView show];	
+	[alertView show];
+	[alertView release];
 }
 
 - (void)failedToAddNoSuchSecurity {
@@ -919,6 +920,7 @@ static SymbolDataController *sharedDataController = nil;
 	NSString *alertCancel = @"Dismiss";
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
 	[alertView show];
+	[alertView release];
 }
 
 - (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index {	
@@ -1412,6 +1414,7 @@ static SymbolDataController *sharedDataController = nil;
 	// Create the sort descriptors array.
 	NSSortDescriptor *tickerDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.index" ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:tickerDescriptor, nil];
+	[tickerDescriptor release];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.

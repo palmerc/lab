@@ -6,13 +6,15 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "SymbolDataController.h"
+#import "DataController.h"
 
 @class Symbol;
 @class mTraderCommunicator;
 @protocol SymbolAddControllerDelegate;
 
-@interface SymbolAddController : UITableViewController <UISearchBarDelegate, SearchResultsDelegate> {
+@interface SymbolAddController_Phone : UITableViewController <UISearchBarDelegate, SearchResultsDelegate> {
+@private
+	CGRect _frame;
 	id <SymbolAddControllerDelegate> delegate;
 	NSManagedObjectContext *_managedObjectContext;
 	
@@ -27,11 +29,12 @@
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSArray *searchResults;
 
+- (id)initWithFrame:(CGRect)frame;
 - (void)changeQFieldsStreaming;
 
 @end
 
 
 @protocol SymbolAddControllerDelegate
-- (void)symbolAddControllerDidFinish:(SymbolAddController *)controller didAddSymbol:(NSString *)tickerSymbol;
+- (void)symbolAddControllerDidFinish:(SymbolAddController_Phone *)controller didAddSymbol:(NSString *)tickerSymbol;
 @end

@@ -1,70 +1,77 @@
 //
-//  mTraderAppDelegate.m
+//  mTraderAppDelegate_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
-#import "mTraderAppDelegate.h"
+#define DEBUG 1
+
+#import "mTraderAppDelegate_Phone.h"
 
 #import "Reachability.h"
 #import "Starter.h"
 #import "UserDefaults.h"
-#import "MyListViewController.h"
-#import "MyListNavigationController.h"
+#import "MyListHeaderViewController_Phone.h"
+#import "MyListNavigationController_Phone.h"
 #import "NewsController.h"
 #import "SettingsTableViewController.h"
 
-@implementation mTraderAppDelegate
+@implementation mTraderAppDelegate_Phone
 @synthesize window = _window;
 @synthesize tabController = _tabController;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize managedObjectModel = _managedObjectModel;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 // +initialize is invoked before the class receives any other messages, so it
 // is a good place to set up application defaults
 + (void)initialize {
-    if ([self class] == [mTraderAppDelegate class]) {
-		NSArray *keys = [NSArray arrayWithObjects:@"username", @"password", nil];
-		NSArray *values = [NSArray arrayWithObjects:@"", @"", nil];
+	NSArray *keys = [NSArray arrayWithObjects:@"username", @"password", nil];
+	NSArray *values = [NSArray arrayWithObjects:@"", @"", nil];
 		
-		NSDictionary *resourceDict = [NSDictionary dictionaryWithObjects:values	forKeys:keys];
-		[[NSUserDefaults standardUserDefaults] registerDefaults:resourceDict];
-    }
+	NSDictionary *resourceDict = [NSDictionary dictionaryWithObjects:values	forKeys:keys];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:resourceDict];
 }
 
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
 	CGRect windowFrame = [[UIScreen mainScreen] bounds];
 	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
 
-	managedObjectContext = nil;
-	managedObjectModel = nil;
-	persistentStoreCoordinator = nil;
+	_managedObjectContext = nil;
+	_managedObjectModel = nil;
+	_persistentStoreCoordinator = nil;
+	_tabController = [[UITabBarController alloc] init];
+	applicationFrame.size.height -= _tabController.tabBar.frame.size.height;
 	
-	// Start up the Singleton services
-	Starter *starter = [[Starter alloc] initWithManagedObjectContext:self.managedObjectContext];
-	[starter release];
-
-	UIViewController *rootViewController = [[MyListViewController alloc] initWithFrame:applicationFrame andManagedObjectContext:self.managedObjectContext];
-	MyListNavigationController *myListNavigationController = [[MyListNavigationController alloc] initWithContentViewController:rootViewController];
+	// My List
+	MyListHeaderViewController_Phone *rootViewController = [[MyListHeaderViewController_Phone alloc] initWithFrame:applicationFrame];
+	rootViewController.managedObjectContext = self.managedObjectContext;
+	MyListNavigationController_Phone *myListNavigationController = [[MyListNavigationController_Phone alloc] initWithContentViewController:(UIViewController *)rootViewController];
 	[rootViewController release];
 	
-	NewsController *news = [[NewsController alloc] initWithMangagedObjectContext:self.managedObjectContext];
-	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
-	[news release];
+//	// News
+//	NewsController *newsController = [[NewsController alloc] initWithFrame:applicationFrame];
+//	newsController.managedObjectContext = self.managedObjectContext;
+//	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:newsController];
+//	[newsController release];
+//
+//	// Settings
+//	SettingsTableViewController *settingsController = [[SettingsTableViewController alloc] initWithFrame:applicationFrame];
+//	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsController];
+//	[settingsController release];
+//	
+//	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, nil];
 
-	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
-	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
-	[settings release];
-	
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];
 	[myListNavigationController release];
-	[newsNavigationController release];
-	[settingsNavigationController release];
+//	[newsNavigationController release];
+//	[settingsNavigationController release];
 	
-	_tabController = [[UITabBarController alloc] init];
 	self.tabController.viewControllers = viewControllersArray;
 	
 	_window = [[UIWindow alloc] initWithFrame:windowFrame];
@@ -72,6 +79,8 @@
 	
 	_window.backgroundColor = [UIColor lightGrayColor];
 	[_window makeKeyAndVisible];
+	
+	return YES;
 }
 
 
@@ -82,11 +91,12 @@
 	[[UserDefaults sharedManager] saveSettings];
 	
 	NSError *error;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-			// Update to handle the error appropriately.
+    if (_managedObjectContext != nil) {
+        if ([_managedObjectContext hasChanges] && ![_managedObjectContext save:&error]) {
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 			abort();
+#endif
         } 
     }
 }
@@ -100,16 +110,16 @@
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
 - (NSManagedObjectContext *)managedObjectContext {
-    if (managedObjectContext != nil) {
-        return managedObjectContext;
+    if (_managedObjectContext != nil) {
+        return _managedObjectContext;
     }
 	
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
     if (coordinator != nil) {
-        managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator:coordinator];
+        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
-    return managedObjectContext;
+    return _managedObjectContext;
 }
 
 
@@ -118,12 +128,12 @@
  If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
  */
 - (NSManagedObjectModel *)managedObjectModel {	
-    if (managedObjectModel != nil) {
-        return managedObjectModel;
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
     }
 
-    managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
-	return managedObjectModel;
+    _managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+	return _managedObjectModel;
 }
 
 
@@ -132,8 +142,8 @@
  If the coordinator doesn't already exist, it is created and the application's store added to it.
  */
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    if (persistentStoreCoordinator != nil) {
-        return persistentStoreCoordinator;
+    if (_persistentStoreCoordinator != nil) {
+        return _persistentStoreCoordinator;
     }
 	
 	NSURL *storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"mTrader00.sqlite"]];
@@ -150,16 +160,18 @@
 	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
 							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];	
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
 	
 	NSError *error;
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
+	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Could not start persistent store: %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();  // Fail
+#endif
     }    
 	
-    return persistentStoreCoordinator;
+    return _persistentStoreCoordinator;
 }
 
 
@@ -190,15 +202,14 @@
 #pragma mark Memory managment
 
 -(void) dealloc {	
-	[managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
+	[_managedObjectContext release];
+    [_managedObjectModel release];
+    [_persistentStoreCoordinator release];
 	
 	[_tabController release];
 	[_window release];
 	
     [super dealloc];
 }
-
 
 @end

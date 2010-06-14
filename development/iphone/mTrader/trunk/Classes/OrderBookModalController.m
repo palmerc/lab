@@ -8,7 +8,7 @@
 
 #import "OrderBookModalController.h"
 
-#import "SymbolDataController.h"
+#import "DataController.h"
 #import "QFields.h"
 
 #import "OrderBookController.h"
@@ -96,7 +96,7 @@
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
 	
-	[[SymbolDataController sharedManager] deleteAllBidsAsks];
+	[[DataController sharedManager] deleteAllBidsAsks];
 	
 	QFields *qFields = [[QFields alloc] init];
 	qFields.timeStamp = YES;

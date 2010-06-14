@@ -20,7 +20,7 @@
 @protocol TradesDelegate;
 @protocol SearchResultsDelegate;
 
-@interface SymbolDataController : NSObject <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
+@interface DataController : NSObject <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
 @private
 	id <OrderBookDelegate> orderBookDelegate;
 	id <TradesDelegate> tradesDelegate;
@@ -39,7 +39,7 @@
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
-+ (SymbolDataController *)sharedManager;
++ (DataController *)sharedManager;
 + (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 + (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 

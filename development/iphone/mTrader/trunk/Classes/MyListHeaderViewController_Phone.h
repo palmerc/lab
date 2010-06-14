@@ -7,25 +7,24 @@
 //
 
 
-#import "SymbolAddController.h"
+#import "SymbolAddController_Phone.h"
 
-@class ChainsTableViewController;
+@class MyListTableViewController_Phone;
 
-@interface MyListViewController : UIViewController <SymbolAddControllerDelegate> {
+@interface MyListHeaderViewController_Phone : UIViewController <SymbolAddControllerDelegate> {
 @private
 	CGRect _frame;
 	
 	NSManagedObjectContext *_managedObjectContext;
-
-	ChainsTableViewController *_tableViewController;
+	MyListTableViewController_Phone *_tableViewController;
 	UINavigationController *_navigationController;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) ChainsTableViewController *tableViewController;
+@property (nonatomic, retain) MyListTableViewController_Phone *tableViewController;
 @property (nonatomic, retain) UINavigationController *navigationController;
 
-- (id)initWithFrame:(CGRect)frame andManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+- (id)initWithFrame:(CGRect)frame;
 - (void)changeQFieldsStreaming;
 - (void)add:(id)sender;
 

@@ -8,7 +8,7 @@
 
 #import "TradesModalController.h"
 
-#import "SymbolDataController.h"
+#import "DataController.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import "mTraderCommunicator.h"

@@ -57,6 +57,7 @@
 	
 	UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:chartPeriodSelector];
 	[barButtonItem setStyle:UIBarButtonItemStyleBordered];
+	[chartPeriodSelector release];
 	
 	CGRect mainFrame = [[UIScreen mainScreen] bounds];
 	CGRect viewFrame = self.view.bounds;
@@ -65,6 +66,7 @@
 	
 	self.toolBar.items = [NSArray arrayWithObject:barButtonItem];
 	[self.navigationController.view addSubview:self.toolBar];
+	[barButtonItem release];
 	
 	CGRect chartFrame = CGRectMake(0.0f, viewFrame.origin.y, viewFrame.size.width, viewFrame.size.height - 44.0f * 2);
 	NSLog(@"%f %f %f %f", chartFrame.origin.x, chartFrame.origin.y, chartFrame.size.width, chartFrame.size.height);

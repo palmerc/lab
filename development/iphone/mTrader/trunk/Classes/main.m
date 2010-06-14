@@ -11,9 +11,20 @@
 int main(int argc, char *argv[]) {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
-    int retVal = UIApplicationMain(argc, argv, nil, @"mTraderAppDelegate");
-    
+	BOOL iPad = NO;
+#ifdef UI_USER_INTERFACE_IDIOM
+	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+#endif
+	
+	NSString *delegateClassName = nil;
+	if (iPad) {
+		delegateClassName = @"mTraderAppDelegate_Pad";
+	} else {
+		delegateClassName = @"mTraderAppDelegate_Phone";
+	}
+	
+    int retVal = UIApplicationMain(argc, argv, nil, delegateClassName);
 	[pool release];
-    
+	
 	return retVal;
 }

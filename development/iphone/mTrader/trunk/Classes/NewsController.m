@@ -8,7 +8,7 @@
 
 #import "NewsController.h"
 
-#import "mTraderAppDelegate.h"
+#import "mTraderAppDelegate_Phone.h"
 #import "UserDefaults.h"
 #import "FeedsTableViewController.h"
 
@@ -18,7 +18,7 @@
 #import "Symbol.h"
 #import "NewsCell.h"
 #import "NewsArticleController.h"
-#import "SymbolDataController.h"
+#import "DataController.h"
 #import "QFields.h"
 
 @implementation NewsController
@@ -66,7 +66,7 @@
 		[UserDefaults sharedManager].newsFeedNumber = feedNumber;
 	}
 		
-	self.newsFeed = [[SymbolDataController sharedManager] fetchNewsFeedWithNumber:feedNumber];
+	self.newsFeed = [[DataController sharedManager] fetchNewsFeedWithNumber:feedNumber];
 	self.title = self.newsFeed.name;
 	self.tabBarItem.title = NSLocalizedString(@"NewsTab", "News tab label");
 	
@@ -256,7 +256,7 @@
 - (void)newsFeedWasSelected:(NewsFeed *)aNewsFeed {
 	// Dismiss the popover by calling the toggle
 	[self feedBarButtonItemAction:nil];
-	[[SymbolDataController sharedManager] deleteAllNews];
+	[[DataController sharedManager] deleteAllNews];
 	
 	// Fire off request for news related to the choice made if different from current choice
 	if ([aNewsFeed.feedNumber isEqualToString:self.newsFeed.feedNumber]) {

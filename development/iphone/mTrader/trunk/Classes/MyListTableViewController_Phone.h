@@ -1,5 +1,5 @@
 //
-//  ChainsTableViewController.h
+//  MyListTableViewController_Phone.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
@@ -8,7 +8,7 @@
 
 
 #import "mTraderCommunicator.h"
-#import "SymbolAddController.h"
+#import "SymbolAddController_Phone.h"
 
 @class NewsFeed;
 @class Feed;
@@ -27,10 +27,11 @@ typedef enum {
 	RLAST
 } RightOptions;
 
-@interface ChainsTableViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
+@interface MyListTableViewController_Phone : UITableViewController <NSFetchedResultsControllerDelegate> {
 	NSUInteger currentValueType;
 	
 @private
+	CGRect _frame;
 	SymbolDetailController *symbolDetail;
 	
 	NSFetchedResultsController *_fetchedResultsController;
@@ -47,9 +48,8 @@ typedef enum {
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) UINavigationController *navigationController;
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-- (void)configurePadCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
-- (void)configurePhoneCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (id)initWithFrame:(CGRect)frame;
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
 - (void)toggleEditing;
 - (void)centerSelection:(id)sender;

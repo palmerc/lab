@@ -87,6 +87,7 @@ static UserDefaults *sharedDefaults = nil;
 	[defaults setObject:self.username forKey:@"username"];
 	[defaults setObject:self.password forKey:@"password"];
 	[defaults setObject:self.newsFeedNumber forKey:@"newsFeedNumber"];
+	[defaults release];
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-//  ChainsTableCell.m
+//  MyListTableCell_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 05.01.10.
@@ -7,7 +7,7 @@
 //
 
 
-#import "ChainsTableCell.h"
+#import "MyListTableCell_Phone.h"
 
 #import "Feed.h"
 #import "Symbol.h"
@@ -17,7 +17,7 @@
 #pragma mark -
 #pragma mark SubviewFrames category
 
-@interface ChainsTableCell (SubviewFrames)
+@interface MyListTableCell_Phone (SubviewFrames)
 - (CGRect)_tickerLabelFrame;
 - (CGRect)_descriptionLabelFrame;
 - (CGRect)_centerLabelFrame;
@@ -29,8 +29,8 @@
 
 
 #pragma mark -
-#pragma mark ChainsTableCell implementation
-@implementation ChainsTableCell
+#pragma mark MyListTableCell_Phone implementation
+@implementation MyListTableCell_Phone
 @synthesize symbolDynamicData = _symbolDynamicData; 
 @synthesize tickerLabel = _tickerLabel;
 @synthesize descriptionLabel = _descriptionLabel;

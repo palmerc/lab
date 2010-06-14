@@ -1,41 +1,41 @@
 //
-//  ChainsTableViewController.m
+//  MyListTableViewController_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
 //  Copyright 2009 InFront AS. All rights reserved.
 //
 
-#import "ChainsTableViewController.h"
+#define DEBUG 1
 
-#import "MyListTableCellPad.h"
-#import "ChainsTableCell.h"
+#import "MyListTableViewController_Phone.h"
 
-#import "mTraderAppDelegate.h"
+#import "MyListTableCell_Phone.h"
+#import "mTraderAppDelegate_Phone.h"
+
 #import "mTraderCommunicator.h"
 #import "QFields.h"
-#import "SymbolDataController.h"
-
+#import "DataController.h"
 #import "NewsFeed.h"
 #import "Feed.h";
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
+#import "StringHelpers.h"
 
 #import "SymbolDetailController.h"
 #import "OrderBookController.h"
 
-#import "StringHelpers.h"
-
-@implementation ChainsTableViewController
+@implementation MyListTableViewController_Phone
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize navigationController = _navigationController;
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+- (id)initWithFrame:(CGRect)frame {
 	self = [super init];
 	if (self != nil) {
+		_frame = frame;
 		editing = NO;
-		self.managedObjectContext = managedObjectContext;
+		_managedObjectContext = nil;
 		_fetchedResultsController = nil;
 	}
 	return self;
@@ -44,27 +44,11 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
-	NSError *error;
-	if (![self.fetchedResultsController performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();  // Fail
-	}
-}
-
 /*
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
 }
 */
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 
 - (void)viewDidUnload {
 	self.fetchedResultsController = nil;
@@ -93,50 +77,19 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"MyListTableCell";
-    
-	BOOL iPad = NO;
-	#ifdef UI_USER_INTERFACE_IDIOM
-	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
-	#endif
-	if (iPad) {
-		MyListTableCellPad *cell = (MyListTableCellPad *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [[[MyListTableCellPad alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		}
-		
-		[self configurePadCell:cell atIndexPath:indexPath animated:NO];
-		return cell;
-	} else {
-		ChainsTableCell *cell = (ChainsTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [[[ChainsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		}
-		
-		[self configurePhoneCell:cell atIndexPath:indexPath animated:NO];
-		return cell;
+    static NSString *CellIdentifier = @"MyListTableCell_Phone";
+	MyListTableCell_Phone *cell = (MyListTableCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[MyListTableCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
+	
+	[self configureCell:cell atIndexPath:indexPath animated:NO];
+	return cell;
 }
 
-- (void)configurePhoneCell:(ChainsTableCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+- (void)configureCell:(MyListTableCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	cell.centerOption = centerOption;
 	cell.rightOption = rightOption;
-	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	cell.symbolDynamicData = symbolDynamicData;
-	
-	if ([symbolDynamicData.changeArrow intValue] == 2 || [symbolDynamicData.changeArrow intValue] == 3) {
-		UIColor *flashColor = [UIColor yellowColor];
-		UIColor *backgroundColor = [UIColor whiteColor];
-		[cell.contentView setBackgroundColor:flashColor];
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-		[UIView setAnimationDuration:1.0];
-		[cell.contentView setBackgroundColor:backgroundColor];
-		[UIView commitAnimations];
-	}
-}
-
-- (void)configurePadCell:(MyListTableCellPad *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
@@ -171,7 +124,7 @@
 		SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 		
 		[self.managedObjectContext deleteObject:symbolDynamicData.symbol];
-		SymbolDataController *dataController = [SymbolDataController sharedManager];
+		DataController *dataController = [DataController sharedManager];
 		[dataController removeSymbol:symbolDynamicData.symbol];
     }
 }
@@ -214,7 +167,8 @@
 		default:
 			break;
 	}
-	[self.tableView reloadData];
+	NSArray *visibleCells = [self.tableView indexPathsForVisibleRows];
+	[self.tableView reloadRowsAtIndexPaths:visibleCells withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)rightSelection:(id)sender {
@@ -237,7 +191,25 @@
 		default:
 			break;
 	}
-	[self.tableView reloadData];
+	NSArray *visibleCells = [self.tableView indexPathsForVisibleRows];
+	[self.tableView reloadRowsAtIndexPaths:visibleCells withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	if (_managedObjectContext != managedObjectContext) {
+		[_managedObjectContext release];
+		_managedObjectContext = [managedObjectContext retain];
+		
+		// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
+		NSError *error;
+		if (![self.fetchedResultsController performFetch:&error]) {
+			// Update to handle the error appropriately.
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+			abort();  // Fail
+#endif
+		}
+	}
 }
 
 #pragma mark -
@@ -247,7 +219,6 @@
  Returns the fetched results controller. Creates and configures the controller if necessary.
  */
 - (NSFetchedResultsController *)fetchedResultsController {
-	
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
@@ -260,6 +231,7 @@
 	// Create the sort descriptors array.
 	NSSortDescriptor *tickerDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.index" ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:tickerDescriptor, nil];
+	[tickerDescriptor release];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
@@ -288,11 +260,6 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
 	
 	UITableView *tableView = self.tableView;
-
-	BOOL iPad = NO;
-	#ifdef UI_USER_INTERFACE_IDIOM
-	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
-	#endif
 	
 	switch(type) {
 			
@@ -305,13 +272,7 @@
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
-			
-			if (iPad) {
-				[self configurePadCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
-			} else {
-				[self configurePhoneCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
-			}
-
+			[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
 			break;
 			
 		case NSFetchedResultsChangeMove:
@@ -340,8 +301,8 @@
 	[self.tableView endUpdates];	
 }
 
-//#pragma mark -
-//#pragma mark Debugging methods
+#pragma mark -
+#pragma mark Debugging methods
 //// Very helpful debug when things seem not to be working.
 //- (BOOL)respondsToSelector:(SEL)sel {
 //	NSLog(@"Queried about %@ in ChainsTableViewController", NSStringFromSelector(sel));

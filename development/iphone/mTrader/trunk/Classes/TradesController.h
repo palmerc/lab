@@ -8,7 +8,7 @@
 
 #import "mTraderCommunicator.h"
 
-#import "SymbolDataController.h"
+#import "DataController.h"
 
 @protocol TradesControllerDelegate;
 @class Symbol;

@@ -1,5 +1,5 @@
 //
-//  mTraderAppDelegate.h
+//  mTraderAppDelegate_Pad.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 23.12.09.
@@ -8,7 +8,6 @@
 
 
 @class ChainsNavigationViewController;
-@class Reachability;
 
 typedef enum {
 	CHAINS = 1,
@@ -16,7 +15,7 @@ typedef enum {
 	SETTINGS = 3
 } tabs;
 
-@interface mTraderAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate> {
+@interface mTraderAppDelegate_Pad : NSObject <UIApplicationDelegate, UINavigationControllerDelegate> {
 @private
 	NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;
@@ -24,8 +23,6 @@ typedef enum {
 	
 	UIWindow *_window;
 	UITabBarController *_tabController;
-	
-	NSUserDefaults *defaults;
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;

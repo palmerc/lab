@@ -7,13 +7,13 @@
 //
 
 
-#import "SymbolAddController.h"
+#import "SymbolAddController_Phone.h"
 
 #import "Feed.h"
 #import "QFields.h"
 #import "mTraderCommunicator.h"
 
-@implementation SymbolAddController
+@implementation SymbolAddController_Phone
 @synthesize delegate;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize searchResults = _searchResults;
@@ -21,32 +21,42 @@
 #pragma mark -
 #pragma mark Application Lifecycle
 
-- (void)viewDidLoad {
-	self.title = @"Add a Symbol";
-	self.view.backgroundColor = [UIColor whiteColor];
-	
-	communicator = [mTraderCommunicator sharedManager];
-	
-	[SymbolDataController sharedManager].searchDelegate = self;
-	_searchResults = nil;
+- (id)initWithFrame:(CGRect)frame {
+	self = [super init];
+	if (self != nil) {
+		_frame = frame;
+		_searchResults = nil;
+	}
+	return self;
+}
+
+- (void)loadView {
+	UIView *aView = [[UIView alloc] initWithFrame:_frame];
+	aView.backgroundColor = [UIColor whiteColor];
 	
 	UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
 	self.navigationItem.leftBarButtonItem = cancel;
 	[cancel release];
 	
-	CGRect searchFrame = self.view.bounds;
-	searchFrame.size.height = 44.0f;
+	CGRect searchFrame = aView.bounds;
+	//searchFrame.size.height = 44.0f;
 	UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
 	searchBar.delegate = self;
 	searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	searchBar.placeholder = @"Ticker Symbol or Name";
-
-	[self.view addSubview:searchBar];
+	searchBar.placeholder = NSLocalizedString(@"tickerSymbolOrName", @"Ticker Symbol or Name");
+	
+	[aView addSubview:searchBar];
 	[searchBar release];
+	
+	self.view = aView;
+	[aView release];
 }
 
-- (void)viewDidUnload {
-	[SymbolDataController sharedManager].searchDelegate = nil;
+- (void)viewDidLoad {
+	self.title = NSLocalizedString(@"addASymbol", @"Add a Symbol");
+	communicator = [mTraderCommunicator sharedManager];
+	
+	[DataController sharedManager].searchDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -60,12 +70,6 @@
 	[qFields release];
 	
 	[communicator setStreamingForFeedTicker:nil];
-}
-
-- (void)dealloc {
-	[_searchResults release];
-	
-	[super dealloc];
 }
 
 - (void)cancel:(id)sender {
@@ -106,7 +110,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *CellIdentifier = @"SearchTableCell";
+	static NSString *CellIdentifier = @"SearchTableCell_Phone";
     
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -129,6 +133,12 @@
 	
 	[communicator addSecurity:[row objectAtIndex:1] withMCode:[row objectAtIndex:0]];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)dealloc {
+	[_searchResults release];
+	
+	[super dealloc];
 }
 
 @end

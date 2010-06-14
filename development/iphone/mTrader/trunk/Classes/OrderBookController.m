@@ -17,7 +17,7 @@
 #import "SymbolDynamicData.h"
 #import "BidAsk.h"
 
-#import "SymbolDataController.h"
+#import "DataController.h"
 
 @implementation OrderBookController
 @synthesize managedObjectContext = _managedObjectContext;
@@ -52,7 +52,7 @@
 	self.orderbookAvailableLabel.hidden = YES;
 	[self.tableView addSubview:self.orderbookAvailableLabel];
 	
-	[SymbolDataController sharedManager].orderBookDelegate = self;
+	[DataController sharedManager].orderBookDelegate = self;
 }
 
 #pragma mark -
@@ -108,7 +108,7 @@
 		_bidAsks = nil;
 	}
 	
-	NSArray *bidsAsks = [SymbolDataController fetchBidAsksForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
+	NSArray *bidsAsks = [DataController fetchBidAsksForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
 	self.bidAsks = bidsAsks;
 	
 	[self.tableView reloadData];
@@ -125,7 +125,7 @@
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[SymbolDataController sharedManager].orderBookDelegate = nil;	
+	[DataController sharedManager].orderBookDelegate = nil;	
 	
 	[_tableFont release];
 	[_symbol release];

@@ -9,7 +9,7 @@
 #import "SymbolNewsModalController.h"
 
 #import "mTraderCommunicator.h"
-#import "SymbolDataController.h"
+#import "DataController.h"
 #import "NewsArticleController.h"
 
 #import "NewsCell.h"
@@ -226,7 +226,7 @@
 }
 
 - (void)refresh:(id)sender {
-	[[SymbolDataController sharedManager] deleteAllNews];
+	[[DataController sharedManager] deleteAllNews];
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
 	[communicator symbolNewsForFeedTicker:feedTicker];

@@ -8,7 +8,7 @@
 
 #import "SettingsTableViewController.h"
 
-#import "mTraderAppDelegate.h"
+#import "mTraderAppDelegate_Phone.h"
 
 #import "mTraderCommunicator.h"
 #import "mTraderServerMonitor.h"
@@ -119,6 +119,7 @@
 		}
 		
 		[cell.contentView addSubview:textField];
+		[textField release];
 		
 	} else if (indexPath.section == INFRONT) {
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];

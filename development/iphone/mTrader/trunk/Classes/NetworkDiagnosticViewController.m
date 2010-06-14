@@ -90,6 +90,7 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	if (indexPath.section == 0) {
 		[cell.textLabel setText:[_interfaces objectAtIndex:indexPath.row]];
 	} else if (indexPath.section == 1) {
@@ -125,6 +126,10 @@
 	return [_headers objectAtIndex:section];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
 #pragma mark -
 - (void)reachabilityChanged:(NSNotification *)note {
 	Reachability *currentReachability = [note object];
@@ -140,20 +145,19 @@
 	char **list;
 	if (remoteHostEnt != NULL) {
 		list = remoteHostEnt->h_addr_list;	
+		
+		if (_serverAddresses != nil) {
+			[_serverAddresses release];
+		}
+		NSMutableArray *addresses = [NSMutableArray array];
+		for (int i = 0; i < sizeof(list) / sizeof(struct in_addr *); i++) {
+			struct in_addr *ip = (struct in_addr *)list[i];
+			inet_ntoa(*ip);
+			NSString *ipAddress = [NSString stringWithCString:inet_ntoa(*ip) encoding:NSASCIIStringEncoding];
+			[addresses addObject:ipAddress];
+		}
+		_serverAddresses = [(NSArray *)addresses retain];
 	}
-	
-	if (_serverAddresses != nil) {
-		[_serverAddresses release];
-	}
-	NSMutableArray *addresses = [NSMutableArray array];
-	for (int i = 0; i < sizeof(list) / sizeof(struct in_addr *); i++) {
-		struct in_addr *ip = (struct in_addr *)list[i];
-		inet_ntoa(*ip);
-		NSString *ipAddress = [NSString stringWithCString:inet_ntoa(*ip) encoding:NSASCIIStringEncoding];
-		[addresses addObject:ipAddress];
-	}
-	_serverAddresses = [(NSArray *)addresses retain];
-	
 	NetworkStatus status = [reach currentReachabilityStatus];
 
 	if (_reachabilityDetails != nil) {
@@ -171,6 +175,7 @@
 			remoteReachabilityText = @"Reachable via WWAN";
 			break;
 		default:
+			remoteReachabilityText = @"Reachability undefined";
 			break;
 	}
 	_reachabilityDetails = [[NSArray arrayWithObjects:remoteReachabilityText, nil] retain];
@@ -190,13 +195,14 @@
 
 #pragma mark -
 - (void)dealloc {
-	
 	[_reachability release];
 	[_headers release];
 	[_interfaces release];
 	[_serverDetails release];
 	[_serverAddresses release];
 	[_reachabilityDetails release];
+	[_server release];
+	[_port release];
 	
 	[super dealloc];
 }

@@ -12,7 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "mTraderCommunicator.h"
-#import "SymbolDataController.h"
+#import "DataController.h"
 #import "StringHelpers.h"
 
 #import "LastChangeView.h"
@@ -87,8 +87,8 @@
 - (void)changeQFieldsStreaming {
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
-	[[SymbolDataController sharedManager] deleteAllNews];
-	[[SymbolDataController sharedManager] deleteAllBidsAsks];
+	[[DataController sharedManager] deleteAllNews];
+	[[DataController sharedManager] deleteAllBidsAsks];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
 	
