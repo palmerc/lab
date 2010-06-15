@@ -19,6 +19,7 @@
 	NSArray *_serverDetails;
 	NSArray *_serverAddresses;
 	NSArray *_reachabilityDetails;
+	NSArray *_bytesDetails;
 }
 
 @property (nonatomic, retain) Reachability *reachability;

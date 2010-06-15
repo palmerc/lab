@@ -1,5 +1,5 @@
 //
-//  SymbolAddController.h
+//  SymbolAddController_Phone.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 06.01.10.
@@ -12,28 +12,19 @@
 @class mTraderCommunicator;
 @protocol SymbolAddControllerDelegate;
 
-@interface SymbolAddController_Phone : UITableViewController <UISearchBarDelegate, SearchResultsDelegate> {
+@interface SymbolAddController_Phone : UIViewController {
 @private
 	CGRect _frame;
+	
 	id <SymbolAddControllerDelegate> delegate;
-	NSManagedObjectContext *_managedObjectContext;
-	
-	mTraderCommunicator *communicator;
-	
-	//UISearchDisplayController *searchController;
-	
-	NSArray *_searchResults;
 }
 
 @property (nonatomic, assign) id <SymbolAddControllerDelegate> delegate;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSArray *searchResults;
 
 - (id)initWithFrame:(CGRect)frame;
 - (void)changeQFieldsStreaming;
 
 @end
-
 
 @protocol SymbolAddControllerDelegate
 - (void)symbolAddControllerDidFinish:(SymbolAddController_Phone *)controller didAddSymbol:(NSString *)tickerSymbol;

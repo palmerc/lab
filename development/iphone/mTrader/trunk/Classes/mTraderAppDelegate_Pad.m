@@ -14,7 +14,7 @@
 #import "MyListHeaderViewController_Phone.h"
 #import "MyListNavigationController_Phone.h"
 #import "NewsController.h"
-#import "SettingsTableViewController.h"
+#import "SettingsTableViewController_Phone.h"
 
 @implementation mTraderAppDelegate_Pad
 @synthesize window = _window;
@@ -54,7 +54,7 @@
 	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
 	[news release];
 
-	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
+	SettingsTableViewController_Phone *settings = [[SettingsTableViewController_Phone alloc] init];
 	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
 	[settings release];
 	

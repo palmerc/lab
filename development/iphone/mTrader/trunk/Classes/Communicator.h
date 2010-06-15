@@ -10,6 +10,7 @@
 @protocol CommunicatorDataDelegate;
 
 @interface Communicator : NSOperation {
+@private
 	id <CommunicatorDataDelegate> _delegate;
 	
 	NSString *_host;
@@ -21,6 +22,8 @@
 	NSMutableData *_mutableDataBuffer;
 	
 	BOOL _isConnected;
+	NSUInteger _bytesReceived;
+	NSUInteger _bytesSent;
 }
 
 @property (nonatomic, assign) id <CommunicatorDataDelegate> delegate;
@@ -31,6 +34,8 @@
 @property (nonatomic, retain) NSOutputStream *outputStream;
 @property (nonatomic, retain) NSMutableArray *lineBuffer;
 @property (nonatomic, retain) NSMutableData *mutableDataBuffer;
+@property (readonly) NSUInteger bytesReceived;
+@property (readonly) NSUInteger bytesSent;
 
 @property BOOL isConnected;
 

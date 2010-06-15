@@ -8,6 +8,7 @@
 
 #import "NetworkDiagnosticViewController_Phone.h"
 
+#import "mTraderServerMonitor.h"
 #import "Reachability.h"
 #import "CPHost.h"
 
@@ -34,12 +35,14 @@
 		NSString *serverDetailsSection = NSLocalizedString(@"serverDetails", @"Server Details");
 		NSString *serverAddressesSection = NSLocalizedString(@"serverAddresses", @"Server Addresses");
 		NSString *reachabilitySection = NSLocalizedString(@"reachability", @"Reachability");
+		NSString *bytesSection = NSLocalizedString(@"bytes", @"Bytes");
 		
-		_headers = [[NSArray arrayWithObjects:yourIPAddressesSection, serverDetailsSection, serverAddressesSection, reachabilitySection, nil] retain];
+		_headers = [[NSArray arrayWithObjects:yourIPAddressesSection, serverDetailsSection, serverAddressesSection, reachabilitySection, bytesSection, nil] retain];
 		_interfaces = nil;
 		_serverDetails = [[NSArray arrayWithObjects:self.server, self.port, nil] retain];
 		_serverAddresses = nil;
 		_reachabilityDetails = nil;
+		_bytesDetails = nil;
 	}
 	return self;
 }
@@ -91,6 +94,8 @@
 		[cell.textLabel setText:[_serverAddresses objectAtIndex:indexPath.row]];
 	} else if (indexPath.section == 3) {
 		[cell.textLabel setText:[_reachabilityDetails objectAtIndex:indexPath.row]];
+	} else if (indexPath.section == 4) {
+		[cell.textLabel setText:[_bytesDetails objectAtIndex:indexPath.row]];
 	}
 		
 	return cell;
@@ -109,6 +114,8 @@
 		return [_serverAddresses count];
 	} else if (section == 3) {
 		return [_reachabilityDetails count];
+	} else if (section == 4) {
+		return [_bytesDetails count];
 	} else {
 		return 0;
 	}
@@ -185,6 +192,11 @@
 	}
 	_interfaces = [(NSArray *)interfaces retain];
 	
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	NSString *bytesReceivedText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesReceived", @"Bytes Received"), [monitor bytesReceived]];
+	NSString *bytesSentText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesSent", @"Bytes Sent"), [monitor bytesSent]];
+	_bytesDetails = [[NSArray arrayWithObjects:bytesReceivedText, bytesSentText, nil] retain];
+	
 	[self.tableView reloadData];
 }
 
@@ -198,6 +210,7 @@
 	[_serverDetails release];
 	[_serverAddresses release];
 	[_reachabilityDetails release];
+	[_bytesDetails release];
 	[_server release];
 	[_port release];
 	

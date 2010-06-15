@@ -1,5 +1,5 @@
 //
-//  SymbolAddController.m
+//  SymbolAddController_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 06.01.10.
@@ -9,61 +9,69 @@
 
 #import "SymbolAddController_Phone.h"
 
+#import "SymbolSearchController_Phone.h"
+
 #import "Feed.h"
 #import "QFields.h"
 #import "mTraderCommunicator.h"
 
 @implementation SymbolAddController_Phone
 @synthesize delegate;
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize searchResults = _searchResults;
  
 #pragma mark -
-#pragma mark Application Lifecycle
+#pragma mark Initialization
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super init];
 	if (self != nil) {
 		_frame = frame;
-		_searchResults = nil;
 	}
 	return self;
 }
 
-- (void)loadView {
-	UIView *aView = [[UIView alloc] initWithFrame:_frame];
-	aView.backgroundColor = [UIColor whiteColor];
-	
+#pragma mark -
+#pragma mark UIViewController Methods
+- (void)viewDidLoad {
+	self.title = NSLocalizedString(@"addASymbol", @"Add a Symbol");
+			
 	UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
 	self.navigationItem.leftBarButtonItem = cancel;
 	[cancel release];
 	
-	CGRect searchFrame = aView.bounds;
-	//searchFrame.size.height = 44.0f;
+	CGRect searchFrame = self.view.bounds;
 	UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
-	searchBar.delegate = self;
+	[searchBar sizeToFit];
+	[self.view addSubview:searchBar];
 	searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	searchBar.placeholder = NSLocalizedString(@"tickerSymbolOrName", @"Ticker Symbol or Name");
 	
-	[aView addSubview:searchBar];
-	[searchBar release];
+	SymbolSearchController_Phone *symbolSearchContoller = [[SymbolSearchController_Phone alloc] init];
+	CGRect tableFrame = self.view.bounds;
+	tableFrame.origin.y = searchBar.frame.size.height;
+	tableFrame.size.height -= searchBar.frame.size.height;
+	symbolSearchContoller.view.frame = tableFrame;
+	DataController *dataController = [DataController sharedManager];
+	dataController.searchDelegate = symbolSearchContoller;
+	[self.view addSubview:symbolSearchContoller.tableView];
 	
-	self.view = aView;
-	[aView release];
-}
-
-- (void)viewDidLoad {
-	self.title = NSLocalizedString(@"addASymbol", @"Add a Symbol");
-	communicator = [mTraderCommunicator sharedManager];
+	UISearchDisplayController *searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:symbolSearchContoller];
+	searchDisplayController.delegate = symbolSearchContoller;
+	searchDisplayController.searchResultsDataSource = symbolSearchContoller;
+	searchDisplayController.searchResultsDelegate = symbolSearchContoller;
 	
-	[DataController sharedManager].searchDelegate = self;
+	
+	[searchBar release];		
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[self changeQFieldsStreaming];
 }
 
-- (void)changeQFieldsStreaming {	
+#pragma mark -
+#pragma mark mTrader Specific Methods
+
+- (void)changeQFieldsStreaming {
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	QFields *qFields = [[QFields alloc] init];
 	
 	communicator.qFields = qFields;
@@ -72,31 +80,11 @@
 	[communicator setStreamingForFeedTicker:nil];
 }
 
+#pragma mark -
+#pragma mark Actions
+
 - (void)cancel:(id)sender {
 	[self.delegate symbolAddControllerDidFinish:self didAddSymbol:nil];
-}
-
-#pragma mark -
-#pragma mark UISearchDisplayController Delegate Methods
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-	if (![searchText isEqualToString:@""]) {
-		[communicator symbolSearch:searchText];
-	} else {
-		[self searchResultsUpdate:nil];
-	}
-}
-
-- (void)searchResultsUpdate:(NSArray *)results {
-	if (results == nil) {
-		results = [NSArray array];
-	}
-	self.searchResults = results;
-	[self.tableView reloadData];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-	[searchBar resignFirstResponder];
 }
 
 #pragma mark -
@@ -108,35 +96,9 @@
 //	 return [super respondsToSelector:sel];
 //}
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *CellIdentifier = @"SearchTableCell_Phone";
-    
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-    }
-	
-	NSArray *row = [self.searchResults objectAtIndex:indexPath.row];
-	
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [row objectAtIndex:1], [row objectAtIndex:0]];
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [row objectAtIndex:2]];
-    return cell;	
-}
-
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
-	return [self.searchResults count];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSArray *row = [self.searchResults objectAtIndex:indexPath.row];
-	
-	[communicator addSecurity:[row objectAtIndex:1] withMCode:[row objectAtIndex:0]];
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
+#pragma mark -
+#pragma mark Memory Management
 - (void)dealloc {
-	[_searchResults release];
 	
 	[super dealloc];
 }

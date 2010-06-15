@@ -27,20 +27,15 @@ typedef enum {
 	UITextField *userTextField;
 	UITextField *passwordTextField;
 	
-	NSArray *sectionsArray;
-	NSArray *infrontSectionArray;
-	NSArray *loginSectionArray;
-	
-	UserDefaults *defaults;
-	
-	mTraderCommunicator *communicator;
+	NSArray *_sectionsArray;
+	NSArray *_infrontSectionArray;
+	NSArray *_loginSectionArray;
 }
 
 @property (nonatomic, retain) UIView *aboutView;
 @property (nonatomic, retain) UITextField *userTextField;
 @property (nonatomic, retain) UITextField *passwordTextField;
 
-- (id)initWithFrame:(CGRect)frame;
 - (void)configureCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath;
 
 @end

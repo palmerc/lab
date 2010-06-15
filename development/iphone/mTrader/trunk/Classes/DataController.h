@@ -25,8 +25,6 @@
 	id <OrderBookDelegate> orderBookDelegate;
 	id <TradesDelegate> tradesDelegate;
 	id <SearchResultsDelegate> searchDelegate;
-
-	mTraderCommunicator *communicator;
 	
 	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
@@ -35,7 +33,6 @@
 @property (nonatomic, assign) id <OrderBookDelegate> orderBookDelegate;
 @property (nonatomic, assign) id <TradesDelegate> tradesDelegate;
 @property (nonatomic, assign) id <SearchResultsDelegate> searchDelegate;
-@property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 

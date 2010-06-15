@@ -24,11 +24,9 @@
 #pragma mark -
 #pragma mark Application Initialization
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)init {
 	self = [super initWithStyle:UITableViewStyleGrouped];
-	if (self != nil) {
-		_frame = frame;
-		
+	if (self != nil) {		
 		UIImage* anImage = [UIImage imageNamed:@"SettingsTab.png"];
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"SettingsTab", @"The settings tab label") image:anImage tag:SETTINGS];
 		self.tabBarItem = theItem;
@@ -43,10 +41,11 @@
 - (void)viewDidLoad {
 	self.title = NSLocalizedString(@"SettingsTab", @"The settings tab label");
 
-	sectionsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"LoginSettings", @"Login settings for infront account"), NSLocalizedString(@"Company", @"Company name"), nil];
-	loginSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Username", @"Username string"), NSLocalizedString(@"Password", @"Password string"), nil];
-	infrontSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"About", @"About string"), nil];
+	_sectionsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"LoginSettings", @"Login settings for infront account"), NSLocalizedString(@"Company", @"Company name"), nil];
+	_loginSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Username", @"Username string"), NSLocalizedString(@"Password", @"Password string"), nil];
+	_infrontSectionArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"About", @"About string"), nil];
 
+	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	QFields *qFields = [[QFields alloc] init];
 	communicator.qFields = qFields;
 	[qFields release];
@@ -59,26 +58,26 @@
 
 // Table View Data Source Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return [sectionsArray count];
+	return [_sectionsArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (section == LOGINDETAILS) {
-		return [loginSectionArray count];
+		return [_loginSectionArray count];
 	} else if (section == INFRONT) {
-		return [infrontSectionArray count];
+		return [_infrontSectionArray count];
 	} else {
 		return 0;
 	}
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return [sectionsArray objectAtIndex:section];
+	return [_sectionsArray objectAtIndex:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	static NSString *CellIdentifier = @"SettingsCell";
+	static NSString *CellIdentifier = @"SettingsCell_Phone";
 	UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -91,10 +90,13 @@
 
 - (void)configureCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath{
 	if (indexPath.section == LOGINDETAILS) {
-		NSString *aText = [loginSectionArray objectAtIndex:indexPath.row];
+		UserDefaults *defaults = [UserDefaults sharedManager];
+
+		NSString *aText = [_loginSectionArray objectAtIndex:indexPath.row];
 		[cell.textLabel setText:aText];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
+		// TODO - This should be fixed to be dynamic
 		CGRect frame = CGRectMake(110.0f, 0.0f, cell.frame.size.width - 130.0f, 44.0f);
 		UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 		textField.delegate = self;
@@ -125,7 +127,7 @@
 		
 	} else if (indexPath.section == INFRONT) {
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-		[cell.textLabel setText:[infrontSectionArray objectAtIndex:indexPath.row]];
+		[cell.textLabel setText:[_infrontSectionArray objectAtIndex:indexPath.row]];
 	} else {
 		[cell.textLabel setText:@"Hello, Dolly!"];
 	}
@@ -154,6 +156,8 @@
 
 // Text Field Delegate Methods
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+	UserDefaults *defaults = [UserDefaults sharedManager];
+
 	NSString *username = defaults.username;
 	NSString *password = defaults.password;
 	
@@ -191,9 +195,9 @@
 #pragma mark Memory Management
 
 - (void)dealloc {
-	[sectionsArray release];
-	[loginSectionArray release];
-	[infrontSectionArray release];
+	[_sectionsArray release];
+	[_loginSectionArray release];
+	[_infrontSectionArray release];
 	
     [super dealloc];
 }

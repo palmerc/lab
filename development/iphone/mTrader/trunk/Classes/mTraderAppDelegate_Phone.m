@@ -10,13 +10,15 @@
 
 #import "mTraderAppDelegate_Phone.h"
 
-#import "Reachability.h"
-#import "Starter.h"
-#import "UserDefaults.h"
 #import "MyListHeaderViewController_Phone.h"
 #import "MyListNavigationController_Phone.h"
 #import "NewsController.h"
-#import "SettingsTableViewController.h"
+#import "SettingsTableViewController_Phone.h"
+
+#import "mTraderServerMonitor.h"
+#import "Reachability.h"
+#import "Starter.h"
+#import "UserDefaults.h"
 
 @implementation mTraderAppDelegate_Phone
 @synthesize window = _window;
@@ -54,23 +56,23 @@
 	MyListNavigationController_Phone *myListNavigationController = [[MyListNavigationController_Phone alloc] initWithContentViewController:(UIViewController *)rootViewController];
 	[rootViewController release];
 	
-//	// News
+	// News
 //	NewsController *newsController = [[NewsController alloc] initWithFrame:applicationFrame];
 //	newsController.managedObjectContext = self.managedObjectContext;
 //	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:newsController];
 //	[newsController release];
 //
-//	// Settings
-//	SettingsTableViewController *settingsController = [[SettingsTableViewController alloc] initWithFrame:applicationFrame];
-//	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsController];
-//	[settingsController release];
-//	
+	// Settings
+	SettingsTableViewController_Phone *settingsController = [[SettingsTableViewController_Phone alloc] init];
+	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsController];
+	[settingsController release];
+	
 //	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];
-	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, nil];
+	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, settingsNavigationController, nil];
 
 	[myListNavigationController release];
 //	[newsNavigationController release];
-//	[settingsNavigationController release];
+	[settingsNavigationController release];
 	
 	self.tabController.viewControllers = viewControllersArray;
 	
@@ -79,6 +81,11 @@
 	
 	_window.backgroundColor = [UIColor lightGrayColor];
 	[_window makeKeyAndVisible];
+	
+	DataController *dataController = [DataController sharedManager];
+	dataController.managedObjectContext = self.managedObjectContext;
+	
+	[[mTraderServerMonitor sharedManager] attemptConnection];
 	
 	return YES;
 }

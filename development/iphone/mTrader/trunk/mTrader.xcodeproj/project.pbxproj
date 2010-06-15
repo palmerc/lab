@@ -12,6 +12,7 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
 		7E15C7DD10F35A23007A45E8 /* MyListTableCell_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* MyListTableCell_Phone.m */; };
+		7E179FEF11C7B960001E7FE7 /* SymbolSearchController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E179FEE11C7B960001E7FE7 /* SymbolSearchController_Phone.m */; };
 		7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED41117371A00445735 /* StringHelpers.m */; };
 		7E29B80310F4B96500816D9B /* SymbolAddController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* SymbolAddController_Phone.m */; };
 		7E2A0921112C3D3C00CF5EE1 /* SymbolDynamicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */; };
@@ -21,10 +22,10 @@
 		7E2B93DE11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */; };
 		7E2D30A3112599BE0016CFD1 /* Chart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D30A2112599BE0016CFD1 /* Chart.m */; };
 		7E2DA17E11046EBC002CE93F /* MyListTableViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyListTableViewController_Phone.m */; };
-		7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
+		7E2DA17F11046EBC002CE93F /* SettingsTableViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController_Phone.m */; };
 		7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E2DA18111046EBC002CE93F /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
-		7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
+		7E2DA18411046EBC002CE93F /* AboutViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController_Phone.m */; };
 		7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
 		7E2DA18911046EBC002CE93F /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
 		7E2DA18A11046EBC002CE93F /* MyListTableCell_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* MyListTableCell_Phone.m */; };
@@ -45,7 +46,7 @@
 		7E377F7311171B1C0080A84B /* mTraderAppDelegate_Pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7211171B1C0080A84B /* mTraderAppDelegate_Pad.m */; };
 		7E377F7511171B300080A84B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7411171B300080A84B /* main.m */; };
 		7E377F8211171B7B0080A84B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F7D11171B7B0080A84B /* Localizable.strings */; };
-		7E377F8B11171B970080A84B /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8411171B970080A84B /* AboutView.xib */; };
+		7E377F8B11171B970080A84B /* AboutView_Phone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8411171B970080A84B /* AboutView_Phone.xib */; };
 		7E377F9911171BB10080A84B /* SettingsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F9511171BB10080A84B /* SettingsTab.png */; };
 		7E38610711490BE300CA1086 /* TradesLiveInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38610611490BE300CA1086 /* TradesLiveInfoView.m */; };
 		7E38626C1149239A00CA1086 /* OrderBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38626B1149239A00CA1086 /* OrderBookView.m */; };
@@ -56,7 +57,7 @@
 		7E3FC7ED114551BC00C438CF /* RoundedRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FC7EC114551BC00C438CF /* RoundedRectangle.m */; };
 		7E3FCBDC1146874C00C438CF /* LastChangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FCBDB1146874C00C438CF /* LastChangeView.m */; };
 		7E419AD910E20B920007808B /* MyListTableViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* MyListTableViewController_Phone.m */; };
-		7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
+		7E419BCB10E21A150007808B /* SettingsTableViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController_Phone.m */; };
 		7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
 		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
 		7E41BA6F11404C8400277A67 /* NewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E41BA6A11404C8400277A67 /* NewsCell.m */; };
@@ -74,7 +75,7 @@
 		7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723BB511294B930073A07B /* OrderBookTableCellP.m */; };
 		7E795A0A11590024006E35F4 /* SymbolNewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A0911590024006E35F4 /* SymbolNewsView.m */; };
 		7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A8E11591292006E35F4 /* OrderBookModalController.m */; };
-		7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m */; };
+		7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m */; };
 		7E7C97DF11A6C75400DFA31E /* CPHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C97DE11A6C75400DFA31E /* CPHost.m */; };
 		7E7C97E311A6C7E300DFA31E /* WWAN5.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7C97E011A6C7E300DFA31E /* WWAN5.png */; };
 		7E7C97E411A6C7E300DFA31E /* Airport.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7C97E111A6C7E300DFA31E /* Airport.png */; };
@@ -97,7 +98,7 @@
 		7EF2A556115A114C0049A8C1 /* SymbolNewsModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A555115A114C0049A8C1 /* SymbolNewsModalController.m */; };
 		7EF6FE881190246E0001D3A9 /* FeedsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6FE871190246E0001D3A9 /* FeedsTableViewController.m */; };
 		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
-		C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
+		C73CE63710E7544200AF6D89 /* AboutViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController_Phone.m */; };
 		C78ECBB911C55D6F00EF81BC /* mTraderAppDelegate_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = C78ECBB811C55D6F00EF81BC /* mTraderAppDelegate_Phone.m */; };
 /* End PBXBuildFile section */
 
@@ -120,6 +121,10 @@
 		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
 		7E15C7DB10F35A23007A45E8 /* MyListTableCell_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListTableCell_Phone.h; sourceTree = "<group>"; };
 		7E15C7DC10F35A23007A45E8 /* MyListTableCell_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListTableCell_Phone.m; sourceTree = "<group>"; };
+		7E179FED11C7B960001E7FE7 /* SymbolSearchController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolSearchController_Phone.h; sourceTree = "<group>"; };
+		7E179FEE11C7B960001E7FE7 /* SymbolSearchController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolSearchController_Phone.m; sourceTree = "<group>"; };
+		7E179FF011C7B960001E7FE7 /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E179FF211C7B960001E7FE7 /* iTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E1B7ED31117371A00445735 /* StringHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHelpers.h; sourceTree = "<group>"; };
 		7E1B7ED41117371A00445735 /* StringHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringHelpers.m; sourceTree = "<group>"; };
 		7E29B80110F4B96500816D9B /* SymbolAddController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolAddController_Phone.h; sourceTree = "<group>"; };
@@ -152,7 +157,7 @@
 		7E377F7811171B650080A84B /* mTraderCommunicationProtocol.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mTraderCommunicationProtocol.tex; sourceTree = "<group>"; };
 		7E377F7911171B650080A84B /* StateDiagram.dot */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StateDiagram.dot; sourceTree = "<group>"; };
 		7E377F7E11171B7B0080A84B /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
-		7E377F8411171B970080A84B /* AboutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutView.xib; path = Resources/AboutView.xib; sourceTree = "<group>"; };
+		7E377F8411171B970080A84B /* AboutView_Phone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutView_Phone.xib; path = Resources/AboutView_Phone.xib; sourceTree = "<group>"; };
 		7E377F9511171BB10080A84B /* SettingsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SettingsTab.png; path = Resources/SettingsTab.png; sourceTree = "<group>"; };
 		7E377F9A11171BC60080A84B /* mTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTrader-Info.plist"; sourceTree = "<group>"; };
 		7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTraderTesting-Info.plist"; sourceTree = "<group>"; };
@@ -174,8 +179,8 @@
 		7E3FCBDB1146874C00C438CF /* LastChangeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastChangeView.m; sourceTree = "<group>"; };
 		7E419AD710E20B920007808B /* MyListTableViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListTableViewController_Phone.h; sourceTree = "<group>"; };
 		7E419AD810E20B920007808B /* MyListTableViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListTableViewController_Phone.m; sourceTree = "<group>"; };
-		7E419BC910E21A150007808B /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
-		7E419BCA10E21A150007808B /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		7E419BC910E21A150007808B /* SettingsTableViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController_Phone.h; sourceTree = "<group>"; };
+		7E419BCA10E21A150007808B /* SettingsTableViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController_Phone.m; sourceTree = "<group>"; };
 		7E419C6810E2209B0007808B /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
 		7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueAdditions.m"; sourceTree = "<group>"; };
 		7E419C6B10E2209B0007808B /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
@@ -208,8 +213,8 @@
 		7E795A0911590024006E35F4 /* SymbolNewsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsView.m; sourceTree = "<group>"; };
 		7E795A8D11591292006E35F4 /* OrderBookModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookModalController.h; sourceTree = "<group>"; };
 		7E795A8E11591292006E35F4 /* OrderBookModalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookModalController.m; sourceTree = "<group>"; };
-		7E7C97DA11A6C6FF00DFA31E /* NetworkDiagnosticViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkDiagnosticViewController.h; sourceTree = "<group>"; };
-		7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkDiagnosticViewController.m; sourceTree = "<group>"; };
+		7E7C97DA11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkDiagnosticViewController_Phone.h; sourceTree = "<group>"; };
+		7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkDiagnosticViewController_Phone.m; sourceTree = "<group>"; };
 		7E7C97DD11A6C75400DFA31E /* CPHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHost.h; sourceTree = "<group>"; };
 		7E7C97DE11A6C75400DFA31E /* CPHost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPHost.m; sourceTree = "<group>"; };
 		7E7C97E011A6C7E300DFA31E /* WWAN5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WWAN5.png; sourceTree = "<group>"; };
@@ -238,8 +243,6 @@
 		7EC84DA11154EDA20083C82B /* NewsFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeed.m; sourceTree = "<group>"; };
 		7ED5D7B0115677D3007EB033 /* MyListHeaderViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListHeaderViewController_Phone.h; sourceTree = "<group>"; };
 		7ED5D7B1115677D3007EB033 /* MyListHeaderViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListHeaderViewController_Phone.m; sourceTree = "<group>"; };
-		7ED62237115B924700917844 /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7ED62239115B924700917844 /* iTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EDDBC0F114FB04F009BBF80 /* BidAsk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidAsk.h; sourceTree = "<group>"; };
 		7EDDBC10114FB04F009BBF80 /* BidAsk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidAsk.m; sourceTree = "<group>"; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -248,8 +251,8 @@
 		7EF6FE861190246E0001D3A9 /* FeedsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedsTableViewController.h; sourceTree = "<group>"; };
 		7EF6FE871190246E0001D3A9 /* FeedsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedsTableViewController.m; sourceTree = "<group>"; };
 		7EF9464C11108D9F006B5CDE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
-		C73CE63510E7544200AF6D89 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
-		C73CE63610E7544200AF6D89 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		C73CE63510E7544200AF6D89 /* AboutViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_Phone.h; sourceTree = "<group>"; };
+		C73CE63610E7544200AF6D89 /* AboutViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_Phone.m; sourceTree = "<group>"; };
 		C78ECBB711C55D6F00EF81BC /* mTraderAppDelegate_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mTraderAppDelegate_Phone.h; path = Classes/mTraderAppDelegate_Phone.h; sourceTree = "<group>"; };
 		C78ECBB811C55D6F00EF81BC /* mTraderAppDelegate_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mTraderAppDelegate_Phone.m; path = Classes/mTraderAppDelegate_Phone.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -301,8 +304,8 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* mTrader.app */,
 				7E2DA15C11046873002CE93F /* LogicTests.octest */,
-				7ED62237115B924700917844 /* iTrader.app */,
-				7ED62239115B924700917844 /* iTraderTests.octest */,
+				7E179FF011C7B960001E7FE7 /* iTrader.app */,
+				7E179FF211C7B960001E7FE7 /* iTraderTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -334,10 +337,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7E179D7B11C78375001E7FE7 /* Nibs */,
 				7E377F7711171B650080A84B /* Documentation */,
 				C73CE2F710E3BE3E00AF6D89 /* Translations */,
 				7E419AFA10E20DD00007808B /* Graphics */,
-				7E377F8411171B970080A84B /* AboutView.xib */,
 				7E377F9A11171BC60080A84B /* mTrader-Info.plist */,
 				7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */,
 				7E2DA15D11046873002CE93F /* LogicTests-Info.plist */,
@@ -357,6 +360,14 @@
 				7EC00A29112ABD320092873A /* QuartzCore.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E179D7B11C78375001E7FE7 /* Nibs */ = {
+			isa = PBXGroup;
+			children = (
+				7E377F8411171B970080A84B /* AboutView_Phone.xib */,
+			);
+			name = Nibs;
 			sourceTree = "<group>";
 		};
 		7E2DA13911046094002CE93F /* Tests */ = {
@@ -418,12 +429,12 @@
 		7E419B1F10E20EDB0007808B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				7E7C97DA11A6C6FF00DFA31E /* NetworkDiagnosticViewController.h */,
-				7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m */,
-				7E419BC910E21A150007808B /* SettingsTableViewController.h */,
-				7E419BCA10E21A150007808B /* SettingsTableViewController.m */,
-				C73CE63510E7544200AF6D89 /* AboutViewController.h */,
-				C73CE63610E7544200AF6D89 /* AboutViewController.m */,
+				7E7C97DA11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.h */,
+				7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m */,
+				7E419BC910E21A150007808B /* SettingsTableViewController_Phone.h */,
+				7E419BCA10E21A150007808B /* SettingsTableViewController_Phone.m */,
+				C73CE63510E7544200AF6D89 /* AboutViewController_Phone.h */,
+				C73CE63610E7544200AF6D89 /* AboutViewController_Phone.m */,
 			);
 			name = Settings;
 			path = Classes;
@@ -702,6 +713,8 @@
 				7E9CD699111DAAC9009B0087 /* MyListNavigationController_Phone.m */,
 				7E29B80110F4B96500816D9B /* SymbolAddController_Phone.h */,
 				7E29B80210F4B96500816D9B /* SymbolAddController_Phone.m */,
+				7E179FED11C7B960001E7FE7 /* SymbolSearchController_Phone.h */,
+				7E179FEE11C7B960001E7FE7 /* SymbolSearchController_Phone.m */,
 			);
 			name = Table;
 			sourceTree = "<group>";
@@ -759,7 +772,7 @@
 			);
 			name = mTraderTesting;
 			productName = iTrader;
-			productReference = 7ED62237115B924700917844 /* iTrader.app */;
+			productReference = 7E179FF011C7B960001E7FE7 /* iTrader.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7E2DA19E11046F28002CE93F /* mTraderTests */ = {
@@ -777,7 +790,7 @@
 			);
 			name = mTraderTests;
 			productName = iTraderTests;
-			productReference = 7ED62239115B924700917844 /* iTraderTests.octest */;
+			productReference = 7E179FF211C7B960001E7FE7 /* iTraderTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -818,7 +831,7 @@
 			files = (
 				7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */,
 				7E377F8211171B7B0080A84B /* Localizable.strings in Resources */,
-				7E377F8B11171B970080A84B /* AboutView.xib in Resources */,
+				7E377F8B11171B970080A84B /* AboutView_Phone.xib in Resources */,
 				7E377F9911171BB10080A84B /* SettingsTab.png in Resources */,
 				7EA8DF09115BC2600034EB3D /* Mtrader_16.png in Resources */,
 				7E3451B11160A06D0099B393 /* mTraderIcon_57.png in Resources */,
@@ -891,10 +904,10 @@
 				7E377F7511171B300080A84B /* main.m in Sources */,
 				7E377F7311171B1C0080A84B /* mTraderAppDelegate_Pad.m in Sources */,
 				7E419AD910E20B920007808B /* MyListTableViewController_Phone.m in Sources */,
-				7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */,
+				7E419BCB10E21A150007808B /* SettingsTableViewController_Phone.m in Sources */,
 				7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */,
 				7E419C7010E2209B0007808B /* Communicator.m in Sources */,
-				C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */,
+				C73CE63710E7544200AF6D89 /* AboutViewController_Phone.m in Sources */,
 				7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */,
 				7E15C53010F32632007A45E8 /* Starter.m in Sources */,
 				7E15C7DD10F35A23007A45E8 /* MyListTableCell_Phone.m in Sources */,
@@ -937,12 +950,13 @@
 				7EBD16401192EEE5006CDAF5 /* mTraderDM.xcdatamodeld in Sources */,
 				7EAAFABA119AC78500B6600C /* MyListTableCellPad.m in Sources */,
 				7EA4D4ED119D6F6F00036EF6 /* ScrollViewPageControl.m in Sources */,
-				7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController.m in Sources */,
+				7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m in Sources */,
 				7E7C97DF11A6C75400DFA31E /* CPHost.m in Sources */,
 				7E3C9B8211AFB38D00B5EE52 /* OtherInfoView.m in Sources */,
 				7E3C9D0F11AFEC5D00B5EE52 /* TradesModalController.m in Sources */,
 				7E3C9D8011AFF87D00B5EE52 /* TradesInfoView.m in Sources */,
 				C78ECBB911C55D6F00EF81BC /* mTraderAppDelegate_Phone.m in Sources */,
+				7E179FEF11C7B960001E7FE7 /* SymbolSearchController_Phone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -961,10 +975,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E2DA17E11046EBC002CE93F /* MyListTableViewController_Phone.m in Sources */,
-				7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */,
+				7E2DA17F11046EBC002CE93F /* SettingsTableViewController_Phone.m in Sources */,
 				7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */,
 				7E2DA18111046EBC002CE93F /* Communicator.m in Sources */,
-				7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */,
+				7E2DA18411046EBC002CE93F /* AboutViewController_Phone.m in Sources */,
 				7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */,
 				7E2DA18911046EBC002CE93F /* Starter.m in Sources */,
 				7E2DA18A11046EBC002CE93F /* MyListTableCell_Phone.m in Sources */,

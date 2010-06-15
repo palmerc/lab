@@ -130,10 +130,9 @@
 #pragma mark -
 #pragma mark UI Actions
 - (void)add:(id)sender {
-	CGRect windowFrame = [[UIScreen mainScreen] bounds];
+	CGRect windowFrame = [[UIScreen mainScreen] applicationFrame];
 	SymbolAddController_Phone *symbolAddController = [[SymbolAddController_Phone alloc] initWithFrame:windowFrame];
 	symbolAddController.delegate = self;
-	symbolAddController.managedObjectContext = self.managedObjectContext;
 	
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:symbolAddController];
 	[symbolAddController release];

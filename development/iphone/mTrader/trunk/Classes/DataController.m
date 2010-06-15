@@ -6,6 +6,8 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 1
+
 #import "DataController.h"
 
 #import "mTraderCommunicator.h"
@@ -27,16 +29,12 @@ static DataController *sharedDataController = nil;
 @synthesize orderBookDelegate;
 @synthesize tradesDelegate;
 @synthesize searchDelegate;
-@synthesize communicator;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize managedObjectContext = _managedObjectContext;
 
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		communicator = [mTraderCommunicator sharedManager];
-		communicator.symbolsDelegate = self;
-		
 		_managedObjectContext = nil;
 		_fetchedResultsController = nil;
 	}
@@ -87,7 +85,9 @@ static DataController *sharedDataController = nil;
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort(); // Fail
+#endif
 	}
 }
 
@@ -99,6 +99,8 @@ static DataController *sharedDataController = nil;
  */
 
 - (void)addNewsFeeds:(NSArray *)feeds {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	feeds = [StringHelpers cleanComponents:feeds];
 	
 	NSString *allNewsLocalizedString = NSLocalizedString(@"AllNews", "All News Feeds Localization");
@@ -150,17 +152,23 @@ static DataController *sharedDataController = nil;
 	if (![self.managedObjectContext save:&error]) {
 		// Handle the error
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();
+#endif
 	}
 }
 
 - (void)addExchanges:(NSArray *)exchanges {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	exchanges = [StringHelpers cleanComponents:exchanges];
 	for (NSString *exchangeCode in exchanges) {
 		NSArray *exchangeComponents = [exchangeCode componentsSeparatedByString:@":"];
 		
 		if ([exchangeComponents count] != 4) {
+#if DEBUG
 			NSLog(@"Exchange %@ rejected. Improper number of fields");
+#endif
 			continue;
 		}
 		
@@ -202,7 +210,9 @@ static DataController *sharedDataController = nil;
 	if (![self.managedObjectContext save:&error]) {
 		// Handle the error
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();
+#endif
 	}
 }
 
@@ -218,7 +228,7 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)addSymbols:(NSString *)symbols {
-	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	//static NSInteger FEED_TICKER = 0;
 	static NSInteger TICKER_SYMBOL = 1;
@@ -236,7 +246,9 @@ static DataController *sharedDataController = nil;
 	for (NSString *row in rows) {
 		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
 		if ([stockComponents count] != FIELD_COUNT) {
+#if DEBUG
 			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
+#endif
 			continue;
 		}
 		stockComponents = [StringHelpers cleanComponents:stockComponents];
@@ -295,7 +307,9 @@ static DataController *sharedDataController = nil;
 	if (![self.managedObjectContext save:&error]) {
 		// Handle the error
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();  // Fail
+#endif
 	}
 }
 
@@ -304,6 +318,8 @@ static DataController *sharedDataController = nil;
  * update any rows necessary.
  */
 - (void)updateSymbols:(NSArray *)updates {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	static NSTimeZone *timeZone = nil;
 	if (timeZone == nil) {
 		timeZone = [NSTimeZone timeZoneWithName:@"CET"];
@@ -347,6 +363,9 @@ static DataController *sharedDataController = nil;
 		if (resultSetArray == nil)
 		{
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+			abort();
+#endif
 			continue;
 		}
 		
@@ -601,6 +620,9 @@ static DataController *sharedDataController = nil;
 	NSError *saveError;
 	if (![self.managedObjectContext save:&saveError]) {
 		NSLog(@"Unresolved error %@, %@", saveError, [saveError userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 }
 
@@ -719,6 +741,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)chartUpdate:(NSDictionary *)chartData {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSArray *feedTickerComponents = [[chartData objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
@@ -740,6 +764,8 @@ static DataController *sharedDataController = nil;
 }
 
 -(void) newsListFeedsUpdates:(NSArray *)newsList {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	static NSTimeZone *timeZone = nil;
 	if (timeZone == nil) {
 		timeZone = [NSTimeZone timeZoneWithName:@"CET"];
@@ -812,6 +838,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)newsItemUpdate:(NSArray *)newsItemContents {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	newsItemContents = [StringHelpers cleanComponents:newsItemContents];
 	NSString *feedArticle = [newsItemContents objectAtIndex:0];
 	NSString *body = [newsItemContents objectAtIndex:4];
@@ -836,6 +864,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)tradesUpdate:(NSDictionary *)updateDictionary {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	// TPVAY
 	// Time, Price, Volume, Buy/Seller, Type
 	
@@ -923,7 +953,9 @@ static DataController *sharedDataController = nil;
 	[alertView release];
 }
 
-- (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index {	
+- (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
@@ -944,6 +976,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -954,6 +989,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
@@ -969,6 +1006,9 @@ static DataController *sharedDataController = nil;
 	NSArray *bidAskArray = [self.managedObjectContext executeFetchRequest:bidAskRequest error:&bidAskError];
 	if (bidAskArray == nil)	{
 		NSLog(@"Unresolved error %@, %@", bidAskError, [bidAskError userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([bidAskArray count] == 1) {
@@ -979,6 +1019,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -995,6 +1037,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1005,6 +1050,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (NewsFeed *)fetchNewsFeedWithNumber:(NSString *)feedNumber {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1021,6 +1068,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1031,6 +1081,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)maxNewsArticles:(NSInteger)max {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1045,7 +1097,9 @@ static DataController *sharedDataController = nil;
 	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
 	if (array == nil) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		return;
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	for (int i = max; i < [array count]; i++) {
@@ -1055,6 +1109,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)deleteTradesForFeedTicker:(NSString *)feedTicker {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
@@ -1073,6 +1129,9 @@ static DataController *sharedDataController = nil;
 	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
 	if (array == nil) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	for (Trade *trade in array) {
@@ -1081,6 +1140,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)deleteAllNews {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1093,6 +1154,9 @@ static DataController *sharedDataController = nil;
 	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
 	if (array == nil) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	for (NewsArticle *newsArticle in array) {
@@ -1101,6 +1165,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)deleteAllBidsAsks {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BidAsk" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1111,6 +1177,9 @@ static DataController *sharedDataController = nil;
 	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
 	if (array == nil) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	for (NewsArticle *newsArticle in array) {
@@ -1119,6 +1188,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSString *)feedNumber {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1135,6 +1206,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1146,6 +1220,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (Feed *)fetchFeed:(NSString *)mCode {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1162,6 +1238,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1172,6 +1251,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (Feed *)fetchFeedByNumber:(NSString *)feedNumber {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1188,6 +1269,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1199,6 +1283,7 @@ static DataController *sharedDataController = nil;
 }
 
 - (Feed *)fetchFeedByName:(NSString *)feedName {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1215,6 +1300,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1225,6 +1313,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)deleteAllSymbols {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1235,6 +1325,9 @@ static DataController *sharedDataController = nil;
 	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
 	if (array == nil) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	for (Symbol *symbol in array) {
@@ -1243,6 +1336,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1259,6 +1354,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1269,6 +1367,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1281,6 +1381,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1291,6 +1394,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (NSArray *)fetchAllSymbols {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1304,6 +1409,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] >= 1) {
@@ -1314,6 +1422,8 @@ static DataController *sharedDataController = nil;
 }
 
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1330,6 +1440,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] == 1) {
@@ -1340,13 +1453,17 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)removeSymbol:(Symbol *)symbol {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", symbol.feed.feedNumber, symbol.tickerSymbol];
-	[communicator removeSecurity:feedTicker];
+	[[mTraderCommunicator sharedManager] removeSecurity:feedTicker];
 	
 	[self.managedObjectContext deleteObject:symbol];
 }
 
 + (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	NSAssert(managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BidAsk" inManagedObjectContext:managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1363,6 +1480,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] > 0) {
@@ -1373,6 +1493,8 @@ static DataController *sharedDataController = nil;
 }
 
 + (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	NSAssert(managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
@@ -1389,6 +1511,9 @@ static DataController *sharedDataController = nil;
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
 	}
 	
 	if ([array count] > 0) {
@@ -1402,6 +1527,8 @@ static DataController *sharedDataController = nil;
  Returns the fetched results controller. Creates and configures the controller if necessary.
  */
 - (NSFetchedResultsController *)fetchedResultsController {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }

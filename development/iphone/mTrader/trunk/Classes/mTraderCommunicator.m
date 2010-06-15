@@ -7,9 +7,11 @@
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
+#define DEBUG 1
 
 #import "mTraderCommunicator.h"
 
+#import "DataController.h"
 #import "QFields.h"
 #import "mTraderServerMonitor.h"
 #import "NSMutableArray+QueueAdditions.h"
@@ -21,7 +23,6 @@
 static mTraderCommunicator *sharedCommunicator = nil;
 @synthesize symbolsDelegate;
 @synthesize mTraderServerMonitorDelegate;
-@synthesize isLoggedIn;
 @synthesize communicator = _communicator;
 @synthesize defaults = _defaults;
 @synthesize blockBuffer = _blockBuffer;
@@ -29,6 +30,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 @synthesize currentLine = _currentLine;
 @synthesize state, contentLength;
 
+#pragma mark -
 #pragma mark Initialization, and Cleanup
 /**
  * Basic object setup and tear down
@@ -48,16 +50,19 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		_communicator.delegate = self;
 		_defaults = [UserDefaults sharedManager];
 		
-		isLoggedIn = NO;
 		loginStatusHasChanged = NO;
 		_blockBuffer = [[NSMutableArray alloc] init];
 		_qFields = nil;
 		contentLength = 0;
 		state = LOGIN;
+		
+		DataController *dataController = [DataController sharedManager];
+		symbolsDelegate = dataController;
 	}
 	return self;
 }
 
+#pragma mark -
 #pragma mark Singleton Methods
 /**
  * Methods for Singleton implementation
@@ -94,15 +99,15 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	return self;
 }
 
-#pragma mark Data Received
+#pragma mark -
+#pragma mark Communicator Delegate Methods
 
-/**
- * My little lexer
- */
 - (void)dataReceived {
 	NSData *data = [self.communicator readLine];
 	NSString *string = [self dataToString:data];
+#if DEBUG
 	NSLog(@"<< %@", string);
+#endif
 	if (![string isEqualToString:@"\r\r"]) {
 		[self.blockBuffer addObject:data];
 	} else {
@@ -123,9 +128,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
+#pragma mark -
+#pragma mark State Machine
+
 -(void) stateMachine {
 	while ([self.blockBuffer count] > 0) {
-		//NSLog(@"STATE: %d", state);
+#if DEBUG
+		NSLog(@"STATE: %d", state);
+#endif
 		switch (state) {
 			case HEADER:
 				[self headerParsing];
@@ -179,20 +189,21 @@ static mTraderCommunicator *sharedCommunicator = nil;
 				[self historyDataOK];
 				break;
 			default:
+#if DEBUG
 				NSLog(@"Invalid state: %d", state);
+#endif
 				break;
 		}
 	}
 }
 
-#pragma mark State Machine
 /**
  * State machine methods called from -(void)dataReceived
  *
  */
 
 
--(void) headerParsing {
+- (void)headerParsing {
 	NSData *data = [self.blockBuffer deQueue];
 	NSString *string = [self dataToString:data];
 	if ([string rangeOfString:@"Content-Length:"].location == 0) {
@@ -216,7 +227,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if (bytes == contentLength) {
 		contentLength = 0;
 	} else {
+#if DEBUG
 		NSLog(@"Fixed-length response didn't match advertised size: %d vs. %d", contentLength, bytes);
+#endif
 	}
 	
 	NSData *data = [self.blockBuffer deQueue];
@@ -227,14 +240,12 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
 			[self.mTraderServerMonitorDelegate loginFailed:@"UsrPwd"];
 		}
-		isLoggedIn = NO;
 		state = LOGIN;
 	} else if ([string rangeOfString:@"Request: login/failed.DeniedAccess"].location == 0) {
 		loginStatusHasChanged = YES;
 		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
 			[self.mTraderServerMonitorDelegate loginFailed:@"DeniedAccess"];
 		}
-		isLoggedIn = NO;
 		state = LOGIN;
 	} 
 }
@@ -297,7 +308,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			[self.mTraderServerMonitorDelegate loginSuccessful];
 		}
 		loginStatusHasChanged = YES;
-		isLoggedIn = YES;
 		
 		state = PREPROCESSING;
 	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
@@ -305,7 +315,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			[self.mTraderServerMonitorDelegate loginFailed:@"UsrPwd"];
 		}
 		loginStatusHasChanged = YES;
-		isLoggedIn = NO;
 	}
 }
 
@@ -747,6 +756,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)logout {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -757,6 +768,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -774,6 +787,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)removeSecurity:(NSString *)feedTicker {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -790,6 +805,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)staticDataForFeedTicker:(NSString *)feedTicker {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -812,6 +829,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
  *
  */
 - (void)setStreamingForFeedTicker:(NSString *)feedTicker {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO || self.qFields == nil) {
 		return;
 	}
@@ -846,6 +865,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)tradesRequest:(NSString *)feedTicker {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -867,6 +888,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -890,6 +913,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 // News Requests
 - (void)newsItemRequest:(NSString *)newsId {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -905,6 +930,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)newsListFeed:(NSString *)mCode {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -924,6 +951,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
@@ -941,14 +970,17 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)symbolSearch:(NSString *)symbol {
+	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
 	
 	NSString *ActionIncSearch = @"Action: incSearch";
 	NSString *Search = [NSString stringWithFormat:@"Search: %@", symbol];
+	NSString *maxCount = @"MaxHits: 50";
 	
-	NSArray *symbolSearchRequest = [NSArray arrayWithObjects:ActionIncSearch, Search, nil];
+	NSArray *symbolSearchRequest = [NSArray arrayWithObjects:ActionIncSearch, Search, maxCount, nil];
 	NSString *symbolSearchString = [self arrayToFormattedString:symbolSearchRequest];
 	
 	[self.communicator writeString:symbolSearchString];		
@@ -961,7 +993,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
  *
  */
 
--(NSString *) dataFromRHS:(NSString *)string {
+-(NSString *)dataFromRHS:(NSString *)string {
 	NSArray *array = [string componentsSeparatedByString:@":"];
 	NSString *value;
 	

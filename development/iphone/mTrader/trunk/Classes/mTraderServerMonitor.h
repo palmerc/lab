@@ -15,19 +15,22 @@
 @private
 	Reachability *_reachability;
 
-	
 	NSString *_server;
 	NSString *_port;
 	
-	BOOL _isConnected;
-	BOOL _isLoggedIn;
+	BOOL _connected;
+	BOOL _loggedIn;
 }
 @property (nonatomic, retain) Reachability *reachability;
 @property (nonatomic, retain) NSString *server;
 @property (nonatomic, retain) NSString *port;
+@property (readonly) BOOL loggedIn;
 
 + (mTraderServerMonitor *)sharedManager;
 - (void)attemptConnection;
+- (void)attemptLogin;
 - (void)startReachability;
+- (NSUInteger)bytesReceived;
+- (NSUInteger)bytesSent;
 
 @end

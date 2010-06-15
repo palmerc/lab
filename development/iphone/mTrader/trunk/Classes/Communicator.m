@@ -18,6 +18,8 @@
 @synthesize lineBuffer = _lineBuffer;
 @synthesize mutableDataBuffer = _mutableDataBuffer;
 @synthesize isConnected = _isConnected;
+@synthesize bytesReceived = _bytesReceived;
+@synthesize bytesSent = _bytesSent;
 
 #define DEBUG 0
 
@@ -41,6 +43,9 @@
 		
 		_lineBuffer = nil;
 		_mutableDataBuffer = nil;
+		
+		_bytesReceived = 0;
+		_bytesSent = 0;
 	}
 	return self;
 }
@@ -116,6 +121,7 @@
 	unsigned int len = 0;
 	
 	len = [aStream read:buffer maxLength:sizeof(buffer)];
+	_bytesReceived += len;
 	if (len > 0) {
 		NSData *data = [NSData dataWithBytes:(const void *)buffer length:len];
 		[self performSelectorOnMainThread:@selector(dataReceived:) withObject:data waitUntilDone:YES];
@@ -140,6 +146,7 @@
 		while (0 < bytesRemaining) {
 			int bytesWritten = 0;
 			bytesWritten = [self.outputStream write:theBytes maxLength:bytesRemaining];
+			_bytesSent += bytesWritten;
 			bytesRemaining -= bytesWritten;
 			theBytes += bytesWritten;
 		}

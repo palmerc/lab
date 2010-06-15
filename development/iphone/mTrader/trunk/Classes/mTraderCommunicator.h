@@ -48,7 +48,6 @@ enum {
 	Communicator *_communicator;
 	UserDefaults *_defaults;
 	
-	BOOL isLoggedIn;
 	BOOL loginStatusHasChanged;
 	BOOL symbolsDefined;
 	
@@ -64,7 +63,6 @@ enum {
 @property (nonatomic, assign) id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, assign) UserDefaults *defaults;
-@property (readonly) BOOL isLoggedIn;
 @property (nonatomic, retain) NSData *currentLine;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
 @property (nonatomic, retain) QFields *qFields;

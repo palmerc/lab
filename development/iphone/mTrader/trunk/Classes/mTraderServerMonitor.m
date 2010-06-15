@@ -6,11 +6,12 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "mTraderServerMonitor.h"
 
 #import "mTraderCommunicator.h"
 #import "UserDefaults.h"
-
 #import "Reachability.h"
 
 #import <arpa/inet.h>
@@ -21,6 +22,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 @synthesize reachability = _reachability;
 @synthesize server = _server;
 @synthesize port = _port;
+@synthesize loggedIn = _loggedIn;
 
 #pragma mark -
 #pragma mark Singleton Methods
@@ -64,7 +66,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		_isLoggedIn = NO;
+		_loggedIn = NO;
 		
 		self.server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
@@ -81,6 +83,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 #pragma mark Reachability
 
 - (void)updateReachability:(Reachability *)curReach {
+#if DEBUG
 	NetworkStatus netStatus = [curReach currentReachabilityStatus];
 	BOOL connectionRequired = [curReach connectionRequired];
 	
@@ -98,10 +101,11 @@ static mTraderServerMonitor *sharedMonitor = nil;
 			[self attemptConnection];
 			break;
 		default:
+			status = @"Reachability undefined";
 			break;
 	}
-	
 	NSLog(@"Network Status: %@  Required: %d", status, connectionRequired);
+#endif
 }
 
 - (void)reachabilityChanged:(NSNotification *)note {
@@ -114,22 +118,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 - (void)startReachability {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 	
-	NSMutableCharacterSet *ipAddrSet = [[[NSMutableCharacterSet alloc] init] autorelease];
-	[ipAddrSet addCharactersInString:@"0123456789."];
-	
-	NSArray *characters = [self.server componentsSeparatedByCharactersInSet:ipAddrSet];
-	if ([characters count] - 1 == [self.server length]) {
-		struct sockaddr_in hostAddress;
-		bzero(&hostAddress, sizeof(hostAddress));
-		hostAddress.sin_len = sizeof(hostAddress);
-		hostAddress.sin_family = AF_INET;
-		const char* addr = [self.server cStringUsingEncoding:NSASCIIStringEncoding];
-		hostAddress.sin_addr.s_addr = inet_addr(addr);
-		hostAddress.sin_port = [self.port integerValue];
-		_reachability = [[Reachability reachabilityWithAddress:&hostAddress] retain];
-	} else {
-		_reachability = [[Reachability reachabilityWithHostName:self.server] retain];
-	}
+	_reachability = [[Reachability reachabilityWithHostName:self.server] retain];
 	[self.reachability startNotifer];	
 }
 
@@ -146,13 +135,15 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 - (void)attemptConnection {
-	if (_isConnected == NO) {
+	if (_connected == NO) {
 		[[mTraderCommunicator sharedManager].communicator startConnection];
 	}
-	
-	if (_isConnected && !_isLoggedIn && [self hasUsernameAndPasswordDefined]) {
+}
+
+- (void)attemptLogin {
+	if (_connected && !_loggedIn && [self hasUsernameAndPasswordDefined]) {
 		[[mTraderCommunicator sharedManager] login];
-	}
+	}	
 }
 
 
@@ -160,18 +151,18 @@ static mTraderServerMonitor *sharedMonitor = nil;
 #pragma mark mTraderCommunicatorMonitorDelegate methods
 
 - (void)connected {
-	_isConnected = YES;
-	if (_isLoggedIn == NO) {
-		[self attemptConnection];
+	_connected = YES;
+	if (_loggedIn == NO) {
+		[self attemptLogin];
 	}
 }
 
 - (void)disconnected {
-	if (_isConnected == NO && _isLoggedIn == NO) {
+	if (_connected == NO && _loggedIn == NO) {
 		return;
 	}
-	_isConnected = NO;
-	_isLoggedIn = NO;
+	_connected = NO;
+	_loggedIn = NO;
 	
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
@@ -179,19 +170,21 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 - (void)loginFailed:(NSString *)message {
-	_isLoggedIn = NO;
+	_loggedIn = NO;
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
 }
 
 - (void)loginSuccessful {
-	_isLoggedIn = YES;
+	_loggedIn = YES;
 }
 
 -(void) kickedOut {
 	[self.reachability stopNotifer];
+#if DEBUG
 	NSLog(@"Kicked out");
+#endif
 	[[mTraderCommunicator sharedManager].communicator stopConnection];
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
 	[alertView show];
@@ -200,6 +193,14 @@ static mTraderServerMonitor *sharedMonitor = nil;
 
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
 	exit(0);
+}
+
+- (NSUInteger)bytesReceived {
+	return [[mTraderCommunicator sharedManager].communicator bytesReceived];
+}
+
+- (NSUInteger)bytesSent {
+	return [[mTraderCommunicator sharedManager].communicator bytesSent];
 }
 
 #pragma mark -
