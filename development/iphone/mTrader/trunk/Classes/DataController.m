@@ -430,7 +430,13 @@ static DataController *sharedDataController = nil;
 			if ([changeArrow isEqualToString:@"--"] == YES || [changeArrow isEqualToString:@"-"] == YES) {
 				symbol.symbolDynamicData.changeArrow = nil;
 			} else if ([changeArrow isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.changeArrow = [NSNumber numberWithInteger:[changeArrow integerValue]];
+				NSNumber *changeNumber = [NSNumber numberWithInteger:[changeArrow integerValue]];
+				symbol.symbolDynamicData.changeArrow = changeNumber;
+#if DEBUG
+				if ([changeArrow isEqualToString:@"1"] || [changeArrow isEqualToString:@"3"]) {
+					NSLog(@">>>Flash ticker symbol %@<<<", feedTicker);
+				}
+#endif
 			}
 		}
 		

@@ -8,13 +8,14 @@
 
 #import "mTraderCommunicatorUnitTests.h"
 
+#import "mTraderCommunicator.h"
 
 @implementation mTraderCommunicatorUnitTests
 
 #pragma mark Setup and Teardown
 
 -(void) setUp {
-	communicator = [iTraderCommunicator sharedManager];
+	communicator = [mTraderCommunicator sharedManager];
 }
 
 -(void) tearDown {

@@ -105,9 +105,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (void)dataReceived {
 	NSData *data = [self.communicator readLine];
 	NSString *string = [self dataToString:data];
-#if DEBUG
-	NSLog(@"<< %@", string);
-#endif
+
 	if (![string isEqualToString:@"\r\r"]) {
 		[self.blockBuffer addObject:data];
 	} else {
@@ -134,7 +132,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 -(void) stateMachine {
 	while ([self.blockBuffer count] > 0) {
 #if DEBUG
-		NSLog(@"STATE: %d", state);
+		NSMutableString *messageBlock = [NSMutableString string];
+		for (NSData *dataLine in self.blockBuffer) {
+			[messageBlock appendString:[self dataToString:dataLine]];
+		}
+		NSLog(@"STATE: %d for string: %@", state, messageBlock);
 #endif
 		switch (state) {
 			case HEADER:
@@ -452,6 +454,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)searchNoHit {
+	NSData *data = [self.blockBuffer deQueue];
+	NSString *string = [self dataToString:data];
+	
 	if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
 		[self.symbolsDelegate searchResults:nil];
 	}

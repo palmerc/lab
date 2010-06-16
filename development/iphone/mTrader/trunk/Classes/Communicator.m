@@ -114,8 +114,9 @@
 #pragma mark Threads For Reading and Writing
 - (void)readAvailableBytes:(NSInputStream *)aStream {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#if DEBUG
 	NSLog(@"%@", aStream);
-
+#endif
 	uint8_t buffer[4096];
 	bzero(buffer, sizeof(buffer));
 	unsigned int len = 0;

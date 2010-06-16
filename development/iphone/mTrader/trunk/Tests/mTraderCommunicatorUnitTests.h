@@ -7,7 +7,9 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "mTraderCommunicator.h"
+#import <UIKit/UIKit.h>
+
+@class mTraderCommunicator;
 
 @interface mTraderCommunicatorUnitTests : SenTestCase {
 	mTraderCommunicator *communicator;
