@@ -1,16 +1,16 @@
 //
-//  mTraderCommunicatorUnitTests.m
+//  mTraderCommunicatorTest.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 18.01.10.
-//  Copyright 2010 InFront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 16.06.10.
+//  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "mTraderCommunicatorUnitTests.h"
+#import "mTraderCommunicatorTest.h"
 
 #import "mTraderCommunicator.h"
 
-@implementation mTraderCommunicatorUnitTests
+@implementation mTraderCommunicatorTest
 
 #pragma mark Setup and Teardown
 
@@ -179,7 +179,7 @@
 	NSString *exchanges = @"Exchanges:";
 	NSString *newsFeeds = @"NewsFeeds:";
 	NSString *quotes = @"Quotes:";
-
+	
 	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, version, dload, serverIP, user, symbols, exchanges, newsFeeds, quotes, nil];
 	[communicator.communicator.lineBuffer addObjectsFromArray:block];
 	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
@@ -263,7 +263,7 @@
 
 -(void) testKeepAlives {
 	[self loginStarterUpper];
-
+	
 	NSString *request = @"Request: q";
 	
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"The line buffer was not zero.");
@@ -420,56 +420,56 @@
 	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
 }
 /*
-#pragma mark News Feeds Unit Tests
-
--(void) testNewsResponse {
-	[self loginStarterUpper];
-	NSString *httpHeader = @"HTTP/1.1 200 OK";
-	NSString *server = @"Server: MMS";
-	NSString *blank = @"";
-	NSString *request = @"Request: NewsBody/OK";
-	NSString *newsId = @"NewsID: ";
-	NSString *time = @"Time:";
-	NSString *flags = @"Flags:";
-	NSString *headline = @"Headline:";
-	NSString *body = @"Body:";
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, newsId, time, flags, headline, body, nil];
-	
-	[communicator.communicator.lineBuffer  setArray:block];
-	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	
-	for (int i=0; i < [block count]; i++) {
-		[communicator dataReceived];
-	}
-	STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
-	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
-	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
-	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
-}
-
--(void) testNewsListsFeeds {
-	[self loginStarterUpper];
-	
-	NSString *httpHeader = @"HTTP/1.1 200 OK";
-	NSString *server = @"Server: MMS";
-	NSString *blank = @"";
-	NSString *request = @"Request: NewsListFeeds/OK";
-	NSString *newsFeeds = @"NewsFeeds: AllNews";
-	// The news line is separated by '|' and 5 semi-colon separated fields.
-	NSString *news = @"News: 18182/19;;22.01;10:03;NOK Bond loan  FIBO1 Pro|17674/2842;;22.01;09:57;NeuroSearch/CEO: FDA giver positivt respons p. fase 3 protokol|1073/01221279;;22.01;09:56;DJ Handyhersteller Sony Ericsson d.mmt Verlust im unerwartet 4Q ein|17668/457832;;22.01;09:56;Formuepleje Pareto A/S Indrev.rdi Formuepleje Pareto A/S indre v.rdi: 236,7 pr. aktie.|17930/1f61d08805;;22.01;09:56;Westander : Westanders vinst .kar|17674/2841;F;22.01;09:55;***COLOPLAST/ALM BRAND: 'NEUTRAL' - KURSM.L 490 KR";
-	NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, newsFeeds, news, nil];
-	[communicator.communicator.lineBuffer  setArray:block];
-	STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
-	
-	for (int i=0; i < [block count]; i++) {
-		[communicator dataReceived];
-	}
-	STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
-	STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
-	STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
-	STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
-}
-*/
+ #pragma mark News Feeds Unit Tests
+ 
+ -(void) testNewsResponse {
+ [self loginStarterUpper];
+ NSString *httpHeader = @"HTTP/1.1 200 OK";
+ NSString *server = @"Server: MMS";
+ NSString *blank = @"";
+ NSString *request = @"Request: NewsBody/OK";
+ NSString *newsId = @"NewsID: ";
+ NSString *time = @"Time:";
+ NSString *flags = @"Flags:";
+ NSString *headline = @"Headline:";
+ NSString *body = @"Body:";
+ NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, newsId, time, flags, headline, body, nil];
+ 
+ [communicator.communicator.lineBuffer  setArray:block];
+ STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+ 
+ for (int i=0; i < [block count]; i++) {
+ [communicator dataReceived];
+ }
+ STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
+ STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+ STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+ STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+ }
+ 
+ -(void) testNewsListsFeeds {
+ [self loginStarterUpper];
+ 
+ NSString *httpHeader = @"HTTP/1.1 200 OK";
+ NSString *server = @"Server: MMS";
+ NSString *blank = @"";
+ NSString *request = @"Request: NewsListFeeds/OK";
+ NSString *newsFeeds = @"NewsFeeds: AllNews";
+ // The news line is separated by '|' and 5 semi-colon separated fields.
+ NSString *news = @"News: 18182/19;;22.01;10:03;NOK Bond loan  FIBO1 Pro|17674/2842;;22.01;09:57;NeuroSearch/CEO: FDA giver positivt respons p. fase 3 protokol|1073/01221279;;22.01;09:56;DJ Handyhersteller Sony Ericsson d.mmt Verlust im unerwartet 4Q ein|17668/457832;;22.01;09:56;Formuepleje Pareto A/S Indrev.rdi Formuepleje Pareto A/S indre v.rdi: 236,7 pr. aktie.|17930/1f61d08805;;22.01;09:56;Westander : Westanders vinst .kar|17674/2841;F;22.01;09:55;***COLOPLAST/ALM BRAND: 'NEUTRAL' - KURSM.L 490 KR";
+ NSArray *block = [self blockGeneratorWithObjects:httpHeader, server, blank, request, newsFeeds, news, nil];
+ [communicator.communicator.lineBuffer  setArray:block];
+ STAssertTrue([communicator.communicator.lineBuffer count] == [block count], @"The block buffer was not filled.");
+ 
+ for (int i=0; i < [block count]; i++) {
+ [communicator dataReceived];
+ }
+ STAssertTrue(communicator.contentLength == 0, @"The content length should be zero instead it was %d", communicator.contentLength);
+ STAssertTrue(communicator.state == PROCESSING, @"The state should be processing after login. State was %d", communicator.state);
+ STAssertTrue([communicator.blockBuffer count] == 0, @"The block buffer was not cleared out correctly");
+ STAssertTrue([communicator.communicator.lineBuffer count] == 0, @"Line buffer not emptied.");
+ }
+ */
 #pragma mark Helper Methods
 
 -(void) loginStarterUpper {
@@ -546,9 +546,9 @@
 
 -(void) logBlockBuffer {
 	for (NSData *data in communicator.blockBuffer) {
-		 NSLog(@">>>%@<<<", [self latin1DataToString:data]);
+		NSLog(@">>>%@<<<", [self latin1DataToString:data]);
 	}
-
+	
 }
 
 @end

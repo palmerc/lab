@@ -172,9 +172,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			case QUOTE:
 				[self quoteHandling];
 				break;
-			case SEARCHNOHIT:
-				[self searchNoHit];
-				break;
 			case SEARCHRESULTS:
 				[self searchResultsHandling];
 				 break;
@@ -269,7 +266,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	} else if ([string rangeOfString:@"Request: incSearch/OK"].location == 0) {
 		state = SEARCHRESULTS;
 	} else if ([string rangeOfString:@"Request: incSearch/failed.NoHit"].location == 0) {
-		state = SEARCHNOHIT;
+		[self searchNoHit];
 	} else if ([string rangeOfString:@"Request: Chart/OK"].location == 0) {
 		state = CHART;
 	} else if ([string rangeOfString:@"Request: StaticData/OK"].location == 0) {
@@ -454,9 +451,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)searchNoHit {
-	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
-	
 	if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
 		[self.symbolsDelegate searchResults:nil];
 	}

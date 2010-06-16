@@ -1,17 +1,18 @@
 //
-//  mTraderCommunicatorUnitTests.h
+//  mTraderCommunicatorTest.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 18.01.10.
-//  Copyright 2010 InFront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 16.06.10.
+//  Copyright 2010 Infront AS. All rights reserved.
 //
+
+#define USE_APPLICATION_UNIT_TEST 1
 
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
 
 @class mTraderCommunicator;
-
-@interface mTraderCommunicatorUnitTests : SenTestCase {
+@interface mTraderCommunicatorTest : SenTestCase {
 	mTraderCommunicator *communicator;
 }
 

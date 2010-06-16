@@ -111,8 +111,6 @@
 		7E3451C31160A13E0099B393 /* mTraderIcon_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mTraderIcon_512.png; sourceTree = "<group>"; };
 		7E3451CA1160A3770099B393 /* MyListTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyListTab.png; sourceTree = "<group>"; };
 		7E3451D51160AA560099B393 /* NewsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewsTab.png; sourceTree = "<group>"; };
-		7E377F6811171AEB0080A84B /* mTraderCommunicatorUnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mTraderCommunicatorUnitTests.h; path = Tests/mTraderCommunicatorUnitTests.h; sourceTree = "<group>"; };
-		7E377F6911171AEB0080A84B /* mTraderCommunicatorUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mTraderCommunicatorUnitTests.m; path = Tests/mTraderCommunicatorUnitTests.m; sourceTree = "<group>"; };
 		7E377F6E11171B000080A84B /* mTraderCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderCommunicator.h; sourceTree = "<group>"; };
 		7E377F6F11171B000080A84B /* mTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderCommunicator.m; sourceTree = "<group>"; };
 		7E377F7111171B1C0080A84B /* mTraderAppDelegate_Pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderAppDelegate_Pad.h; sourceTree = "<group>"; };
@@ -169,7 +167,8 @@
 		7E59A8C8113C1485001FD328 /* SymbolNewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsController.m; sourceTree = "<group>"; };
 		7E59A8CA113C14A0001FD328 /* ChartController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartController.h; sourceTree = "<group>"; };
 		7E59A8CB113C14A0001FD328 /* ChartController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartController.m; sourceTree = "<group>"; };
-		7E6003A411C8D3C2007AA7EC /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		7E649D9011C8FF8200D6C23B /* mTraderCommunicatorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderCommunicatorTest.h; sourceTree = "<group>"; };
+		7E649D9111C8FF8200D6C23B /* mTraderCommunicatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderCommunicatorTest.m; sourceTree = "<group>"; };
 		7E723B601129413E0073A07B /* OrderBookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookController.h; sourceTree = "<group>"; };
 		7E723B611129413E0073A07B /* OrderBookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookController.m; sourceTree = "<group>"; };
 		7E723BB411294B930073A07B /* OrderBookTableCellP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookTableCellP.h; sourceTree = "<group>"; };
@@ -293,7 +292,6 @@
 				7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */,
 				7EE2A71F11172B0100B682BD /* CoreData.framework */,
 				7EC00A29112ABD320092873A /* QuartzCore.framework */,
-				7E6003A411C8D3C2007AA7EC /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -309,8 +307,8 @@
 		7E2DA13911046094002CE93F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				7E377F6811171AEB0080A84B /* mTraderCommunicatorUnitTests.h */,
-				7E377F6911171AEB0080A84B /* mTraderCommunicatorUnitTests.m */,
+				7E649D9011C8FF8200D6C23B /* mTraderCommunicatorTest.h */,
+				7E649D9111C8FF8200D6C23B /* mTraderCommunicatorTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
