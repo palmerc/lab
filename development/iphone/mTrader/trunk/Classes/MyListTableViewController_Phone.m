@@ -93,7 +93,8 @@
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
-	if ([symbolDynamicData.changeArrow intValue] == 2 || [symbolDynamicData.changeArrow intValue] == 3) {
+	if (([symbolDynamicData.changeFlash boolValue] == YES) && ([symbolDynamicData.changeArrow intValue] == 2 || [symbolDynamicData.changeArrow intValue] == 3)) {
+		symbolDynamicData.changeFlash = NO;
 		UIColor *flashColor = [UIColor yellowColor];
 		UIColor *backgroundColor = [UIColor whiteColor];
 		[cell.contentView setBackgroundColor:flashColor];

@@ -16,6 +16,7 @@
 #import "SettingsTableViewController_Phone.h"
 
 #import "mTraderServerMonitor.h"
+#import "DataController.h"
 #import "Reachability.h"
 #import "Starter.h"
 #import "UserDefaults.h"

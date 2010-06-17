@@ -2,7 +2,7 @@
 //  SymbolDynamicData.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 22.03.10.
+//  Created by Cameron Lowell Palmer on 16.06.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -45,6 +45,7 @@
 @property (nonatomic, retain) NSNumber * changeArrow;
 @property (nonatomic, retain) NSNumber * open;
 @property (nonatomic, retain) NSString * askSize;
+@property (nonatomic, retain) NSNumber * changeFlash;
 @property (nonatomic, retain) NSNumber * askPrice;
 @property (nonatomic, retain) NSString * dividendDate;
 @property (nonatomic, retain) Symbol * symbol;

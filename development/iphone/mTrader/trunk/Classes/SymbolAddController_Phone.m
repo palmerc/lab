@@ -14,6 +14,7 @@
 #import "Feed.h"
 #import "QFields.h"
 #import "mTraderCommunicator.h"
+#import "DataController.h"
 
 @implementation SymbolAddController_Phone
 @synthesize delegate;
@@ -34,18 +35,23 @@
 - (void)viewDidLoad {
 	self.title = NSLocalizedString(@"addASymbol", @"Add a Symbol");
 			
-	UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
-	self.navigationItem.leftBarButtonItem = cancel;
-	[cancel release];
+	UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
+	self.navigationItem.rightBarButtonItem = done;
+	[done release];
+	
+	SymbolSearchController_Phone *symbolSearchContoller = [[SymbolSearchController_Phone alloc] init];
 	
 	CGRect searchFrame = self.view.bounds;
 	UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
-	[searchBar sizeToFit];
-	[self.view addSubview:searchBar];
+	symbolSearchContoller.searchBar = searchBar;
+	searchBar.delegate = symbolSearchContoller;
 	searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	searchBar.placeholder = NSLocalizedString(@"tickerSymbolOrName", @"Ticker Symbol or Name");
+	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+	searchBar.showsCancelButton = NO;
+	[searchBar sizeToFit];
+	[self.view addSubview:searchBar];
 	
-	SymbolSearchController_Phone *symbolSearchContoller = [[SymbolSearchController_Phone alloc] init];
 	CGRect tableFrame = self.view.bounds;
 	tableFrame.origin.y = searchBar.frame.size.height;
 	tableFrame.size.height -= searchBar.frame.size.height;
@@ -53,14 +59,6 @@
 	DataController *dataController = [DataController sharedManager];
 	dataController.searchDelegate = symbolSearchContoller;
 	[self.view addSubview:symbolSearchContoller.tableView];
-	
-	UISearchDisplayController *searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:symbolSearchContoller];
-	searchDisplayController.delegate = symbolSearchContoller;
-	searchDisplayController.searchResultsDataSource = symbolSearchContoller;
-	searchDisplayController.searchResultsDelegate = symbolSearchContoller;
-	
-	
-	[searchBar release];		
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,7 +81,7 @@
 #pragma mark -
 #pragma mark Actions
 
-- (void)cancel:(id)sender {
+- (void)done:(id)sender {
 	[self.delegate symbolAddControllerDidFinish:self didAddSymbol:nil];
 }
 
@@ -91,15 +89,14 @@
 #pragma mark Debugging methods
 
 // Very helpful debug when things seem not to be working.
-//- (BOOL)respondsToSelector:(SEL)sel {
-//	 NSLog(@"Queried about %@", NSStringFromSelector(sel));
-//	 return [super respondsToSelector:sel];
-//}
+- (BOOL)respondsToSelector:(SEL)sel {
+	 NSLog(@"Queried about %@", NSStringFromSelector(sel));
+	 return [super respondsToSelector:sel];
+}
 
 #pragma mark -
 #pragma mark Memory Management
 - (void)dealloc {
-	
 	[super dealloc];
 }
 

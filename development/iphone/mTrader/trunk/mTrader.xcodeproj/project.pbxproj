@@ -15,7 +15,6 @@
 		7E179FEF11C7B960001E7FE7 /* SymbolSearchController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E179FEE11C7B960001E7FE7 /* SymbolSearchController_Phone.m */; };
 		7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED41117371A00445735 /* StringHelpers.m */; };
 		7E29B80310F4B96500816D9B /* SymbolAddController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* SymbolAddController_Phone.m */; };
-		7E2A0921112C3D3C00CF5EE1 /* SymbolDynamicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */; };
 		7E2B93DC11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */; };
 		7E2D30A3112599BE0016CFD1 /* Chart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D30A2112599BE0016CFD1 /* Chart.m */; };
 		7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */; };
@@ -25,7 +24,6 @@
 		7E3451CB1160A3770099B393 /* MyListTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3451CA1160A3770099B393 /* MyListTab.png */; };
 		7E3451D61160AA560099B393 /* NewsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3451D51160AA560099B393 /* NewsTab.png */; };
 		7E377F7011171B000080A84B /* mTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F6F11171B000080A84B /* mTraderCommunicator.m */; };
-		7E377F7311171B1C0080A84B /* mTraderAppDelegate_Pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7211171B1C0080A84B /* mTraderAppDelegate_Pad.m */; };
 		7E377F7511171B300080A84B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7411171B300080A84B /* main.m */; };
 		7E377F8211171B7B0080A84B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F7D11171B7B0080A84B /* Localizable.strings */; };
 		7E377F8B11171B970080A84B /* AboutView_Phone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8411171B970080A84B /* AboutView_Phone.xib */; };
@@ -52,6 +50,8 @@
 		7E59A71E113BD9F2001FD328 /* TradesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A71D113BD9F2001FD328 /* TradesCell.m */; };
 		7E59A8C9113C1485001FD328 /* SymbolNewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A8C8113C1485001FD328 /* SymbolNewsController.m */; };
 		7E59A8CC113C14A0001FD328 /* ChartController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A8CB113C14A0001FD328 /* ChartController.m */; };
+		7E649F1F11C9139600D6C23B /* SymbolDynamicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E649F1E11C9139600D6C23B /* SymbolDynamicData.m */; };
+		7E64A03F11C931C500D6C23B /* SymbolSearchCoveringView_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E64A03E11C931C500D6C23B /* SymbolSearchCoveringView_Phone.m */; };
 		7E723B621129413E0073A07B /* OrderBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723B611129413E0073A07B /* OrderBookController.m */; };
 		7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723BB511294B930073A07B /* OrderBookTableCellP.m */; };
 		7E795A0A11590024006E35F4 /* SymbolNewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A0911590024006E35F4 /* SymbolNewsView.m */; };
@@ -65,7 +65,6 @@
 		7E9CD69A111DAAC9009B0087 /* MyListNavigationController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CD699111DAAC9009B0087 /* MyListNavigationController_Phone.m */; };
 		7EA4D4ED119D6F6F00036EF6 /* ScrollViewPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4D4EC119D6F6F00036EF6 /* ScrollViewPageControl.m */; };
 		7EA8DF09115BC2600034EB3D /* Mtrader_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8DF08115BC2600034EB3D /* Mtrader_16.png */; };
-		7EAAFABA119AC78500B6600C /* MyListTableCellPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAAFAB9119AC78500B6600C /* MyListTableCellPad.m */; };
 		7EAE508711185CD500B2FCB4 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508411185CD500B2FCB4 /* Feed.m */; };
 		7EAE508811185CD500B2FCB4 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508611185CD500B2FCB4 /* Symbol.m */; };
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
@@ -98,8 +97,6 @@
 		7E1B7ED41117371A00445735 /* StringHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringHelpers.m; sourceTree = "<group>"; };
 		7E29B80110F4B96500816D9B /* SymbolAddController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolAddController_Phone.h; sourceTree = "<group>"; };
 		7E29B80210F4B96500816D9B /* SymbolAddController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolAddController_Phone.m; sourceTree = "<group>"; };
-		7E2A091F112C3D3C00CF5EE1 /* SymbolDynamicData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDynamicData.h; sourceTree = "<group>"; };
-		7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDynamicData.m; sourceTree = "<group>"; };
 		7E2B93DA11048DE800DA0B91 /* mTraderServerMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderServerMonitor.h; sourceTree = "<group>"; };
 		7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderServerMonitor.m; sourceTree = "<group>"; };
 		7E2D30A1112599BE0016CFD1 /* Chart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chart.h; sourceTree = "<group>"; };
@@ -113,8 +110,6 @@
 		7E3451D51160AA560099B393 /* NewsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewsTab.png; sourceTree = "<group>"; };
 		7E377F6E11171B000080A84B /* mTraderCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderCommunicator.h; sourceTree = "<group>"; };
 		7E377F6F11171B000080A84B /* mTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderCommunicator.m; sourceTree = "<group>"; };
-		7E377F7111171B1C0080A84B /* mTraderAppDelegate_Pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderAppDelegate_Pad.h; sourceTree = "<group>"; };
-		7E377F7211171B1C0080A84B /* mTraderAppDelegate_Pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderAppDelegate_Pad.m; sourceTree = "<group>"; };
 		7E377F7411171B300080A84B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/main.m; sourceTree = "<group>"; };
 		7E377F7611171B430080A84B /* mTrader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTrader_Prefix.pch; sourceTree = "<group>"; };
 		7E377F7811171B650080A84B /* mTraderCommunicationProtocol.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mTraderCommunicationProtocol.tex; sourceTree = "<group>"; };
@@ -169,6 +164,10 @@
 		7E59A8CB113C14A0001FD328 /* ChartController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartController.m; sourceTree = "<group>"; };
 		7E649D9011C8FF8200D6C23B /* mTraderCommunicatorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderCommunicatorTest.h; sourceTree = "<group>"; };
 		7E649D9111C8FF8200D6C23B /* mTraderCommunicatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderCommunicatorTest.m; sourceTree = "<group>"; };
+		7E649F1D11C9139600D6C23B /* SymbolDynamicData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SymbolDynamicData.h; path = mTraderDM.xcdatamodeld/SymbolDynamicData.h; sourceTree = "<group>"; };
+		7E649F1E11C9139600D6C23B /* SymbolDynamicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SymbolDynamicData.m; path = mTraderDM.xcdatamodeld/SymbolDynamicData.m; sourceTree = "<group>"; };
+		7E64A03D11C931C500D6C23B /* SymbolSearchCoveringView_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolSearchCoveringView_Phone.h; sourceTree = "<group>"; };
+		7E64A03E11C931C500D6C23B /* SymbolSearchCoveringView_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolSearchCoveringView_Phone.m; sourceTree = "<group>"; };
 		7E723B601129413E0073A07B /* OrderBookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookController.h; sourceTree = "<group>"; };
 		7E723B611129413E0073A07B /* OrderBookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookController.m; sourceTree = "<group>"; };
 		7E723BB411294B930073A07B /* OrderBookTableCellP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookTableCellP.h; sourceTree = "<group>"; };
@@ -191,8 +190,6 @@
 		7EA4D4EB119D6F6F00036EF6 /* ScrollViewPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewPageControl.h; sourceTree = "<group>"; };
 		7EA4D4EC119D6F6F00036EF6 /* ScrollViewPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewPageControl.m; sourceTree = "<group>"; };
 		7EA8DF08115BC2600034EB3D /* Mtrader_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Mtrader_16.png; path = Resources/Mtrader_16.png; sourceTree = "<group>"; };
-		7EAAFAB8119AC78500B6600C /* MyListTableCellPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyListTableCellPad.h; path = Classes/MyListTableCellPad.h; sourceTree = "<group>"; };
-		7EAAFAB9119AC78500B6600C /* MyListTableCellPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyListTableCellPad.m; path = Classes/MyListTableCellPad.m; sourceTree = "<group>"; };
 		7EAE508311185CD500B2FCB4 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
 		7EAE508411185CD500B2FCB4 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		7EAE508511185CD500B2FCB4 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
@@ -253,7 +250,6 @@
 				C78ECB5311C4971300EF81BC /* Platform Independent */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				C78ECB9611C55A9400EF81BC /* iPhone */,
-				C78ECB9511C55A8600EF81BC /* iPad */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -330,16 +326,6 @@
 			);
 			name = en.lproj;
 			path = Resources/en.lproj;
-			sourceTree = "<group>";
-		};
-		7E419AC610E206190007808B /* AppDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				7E377F7111171B1C0080A84B /* mTraderAppDelegate_Pad.h */,
-				7E377F7211171B1C0080A84B /* mTraderAppDelegate_Pad.m */,
-			);
-			name = AppDelegate;
-			path = Classes;
 			sourceTree = "<group>";
 		};
 		7E419AFA10E20DD00007808B /* Graphics */ = {
@@ -429,8 +415,8 @@
 				7EC84D981154E9AF0083C82B /* NewsArticle.m */,
 				7EDDBC0F114FB04F009BBF80 /* BidAsk.h */,
 				7EDDBC10114FB04F009BBF80 /* BidAsk.m */,
-				7E2A091F112C3D3C00CF5EE1 /* SymbolDynamicData.h */,
-				7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */,
+				7E649F1D11C9139600D6C23B /* SymbolDynamicData.h */,
+				7E649F1E11C9139600D6C23B /* SymbolDynamicData.m */,
 				7E2D30A1112599BE0016CFD1 /* Chart.h */,
 				7E2D30A2112599BE0016CFD1 /* Chart.m */,
 				7EAE508311185CD500B2FCB4 /* Feed.h */,
@@ -593,16 +579,6 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		C78ECB9511C55A8600EF81BC /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				7EAAFAB8119AC78500B6600C /* MyListTableCellPad.h */,
-				7EAAFAB9119AC78500B6600C /* MyListTableCellPad.m */,
-				7E419AC610E206190007808B /* AppDelegate */,
-			);
-			name = iPad;
-			sourceTree = "<group>";
-		};
 		C78ECB9611C55A9400EF81BC /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
@@ -647,6 +623,8 @@
 				7E29B80210F4B96500816D9B /* SymbolAddController_Phone.m */,
 				7E179FED11C7B960001E7FE7 /* SymbolSearchController_Phone.h */,
 				7E179FEE11C7B960001E7FE7 /* SymbolSearchController_Phone.m */,
+				7E64A03D11C931C500D6C23B /* SymbolSearchCoveringView_Phone.h */,
+				7E64A03E11C931C500D6C23B /* SymbolSearchCoveringView_Phone.m */,
 			);
 			name = Table;
 			sourceTree = "<group>";
@@ -727,7 +705,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E377F7511171B300080A84B /* main.m in Sources */,
-				7E377F7311171B1C0080A84B /* mTraderAppDelegate_Pad.m in Sources */,
 				7E419AD910E20B920007808B /* MyListTableViewController_Phone.m in Sources */,
 				7E419BCB10E21A150007808B /* SettingsTableViewController_Phone.m in Sources */,
 				7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */,
@@ -748,7 +725,6 @@
 				7E2D30A3112599BE0016CFD1 /* Chart.m in Sources */,
 				7E723B621129413E0073A07B /* OrderBookController.m in Sources */,
 				7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */,
-				7E2A0921112C3D3C00CF5EE1 /* SymbolDynamicData.m in Sources */,
 				7E59A71B113BD9C2001FD328 /* TradesController.m in Sources */,
 				7E59A71E113BD9F2001FD328 /* TradesCell.m in Sources */,
 				7E59A8C9113C1485001FD328 /* SymbolNewsController.m in Sources */,
@@ -773,7 +749,6 @@
 				7EF2A556115A114C0049A8C1 /* SymbolNewsModalController.m in Sources */,
 				7EF6FE881190246E0001D3A9 /* FeedsTableViewController.m in Sources */,
 				7EBD16401192EEE5006CDAF5 /* mTraderDM.xcdatamodeld in Sources */,
-				7EAAFABA119AC78500B6600C /* MyListTableCellPad.m in Sources */,
 				7EA4D4ED119D6F6F00036EF6 /* ScrollViewPageControl.m in Sources */,
 				7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m in Sources */,
 				7E7C97DF11A6C75400DFA31E /* CPHost.m in Sources */,
@@ -782,6 +757,8 @@
 				7E3C9D8011AFF87D00B5EE52 /* TradesInfoView.m in Sources */,
 				C78ECBB911C55D6F00EF81BC /* mTraderAppDelegate_Phone.m in Sources */,
 				7E179FEF11C7B960001E7FE7 /* SymbolSearchController_Phone.m in Sources */,
+				7E649F1F11C9139600D6C23B /* SymbolDynamicData.m in Sources */,
+				7E64A03F11C931C500D6C23B /* SymbolSearchCoveringView_Phone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,7 +780,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -833,7 +810,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
@@ -883,7 +860,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;

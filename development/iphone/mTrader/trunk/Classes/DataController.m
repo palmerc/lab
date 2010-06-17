@@ -6,7 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#define DEBUG 1
+#define DEBUG 0
 
 #import "DataController.h"
 
@@ -217,9 +217,32 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)searchResults:(NSArray *)results {
-	if (self.searchDelegate && [self.searchDelegate respondsToSelector:@selector(searchResultsUpdate:)]) {
-		[self.searchDelegate searchResultsUpdate:results];
+	NSMutableArray *filteredResults = nil;
+	
+	for (NSArray *result in results) {
+		if (filteredResults == nil) {
+			filteredResults = [[NSMutableArray alloc] init];
+		}		
+		
+		NSString *feedTickerString = [result objectAtIndex:0];
+		NSArray *feedTickerComponents = [feedTickerString componentsSeparatedByString:@"/"];
+		NSAssert([feedTickerComponents count] == 2, @"Invalid Ticker");
+		NSString *feedNumberString = [feedTickerComponents objectAtIndex:0];
+		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+		NSNumber *feedNumber = [NSNumber numberWithInteger:[feedNumberString integerValue]];
+		
+		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];		
+		
+		if (symbol == nil) {
+			[filteredResults addObject:result];
+		}
 	}
+	
+	if (self.searchDelegate && [self.searchDelegate respondsToSelector:@selector(searchResultsUpdate:)]) {
+		[self.searchDelegate searchResultsUpdate:filteredResults];
+	}
+	
+	[filteredResults release];
 }
 
 - (void)replaceAllSymbols:(NSString *)symbols {
@@ -398,6 +421,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.lastTrade = nil;
 			} else if ([lastTrade isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.lastTrade = [NSNumber numberWithDouble:[lastTrade doubleValue]];
+#if DEBUG
+				NSLog(@"%@> Last:%@", feedTicker, lastTrade);
+#endif
 			}
 		}
 		
@@ -430,10 +456,12 @@ static DataController *sharedDataController = nil;
 			if ([changeArrow isEqualToString:@"--"] == YES || [changeArrow isEqualToString:@"-"] == YES) {
 				symbol.symbolDynamicData.changeArrow = nil;
 			} else if ([changeArrow isEqualToString:@""] == NO) {
+				NSNumber *changeFlash = [NSNumber numberWithBool:YES];
 				NSNumber *changeNumber = [NSNumber numberWithInteger:[changeArrow integerValue]];
+				symbol.symbolDynamicData.changeFlash = changeFlash;
 				symbol.symbolDynamicData.changeArrow = changeNumber;
 #if DEBUG
-				if ([changeArrow isEqualToString:@"1"] || [changeArrow isEqualToString:@"3"]) {
+				if ([changeArrow isEqualToString:@"2"] || [changeArrow isEqualToString:@"3"]) {
 					NSLog(@">>>Flash ticker symbol %@<<<", feedTicker);
 				}
 #endif

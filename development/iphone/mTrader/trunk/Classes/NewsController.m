@@ -95,9 +95,9 @@
 	feedsTableViewController.delegate = self;
 	feedsTableViewController.managedObjectContext = self.managedObjectContext;
 	
-#ifdef UI_USER_INTERFACE_IDIOM
-	_feedsPopover = [[UIPopoverController alloc] initWithContentViewController:feedsTableViewController];
-#endif
+//#ifdef UI_USER_INTERFACE_IDIOM
+//	_feedsPopover = [[UIPopoverController alloc] initWithContentViewController:feedsTableViewController];
+//#endif
 	[feedsTableViewController release];
 	
 	[super viewDidLoad];

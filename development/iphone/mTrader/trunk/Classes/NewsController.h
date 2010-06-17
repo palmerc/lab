@@ -23,9 +23,9 @@
 	NSFetchedResultsController *_feedsFetchedResultsController;
 	
 	UIBarButtonItem *feedBarButtonItem;
-#ifdef UI_USER_INTERFACE_IDIOM
-	UIPopoverController *_feedsPopover;
-#endif
+//#ifdef UI_USER_INTERFACE_IDIOM
+//	UIPopoverController *_feedsPopover;
+//#endif
 	FeedsTableViewController *feedsTableViewController;
 	
 	NewsFeed *_newsFeed;	

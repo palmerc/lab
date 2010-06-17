@@ -128,7 +128,7 @@
 		[self performSelectorOnMainThread:@selector(dataReceived:) withObject:data waitUntilDone:YES];
 	}
 		
-	[pool release];
+	[pool drain];
 }
 
 - (void)sendBytes:(NSString *)aString {
@@ -153,7 +153,7 @@
 		}
 	}
 	
-	[pool release];
+	[pool drain];
 }
 
 #pragma mark -

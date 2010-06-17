@@ -21,7 +21,6 @@ typedef enum {
 
 @interface SettingsTableViewController_Phone : UITableViewController <UITextFieldDelegate> {
 @private
-	CGRect _frame;
 	UIView *aboutView;
 	
 	UITextField *userTextField;

@@ -8,15 +8,21 @@
 
 #import "DataController.h"
 
+#import "SymbolSearchCoveringView_Phone.h"
+
 @class mTraderCommunicator;
 
-@interface SymbolSearchController_Phone : UITableViewController <SearchResultsDelegate, UISearchDisplayDelegate, UISearchBarDelegate> {
+@interface SymbolSearchController_Phone : UITableViewController <UISearchBarDelegate, SearchResultsDelegate, CoveringViewDelegate> {
 @private	
 	mTraderCommunicator *communicator;
 	
-	NSArray *_searchResults;
+	SymbolSearchCoveringView_Phone *_coveringView;
+	UISearchBar *_searchBar;
+	
+	NSMutableArray *_searchResults;
 }
 
-@property (nonatomic, retain) NSArray *searchResults;
+@property (assign) UISearchBar *searchBar;
+@property (nonatomic, retain) NSMutableArray *searchResults;
 
 @end
