@@ -18,6 +18,7 @@
 	
 	SymbolSearchCoveringView_Phone *_coveringView;
 	UISearchBar *_searchBar;
+	UILabel *_noResultsLabel;
 	
 	NSMutableArray *_searchResults;
 }

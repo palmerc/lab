@@ -21,7 +21,7 @@
 @synthesize bytesReceived = _bytesReceived;
 @synthesize bytesSent = _bytesSent;
 
-#define DEBUG 0
+#define DEBUG 1
 
 #pragma mark -
 #pragma mark Initialization, Description, and Cleanup

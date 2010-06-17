@@ -471,6 +471,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		data = [self.blockBuffer deQueue];
 		string = [self dataToString:data];
 	}
+	NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
+	NSArray *columns = [symbolsSansCRLF componentsSeparatedByString:@";"];
+	
+	[results addObject:columns];
 	
 	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
 		[self.symbolsDelegate searchResults:results];

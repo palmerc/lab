@@ -221,7 +221,7 @@ static DataController *sharedDataController = nil;
 	
 	for (NSArray *result in results) {
 		if (filteredResults == nil) {
-			filteredResults = [[NSMutableArray alloc] init];
+			filteredResults = [NSMutableArray array];
 		}		
 		
 		NSString *feedTickerString = [result objectAtIndex:0];
@@ -237,12 +237,14 @@ static DataController *sharedDataController = nil;
 			[filteredResults addObject:result];
 		}
 	}
-	
+		
 	if (self.searchDelegate && [self.searchDelegate respondsToSelector:@selector(searchResultsUpdate:)]) {
-		[self.searchDelegate searchResultsUpdate:filteredResults];
+		if ([filteredResults count] == 0) {
+			[self.searchDelegate searchResultsUpdate:nil];
+		} else {
+			[self.searchDelegate searchResultsUpdate:filteredResults];
+		}
 	}
-	
-	[filteredResults release];
 }
 
 - (void)replaceAllSymbols:(NSString *)symbols {

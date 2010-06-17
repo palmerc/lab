@@ -35,6 +35,24 @@
 #pragma mark UIViewController Delegate Methods
 
 - (void)viewDidLoad {
+	NSString *noResultsString = NSLocalizedString(@"noResults", @"No Results");
+	UIFont *noResultsFont = [UIFont boldSystemFontOfSize:24.0f];
+	CGSize noResultsSize = [noResultsString sizeWithFont:noResultsFont];
+	
+	CGPoint viewCenter = self.view.center;
+	CGRect noResultsLabelFrame = self.view.bounds;
+	noResultsLabelFrame.size.width = noResultsSize.width;
+	noResultsLabelFrame.size.height = noResultsSize.height;
+	noResultsLabelFrame.origin.x = viewCenter.x - floorf(noResultsSize.width / 2.0f);
+	
+	_noResultsLabel = [[UILabel alloc] initWithFrame:noResultsLabelFrame];
+	_noResultsLabel.text = noResultsString;
+	_noResultsLabel.textAlignment = UITextAlignmentLeft;
+	_noResultsLabel.font = noResultsFont;
+	_noResultsLabel.textColor = [UIColor darkGrayColor];
+	_noResultsLabel.hidden = YES;
+	[self.view addSubview:_noResultsLabel];
+	
 	_coveringView = [[SymbolSearchCoveringView_Phone alloc] initWithFrame:self.view.bounds];
 	_coveringView.delegate = self;
 	[self.view addSubview:_coveringView];
@@ -54,8 +72,10 @@
 
 - (void)searchResultsUpdate:(NSMutableArray *)results {
 	if (results == nil) {
+		_noResultsLabel.hidden = NO;
 		self.searchResults = [NSArray array];
 	} else {
+		_noResultsLabel.hidden = YES;
 		self.searchResults = results;
 	}
 
@@ -71,7 +91,13 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-	[communicator symbolSearch:searchText];
+	if ([searchText isEqualToString:@""]) {
+		_noResultsLabel.hidden = YES;
+		self.searchResults = [NSArray array];
+		[self.tableView reloadData];
+	} else {
+		[communicator symbolSearch:searchText];
+	}
 }
 
 #pragma mark -
@@ -85,20 +111,27 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
 	
-	NSArray *row = [self.searchResults objectAtIndex:indexPath.row];
+	if ([self.searchResults count] > 0) {
+		NSArray *row = [self.searchResults objectAtIndex:indexPath.row];
+		
+		NSString *feedTicker = [row objectAtIndex:0];
+		NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+		NSString *mCode = [row objectAtIndex:1];
+		NSString *description = [row objectAtIndex:2];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", tickerSymbol, mCode];
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", description];
+	} else {
+		cell.textLabel.text = NSLocalizedString(@"noResults", @"No Results");
+	}
 	
-	NSString *feedTicker = [row objectAtIndex:0];
-	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
-	NSString *mCode = [row objectAtIndex:1];
-	NSString *description = [row objectAtIndex:2];
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", tickerSymbol, mCode];
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", description];
-    return cell;	
+	return cell;	
 }
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
-	return [self.searchResults count];
+	NSInteger numberOfRows = [self.searchResults count];
+
+	return numberOfRows;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -129,6 +162,7 @@
 
 - (void)dealloc {
 	[_searchResults release];
+	[_noResultsLabel release];
 	[_coveringView release];
 	[super dealloc];
 }
