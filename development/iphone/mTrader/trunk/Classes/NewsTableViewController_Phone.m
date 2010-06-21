@@ -1,12 +1,12 @@
 //
-//  NewsController.m
+//  NewsTableViewController_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 01.03.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "NewsController.h"
+#import "NewsTableViewController_Phone.h"
 
 #import "mTraderAppDelegate_Phone.h"
 #import "UserDefaults.h"
@@ -16,33 +16,28 @@
 #import "NewsArticle.h"
 #import "Feed.h"
 #import "Symbol.h"
-#import "NewsCell.h"
-#import "NewsArticleController.h"
+#import "NewsTableViewCell_Phone.h"
+#import "NewsArticleController_Phone.h"
 #import "DataController.h"
 #import "QFields.h"
 
-@implementation NewsController
+@implementation NewsTableViewContoller_Phone
 @synthesize communicator;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize feedsFetchedResultsController = _feedsFetchedResultsController;
-#ifdef UI_USER_INTERFACE_IDIOM
-@synthesize feedsPopover = _feedsPopover;
-#endif
 @synthesize newsFeed = _newsFeed;
 
 #pragma mark -
 #pragma mark Initialization
 
-- (id)initWithMangagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+- (id)initWithFrame:(CGRect)frame {
 	self = [super init];
     if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_frame = frame;
+		_managedObjectContext = nil;
 		_fetchedResultsController = nil;
 		_feedsFetchedResultsController = nil;
-#ifdef UI_USER_INTERFACE_IDIOM
-		_feedsPopover = nil;
-#endif
 		_newsFeed = nil;
 		
 		UIImage* anImage = [UIImage imageNamed:@"NewsTab.png"];	
@@ -80,7 +75,9 @@
 	if (![self.feedsFetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();  // Fail
+#endif
 	}
 	
 	feedBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(feedBarButtonItemAction:)];
@@ -94,10 +91,6 @@
 	feedsTableViewController = [[FeedsTableViewController alloc] init];
 	feedsTableViewController.delegate = self;
 	feedsTableViewController.managedObjectContext = self.managedObjectContext;
-	
-//#ifdef UI_USER_INTERFACE_IDIOM
-//	_feedsPopover = [[UIPopoverController alloc] initWithContentViewController:feedsTableViewController];
-//#endif
 	[feedsTableViewController release];
 	
 	[super viewDidLoad];
@@ -116,14 +109,6 @@
 	
 	[communicator newsListFeed:self.newsFeed.mCode];
 }
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 #pragma mark -
 #pragma mark TableView datasource methods
@@ -153,16 +138,16 @@
     
     static NSString *CellIdentifier = @"NewsCell";
     
-    NewsCell *cell = (NewsCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NewsTableViewCell_Phone *cell = (NewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[NewsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[NewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
-- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.newsArticle = newsArticle;
 }
@@ -171,7 +156,7 @@
 #pragma mark TableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NewsArticleController *newsArticleController = [[NewsArticleController alloc] init];
+	NewsArticleController_Phone *newsArticleController = [[NewsArticleController_Phone alloc] init];
 
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	newsArticleController.newsArticle = newsArticle;
@@ -216,35 +201,20 @@
 }
 
 - (void)feedBarButtonItemAction:(id)sender {
-	BOOL iPad = NO;
-#ifdef UI_USER_INTERFACE_IDIOM
-	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
-#endif
+	FeedsTableViewController *feedsModalTableViewController = [[FeedsTableViewController alloc] init];
+	feedsModalTableViewController.delegate = self;
+	feedsModalTableViewController.managedObjectContext = self.managedObjectContext;
+	feedsModalTableViewController.title = @"Select News Feed";
 	
-	if (iPad) {
-#ifdef UI_USER_INTERFACE_IDIOM
-		if ([_feedsPopover isPopoverVisible]) {
-			[_feedsPopover dismissPopoverAnimated:YES];
-		} else {
-			[_feedsPopover presentPopoverFromBarButtonItem:feedBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-		}
-#endif
-	} else {
-		FeedsTableViewController *feedsModalTableViewController = [[FeedsTableViewController alloc] init];
-		feedsModalTableViewController.delegate = self;
-		feedsModalTableViewController.managedObjectContext = self.managedObjectContext;
-		feedsModalTableViewController.title = @"Select News Feed";
-
-		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:feedsModalTableViewController];
-				
-		UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:self action:@selector(doneBarButtonItemAction:)];
-		feedsModalTableViewController.navigationItem.leftBarButtonItem = doneBarButtonItem;
-		[doneBarButtonItem release];
-		[feedsModalTableViewController release];
-		
-		[self presentModalViewController:navController animated:YES];
-		[navController release];
-	}
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:feedsModalTableViewController];
+	
+	UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:self action:@selector(doneBarButtonItemAction:)];
+	feedsModalTableViewController.navigationItem.leftBarButtonItem = doneBarButtonItem;
+	[doneBarButtonItem release];
+	[feedsModalTableViewController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
 }
 
 - (void)doneBarButtonItemAction:(id)sender {
@@ -405,16 +375,10 @@
 
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
-#ifdef UI_USER_INTERFACE_IDIOM
-	self.feedsPopover = nil;
-#endif
 	self.newsFeed = nil;
 }
 
 - (void)dealloc {
-#ifdef UI_USER_INTERFACE_IDIOM
-	[_feedsPopover release];
-#endif	
 	[_fetchedResultsController release];
 	[_feedsFetchedResultsController release];
 

@@ -1,5 +1,5 @@
 //
-//  SymbolNewsController.h
+//  SymbolNewsController_Phone.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 01.03.10.
@@ -8,10 +8,10 @@
 
 
 @class Symbol;
-@class NewsCell;
+@class NewsTableViewCell_Phone;
 
 
-@interface SymbolNewsController : UITableViewController <NSFetchedResultsControllerDelegate> {
+@interface SymbolNewsController_Phone : UITableViewController <NSFetchedResultsControllerDelegate> {
 @private	
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
@@ -29,6 +29,6 @@
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
-- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 @end
 

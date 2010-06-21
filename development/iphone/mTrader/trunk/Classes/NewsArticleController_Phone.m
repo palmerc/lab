@@ -1,19 +1,20 @@
 //
-//  NewsArticleController.m
+//  NewsArticleController_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 03.03.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "NewsArticleController.h"
+#import "NewsArticleController_Phone.h"
+
+#import "NewsArticleView_Phone.h"
+
 #import "NewsFeed.h"
 #import "NewsArticle.h"
-
-#import "NewsArticleView.h"
 #import "StringHelpers.h"
 
-@implementation NewsArticleController
+@implementation NewsArticleController_Phone
 @synthesize newsArticle = _newsArticle;
 @synthesize newsArticleView = _newsArticleView;
 
@@ -28,7 +29,7 @@
 
 - (void)loadView {
 	CGRect frame = self.parentViewController.view.bounds;
-	_newsArticleView = [[NewsArticleView alloc] initWithFrame:frame];
+	_newsArticleView = [[NewsArticleView_Phone alloc] initWithFrame:frame];
 	self.view = _newsArticleView;
 }
 

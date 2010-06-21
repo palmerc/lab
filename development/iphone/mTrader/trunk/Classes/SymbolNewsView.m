@@ -8,7 +8,7 @@
 
 #import "SymbolNewsView.h"
 
-#import "SymbolNewsController.h"
+#import "SymbolNewsController_Phone.h"
 
 #import "Symbol.h"
 
@@ -22,7 +22,7 @@
     if (self = [super initWithFrame:frame]) {
         _symbol = nil;
 		
-		symbolNewsController = [[SymbolNewsController alloc] initWithManagedObjectContext:managedObjectContext];
+		symbolNewsController = [[SymbolNewsController_Phone alloc] initWithManagedObjectContext:managedObjectContext];
 		[self addSubview:symbolNewsController.view];
     }
     return self;

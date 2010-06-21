@@ -1,5 +1,5 @@
 //
-//  NewsArticleView.m
+//  NewsArticleView_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 03.03.10.
@@ -7,10 +7,10 @@
 //
 
 
-#import "NewsArticleView.h"
+#import "NewsArticleView_Phone.h"
 
 
-@implementation NewsArticleView
+@implementation NewsArticleView_Phone
 @synthesize scrollView = _scrollView;
 @synthesize feedLabel = _feedLabel;
 @synthesize dateTimeLabel = _dateTimeLabel;

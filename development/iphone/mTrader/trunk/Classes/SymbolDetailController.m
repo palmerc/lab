@@ -27,7 +27,7 @@
 #import "OrderBookController.h"
 #import "TradesController.h"
 #import "ChartController.h";
-#import "SymbolNewsModalController.h"
+#import "SymbolNewsModalController_Phone.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "QFields.h"

@@ -9,12 +9,12 @@
 #import "RoundedRectangle.h"
 
 @class Symbol;
-@class SymbolNewsController;
+@class SymbolNewsController_Phone;
 
 @interface SymbolNewsView : RoundedRectangle {
 	Symbol *_symbol;
 	
-	SymbolNewsController *symbolNewsController;
+	SymbolNewsController_Phone *symbolNewsController;
 	UIViewController *_viewController;
 }
 

@@ -1,25 +1,25 @@
 //
-//  NewsCell.m
+//  NewsTableViewCell_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 03.03.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "NewsCell.h"
+#import "NewsTableViewCell_Phone.h"
 #import "NewsFeed.h"
 #import "NewsArticle.h"
 
 #pragma mark -
 #pragma mark SubviewFrames category
 
-@interface NewsCell (SubviewFrames)
+@interface NewsTableViewCell_Phone (SubviewFrames)
 - (CGRect)_feedLabelFrame;
 - (CGRect)_headlineLabelFrame;
 - (CGRect)_dateTimeLabelFrame;
 @end
 
-@implementation NewsCell
+@implementation NewsTableViewCell_Phone
 @synthesize newsArticle = _newsArticle;
 
 #pragma mark -

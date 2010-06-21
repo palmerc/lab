@@ -320,9 +320,6 @@ static DataController *sharedDataController = nil;
 			symbol.symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
 			
 			[feed addSymbolsObject:symbol];
-			
-			NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", symbol.feed.feedNumber, symbol.tickerSymbol];
-			[[mTraderCommunicator sharedManager] staticDataForFeedTicker:feedTicker];
 		}
 		
 		index++;

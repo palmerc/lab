@@ -72,7 +72,7 @@
 		id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
 		return [sectionInfo name];
 	}
-	return nil;	
+	return nil;
 }
 
 // Customize the appearance of table view cells.

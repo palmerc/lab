@@ -88,11 +88,11 @@
 	self.time.frame = CGRectMake(leftPadding, globalY, maxWidth, timeFontSize.height);
 	globalY += timeFontSize.height;
 	
-	CGFloat toEdgePadding = self.padding + super.strokeWidth;
+	CGFloat toEdgePadding = ceilf(self.padding + super.strokeWidth * 2.0f);
 	CGFloat maxChartWidth = rect.size.width - toEdgePadding * 2.0f;
 	self.chart.frame = CGRectMake(toEdgePadding, globalY, maxChartWidth, globalY);
-	chartWidth = lroundf(maxChartWidth) - 1;
-	chartHeight = lroundf(globalY) - 1;
+	chartWidth = floorf(maxChartWidth) - 1.0f;
+	chartHeight = floorf(globalY) - 1.0f;
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
 	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:365 width:chartWidth height:chartHeight orientation:@"A"];

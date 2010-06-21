@@ -6,6 +6,8 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "MyListHeaderViewController_Phone.h"
 
 #import "MyListTableViewController_Phone.h"
@@ -19,8 +21,11 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super init];
 	if (self != nil) {
+		self.title = NSLocalizedString(@"MyList", @"My List tab label");
+
 		_frame = frame;
 		_tableViewController = nil;
+		_navigationController = nil;
 	}
 	return self;
 }
@@ -63,6 +68,7 @@
 	rightButton.backgroundColor = [UIColor whiteColor];
 	
 	_tableViewController = [[MyListTableViewController_Phone alloc] initWithFrame:aView.bounds];
+	_tableViewController.navigationController = self.navigationController;
 	[centerButton addTarget:self.tableViewController action:@selector(centerSelection:) forControlEvents:UIControlEventTouchUpInside];
 	[rightButton addTarget:self.tableViewController action:@selector(rightSelection:) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -74,7 +80,6 @@
 	[aView addSubview:rightButton];
 	[aView addSubview:self.tableViewController.view];
 	
-	//CGRect buttonFrame = CGRectMake(0.0f, 0.0f, 85.0f, 37.0f);
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;	
 	
 	// Setup right and left bar buttons
@@ -88,7 +93,6 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	self.title = NSLocalizedString(@"MyList", @"My List tab label");
 	self.tableViewController.managedObjectContext = self.managedObjectContext;
 }
 
@@ -112,14 +116,6 @@
 	
 	[communicator setStreamingForFeedTicker:nil];	
 }
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
 	[self.tableViewController toggleEditing];
@@ -146,11 +142,13 @@
 
 #pragma mark -
 #pragma mark Debugging methods
-//// Very helpful debug when things seem not to be working.
-//- (BOOL)respondsToSelector:(SEL)sel {
-//	NSLog(@"Queried about %@ in MyListViewController", NSStringFromSelector(sel));
-//	return [super respondsToSelector:sel];
-//}
+// Very helpful debug when things seem not to be working.
+#if DEBUG
+- (BOOL)respondsToSelector:(SEL)sel {
+	NSLog(@"Queried about %@ in MyListHeaderViewController_Phone", NSStringFromSelector(sel));
+	return [super respondsToSelector:sel];
+}
+#endif
 
 
 #pragma mark -
@@ -158,7 +156,7 @@
 - (void)dealloc {
 	[_managedObjectContext release];
 	[_tableViewController release];
-	
+	[_navigationController release];
     [super dealloc];
 }
 

@@ -7,7 +7,7 @@
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
-#define DEBUG 1
+#define DEBUG 0
 
 #import "mTraderCommunicator.h"
 
@@ -46,8 +46,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (id)initWithURL:(NSString *)url onPort:(NSInteger)port {
 	self = [super init];
 	if (self != nil) {
-		_communicator = [[Communicator alloc] initWithSocket:url onPort:port];
+		_communicator = [[Communicator alloc] initWithSocket:url onPort:port];		
 		_communicator.delegate = self;
+		
 		_defaults = [UserDefaults sharedManager];
 		
 		loginStatusHasChanged = NO;
@@ -1033,10 +1034,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (NSString *)dataToString:(NSData *)data {
-	NSString *string = [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
-	NSString *final = [NSString stringWithString:string];
-	[string release];
-	return final;
+	NSString *aString = [[[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding] autorelease];
+	return aString;
 }
 
 #pragma mark -

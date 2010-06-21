@@ -9,7 +9,8 @@
 
 #import "OrderBookModalController.h"
 #import "TradesModalController.h"
-#import "SymbolNewsModalController.h"
+#import "SymbolNewsModalController_Phone.h"
+
 #import "ChartController.h"
 #import "mTraderCommunicator.h"
 

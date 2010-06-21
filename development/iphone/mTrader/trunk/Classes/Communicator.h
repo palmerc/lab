@@ -9,9 +9,9 @@
 
 @protocol CommunicatorDataDelegate;
 
-@interface Communicator : NSOperation {
+@interface Communicator : NSObject {
 @private
-	id <CommunicatorDataDelegate> _delegate;
+	id <CommunicatorDataDelegate> delegate;
 	
 	NSString *_host;
 	NSInteger _port;
@@ -21,23 +21,21 @@
 	NSMutableArray *_lineBuffer;
 	NSMutableData *_mutableDataBuffer;
 	
-	BOOL _isConnected;
 	NSUInteger _bytesReceived;
 	NSUInteger _bytesSent;
 }
 
 @property (nonatomic, assign) id <CommunicatorDataDelegate> delegate;
-
 @property (nonatomic, retain) NSString *host;
 @property NSInteger port;
 @property (nonatomic, retain) NSInputStream *inputStream;
 @property (nonatomic, retain) NSOutputStream *outputStream;
 @property (nonatomic, retain) NSMutableArray *lineBuffer;
 @property (nonatomic, retain) NSMutableData *mutableDataBuffer;
+- (void)readAvailableBytes:(NSInputStream *)aStream;
+- (void)dataReceived:(NSData *)dataBlock;
 @property (readonly) NSUInteger bytesReceived;
 @property (readonly) NSUInteger bytesSent;
-
-@property BOOL isConnected;
 
 - (id)initWithSocket:(NSString *)host onPort:(NSInteger)port;
 - (void)startConnection;

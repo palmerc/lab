@@ -1,5 +1,5 @@
 //
-//  NewsArticleView.h
+//  NewsArticleView_Phone.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 03.03.10.
@@ -7,7 +7,7 @@
 //
 
 
-@interface NewsArticleView : UIView <UIScrollViewDelegate> {
+@interface NewsArticleView_Phone : UIView <UIScrollViewDelegate> {
 @private
 	UIScrollView *_scrollView;
 	UILabel *_headlineLabel;

@@ -6,6 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
 
 #import "MyListNavigationController_Phone.h"
 
@@ -28,14 +29,6 @@
 	return self;
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 
 	if ([viewController isMemberOfClass:MyListHeaderViewController_Phone.class]) {
@@ -49,11 +42,13 @@
 
 #pragma mark -
 #pragma mark Debugging methods
-//// Very helpful debug when things seem not to be working.
-//- (BOOL)respondsToSelector:(SEL)sel {
-//	NSLog(@"Queried about %@ in MyListNavigationController", NSStringFromSelector(sel));
-//	return [super respondsToSelector:sel];
-//}
+// Very helpful debug when things seem not to be working.
+#if DEBUG
+- (BOOL)respondsToSelector:(SEL)sel {
+	NSLog(@"Queried about %@ in MyListNavigationController", NSStringFromSelector(sel));
+	return [super respondsToSelector:sel];
+}
+#endif
 
 - (void)dealloc {
     [super dealloc];

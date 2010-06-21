@@ -1,28 +1,30 @@
 //
-//  SymbolNewsModalController.m
+//  SymbolNewsModalController_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 24.03.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "SymbolNewsModalController.h"
+#define DEBUG 0
+
+#import "SymbolNewsController_Phone.h"
 
 #import "mTraderCommunicator.h"
 #import "DataController.h"
-#import "NewsArticleController.h"
+#import "NewsArticleController_Phone.h"
 
-#import "NewsCell.h"
+#import "NewsTableViewCell_Phone.h"
 
 #import "Feed.h"
 #import "Symbol.h"
 #import "NewsArticle.h"
 
-@implementation SymbolNewsModalController
-@synthesize delegate;
+@implementation SymbolNewsController_Phone
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize symbol = _symbol;
+@synthesize newsAvailableLabel = _newsAvailableLabel;
 
 #pragma mark -
 #pragma mark Initialization
@@ -31,8 +33,10 @@
     if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
 		_fetchedResultsController = nil;
-		delegate = nil;
+		_newsAvailable = NO;
 		_symbol = nil;
+		
+		_newsAvailableLabel = nil;
 	}
     return self;
 }
@@ -43,7 +47,9 @@
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();  // Fail
+#endif
 	}
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
@@ -54,26 +60,37 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
+	NSString *labelString = @"No News Available";
+	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
+	CGRect frame = self.view.bounds;
+	frame.size.height = [labelString sizeWithFont:labelFont].height;
+	
+	_newsAvailableLabel = [[UILabel alloc] initWithFrame:frame];
+	self.newsAvailableLabel.textAlignment = UITextAlignmentCenter;
+	self.newsAvailableLabel.font = labelFont;
+	self.newsAvailableLabel.textColor = [UIColor blackColor];
+	self.newsAvailableLabel.backgroundColor = [UIColor clearColor];
+	self.newsAvailableLabel.text = labelString;
+	self.newsAvailableLabel.hidden = YES;
+	[self.tableView addSubview:self.newsAvailableLabel];
+	
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[self refresh:self];
-}
-
 /*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
+ */
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
+	self.fetchedResultsController = nil;
 }
 
 - (void)viewDidUnload {
@@ -92,7 +109,14 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+	NSUInteger noOfObjects = [sectionInfo numberOfObjects];
+	if (noOfObjects == 0) {
+		self.newsAvailableLabel.hidden = NO;
+	} else {
+		self.newsAvailableLabel.hidden = YES;
+	}
+	
+	return [sectionInfo numberOfObjects];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -109,16 +133,17 @@
     
     static NSString *CellIdentifier = @"NewsCell";
     
-    NewsCell *cell = (NewsCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NewsTableViewCell_Phone *cell = (NewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[NewsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[NewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-	[self configureCell:cell atIndexPath:indexPath animated:NO];
+	[self configureCell:cell atIndexPath:indexPath animated:NO];	
+		
     return cell;
 }
 
-- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.newsArticle = newsArticle;
 }
@@ -127,7 +152,7 @@
 #pragma mark TableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NewsArticleController *newsArticleController = [[NewsArticleController alloc] init];
+	NewsArticleController_Phone *newsArticleController = [[NewsArticleController_Phone alloc] init];
 	
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	newsArticleController.newsArticle = newsArticle;
@@ -221,16 +246,6 @@
 	[self.tableView endUpdates];
 }
 
-- (void)done:(id)sender {
-	[self.delegate symbolNewsModalControllerDidFinish:self];
-}
-
-- (void)refresh:(id)sender {
-	[[DataController sharedManager] deleteAllNews];
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[communicator symbolNewsForFeedTicker:feedTicker];
-}
 #pragma mark -
 #pragma mark Memory management
 
