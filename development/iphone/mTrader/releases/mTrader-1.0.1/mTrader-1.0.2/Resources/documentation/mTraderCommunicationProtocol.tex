@@ -1,0 +1,440 @@
+\documentclass[12pt,twoside,letterpaper]{report}
+\usepackage{graphicx}
+\usepackage{listings}
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9.0in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\parskip}{12pt}
+\pagestyle{plain}
+\raggedright
+\title{mTrader Server Protocol}
+\author{Cameron Lowell Palmer}
+\date{January 2010}
+\begin{document}
+\maketitle
+
+\section*{Protocol Description}
+The mTrader protocol is a TCP ASCII-encoded line-oriented communication protocol. Messages are transmitted without compression or encryption.
+
+The server at wireless.theonlinetrader.com can be connected to on port 7780.
+
+End-of-line (EOL) is defined as carriage-return "\textbackslash r" line-feed "\textbackslash n" or 0x0d 0x0a in hexidecimal.
+
+Each line of a request or response consists of a verb and the associated data separated by colon with the exception of the HTTP OK header.
+
+Requests begin with an action verb and any other necessary verbs to complete the request, each on a  separate line. A full request must be completed in ? seconds or the request will timeout. A trailing blank line indicates the end of the request.
+
+Responses are separated by two blank lines. 
+
+\section*{Issues With mTrader Server}
+\begin{itemize}
+\item IP header checksums from server are always zero. This is technical violation of the IP protocol.
+\item A user session can be hijacked without a password. (eg. Authorization: username)
+\item User data is plain text including login credentials.
+\item Update messages occur even when not being monitored, and even when messages are empty.
+\item Data is unencrypted, and uncompressed.
+\end{itemize}
+
+\chapter*{Basic Authentication and Session Handling}
+\section*{Header}
+A header always follows a request. In either streaming or non-streaming mode you will receive:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+\end{verbatim}
+
+If the connection is not in streaming mode the response will contain a content length message indicating the number of bytes in the response that will follow the header.
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+Content-length: xxxx
+\end{verbatim}
+
+\section*{Login Request}
+Typical format of a login request:
+\begin{verbatim}
+Action: Login
+Authorization: username/password
+Platform: ...
+Client: ...
+VerType: x.x
+ConnType: {Socket,Legacy}
+Streaming: {0,1}
+QFields: ...
+\end{verbatim}
+
+Options definitions:
+$$
+\begin{array}{lll}
+\texttt{Action} & \texttt{Login action} & \texttt{Required} \\
+\texttt{Authorization} & \texttt{Username and Password seperated by "/"} & \texttt{Required} \\
+\texttt{Platform} & \texttt{Name of the platform} & \texttt{optional} \\
+\texttt{Client} & \texttt{Name of the client} & \texttt{optional} \\
+\texttt{VerType} & \texttt{Version numer of client} & \texttt{optional} \\
+\texttt{ConnType} & \texttt{Can be equal to "Socket", or "Legacy"} & \texttt{optional} \\
+\texttt{Streaming} & \texttt{Can be equal to "0" (false) or "1" (true)} & \texttt{defaults to "0"} \\
+\texttt{QFields} & \texttt{See section on QFields} & \texttt{defaults to empty}
+\end{array}
+$$
+
+\section*{Login Response}
+Successful login response:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+Content-Length: xxxx
+
+Request: login/OK
+Version: x.xx.xx
+DLURL: 
+ServerIP: xxx.xxx.xxx.xxx
+User: username
+Symbols: ...
+Exchanges: ...
+NewsFeeds: ...
+Quotes: ...
+\end{verbatim}
+
+Failed login responses:
+\begin{itemize}
+\item Request: login/failed.UsrPwd
+\item Request: login/failed.DeniedAccess
+\end{itemize}
+
+A symbols response is composed of colon separated rows and semi-colon separated columns. For example:
+\lstset{
+	language=,
+	basicstyle=\ttfamily,
+	columns={flexible},
+	breaklines=true}
+\begin{lstlisting}
+Symbols: 18177/NHY;NHY;Norsk Hydro;Oslo Stocks [OSS];1;D;NO0005052605;15613:18177/OSEBX;OSEBX;Oslo Børs Benchmark Index;Oslo Stocks [OSS];2;D;NO0007035327;:18177/OPERA;OPERA;Opera Software;Oslo Stocks [OSS];1;D;NO0010040611;24121:18177/BLO;BLO;Blom;Oslo Stocks [OSS];1;D;NO0003679102;15092:18177/CRU;CRU;Crew Gold Corporation;Oslo Stocks [OSS];1;D;CA2265344028;15103:18177/FAIR;FAIR;Fairstar Heavy Transport;Oslo Stocks [OSS];1;D;NL0000026292;35746:18177/TTS;TTS;TTS Group;Oslo Stocks [OSS];1;D;NO0003049405;15343:18177/RXT;RXT;Reservoir Exploration  Technology;Oslo Stocks [OSS];1;D;NO0010277957;37316:18177/AKBM;AKBM;Aker BioMarine;Oslo Stocks [OSS];1;D;NO0003084006;15247:18177/GTB;GTB;Global Tender Barges;Oslo Stocks [OSS];1;D;NO0010052350;15183:18177/MELG;MELG;Melhus Sparebank;Oslo Stocks [OSS];1;D;NO0006001908;15219:18177/SBX;SBX;SeaBird Exploration;Oslo Stocks [OSS];1;D;CY0101162119;32724:18177/PDR;PDR;Petrolia Drilling;Oslo Stocks [OSS];1;D;NO0003075301;15257
+\end{lstlisting}
+the first response:
+\begin{verbatim}
+18177/NHY;NHY;Norsk Hydro;Oslo Stocks [OSS];1;D;NO0005052605;15613
+\end{verbatim}
+can be interpreted as:
+\begin{itemize}
+\item 18177/NHY - Feed Number/Symbol
+\item NHY - Symbol
+\item Norsk Hydro - Symbol Name
+\item Oslo Stocks [OSS] - Feed Description [Code]
+\item 1 - Symbol Type
+\item D - Orderbook Value
+\item NO0005052605 - International Securities Identification Number (ISIN)
+\item 15613 - Exchange Symbol
+\end{itemize}
+
+An exchanges response. For example:
+\begin{lstlisting}
+Exchanges: CME Indices [CMX](S),Deutsche Börse Indices [GEX](S),DJ Indices [WDJ](S),Hang Seng Indices [HSIX](S),ICE Futures [IPE](S),Nasdaq Indices [NSx](S),NDX Warrants [NDX](D),NGM Stocks [NGM](D),Nikkei Indices [NIK](S),NYSE Indices [NYx](S),Oslo Options [OSO](D),Oslo OTC Stocks [OTC](D),Oslo Stocks [OSS](D),Oslo Warrants [OSW](D),S&P Indices [SPx](S),Warsaw Indices [WSIx](S),World Commodities [WCO](S),World Deposits [WDE](S),World Forex [WFX](S),World Indices [WIX](S)
+\end{lstlisting}
+
+
+A newsfeed response. For example:
+\begin{lstlisting}
+NewsFeeds: Cision Sweden [CIS](S),DJ Nordic News Basic [DJND](S),Hugin Sweden [HUS](S),Nyhedsbureauet Direkt [DIRD](S),Nyhetsbyrån Direkt [DIR](S),OMX Copenhagen News [CSN](S),OMX Helsinki News [OMXH](S),OMX Stockholm News [SSI](S),Oslo News [OBI](S)
+\end{lstlisting}
+
+If the user has no defined symbols and the server doesn't apply a default set of symbols, then the Quotes line will not be sent.
+
+\section*{Keep-alive}
+In streaming mode, an empty or unspecified QFields, will result in no information returned but a keep-alive packet every 15 seconds will be returned.
+
+\section*{Kickout}
+When a user is kicked off because they logged in from another terminal while streaming is enabled, they will receive:
+
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+
+Request: q
+Kickout: 1
+\end{verbatim}
+
+Then their connection is closed.
+
+\section*{Logout}
+The J2ME mTrader client does not issue a logout command to the server on logout.
+
+An example of a valid Logout command is as follows:
+\begin{verbatim}
+Action: Logout
+
+HTTP/1.1 200 OK
+Server: MMS
+Content-Length: 4
+\end{verbatim}
+Followed by the server closing the connection.
+
+\section*{Streaming}
+To enable streaming, the client version must be greater than or equal to 2.2 and streaming set to be not equal to zero. Streaming can only be enabled during the initial login, and streaming mode can only be changed by disconnecting and reconnecting.
+
+For example:
+\begin{verbatim}
+VerType: 2.2
+Streaming: 1
+\end{verbatim}
+
+A QFields request must be provided during login or you will receive only an empty response whenever a value in you stocks list is updated. Or maybe this is the keep-alive set to every 15 seconds...
+
+To change the list of streamed QFields after starting:
+\begin{verbatim}
+Action: q
+Authorization: username
+QFields: ...
+\end{verbatim}
+
+You can also limit the streaming of symbols to a specific symbol with the SecOid field. This example is used for orderbook in the mTrader client.
+\begin{verbatim}
+Action: q
+Authorization: username
+SecOid: feedTicker
+QFields: l;cp;v;d
+\end{verbatim}
+
+The streamed updates will not begin with an HTTP header. Only new actions will receive a header preamble.
+
+\chapter*{Handling Different Request Types}
+\section*{Actions Descriptions}
+Valid Actions are:
+\begin{itemize}
+\item LOGIN Login Request
+\item Q Quote Request
+\item PORTREQ Portfolio Request
+\item ORDERSREQ Orders Request
+\item ADDSEC Add Security
+\item REMSEC Remove Security
+\item TRADE Trade Request
+\item TRADECHANGE Trade Change Request
+\item TRADECANCEL Trade Cancel Request
+\item STATDATA Security Info Request
+\item LOGOUT Logout Request
+\item CHART Chart Request
+\item HISTTRADES Trades History Request
+\item NEWSLIST News List Request
+\item NEWSLISTFEEDS News List Feeds Request
+\item NEWSBODY News Body Request
+\item POSITIONINFO Position Info Request
+\item ERROR Error Message
+\end{itemize}
+
+\section*{QFields Descriptions}
+QFields are specified using a semicolon seperated list of values:
+\begin{itemize}
+\item l - last trade
+\item cp - percent change
+\item b - bid price
+\item a - ask price
+\item av - ask volume
+\item bv - bid volume
+\item c - change
+\item h - high
+\item lo - low
+\item o - open
+\item v - volume
+\item d - orderdepth
+\end{itemize}
+
+An example QField:
+\begin{verbatim}
+QFields: l;cp;c
+\end{verbatim} 
+
+Responses will be returned in the order specified.
+
+\section*{The quote response}
+Following a successful quote action you will receive:
+
+\begin{enumerate}
+\item HTTP Header if not streaming
+\item Request: q
+\item Quotes: Exchange/Ticker;QFields
+\item Two blank lines
+\end{enumerate}
+
+The quote line is comprised of the exchage number and ticker symbol and the data requested via the QField. The data will be in the order specified in the QField separated by semicolons. However, the number of response fields per update will be truncated to the last field with a changed value. Requesting every QField (12 currently), for example, may not result in 12 fields returned in each response.
+
+\section*{Streaming Manipulation}
+
+
+\section*{Add a security}
+Both success and failure begin with the HTTP response header.
+
+\begin{verbatim}
+Action: addSec
+Authorization: username
+Search: tickerSymbol
+mCode: feedNameAndCode
+\end{verbatim}
+
+The mCode can include the full exchange name but the server only uses the three letter abbreviation between the square brackets and discards the rest.
+
+Successfully adding a security results in the response: 
+\begin{lstlisting}
+Request: addSec/OK
+SecInfo: feedNumber/tickerSymbol;tickerSymbol;tickerName;feedNameAndCode;1;orderBook;ISIN;tickerExchangeCode
+\end{lstlisting}
+
+Possible failed to add repsonses:
+\begin{itemize}
+\item Request: addSec/failed.AlreadyExists
+\item Request: addSec/failed.NoSuchSec
+\end{itemize}
+
+\section*{Remove a security}
+
+A request to remove a sercurity is made this way:
+\begin{verbatim}
+Action: remSec
+Authorization: username
+SecOid: feedNumber/tickerSymbol
+\end{verbatim}
+
+Both success and failure begin with the HTTP response header.
+
+Success results in:
+\begin{verbatim}
+Request: remSec/OK
+SecOid: feedNumber/tickerSymbol
+\end{verbatim}
+
+Possible failed to remove repsonses:
+\begin{itemize}
+\item Request: remSec/failed.CouldNotDelete
+\end{itemize}
+
+\section*{News Requests}
+\begin{verbatim}
+Action: NewsListFeeds
+Authorization: username
+NewsFeeds: Oslo News [OBI]
+Days: 30
+MaxCount: 30
+\end{verbatim}
+
+For an individual stock:
+
+\begin{verbatim}
+Action: NewsList
+Authorization: cameron
+SecOid: 18177/NHY
+Days: 30
+MaxCount: 30
+\end{verbatim}
+
+\section*{Stock Information Request}
+\begin{verbatim}
+Action: StatData
+Authorization: username
+SecOid: 18177/TEL
+Language: EN
+\end{verbatim}
+
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+
+Request: StaticData/OK
+SecOid: 14/IBM
+Staticdata: Bid:125.31;B Size:200;Ask:125.85;A Size:100;Pr Cls:125.53;Open:-;High:-;Low:-;Last:125.53;L +/-:0.86;L +/-%:0.69;O +/-:-;O +/-%:--;Volume:0;Turnover:0;OnVolume:0;OnValue:0;Time:-;VWAP:-;AvgVol:-;AvgVal:-;Status:;B Lot:-;BLValue:0;Shares:1314m;M Cap:164897m;Exchange:NYSE, Stocks;Country:United States;Description:International Business Machines Corp.;Symbol:IBM;ISIN:US4592001014;Currency:USD;
+\end{verbatim}
+
+The response is a semicolon separated set of Key:Value pairs. These pairs are:
+\begin{itemize}
+\item Bid
+\item Bid Size
+\item Ask
+\item Ask Size
+\item Price at close
+\item Open
+\item High
+\item Low
+\item Last
+\item Last change
+\item Last percent change
+\item Open change
+\item Open percent change
+\item Volume
+\item Turnover
+\item On volume
+\item On value
+\item Time of last trade
+\item VWAP
+\item Average volume
+\item Average value
+\item Status of trading
+\item Bid Lot
+\item Bid Lot value
+\item Outstanding shares
+\item Market capitalization
+\item Exchange
+\item Country
+\item Description
+\item Ticker Symbol
+\item ISIN
+\item Currency
+\end{itemize}
+
+\section*{Graph Request}
+\begin{verbatim}
+Action: Chart
+Authorization: username
+SecOid: feedTicker
+Period: 0 // Number of days to include, 0 means intraday
+ImgType: PNG // Could be GIF, BMP, WBMP, or PNG
+Width: x
+Height: x
+Orient: A // (A)uto, (H)orizontal, (V)ertical
+\end{verbatim}
+
+Response:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+
+Request: Chart/OK
+SecOid: feedTicker
+Width: x
+Height: x
+ImgType: PNG // or GIF
+ImageSize: xxx
+<ImageBegin>...<ImageEnd>
+\end{verbatim}
+
+
+\section*{OrderBook Data}
+OrderBook data is fixed at five orders. Ask and Bids are # separated and the price and size are separated by a \. Essentially the data is transmitted as a complete
+snapshot of the 5 bids and 5 asks and then the deltas are transmitted with unchanged cells being blank. The first first ask cell begins with a /. Clearly this is
+preformatted data and the delimeters triggered translation behavior in client.
+
+\section*{Trades}
+\begin{verbatim}
+Action: HistTrades
+Authorization: username
+SecOid: feedTicker
+Index: -1
+Count: 30
+Columns: TPVAY
+\end{verbatim}
+
+The index being -1 means provide the newest
+Columns: T - Time, P - Price, V - Volume, B - Buyer, S - Seller, A - Buyer & Seller, Y - Type 
+
+\begin{verbatim}
+HTTP/1.1 200 OK
+Server: MMS
+
+Request: HistTrades/OK
+SecOid: 18177/TEL
+FirstTrade: -1
+CountTrades: 985
+Trades: 11:52:06;75.85;100;/|11:52:06;75.85;900;/|
+\end{verbatim}
+
+\end{document}
