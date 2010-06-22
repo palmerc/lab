@@ -9,7 +9,7 @@
 
 @protocol CommunicatorDataDelegate;
 
-@interface Communicator : NSOperation {
+@interface Communicator : NSObject <NSStreamDelegate> {
 	id <CommunicatorDataDelegate> _delegate;
 	
 	NSString *_host;

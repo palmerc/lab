@@ -108,7 +108,7 @@
 	return CGRectMake(width * 3, 0.0, width, lineHeight);
 }
 
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect {	
 	CGFloat widthOfLabel = floorf(self.maxWidth / 4.0f);
 	CGFloat askWidth = [self.bidAsk.askPercent floatValue] * widthOfLabel;
 	CGFloat bidWidth = [self.bidAsk.bidPercent floatValue] * widthOfLabel;
@@ -123,6 +123,7 @@
 	CGContextFillRect(ctx, CGRectMake(widthOfLabel * 3, 0.0, askWidth, lineHeight));
 	
 	[super drawRect:rect];
+	[self setNeedsLayout];
 }
 
 - (void)setBidAsk:(BidAsk *)newBidAsk {
@@ -151,6 +152,7 @@
 	self.askValueLabel.text = [doubleFormatter stringFromNumber:self.bidAsk.askPrice];
 	
 	[self setNeedsDisplay];
+	[self setNeedsLayout];
 }
 
 #pragma mark -

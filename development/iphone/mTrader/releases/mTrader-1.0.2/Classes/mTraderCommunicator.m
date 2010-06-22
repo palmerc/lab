@@ -372,7 +372,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (void)chartHandling {
 	NSMutableDictionary *chart = [[NSMutableDictionary alloc] init];
 	NSMutableData *imageData = [[NSMutableData alloc] init];
-	NSString *imageSizeString;
 	
 	BOOL imageProcessing = NO;
 	
@@ -417,7 +416,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 				} else if ([string rangeOfString:@"ImgType:"].location == 0) {
 					[chart setObject:cleanedDataPortion forKey:@"type"];
 				} else if ([string rangeOfString:@"ImageSize:"].location == 0) {
-					imageSizeString = cleanedDataPortion;
 					[chart setObject:[NSNumber numberWithInteger:[cleanedDataPortion integerValue]] forKey:@"size"];
 				}
 			}

@@ -206,18 +206,19 @@ static SymbolDataController *sharedDataController = nil;
 - (void)addSymbols:(NSString *)symbols {
 	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
 
-	//static NSInteger FEED_TICKER = 0;
-	static NSInteger TICKER_SYMBOL = 1;
-	static NSInteger COMPANY_NAME = 2;
-	static NSInteger EXCHANGE_CODE = 3;
-	static NSInteger TYPE = 4;
-	static NSInteger ORDER_BOOK = 5;
-	static NSInteger ISIN = 6;
-	//static NSInteger EXCHANGE_NUMBER = 7;
-	static NSInteger FIELD_COUNT = 8;
+	//const NSInteger FEED_TICKER = 0;
+	const NSInteger TICKER_SYMBOL = 1;
+	const NSInteger COMPANY_NAME = 2;
+	const NSInteger EXCHANGE_CODE = 3;
+	const NSInteger TYPE = 4;
+	const NSInteger ORDER_BOOK = 5;
+	const NSInteger ISIN = 6;
+	//const NSInteger EXCHANGE_NUMBER = 7;
+	const NSInteger FIELD_COUNT = 8;
 	
 	// insert the objects
-	NSArray *rows = [symbols componentsSeparatedByString:@":"];	
+	static NSUInteger index = 0;
+	NSArray *rows = [symbols componentsSeparatedByString:@":"];
 	for (NSString *row in rows) {
 		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
 		if ([stockComponents count] != FIELD_COUNT) {
@@ -243,14 +244,15 @@ static SymbolDataController *sharedDataController = nil;
 		NSString *mCode = [exchangeCode substringWithRange:mCodeRange]; // OSS
 
 		
+		
 		// Prevent double insertions
 		Feed *feed = [self fetchFeed:mCode];		
-		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeed:mCode]; 
+		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeed:mCode];
+		
 		if (symbol == nil) {
 			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
 			symbol.tickerSymbol = tickerSymbol;
 			
-			symbol.index = [NSNumber numberWithInteger:[[[self.fetchedResultsController sections] objectAtIndex:0] numberOfObjects]];
 			symbol.companyName = companyName;
 			symbol.country = nil;
 			symbol.currency = nil;
@@ -269,6 +271,8 @@ static SymbolDataController *sharedDataController = nil;
 			
 			[feed addSymbolsObject:symbol];
 		}
+		symbol.index = [NSNumber numberWithInteger:index];
+		index++;
 	}
 	// save the objects
 	NSError *error;
@@ -817,7 +821,8 @@ static SymbolDataController *sharedDataController = nil;
 	NSString *alertMessage = @"The ticker symbol you requested is already in your list.";
 	NSString *alertCancel = @"Dismiss";
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
-	[alertView show];	
+	[alertView show];
+	[alertView release];
 }
 
 - (void)failedToAddNoSuchSecurity {
@@ -826,6 +831,7 @@ static SymbolDataController *sharedDataController = nil;
 	NSString *alertCancel = @"Dismiss";
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle message:alertMessage delegate:nil cancelButtonTitle:alertCancel otherButtonTitles:nil];
 	[alertView show];
+	[alertView release];
 }
 
 - (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index {	
@@ -1223,6 +1229,7 @@ static SymbolDataController *sharedDataController = nil;
 	// Create the sort descriptors array.
 	NSSortDescriptor *tickerDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.index" ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:tickerDescriptor, nil];
+	[tickerDescriptor release];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.

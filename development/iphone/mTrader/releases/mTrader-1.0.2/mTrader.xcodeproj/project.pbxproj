@@ -930,7 +930,7 @@
 				PRODUCT_NAME = mTrader;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -951,7 +951,7 @@
 				PRODUCT_NAME = mTrader;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
 		};
@@ -1114,16 +1114,16 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Cameron Palmer (Z25F57B2YT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cameron Palmer (Z25F57B2YT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cameron Lowell Palmer (43W5275D52)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cameron Lowell Palmer (43W5275D52)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "6D39B26E-C761-494D-B215-1547A8E3AEC5";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6D39B26E-C761-494D-B215-1547A8E3AEC5";
-				SDKROOT = iphoneos3.1.2;
+				PROVISIONING_PROFILE = "7CA7EFAF-4875-4E50-B69A-AD5A71D24CD9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7CA7EFAF-4875-4E50-B69A-AD5A71D24CD9";
+				SDKROOT = iphoneos3.2;
 			};
 			name = Distribution;
 		};
@@ -1144,7 +1144,7 @@
 				PRODUCT_NAME = mTrader;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.2;
 			};
 			name = Distribution;
 		};
@@ -1229,16 +1229,17 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cameron Lowell Palmer (43W5275D52)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cameron Lowell Palmer (43W5275D52)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				PROVISIONING_PROFILE = "7CA7EFAF-4875-4E50-B69A-AD5A71D24CD9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7CA7EFAF-4875-4E50-B69A-AD5A71D24CD9";
+				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -1252,11 +1253,13 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.2;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};

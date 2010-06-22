@@ -29,12 +29,6 @@
 	TradesInfoView *tradesBox;
 	OrderBookView *orderBox;
 	SymbolNewsView *newsBox;
-	
-	UIScrollView *scrollView;
-		
-	UIView *symbolsHeaderView;
-	UIView *tradesHeaderView;
-	UIView *fundamentalsHeaderView;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;

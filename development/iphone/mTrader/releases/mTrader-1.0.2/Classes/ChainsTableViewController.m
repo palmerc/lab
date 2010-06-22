@@ -111,7 +111,7 @@
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
-	if (animated == YES) {
+	if (animated == YES && [symbolDynamicData.changeArrow intValue] == 2 && [symbolDynamicData.changeArrow intValue] == 3) {
 		UIColor *flashColor = [UIColor yellowColor];
 		UIColor *backgroundColor = [UIColor whiteColor];
 		[cell.contentView setBackgroundColor:flashColor];
@@ -185,7 +185,8 @@
 		default:
 			break;
 	}
-	[self.tableView reloadData];
+	NSArray *visibleCells = [self.tableView indexPathsForVisibleRows];
+	[self.tableView reloadRowsAtIndexPaths:visibleCells withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)rightSelection:(id)sender {
@@ -208,7 +209,8 @@
 		default:
 			break;
 	}
-	[self.tableView reloadData];
+	NSArray *visibleCells = [self.tableView indexPathsForVisibleRows];
+	[self.tableView reloadRowsAtIndexPaths:visibleCells withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark -
@@ -231,7 +233,10 @@
 	// Create the sort descriptors array.
 	NSSortDescriptor *tickerDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.index" ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:tickerDescriptor, nil];
+	[tickerDescriptor release];
+
 	[fetchRequest setSortDescriptors:sortDescriptors];
+	[sortDescriptors release];
 	
 	// Create and initialize the fetch results controller.
 	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
@@ -241,7 +246,6 @@
 	// Memory management.
 	[aFetchedResultsController release];
 	[fetchRequest release];
-	[sortDescriptors release];
 	
 	return _fetchedResultsController;
 }

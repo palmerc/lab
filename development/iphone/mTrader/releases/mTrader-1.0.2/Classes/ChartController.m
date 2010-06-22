@@ -56,6 +56,7 @@
 	[chartPeriodSelector addTarget:self action:@selector(chartPeriodSelected:) forControlEvents:UIControlEventValueChanged];
 	
 	UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:chartPeriodSelector];
+	[chartPeriodSelector release];
 	[barButtonItem setStyle:UIBarButtonItemStyleBordered];
 	
 	CGRect mainFrame = [[UIScreen mainScreen] bounds];
@@ -64,10 +65,11 @@
 	_toolBar = [[UIToolbar alloc] initWithFrame:toolFrame];
 	
 	self.toolBar.items = [NSArray arrayWithObject:barButtonItem];
+	[barButtonItem release];
 	[self.navigationController.view addSubview:self.toolBar];
 	
 	CGRect chartFrame = CGRectMake(0.0f, viewFrame.origin.y, viewFrame.size.width, viewFrame.size.height - 44.0f * 2);
-	NSLog(@"%f %f %f %f", chartFrame.origin.x, chartFrame.origin.y, chartFrame.size.width, chartFrame.size.height);
+	//NSLog(@"%f %f %f %f", chartFrame.origin.x, chartFrame.origin.y, chartFrame.size.width, chartFrame.size.height);
 	_chart = [[UIImageView alloc] initWithFrame:chartFrame];
 	[self.view addSubview:self.chart];
 	
@@ -79,18 +81,6 @@
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
 	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 }
 
 - (void)updateChart {

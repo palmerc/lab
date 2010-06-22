@@ -84,6 +84,7 @@ static UserDefaults *sharedDefaults = nil;
 	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
 	[defaults setObject:self.username forKey:@"username"];
 	[defaults setObject:self.password forKey:@"password"];
+	[defaults release];
 }
 
 @end

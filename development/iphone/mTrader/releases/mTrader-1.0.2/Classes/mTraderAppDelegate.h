@@ -24,8 +24,6 @@ typedef enum {
 	
 	UIWindow *window;
 	UITabBarController *_tabController;
-	
-	NSUserDefaults *defaults;
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;

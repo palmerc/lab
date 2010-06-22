@@ -38,7 +38,6 @@
 	UIImageView *mTraderBranding = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 112.0f, 16.0f)];
 	mTraderBranding.image = mTraderImage;
 	
-	
 	CGRect buttonFrame = CGRectMake(0.0f, 2.0f, 85.0f, 37.0f);
 	buttonFrame.origin.x = frame.size.width - 85.0f * 2.0f - 4.0f;
 	UIButton *centerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -59,6 +58,8 @@
 	self.tableViewController.view.frame = frame;
 	
 	[aView addSubview:mTraderBranding];
+	[mTraderBranding release];
+
 	[aView addSubview:centerButton];
 	[aView addSubview:rightButton];
 	[aView addSubview:self.tableViewController.view];

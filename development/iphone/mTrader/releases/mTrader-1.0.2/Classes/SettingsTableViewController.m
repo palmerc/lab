@@ -107,7 +107,7 @@
 		}
 		
 		[cell addSubview:textField];
-		
+		[textField release];
 	} else if (indexPath.section == INFRONT) {
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 		[cell.textLabel setText:[infrontSectionArray objectAtIndex:indexPath.row]];
