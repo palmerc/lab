@@ -214,8 +214,8 @@
 		7EC84DA11154EDA20083C82B /* NewsFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeed.m; sourceTree = "<group>"; };
 		7ED5D7B0115677D3007EB033 /* MyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListViewController.h; sourceTree = "<group>"; };
 		7ED5D7B1115677D3007EB033 /* MyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListViewController.m; sourceTree = "<group>"; };
-		7ED62237115B924700917844 /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7ED62239115B924700917844 /* iTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ED62237115B924700917844 /* mTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ED62239115B924700917844 /* mTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EDDBC0F114FB04F009BBF80 /* BidAsk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidAsk.h; sourceTree = "<group>"; };
 		7EDDBC10114FB04F009BBF80 /* BidAsk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidAsk.m; sourceTree = "<group>"; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -285,8 +285,8 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* mTrader.app */,
 				7E2DA15C11046873002CE93F /* LogicTests.octest */,
-				7ED62237115B924700917844 /* iTrader.app */,
-				7ED62239115B924700917844 /* iTraderTests.octest */,
+				7ED62237115B924700917844 /* mTrader.app */,
+				7ED62239115B924700917844 /* mTraderTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -676,7 +676,7 @@
 			);
 			name = mTraderTesting;
 			productName = iTrader;
-			productReference = 7ED62237115B924700917844 /* iTrader.app */;
+			productReference = 7ED62237115B924700917844 /* mTrader.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7E2DA19E11046F28002CE93F /* mTraderTests */ = {
@@ -694,7 +694,7 @@
 			);
 			name = mTraderTests;
 			productName = iTraderTests;
-			productReference = 7ED62239115B924700917844 /* iTraderTests.octest */;
+			productReference = 7ED62239115B924700917844 /* mTraderTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -1157,13 +1157,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
-				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
+				INFOPLIST_FILE = "mTraderTesting-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
 				);
-				PRODUCT_NAME = iTrader;
+				PRODUCT_NAME = mTrader;
 			};
 			name = Distribution;
 		};
@@ -1211,7 +1211,7 @@
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				INFOPLIST_FILE = "mTraderTesting-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1221,7 +1221,7 @@
 					UIKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = iTraderTests;
+				PRODUCT_NAME = mTraderTests;
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
 			};
