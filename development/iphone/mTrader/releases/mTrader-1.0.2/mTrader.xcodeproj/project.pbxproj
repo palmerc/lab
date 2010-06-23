@@ -1119,11 +1119,13 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "7CA7EFAF-4875-4E50-B69A-AD5A71D24CD9";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7CA7EFAF-4875-4E50-B69A-AD5A71D24CD9";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Distribution;
 		};
@@ -1137,6 +1139,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
 				INFOPLIST_FILE = "mTrader-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
@@ -1144,7 +1147,7 @@
 				PRODUCT_NAME = mTrader;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Distribution;
 		};
