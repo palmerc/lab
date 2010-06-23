@@ -99,16 +99,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 /**
  * My little lexer
  */
-- (void)dataReceived {
-	NSData *data = [self.communicator readLine];
-	NSString *string = [self dataToString:data];
-	//NSLog(@"Received: %@", string);
-	if (![string isEqualToString:@"\r\r"]) {
-		[self.blockBuffer addObject:data];
-	} else {
-		[self stateMachine];
-		[self.blockBuffer removeAllObjects];
-	}
+- (void)dataReceived:(NSArray *)block {
+	[self.blockBuffer addObjectsFromArray:block];
+	[self stateMachine];
 }
 
 - (void)connected {
@@ -695,6 +688,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		qFields.askPrice = YES;
 		qFields.change = YES;
 		qFields.changePercent = YES;
+		qFields.changeArrow = YES;
 		self.qFields = qFields;
 		[qFields release];
 		NSString *QFieldsServerString = [NSString stringWithFormat:@"QFields: %@", [qFields getCurrentQFieldsServerString]];

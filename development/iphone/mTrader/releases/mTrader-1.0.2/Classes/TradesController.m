@@ -36,6 +36,8 @@
 }
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
 	table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -48,11 +50,11 @@
 	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
-	
-	[super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
 	CGRect viewFrame = self.view.bounds;
 	
 	CGFloat width = 320.0 / 3;
@@ -194,6 +196,8 @@
 }
 
 - (void)dealloc {
+	[self.symbol removeObserver:self forKeyPath:@"trades"];	
+
 	[_managedObjectContext release];
 	[_symbol release];
 	[_trades release];

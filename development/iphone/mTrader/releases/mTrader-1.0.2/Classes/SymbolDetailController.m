@@ -44,6 +44,8 @@
 }
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+	
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
 	UIScrollView* containerView = [[UIScrollView alloc] initWithFrame:self.view.frame];
@@ -75,7 +77,9 @@
 	[self.view addSubview:newsBox];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
 	[self changeQFieldsStreaming];
 }
 

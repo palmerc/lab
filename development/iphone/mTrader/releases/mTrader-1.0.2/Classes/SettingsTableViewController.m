@@ -48,6 +48,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
 	QFields *qFields = [[QFields alloc] init];
 	communicator.qFields = qFields;
 	[qFields release];

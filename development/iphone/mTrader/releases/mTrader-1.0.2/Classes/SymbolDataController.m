@@ -6,6 +6,8 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "SymbolDataController.h"
 
 #import "mTraderCommunicator.h"
@@ -372,7 +374,13 @@ static SymbolDataController *sharedDataController = nil;
 			if ([changeArrow isEqualToString:@"--"] == YES || [changeArrow isEqualToString:@"-"] == YES) {
 				symbol.symbolDynamicData.changeArrow = nil;
 			} else if ([changeArrow isEqualToString:@""] == NO) {
-				symbol.symbolDynamicData.changeArrow = [NSNumber numberWithInteger:[changeArrow integerValue]];
+				NSUInteger changeArrowInt = [changeArrow integerValue];
+				symbol.symbolDynamicData.changeArrow = [NSNumber numberWithInteger:changeArrowInt];
+#if DEBUG
+				if (changeArrowInt == 2 || changeArrowInt == 3) {
+					NSLog(@"Flash: %@", feedTicker);
+				}
+#endif
 			}
 		}
 		
@@ -778,13 +786,14 @@ static SymbolDataController *sharedDataController = nil;
 }
 
 - (void)tradesUpdate:(NSDictionary *)updateDictionary {
-	// Delete all trades
-
 	NSString *feedTicker = [updateDictionary objectForKey:@"feedTicker"];
 	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSString *feed = [feedTickerComponents objectAtIndex:0];
+	NSNumber *feedNumber = [NSNumber numberWithInteger:[feed integerValue]];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
-	
+
+	[self deleteAllTradesForTicker:tickerSymbol withFeed:feed];
+
 	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
 	
 	NSString *tradesString = [updateDictionary objectForKey:@"trades"];
@@ -979,6 +988,28 @@ static SymbolDataController *sharedDataController = nil;
 	
 	for (NewsArticle *newsArticle in array) {
 		[self.managedObjectContext deleteObject:newsArticle];
+	}	
+}
+
+- (void)deleteAllTradesForTicker:(NSString *)tickerSymbol withFeed:(NSString *)feed {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(symbol.feed.feedNumber=%@) AND (symbol.tickerSymbol=%@)", feed, tickerSymbol];
+	[request setPredicate:predicate];
+	
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	for (Trade *trade in array) {
+		[self.managedObjectContext deleteObject:trade];
 	}	
 }
 

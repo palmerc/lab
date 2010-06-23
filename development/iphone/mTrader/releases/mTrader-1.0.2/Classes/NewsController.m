@@ -46,7 +46,9 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {	
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
 	self.tableView.frame = self.view.bounds;
 	
 	communicator = [mTraderCommunicator sharedManager];

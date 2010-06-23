@@ -81,7 +81,9 @@
 	[addItem release];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
 	[self changeQFieldsStreaming];
 }
 
@@ -95,6 +97,7 @@
 	qFields.askPrice = YES;
 	qFields.change = YES;
 	qFields.changePercent = YES;
+	qFields.changeArrow = YES;
 	communicator.qFields = qFields;
 	[qFields release];
 	

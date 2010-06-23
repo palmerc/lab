@@ -28,10 +28,18 @@
 	self = [super init];
 	if (self != nil) {
 		self.managedObjectContext = managedObjectContext;
-		[SymbolDataController sharedManager].orderBookDelegate = self;
 		tableFont = [[UIFont systemFontOfSize:17.0] retain];
 	}
 	return self;
+}
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[SymbolDataController sharedManager].orderBookDelegate = self;
+}
+
+- (void)viewDidUnload {
+	[SymbolDataController sharedManager].orderBookDelegate = nil;
 }
 
 #pragma mark -

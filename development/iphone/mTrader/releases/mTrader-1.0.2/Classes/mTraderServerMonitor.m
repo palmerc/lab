@@ -6,6 +6,8 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "mTraderServerMonitor.h"
 
 #import "mTraderCommunicator.h"
@@ -83,26 +85,36 @@ static mTraderServerMonitor *sharedMonitor = nil;
 
 - (void)updateReachability:(Reachability *)curReach {
 	NetworkStatus netStatus = [curReach currentReachabilityStatus];
-	BOOL connectionRequired= [curReach connectionRequired];
 	
+#if DEBUG
 	NSString *status = nil;
+#endif
 	switch (netStatus) {
 		case NotReachable:
+#if DEBUG
 			status = @"Not reachable";
+#endif
 			break;
 		case ReachableViaWiFi:
+#if DEBUG
 			status = @"Reachable via WiFi";
+#endif
 			[self attemptConnection];
 			break;
 		case ReachableViaWWAN:
+#if DEBUG
 			status = @"Reachable via WWAN";
+#endif
 			[self attemptConnection];
 			break;
 		default:
 			break;
 	}
-	
+#if DEBUG
+	BOOL connectionRequired= [curReach connectionRequired];
+
 	NSLog(@"Network Status: %@  Required: %d", status, connectionRequired);
+#endif
 }
 
 - (void)reachabilityChanged:(NSNotification *)note {
@@ -115,22 +127,8 @@ static mTraderServerMonitor *sharedMonitor = nil;
 - (void)startReachability {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 	
-	NSMutableCharacterSet *ipAddrSet = [[[NSMutableCharacterSet alloc] init] autorelease];
-	[ipAddrSet addCharactersInString:@"0123456789."];
-	
-	NSArray *characters = [self.server componentsSeparatedByCharactersInSet:ipAddrSet];
-	if ([characters count] - 1 == [self.server length]) {
-		struct sockaddr_in hostAddress;
-		bzero(&hostAddress, sizeof(hostAddress));
-		hostAddress.sin_len = sizeof(hostAddress);
-		hostAddress.sin_family = AF_INET;
-		const char* addr = [self.server cStringUsingEncoding:NSASCIIStringEncoding];
-		hostAddress.sin_addr.s_addr = inet_addr(addr);
-		hostAddress.sin_port = [self.port integerValue];
-		_reachability = [[Reachability reachabilityWithAddress:&hostAddress] retain];
-	} else {
-		_reachability = [[Reachability reachabilityWithHostName:self.server] retain];
-	}
+	_reachability = [[Reachability reachabilityWithHostName:self.server] retain];
+
 	[self.reachability startNotifer];	
 }
 

@@ -44,6 +44,8 @@
 }
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:0];
     NSInteger count = [sectionInfo numberOfObjects];
 	NSInteger ossIndex = 0;

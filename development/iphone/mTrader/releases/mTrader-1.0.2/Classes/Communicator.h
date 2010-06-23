@@ -17,8 +17,10 @@
 	
 	NSInputStream *_inputStream;
 	NSOutputStream *_outputStream;
+	
 	NSMutableData *_dataBuffer;
 	NSMutableArray *_lineBuffer;
+	NSMutableArray *_blockBuffer;
 	
 	int previousByte;
 	BOOL _isConnected;
@@ -32,17 +34,21 @@
 @property (nonatomic, retain) NSOutputStream *outputStream;
 @property (nonatomic, retain) NSMutableData *dataBuffer;
 @property (nonatomic, retain) NSMutableArray *lineBuffer;
+@property (nonatomic, retain) NSMutableArray *blockBuffer;
+
 @property BOOL isConnected;
 
 - (id)initWithSocket:(NSString *)host onPort:(NSInteger)port;
 - (void)startConnection;
 - (void)stopConnection;
+- (void)processBuffer;
+- (void)processLines;
+- (void)dataReceived:(NSInputStream *)stream;
 - (void)writeString:(NSString *)string;
-- (NSData *)readLine;
 @end
 
 @protocol CommunicatorDataDelegate <NSObject>
-- (void)dataReceived;
+- (void)dataReceived:(NSArray *)lineBuffer;
 - (void)connected;
 - (void)disconnected;
 @end

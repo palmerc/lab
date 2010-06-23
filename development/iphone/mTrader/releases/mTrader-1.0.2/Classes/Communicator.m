@@ -5,6 +5,11 @@
 //  Created by Cameron Lowell Palmer on 17.12.09.
 //  Copyright 2009 Infront AS. All rights reserved.
 //
+
+#define DEBUG_INCOMING 0
+#define DEBUG_LEFTOVERS 0
+#define DEBUG_BLOCK 0
+
 #import "Communicator.h"
 #import "NSMutableArray+QueueAdditions.h"
 
@@ -17,6 +22,7 @@
 @synthesize outputStream = _outputStream;
 @synthesize dataBuffer = _dataBuffer;
 @synthesize lineBuffer = _lineBuffer;
+@synthesize blockBuffer = _blockBuffer;
 @synthesize isConnected = _isConnected;
 
 #pragma mark -
@@ -38,7 +44,8 @@
 		_dataBuffer = nil;
 		_isConnected = NO;
 		
-		_lineBuffer = [[NSMutableArray alloc] init];
+		_lineBuffer = nil;
+		_blockBuffer = nil;
 	}
 	return self;
 }
@@ -70,34 +77,7 @@
 
 			break;
 		case NSStreamEventHasBytesAvailable:
-		{
-			uint8_t currentByte;
-			int bytesRead = 0;
-			
-			if (_dataBuffer == nil) {
-				_dataBuffer = [[NSMutableData alloc] init];
-			}
-		
-			bytesRead = [self.inputStream read:&currentByte maxLength:1];
-			if (bytesRead == 1) {
-				[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
-				[self.dataBuffer appendBytes:&currentByte length:1];
-				
-				if ((previousByte == '\r' && currentByte == '\r') || (previousByte == '\r' && currentByte =='\n')) {
-					NSData *oneLine = [NSData dataWithData:self.dataBuffer];
-					[self.lineBuffer enQueue:oneLine];
-					if (self.delegate && [self.delegate respondsToSelector:@selector(dataReceived)]) {
-						[self.delegate dataReceived];
-					}
-					[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-					[_dataBuffer release];
-					_dataBuffer = nil;
-				}
-				
-				previousByte = currentByte;
-			}
-		}
+			[self dataReceived:(NSInputStream *)aStream];
 			break;
 		case NSStreamEventHasSpaceAvailable:
 			break;
@@ -116,6 +96,110 @@
 		default:
 			NSLog(@"default");
 	}
+	
+}
+
+- (void)dataReceived:(NSInputStream *)stream {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
+	uint8_t buffer[2048];
+	bzero(buffer, sizeof(buffer));
+	unsigned int len = 0;
+	
+	if (_dataBuffer == nil) {
+		_dataBuffer = [[NSMutableData alloc] init];
+	}
+	
+	len = [stream read:buffer maxLength:sizeof(buffer)];
+	if (len > 0) {
+		[self.dataBuffer appendBytes:buffer length:len];
+	}
+	
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	[self processBuffer];
+}
+
+- (void)processBuffer {
+	if (_lineBuffer == nil) {
+		_lineBuffer = [[NSMutableArray alloc] init];
+	}
+	
+	NSMutableData *dataBuffer = self.dataBuffer;
+	const char* characters = [dataBuffer mutableBytes];
+	
+	NSRange lineRange;
+	lineRange.location = 0;
+	lineRange.length = 0;
+	
+	NSRange bufferRange;
+	bufferRange.location = 0;
+	bufferRange.length = 0;
+	
+	char current = ' ';
+	char previous = ' ';
+	for (int i = 0; i < [dataBuffer length]; i++) {
+		current = characters[i];
+		if ((previous == '\r' && current == '\r') || (previous == '\r' && current == '\n')) {
+			lineRange.length = (i + 1) - lineRange.location;
+			NSData *oneLine = [dataBuffer subdataWithRange:lineRange];
+#if DEBUG_INCOMING
+			NSString *lineString = [[NSString alloc] initWithData:oneLine encoding:NSISOLatin1StringEncoding];
+			NSLog(@"\n>%@<", lineString);
+			[lineString release];
+#endif
+			
+			[self.lineBuffer enQueue:oneLine];
+
+			// Advance to the next character
+			lineRange.location = i + 1;
+			bufferRange.location = i + 1;
+		}
+		
+		previous = current;
+	}
+	
+	bufferRange.length = [dataBuffer length] - lineRange.location;
+	
+	NSData *leftovers = [dataBuffer subdataWithRange:bufferRange];
+#if DEBUG_LEFTOVERS
+	NSString *lineString = [[NSString alloc] initWithData:leftovers encoding:NSISOLatin1StringEncoding];
+	NSLog(@"\nLeftovers >>>%@<<<", lineString);
+	[lineString release];
+#endif
+	self.dataBuffer = [NSMutableData dataWithBytes:[leftovers bytes] length:[leftovers length]];
+	
+	[self processLines];
+}
+
+- (void)processLines {
+	char CRCR[] = "\r\r";
+	
+	while ([self.lineBuffer count] > 0) {
+		if (_blockBuffer == nil) {
+			_blockBuffer = [[NSMutableArray alloc] init];
+		}
+		
+		NSData *currentLine = [self.lineBuffer deQueue];
+#if DEBUG_BLOCK
+		NSString *lineString = [[NSString alloc] initWithData:currentLine encoding:NSISOLatin1StringEncoding];
+		NSLog(@"queue: %@", lineString);
+		[lineString release];
+#endif
+		
+		const char *bytes = [currentLine bytes];
+		if (strcmp(bytes, CRCR) == 0) {
+			// Complete block
+#if DEBUG_BLOCK
+			NSLog(@"Shipping block");
+#endif
+			if (self.delegate && [self.delegate respondsToSelector:@selector(dataReceived:)]) {			
+				[self.delegate dataReceived:self.blockBuffer];
+			}
+			self.blockBuffer = nil;
+		} else {
+			[self.blockBuffer enQueue:currentLine];
+		}
+	}	
 }
 
 /**
@@ -138,19 +222,6 @@
 			theBytes += bytesWritten;
 		}
 	}
-}
-
-/**
- * Read a line out of our queue
- *
- */
-- (NSData *)readLine {
-	NSData *oneLine = nil;
-	// dequeue strings until I find a \n
-	if ([self.lineBuffer count] > 0) {
-		oneLine = [self.lineBuffer deQueue];
-	}
-	return oneLine;
 }
 
 #pragma mark Connection Startup and Shutdown
@@ -206,6 +277,7 @@
 	[self.outputStream release];
 	[_dataBuffer release];
 	[_lineBuffer release];
+	[_blockBuffer release];
 	
 	[super dealloc];
 }

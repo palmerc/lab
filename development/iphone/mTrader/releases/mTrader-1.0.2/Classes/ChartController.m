@@ -24,9 +24,7 @@
 
 - (id)initWithSymbol:(Symbol *)symbol {
     if (self = [super init]) {
-		self.symbol = symbol;
-		[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
-		
+		self.symbol = symbol;		
 		_chart = nil;
 		
 		period = 0;
@@ -35,8 +33,11 @@
     return self;
 }
 
-- (void)viewDidLoad {	
+- (void)viewDidLoad {
+	[super viewDidLoad];
+
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
+	
 	
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -73,10 +74,12 @@
 	_chart = [[UIImageView alloc] initWithFrame:chartFrame];
 	[self.view addSubview:self.chart];
 	
-	[super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
+
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
@@ -93,8 +96,7 @@
 #pragma mark -
 #pragma mark Actions
 - (void)chartPeriodSelected:(id)sender {
-	NSLog(@"%@", sender);
-	UISegmentedControl *control = sender;
+	UISegmentedControl *control = (UISegmentedControl *)sender;
 	NSInteger index = control.selectedSegmentIndex;
 	switch (index) {
 		case 0:

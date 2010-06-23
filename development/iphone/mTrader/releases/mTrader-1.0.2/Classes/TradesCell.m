@@ -71,14 +71,14 @@
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	CGSize size = [@"X" sizeWithFont:mainFont];
 	
-	CGFloat width = screenBounds.size.width / 3;
+	CGFloat width = floorf(screenBounds.size.width / 3.0f);
 	return CGRectMake(8.0f, 0.0, width - 10.0f, size.height);
 }
 
 - (CGRect)_priceLabelFrame {
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = screenBounds.size.width / 3;
+	CGFloat width = floorf(screenBounds.size.width / 3.0f);
 	
 	return CGRectMake(width, 0.0, width - 6.0f, size.height);
 }
@@ -86,7 +86,7 @@
 - (CGRect)_volumeLabelFrame {
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = screenBounds.size.width / 3;
+	CGFloat width = floorf(screenBounds.size.width / 3.0f);
 	return CGRectMake(width * 2, 0.0, width - 10.0f, size.height);
 }
 
