@@ -29,10 +29,13 @@
 	TradesInfoView *tradesBox;
 	OrderBookView *orderBox;
 	SymbolNewsView *newsBox;
+	
+	BOOL _modalTransitionComplete;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
+@property BOOL modalTransitionComplete;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 - (void)changeQFieldsStreaming;

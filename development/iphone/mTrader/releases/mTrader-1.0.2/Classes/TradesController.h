@@ -14,13 +14,12 @@
 
 @interface TradesController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 @private
+	CGRect _frame;
+	
 	id <TradesControllerDelegate> delegate;
 	NSManagedObjectContext *_managedObjectContext;
 	
-	UITableView *table;
-	UIView *tradeTimeLabel;
-	UIView *tradePriceLabel;
-	UIView *tradeVolumeLabel;
+	UITableView *_table;
 	
 	Symbol *_symbol;
 	NSArray *_trades;
@@ -31,6 +30,7 @@
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) NSArray *trades;
 
+- (id)initWithFrame:(CGRect)frame;
 - (UIView *)setHeader:(NSString *)header withFrame:(CGRect)frame;
 - (void)configureCell:(TradesCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 - (void)updateTrades;

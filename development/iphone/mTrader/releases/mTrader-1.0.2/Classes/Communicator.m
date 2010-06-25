@@ -6,9 +6,11 @@
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
-#define DEBUG_INCOMING 0
+#define DEBUG_INCOMING 1
+#define DEBUG_OUTGOING 1
 #define DEBUG_LEFTOVERS 0
 #define DEBUG_BLOCK 0
+#define DEBUG_HANDLEEVENT 1
 
 #import "Communicator.h"
 #import "NSMutableArray+QueueAdditions.h"
@@ -67,9 +69,14 @@
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)streamEvent {
 	switch (streamEvent) {
 		case NSStreamEventNone:
+#if DEBUG_HANDLEEVENT
 			NSLog(@"NSStreamEventNone");
+#endif			
 			break;
 		case NSStreamEventOpenCompleted:
+#if DEBUG_HANDLEEVENT
+			NSLog(@"NSStreamEventOpenCompleted");
+#endif
 			if (self.delegate && [self.delegate respondsToSelector:@selector(connected)]) {
 				[self.delegate connected];
 			}
@@ -77,24 +84,39 @@
 
 			break;
 		case NSStreamEventHasBytesAvailable:
+#if DEBUG_HANDLEEVENT
+			NSLog(@"NSStreamEventHasBytesAvailable");
+#endif
 			[self dataReceived:(NSInputStream *)aStream];
 			break;
 		case NSStreamEventHasSpaceAvailable:
+#if DEBUG_HANDLEEVENT
+			NSLog(@"NSStreamEventHasSpaceAvailable");
+#endif
 			break;
 		case NSStreamEventErrorOccurred:
+#if DEBUG_HANDLEEVENT
+			NSLog(@"NSStreamEventErrorOccurred");
+#endif
 			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
 				[self.delegate disconnected];
 			}			
 			self.isConnected = NO;
 			break;
 		case NSStreamEventEndEncountered:
+#if DEBUG_HANDLEEVENT
+			NSLog(@"NSStreamEventEndEncountered");
+#endif
 			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
 				[self.delegate disconnected];
 			}
 			self.isConnected = NO;
 			break;
 		default:
+#if DEBUG_HANDLEEVENT
 			NSLog(@"default");
+#endif		
+			break;
 	}
 	
 }
@@ -104,12 +126,13 @@
 	
 	uint8_t buffer[2048];
 	bzero(buffer, sizeof(buffer));
-	unsigned int len = 0;
+	NSInteger len; 
 	
 	if (_dataBuffer == nil) {
 		_dataBuffer = [[NSMutableData alloc] init];
 	}
 	
+	len = 0;
 	len = [stream read:buffer maxLength:sizeof(buffer)];
 	if (len > 0) {
 		[self.dataBuffer appendBytes:buffer length:len];
@@ -144,7 +167,7 @@
 			NSData *oneLine = [dataBuffer subdataWithRange:lineRange];
 #if DEBUG_INCOMING
 			NSString *lineString = [[NSString alloc] initWithData:oneLine encoding:NSISOLatin1StringEncoding];
-			NSLog(@"\n>%@<", lineString);
+			NSLog(@"\n<<<-%@", lineString);
 			[lineString release];
 #endif
 			
@@ -166,6 +189,8 @@
 	NSLog(@"\nLeftovers >>>%@<<<", lineString);
 	[lineString release];
 #endif
+	[_dataBuffer release];
+	_dataBuffer = nil;
 	self.dataBuffer = [NSMutableData dataWithBytes:[leftovers bytes] length:[leftovers length]];
 	
 	[self processLines];
@@ -208,7 +233,9 @@
  */
 - (void)writeString:(NSString *)string {
 	if ([self.outputStream hasSpaceAvailable]) {
-		//NSLog(@"%@", string);
+#if DEBUG_OUTGOING
+		NSLog(@"\n->>>%@", string);
+#endif
 		NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
 		
 		// Convert it to a C-string

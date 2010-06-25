@@ -32,13 +32,15 @@
 @implementation SymbolDetailController
 @synthesize managedObjectContext;
 @synthesize symbol = _symbol;
+@synthesize modalTransitionComplete = _modalTransitionComplete;
 
 #pragma mark -
 #pragma mark Initialization
 
 - (id)initWithSymbol:(Symbol *)symbol {
     if (self = [super init]) {
-		self.symbol = symbol;
+		_symbol = [symbol retain];
+		_modalTransitionComplete = YES;
 	}
     return self;
 }
@@ -70,6 +72,7 @@
 	CGRect newsFrame = CGRectMake(0.0, 370.0, 320.0, 150.0);
 	newsBox = [[SymbolNewsView alloc] initWithFrame:newsFrame andManagedObjectContext:self.managedObjectContext];
 	newsBox.symbol = self.symbol;
+	newsBox.viewController = self;
 	
 	[self.view addSubview:lastBox];
 	[self.view addSubview:tradesBox];
@@ -86,7 +89,6 @@
 - (void)changeQFieldsStreaming {
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
-	[[SymbolDataController sharedManager] deleteAllNews];
 	[[SymbolDataController sharedManager] deleteAllBidsAsks];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
@@ -109,10 +111,14 @@
 }
 
 - (void)orderBook:(id)sender {
+	if (self.modalTransitionComplete == NO) {
+		return;
+	}
+	self.modalTransitionComplete = NO;
 	OrderBookModalController *orderBookController = [[OrderBookModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
 	orderBookController.symbol = self.symbol;
 	orderBookController.delegate = self;
-	orderBookController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	orderBookController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:orderBookController];
 	[orderBookController release];
@@ -122,10 +128,16 @@
 }
 
 - (void)trades:(id)sender {
-	TradesController *tradesController = [[TradesController alloc] initWithManagedObjectContext:self.managedObjectContext];
+	if (self.modalTransitionComplete == NO) {
+		return;
+	}
+	self.modalTransitionComplete = NO;
+	CGRect frame = CGRectMake(0.0f, 0.0f, 320.0f, 416.0f);
+	TradesController *tradesController = [[TradesController alloc] initWithFrame:frame];
+	tradesController.managedObjectContext = self.managedObjectContext;
 	tradesController.symbol = self.symbol;
 	tradesController.delegate = self;
-	tradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	tradesController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tradesController];
 	[tradesController release];
@@ -135,9 +147,13 @@
 }
 
 - (void)chart:(id)sender {
+	if (self.modalTransitionComplete == NO) {
+		return;
+	}
+	self.modalTransitionComplete = NO;
 	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
 	chartController.delegate = self;
-	chartController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	chartController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
 	[chartController release];
@@ -148,10 +164,14 @@
 
 
 - (void)news:(id)sender {
+	if (self.modalTransitionComplete == NO) {
+		return;
+	}
+	self.modalTransitionComplete = NO;
 	SymbolNewsModalController *symbolNewsController = [[SymbolNewsModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
 	symbolNewsController.symbol = self.symbol;
 	symbolNewsController.delegate = self;
-	symbolNewsController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	symbolNewsController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:symbolNewsController];
 	[symbolNewsController release];
@@ -162,20 +182,24 @@
 
 - (void)orderBookModalControllerDidFinish:(OrderBookModalController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
+	self.modalTransitionComplete = YES;
 }
 
 - (void)tradesControllerDidFinish:(TradesController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
+	self.modalTransitionComplete = YES;
 }
 
 - (void)chartControllerDidFinish:(ChartController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 
 	[lastBox setNeedsDisplay];
+	self.modalTransitionComplete = YES;
 }
 
 - (void)symbolNewsModalControllerDidFinish:(SymbolNewsModalController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
+	self.modalTransitionComplete = YES;
 }
 
 

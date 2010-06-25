@@ -25,23 +25,57 @@
 @synthesize symbol = _symbol;
 @synthesize trades = _trades;
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+- (id)initWithFrame:(CGRect)frame {
 	self = [super init];
 	if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_frame = frame;
+		_managedObjectContext;
 		_symbol = nil;
 		_trades = nil;
+		
+		_table = nil;
 	}
 	return self;
 }
 
+- (void)loadView {
+	UIView *aView = [[UIView alloc] init];
+	_table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+	[aView addSubview:_table];
+	
+	CGRect viewFrame = _frame ;
+	
+	CGFloat width = floorf(320.0f / 3.0f);
+	CGSize textSize = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:18.0]];
+	CGFloat y = viewFrame.origin.y;
+	
+	CGRect frame = CGRectMake(0.0, y, width, textSize.height);
+	UIView *_tradeTimeLabel = [self setHeader:@"Time" withFrame:frame];
+	[aView addSubview:_tradeTimeLabel];
+	
+	frame = CGRectMake(width, y, width, textSize.height);
+	UIView *_tradePriceLabel = [self setHeader:@"Price" withFrame:frame];
+	[aView addSubview:_tradePriceLabel];
+	
+	frame = CGRectMake(width * 2, y, width, textSize.height);
+	UIView *_tradeVolumeLabel = [self setHeader:@"Size" withFrame:frame];
+	[aView addSubview:_tradeVolumeLabel];
+	
+	viewFrame.origin.y += textSize.height;
+	viewFrame.size.height -= textSize.height;
+	
+	_table.frame = viewFrame;
+	_table.delegate = self;
+	_table.dataSource = self;
+	
+	self.view = aView;
+	[aView release];
+}
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
-	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
-	table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-	[self.view addSubview:table];
+	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
 	self.navigationItem.leftBarButtonItem = doneButton;
@@ -49,34 +83,10 @@
 	
 	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
 	self.navigationItem.rightBarButtonItem = refreshButton;
-	[refreshButton release];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-
-	CGRect viewFrame = self.view.bounds;
-	
-	CGFloat width = 320.0 / 3;
-	CGSize textSize = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:18.0]];
-	CGFloat y = viewFrame.origin.y;
-	CGRect frame = CGRectMake(0.0, y, width, textSize.height);
-	tradeTimeLabel = [[self setHeader:@"Time" withFrame:frame] retain];
-	frame = CGRectMake(width, y, width, textSize.height);
-	tradePriceLabel = [[self setHeader:@"Price" withFrame:frame] retain];
-	frame = CGRectMake(width * 2, y, width, textSize.height);
-	tradeVolumeLabel = [[self setHeader:@"Size" withFrame:frame] retain];
-	
-	viewFrame.origin.y += textSize.height;
-	viewFrame.size.height -= textSize.height;
-	
-	table.frame = viewFrame;
-	table.delegate = self;
-	table.dataSource = self;
-	
+	[refreshButton release];	
+		
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[[mTraderCommunicator sharedManager] tradesRequest:feedTicker];
-	
+	[[mTraderCommunicator sharedManager] tradesRequest:feedTicker];	
 }
 
 #define TEXT_LEFT_MARGIN    8.0
@@ -118,7 +128,6 @@
 	[label setBackgroundColor:[UIColor clearColor]];
 	
 	[headerView addSubview:label];
-	[self.view addSubview:headerView];
 	
 	[label release];
 	return headerView;
@@ -173,7 +182,7 @@
 	NSArray *trades = [SymbolDataController fetchTradesForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
 	self.trades = trades;
 	
-	[table reloadData];
+	[_table reloadData];
 }
 
 
@@ -202,11 +211,7 @@
 	[_symbol release];
 	[_trades release];
 	
-	[tradeTimeLabel release];
-	[tradePriceLabel release];
-	[tradeVolumeLabel release];
-	
-	[table release];
+	[_table release];
 	
     [super dealloc];
 }

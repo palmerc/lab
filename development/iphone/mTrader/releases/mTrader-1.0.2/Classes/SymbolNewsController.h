@@ -8,7 +8,7 @@
 
 
 @class Symbol;
-@class NewsCell;
+@class NewsTableViewCell_Phone;
 
 
 @interface SymbolNewsController : UITableViewController <NSFetchedResultsControllerDelegate> {
@@ -25,6 +25,6 @@
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
-- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 @end
 

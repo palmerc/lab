@@ -1,110 +1,117 @@
 //
-//  NewsController.m
+//  NewsTableViewController_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 01.03.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "NewsController.h"
+#import "NewsTableViewController_Phone.h"
 
 #import "mTraderAppDelegate.h"
+#import "UserDefaults.h"
+#import "FeedsTableViewController_Phone.h"
+
 #import "NewsFeed.h"
 #import "NewsArticle.h"
 #import "Feed.h"
 #import "Symbol.h"
-#import "NewsCell.h"
-#import "NewsArticleController.h"
+#import "NewsTableViewCell_Phone.h"
+#import "NewsArticleController_Phone.h"
 #import "SymbolDataController.h"
 #import "QFields.h"
 
-@implementation NewsController
+@implementation NewsTableViewContoller_Phone
 @synthesize communicator;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize feedsFetchedResultsController = _feedsFetchedResultsController;
-@synthesize mCode = _mCode;
+@synthesize newsFeed = _newsFeed;
 
 #pragma mark -
 #pragma mark Initialization
 
-- (id)initWithMangagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+- (id)initWithFrame:(CGRect)frame {
 	self = [super init];
     if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_frame = frame;
+		_managedObjectContext = nil;
 		_fetchedResultsController = nil;
 		_feedsFetchedResultsController = nil;
+		_newsFeed = nil;
 		
-		self.title = NSLocalizedString(@"NewsTab", "News tab label");
 		UIImage* anImage = [UIImage imageNamed:@"NewsTab.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
 		self.tabBarItem = theItem;
 		[theItem release];
-			
-		self.mCode = @"AllNews";
 	}
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+- (void)viewDidLoad {		
+	[super viewDidLoad];
 
-	self.tableView.frame = self.view.bounds;
+	// Set the feed to All News by default
+	NSString *returnedNewsFeedNumber = [UserDefaults sharedManager].newsFeedNumber;
+	NSString *feedNumber = nil;
 	
-	communicator = [mTraderCommunicator sharedManager];
-
-	QFields *qFields = [[QFields alloc] init];
-	communicator.qFields = qFields;
-	[qFields release];
+	NSInteger feedIntegerValue = [returnedNewsFeedNumber integerValue];
+	if (returnedNewsFeedNumber && feedIntegerValue >= 0) {
+		feedNumber = returnedNewsFeedNumber;
+	} else {
+		feedNumber = @"0";
+		[UserDefaults sharedManager].newsFeedNumber = feedNumber;
+	}
 		
-	[communicator setStreamingForFeedTicker:nil];
+	self.newsFeed = [[SymbolDataController sharedManager] fetchNewsFeedWithNumber:feedNumber];
+	self.title = self.newsFeed.name;
+	self.tabBarItem.title = NSLocalizedString(@"NewsTab", "News tab label");
 	
-	[communicator newsListFeed:self.mCode];
-}
-
-- (void)viewDidLoad {
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();  // Fail
+#endif
 	}
-	
+
 	if (![self.feedsFetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();  // Fail
+#endif
 	}
 	
-	UIBarButtonItem *selectFeed = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(selectNewsFeed:)];
-	self.navigationItem.leftBarButtonItem = selectFeed;
-	[selectFeed release];
+	feedBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(feedBarButtonItemAction:)];
+	self.navigationItem.leftBarButtonItem = feedBarButtonItem;
+	[feedBarButtonItem release];
 		
 	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
-		
-	[super viewDidLoad];
-}
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
 	
-	// Release any cached data, images, etc that aren't in use.
+	feedsTableViewController = [[FeedsTableViewController_Phone alloc] init];
+	feedsTableViewController.delegate = self;
+	feedsTableViewController.managedObjectContext = self.managedObjectContext;
+	[feedsTableViewController release];
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
+	self.tableView.frame = self.view.bounds;
+	
+	communicator = [mTraderCommunicator sharedManager];
+	
+	QFields *qFields = [[QFields alloc] init];
+	communicator.qFields = qFields;
+	[qFields release];
+	
+	[communicator setStreamingForFeedTicker:nil];
+	
+	[communicator newsListFeed:self.newsFeed.mCode];
 }
 
 #pragma mark -
@@ -135,16 +142,16 @@
     
     static NSString *CellIdentifier = @"NewsCell";
     
-    NewsCell *cell = (NewsCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NewsTableViewCell_Phone *cell = (NewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[NewsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[NewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
-- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.newsArticle = newsArticle;
 }
@@ -153,7 +160,7 @@
 #pragma mark TableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NewsArticleController *newsArticleController = [[NewsArticleController alloc] init];
+	NewsArticleController_Phone *newsArticleController = [[NewsArticleController_Phone alloc] init];
 
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	newsArticleController.newsArticle = newsArticle;
@@ -180,8 +187,7 @@
 #pragma mark UIPickerViewDelegate Methods
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	NewsFeed *feed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
-	self.mCode = feed.mCode;
+	self.newsFeed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
@@ -195,32 +201,47 @@
 #pragma mark Actions
 
 - (void)refresh:(id)sender {
-	[[SymbolDataController sharedManager] deleteAllNews];
-	[self.communicator newsListFeed:self.mCode];
+	[self.communicator newsListFeed:self.newsFeed.mCode];
 }
 
-- (void)selectNewsFeed:(id)sender {
-	UIActionSheet *menu = [[UIActionSheet alloc] initWithTitle:@"Select a News Feed" delegate:self cancelButtonTitle:@"Done" destructiveButtonTitle:@"Cancel" otherButtonTitles:@"All News Feeds", nil];
-	UIPickerView *feedSelector = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, 218.0, 0.0, 0.0)];
-	feedSelector.showsSelectionIndicator = YES;
-	feedSelector.dataSource = self;
-	feedSelector.delegate = self;
-	[menu addSubview:feedSelector];
-	[feedSelector release];
-	[menu showInView:self.tableView];
-	[menu setBounds:CGRectMake(0.0, 0.0, 320.0, 700.0)];
-	[menu release];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 0) {
-		return;
-	} else if (buttonIndex == 1) {
-		self.mCode = @"AllNews";
-	}
+- (void)feedBarButtonItemAction:(id)sender {
+	FeedsTableViewController_Phone *feedsModalTableViewController = [[FeedsTableViewController_Phone alloc] init];
+	feedsModalTableViewController.delegate = self;
+	feedsModalTableViewController.managedObjectContext = self.managedObjectContext;
+	feedsModalTableViewController.title = @"Select News Feed";
 	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:feedsModalTableViewController];
+	
+	UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:self action:@selector(doneBarButtonItemAction:)];
+	feedsModalTableViewController.navigationItem.leftBarButtonItem = doneBarButtonItem;
+	[doneBarButtonItem release];
+	[feedsModalTableViewController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
+- (void)doneBarButtonItemAction:(id)sender {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark NewsFeedChoiceDelegate methods
+- (void)newsFeedWasSelected:(NewsFeed *)aNewsFeed {
+	// Dismiss the popover by calling the toggle
+	[self feedBarButtonItemAction:nil];
 	[[SymbolDataController sharedManager] deleteAllNews];
-	[self.communicator newsListFeed:self.mCode];
+	
+	// Fire off request for news related to the choice made if different from current choice
+	if ([aNewsFeed.feedNumber isEqualToString:self.newsFeed.feedNumber]) {
+		return;
+	} else {
+		self.newsFeed = aNewsFeed;
+		self.title = aNewsFeed.name;
+		self.tabBarItem.title = NSLocalizedString(@"NewsTab", "News tab label");
+		[[mTraderCommunicator sharedManager] newsListFeed:aNewsFeed.mCode];	
+		[UserDefaults sharedManager].newsFeedNumber = aNewsFeed.feedNumber;
+	}
 }
 
 #pragma mark -
@@ -241,8 +262,8 @@
 	[fetchRequest setEntity:entity];
 	
 	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"articleNumber" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
+	NSSortDescriptor *dateDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:dateDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
@@ -253,7 +274,7 @@
 	// Memory management.
 	[aFetchedResultsController release];
 	[fetchRequest release];
-	[mCodeDescriptor release];
+	[dateDescriptor release];
 	[sortDescriptors release];
 	
 	return _fetchedResultsController;
@@ -349,13 +370,25 @@
 #pragma mark -
 #pragma mark Memory management
 
+- (void)didReceiveMemoryWarning {
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
+}
+
+- (void)viewDidUnload {
+	// Release any retained subviews of the main view.
+	self.newsFeed = nil;
+}
+
 - (void)dealloc {
 	[_fetchedResultsController release];
 	[_feedsFetchedResultsController release];
 
 	[_managedObjectContext release];
 	
-	[_mCode release];
+	[_newsFeed release];
     [super dealloc];
 }
 

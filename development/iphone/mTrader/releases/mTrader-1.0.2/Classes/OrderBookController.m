@@ -27,7 +27,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_managedObjectContext = [managedObjectContext retain];
 		tableFont = [[UIFont systemFontOfSize:17.0] retain];
 	}
 	return self;

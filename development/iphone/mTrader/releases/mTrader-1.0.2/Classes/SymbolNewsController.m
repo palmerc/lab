@@ -10,9 +10,9 @@
 
 #import "mTraderCommunicator.h"
 #import "SymbolDataController.h"
-#import "NewsArticleController.h"
+#import "NewsArticleController_Phone.h"
 
-#import "NewsCell.h"
+#import "NewsTableViewCell_Phone.h"
 
 #import "Feed.h"
 #import "Symbol.h"
@@ -28,7 +28,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
     if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_managedObjectContext = [managedObjectContext retain];
 		_fetchedResultsController = nil;
 		_symbol = nil;
 	}
@@ -37,13 +37,8 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	NSError *error;
-	if (![self.fetchedResultsController performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();  // Fail
-	}
-	
+	[super viewDidLoad];
+
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
 	self.navigationItem.leftBarButtonItem = doneButton;
 	[doneButton release];
@@ -52,27 +47,22 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
-    [super viewDidLoad];
 }
 
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+- (void)setSymbol:(Symbol *)symbol {
+	if (_symbol = symbol) {
+		[_symbol release];
+		_symbol = [symbol retain];
+		
+		NSError *error;
+		if (![self.fetchedResultsController performFetch:&error]) {
+			// Update to handle the error appropriately.
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+			abort();  // Fail
+#endif
+		}		
+	}
 }
 
 #pragma mark -
@@ -103,16 +93,16 @@
     
     static NSString *CellIdentifier = @"NewsCell";
     
-    NewsCell *cell = (NewsCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NewsTableViewCell_Phone *cell = (NewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[NewsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[NewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
-- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.newsArticle = newsArticle;
 }
@@ -121,7 +111,7 @@
 #pragma mark TableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NewsArticleController *newsArticleController = [[NewsArticleController alloc] init];
+	NewsArticleController_Phone *newsArticleController = [[NewsArticleController_Phone alloc] init];
 	
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	newsArticleController.newsArticle = newsArticle;
@@ -148,6 +138,9 @@
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(ANY symbols.feed.feedNumber in %@) AND (ANY symbols.tickerSymbol in %@)", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
+	[fetchRequest setPredicate:predicate];
 	
 	// Create the sort descriptors array.
 	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"articleNumber" ascending:NO];

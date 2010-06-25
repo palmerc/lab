@@ -1,5 +1,5 @@
 //
-//  NewsController.h
+//  NewsTableViewController_Phone.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 01.03.10.
@@ -9,26 +9,33 @@
 
 #import "mTraderCommunicator.h"
 
-@class NewsCell;
-@protocol NewsControllerDelegate;
+#import "FeedsTableViewController_Phone.h"
 
-@interface NewsController : UITableViewController <NSFetchedResultsControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate> {
+@class NewsTableViewCell_Phone;
+@class NewsFeed;
+@class FeedsTableViewController_Phone;
+
+@interface NewsTableViewContoller_Phone : UITableViewController <NSFetchedResultsControllerDelegate, NewsFeedChoiceDelegate> {
 @private
+	CGRect _frame;
+	
 	mTraderCommunicator *communicator;
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
 	NSFetchedResultsController *_feedsFetchedResultsController;
 	
-	NSString *_mCode;	
+	UIBarButtonItem *feedBarButtonItem;
+	FeedsTableViewController_Phone *feedsTableViewController;
+	
+	NewsFeed *_newsFeed;	
 }
 
 @property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *feedsFetchedResultsController;
-@property (nonatomic, retain) NSString *mCode;
+@property (nonatomic, retain) NewsFeed *newsFeed;
 
-- (id)initWithMangagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-- (void)configureCell:(NewsCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 - (void)refresh:(id)sender;
 @end

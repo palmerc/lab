@@ -19,8 +19,8 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
-		_tableViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:self.managedObjectContext];
+		managedObjectContext = [managedObjectContext retain];
+		_tableViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:managedObjectContext];
 	}
 	return self;
 }

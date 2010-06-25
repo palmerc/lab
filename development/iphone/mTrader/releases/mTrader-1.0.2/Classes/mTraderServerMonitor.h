@@ -28,6 +28,7 @@
 
 + (mTraderServerMonitor *)sharedManager;
 - (void)attemptConnection;
+- (void)disconnect;
 - (void)startReachability;
 
 @end

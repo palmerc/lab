@@ -1,5 +1,5 @@
 //
-//  NewsCell.h
+//  NewsTableViewCell_Phone.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 03.03.10.
@@ -8,7 +8,7 @@
 
 @class NewsArticle;
 
-@interface NewsCell : UITableViewCell {
+@interface NewsTableViewCell_Phone : UITableViewCell {
 @private
 	NewsArticle *_newsArticle;
 	

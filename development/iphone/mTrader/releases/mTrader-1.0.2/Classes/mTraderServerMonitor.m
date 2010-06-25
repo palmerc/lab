@@ -6,7 +6,7 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#define DEBUG 0
+#define DEBUG 1
 
 #import "mTraderServerMonitor.h"
 
@@ -154,6 +154,16 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	}
 }
 
+- (void)disconnect {
+	if (isConnected == NO) {
+		return;
+	}
+	
+	[[mTraderCommunicator sharedManager] logout];
+	[[mTraderCommunicator sharedManager].communicator stopConnection];
+	isConnected = NO;
+	isLoggedIn = NO;
+}
 
 #pragma mark -
 #pragma mark mTraderCommunicatorMonitorDelegate methods
@@ -172,9 +182,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	isConnected = NO;
 	isLoggedIn = NO;
 	
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:@"Your phone is unable to reach The Online Trader server. We will automatically connect when it becomes available." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-	[alertView show];
-	[alertView release];	
+	[[mTraderCommunicator sharedManager].communicator stopConnection];
 }
 
 - (void)loginFailed:(NSString *)message {

@@ -2,7 +2,7 @@
 //  Symbol.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 22.03.10.
+//  Created by Cameron Lowell Palmer on 25.06.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -11,6 +11,7 @@
 @class BidAsk;
 @class Chart;
 @class Feed;
+@class NewsArticle;
 @class SymbolDynamicData;
 @class Trade;
 
@@ -31,6 +32,7 @@
 @property (nonatomic, retain) NSSet* bidsAsks;
 @property (nonatomic, retain) NSSet* trades;
 @property (nonatomic, retain) SymbolDynamicData * symbolDynamicData;
+@property (nonatomic, retain) NSSet* newsArticles;
 
 @end
 
@@ -45,6 +47,11 @@
 - (void)removeTradesObject:(Trade *)value;
 - (void)addTrades:(NSSet *)value;
 - (void)removeTrades:(NSSet *)value;
+
+- (void)addNewsArticlesObject:(NewsArticle *)value;
+- (void)removeNewsArticlesObject:(NewsArticle *)value;
+- (void)addNewsArticles:(NSSet *)value;
+- (void)removeNewsArticles:(NSSet *)value;
 
 @end
 

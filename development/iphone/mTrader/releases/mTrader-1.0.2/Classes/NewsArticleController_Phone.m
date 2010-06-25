@@ -1,19 +1,20 @@
 //
-//  NewsArticleController.m
+//  NewsArticleController_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 03.03.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "NewsArticleController.h"
+#import "NewsArticleController_Phone.h"
+
+#import "NewsArticleView_Phone.h"
+
 #import "NewsFeed.h"
 #import "NewsArticle.h"
-
-#import "NewsArticleView.h"
 #import "StringHelpers.h"
 
-@implementation NewsArticleController
+@implementation NewsArticleController_Phone
 @synthesize newsArticle = _newsArticle;
 @synthesize newsArticleView = _newsArticleView;
 
@@ -28,33 +29,20 @@
 
 - (void)loadView {
 	CGRect frame = self.parentViewController.view.bounds;
-	_newsArticleView = [[NewsArticleView alloc] initWithFrame:frame];
+	_newsArticleView = [[NewsArticleView_Phone alloc] initWithFrame:frame];
 	self.view = _newsArticleView;
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (void)updateNewsArticle {
+	static NSDateFormatter *dateFormatter = nil;
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+		[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+	}
+	
 	self.title = self.newsArticle.newsFeed.mCode;
-	self.newsArticleView.dateTimeLabel.text = [NSString stringWithFormat:@"%@ %@", self.newsArticle.date, self.newsArticle.time];
+	self.newsArticleView.dateTimeLabel.text = [dateFormatter stringFromDate:self.newsArticle.date];
 	self.newsArticleView.feedLabel.text = self.newsArticle.newsFeed.name;
 	self.newsArticleView.flags = self.newsArticle.flag;
 	self.newsArticleView.headlineLabel.text = self.newsArticle.headline;
