@@ -126,13 +126,12 @@
 	
 	uint8_t buffer[2048];
 	bzero(buffer, sizeof(buffer));
-	NSInteger len; 
+	NSInteger len = 0;
 	
 	if (_dataBuffer == nil) {
 		_dataBuffer = [[NSMutableData alloc] init];
 	}
 	
-	len = 0;
 	len = [stream read:buffer maxLength:sizeof(buffer)];
 	if (len > 0) {
 		[self.dataBuffer appendBytes:buffer length:len];

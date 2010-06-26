@@ -2,14 +2,14 @@
 //  NewsArticle.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 25.06.10.
+//  Created by Cameron Lowell Palmer on 26.06.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
 
 @class NewsFeed;
-@class Symbol;
+@class SymbolNewsRelationship;
 
 @interface NewsArticle :  NSManagedObject  
 {
@@ -28,8 +28,8 @@
 
 
 @interface NewsArticle (CoreDataGeneratedAccessors)
-- (void)addSymbolsObject:(Symbol *)value;
-- (void)removeSymbolsObject:(Symbol *)value;
+- (void)addSymbolsObject:(SymbolNewsRelationship *)value;
+- (void)removeSymbolsObject:(SymbolNewsRelationship *)value;
 - (void)addSymbols:(NSSet *)value;
 - (void)removeSymbols:(NSSet *)value;
 

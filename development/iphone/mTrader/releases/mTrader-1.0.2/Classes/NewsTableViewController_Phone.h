@@ -22,10 +22,8 @@
 	mTraderCommunicator *communicator;
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
-	NSFetchedResultsController *_feedsFetchedResultsController;
 	
 	UIBarButtonItem *feedBarButtonItem;
-	FeedsTableViewController_Phone *feedsTableViewController;
 	
 	NewsFeed *_newsFeed;	
 }
@@ -33,7 +31,6 @@
 @property (assign) mTraderCommunicator *communicator;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, retain) NSFetchedResultsController *feedsFetchedResultsController;
 @property (nonatomic, retain) NewsFeed *newsFeed;
 
 - (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;

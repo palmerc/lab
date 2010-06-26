@@ -19,7 +19,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
-		managedObjectContext = [managedObjectContext retain];
+		_managedObjectContext = [managedObjectContext retain];
 		_tableViewController = [[ChainsTableViewController alloc] initWithManagedObjectContext:managedObjectContext];
 	}
 	return self;
@@ -112,18 +112,6 @@
 }
 */
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (void)setNavigationController:(UINavigationController *)navigationController {
 	if (self.navigationController != nil) {
 		[_navigationController release];
@@ -142,12 +130,12 @@
 #pragma mark -
 #pragma mark UI Actions
 - (void)add:(id)sender {
-	SymbolAddController *controller = [[SymbolAddController alloc] initWithNibName:@"SymbolAddView" bundle:nil];
-	controller.delegate = self;
-	controller.managedObjectContext = self.managedObjectContext;
+	SymbolAddController *addController = [[SymbolAddController alloc] initWithNibName:@"SymbolAddView" bundle:nil];
+	addController.delegate = self;
+	addController.managedObjectContext = self.managedObjectContext;
 	
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-	[controller release];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addController];
+	[addController release];
 	[self.parentViewController presentModalViewController:navigationController animated:YES];
 	[navigationController release];
 }

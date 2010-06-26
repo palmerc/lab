@@ -20,6 +20,7 @@
 #import "MyListNavigationController.h"
 #import "NewsTableViewController_Phone.h"
 #import "SettingsTableViewController.h"
+#import "SymbolDataController.h"
 
 @implementation mTraderAppDelegate
 @synthesize window;
@@ -48,7 +49,6 @@
 	[starter release];
 		
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	//NSLog(@"Window size -> x:%.1f y:%.1f width:%.1f height:%.1f", window.frame.origin.x, window.frame.origin.y, window.frame.size.width, window.frame.size.height);
 	window.backgroundColor = [UIColor lightGrayColor];
 	
 	UIViewController *rootViewController = [[MyListViewController alloc] initWithManagedObjectContext:self.managedObjectContext];

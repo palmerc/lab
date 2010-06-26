@@ -17,6 +17,7 @@
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
+#import "SymbolNewsRelationship.h"
 #import "Trade.h"
 #import "Chart.h"
 #import "NewsFeed.h"
@@ -732,6 +733,117 @@ static SymbolDataController *sharedDataController = nil;
 	chart.symbol = symbol;
 }
 
+- (void)symbolNewsUpdates:(NSArray *)newsList {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+	
+	static NSTimeZone *timeZone = nil;
+	if (timeZone == nil) {
+		timeZone = [NSTimeZone timeZoneWithName:@"CET"];
+	}
+	
+	static NSDateFormatter *dateFormatter = nil;
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setTimeZone:timeZone];
+		[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+	}
+	
+	static NSDateFormatter *yearFormatter = nil;
+	if (yearFormatter == nil) {
+		yearFormatter = [[NSDateFormatter alloc] init];
+		[yearFormatter setDateFormat:@"yyyy"];
+	}
+	
+	NSDate *today = [NSDate date];
+	NSString *year = [yearFormatter stringFromDate:today];
+	
+	NSRange feedTickerNewsRange;
+	feedTickerNewsRange.location = 1;
+	feedTickerNewsRange.length = [newsList count] - 1;
+	NSString *feedTicker = [newsList objectAtIndex:0];
+	
+	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	NSNumber *symbolFeedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	
+	NSRange tickerSymbolRange;
+	tickerSymbolRange.location = 1;
+	tickerSymbolRange.length = [feedTickerComponents count] - 1;
+	NSString *tickerSymbol = [[feedTickerComponents subarrayWithRange:tickerSymbolRange] componentsJoinedByString:@"/"];
+	
+	newsList = [newsList subarrayWithRange:feedTickerNewsRange];
+	for (NSString *news in newsList) {
+		NSArray *components = [news componentsSeparatedByString:@";"];
+		components = [StringHelpers cleanComponents:components];
+		if ([components count] >= 4) {
+			NSString *feedArticle = [components objectAtIndex:0];
+			NSString *flag = [components objectAtIndex:1];
+			
+			NSString *month = nil;
+			NSString *day = nil;
+			NSString *date = [components objectAtIndex:2];
+			if (![date isEqualToString:@""]) {
+				NSArray *dateComponents = [date componentsSeparatedByString:@"."];
+				month = [dateComponents objectAtIndex:1];
+				day = [dateComponents objectAtIndex:0];
+			}
+			
+			NSString *time = [components objectAtIndex:3];
+			NSString *headline = [components objectAtIndex:4];
+			
+			NSArray *feedArticleComponents = [feedArticle componentsSeparatedByString:@"/"];			
+			NSString *newsFeedNumber = [feedArticleComponents objectAtIndex:0];
+			NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
+			
+			NSString *formattedDateString = [NSString stringWithFormat:@"%@-%@-%@ %@:00", year, month, day, time];
+			NSDate *properDate = [dateFormatter dateFromString:formattedDateString];
+			
+			NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:newsFeedNumber];
+			Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:symbolFeedNumber];
+			if (symbol == nil) {
+				continue;
+			}
+			
+			if (article == nil) {
+				NewsFeed *feed = [self fetchNewsFeedWithNumber:newsFeedNumber];
+				if (feed == nil) {
+					continue;
+				}
+				
+				article = (NewsArticle *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+				article.newsFeed = feed;
+				[feed addNewsArticlesObject:article];
+				
+				article.articleNumber = articleNumber;
+				article.flag = flag;
+				
+				article.date = properDate;
+				article.headline = headline;
+			}
+			
+			SymbolNewsRelationship *relationship = [self fetchRelationshipForArticle:article andSymbol:symbol];
+			if (relationship == nil) {
+				SymbolNewsRelationship *relationship = (SymbolNewsRelationship *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
+				relationship.symbol = symbol;
+				relationship.newsArticle = article;
+				
+				[symbol addNewsObject:relationship];
+				[article addSymbolsObject:relationship];	
+			}
+		}
+	}
+	
+	[self maxNewsArticles:250];
+	
+	NSError *error;
+	if (![self.managedObjectContext save:&error]) {
+		// Handle the error
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}	
+}
+
 -(void) newsListFeedsUpdates:(NSArray *)newsList {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 	
@@ -1028,6 +1140,46 @@ static SymbolDataController *sharedDataController = nil;
 	}
 }
 
+- (SymbolNewsRelationship *)fetchRelationshipForArticle:(NewsArticle *)article andSymbol:(Symbol *)symbol {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(newsArticle=%@) AND (symbol=%@)", article, symbol];
+	[request setPredicate:predicate];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}
+	
+	if ([array count] > 0) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
+}
+
+- (NSArray *)fetchAllRelationships {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	}
+	
+	return array;
+}
+
 - (void)deleteAllNews {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
@@ -1315,38 +1467,6 @@ static SymbolDataController *sharedDataController = nil;
 	} else {
 		return nil;
 	}
-}
-
-/**
- Returns the fetched results controller. Creates and configures the controller if necessary.
- */
-- (NSFetchedResultsController *)fetchedResultsController {
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
-    
-	// Create and configure a fetch request with the Book entity.
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
-	[fetchRequest setEntity:entity];
-	
-	// Create the sort descriptors array.
-	NSSortDescriptor *tickerDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol.index" ascending:YES];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:tickerDescriptor, nil];
-	[tickerDescriptor release];
-	[fetchRequest setSortDescriptors:sortDescriptors];
-	
-	// Create and initialize the fetch results controller.
-	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-	self.fetchedResultsController = aFetchedResultsController;
-	_fetchedResultsController.delegate = self;
-	
-	// Memory management.
-	[aFetchedResultsController release];
-	[fetchRequest release];
-	[sortDescriptors release];
-	
-	return _fetchedResultsController;
 }
 
 #pragma mark -

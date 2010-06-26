@@ -12,11 +12,12 @@
 #import "SymbolDataController.h"
 #import "NewsArticleController_Phone.h"
 
-#import "NewsTableViewCell_Phone.h"
+#import "SymbolNewsTableViewCell_Phone.h"
 
 #import "Feed.h"
 #import "Symbol.h"
 #import "NewsArticle.h"
+#import "SymbolNewsRelationship.h"
 
 @implementation SymbolNewsController
 @synthesize managedObjectContext = _managedObjectContext;
@@ -93,18 +94,18 @@
     
     static NSString *CellIdentifier = @"NewsCell";
     
-    NewsTableViewCell_Phone *cell = (NewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    SymbolNewsTableViewCell_Phone *cell = (SymbolNewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[NewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[SymbolNewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
-- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	cell.newsArticle = newsArticle;
+- (void)configureCell:(SymbolNewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+	SymbolNewsRelationship *symbolNewsRelationship = (SymbolNewsRelationship *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	cell.symbolNewsRelationship = symbolNewsRelationship;
 }
 
 #pragma mark -
@@ -129,21 +130,24 @@
  Returns the fetched results controller. Creates and configures the controller if necessary.
  */
 - (NSFetchedResultsController *)fetchedResultsController {
-	
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
+	
+	if (_symbol == nil) {
+		return nil;
+	}
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(ANY symbols.feed.feedNumber in %@) AND (ANY symbols.tickerSymbol in %@)", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(symbol.tickerSymbol=%@) AND (symbol.feed.feedNumber=%@)", self.symbol.tickerSymbol, self.symbol.feed.feedNumber];
 	[fetchRequest setPredicate:predicate];
 	
 	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"articleNumber" ascending:NO];
+	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"newsArticle.date" ascending:NO];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
@@ -175,8 +179,7 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
 	UITableView *tableView = self.tableView;
 	
-	switch(type) {
-			
+	switch(type) {			
 		case NSFetchedResultsChangeInsert:
 			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
 			break;

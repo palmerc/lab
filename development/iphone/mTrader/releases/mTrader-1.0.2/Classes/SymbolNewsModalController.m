@@ -12,11 +12,12 @@
 #import "SymbolDataController.h"
 #import "NewsArticleController_Phone.h"
 
-#import "NewsTableViewCell_Phone.h"
+#import "SymbolNewsTableViewCell_Phone.h"
 
 #import "Feed.h"
 #import "Symbol.h"
 #import "NewsArticle.h"
+#import "SymbolNewsRelationship.h"
 
 @implementation SymbolNewsModalController
 @synthesize delegate;
@@ -100,18 +101,18 @@
     
     static NSString *CellIdentifier = @"NewsCell";
     
-    NewsTableViewCell_Phone *cell = (NewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    SymbolNewsTableViewCell_Phone *cell = (SymbolNewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[NewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[SymbolNewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
     return cell;
 }
 
-- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	cell.newsArticle = newsArticle;
+- (void)configureCell:(SymbolNewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
+	SymbolNewsRelationship *relationship = (SymbolNewsRelationship *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	cell.symbolNewsRelationship = relationship;
 }
 
 #pragma mark -
@@ -120,8 +121,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NewsArticleController_Phone *newsArticleController = [[NewsArticleController_Phone alloc] init];
 	
-	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	newsArticleController.newsArticle = newsArticle;
+	SymbolNewsRelationship *relationship = (SymbolNewsRelationship *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	newsArticleController.newsArticle = relationship.newsArticle;
 	
 	[self.navigationController pushViewController:newsArticleController animated:YES];
 	
@@ -143,14 +144,14 @@
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(ANY symbols.feed.feedNumber in %@) AND (ANY symbols.tickerSymbol in %@)", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(symbol.tickerSymbol=%@) AND (symbol.feed.feedNumber=%@)", self.symbol.tickerSymbol, self.symbol.feed.feedNumber];
 	[fetchRequest setPredicate:predicate];
 	
 	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"articleNumber" ascending:NO];
+	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"newsArticle.date" ascending:NO];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	

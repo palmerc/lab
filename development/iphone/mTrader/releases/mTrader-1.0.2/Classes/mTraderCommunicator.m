@@ -574,21 +574,42 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
-- (void)newsListOK {
-	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
-	
-	if ([string rangeOfString:@"News:"].location == 0) {
-		NSString *newsArticles = [self dataToString:data];
-		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
-		colonSeparatedComponents = [self stripOffFirstElement:colonSeparatedComponents];
-		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
-		NSArray *newsArticlesArray = [StringHelpers cleanComponents:[newsArticles componentsSeparatedByString:@"|"]];
-		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
-		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
-			[self.symbolsDelegate newsListFeedsUpdates:newsArticlesArray];
+- (void)newsListOK {	
+	NSString *feedTicker = nil;
+	while ([self.blockBuffer count] > 0) {
+		NSData *data = [self.blockBuffer deQueue];
+		NSString *string = [self dataToString:data];
+
+		if ([string rangeOfString:@"SecOid:"].location == 0) {
+			NSArray *colonSeparatedComponents = [string componentsSeparatedByString:@":"];
+			NSArray *cleanedComponents = [StringHelpers cleanComponents:colonSeparatedComponents];
+			
+			NSRange feedTickerRange;
+			feedTickerRange.location = 1;
+			feedTickerRange.length = [cleanedComponents count] - 1;
+			NSArray *feedTickerComponents = [cleanedComponents subarrayWithRange:feedTickerRange];
+			feedTicker = [feedTickerComponents componentsJoinedByString:@":"];
+		} else if ([string rangeOfString:@"News:"].location == 0) {
+			NSString *newsArticles = [self dataToString:data];
+			NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
+			NSRange newsArticleRange;
+			newsArticleRange.location = 1;
+			newsArticleRange.length = [colonSeparatedComponents count] - 1;
+			colonSeparatedComponents = [colonSeparatedComponents subarrayWithRange:newsArticleRange];			
+			newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
+			
+			NSArray *newsArticlesArray = [StringHelpers cleanComponents:[newsArticles componentsSeparatedByString:@"|"]];
+			NSMutableArray *feedTickerNewsArticlesMutableArray = [[NSMutableArray alloc] initWithArray:newsArticlesArray];
+			[feedTickerNewsArticlesMutableArray insertObject:feedTicker atIndex:0];
+			NSArray *feedTickerNewsArticlesArray = [NSArray arrayWithArray:feedTickerNewsArticlesMutableArray];
+			[feedTickerNewsArticlesMutableArray release];
+			
+			// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
+			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
+				[self.symbolsDelegate symbolNewsUpdates:feedTickerNewsArticlesArray];
+			}
+			state = PROCESSING;
 		}
-		state = PROCESSING;
 	}
 }
 

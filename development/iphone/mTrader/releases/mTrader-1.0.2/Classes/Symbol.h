@@ -2,7 +2,7 @@
 //  Symbol.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 25.06.10.
+//  Created by Cameron Lowell Palmer on 26.06.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -11,8 +11,8 @@
 @class BidAsk;
 @class Chart;
 @class Feed;
-@class NewsArticle;
 @class SymbolDynamicData;
+@class SymbolNewsRelationship;
 @class Trade;
 
 @interface Symbol :  NSManagedObject  
@@ -27,17 +27,22 @@
 @property (nonatomic, retain) NSString * country;
 @property (nonatomic, retain) NSString * currency;
 @property (nonatomic, retain) NSString * orderBook;
+@property (nonatomic, retain) NSSet* news;
 @property (nonatomic, retain) Chart * chart;
 @property (nonatomic, retain) Feed * feed;
 @property (nonatomic, retain) NSSet* bidsAsks;
 @property (nonatomic, retain) NSSet* trades;
 @property (nonatomic, retain) SymbolDynamicData * symbolDynamicData;
-@property (nonatomic, retain) NSSet* newsArticles;
 
 @end
 
 
 @interface Symbol (CoreDataGeneratedAccessors)
+- (void)addNewsObject:(SymbolNewsRelationship *)value;
+- (void)removeNewsObject:(SymbolNewsRelationship *)value;
+- (void)addNews:(NSSet *)value;
+- (void)removeNews:(NSSet *)value;
+
 - (void)addBidsAsksObject:(BidAsk *)value;
 - (void)removeBidsAsksObject:(BidAsk *)value;
 - (void)addBidsAsks:(NSSet *)value;
@@ -47,11 +52,6 @@
 - (void)removeTradesObject:(Trade *)value;
 - (void)addTrades:(NSSet *)value;
 - (void)removeTrades:(NSSet *)value;
-
-- (void)addNewsArticlesObject:(NewsArticle *)value;
-- (void)removeNewsArticlesObject:(NewsArticle *)value;
-- (void)addNewsArticles:(NSSet *)value;
-- (void)removeNewsArticles:(NSSet *)value;
 
 @end
 

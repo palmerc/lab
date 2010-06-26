@@ -15,7 +15,7 @@
 	id <SymbolAddControllerDelegate> delegate;
 	
 	NSFetchedResultsController *fetchedResultsController;
-	NSManagedObjectContext *managedObjectContext;
+	NSManagedObjectContext *_managedObjectContext;
 
 	mTraderCommunicator *communicator;
 	UITextField *_tickerField;

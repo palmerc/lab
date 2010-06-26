@@ -142,5 +142,6 @@ enum {
 - (void)removedSecurity:(NSString *)feedTicker;
 - (void)chartUpdate:(NSDictionary *)chart;
 - (void)newsListFeedsUpdates:(NSArray *)newsList;
+- (void)symbolNewsUpdates:(NSArray *)newsList;
 - (void)newsItemUpdate:(NSArray *)newsItemContents;
 @end

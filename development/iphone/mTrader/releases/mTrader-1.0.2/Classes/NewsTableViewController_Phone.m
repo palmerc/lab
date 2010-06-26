@@ -25,7 +25,6 @@
 @synthesize communicator;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
-@synthesize feedsFetchedResultsController = _feedsFetchedResultsController;
 @synthesize newsFeed = _newsFeed;
 
 #pragma mark -
@@ -37,7 +36,6 @@
 		_frame = frame;
 		_managedObjectContext = nil;
 		_fetchedResultsController = nil;
-		_feedsFetchedResultsController = nil;
 		_newsFeed = nil;
 		
 		UIImage* anImage = [UIImage imageNamed:@"NewsTab.png"];	
@@ -76,14 +74,6 @@
 #endif
 	}
 
-	if (![self.feedsFetchedResultsController performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-#if DEBUG
-		abort();  // Fail
-#endif
-	}
-	
 	feedBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Feeds" style:UIBarButtonItemStyleBordered target:self action:@selector(feedBarButtonItemAction:)];
 	self.navigationItem.leftBarButtonItem = feedBarButtonItem;
 	[feedBarButtonItem release];
@@ -91,17 +81,12 @@
 	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
-	
-	feedsTableViewController = [[FeedsTableViewController_Phone alloc] init];
-	feedsTableViewController.delegate = self;
-	feedsTableViewController.managedObjectContext = self.managedObjectContext;
-	[feedsTableViewController release];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	
-	self.tableView.frame = self.view.bounds;
+	//self.tableView.frame = self.view.bounds;
 	
 	communicator = [mTraderCommunicator sharedManager];
 	
@@ -160,6 +145,10 @@
 #pragma mark TableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"backNavigationBarButton", @"Back Navigation Item") style:UIBarButtonItemStyleDone target:nil action:nil];
+	self.navigationItem.backBarButtonItem = backButton;
+	[backButton release];
+	
 	NewsArticleController_Phone *newsArticleController = [[NewsArticleController_Phone alloc] init];
 
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -169,32 +158,6 @@
 	
 	[newsArticleController release];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-
-#pragma mark -
-#pragma mark UIPickerViewDataSource Required Methods
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-	return [[self.feedsFetchedResultsController sections] count];
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.feedsFetchedResultsController sections] objectAtIndex:component];
-    return [sectionInfo numberOfObjects];
-}
-
-#pragma mark -
-#pragma mark UIPickerViewDelegate Methods
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	self.newsFeed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	NewsFeed *feed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
-	NSString *feedName = feed.name;
-	return feedName;
 }
 
 #pragma mark -
@@ -228,19 +191,27 @@
 #pragma mark -
 #pragma mark NewsFeedChoiceDelegate methods
 - (void)newsFeedWasSelected:(NewsFeed *)aNewsFeed {
-	// Dismiss the popover by calling the toggle
-	[self feedBarButtonItemAction:nil];
-	[[SymbolDataController sharedManager] deleteAllNews];
-	
 	// Fire off request for news related to the choice made if different from current choice
 	if ([aNewsFeed.feedNumber isEqualToString:self.newsFeed.feedNumber]) {
 		return;
 	} else {
+		self.fetchedResultsController = nil;		
 		self.newsFeed = aNewsFeed;
 		self.title = aNewsFeed.name;
 		self.tabBarItem.title = NSLocalizedString(@"NewsTab", "News tab label");
 		[[mTraderCommunicator sharedManager] newsListFeed:aNewsFeed.mCode];	
 		[UserDefaults sharedManager].newsFeedNumber = aNewsFeed.feedNumber;
+		
+		NSError *error;
+		if (![self.fetchedResultsController performFetch:&error]) {
+			// Update to handle the error appropriately.
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+			abort();  // Fail
+#endif
+		}
+		
+		[self.tableView reloadData];
 	}
 }
 
@@ -261,6 +232,9 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(newsFeed.feedNumber=%@)", self.newsFeed.feedNumber];
+	[fetchRequest setPredicate:predicate];
+	
 	// Create the sort descriptors array.
 	NSSortDescriptor *dateDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:dateDescriptor, nil];
@@ -279,37 +253,6 @@
 	
 	return _fetchedResultsController;
 }
-
-- (NSFetchedResultsController *)feedsFetchedResultsController {
-	
-    if (_feedsFetchedResultsController != nil) {
-        return _feedsFetchedResultsController;
-    }
-    
-	// Create and configure a fetch request with the Book entity.
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
-	[fetchRequest setEntity:entity];
-	
-	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
-	[fetchRequest setSortDescriptors:sortDescriptors];
-	
-	// Create and initialize the fetch results controller.
-	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-	self.feedsFetchedResultsController = aFetchedResultsController;
-	_feedsFetchedResultsController.delegate = self;
-	
-	// Memory management.
-	[aFetchedResultsController release];
-	[fetchRequest release];
-	[mCodeDescriptor release];
-	[sortDescriptors release];
-	
-	return _feedsFetchedResultsController;
-}
-
 
 /**
  Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.
@@ -370,21 +313,8 @@
 #pragma mark -
 #pragma mark Memory management
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	self.newsFeed = nil;
-}
-
 - (void)dealloc {
 	[_fetchedResultsController release];
-	[_feedsFetchedResultsController release];
 
 	[_managedObjectContext release];
 	

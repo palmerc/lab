@@ -28,6 +28,10 @@
     return self;
 }
 
+- (void)setSymbol:(Symbol *)symbol {
+	symbolNewsController.symbol = symbol;
+}
+
 #pragma mark -
 #pragma mark UIView drawing
 - (void)drawRect:(CGRect)rect {

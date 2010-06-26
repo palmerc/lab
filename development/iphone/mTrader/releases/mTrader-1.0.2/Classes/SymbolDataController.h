@@ -10,6 +10,7 @@
 #import "mTraderCommunicator.h"
 
 @class mTraderCommunicator;
+@class SymbolNewsRelationship;
 @class Feed;
 @class Symbol;
 @class Trade;
@@ -51,6 +52,8 @@
 - (void)deleteAllNews;
 - (void)deleteAllSymbols;
 - (void)deleteAllBidsAsks;
+- (NSArray *)fetchAllRelationships;
+- (SymbolNewsRelationship *)fetchRelationshipForArticle:(NewsArticle *)article andSymbol:(Symbol *)symbol;
 - (void)deleteAllTradesForTicker:(NSString *)tickerSymbol withFeed:(NSString *)feed;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;

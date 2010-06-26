@@ -18,47 +18,28 @@
 
 @implementation SymbolAddController
 @synthesize delegate;
-@synthesize fetchedResultsController, managedObjectContext;
+@synthesize fetchedResultsController;
+@synthesize managedObjectContext = _managedObjectContxt;
 @synthesize tickerField = _tickerField;
 @synthesize submitButton = _submitButton;
 @synthesize exchangePicker = _exchangePicker;
 @synthesize mCode;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self != nil) {
+		_managedObjectContext = nil;
+	}
+	return self;
+}
  
 #pragma mark -
 #pragma mark Application Lifecycle
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)loadView {
-	[super loadView];
-	self.title = @"Add a Symbol";
-	
-	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
-	NSError *error;
-	if (![self.fetchedResultsController performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();  // Fail
-	}
-	
-
-}
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
-	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:0];
-    NSInteger count = [sectionInfo numberOfObjects];
-	NSInteger ossIndex = 0;
-	for (int i = 0; i < count; i++) {
-		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-		Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
-		if ([feed.mCode isEqualToString:@"OSS"]) {
-			self.mCode = @"OSS";
-			ossIndex = i;
-			break;
-		}
-	}
-	[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];
+	
+	self.title = @"Add a Symbol";
 	
 	//self.searchBar.delegate = self;
 	//self.searchBar.placeholder = @"Stock Ticker Symbol";
@@ -73,23 +54,41 @@
 	self.tickerField.clearButtonMode = UITextFieldViewModeWhileEditing;
 	self.tickerField.autocorrectionType = UITextAutocorrectionTypeNo;
 	self.tickerField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
-
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
 	
-	// Release any cached data, images, etc that aren't in use.
+	// Core Data Setup - This not only grabs the existing results but also setups up the FetchController
+	NSError *error;
+	if (![self.fetchedResultsController performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();  // Fail
+#endif
+	}
+
 }
 
-- (void)viewDidUnload {
-	self.fetchedResultsController = nil;
-	self.managedObjectContext = nil;
-	self.submitButton = nil;
-	self.tickerField = nil;
-	self.exchangePicker = nil;
-	self.mCode = nil;
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	if (_managedObjectContext != managedObjectContext) {
+		[_managedObjectContext release];
+		_managedObjectContext = [managedObjectContext retain];
+		
+
+		
+		id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:0];
+		NSInteger count = [sectionInfo numberOfObjects];
+		NSInteger ossIndex = 0;
+		for (int i = 0; i < count; i++) {
+			NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+			Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
+			if ([feed.mCode isEqualToString:@"OSS"]) {
+				self.mCode = @"OSS";
+				ossIndex = i;
+				break;
+			}
+		}
+		[self.exchangePicker reloadAllComponents];
+		[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];
+	}
 }
 
 #pragma mark -
@@ -153,14 +152,13 @@
  Returns the fetched results controller. Creates and configures the controller if necessary.
  */
 - (NSFetchedResultsController *)fetchedResultsController {
-	
     if (fetchedResultsController != nil) {
         return fetchedResultsController;
     }
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
 	// Create the sort descriptors array.
@@ -197,7 +195,7 @@
 
 - (void)dealloc {
 	[self.fetchedResultsController release];
-	[self.managedObjectContext release];
+	[_managedObjectContext release];
 	[self.submitButton release];
 	[self.tickerField release];
 	[self.exchangePicker release];

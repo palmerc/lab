@@ -17,7 +17,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_managedObjectContext = [managedObjectContext retain];
 		[self starter];
 	}
 	

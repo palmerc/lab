@@ -8,7 +8,7 @@
 
 
 @class Symbol;
-@class NewsTableViewCell_Phone;
+@class SymbolNewsTableViewCell_Phone;
 
 @protocol SymbolNewsModalControllerDelegate;
 
@@ -30,7 +30,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)refresh:(id)sender;
 
-- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)configureCell:(SymbolNewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 @end
 
 @protocol SymbolNewsModalControllerDelegate
