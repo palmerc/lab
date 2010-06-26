@@ -14,16 +14,14 @@
 #import "Feed.h"
 #import "mTraderCommunicator.h"
 
-
-
 @implementation SymbolAddController
 @synthesize delegate;
-@synthesize fetchedResultsController;
-@synthesize managedObjectContext = _managedObjectContxt;
+@synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize managedObjectContext = _managedObjectContext;
 @synthesize tickerField = _tickerField;
 @synthesize submitButton = _submitButton;
 @synthesize exchangePicker = _exchangePicker;
-@synthesize mCode;
+@synthesize mCode = _mCode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,7 +44,7 @@
 	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)]; 
 	self.navigationItem.leftBarButtonItem = cancelItem;
 	
-	communicator = [mTraderCommunicator sharedManager];
+	_communicator = [mTraderCommunicator sharedManager];
 	
 	[self.submitButton setTitle:@"Add" forState:UIControlStateNormal];
 	
@@ -65,41 +63,31 @@
 #endif
 	}
 
-}
-
-- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
-	if (_managedObjectContext != managedObjectContext) {
-		[_managedObjectContext release];
-		_managedObjectContext = [managedObjectContext retain];
-		
-
-		
-		id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:0];
-		NSInteger count = [sectionInfo numberOfObjects];
-		NSInteger ossIndex = 0;
-		for (int i = 0; i < count; i++) {
-			NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-			Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
-			if ([feed.mCode isEqualToString:@"OSS"]) {
-				self.mCode = @"OSS";
-				ossIndex = i;
-				break;
-			}
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
+	NSInteger count = [sectionInfo numberOfObjects];
+	NSInteger ossIndex = 0;
+	for (int i = 0; i < count; i++) {
+		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+		Feed *feed = (Feed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+		if ([feed.mCode isEqualToString:@"OSS"]) {
+			self.mCode = @"OSS";
+			ossIndex = i;
+			break;
 		}
-		[self.exchangePicker reloadAllComponents];
-		[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];
 	}
+	
+	[self.exchangePicker selectRow:ossIndex inComponent:0 animated:NO];	
 }
 
 #pragma mark -
 #pragma mark UIPickerViewDataSource Required Methods
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-	return [[fetchedResultsController sections] count];
+	return [[self.fetchedResultsController sections] count];
 }
 
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:component];
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:component];
     return [sectionInfo numberOfObjects];
 }
 
@@ -107,13 +95,13 @@
 #pragma mark UIPickerViewDelegate Methods
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
+	Feed *feed = (Feed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	self.mCode = feed.mCode;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	Feed *feed = (Feed *)[fetchedResultsController objectAtIndexPath:indexPath];
+	Feed *feed = (Feed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	NSString *feedName = feed.feedName;
 	return feedName;
 }
@@ -127,7 +115,7 @@
 	if ([tickerSymbol isEqualToString:@""]) {
 		[self.delegate symbolAddControllerDidFinish:self didAddSymbol:nil];
 	} else {
-		[communicator addSecurity:tickerSymbol withMCode:self.mCode];
+		[_communicator addSecurity:tickerSymbol withMCode:self.mCode];
 		[self.delegate symbolAddControllerDidFinish:self didAddSymbol:tickerSymbol];
 	}
 }
@@ -152,13 +140,13 @@
  Returns the fetched results controller. Creates and configures the controller if necessary.
  */
 - (NSFetchedResultsController *)fetchedResultsController {
-    if (fetchedResultsController != nil) {
-        return fetchedResultsController;
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
     }
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
 	// Create the sort descriptors array.
@@ -168,16 +156,15 @@
 	
 	// Create and initialize the fetch results controller.
 	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-	self.fetchedResultsController = aFetchedResultsController;
-	fetchedResultsController.delegate = self;
+	_fetchedResultsController = aFetchedResultsController;
+	_fetchedResultsController.delegate = self;
 	
 	// Memory management.
-	[aFetchedResultsController release];
 	[fetchRequest release];
 	[mCodeDescriptor release];
 	[sortDescriptors release];
 	
-	return fetchedResultsController;
+	return _fetchedResultsController;
 }
 
 #pragma mark -

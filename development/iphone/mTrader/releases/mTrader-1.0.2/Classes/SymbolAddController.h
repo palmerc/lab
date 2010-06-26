@@ -14,14 +14,14 @@
 @interface SymbolAddController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, NSFetchedResultsControllerDelegate> {
 	id <SymbolAddControllerDelegate> delegate;
 	
-	NSFetchedResultsController *fetchedResultsController;
+	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
 
-	mTraderCommunicator *communicator;
+	mTraderCommunicator *_communicator;
 	UITextField *_tickerField;
 	UIButton *_submitButton;
 	UIPickerView *_exchangePicker;
-	NSString *mCode;
+	NSString *_mCode;
 }
 
 @property (assign) id <SymbolAddControllerDelegate> delegate;
@@ -32,7 +32,7 @@
 @property (nonatomic, retain) IBOutlet UIPickerView *exchangePicker;
 @property (nonatomic, retain) NSString *mCode;
 
--(IBAction) submit:(id)sender;
+- (IBAction)submit:(id)sender;
 @end
 
 @protocol SymbolAddControllerDelegate
