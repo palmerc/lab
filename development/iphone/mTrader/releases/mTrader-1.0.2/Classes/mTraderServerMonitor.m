@@ -6,7 +6,7 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#define DEBUG 1
+#define DEBUG 0
 
 #import "mTraderServerMonitor.h"
 

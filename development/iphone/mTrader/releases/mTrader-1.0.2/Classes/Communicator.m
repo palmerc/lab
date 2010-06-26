@@ -6,11 +6,11 @@
 //  Copyright 2009 Infront AS. All rights reserved.
 //
 
-#define DEBUG_INCOMING 1
-#define DEBUG_OUTGOING 1
+#define DEBUG_INCOMING 0
+#define DEBUG_OUTGOING 0
 #define DEBUG_LEFTOVERS 0
 #define DEBUG_BLOCK 0
-#define DEBUG_HANDLEEVENT 1
+#define DEBUG_HANDLEEVENT 0
 
 #import "Communicator.h"
 #import "NSMutableArray+QueueAdditions.h"
