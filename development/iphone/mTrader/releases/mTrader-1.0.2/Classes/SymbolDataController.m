@@ -81,18 +81,6 @@ static SymbolDataController *sharedDataController = nil;
 	return self;
 }
 
-- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
-	_managedObjectContext = [managedObjectContext retain];
-	
-	NSError *error;
-	if (![self.fetchedResultsController performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort(); // Fail
-	}
-}
-
-
 #pragma mark -
 #pragma mark Delegation
 /**
