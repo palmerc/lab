@@ -232,8 +232,11 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(newsFeed.feedNumber=%@)", self.newsFeed.feedNumber];
-	[fetchRequest setPredicate:predicate];
+	// Special Case the All News
+	if (![self.newsFeed.feedNumber isEqualToString:@"0"]) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(newsFeed.feedNumber=%@)", self.newsFeed.feedNumber];
+		[fetchRequest setPredicate:predicate];	
+	}
 	
 	// Create the sort descriptors array.
 	NSSortDescriptor *dateDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
