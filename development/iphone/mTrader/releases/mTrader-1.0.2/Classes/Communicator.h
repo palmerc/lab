@@ -21,9 +21,6 @@
 	NSMutableData *_dataBuffer;
 	NSMutableArray *_lineBuffer;
 	NSMutableArray *_blockBuffer;
-	
-	int previousByte;
-	BOOL _isConnected;
 }
 
 @property (nonatomic, assign) id <CommunicatorDataDelegate> delegate;
@@ -35,8 +32,6 @@
 @property (nonatomic, retain) NSMutableData *dataBuffer;
 @property (nonatomic, retain) NSMutableArray *lineBuffer;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
-
-@property BOOL isConnected;
 
 - (id)initWithSocket:(NSString *)host onPort:(NSInteger)port;
 - (void)startConnection;

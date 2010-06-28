@@ -15,12 +15,10 @@
 @synthesize delegate;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize selectedNewsFeed = _selectedNewsFeed;
 
 #pragma mark -
-#pragma mark Initialization
-
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark View Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,7 +27,9 @@
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
 		abort();  // Fail
+#endif
 	}
 	
 }
@@ -61,8 +61,8 @@
     
 	[cell.textLabel setText:feedName];
 	NSString *currentNumber = [UserDefaults sharedManager].newsFeedNumber;
+	
 	if ([feed.feedNumber isEqualToString:currentNumber]) {
-		previousChoice = indexPath;
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
@@ -75,16 +75,28 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	// Send selection to news controller
-	if (self.delegate && [self.delegate respondsToSelector:@selector(newsFeedWasSelected:)]) {
-		NewsFeed *newsFeed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-		[self.delegate newsFeedWasSelected:(NewsFeed *)newsFeed];
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	NSIndexPath *oldIndexPath = [self.fetchedResultsController indexPathForObject:self.selectedNewsFeed];
+	
+	NewsFeed *newsFeed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	self.selectedNewsFeed = newsFeed;
 		
-		[UserDefaults sharedManager].newsFeedNumber = newsFeed.feedNumber;
-		[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:previousChoice, indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+	[UserDefaults sharedManager].newsFeedNumber = newsFeed.feedNumber;
 		
-		[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+	if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+		newCell.accessoryType = UITableViewCellAccessoryCheckmark;
 	}
+		
+	UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+	if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+		oldCell.accessoryType = UITableViewCellAccessoryNone;
+	}
+	
+	//if (self.delegate && [self.delegate respondsToSelector:@selector(newsFeedWasSelected:)]) {
+	//	[self.delegate newsFeedWasSelected:(NewsFeed *)newsFeed];
+	//}
+
 }
 
 #pragma mark -

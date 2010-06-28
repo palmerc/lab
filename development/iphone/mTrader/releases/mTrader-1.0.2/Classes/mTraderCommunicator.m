@@ -301,9 +301,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *string = [self dataToString:data];
 
 	if ([string rangeOfString:@"NewsFeeds:"].location == 0) {
-		NSArray *feeds = [self exchangesParsing:string];
+		NSArray *newsFeeds = [self exchangesParsing:string];
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addNewsFeeds:)]) {
-			[self.symbolsDelegate addNewsFeeds:feeds];
+			[self.symbolsDelegate processNewsFeeds:newsFeeds];
 		}
 		state = QUOTE;
 	} else if ([string rangeOfString:@"Securities:"].location == 0) {
@@ -314,14 +314,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		} else {
 			symbolsDefined = YES;
 			NSString *symbols = [rows componentsJoinedByString:@":"];
-			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(replaceAllSymbols:)]) {
-				[self.symbolsDelegate replaceAllSymbols:symbols];
+			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(processSymbols:)]) {
+				[self.symbolsDelegate processSymbols:symbols];
 			}
 		}
 	} else if ([string rangeOfString:@"Exchanges:"].location == 0) {
-		NSArray *exchanges = [self exchangesParsing:string];
+		NSArray *symbolFeeds = [self exchangesParsing:string];
 		if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addExchanges:)]) {
-			[self.symbolsDelegate addExchanges:exchanges];
+			[self.symbolsDelegate processSymbolFeeds:symbolFeeds];
 		}
 	}
 }
@@ -434,7 +434,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
 		string = [rows objectAtIndex:0];
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addSymbols:)]) {
-			[self.symbolsDelegate addSymbols:string];
+			[self.symbolsDelegate processSymbols:string];
 		}
 		state = PROCESSING;
 	}

@@ -10,7 +10,7 @@
 #define DEBUG_OUTGOING 0
 #define DEBUG_LEFTOVERS 0
 #define DEBUG_BLOCK 0
-#define DEBUG_HANDLEEVENT 0
+#define DEBUG_HANDLEEVENT 1
 
 #import "Communicator.h"
 #import "NSMutableArray+QueueAdditions.h"
@@ -25,7 +25,6 @@
 @synthesize dataBuffer = _dataBuffer;
 @synthesize lineBuffer = _lineBuffer;
 @synthesize blockBuffer = _blockBuffer;
-@synthesize isConnected = _isConnected;
 
 #pragma mark -
 #pragma mark Initialization, Description, and Cleanup
@@ -44,7 +43,6 @@
 		_inputStream = nil;
 		_outputStream = nil;
 		_dataBuffer = nil;
-		_isConnected = NO;
 		
 		_lineBuffer = nil;
 		_blockBuffer = nil;
@@ -80,8 +78,6 @@
 			if (self.delegate && [self.delegate respondsToSelector:@selector(connected)]) {
 				[self.delegate connected];
 			}
-			self.isConnected = YES;
-
 			break;
 		case NSStreamEventHasBytesAvailable:
 #if DEBUG_HANDLEEVENT
@@ -101,7 +97,6 @@
 			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
 				[self.delegate disconnected];
 			}			
-			self.isConnected = NO;
 			break;
 		case NSStreamEventEndEncountered:
 #if DEBUG_HANDLEEVENT
@@ -110,7 +105,6 @@
 			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
 				[self.delegate disconnected];
 			}
-			self.isConnected = NO;
 			break;
 		default:
 #if DEBUG_HANDLEEVENT

@@ -47,11 +47,12 @@
 
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;
-- (void)addSymbols:(NSString *)symbols;
 - (void)maxNewsArticles:(NSInteger)max;
 - (void)deleteAllNews;
 - (void)deleteAllSymbols;
 - (void)deleteAllBidsAsks;
+- (NSArray *)fetchAllSymbolFeeds;
+- (NSArray *)fetchAllSymbols;
 - (NSArray *)fetchAllRelationships;
 - (SymbolNewsRelationship *)fetchRelationshipForArticle:(NewsArticle *)article andSymbol:(Symbol *)symbol;
 - (void)deleteAllTradesForTicker:(NSString *)tickerSymbol withFeed:(NSString *)feed;

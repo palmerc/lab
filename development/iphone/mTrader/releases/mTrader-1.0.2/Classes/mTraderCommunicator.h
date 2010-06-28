@@ -130,13 +130,12 @@ enum {
 
 @protocol SymbolsDataDelegate <NSObject>
 @optional
-- (void)replaceAllSymbols:(NSString *)symbols;
-- (void)addSymbols:(NSString *)symbols;
+- (void)processSymbolFeeds:(NSArray *)symbolFeeds;
+- (void)processSymbols:(NSString *)symbols;
+- (void)processNewsFeeds:(NSArray *)newsFeeds;
 - (void)updateSymbols:(NSArray *)symbols;
 - (void)staticUpdates:(NSDictionary *)updateDictionary;
 - (void)tradesUpdate:(NSDictionary *)updateDictionary;
-- (void)addExchanges:(NSArray *)exchanges;
-- (void)addNewsFeeds:(NSArray *)feeds;
 - (void)failedToAddNoSuchSecurity;
 - (void)failedToAddAlreadyExists;
 - (void)removedSecurity:(NSString *)feedTicker;

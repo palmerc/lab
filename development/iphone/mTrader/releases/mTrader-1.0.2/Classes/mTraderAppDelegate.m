@@ -8,8 +8,6 @@
 
 #define DEBUG 0
 
-#define LATEST_MODEL_REV @"model01"
-
 #import "mTraderAppDelegate.h"
 
 #import "mTraderServerMonitor.h"
@@ -97,9 +95,9 @@
 	[[mTraderServerMonitor sharedManager] disconnect];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-	[[mTraderServerMonitor sharedManager] attemptConnection];
-}
+//- (void)applicationWillEnterForeground:(UIApplication *)application {
+//	[[mTraderServerMonitor sharedManager] attemptConnection];
+//}
 
 /**
  applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
@@ -120,6 +118,11 @@
         } 
     }
 }
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	[[mTraderServerMonitor sharedManager] attemptConnection];
+}
+
 
 
 #pragma mark -
@@ -171,25 +174,15 @@
     if (persistentStoreCoordinator != nil) {
         return persistentStoreCoordinator;
     }
-	
-	//NSArray *bundles = nil;
-	//NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:bundles forStoreMetadata:nil];
-	
-	NSString *storeType = NSSQLiteStoreType;
-//	NSString *sourceStorePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"mTrader.sqlite"];
-	NSString *destinationStorePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"mTrader01.sqlite"];
-//	//NSURL *sourceStoreUrl = [NSURL fileURLWithPath:sourceStorePath];
-	NSURL *destinationStoreUrl = [NSURL fileURLWithPath:destinationStorePath];
-	
-	
-	//NSArray *bundlesForMappingModel = nil;
-	//NSArray *mappingModel = [NSMappingModel mappingModelFromBundles:bundlesForMappingModel forSourceModel:sourceStoreUrl destinationModel:destinationStoreUrl];
+		NSString *storeType = NSSQLiteStoreType;
+	NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"mTrader01.sqlite"];
+	NSURL *storeURL = [NSURL fileURLWithPath:storePath];
 
 	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
 	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption, nil];	
 	
 	NSError *error = nil;
-	if (![persistentStoreCoordinator addPersistentStoreWithType:storeType configuration:nil URL:destinationStoreUrl options:options error:&error]) {
+	if (![persistentStoreCoordinator addPersistentStoreWithType:storeType configuration:nil URL:storeURL options:options error:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 #if DEBUG

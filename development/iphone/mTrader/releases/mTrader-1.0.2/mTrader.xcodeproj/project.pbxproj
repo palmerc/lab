@@ -226,8 +226,8 @@
 		7ED5236411D65CD600C67857 /* DataModel00-01.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; name = "DataModel00-01.xcmappingmodel"; path = "../DataModel00-01.xcmappingmodel"; sourceTree = "<group>"; };
 		7ED5D7B0115677D3007EB033 /* MyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListViewController.h; sourceTree = "<group>"; };
 		7ED5D7B1115677D3007EB033 /* MyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListViewController.m; sourceTree = "<group>"; };
-		7ED62237115B924700917844 /* mTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7ED62239115B924700917844 /* mTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ED62237115B924700917844 /* iTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ED62239115B924700917844 /* iTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EDDBC0F114FB04F009BBF80 /* BidAsk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidAsk.h; sourceTree = "<group>"; };
 		7EDDBC10114FB04F009BBF80 /* BidAsk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidAsk.m; sourceTree = "<group>"; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -297,8 +297,8 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* mTrader.app */,
 				7E2DA15C11046873002CE93F /* LogicTests.octest */,
-				7ED62237115B924700917844 /* mTrader.app */,
-				7ED62239115B924700917844 /* mTraderTests.octest */,
+				7ED62237115B924700917844 /* iTrader.app */,
+				7ED62239115B924700917844 /* iTraderTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -484,33 +484,6 @@
 			name = News;
 			sourceTree = "<group>";
 		};
-		7E51A3E2112167A000C3922E /* Symbols */ = {
-			isa = PBXGroup;
-			children = (
-				7ED5225511D640D200C67857 /* Symbol.h */,
-				7ED5225611D640D200C67857 /* Symbol.m */,
-				7E4C13EB11D63AE900C5F5F9 /* NewsArticle.h */,
-				7E4C13EC11D63AE900C5F5F9 /* NewsArticle.m */,
-				7E4C5F10115786AE0003C31E /* Trade.h */,
-				7E4C5F11115786AE0003C31E /* Trade.m */,
-				7EC84DA01154EDA20083C82B /* NewsFeed.h */,
-				7EC84DA11154EDA20083C82B /* NewsFeed.m */,
-				7EDDBC0F114FB04F009BBF80 /* BidAsk.h */,
-				7EDDBC10114FB04F009BBF80 /* BidAsk.m */,
-				7E20DE8611D639DC0040A1D1 /* SymbolNewsRelationship.h */,
-				7E20DE8711D639DC0040A1D1 /* SymbolNewsRelationship.m */,
-				7E2A091F112C3D3C00CF5EE1 /* SymbolDynamicData.h */,
-				7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */,
-				7E2D30A1112599BE0016CFD1 /* Chart.h */,
-				7E2D30A2112599BE0016CFD1 /* Chart.m */,
-				7EAE508311185CD500B2FCB4 /* Feed.h */,
-				7EAE508411185CD500B2FCB4 /* Feed.m */,
-				7ED5236411D65CD600C67857 /* DataModel00-01.xcmappingmodel */,
-				7E6DF09E11D4EDB500E4336E /* DataModel.xcdatamodeld */,
-			);
-			name = Symbols;
-			sourceTree = "<group>";
-		};
 		7E59A718113BD99D001FD328 /* Trades */ = {
 			isa = PBXGroup;
 			children = (
@@ -571,7 +544,26 @@
 		7EAE4F851118407300B2FCB4 /* Models and Model Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7E51A3E2112167A000C3922E /* Symbols */,
+				7ED5225511D640D200C67857 /* Symbol.h */,
+				7ED5225611D640D200C67857 /* Symbol.m */,
+				7E4C13EB11D63AE900C5F5F9 /* NewsArticle.h */,
+				7E4C13EC11D63AE900C5F5F9 /* NewsArticle.m */,
+				7E4C5F10115786AE0003C31E /* Trade.h */,
+				7E4C5F11115786AE0003C31E /* Trade.m */,
+				7EC84DA01154EDA20083C82B /* NewsFeed.h */,
+				7EC84DA11154EDA20083C82B /* NewsFeed.m */,
+				7EDDBC0F114FB04F009BBF80 /* BidAsk.h */,
+				7EDDBC10114FB04F009BBF80 /* BidAsk.m */,
+				7E20DE8611D639DC0040A1D1 /* SymbolNewsRelationship.h */,
+				7E20DE8711D639DC0040A1D1 /* SymbolNewsRelationship.m */,
+				7E2A091F112C3D3C00CF5EE1 /* SymbolDynamicData.h */,
+				7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */,
+				7E2D30A1112599BE0016CFD1 /* Chart.h */,
+				7E2D30A2112599BE0016CFD1 /* Chart.m */,
+				7EAE508311185CD500B2FCB4 /* Feed.h */,
+				7EAE508411185CD500B2FCB4 /* Feed.m */,
+				7ED5236411D65CD600C67857 /* DataModel00-01.xcmappingmodel */,
+				7E6DF09E11D4EDB500E4336E /* DataModel.xcdatamodeld */,
 			);
 			name = "Models and Model Classes";
 			sourceTree = "<group>";
@@ -703,7 +695,7 @@
 			);
 			name = mTraderTesting;
 			productName = iTrader;
-			productReference = 7ED62237115B924700917844 /* mTrader.app */;
+			productReference = 7ED62237115B924700917844 /* iTrader.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7E2DA19E11046F28002CE93F /* mTraderTests */ = {
@@ -721,7 +713,7 @@
 			);
 			name = mTraderTests;
 			productName = iTraderTests;
-			productReference = 7ED62239115B924700917844 /* mTraderTests.octest */;
+			productReference = 7ED62239115B924700917844 /* iTraderTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
