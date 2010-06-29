@@ -34,7 +34,7 @@
 	
 	aView.backgroundColor = [UIColor whiteColor];
 	
-	UIImage *mTraderImage = [UIImage imageNamed:@"Mtrader_16.png"];
+	UIImage *mTraderImage = [UIImage imageNamed:@"mTrader.png"];
 	UIImageView *mTraderBranding = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 112.0f, 16.0f)];
 	mTraderBranding.image = mTraderImage;
 	
