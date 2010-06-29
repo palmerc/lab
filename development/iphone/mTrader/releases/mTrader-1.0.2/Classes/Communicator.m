@@ -299,7 +299,6 @@
  *
  */
 - (void)stopConnection {
-	sleep(1);
 	[self.inputStream close];
 	[self.outputStream close];
 	
