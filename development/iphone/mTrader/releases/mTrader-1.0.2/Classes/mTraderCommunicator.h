@@ -46,8 +46,6 @@ enum {
 	Communicator *_communicator;
 	UserDefaults *_defaults;
 	
-	BOOL isLoggedIn;
-	BOOL loginStatusHasChanged;
 	BOOL symbolsDefined;
 	
 	NSData *_currentLine;
@@ -62,7 +60,6 @@ enum {
 @property (nonatomic, assign) id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, assign) UserDefaults *defaults;
-@property (readonly) BOOL isLoggedIn;
 @property (nonatomic, retain) NSData *currentLine;
 @property (nonatomic, retain) NSMutableArray *blockBuffer;
 @property (nonatomic, retain) QFields *qFields;
@@ -76,7 +73,6 @@ enum {
 // mTrader server request methods
 - (void)login;
 - (void)logout;
-- (BOOL)loginStatusHasChanged;
 
 - (void)newsListFeed:(NSString *)mCode;
 - (void)newsItemRequest:(NSString *)newsId;
@@ -121,8 +117,6 @@ enum {
 @end
 
 @protocol mTraderServerMonitorDelegate <NSObject>
-- (void)connected;
-- (void)disconnected;
 - (void)kickedOut;
 - (void)loginSuccessful;
 - (void)loginFailed:(NSString *)message;
@@ -138,7 +132,8 @@ enum {
 - (void)tradesUpdate:(NSDictionary *)updateDictionary;
 - (void)failedToAddNoSuchSecurity;
 - (void)failedToAddAlreadyExists;
-- (void)removedSecurity:(NSString *)feedTicker;
+- (void)addSymbols:(NSString *)symbols;
+- (void)removedSymbol:(NSString *)feedTicker;
 - (void)chartUpdate:(NSDictionary *)chart;
 - (void)newsListFeedsUpdates:(NSArray *)newsList;
 - (void)symbolNewsUpdates:(NSArray *)newsList;

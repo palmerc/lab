@@ -11,7 +11,7 @@
 
 @class Reachability;
 
-@interface mTraderServerMonitor : NSObject <mTraderServerMonitorDelegate, UIAlertViewDelegate> {
+@interface mTraderServerMonitor : NSObject <mTraderServerMonitorDelegate, UIAlertViewDelegate, CommunicatorStatusDelegate> {
 @private
 	Reachability *_reachability;
 
@@ -19,15 +19,18 @@
 	NSString *_server;
 	NSString *_port;
 	
-	BOOL isConnected;
-	BOOL isLoggedIn;
+	BOOL _connected;
+	BOOL _loggedIn;
 }
 @property (nonatomic, retain) Reachability *reachability;
 @property (nonatomic, retain) NSString *server;
 @property (nonatomic, retain) NSString *port;
+@property (readonly) BOOL connected;
+@property (readonly) BOOL loggedIn;
 
 + (mTraderServerMonitor *)sharedManager;
 - (void)attemptConnection;
+- (void)logout;
 - (void)disconnect;
 - (void)startReachability;
 

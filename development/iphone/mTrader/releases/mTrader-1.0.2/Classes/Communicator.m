@@ -10,14 +10,15 @@
 #define DEBUG_OUTGOING 0
 #define DEBUG_LEFTOVERS 0
 #define DEBUG_BLOCK 0
-#define DEBUG_HANDLEEVENT 1
+#define DEBUG_HANDLEEVENT 0
 
 #import "Communicator.h"
 #import "NSMutableArray+QueueAdditions.h"
 
 @implementation Communicator
 
-@synthesize delegate = _delegate;
+@synthesize statusDelegate = _statusDelegate;
+@synthesize dataDelegate = _dataDelegate;
 @synthesize host = _host;
 @synthesize port = _port;
 @synthesize inputStream = _inputStream;
@@ -25,6 +26,7 @@
 @synthesize dataBuffer = _dataBuffer;
 @synthesize lineBuffer = _lineBuffer;
 @synthesize blockBuffer = _blockBuffer;
+@synthesize outboundBuffer = _outboundBuffer;
 
 #pragma mark -
 #pragma mark Initialization, Description, and Cleanup
@@ -46,6 +48,7 @@
 		
 		_lineBuffer = nil;
 		_blockBuffer = nil;
+		_outboundBuffer = nil;
 	}
 	return self;
 }
@@ -75,8 +78,8 @@
 #if DEBUG_HANDLEEVENT
 			NSLog(@"NSStreamEventOpenCompleted");
 #endif
-			if (self.delegate && [self.delegate respondsToSelector:@selector(connected)]) {
-				[self.delegate connected];
+			if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(connect)]) {
+				[self.statusDelegate connect];
 			}
 			break;
 		case NSStreamEventHasBytesAvailable:
@@ -89,21 +92,22 @@
 #if DEBUG_HANDLEEVENT
 			NSLog(@"NSStreamEventHasSpaceAvailable");
 #endif
+			[self sendAvailableBytes];
 			break;
 		case NSStreamEventErrorOccurred:
 #if DEBUG_HANDLEEVENT
 			NSLog(@"NSStreamEventErrorOccurred");
 #endif
-			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
-				[self.delegate disconnected];
+			if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(disconnect)]) {
+				[self.statusDelegate disconnect];
 			}			
 			break;
 		case NSStreamEventEndEncountered:
 #if DEBUG_HANDLEEVENT
 			NSLog(@"NSStreamEventEndEncountered");
 #endif
-			if (self.delegate && [self.delegate respondsToSelector:@selector(disconnected)]) {
-				[self.delegate disconnected];
+			if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(disconnect)]) {
+				[self.statusDelegate disconnect];
 			}
 			break;
 		default:
@@ -210,8 +214,8 @@
 #if DEBUG_BLOCK
 			NSLog(@"Shipping block");
 #endif
-			if (self.delegate && [self.delegate respondsToSelector:@selector(dataReceived:)]) {			
-				[self.delegate dataReceived:self.blockBuffer];
+			if (self.dataDelegate && [self.dataDelegate respondsToSelector:@selector(dataReceived:)]) {			
+				[self.dataDelegate dataReceived:self.blockBuffer];
 			}
 			self.blockBuffer = nil;
 		} else {
@@ -225,15 +229,33 @@
  *
  */
 - (void)writeString:(NSString *)string {
-	if ([self.outputStream hasSpaceAvailable]) {
+	if (_outboundBuffer == nil) {
+		_outboundBuffer = [[NSMutableData alloc] init];
+	}
+	
+	NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
+	[self.outboundBuffer appendData:data];
 #if DEBUG_OUTGOING
-		NSLog(@"\n->>>%@", string);
+	NSString *outgoing = [[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
+	NSLog(@"->>>%@", outgoing);
+	[outgoing release];
 #endif
-		NSData *data = [string dataUsingEncoding:NSISOLatin1StringEncoding];
-		
+	
+	[self sendAvailableBytes];
+}
+
+- (void)sendAvailableBytes {
+	if (![self.outputStream hasSpaceAvailable]) {
+#if DEBUG_OUTGOING
+		NSLog(@"No Space Available for Sending Data.");
+#endif
+		return;
+	}
+	NSUInteger bytesRemaining = [self.outboundBuffer length];
+
+	if ( bytesRemaining > 0 ) {	
 		// Convert it to a C-string
-		int bytesRemaining = [data length];
-		uint8_t *theBytes = (uint8_t *)[data bytes];
+		uint8_t *theBytes = (uint8_t *)[self.outboundBuffer bytes];
 		
 		while (0 < bytesRemaining) {
 			int bytesWritten = 0;
@@ -241,6 +263,7 @@
 			bytesRemaining -= bytesWritten;
 			theBytes += bytesWritten;
 		}
+		self.outboundBuffer = nil;
 	}
 }
 
@@ -276,6 +299,7 @@
  *
  */
 - (void)stopConnection {
+	sleep(1);
 	[self.inputStream close];
 	[self.outputStream close];
 	
@@ -298,7 +322,7 @@
 	[_dataBuffer release];
 	[_lineBuffer release];
 	[_blockBuffer release];
-	
+	[_outboundBuffer release];
 	[super dealloc];
 }
 

@@ -30,8 +30,7 @@
 #if DEBUG
 		abort();  // Fail
 #endif
-	}
-	
+	}	
 }
 
 #pragma mark -
@@ -60,14 +59,16 @@
 	NSString *feedName = feed.name;
     
 	[cell.textLabel setText:feedName];
+
 	NSString *currentNumber = [UserDefaults sharedManager].newsFeedNumber;
 	
 	if ([feed.feedNumber isEqualToString:currentNumber]) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+		self.selectedNewsFeed = feed;
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
-
+	
 	return cell;
 }
 
@@ -77,6 +78,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	NSIndexPath *oldIndexPath = [self.fetchedResultsController indexPathForObject:self.selectedNewsFeed];
+	
+	if ([indexPath isEqual:oldIndexPath]) {
+		return;
+	}
 	
 	NewsFeed *newsFeed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	self.selectedNewsFeed = newsFeed;
@@ -92,11 +97,15 @@
 	if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
 		oldCell.accessoryType = UITableViewCellAccessoryNone;
 	}
-	
-	//if (self.delegate && [self.delegate respondsToSelector:@selector(newsFeedWasSelected:)]) {
-	//	[self.delegate newsFeedWasSelected:(NewsFeed *)newsFeed];
-	//}
+}
 
+#pragma mark -
+#pragma mark IBAction
+
+- (void)doneBarButtonItemAction:(id)sender {
+	if (self.delegate && [self.delegate respondsToSelector:@selector(newsFeedWasSelected:)]) {
+		[self.delegate newsFeedWasSelected:self.selectedNewsFeed];
+	}
 }
 
 #pragma mark -

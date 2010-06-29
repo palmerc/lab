@@ -175,7 +175,7 @@
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:feedsModalTableViewController];
 	
-	UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:self action:@selector(doneBarButtonItemAction:)];
+	UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:feedsModalTableViewController action:@selector(doneBarButtonItemAction:)];
 	feedsModalTableViewController.navigationItem.leftBarButtonItem = doneBarButtonItem;
 	[doneBarButtonItem release];
 	[feedsModalTableViewController release];
@@ -184,13 +184,11 @@
 	[navController release];
 }
 
-- (void)doneBarButtonItemAction:(id)sender {
-	[self dismissModalViewControllerAnimated:YES];
-}
-
 #pragma mark -
 #pragma mark NewsFeedChoiceDelegate methods
 - (void)newsFeedWasSelected:(NewsFeed *)aNewsFeed {
+	[self dismissModalViewControllerAnimated:YES];
+
 	// Fire off request for news related to the choice made if different from current choice
 	if ([aNewsFeed.feedNumber isEqualToString:self.newsFeed.feedNumber]) {
 		return;

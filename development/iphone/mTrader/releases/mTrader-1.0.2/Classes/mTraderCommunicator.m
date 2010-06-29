@@ -21,7 +21,6 @@
 static mTraderCommunicator *sharedCommunicator = nil;
 @synthesize symbolsDelegate;
 @synthesize mTraderServerMonitorDelegate;
-@synthesize isLoggedIn;
 @synthesize communicator = _communicator;
 @synthesize defaults = _defaults;
 @synthesize blockBuffer = _blockBuffer;
@@ -45,11 +44,9 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	self = [super init];
 	if (self != nil) {
 		_communicator = [[Communicator alloc] initWithSocket:url onPort:port];
-		_communicator.delegate = self;
+		_communicator.dataDelegate = self;
 		_defaults = [UserDefaults sharedManager];
 		
-		isLoggedIn = NO;
-		loginStatusHasChanged = NO;
 		_blockBuffer = [[NSMutableArray alloc] init];
 		_qFields = nil;
 		contentLength = 0;
@@ -102,18 +99,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (void)dataReceived:(NSArray *)block {
 	[self.blockBuffer addObjectsFromArray:block];
 	[self stateMachine];
-}
-
-- (void)connected {
-	if (self.mTraderServerMonitorDelegate && [mTraderServerMonitorDelegate respondsToSelector:@selector(connected)]) {
-		[self.mTraderServerMonitorDelegate connected];
-	}
-}
-
-- (void)disconnected {
-	if (self.mTraderServerMonitorDelegate && [mTraderServerMonitorDelegate respondsToSelector:@selector(disconnected)]) {
-		[self.mTraderServerMonitorDelegate disconnected];
-	}
 }
 
 -(void) stateMachine {
@@ -210,18 +195,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *string = [self dataToString:data];
 	
 	if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
-		loginStatusHasChanged = YES;
 		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
 			[self.mTraderServerMonitorDelegate loginFailed:@"UsrPwd"];
 		}
-		isLoggedIn = NO;
 		state = LOGIN;
 	} else if ([string rangeOfString:@"Request: login/failed.DeniedAccess"].location == 0) {
-		loginStatusHasChanged = YES;
 		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
 			[self.mTraderServerMonitorDelegate loginFailed:@"DeniedAccess"];
 		}
-		isLoggedIn = NO;
 		state = LOGIN;
 	} 
 }
@@ -231,7 +212,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *string = [self dataToString:data];
 	
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
-		loginStatusHasChanged = YES;
 		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginSuccess)]) {
 			[self.mTraderServerMonitorDelegate loginSuccessful];
 		}		
@@ -268,6 +248,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		state = NEWSFEEDS;
 	} else if ([string rangeOfString:@"Request: NewsList/OK"].location == 0) {
 		state = NEWSLIST;
+	} else if ([string rangeOfString:@"Request: Logout/OK"].location == 0) {
+		state = LOGIN;
 	}
 }
 
@@ -279,16 +261,12 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginSuccessful)]) {
 			[self.mTraderServerMonitorDelegate loginSuccessful];
 		}
-		loginStatusHasChanged = YES;
-		isLoggedIn = YES;
-		
+
 		state = PREPROCESSING;
 	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
 		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
 			[self.mTraderServerMonitorDelegate loginFailed:@"UsrPwd"];
 		}
-		loginStatusHasChanged = YES;
-		isLoggedIn = NO;
 	}
 }
 
@@ -302,7 +280,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 	if ([string rangeOfString:@"NewsFeeds:"].location == 0) {
 		NSArray *newsFeeds = [self exchangesParsing:string];
-		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addNewsFeeds:)]) {
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(processNewsFeeds:)]) {
 			[self.symbolsDelegate processNewsFeeds:newsFeeds];
 		}
 		state = QUOTE;
@@ -320,7 +298,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		}
 	} else if ([string rangeOfString:@"Exchanges:"].location == 0) {
 		NSArray *symbolFeeds = [self exchangesParsing:string];
-		if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addExchanges:)]) {
+		if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(processSymbolFeeds:)]) {
 			[self.symbolsDelegate processSymbolFeeds:symbolFeeds];
 		}
 	}
@@ -434,7 +412,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
 		string = [rows objectAtIndex:0];
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addSymbols:)]) {
-			[self.symbolsDelegate processSymbols:string];
+			[self.symbolsDelegate addSymbols:string];
 		}
 		state = PROCESSING;
 	}
@@ -446,8 +424,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"SecOid:"].location == 0) {
 		NSString *feedTicker = [StringHelpers cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
-		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(removedSecurity:)]) {
-			[self.symbolsDelegate removedSecurity:feedTicker];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(removedSymbol:)]) {
+			[self.symbolsDelegate removedSymbol:feedTicker];
 		}
 	}
 	
@@ -667,16 +645,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	return exchangesArray;
 }
 
-- (BOOL)loginStatusHasChanged {
-	BOOL result = NO;
-	if (loginStatusHasChanged) {
-		result = YES;
-		
-		loginStatusHasChanged = NO;
-	}
-	return result;
-}
-
 #pragma mark -
 #pragma mark mTrader Server Requests
 /**
@@ -685,6 +653,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
  */
 
 - (void)login {
+	if (! [[mTraderServerMonitor sharedManager] connected] ) {
+		return;
+	}
+	
 	NSString *username = self.defaults.username;
 	NSString *password = self.defaults.password;
 	
@@ -722,17 +694,16 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)logout {
-	if ( isLoggedIn == NO ) {
-		return;
-	}
 	NSString *ActionLogout = @"Action: Logout";
 	NSArray *logoutArray = [NSArray arrayWithObjects:ActionLogout, nil];
 	NSString *logoutString = [self arrayToFormattedString:logoutArray];
 	[self.communicator writeString:logoutString];
+	
+	state = LOGIN;
 }
 
 - (void)addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode {
-	if ( isLoggedIn == NO ) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] ) {
 		return;
 	}
 	NSString *username = self.defaults.username;
@@ -749,7 +720,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)removeSecurity:(NSString *)feedTicker {
-	if ( isLoggedIn == NO ) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] ) {
 		return;
 	}
 	NSString *username = self.defaults.username;
@@ -765,7 +736,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)staticDataForFeedTicker:(NSString *)feedTicker {
-	if ( isLoggedIn == NO ) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] ) {
 		return;
 	}
 	NSString *username = self.defaults.username;
@@ -787,7 +758,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
  *
  */
 - (void)setStreamingForFeedTicker:(NSString *)feedTicker {
-	if ( isLoggedIn == NO || self.qFields == nil) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] || (self.qFields == nil) ) {
 		return;
 	}
 	
@@ -821,7 +792,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)tradesRequest:(NSString *)feedTicker {
-	if ( isLoggedIn == NO ) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] ) {
 		return;
 	}
 	NSInteger index = -1;
@@ -842,7 +813,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {
-	if ( isLoggedIn == NO ) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] ) {
 		return;
 	}
 	NSString *imgType = @"PNG"; // We only support one type of image currently although GIF is also specified in client.
@@ -865,12 +836,13 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 // News Requests
 - (void)newsItemRequest:(NSString *)newsId {
-	if ( isLoggedIn == NO ) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] ) {
 		return;
 	}
 	NSString *username = self.defaults.username;
 	NSString *ActionNewsBody = @"Action: NewsBody";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	//NSString *Formatting = [NSString stringWithString:@"Reformat: 0"];
 	NSString *NewsID = [NSString stringWithFormat:@"NewsID: %@", newsId];
 	
 	NSArray *newsItemArray = [NSArray arrayWithObjects:ActionNewsBody, Authorization, NewsID, nil];
@@ -880,7 +852,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)newsListFeed:(NSString *)mCode {
-	if ( isLoggedIn == NO ) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] ) {
 		return;
 	}
 	NSString *username = self.defaults.username;
@@ -893,13 +865,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSArray *getNewsListFeedsArray = [NSArray arrayWithObjects:ActionNewsListFeeds, Authorization, newsFeeds, days, maxCount, nil];
 	NSString *newsListFeedsString = [self arrayToFormattedString:getNewsListFeedsArray];
 	
-	if (isLoggedIn == YES) {
-		[self.communicator writeString:newsListFeedsString];
-	}
+	[self.communicator writeString:newsListFeedsString];
 }
 
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker {
-	if ( isLoggedIn == NO ) {
+	if ( ![[mTraderServerMonitor sharedManager] loggedIn] ) {
 		return;
 	}
 	NSString *username = self.defaults.username;

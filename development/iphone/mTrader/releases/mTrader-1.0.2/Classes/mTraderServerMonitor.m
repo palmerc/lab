@@ -23,6 +23,8 @@ static mTraderServerMonitor *sharedMonitor = nil;
 @synthesize reachability = _reachability;
 @synthesize server = _server;
 @synthesize port = _port;
+@synthesize connected = _connected;
+@synthesize loggedIn = _loggedIn;
 
 #pragma mark -
 #pragma mark Singleton Methods
@@ -66,14 +68,15 @@ static mTraderServerMonitor *sharedMonitor = nil;
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		isLoggedIn = NO;
+		_loggedIn = NO;
+		_connected = NO;
 		
 		self.server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		_reachability = nil;
 		
-				
 		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
+		[mTraderCommunicator sharedManager].communicator.statusDelegate = self;
 		
 		[self startReachability];
 	}
@@ -99,13 +102,13 @@ static mTraderServerMonitor *sharedMonitor = nil;
 #if DEBUG
 			status = @"Reachable via WiFi";
 #endif
-			[self attemptConnection];
+			//[self attemptConnection];
 			break;
 		case ReachableViaWWAN:
 #if DEBUG
 			status = @"Reachable via WWAN";
 #endif
-			[self attemptConnection];
+			//[self attemptConnection];
 			break;
 		default:
 			break;
@@ -145,60 +148,58 @@ static mTraderServerMonitor *sharedMonitor = nil;
 }
 
 - (void)attemptConnection {
-	if (isConnected == NO) {
-		[[mTraderCommunicator sharedManager].communicator startConnection];
-	}
-	
-	if (isConnected && !isLoggedIn && [self hasUsernameAndPasswordDefined]) {
-		[[mTraderCommunicator sharedManager] login];
-	}
-}
-
-- (void)disconnect {
-	if (isConnected == NO) {
+	if (![self hasUsernameAndPasswordDefined]) {
 		return;
 	}
 	
-	[[mTraderCommunicator sharedManager] logout];
-	[[mTraderCommunicator sharedManager].communicator stopConnection];
-	isConnected = NO;
-	isLoggedIn = NO;
+	if (self.connected == NO) {
+		[[mTraderCommunicator sharedManager].communicator startConnection];
+	}
 }
 
 #pragma mark -
 #pragma mark mTraderCommunicatorMonitorDelegate methods
 
-- (void)connected {
-	isConnected = YES;
-	if (isLoggedIn == NO) {
-		[self attemptConnection];
+- (void)connect {
+	if (_connected == NO) {
+		_connected = YES;
+		if (self.connected && !self.loggedIn) {
+			[[mTraderCommunicator sharedManager] login];
+		}
 	}
 }
 
-- (void)disconnected {
-	if (isConnected == NO && isLoggedIn == NO) {
-		return;
-	}
-	isConnected = NO;
-	isLoggedIn = NO;
-	
-	[[mTraderCommunicator sharedManager].communicator stopConnection];
+- (void)disconnect {	
+	//[[mTraderCommunicator sharedManager].communicator stopConnection];
+	_connected = NO;
+	_loggedIn = NO;
 }
+
+- (void)loginSuccessful {
+	_loggedIn = YES;
+}
+
+- (void)logout {
+	_connected = NO;
+	_loggedIn = NO;
+	[[mTraderCommunicator sharedManager] logout];
+}
+
+#pragma mark -
+#pragma mark Status Message Popups
 
 - (void)loginFailed:(NSString *)message {
-	isLoggedIn = NO;
+	_loggedIn = NO;
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
 }
 
-- (void)loginSuccessful {
-	isLoggedIn = YES;
-}
-
 -(void) kickedOut {
 	[self.reachability stopNotifer];
+#if DEBUG
 	NSLog(@"Kicked out");
+#endif
 	[[mTraderCommunicator sharedManager].communicator stopConnection];
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
 	[alertView show];

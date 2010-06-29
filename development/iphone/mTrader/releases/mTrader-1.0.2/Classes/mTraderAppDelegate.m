@@ -80,6 +80,8 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+	[[mTraderServerMonitor sharedManager] logout];
+
 	[[UserDefaults sharedManager] saveSettings];
 	
 	NSError *error;
@@ -92,7 +94,6 @@
 #endif
         } 
     }
-	[[mTraderServerMonitor sharedManager] disconnect];
 }
 
 //- (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -103,7 +104,7 @@
  applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
  */
 - (void)applicationWillTerminate:(UIApplication *)application {
-	[[mTraderCommunicator sharedManager] logout];
+	[[mTraderServerMonitor sharedManager] logout];
 
 	[[UserDefaults sharedManager] saveSettings];
 	

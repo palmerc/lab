@@ -40,6 +40,8 @@ static SymbolDataController *sharedDataController = nil;
 		
 		_managedObjectContext = nil;
 		_fetchedResultsController = nil;
+		
+		symbolIndex = 0;
 	}
 	return self;
 }
@@ -266,7 +268,6 @@ static SymbolDataController *sharedDataController = nil;
 	const NSInteger FIELD_COUNT = 8;
 	
 	// insert the objects
-	static NSUInteger index = 0;
 	NSArray *rows = [symbols componentsSeparatedByString:@":"];
 	rows = [StringHelpers cleanComponents:rows];
 	for (NSString *row in rows) {
@@ -337,11 +338,11 @@ static SymbolDataController *sharedDataController = nil;
 		}
 		symbol.isin = isin;
 		
-		symbol.index = [NSNumber numberWithInteger:index];
+		symbol.index = [NSNumber numberWithInteger:symbolIndex];
 		
 		[serverSymbolsSet addObject:symbol];
 		
-		index++;
+		symbolIndex++;
 	}
 	
 	// Remove server provided symbols from the client set
@@ -358,6 +359,111 @@ static SymbolDataController *sharedDataController = nil;
 	[serverSymbolsSet release];
 	
 	// save the objects
+	NSError *error;
+	if (![self.managedObjectContext save:&error]) {
+		// Handle the error
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();  // Fail
+#endif
+	}
+}
+
+- (void)addSymbols:(NSString *)symbols {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+	
+	// 1) Get database symbols
+	// 2) Get server symbols
+	// 3) Remove symbols that the server has removed
+	// 4) Add symbols and update symbols
+	
+	//const NSInteger FEED_TICKER = 0;
+	const NSInteger TICKER_SYMBOL = 1;
+	const NSInteger COMPANY_NAME = 2;
+	const NSInteger EXCHANGE_CODE = 3;
+	const NSInteger TYPE = 4;
+	const NSInteger ORDER_BOOK = 5;
+	const NSInteger ISIN = 6;
+	//const NSInteger EXCHANGE_NUMBER = 7;
+	const NSInteger FIELD_COUNT = 8;
+	
+	// insert the objects
+	NSArray *rows = [symbols componentsSeparatedByString:@":"];
+	rows = [StringHelpers cleanComponents:rows];
+	for (NSString *row in rows) {
+		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
+		if ([stockComponents count] != FIELD_COUNT) {
+			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
+			continue;
+		}
+		stockComponents = [StringHelpers cleanComponents:stockComponents];
+		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
+		NSString *tickerSymbol = [stockComponents objectAtIndex:TICKER_SYMBOL];
+		NSString *companyName = [stockComponents objectAtIndex:COMPANY_NAME];
+		NSString *exchangeCode = [stockComponents objectAtIndex:EXCHANGE_CODE];
+		NSString *orderBook = [stockComponents objectAtIndex:ORDER_BOOK];
+		NSString *type = [stockComponents objectAtIndex:TYPE];
+		NSString *isin = [stockComponents objectAtIndex:ISIN];
+		
+		// Separate the Description from the mCode
+		NSRange leftBracketRange = [exchangeCode rangeOfString:@"["];
+		NSRange rightBracketRange = [exchangeCode rangeOfString:@"]"];
+		
+		NSRange mCodeRange;
+		mCodeRange.location = leftBracketRange.location + 1;
+		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
+		NSString *mCode = [exchangeCode substringWithRange:mCodeRange]; // OSS
+		
+		// Prevent double insertions
+		Feed *feed = [self fetchFeed:mCode];		
+		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeed:mCode];
+		
+		if (symbol == nil) {
+			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
+			symbol.tickerSymbol = tickerSymbol;
+			
+			symbol.companyName = companyName;
+			symbol.country = nil;
+			symbol.currency = nil;
+			symbol.orderBook = orderBook;
+			if ([type isEqualToString:@"1"]) {
+				symbol.type = @"Stock";
+			} else if ([type isEqualToString:@"2"]) {
+				symbol.type = @"Index";
+			} else if ([type isEqualToString:@"3"]) {
+				symbol.type = @"Exchange Rate";
+			} else {
+				symbol.type = type;
+			}
+			symbol.isin = isin;
+			symbol.symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
+			
+			[feed addSymbolsObject:symbol];
+		}
+		
+		symbol.tickerSymbol = tickerSymbol;
+		
+		symbol.companyName = companyName;
+		symbol.country = nil;
+		symbol.currency = nil;
+		symbol.orderBook = orderBook;
+		if ([type isEqualToString:@"1"]) {
+			symbol.type = @"Stock";
+		} else if ([type isEqualToString:@"2"]) {
+			symbol.type = @"Index";
+		} else if ([type isEqualToString:@"3"]) {
+			symbol.type = @"Exchange Rate";
+		} else {
+			symbol.type = type;
+		}
+		symbol.isin = isin;
+		
+		symbol.index = [NSNumber numberWithInteger:symbolIndex];
+				
+		symbolIndex++;
+	}
+		
+	// save the object
 	NSError *error;
 	if (![self.managedObjectContext save:&error]) {
 		// Handle the error
@@ -399,7 +505,9 @@ static SymbolDataController *sharedDataController = nil;
 		}
 		
 		if ([resultSetArray count] == 0) {
+#if DEBUG
 			NSLog(@"Symbol Update failed for %@. Unable to locate symbol.", feedTicker);
+#endif
 			continue;
 		}
 		
@@ -1130,6 +1238,9 @@ static SymbolDataController *sharedDataController = nil;
 	}
 }
 
+#pragma mark -
+#pragma mark Core Data Helper Methods
+
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index {
 	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
@@ -1234,6 +1345,25 @@ static SymbolDataController *sharedDataController = nil;
 	} else {
 		return nil;
 	}
+}
+
+- (NSArray *)fetchAllNewsFeeds {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}
+	
+	return array;	
 }
 
 - (NSArray *)fetchAllSymbolFeeds {

@@ -28,6 +28,8 @@
 	
 	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
+	
+	NSUInteger symbolIndex;
 }
 
 @property (nonatomic, assign) id <OrderBookDelegate> orderBookDelegate;
@@ -54,6 +56,7 @@
 - (NSArray *)fetchAllSymbolFeeds;
 - (NSArray *)fetchAllSymbols;
 - (NSArray *)fetchAllRelationships;
+- (NSArray *)fetchAllNewsFeeds;
 - (SymbolNewsRelationship *)fetchRelationshipForArticle:(NewsArticle *)article andSymbol:(Symbol *)symbol;
 - (void)deleteAllTradesForTicker:(NSString *)tickerSymbol withFeed:(NSString *)feed;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
