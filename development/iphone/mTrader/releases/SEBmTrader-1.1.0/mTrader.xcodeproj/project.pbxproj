@@ -1,0 +1,1399 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7E15C53010F32632007A45E8 /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
+		7E15C7DD10F35A23007A45E8 /* ChainsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */; };
+		7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B7ED41117371A00445735 /* StringHelpers.m */; };
+		7E20DE8B11D639DC0040A1D1 /* SymbolNewsRelationship.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E20DE8711D639DC0040A1D1 /* SymbolNewsRelationship.m */; };
+		7E29B80310F4B96500816D9B /* SymbolAddController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* SymbolAddController.m */; };
+		7E2A0921112C3D3C00CF5EE1 /* SymbolDynamicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */; };
+		7E2B93B411048CEB00DA0B91 /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
+		7E2B93D111048D4600DA0B91 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
+		7E2B93DC11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */; };
+		7E2B93DE11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */; };
+		7E2D30A3112599BE0016CFD1 /* Chart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2D30A2112599BE0016CFD1 /* Chart.m */; };
+		7E2DA17E11046EBC002CE93F /* ChainsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* ChainsTableViewController.m */; };
+		7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
+		7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
+		7E2DA18111046EBC002CE93F /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
+		7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
+		7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
+		7E2DA18911046EBC002CE93F /* Starter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C52F10F32632007A45E8 /* Starter.m */; };
+		7E2DA18A11046EBC002CE93F /* ChainsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */; };
+		7E2DA18B11046EBC002CE93F /* SymbolAddController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29B80210F4B96500816D9B /* SymbolAddController.m */; };
+		7E2DA18C11046EBC002CE93F /* SymbolDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */; };
+		7E2DA18E11046EBC002CE93F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E33CBC81100AE5600C2737F /* Reachability.m */; };
+		7E2DA19011046EBC002CE93F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		7E2DA19111046EBC002CE93F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		7E2DA19211046EBC002CE93F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7E2DA19311046EBC002CE93F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */; };
+		7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */; };
+		7E33CBC91100AE5600C2737F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E33CBC81100AE5600C2737F /* Reachability.m */; };
+		7E3451CB1160A3770099B393 /* MyListTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3451CA1160A3770099B393 /* MyListTab.png */; };
+		7E3451D61160AA560099B393 /* NewsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3451D51160AA560099B393 /* NewsTab.png */; };
+		7E377F7011171B000080A84B /* mTraderCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F6F11171B000080A84B /* mTraderCommunicator.m */; };
+		7E377F7311171B1C0080A84B /* mTraderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7211171B1C0080A84B /* mTraderAppDelegate.m */; };
+		7E377F7511171B300080A84B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E377F7411171B300080A84B /* main.m */; };
+		7E377F8211171B7B0080A84B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F7D11171B7B0080A84B /* Localizable.strings */; };
+		7E377F8B11171B970080A84B /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8411171B970080A84B /* AboutView.xib */; };
+		7E377F9111171B970080A84B /* SymbolAddView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E377F8A11171B970080A84B /* SymbolAddView.xib */; };
+		7E38610711490BE300CA1086 /* TradesInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38610611490BE300CA1086 /* TradesInfoView.m */; };
+		7E38626C1149239A00CA1086 /* OrderBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38626B1149239A00CA1086 /* OrderBookView.m */; };
+		7E38640911494AB300CA1086 /* SymbolDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38640811494AB300CA1086 /* SymbolDataController.m */; };
+		7E3FC7ED114551BC00C438CF /* RoundedRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FC7EC114551BC00C438CF /* RoundedRectangle.m */; };
+		7E3FCBDC1146874C00C438CF /* LastChangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3FCBDB1146874C00C438CF /* LastChangeView.m */; };
+		7E419AD910E20B920007808B /* ChainsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419AD810E20B920007808B /* ChainsTableViewController.m */; };
+		7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419BCA10E21A150007808B /* SettingsTableViewController.m */; };
+		7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
+		7E419C7010E2209B0007808B /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6C10E2209B0007808B /* Communicator.m */; };
+		7E4C13ED11D63AE900C5F5F9 /* NewsArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C13EC11D63AE900C5F5F9 /* NewsArticle.m */; };
+		7E4C5F12115786AE0003C31E /* Trade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4C5F11115786AE0003C31E /* Trade.m */; };
+		7E57C012114A834600A1AF93 /* QFields.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E57C011114A834600A1AF93 /* QFields.m */; };
+		7E59A71B113BD9C2001FD328 /* TradesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A71A113BD9C2001FD328 /* TradesController.m */; };
+		7E59A71E113BD9F2001FD328 /* TradesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A71D113BD9F2001FD328 /* TradesCell.m */; };
+		7E59A8C9113C1485001FD328 /* SymbolNewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A8C8113C1485001FD328 /* SymbolNewsController.m */; };
+		7E59A8CC113C14A0001FD328 /* ChartController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E59A8CB113C14A0001FD328 /* ChartController.m */; };
+		7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */; };
+		7E6DF09F11D4EDB500E4336E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DF09E11D4EDB500E4336E /* DataModel.xcdatamodeld */; };
+		7E6DF0F511D4F2B400E4336E /* FeedsTableViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DF0EC11D4F2B400E4336E /* FeedsTableViewController_Phone.m */; };
+		7E6DF0F611D4F2B400E4336E /* NewsTableViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DF0EE11D4F2B400E4336E /* NewsTableViewController_Phone.m */; };
+		7E6DF0F711D4F2B400E4336E /* NewsTableViewCell_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DF0F011D4F2B400E4336E /* NewsTableViewCell_Phone.m */; };
+		7E6DF0F811D4F2B400E4336E /* NewsArticleController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DF0F211D4F2B400E4336E /* NewsArticleController_Phone.m */; };
+		7E6DF0F911D4F2B400E4336E /* NewsArticleView_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DF0F411D4F2B400E4336E /* NewsArticleView_Phone.m */; };
+		7E723B621129413E0073A07B /* OrderBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723B611129413E0073A07B /* OrderBookController.m */; };
+		7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E723BB511294B930073A07B /* OrderBookTableCellP.m */; };
+		7E795A0A11590024006E35F4 /* SymbolNewsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A0911590024006E35F4 /* SymbolNewsView.m */; };
+		7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A8E11591292006E35F4 /* OrderBookModalController.m */; };
+		7E8A6FD110F604B4003D7E29 /* SymbolDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */; };
+		7E96114E11DA2A440046586E /* Icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96114811DA2A440046586E /* Icon-small.png */; };
+		7E96114F11DA2A440046586E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96114911DA2A440046586E /* Icon.png */; };
+		7E96115011DA2A440046586E /* Icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96114A11DA2A440046586E /* Icon-small@2x.png */; };
+		7E96115111DA2A440046586E /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96114B11DA2A440046586E /* Icon-72.png */; };
+		7E96115211DA2A440046586E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96114C11DA2A440046586E /* Icon@2x.png */; };
+		7E96115311DA2A440046586E /* Icon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96114D11DA2A440046586E /* Icon-512.png */; };
+		7E96116311DA32370046586E /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7E96116211DA32370046586E /* iTunesArtwork */; };
+		7E96117311DA32AF0046586E /* MyListTab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96117111DA32AF0046586E /* MyListTab@2x.png */; };
+		7E96117411DA32AF0046586E /* NewsTab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96117211DA32AF0046586E /* NewsTab@2x.png */; };
+		7E9611D811DA66990046586E /* SettingsTab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E9611D711DA66990046586E /* SettingsTab@2x.png */; };
+		7E9611EA11DA6BD10046586E /* SettingsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E9611E911DA6BD10046586E /* SettingsTab.png */; };
+		7E96120311DA6DB30046586E /* mTrader.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96120211DA6DB30046586E /* mTrader.png */; };
+		7E96120811DA6DDA0046586E /* mTrader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96120711DA6DDA0046586E /* mTrader@2x.png */; };
+		7E9CD69A111DAAC9009B0087 /* MyListNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */; };
+		7EAE508711185CD500B2FCB4 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EAE508411185CD500B2FCB4 /* Feed.m */; };
+		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
+		7EC00A2A112ABD320092873A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC00A29112ABD320092873A /* QuartzCore.framework */; };
+		7EC84A941153B01B0083C82B /* GradientLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC84A931153B01B0083C82B /* GradientLabel.m */; };
+		7EC84DA21154EDA20083C82B /* NewsFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC84DA11154EDA20083C82B /* NewsFeed.m */; };
+		7ED5225711D640D200C67857 /* Symbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED5225611D640D200C67857 /* Symbol.m */; };
+		7ED5226F11D6444100C67857 /* SymbolNewsTableViewCell_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED5226E11D6444100C67857 /* SymbolNewsTableViewCell_Phone.m */; };
+		7ED5236511D65CD600C67857 /* DataModel00-01.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7ED5236411D65CD600C67857 /* DataModel00-01.xcmappingmodel */; };
+		7ED5D7B2115677D3007EB033 /* MyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED5D7B1115677D3007EB033 /* MyListViewController.m */; };
+		7EDDBC11114FB04F009BBF80 /* BidAsk.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDDBC10114FB04F009BBF80 /* BidAsk.m */; };
+		7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE2A71F11172B0100B682BD /* CoreData.framework */; };
+		7EF2A556115A114C0049A8C1 /* SymbolNewsModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A555115A114C0049A8C1 /* SymbolNewsModalController.m */; };
+		7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */; };
+		C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73CE63610E7544200AF6D89 /* AboutViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7E2DA1A411046F40002CE93F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7E2DA19E11046F28002CE93F;
+			remoteInfo = iTraderTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D6058910D05DD3D006BFB54 /* mTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7E15C52E10F32632007A45E8 /* Starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Starter.h; sourceTree = "<group>"; };
+		7E15C52F10F32632007A45E8 /* Starter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Starter.m; sourceTree = "<group>"; };
+		7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChainsTableCell.h; sourceTree = "<group>"; };
+		7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChainsTableCell.m; sourceTree = "<group>"; };
+		7E1B7ED31117371A00445735 /* StringHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringHelpers.h; path = Classes/StringHelpers.h; sourceTree = "<group>"; };
+		7E1B7ED41117371A00445735 /* StringHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringHelpers.m; path = Classes/StringHelpers.m; sourceTree = "<group>"; };
+		7E1B7ED61117373600445735 /* model00.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = model00.xcdatamodel; sourceTree = "<group>"; };
+		7E20DE8611D639DC0040A1D1 /* SymbolNewsRelationship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsRelationship.h; sourceTree = "<group>"; };
+		7E20DE8711D639DC0040A1D1 /* SymbolNewsRelationship.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsRelationship.m; sourceTree = "<group>"; };
+		7E29B80110F4B96500816D9B /* SymbolAddController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolAddController.h; sourceTree = "<group>"; };
+		7E29B80210F4B96500816D9B /* SymbolAddController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolAddController.m; sourceTree = "<group>"; };
+		7E2A091F112C3D3C00CF5EE1 /* SymbolDynamicData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDynamicData.h; sourceTree = "<group>"; };
+		7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDynamicData.m; sourceTree = "<group>"; };
+		7E2B93DA11048DE800DA0B91 /* mTraderServerMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderServerMonitor.h; sourceTree = "<group>"; };
+		7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderServerMonitor.m; sourceTree = "<group>"; };
+		7E2D30A1112599BE0016CFD1 /* Chart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chart.h; sourceTree = "<group>"; };
+		7E2D30A2112599BE0016CFD1 /* Chart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chart.m; sourceTree = "<group>"; };
+		7E2DA15C11046873002CE93F /* LogicTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E2DA15D11046873002CE93F /* LogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LogicTests-Info.plist"; sourceTree = "<group>"; };
+		7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7E33CBC71100AE5600C2737F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		7E33CBC81100AE5600C2737F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		7E3451CA1160A3770099B393 /* MyListTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyListTab.png; sourceTree = "<group>"; };
+		7E3451D51160AA560099B393 /* NewsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewsTab.png; sourceTree = "<group>"; };
+		7E377F6811171AEB0080A84B /* mTraderCommunicatorUnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mTraderCommunicatorUnitTests.h; path = Tests/mTraderCommunicatorUnitTests.h; sourceTree = "<group>"; };
+		7E377F6911171AEB0080A84B /* mTraderCommunicatorUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mTraderCommunicatorUnitTests.m; path = Tests/mTraderCommunicatorUnitTests.m; sourceTree = "<group>"; };
+		7E377F6A11171AEB0080A84B /* mTraderTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mTraderTests.h; path = Tests/mTraderTests.h; sourceTree = "<group>"; };
+		7E377F6B11171AEB0080A84B /* mTraderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = mTraderTests.m; path = Tests/mTraderTests.m; sourceTree = "<group>"; };
+		7E377F6E11171B000080A84B /* mTraderCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderCommunicator.h; sourceTree = "<group>"; };
+		7E377F6F11171B000080A84B /* mTraderCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderCommunicator.m; sourceTree = "<group>"; };
+		7E377F7111171B1C0080A84B /* mTraderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTraderAppDelegate.h; sourceTree = "<group>"; };
+		7E377F7211171B1C0080A84B /* mTraderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mTraderAppDelegate.m; sourceTree = "<group>"; };
+		7E377F7411171B300080A84B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/main.m; sourceTree = "<group>"; };
+		7E377F7611171B430080A84B /* mTrader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mTrader_Prefix.pch; sourceTree = "<group>"; };
+		7E377F7811171B650080A84B /* mTraderCommunicationProtocol.tex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mTraderCommunicationProtocol.tex; sourceTree = "<group>"; };
+		7E377F7911171B650080A84B /* StateDiagram.dot */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StateDiagram.dot; sourceTree = "<group>"; };
+		7E377F7E11171B7B0080A84B /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		7E377F8411171B970080A84B /* AboutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutView.xib; path = Resources/AboutView.xib; sourceTree = "<group>"; };
+		7E377F8A11171B970080A84B /* SymbolAddView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SymbolAddView.xib; path = Resources/SymbolAddView.xib; sourceTree = "<group>"; };
+		7E377F9A11171BC60080A84B /* mTrader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTrader-Info.plist"; sourceTree = "<group>"; };
+		7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mTraderTesting-Info.plist"; sourceTree = "<group>"; };
+		7E38610511490BE300CA1086 /* TradesInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesInfoView.h; sourceTree = "<group>"; };
+		7E38610611490BE300CA1086 /* TradesInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesInfoView.m; sourceTree = "<group>"; };
+		7E38626A1149239A00CA1086 /* OrderBookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookView.h; sourceTree = "<group>"; };
+		7E38626B1149239A00CA1086 /* OrderBookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookView.m; sourceTree = "<group>"; };
+		7E38640711494AB300CA1086 /* SymbolDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDataController.h; sourceTree = "<group>"; };
+		7E38640811494AB300CA1086 /* SymbolDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDataController.m; sourceTree = "<group>"; };
+		7E3FC7EB114551BC00C438CF /* RoundedRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedRectangle.h; sourceTree = "<group>"; };
+		7E3FC7EC114551BC00C438CF /* RoundedRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedRectangle.m; sourceTree = "<group>"; };
+		7E3FCBDA1146874C00C438CF /* LastChangeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastChangeView.h; sourceTree = "<group>"; };
+		7E3FCBDB1146874C00C438CF /* LastChangeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastChangeView.m; sourceTree = "<group>"; };
+		7E419AD710E20B920007808B /* ChainsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChainsTableViewController.h; sourceTree = "<group>"; };
+		7E419AD810E20B920007808B /* ChainsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChainsTableViewController.m; sourceTree = "<group>"; };
+		7E419BC910E21A150007808B /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
+		7E419BCA10E21A150007808B /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		7E419C6810E2209B0007808B /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
+		7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueAdditions.m"; sourceTree = "<group>"; };
+		7E419C6B10E2209B0007808B /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
+		7E419C6C10E2209B0007808B /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
+		7E4C13EB11D63AE900C5F5F9 /* NewsArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsArticle.h; sourceTree = "<group>"; };
+		7E4C13EC11D63AE900C5F5F9 /* NewsArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsArticle.m; sourceTree = "<group>"; };
+		7E4C5F10115786AE0003C31E /* Trade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trade.h; sourceTree = "<group>"; };
+		7E4C5F11115786AE0003C31E /* Trade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trade.m; sourceTree = "<group>"; };
+		7E57C010114A834600A1AF93 /* QFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QFields.h; sourceTree = "<group>"; };
+		7E57C011114A834600A1AF93 /* QFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QFields.m; sourceTree = "<group>"; };
+		7E59A719113BD9C2001FD328 /* TradesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesController.h; sourceTree = "<group>"; };
+		7E59A71A113BD9C2001FD328 /* TradesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesController.m; sourceTree = "<group>"; };
+		7E59A71C113BD9F2001FD328 /* TradesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesCell.h; sourceTree = "<group>"; };
+		7E59A71D113BD9F2001FD328 /* TradesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradesCell.m; sourceTree = "<group>"; };
+		7E59A8C7113C1485001FD328 /* SymbolNewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsController.h; sourceTree = "<group>"; };
+		7E59A8C8113C1485001FD328 /* SymbolNewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsController.m; sourceTree = "<group>"; };
+		7E59A8CA113C14A0001FD328 /* ChartController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartController.h; sourceTree = "<group>"; };
+		7E59A8CB113C14A0001FD328 /* ChartController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartController.m; sourceTree = "<group>"; };
+		7E6DF0A011D4EDB500E4336E /* model01.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = model01.xcdatamodel; sourceTree = "<group>"; };
+		7E6DF0EB11D4F2B400E4336E /* FeedsTableViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedsTableViewController_Phone.h; sourceTree = "<group>"; };
+		7E6DF0EC11D4F2B400E4336E /* FeedsTableViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedsTableViewController_Phone.m; sourceTree = "<group>"; };
+		7E6DF0ED11D4F2B400E4336E /* NewsTableViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsTableViewController_Phone.h; sourceTree = "<group>"; };
+		7E6DF0EE11D4F2B400E4336E /* NewsTableViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsTableViewController_Phone.m; sourceTree = "<group>"; };
+		7E6DF0EF11D4F2B400E4336E /* NewsTableViewCell_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsTableViewCell_Phone.h; sourceTree = "<group>"; };
+		7E6DF0F011D4F2B400E4336E /* NewsTableViewCell_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsTableViewCell_Phone.m; sourceTree = "<group>"; };
+		7E6DF0F111D4F2B400E4336E /* NewsArticleController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsArticleController_Phone.h; sourceTree = "<group>"; };
+		7E6DF0F211D4F2B400E4336E /* NewsArticleController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsArticleController_Phone.m; sourceTree = "<group>"; };
+		7E6DF0F311D4F2B400E4336E /* NewsArticleView_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsArticleView_Phone.h; sourceTree = "<group>"; };
+		7E6DF0F411D4F2B400E4336E /* NewsArticleView_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsArticleView_Phone.m; sourceTree = "<group>"; };
+		7E723B601129413E0073A07B /* OrderBookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookController.h; sourceTree = "<group>"; };
+		7E723B611129413E0073A07B /* OrderBookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookController.m; sourceTree = "<group>"; };
+		7E723BB411294B930073A07B /* OrderBookTableCellP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookTableCellP.h; sourceTree = "<group>"; };
+		7E723BB511294B930073A07B /* OrderBookTableCellP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookTableCellP.m; sourceTree = "<group>"; };
+		7E795A0811590024006E35F4 /* SymbolNewsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsView.h; sourceTree = "<group>"; };
+		7E795A0911590024006E35F4 /* SymbolNewsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsView.m; sourceTree = "<group>"; };
+		7E795A8D11591292006E35F4 /* OrderBookModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookModalController.h; sourceTree = "<group>"; };
+		7E795A8E11591292006E35F4 /* OrderBookModalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookModalController.m; sourceTree = "<group>"; };
+		7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolDetailController.h; sourceTree = "<group>"; };
+		7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolDetailController.m; sourceTree = "<group>"; };
+		7E96114811DA2A440046586E /* Icon-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-small.png"; sourceTree = "<group>"; };
+		7E96114911DA2A440046586E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		7E96114A11DA2A440046586E /* Icon-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-small@2x.png"; sourceTree = "<group>"; };
+		7E96114B11DA2A440046586E /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		7E96114C11DA2A440046586E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		7E96114D11DA2A440046586E /* Icon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-512.png"; sourceTree = "<group>"; };
+		7E96116211DA32370046586E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		7E96117111DA32AF0046586E /* MyListTab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyListTab@2x.png"; sourceTree = "<group>"; };
+		7E96117211DA32AF0046586E /* NewsTab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NewsTab@2x.png"; sourceTree = "<group>"; };
+		7E9611D711DA66990046586E /* SettingsTab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SettingsTab@2x.png"; sourceTree = "<group>"; };
+		7E9611E911DA6BD10046586E /* SettingsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SettingsTab.png; sourceTree = "<group>"; };
+		7E96120211DA6DB30046586E /* mTrader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mTrader.png; sourceTree = "<group>"; };
+		7E96120711DA6DDA0046586E /* mTrader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mTrader@2x.png"; sourceTree = "<group>"; };
+		7E9CD698111DAAC9009B0087 /* MyListNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListNavigationController.h; sourceTree = "<group>"; };
+		7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListNavigationController.m; sourceTree = "<group>"; };
+		7EAE508311185CD500B2FCB4 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		7EAE508411185CD500B2FCB4 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
+		7EB15D0210F1D24D003049C7 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
+		7EB15D0310F1D24D003049C7 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
+		7EC00A29112ABD320092873A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7EC84A921153B01B0083C82B /* GradientLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientLabel.h; sourceTree = "<group>"; };
+		7EC84A931153B01B0083C82B /* GradientLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientLabel.m; sourceTree = "<group>"; };
+		7EC84DA01154EDA20083C82B /* NewsFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeed.h; sourceTree = "<group>"; };
+		7EC84DA11154EDA20083C82B /* NewsFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeed.m; sourceTree = "<group>"; };
+		7ED5225511D640D200C67857 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Symbol.h; sourceTree = "<group>"; };
+		7ED5225611D640D200C67857 /* Symbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Symbol.m; sourceTree = "<group>"; };
+		7ED5226D11D6444100C67857 /* SymbolNewsTableViewCell_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsTableViewCell_Phone.h; sourceTree = "<group>"; };
+		7ED5226E11D6444100C67857 /* SymbolNewsTableViewCell_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsTableViewCell_Phone.m; sourceTree = "<group>"; };
+		7ED5236411D65CD600C67857 /* DataModel00-01.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; name = "DataModel00-01.xcmappingmodel"; path = "../DataModel00-01.xcmappingmodel"; sourceTree = "<group>"; };
+		7ED5D7B0115677D3007EB033 /* MyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListViewController.h; sourceTree = "<group>"; };
+		7ED5D7B1115677D3007EB033 /* MyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListViewController.m; sourceTree = "<group>"; };
+		7ED62237115B924700917844 /* mTrader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mTrader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ED62239115B924700917844 /* mTraderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mTraderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EDDBC0F114FB04F009BBF80 /* BidAsk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BidAsk.h; sourceTree = "<group>"; };
+		7EDDBC10114FB04F009BBF80 /* BidAsk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BidAsk.m; sourceTree = "<group>"; };
+		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		7EF2A554115A114C0049A8C1 /* SymbolNewsModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsModalController.h; sourceTree = "<group>"; };
+		7EF2A555115A114C0049A8C1 /* SymbolNewsModalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsModalController.m; sourceTree = "<group>"; };
+		7EF9464C11108D9F006B5CDE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		C73CE63510E7544200AF6D89 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		C73CE63610E7544200AF6D89 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				7E33CBB01100ADAB00C2737F /* SystemConfiguration.framework in Frameworks */,
+				7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */,
+				7EC00A2A112ABD320092873A /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA15911046873002CE93F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA18F11046EBC002CE93F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E2DA19011046EBC002CE93F /* Foundation.framework in Frameworks */,
+				7E2DA19111046EBC002CE93F /* UIKit.framework in Frameworks */,
+				7E2DA19211046EBC002CE93F /* CoreGraphics.framework in Frameworks */,
+				7E2DA19311046EBC002CE93F /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA19C11046F28002CE93F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7EB15D0110F1D227003049C7 /* User Defaults */,
+				7E419C6A10E2209B0007808B /* Communicator */,
+				7E419C6710E2209B0007808B /* Data Structure */,
+				7E419AC610E206190007808B /* AppDelegate */,
+				7E419AD510E20B520007808B /* ViewControllers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* mTrader.app */,
+				7E2DA15C11046873002CE93F /* LogicTests.octest */,
+				7ED62237115B924700917844 /* mTrader.app */,
+				7ED62239115B924700917844 /* mTraderTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				7E2DA13911046094002CE93F /* Tests */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				7E377F7611171B430080A84B /* mTrader_Prefix.pch */,
+				7E377F7411171B300080A84B /* main.m */,
+				7E1B7ED31117371A00445735 /* StringHelpers.h */,
+				7E1B7ED41117371A00445735 /* StringHelpers.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7E377F7711171B650080A84B /* Documentation */,
+				C73CE2F710E3BE3E00AF6D89 /* Translations */,
+				7E419AFA10E20DD00007808B /* Graphics */,
+				7E377F8411171B970080A84B /* AboutView.xib */,
+				7E377F8A11171B970080A84B /* SymbolAddView.xib */,
+				7E377F9A11171BC60080A84B /* mTrader-Info.plist */,
+				7E377F9B11171BC60080A84B /* mTraderTesting-Info.plist */,
+				7E2DA15D11046873002CE93F /* LogicTests-Info.plist */,
+				7EF9464C11108D9F006B5CDE /* Entitlements.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				7E33CBAF1100ADAB00C2737F /* SystemConfiguration.framework */,
+				7EE2A71F11172B0100B682BD /* CoreData.framework */,
+				7EC00A29112ABD320092873A /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E2DA13911046094002CE93F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				7E377F6811171AEB0080A84B /* mTraderCommunicatorUnitTests.h */,
+				7E377F6911171AEB0080A84B /* mTraderCommunicatorUnitTests.m */,
+				7E377F6A11171AEB0080A84B /* mTraderTests.h */,
+				7E377F6B11171AEB0080A84B /* mTraderTests.m */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		7E377F7711171B650080A84B /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				7E377F7811171B650080A84B /* mTraderCommunicationProtocol.tex */,
+				7E377F7911171B650080A84B /* StateDiagram.dot */,
+			);
+			name = Documentation;
+			path = Resources/documentation;
+			sourceTree = "<group>";
+		};
+		7E377F7C11171B7B0080A84B /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				7E377F7D11171B7B0080A84B /* Localizable.strings */,
+			);
+			name = en.lproj;
+			path = Resources/en.lproj;
+			sourceTree = "<group>";
+		};
+		7E419AC610E206190007808B /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				7E377F7111171B1C0080A84B /* mTraderAppDelegate.h */,
+				7E377F7211171B1C0080A84B /* mTraderAppDelegate.m */,
+				7E15C52E10F32632007A45E8 /* Starter.h */,
+				7E15C52F10F32632007A45E8 /* Starter.m */,
+				7E38640711494AB300CA1086 /* SymbolDataController.h */,
+				7E38640811494AB300CA1086 /* SymbolDataController.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		7E419AD510E20B520007808B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7E419AD610E20B7B0007808B /* Chains */,
+				7E419DE510E251BA0007808B /* News */,
+				7E419B1F10E20EDB0007808B /* Settings */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		7E419AD610E20B7B0007808B /* Chains */ = {
+			isa = PBXGroup;
+			children = (
+				7EB3DBA2113552AD00145DDC /* Navigation Controller */,
+			);
+			name = Chains;
+			sourceTree = "<group>";
+		};
+		7E419AFA10E20DD00007808B /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				7E96116211DA32370046586E /* iTunesArtwork */,
+				7E96114D11DA2A440046586E /* Icon-512.png */,
+				7E96114911DA2A440046586E /* Icon.png */,
+				7E96114C11DA2A440046586E /* Icon@2x.png */,
+				7E96114B11DA2A440046586E /* Icon-72.png */,
+				7E96114811DA2A440046586E /* Icon-small.png */,
+				7E96114A11DA2A440046586E /* Icon-small@2x.png */,
+				7E96120211DA6DB30046586E /* mTrader.png */,
+				7E96120711DA6DDA0046586E /* mTrader@2x.png */,
+				7E3451CA1160A3770099B393 /* MyListTab.png */,
+				7E96117111DA32AF0046586E /* MyListTab@2x.png */,
+				7E3451D51160AA560099B393 /* NewsTab.png */,
+				7E96117211DA32AF0046586E /* NewsTab@2x.png */,
+				7E9611E911DA6BD10046586E /* SettingsTab.png */,
+				7E9611D711DA66990046586E /* SettingsTab@2x.png */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		7E419B1F10E20EDB0007808B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				7E419BC910E21A150007808B /* SettingsTableViewController.h */,
+				7E419BCA10E21A150007808B /* SettingsTableViewController.m */,
+				C73CE63510E7544200AF6D89 /* AboutViewController.h */,
+				C73CE63610E7544200AF6D89 /* AboutViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		7E419C6710E2209B0007808B /* Data Structure */ = {
+			isa = PBXGroup;
+			children = (
+				7EAE4F851118407300B2FCB4 /* Models and Model Classes */,
+				7E419C6810E2209B0007808B /* NSMutableArray+QueueAdditions.h */,
+				7E419C6910E2209B0007808B /* NSMutableArray+QueueAdditions.m */,
+			);
+			name = "Data Structure";
+			sourceTree = "<group>";
+		};
+		7E419C6A10E2209B0007808B /* Communicator */ = {
+			isa = PBXGroup;
+			children = (
+				7E33CBC71100AE5600C2737F /* Reachability.h */,
+				7E33CBC81100AE5600C2737F /* Reachability.m */,
+				7E419C6B10E2209B0007808B /* Communicator.h */,
+				7E419C6C10E2209B0007808B /* Communicator.m */,
+				7E2B93DA11048DE800DA0B91 /* mTraderServerMonitor.h */,
+				7E2B93DB11048DE800DA0B91 /* mTraderServerMonitor.m */,
+				7E377F6E11171B000080A84B /* mTraderCommunicator.h */,
+				7E377F6F11171B000080A84B /* mTraderCommunicator.m */,
+				7E57C010114A834600A1AF93 /* QFields.h */,
+				7E57C011114A834600A1AF93 /* QFields.m */,
+			);
+			name = Communicator;
+			sourceTree = "<group>";
+		};
+		7E419DE510E251BA0007808B /* News */ = {
+			isa = PBXGroup;
+			children = (
+				7E6DF0ED11D4F2B400E4336E /* NewsTableViewController_Phone.h */,
+				7E6DF0EE11D4F2B400E4336E /* NewsTableViewController_Phone.m */,
+				7E6DF0EF11D4F2B400E4336E /* NewsTableViewCell_Phone.h */,
+				7E6DF0F011D4F2B400E4336E /* NewsTableViewCell_Phone.m */,
+				7E6DF0F111D4F2B400E4336E /* NewsArticleController_Phone.h */,
+				7E6DF0F211D4F2B400E4336E /* NewsArticleController_Phone.m */,
+				7E6DF0F311D4F2B400E4336E /* NewsArticleView_Phone.h */,
+				7E6DF0F411D4F2B400E4336E /* NewsArticleView_Phone.m */,
+				7E6DF0EA11D4F2B400E4336E /* Feeds */,
+			);
+			name = News;
+			sourceTree = "<group>";
+		};
+		7E59A718113BD99D001FD328 /* Trades */ = {
+			isa = PBXGroup;
+			children = (
+				7E59A719113BD9C2001FD328 /* TradesController.h */,
+				7E59A71A113BD9C2001FD328 /* TradesController.m */,
+				7E59A71C113BD9F2001FD328 /* TradesCell.h */,
+				7E59A71D113BD9F2001FD328 /* TradesCell.m */,
+			);
+			name = Trades;
+			sourceTree = "<group>";
+		};
+		7E59A8B3113C12AB001FD328 /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				7E59A8CA113C14A0001FD328 /* ChartController.h */,
+				7E59A8CB113C14A0001FD328 /* ChartController.m */,
+			);
+			name = Chart;
+			sourceTree = "<group>";
+		};
+		7E59A8B4113C12F2001FD328 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				7ED5226D11D6444100C67857 /* SymbolNewsTableViewCell_Phone.h */,
+				7ED5226E11D6444100C67857 /* SymbolNewsTableViewCell_Phone.m */,
+				7E59A8C7113C1485001FD328 /* SymbolNewsController.h */,
+				7E59A8C8113C1485001FD328 /* SymbolNewsController.m */,
+				7EF2A554115A114C0049A8C1 /* SymbolNewsModalController.h */,
+				7EF2A555115A114C0049A8C1 /* SymbolNewsModalController.m */,
+			);
+			name = News;
+			sourceTree = "<group>";
+		};
+		7E6DF0EA11D4F2B400E4336E /* Feeds */ = {
+			isa = PBXGroup;
+			children = (
+				7E6DF0EB11D4F2B400E4336E /* FeedsTableViewController_Phone.h */,
+				7E6DF0EC11D4F2B400E4336E /* FeedsTableViewController_Phone.m */,
+			);
+			name = Feeds;
+			sourceTree = "<group>";
+		};
+		7E723BAC11294B350073A07B /* OrderBook */ = {
+			isa = PBXGroup;
+			children = (
+				7E795A8D11591292006E35F4 /* OrderBookModalController.h */,
+				7E795A8E11591292006E35F4 /* OrderBookModalController.m */,
+				7E723B601129413E0073A07B /* OrderBookController.h */,
+				7E723B611129413E0073A07B /* OrderBookController.m */,
+				7E723BB411294B930073A07B /* OrderBookTableCellP.h */,
+				7E723BB511294B930073A07B /* OrderBookTableCellP.m */,
+				7EC84A921153B01B0083C82B /* GradientLabel.h */,
+				7EC84A931153B01B0083C82B /* GradientLabel.m */,
+			);
+			name = OrderBook;
+			sourceTree = "<group>";
+		};
+		7EAE4F851118407300B2FCB4 /* Models and Model Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7ED5225511D640D200C67857 /* Symbol.h */,
+				7ED5225611D640D200C67857 /* Symbol.m */,
+				7E4C13EB11D63AE900C5F5F9 /* NewsArticle.h */,
+				7E4C13EC11D63AE900C5F5F9 /* NewsArticle.m */,
+				7E4C5F10115786AE0003C31E /* Trade.h */,
+				7E4C5F11115786AE0003C31E /* Trade.m */,
+				7EC84DA01154EDA20083C82B /* NewsFeed.h */,
+				7EC84DA11154EDA20083C82B /* NewsFeed.m */,
+				7EDDBC0F114FB04F009BBF80 /* BidAsk.h */,
+				7EDDBC10114FB04F009BBF80 /* BidAsk.m */,
+				7E20DE8611D639DC0040A1D1 /* SymbolNewsRelationship.h */,
+				7E20DE8711D639DC0040A1D1 /* SymbolNewsRelationship.m */,
+				7E2A091F112C3D3C00CF5EE1 /* SymbolDynamicData.h */,
+				7E2A0920112C3D3C00CF5EE1 /* SymbolDynamicData.m */,
+				7E2D30A1112599BE0016CFD1 /* Chart.h */,
+				7E2D30A2112599BE0016CFD1 /* Chart.m */,
+				7EAE508311185CD500B2FCB4 /* Feed.h */,
+				7EAE508411185CD500B2FCB4 /* Feed.m */,
+				7ED5236411D65CD600C67857 /* DataModel00-01.xcmappingmodel */,
+				7E6DF09E11D4EDB500E4336E /* DataModel.xcdatamodeld */,
+			);
+			name = "Models and Model Classes";
+			sourceTree = "<group>";
+		};
+		7EB15D0110F1D227003049C7 /* User Defaults */ = {
+			isa = PBXGroup;
+			children = (
+				7EB15D0210F1D24D003049C7 /* UserDefaults.h */,
+				7EB15D0310F1D24D003049C7 /* UserDefaults.m */,
+			);
+			name = "User Defaults";
+			sourceTree = "<group>";
+		};
+		7EB3DBA2113552AD00145DDC /* Navigation Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7ED92B8610F77F010016F656 /* Chains Table */,
+				7E9CD698111DAAC9009B0087 /* MyListNavigationController.h */,
+				7E9CD699111DAAC9009B0087 /* MyListNavigationController.m */,
+			);
+			name = "Navigation Controller";
+			sourceTree = "<group>";
+		};
+		7EB3DBA3113552D700145DDC /* Add Symbol */ = {
+			isa = PBXGroup;
+			children = (
+				7E29B80110F4B96500816D9B /* SymbolAddController.h */,
+				7E29B80210F4B96500816D9B /* SymbolAddController.m */,
+			);
+			name = "Add Symbol";
+			sourceTree = "<group>";
+		};
+		7EB3DBAC1135536000145DDC /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				7E59A8B4113C12F2001FD328 /* News */,
+				7E59A8B3113C12AB001FD328 /* Chart */,
+				7E59A718113BD99D001FD328 /* Trades */,
+				7E723BAC11294B350073A07B /* OrderBook */,
+				7E8A6FCF10F604B4003D7E29 /* SymbolDetailController.h */,
+				7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */,
+				7E3FCBDA1146874C00C438CF /* LastChangeView.h */,
+				7E3FCBDB1146874C00C438CF /* LastChangeView.m */,
+				7E38610511490BE300CA1086 /* TradesInfoView.h */,
+				7E38610611490BE300CA1086 /* TradesInfoView.m */,
+				7E38626A1149239A00CA1086 /* OrderBookView.h */,
+				7E38626B1149239A00CA1086 /* OrderBookView.m */,
+				7E795A0811590024006E35F4 /* SymbolNewsView.h */,
+				7E795A0911590024006E35F4 /* SymbolNewsView.m */,
+				7E3FC7EB114551BC00C438CF /* RoundedRectangle.h */,
+				7E3FC7EC114551BC00C438CF /* RoundedRectangle.m */,
+			);
+			name = Detail;
+			sourceTree = "<group>";
+		};
+		7ED92B8610F77F010016F656 /* Chains Table */ = {
+			isa = PBXGroup;
+			children = (
+				7EB3DBAC1135536000145DDC /* Detail */,
+				7EB3DBA3113552D700145DDC /* Add Symbol */,
+				7E419AD710E20B920007808B /* ChainsTableViewController.h */,
+				7E419AD810E20B920007808B /* ChainsTableViewController.m */,
+				7E15C7DB10F35A23007A45E8 /* ChainsTableCell.h */,
+				7E15C7DC10F35A23007A45E8 /* ChainsTableCell.m */,
+				7ED5D7B0115677D3007EB033 /* MyListViewController.h */,
+				7ED5D7B1115677D3007EB033 /* MyListViewController.m */,
+			);
+			name = "Chains Table";
+			sourceTree = "<group>";
+		};
+		C73CE2F710E3BE3E00AF6D89 /* Translations */ = {
+			isa = PBXGroup;
+			children = (
+				7E377F7C11171B7B0080A84B /* en.lproj */,
+			);
+			name = Translations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* mTrader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "mTrader" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = mTrader;
+			productName = iTrader;
+			productReference = 1D6058910D05DD3D006BFB54 /* mTrader.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7E2DA15B11046873002CE93F /* LogicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E2DA16011046873002CE93F /* Build configuration list for PBXNativeTarget "LogicTests" */;
+			buildPhases = (
+				7E2DA15711046873002CE93F /* Resources */,
+				7E2DA15811046873002CE93F /* Sources */,
+				7E2DA15911046873002CE93F /* Frameworks */,
+				7E2DA15A11046873002CE93F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LogicTests;
+			productName = LogicTests;
+			productReference = 7E2DA15C11046873002CE93F /* LogicTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		7E2DA16F11046EBC002CE93F /* mTraderTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E2DA19411046EBC002CE93F /* Build configuration list for PBXNativeTarget "mTraderTesting" */;
+			buildPhases = (
+				7E2DA17011046EBC002CE93F /* Resources */,
+				7E2DA17B11046EBC002CE93F /* Sources */,
+				7E2DA18F11046EBC002CE93F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7E2DA1A511046F40002CE93F /* PBXTargetDependency */,
+			);
+			name = mTraderTesting;
+			productName = iTrader;
+			productReference = 7ED62237115B924700917844 /* mTrader.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7E2DA19E11046F28002CE93F /* mTraderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E2DA1A311046F29002CE93F /* Build configuration list for PBXNativeTarget "mTraderTests" */;
+			buildPhases = (
+				7E2DA19A11046F28002CE93F /* Resources */,
+				7E2DA19B11046F28002CE93F /* Sources */,
+				7E2DA19C11046F28002CE93F /* Frameworks */,
+				7E2DA19D11046F28002CE93F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = mTraderTests;
+			productName = iTraderTests;
+			productReference = 7ED62239115B924700917844 /* mTraderTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Infront AS";
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "mTrader" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+				no,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* mTrader */,
+				7E2DA16F11046EBC002CE93F /* mTraderTesting */,
+				7E2DA15B11046873002CE93F /* LogicTests */,
+				7E2DA19E11046F28002CE93F /* mTraderTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EF9464D11108D9F006B5CDE /* Entitlements.plist in Resources */,
+				7E377F8211171B7B0080A84B /* Localizable.strings in Resources */,
+				7E377F8B11171B970080A84B /* AboutView.xib in Resources */,
+				7E377F9111171B970080A84B /* SymbolAddView.xib in Resources */,
+				7E3451CB1160A3770099B393 /* MyListTab.png in Resources */,
+				7E3451D61160AA560099B393 /* NewsTab.png in Resources */,
+				7E96114E11DA2A440046586E /* Icon-small.png in Resources */,
+				7E96114F11DA2A440046586E /* Icon.png in Resources */,
+				7E96115011DA2A440046586E /* Icon-small@2x.png in Resources */,
+				7E96115111DA2A440046586E /* Icon-72.png in Resources */,
+				7E96115211DA2A440046586E /* Icon@2x.png in Resources */,
+				7E96115311DA2A440046586E /* Icon-512.png in Resources */,
+				7E96116311DA32370046586E /* iTunesArtwork in Resources */,
+				7E96117311DA32AF0046586E /* MyListTab@2x.png in Resources */,
+				7E96117411DA32AF0046586E /* NewsTab@2x.png in Resources */,
+				7E9611D811DA66990046586E /* SettingsTab@2x.png in Resources */,
+				7E9611EA11DA6BD10046586E /* SettingsTab.png in Resources */,
+				7E96120311DA6DB30046586E /* mTrader.png in Resources */,
+				7E96120811DA6DDA0046586E /* mTrader@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA15711046873002CE93F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA17011046EBC002CE93F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA19A11046F28002CE93F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7E2DA15A11046873002CE93F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		7E2DA19D11046F28002CE93F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E377F7511171B300080A84B /* main.m in Sources */,
+				7E377F7311171B1C0080A84B /* mTraderAppDelegate.m in Sources */,
+				7E6DF09F11D4EDB500E4336E /* DataModel.xcdatamodeld in Sources */,
+				7E419AD910E20B920007808B /* ChainsTableViewController.m in Sources */,
+				7E419BCB10E21A150007808B /* SettingsTableViewController.m in Sources */,
+				7E419C6F10E2209B0007808B /* NSMutableArray+QueueAdditions.m in Sources */,
+				7E419C7010E2209B0007808B /* Communicator.m in Sources */,
+				C73CE63710E7544200AF6D89 /* AboutViewController.m in Sources */,
+				7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */,
+				7E15C53010F32632007A45E8 /* Starter.m in Sources */,
+				7E15C7DD10F35A23007A45E8 /* ChainsTableCell.m in Sources */,
+				7E29B80310F4B96500816D9B /* SymbolAddController.m in Sources */,
+				7E8A6FD110F604B4003D7E29 /* SymbolDetailController.m in Sources */,
+				7E33CBC91100AE5600C2737F /* Reachability.m in Sources */,
+				7E2B93DC11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */,
+				7E377F7011171B000080A84B /* mTraderCommunicator.m in Sources */,
+				7E1B7ED51117371A00445735 /* StringHelpers.m in Sources */,
+				7EAE508711185CD500B2FCB4 /* Feed.m in Sources */,
+				7E9CD69A111DAAC9009B0087 /* MyListNavigationController.m in Sources */,
+				7E2D30A3112599BE0016CFD1 /* Chart.m in Sources */,
+				7E723B621129413E0073A07B /* OrderBookController.m in Sources */,
+				7E723BB611294B930073A07B /* OrderBookTableCellP.m in Sources */,
+				7E2A0921112C3D3C00CF5EE1 /* SymbolDynamicData.m in Sources */,
+				7E59A71B113BD9C2001FD328 /* TradesController.m in Sources */,
+				7E59A71E113BD9F2001FD328 /* TradesCell.m in Sources */,
+				7E59A8C9113C1485001FD328 /* SymbolNewsController.m in Sources */,
+				7E59A8CC113C14A0001FD328 /* ChartController.m in Sources */,
+				7E3FC7ED114551BC00C438CF /* RoundedRectangle.m in Sources */,
+				7E3FCBDC1146874C00C438CF /* LastChangeView.m in Sources */,
+				7E38610711490BE300CA1086 /* TradesInfoView.m in Sources */,
+				7E38626C1149239A00CA1086 /* OrderBookView.m in Sources */,
+				7E38640911494AB300CA1086 /* SymbolDataController.m in Sources */,
+				7E57C012114A834600A1AF93 /* QFields.m in Sources */,
+				7EDDBC11114FB04F009BBF80 /* BidAsk.m in Sources */,
+				7EC84A941153B01B0083C82B /* GradientLabel.m in Sources */,
+				7EC84DA21154EDA20083C82B /* NewsFeed.m in Sources */,
+				7ED5D7B2115677D3007EB033 /* MyListViewController.m in Sources */,
+				7E4C5F12115786AE0003C31E /* Trade.m in Sources */,
+				7E795A0A11590024006E35F4 /* SymbolNewsView.m in Sources */,
+				7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */,
+				7EF2A556115A114C0049A8C1 /* SymbolNewsModalController.m in Sources */,
+				7E6DF0F511D4F2B400E4336E /* FeedsTableViewController_Phone.m in Sources */,
+				7E6DF0F611D4F2B400E4336E /* NewsTableViewController_Phone.m in Sources */,
+				7E6DF0F711D4F2B400E4336E /* NewsTableViewCell_Phone.m in Sources */,
+				7E6DF0F811D4F2B400E4336E /* NewsArticleController_Phone.m in Sources */,
+				7E6DF0F911D4F2B400E4336E /* NewsArticleView_Phone.m in Sources */,
+				7E20DE8B11D639DC0040A1D1 /* SymbolNewsRelationship.m in Sources */,
+				7E4C13ED11D63AE900C5F5F9 /* NewsArticle.m in Sources */,
+				7ED5225711D640D200C67857 /* Symbol.m in Sources */,
+				7ED5226F11D6444100C67857 /* SymbolNewsTableViewCell_Phone.m in Sources */,
+				7ED5236511D65CD600C67857 /* DataModel00-01.xcmappingmodel in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA15811046873002CE93F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E6345921105C77A00ADC4B7 /* NSMutableArray+QueueAdditions.m in Sources */,
+				7E2B93D111048D4600DA0B91 /* UserDefaults.m in Sources */,
+				7E2B93B411048CEB00DA0B91 /* Communicator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA17B11046EBC002CE93F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E2DA17E11046EBC002CE93F /* ChainsTableViewController.m in Sources */,
+				7E2DA17F11046EBC002CE93F /* SettingsTableViewController.m in Sources */,
+				7E2DA18011046EBC002CE93F /* NSMutableArray+QueueAdditions.m in Sources */,
+				7E2DA18111046EBC002CE93F /* Communicator.m in Sources */,
+				7E2DA18411046EBC002CE93F /* AboutViewController.m in Sources */,
+				7E2DA18511046EBC002CE93F /* UserDefaults.m in Sources */,
+				7E2DA18911046EBC002CE93F /* Starter.m in Sources */,
+				7E2DA18A11046EBC002CE93F /* ChainsTableCell.m in Sources */,
+				7E2DA18B11046EBC002CE93F /* SymbolAddController.m in Sources */,
+				7E2DA18C11046EBC002CE93F /* SymbolDetailController.m in Sources */,
+				7E2DA18E11046EBC002CE93F /* Reachability.m in Sources */,
+				7E2B93DE11048DE800DA0B91 /* mTraderServerMonitor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2DA19B11046F28002CE93F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7E2DA1A511046F40002CE93F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7E2DA19E11046F28002CE93F /* mTraderTests */;
+			targetProxy = 7E2DA1A411046F40002CE93F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7E377F7D11171B7B0080A84B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E377F7E11171B7B0080A84B /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
+				INFOPLIST_FILE = "mTrader-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = mTrader;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.0;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
+				INFOPLIST_FILE = "mTrader-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = mTrader;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.0;
+			};
+			name = Release;
+		};
+		7E2DA15E11046873002CE93F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "LogicTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = LogicTests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7E2DA15F11046873002CE93F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "LogicTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = LogicTests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		7E2DA19511046EBC002CE93F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
+				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = iTrader;
+			};
+			name = Debug;
+		};
+		7E2DA19611046EBC002CE93F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTrader_Prefix.pch;
+				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = iTrader;
+			};
+			name = Release;
+		};
+		7E2DA1A111046F29002CE93F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = iTraderTests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7E2DA1A211046F29002CE93F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "iTraderTesting-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = iTraderTests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		7EA8DEE9115BBEAF0034EB3D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
+		7EA8DEEA115BBEAF0034EB3D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
+				INFOPLIST_FILE = "mTrader-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = mTrader;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.0;
+			};
+			name = Distribution;
+		};
+		7EA8DEEB115BBEAF0034EB3D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = mTrader_Prefix.pch;
+				INFOPLIST_FILE = "mTraderTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				PRODUCT_NAME = mTrader;
+			};
+			name = Distribution;
+		};
+		7EA8DEEC115BBEAF0034EB3D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "LogicTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = LogicTests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Distribution;
+		};
+		7EA8DEED115BBEAF0034EB3D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "mTraderTesting-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = mTraderTests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Distribution;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cameron Lowell Palmer (43W5275D52)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cameron Lowell Palmer (43W5275D52)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "7CA7EFAF-4875-4E50-B69A-AD5A71D24CD9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7CA7EFAF-4875-4E50-B69A-AD5A71D24CD9";
+				SDKROOT = iphoneos4.0;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos3.2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "mTrader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+				7EA8DEEA115BBEAF0034EB3D /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E2DA16011046873002CE93F /* Build configuration list for PBXNativeTarget "LogicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E2DA15E11046873002CE93F /* Debug */,
+				7E2DA15F11046873002CE93F /* Release */,
+				7EA8DEEC115BBEAF0034EB3D /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E2DA19411046EBC002CE93F /* Build configuration list for PBXNativeTarget "mTraderTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E2DA19511046EBC002CE93F /* Debug */,
+				7E2DA19611046EBC002CE93F /* Release */,
+				7EA8DEEB115BBEAF0034EB3D /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E2DA1A311046F29002CE93F /* Build configuration list for PBXNativeTarget "mTraderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E2DA1A111046F29002CE93F /* Debug */,
+				7E2DA1A211046F29002CE93F /* Release */,
+				7EA8DEED115BBEAF0034EB3D /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "mTrader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+				7EA8DEE9115BBEAF0034EB3D /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7E6DF09E11D4EDB500E4336E /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7E1B7ED61117373600445735 /* model00.xcdatamodel */,
+				7E6DF0A011D4EDB500E4336E /* model01.xcdatamodel */,
+			);
+			currentVersion = 7E6DF0A011D4EDB500E4336E /* model01.xcdatamodel */;
+			name = DataModel.xcdatamodeld;
+			path = Symbols.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
