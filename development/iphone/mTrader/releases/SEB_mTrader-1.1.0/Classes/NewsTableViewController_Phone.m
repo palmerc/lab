@@ -174,7 +174,7 @@
 	feedsModalTableViewController.title = @"Select News Feed";
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:feedsModalTableViewController];
-	
+	navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:feedsModalTableViewController action:@selector(doneBarButtonItemAction:)];
 	feedsModalTableViewController.navigationItem.leftBarButtonItem = doneBarButtonItem;
 	[doneBarButtonItem release];

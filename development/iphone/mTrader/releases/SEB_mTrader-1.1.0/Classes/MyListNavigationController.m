@@ -41,6 +41,7 @@
 - (void)loadView {
 	[super loadView];
 	
+	self.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	UIView *contentView = self.view;
 	CGRect frame = self.view.frame;
 	UIView *aView = [[UIView alloc] initWithFrame:frame];

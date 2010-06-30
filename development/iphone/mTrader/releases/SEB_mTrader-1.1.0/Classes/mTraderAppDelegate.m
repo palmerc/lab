@@ -56,11 +56,12 @@
 	NewsTableViewContoller_Phone *news = [[NewsTableViewContoller_Phone alloc] initWithFrame:applicationFrame];
 	news.managedObjectContext = self.managedObjectContext;
 	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:news];
+	newsNavigationController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	news.managedObjectContext = self.managedObjectContext;
 	
 	SettingsTableViewController *settings = [[SettingsTableViewController alloc] init];
 	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settings];
-
+	settingsNavigationController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];
 		
 	_tabController = [[UITabBarController alloc] init];

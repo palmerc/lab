@@ -135,6 +135,7 @@
 	addController.managedObjectContext = self.managedObjectContext;
 	
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addController];
+	navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	[addController release];
 	[self.parentViewController presentModalViewController:navigationController animated:YES];
 	[navigationController release];

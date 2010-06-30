@@ -121,6 +121,7 @@
 	orderBookController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:orderBookController];
+	navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	[orderBookController release];
 	
 	[self presentModalViewController:navController animated:YES];
@@ -140,6 +141,7 @@
 	tradesController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tradesController];
+	navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	[tradesController release];
 	
 	[self presentModalViewController:navController animated:YES];
@@ -156,6 +158,7 @@
 	chartController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
+	navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	[chartController release];
 	
 	[self presentModalViewController:navController animated:YES];
@@ -174,6 +177,7 @@
 	symbolNewsController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:symbolNewsController];
+	navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	[symbolNewsController release];
 	
 	[self presentModalViewController:navController animated:YES];
