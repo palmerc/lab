@@ -43,18 +43,23 @@
 	
 	const char *bytes = [currentLine bytes];
 	if (strcmp(bytes, CRCR) == 0) {
-		// Complete block
 #if DEBUG_BLOCK
-		NSLog(@"Shipping block");
+		for (NSData *data in _blockBuffer) {
+			NSString *string = [[NSString alloc] initWithData:aLine encoding:NSISOLatin1StringEncoding]; 
+			NSLog(@"mTraderLinesToBlocks received %d lines", [_blockBuffer count]);
+			NSLog(@"Raw: %@", data);
+			NSLog(@"Text: %@", string);
+			[string release];	
+		}
 #endif
 		if (self.dataDelegate && [self.dataDelegate respondsToSelector:@selector(receivedDataBlock:)]) {			
 			NSArray *aBlock = [NSArray arrayWithArray:_blockBuffer];
 			[_blockBuffer release];
 			_blockBuffer = nil;
 			[self.dataDelegate receivedDataBlock:aBlock];
-		} else {
-			[_blockBuffer enQueue:currentLine];
 		}
+	} else {
+		[_blockBuffer enQueue:currentLine];
 	}
 }
 
