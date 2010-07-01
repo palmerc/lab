@@ -49,6 +49,8 @@
 }
 
 - (void)viewDidLoad {		
+	[super viewDidLoad];
+
 	// Set the feed to All News by default
 	NSString *returnedNewsFeedNumber = [UserDefaults sharedManager].newsFeedNumber;
 	NSString *feedNumber = nil;
@@ -92,11 +94,11 @@
 	feedsTableViewController.delegate = self;
 	feedsTableViewController.managedObjectContext = self.managedObjectContext;
 	[feedsTableViewController release];
-	
-	[super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated {	
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
 	self.tableView.frame = self.view.bounds;
 	
 	communicator = [mTraderCommunicator sharedManager];

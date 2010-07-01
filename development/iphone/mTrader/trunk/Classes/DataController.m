@@ -226,9 +226,22 @@ static DataController *sharedDataController = nil;
 		
 		NSString *feedTickerString = [result objectAtIndex:0];
 		NSArray *feedTickerComponents = [feedTickerString componentsSeparatedByString:@"/"];
-		NSAssert([feedTickerComponents count] == 2, @"Invalid Ticker");
+		
 		NSString *feedNumberString = [feedTickerComponents objectAtIndex:0];
-		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+		NSString *tickerSymbol = nil;
+
+		if ([feedTickerComponents count] > 2) {
+			NSRange extraComponentsRange;
+			extraComponentsRange.location = 1;
+			extraComponentsRange.length = [feedTickerComponents count] - 1;
+			feedTickerComponents = [feedTickerComponents subarrayWithRange:extraComponentsRange];
+			
+			tickerSymbol = [feedTickerComponents componentsJoinedByString:@"/"];
+		} else {
+			tickerSymbol = [feedTickerComponents objectAtIndex:1];
+		}
+		
+		NSAssert(([feedTickerComponents count] == 2), feedTickerString);
 		NSNumber *feedNumber = [NSNumber numberWithInteger:[feedNumberString integerValue]];
 		
 		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];		
@@ -650,13 +663,13 @@ static DataController *sharedDataController = nil;
 		}
 	}
 		
-	NSError *saveError;
-	if (![self.managedObjectContext save:&saveError]) {
-		NSLog(@"Unresolved error %@, %@", saveError, [saveError userInfo]);
-#if DEBUG
-		abort();
-#endif
-	}
+//	NSError *saveError;
+//	if (![self.managedObjectContext save:&saveError]) {
+//		NSLog(@"Unresolved error %@, %@", saveError, [saveError userInfo]);
+//#if DEBUG
+//		abort();
+//#endif
+//	}
 }
 
 - (void)staticUpdates:(NSDictionary *)updateDictionary {

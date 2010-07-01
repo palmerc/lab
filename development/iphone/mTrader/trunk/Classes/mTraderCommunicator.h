@@ -6,7 +6,7 @@
 //  Copyright 2009 InFront AS. All rights reserved.
 //
 
-#import "Communicator.h";
+#import "mTraderLinesToBlocks.h";
 
 @class UserDefaults;
 @class Symbol;
@@ -14,7 +14,7 @@
 @class Chart;
 @class QFields;
 @protocol SymbolsDataDelegate;
-@protocol mTraderServerMonitorDelegate;
+@protocol mTraderStatusDelegate;
 
 enum {
 	HEADER = 0,
@@ -39,15 +39,13 @@ enum {
 	KICKOUT
 } states;
 
-@interface mTraderCommunicator : NSObject <CommunicatorDataDelegate> {
+@interface mTraderCommunicator : NSObject <mTraderBlockDataDelegate> {
 @private
 	id <SymbolsDataDelegate> symbolsDelegate;
-	id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
+	id <mTraderStatusDelegate> _statusDelegate;
 
-	Communicator *_communicator;
 	UserDefaults *_defaults;
 	
-	BOOL loginStatusHasChanged;
 	BOOL symbolsDefined;
 	
 	NSData *_currentLine;
@@ -59,7 +57,7 @@ enum {
 }
 
 @property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
-@property (nonatomic, assign) id <mTraderServerMonitorDelegate> mTraderServerMonitorDelegate;
+@property (nonatomic, assign) id <mTraderStatusDelegate> statusDelegate;
 @property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, assign) UserDefaults *defaults;
 @property (nonatomic, retain) NSData *currentLine;
@@ -70,7 +68,6 @@ enum {
 
 // The singleton class method
 + (mTraderCommunicator *)sharedManager;
-- (id)initWithURL:(NSString *)url onPort:(NSInteger)port;
 
 // mTrader server request methods
 - (void)login;
@@ -88,41 +85,9 @@ enum {
 - (void)tradesRequest:(NSString *)feedTicker;
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker;
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
-
-// State machine methods
-- (void)stateMachine;
-- (void)headerParsing;
-- (void)fixedLength;
-- (void)staticResponse;
-- (void)chartHandling;
-- (void)loginHandling;
-- (void)preprocessing;
-- (void)processingLoop;
-- (void)quoteHandling;
-- (void)searchNoHit;
-- (void)searchResultsHandling;
-- (void)addSecurityOK;
-- (void)removeSecurityOK;
-- (void)newsListFeedsOK;
-- (void)newsListOK;
-- (void)newsBodyOK;
-- (void)staticDataOK;
-- (void)historyDataOK;
-
-// Parsing methods
-- (NSArray *)quotesParsing:(NSString *)quotes;
-- (NSArray *)exchangesParsing:(NSString *)exchanges;
-- (void)staticDataParsing:(NSString *)secOid;
-- (void)historyDataParsing:(NSString *)secOid;
-
-// Helper methods
-- (NSString *)dataFromRHS:(NSString *)string;
-- (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
-- (NSArray *)stripOffFirstElement:(NSArray *)array;
-- (NSString *)dataToString:(NSData *)data;
 @end
 
-@protocol mTraderServerMonitorDelegate <NSObject>
+@protocol mTraderStatusDelegate <NSObject>
 - (void)connected;
 - (void)disconnected;
 - (void)kickedOut;

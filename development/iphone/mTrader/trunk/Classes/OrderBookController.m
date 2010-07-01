@@ -38,8 +38,8 @@
 }
 
 - (void)viewDidLoad {
-	NSString *labelString = @"No Orderbook Available";
-	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
+	NSString *labelString = NSLocalizedString(@"noOrderbookAvailable", @"No Orderbook Available");
+	UIFont *labelFont = [UIFont boldSystemFontOfSize:17.0f];
 	CGRect frame = self.view.bounds;
 	frame.size.height = [labelString sizeWithFont:labelFont].height;
 	
@@ -76,7 +76,7 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"OrderBookTableCellP";
+    static NSString *CellIdentifier = @"OrderBookTableCell_Phone";
     
     OrderBookTableCellP *cell = (OrderBookTableCellP *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {

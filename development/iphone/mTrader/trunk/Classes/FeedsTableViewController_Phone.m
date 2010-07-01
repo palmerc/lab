@@ -1,17 +1,17 @@
 //
-//  FeedsTableViewController.m
+//  FeedsTableViewController_Phone.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 04.05.10.
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "FeedsTableViewController.h"
+#import "FeedsTableViewController_Phone.h"
 
 #import "NewsFeed.h"
 #import "UserDefaults.h"
 
-@implementation FeedsTableViewController
+@implementation FeedsTableViewController_Phone
 @synthesize delegate;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
@@ -25,11 +25,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    // Uncomment the following line to preserve selection between presentations.
-    //self.clearsSelectionOnViewWillAppear = NO;
-	
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
@@ -38,35 +33,6 @@
 	}
 	
 }
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 
 #pragma mark -
 #pragma mark Table view data source

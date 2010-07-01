@@ -47,6 +47,8 @@
 }
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+	
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	CGRect windowFrame = self.view.bounds;
 	

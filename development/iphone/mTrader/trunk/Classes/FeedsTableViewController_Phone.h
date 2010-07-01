@@ -1,5 +1,5 @@
 //
-//  FeedsTableViewController.h
+//  FeedsTableViewController_Phone.h
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 04.05.10.
@@ -11,7 +11,7 @@
 @class NewsFeed;
 @protocol NewsFeedChoiceDelegate;
 
-@interface FeedsTableViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
+@interface FeedsTableViewController_Phone : UITableViewController <NSFetchedResultsControllerDelegate> {
 	id <NewsFeedChoiceDelegate> delegate;
 	
 	NSManagedObjectContext *_managedObjectContext;

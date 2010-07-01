@@ -139,7 +139,7 @@
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-
+	
     _managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
 	return _managedObjectModel;
 }
@@ -153,25 +153,17 @@
     if (_persistentStoreCoordinator != nil) {
         return _persistentStoreCoordinator;
     }
-	
-	NSURL *storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"mTrader00.sqlite"]];
-	
-//	NSFileManager *fileManager = [NSFileManager defaultManager];
-//	// If the expected store doesn't exist, copy the default store.
-//	if (![fileManager fileExistsAtPath:storePath]) {
-//		NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:@"mTrader" ofType:@"sqlite"];
-//		if (defaultStorePath) {
-//			[fileManager copyItemAtPath:defaultStorePath toPath:storePath error:NULL];
-//		}
-//	}
+	[self cleanupOldFile];
 		
-	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];	
+	NSURL *storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"mTrader01.sqlite"]];
+	
+//	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+//							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+//							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];	
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
 	
 	NSError *error;
-	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
+	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Could not start persistent store: %@, %@", error, [error userInfo]);
 #if DEBUG
@@ -194,6 +186,13 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     return basePath;
+}
+
+- (void)cleanupOldFile {
+	NSBundle *bundle = [NSBundle mainBundle];
+	NSString *path = [bundle pathForResource:@"mTrader" ofType:@"sqlite"];
+	
+	NSLog(@"%@", path);
 }
 
 #pragma mark -

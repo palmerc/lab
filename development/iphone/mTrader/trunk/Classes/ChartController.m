@@ -25,7 +25,6 @@
 - (id)initWithSymbol:(Symbol *)symbol {
     if (self = [super init]) {
 		self.symbol = symbol;
-		[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
 		
 		_chart = nil;
 		
@@ -37,6 +36,8 @@
 
 - (void)viewDidLoad {	
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
+	
+	[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
 	
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -76,23 +77,11 @@
 	[super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
-	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];	
 }
 
 - (void)updateChart {

@@ -8,60 +8,66 @@
 //
 
 #define DEBUG 0
+#define DEBUG_STATE 0
 
 #import "mTraderCommunicator.h"
+
+#import "NSMutableArray+QueueAdditions.h"
+#import "NSData+StringAdditions.h"
 
 #import "DataController.h"
 #import "QFields.h"
 #import "mTraderServerMonitor.h"
-#import "NSMutableArray+QueueAdditions.h"
 #import "UserDefaults.h"
 #import "StringHelpers.h"
+
+
+@interface mTraderCommunicator ()
+// State machine methods
+- (void)stateMachine;
+- (void)headerParsing;
+- (void)fixedLength;
+- (void)staticResponse;
+- (void)chartHandling;
+- (void)loginHandling;
+- (void)preprocessing;
+- (void)processingLoop;
+- (void)quoteHandling;
+- (void)searchNoHit;
+- (void)searchResultsHandling;
+- (void)addSecurityOK;
+- (void)removeSecurityOK;
+- (void)newsListFeedsOK;
+- (void)newsListOK;
+- (void)newsBodyOK;
+- (void)staticDataOK;
+- (void)historyDataOK;
+
+// Parsing methods
+- (NSArray *)quotesParsing:(NSString *)quotes;
+- (NSArray *)exchangesParsing:(NSString *)exchanges;
+- (void)staticDataParsing:(NSString *)secOid;
+- (void)historyDataParsing:(NSString *)secOid;
+
+// Helper methods
+- (NSString *)dataFromRHS:(NSString *)string;
+- (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
+- (NSArray *)stripOffFirstElement:(NSArray *)array;
+@end
+
+
 
 @implementation mTraderCommunicator
 
 static mTraderCommunicator *sharedCommunicator = nil;
 @synthesize symbolsDelegate;
-@synthesize mTraderServerMonitorDelegate;
-@synthesize communicator = _communicator;
+@synthesize statusDelegate = _statusDelegate;
+
 @synthesize defaults = _defaults;
 @synthesize blockBuffer = _blockBuffer;
 @synthesize qFields = _qFields;
 @synthesize currentLine = _currentLine;
 @synthesize state, contentLength;
-
-#pragma mark -
-#pragma mark Initialization, and Cleanup
-/**
- * Basic object setup and tear down
- *
- */
-
-- (id)init {
-	NSString *server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
-	NSString *port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
-	return [self initWithURL:server onPort:[port integerValue]];
-}
-
-- (id)initWithURL:(NSString *)url onPort:(NSInteger)port {
-	self = [super init];
-	if (self != nil) {
-		_communicator = [[Communicator alloc] initWithSocket:url onPort:port];		
-		_communicator.delegate = self;
-		
-		_defaults = [UserDefaults sharedManager];
-		
-		loginStatusHasChanged = NO;
-		_blockBuffer = [[NSMutableArray alloc] init];
-		_qFields = nil;
-		contentLength = 0;
-		state = LOGIN;
-		
-		DataController *dataController = [DataController sharedManager];
-		symbolsDelegate = dataController;
-	}
-	return self;
-}
 
 #pragma mark -
 #pragma mark Singleton Methods
@@ -101,30 +107,29 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 #pragma mark -
+#pragma mark Initialization
+
+- (id)init {
+	self = [super init];
+	if (self != nil) {
+		_blockBuffer = nil;
+		_qFields = nil;
+		contentLength = 0;
+		state = LOGIN;
+		
+		DataController *dataController = [DataController sharedManager];
+		symbolsDelegate = dataController;
+	}
+	return self;
+}
+
+
+#pragma mark -
 #pragma mark Communicator Delegate Methods
 
-- (void)dataReceived {
-	NSData *data = [self.communicator readLine];
-	NSString *string = [self dataToString:data];
-
-	if (![string isEqualToString:@"\r\r"]) {
-		[self.blockBuffer addObject:data];
-	} else {
-		[self stateMachine];
-		[self.blockBuffer removeAllObjects];
-	}
-}
-
-- (void)connected {
-	if (self.mTraderServerMonitorDelegate && [mTraderServerMonitorDelegate respondsToSelector:@selector(connected)]) {
-		[self.mTraderServerMonitorDelegate connected];
-	}
-}
-
-- (void)disconnected {
-	if (self.mTraderServerMonitorDelegate && [mTraderServerMonitorDelegate respondsToSelector:@selector(disconnected)]) {
-		[self.mTraderServerMonitorDelegate disconnected];
-	}
+- (void)receivedDataBlock:(NSArray *)block {
+	self.blockBuffer = [NSMutableArray arrayWithArray:block];
+	[self stateMachine];
 }
 
 #pragma mark -
@@ -132,80 +137,115 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 -(void) stateMachine {
 	while ([self.blockBuffer count] > 0) {
-#if DEBUG
-		NSMutableString *messageBlock = [NSMutableString string];
-		for (NSData *dataLine in self.blockBuffer) {
-			[messageBlock appendString:[self dataToString:dataLine]];
-		}
-		NSLog(@"STATE: %d for string: %@", state, messageBlock);
-#endif
 		switch (state) {
 			case HEADER:
+#if DEBUG_STATE
+				NSLog(@"State: HEADER");
+#endif
 				[self headerParsing];
 				break;
 			case FIXEDLENGTH:
+#if DEBUG_STATE
+				NSLog(@"State: FIXEDLENGTH");
+#endif
 				[self fixedLength];
 				break;
 			case STATICRESPONSE:
+#if DEBUG_STATE
+				NSLog(@"State: STATICRESPONSE");
+#endif
 				[self staticResponse];
 				break;
 			case CHART:
+#if DEBUG_STATE
+				NSLog(@"State: CHART");
+#endif
 				[self chartHandling];
 				break;
 			case LOGIN:
+#if DEBUG_STATE
+				NSLog(@"State: LOGIN");
+#endif
 				[self loginHandling];
 				break;
 			case PREPROCESSING:
+#if DEBUG_STATE
+				NSLog(@"State: PREPROCESSING");
+#endif
 				[self preprocessing];
 				break;
 			case PROCESSING:
+#if DEBUG_STATE
+				NSLog(@"State: PROCESSING");
+#endif
 				[self processingLoop];
 				break;
 			case NEWSFEEDS:
+#if DEBUG_STATE
+				NSLog(@"State: NEWSFEEDS");
+#endif
 				[self newsListFeedsOK];
 				break;
 			case NEWSLIST:
+#if DEBUG_STATE
+				NSLog(@"State: NEWSLIST");
+#endif
 				[self newsListOK];
 				break;
 			case NEWSITEM:
+#if DEBUG_STATE
+				NSLog(@"State: NEWSITEM");
+#endif
 				[self newsBodyOK];
 				break;
 			case QUOTE:
+#if DEBUG_STATE
+				NSLog(@"State: QUOTE");
+#endif
 				[self quoteHandling];
 				break;
 			case SEARCHRESULTS:
+#if DEBUG_STATE
+				NSLog(@"State: SEARCHRESULTS");
+#endif
 				[self searchResultsHandling];
 				 break;
 			case ADDSEC:
+#if DEBUG_STATE
+				NSLog(@"State: ADDSEC");
+#endif
 				[self addSecurityOK];
 				break;
 			case REMSEC:
+#if DEBUG_STATE
+				NSLog(@"State: REMSEC");
+#endif
 				[self removeSecurityOK];
 				break;
 			case STATDATA:
+#if DEBUG_STATE
+				NSLog(@"State: STATDATA");
+#endif
 				[self staticDataOK];
 				break;
 			case HISTDATA:
+#if DEBUG_STATE
+				NSLog(@"State: HISTDATA");
+#endif
 				[self historyDataOK];
 				break;
 			default:
-#if DEBUG
-				NSLog(@"Invalid state: %d", state);
+#if DEBUG_STATE
+				NSLog(@"State: INVALID");
 #endif
 				break;
 		}
 	}
 }
 
-/**
- * State machine methods called from -(void)dataReceived
- *
- */
-
-
 - (void)headerParsing {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	if ([string rangeOfString:@"Content-Length:"].location == 0) {
 		NSString *rhs = [StringHelpers cleanString:[self dataFromRHS:string]];
 		contentLength = [rhs integerValue];
@@ -233,18 +273,16 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
-		loginStatusHasChanged = YES;
-		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
-			[self.mTraderServerMonitorDelegate loginFailed:@"UsrPwd"];
+		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginFailed:)]) {
+			[self.statusDelegate loginFailed:@"UsrPwd"];
 		}
 		state = LOGIN;
 	} else if ([string rangeOfString:@"Request: login/failed.DeniedAccess"].location == 0) {
-		loginStatusHasChanged = YES;
-		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
-			[self.mTraderServerMonitorDelegate loginFailed:@"DeniedAccess"];
+		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginFailed:)]) {
+			[self.statusDelegate loginFailed:@"DeniedAccess"];
 		}
 		state = LOGIN;
 	} 
@@ -252,12 +290,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 -(void) staticResponse {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
-		loginStatusHasChanged = YES;
-		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginSuccess)]) {
-			[self.mTraderServerMonitorDelegate loginSuccessful];
+		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginSuccess)]) {
+			[self.statusDelegate loginSuccessful];
 		}		
 		state = PREPROCESSING;
 	} else if ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
@@ -301,18 +338,18 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)loginHandling {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
-		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginSuccessful)]) {
-			[self.mTraderServerMonitorDelegate loginSuccessful];
+		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginSuccessful)]) {
+			[self.statusDelegate loginSuccessful];
 		}
 		loginStatusHasChanged = YES;
 		
 		state = PREPROCESSING;
 	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
-		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(loginFailed:)]) {
-			[self.mTraderServerMonitorDelegate loginFailed:@"UsrPwd"];
+		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginFailed:)]) {
+			[self.statusDelegate loginFailed:@"UsrPwd"];
 		}
 		loginStatusHasChanged = YES;
 	}
@@ -324,7 +361,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
  */
 - (void)preprocessing {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 
 	if ([string rangeOfString:@"NewsFeeds:"].location == 0) {
 		NSArray *feeds = [self exchangesParsing:string];
@@ -354,7 +391,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)processingLoop {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"HTTP/1.1 200 OK"].location == 0) { // Static data
 		state = HEADER;
@@ -370,7 +407,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)quoteHandling {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Quotes:"].location == 0) {
 		NSArray *quotes = [self quotesParsing:string];
@@ -380,8 +417,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		state = PROCESSING;
 	} else if ([string rangeOfString:@"Kickout: 1"].location == 0) {
 		state = KICKOUT;
-		if (self.mTraderServerMonitorDelegate && [self.mTraderServerMonitorDelegate respondsToSelector:@selector(kickedOut)]) {
-			[self.mTraderServerMonitorDelegate kickedOut];
+		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(kickedOut)]) {
+			[self.statusDelegate kickedOut];
 		}
 	} else {
 		state = PROCESSING;
@@ -396,7 +433,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	while ([self.blockBuffer count] > 0) {	
 		NSData *data = [self.blockBuffer deQueue];
-		NSString *string = [self dataToString:data];
+		NSString *string = [data string];
 		
 		if ([string rangeOfString:@"<ImageBegin>"].location == 0) {
 			imageProcessing = YES;
@@ -410,7 +447,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 				imageBegin.location = length;
 				imageBegin.length = [data length] - length;
 				data = [data subdataWithRange:imageBegin];
-				string = [self dataToString:data];
+				string = [data string];
 			} 
 				
 			if ([string rangeOfString:@"<ImageEnd>"].location != NSNotFound) {
@@ -460,21 +497,53 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)searchResultsHandling {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	NSMutableArray *results = [NSMutableArray array];
 	while ([self.blockBuffer count] > 0) {	
 		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
 		NSArray *columns = [symbolsSansCRLF componentsSeparatedByString:@";"];
-				
+		NSString *feedTicker = [columns objectAtIndex:0];
+		NSString *exchange = [columns objectAtIndex:1];
+		NSString *description = nil;
+		
+		if ([columns count] > 3) {
+			NSRange extraComponentsRange;
+			extraComponentsRange.location = 2;
+			extraComponentsRange.length = [columns count] - 2;
+			columns = [columns subarrayWithRange:extraComponentsRange];
+			
+			description = [columns componentsJoinedByString:@";"];
+		} else {
+			description = [columns objectAtIndex:2];
+		}
+		
+		columns = [NSArray arrayWithObjects:feedTicker, exchange, description, nil];		
+		NSAssert([columns count] == 3, @"Search results contained more than three columns.");
 		[results addObject:columns];
 		
 		data = [self.blockBuffer deQueue];
-		string = [self dataToString:data];
+		string = [data string];
 	}
+	
 	NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
 	NSArray *columns = [symbolsSansCRLF componentsSeparatedByString:@";"];
+	NSString *feedTicker = [columns objectAtIndex:0];
+	NSString *exchange = [columns objectAtIndex:1];
+	NSString *description = nil;
 	
+	if ([columns count] > 3) {
+		NSRange extraComponentsRange;
+		extraComponentsRange.location = 2;
+		extraComponentsRange.length = [columns count] - 2;
+		columns = [columns subarrayWithRange:extraComponentsRange];
+		description = [columns componentsJoinedByString:@";"];
+	} else {
+		description = [columns objectAtIndex:2];
+	}
+	
+	columns = [NSArray arrayWithObjects:feedTicker, exchange, description, nil];
+	NSAssert([columns count] == 3, @"Search results contained more than three columns.");
 	[results addObject:columns];
 	
 	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
@@ -486,7 +555,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)addSecurityOK {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"SecInfo:"].location == 0) {	
 		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
@@ -501,7 +570,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)removeSecurityOK {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"SecOid:"].location == 0) {
 		NSString *feedTicker = [StringHelpers cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
@@ -515,7 +584,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)staticDataOK {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"SecOid:"].location == 0) {
 		[self staticDataParsing:string];
@@ -524,7 +593,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)historyDataOK {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"SecOid:"].location == 0) {
 		[self historyDataParsing:string];
@@ -545,7 +614,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Staticdata:"].location == 0) {
 		NSRange staticDataRange = [string rangeOfString:@"Staticdata: "];
@@ -580,7 +649,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"FirstTrade:"].location == 0) {
 		NSString *firstTrade = [StringHelpers cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
@@ -588,7 +657,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	
 	data = [self.blockBuffer deQueue];
-	string = [self dataToString:data];
+	string = [data string];
 	
 	if ([string rangeOfString:@"CountTrades:"].location == 0) {
 		NSString *firstTrade = [StringHelpers cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
@@ -596,7 +665,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	
 	data = [self.blockBuffer deQueue];
-	string = [self dataToString:data];
+	string = [data string];
 	
 	if ([string rangeOfString:@"Trades:"].location == 0) {
 		NSArray *tradesArray = [string componentsSeparatedByString:@":"];
@@ -617,10 +686,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)newsListFeedsOK {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"News:"].location == 0) {
-		NSString *newsArticles = [self dataToString:data];
+		NSString *newsArticles = [data string];
 		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
 		colonSeparatedComponents = [self stripOffFirstElement:colonSeparatedComponents];
 		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
@@ -635,10 +704,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 
 - (void)newsListOK {
 	NSData *data = [self.blockBuffer deQueue];
-	NSString *string = [self dataToString:data];
+	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"News:"].location == 0) {
-		NSString *newsArticles = [self dataToString:data];
+		NSString *newsArticles = [data string];
 		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
 		colonSeparatedComponents = [self stripOffFirstElement:colonSeparatedComponents];
 		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
@@ -656,7 +725,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSMutableArray *newsItem = [[NSMutableArray alloc] init];
 	while ([self.blockBuffer count] > 0) {
 		NSData *data = [self.blockBuffer deQueue];
-		NSString *string = [self dataToString:data];
+		NSString *string = [data string];
 		string = [self dataFromRHS:string];
 		[newsItem addObject:string];
 	}	
@@ -734,7 +803,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSString *ActionLogin = @"Action: login";
 		NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
 		NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
-		NSString *Client = @"Client: mTrader";
+		NSString *Client = @"Client: SEB mTrader";
 		NSString *Protocol = @"Protocol: 2.0";
 		NSString *Version = [NSString stringWithFormat:@"VerType: %@", version];
 		NSString *ConnectionType = @"ConnType: Socket";
@@ -1031,11 +1100,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	rowsWithoutFirstString.location = 1;
 	rowsWithoutFirstString.length = [array count] - 1;
 	return [array subarrayWithRange:rowsWithoutFirstString];
-}
-
-- (NSString *)dataToString:(NSData *)data {
-	NSString *aString = [[[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding] autorelease];
-	return aString;
 }
 
 #pragma mark -
