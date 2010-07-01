@@ -69,16 +69,16 @@
 		current = characters[i];
 		if (previous == '\r' && current == '\n') {
 			lineRange.length = (i + 1) - lineRange.location;
-			NSData *oneLine = [_dataBuffer subdataWithRange:lineRange];
+			NSData *aDataLine = [_dataBuffer subdataWithRange:lineRange];
 			
 			if (self.dataDelegate && [self.dataDelegate respondsToSelector:@selector(receivedDataLine:)]) {
-				[self.dataDelegate receivedDataLine:oneLine];
+				[self.dataDelegate receivedDataLine:aDataLine];
 			}
 			
 #if DEBUG_INCOMING
-			NSString *lineString = [[NSString alloc] initWithData:oneLine encoding:NSISOLatin1StringEncoding];
+			NSString *lineString = [[NSString alloc] initWithData:aDataLine encoding:NSISOLatin1StringEncoding];
 			NSLog(@"LineOrientedCommunication");
-			NSLog(@"Raw: %@", oneLine);
+			NSLog(@"Raw: %@", aDataLine);
 			NSLog(@"Text: %@", lineString);
 			[lineString release];
 #endif	

@@ -23,5 +23,5 @@
 @end
 
 @protocol LineOrientedDataDelegate <NSObject>
-- (void)receivedDataLine:(NSData *)line;
+- (void)receivedDataLine:(NSData *)data;
 @end
