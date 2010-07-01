@@ -15,6 +15,8 @@
 
 #import "Communicator.h"
 
+#import "NSData+StringAdditions.h"
+
 @interface Communicator ()
 - (void)dataReceived:(NSInputStream *)aStream;
 - (void)sendAvailableBytes:(NSOutputStream *)aStream;
@@ -127,14 +129,10 @@
 	if (len > 0) {
 		[_inboundBuffer appendBytes:buffer length:len];
 	}
-#if DEBUG_INCOMING
-	NSString *inboundString = [[NSString alloc] initWithData:_inboundBuffer encoding:NSISOLatin1StringEncoding];
-	
+#if DEBUG_INCOMING	
 	NSLog(@"Communicator: RECEIVED %d bytes", len);
 	NSLog(@"Raw: %@", _inboundBuffer);
-	NSLog(@"Text: %@", inboundString);
-	
-	[inboundString release];
+	NSLog(@"Text: %@", [_inboundBuffer string]);
 #endif
 	
 	
@@ -164,14 +162,10 @@
 			_bytesSent += bytesWritten;
 			bytesRemaining -= bytesWritten;
 #if DEBUG_OUTGOING
-			NSData *outboundData = [NSData dataWithBytes:theBytes length:bytesWritten];
-			NSString *outboundString = [[NSString alloc] initWithData:outboundData encoding:NSISOLatin1StringEncoding];
-			
+			NSData *outboundData = [NSData dataWithBytes:theBytes length:bytesWritten];			
 			NSLog(@"Communicator: SENT %d bytes, REMAINING %d bytes", bytesWritten, bytesRemaining);
 			NSLog(@"Raw: %@", outboundData);
-			NSLog(@"Text: %@", outboundString);
-			
-			[outboundString release];
+			NSLog(@"Text: %@", [outboundData string]);
 #endif
 			
 			theBytes += bytesWritten;

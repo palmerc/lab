@@ -12,6 +12,8 @@
 
 #import "LineOrientedCommunication.h"
 
+#import "NSData+StringAdditions.h"
+
 @interface LineOrientedCommunication ()
 - (void)processDataBuffer;
 @end
@@ -76,11 +78,9 @@
 			}
 			
 #if DEBUG_INCOMING
-			NSString *lineString = [[NSString alloc] initWithData:aDataLine encoding:NSISOLatin1StringEncoding];
 			NSLog(@"LineOrientedCommunication");
 			NSLog(@"Raw: %@", aDataLine);
-			NSLog(@"Text: %@", lineString);
-			[lineString release];
+			NSLog(@"Text: %@", [aDataLine string]);
 #endif	
 			
 			// Advance to the next character
@@ -97,11 +97,9 @@
 	NSData *leftovers = [_dataBuffer subdataWithRange:dataBufferRange];
 	
 #if DEBUG_LEFTOVERS
-	NSString *lineString = [[NSString alloc] initWithData:leftovers encoding:NSISOLatin1StringEncoding];
 	NSLog(@"LineOrientedCommunication");
 	NSLog(@"Raw: %@", leftovers);
-	NSLog(@"Text: %@", lineString);
-	[lineString release];
+	NSLog(@"Text: %@", [leftovers string]);
 #endif
 	
 	[_dataBuffer release];

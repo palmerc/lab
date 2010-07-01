@@ -10,7 +10,9 @@
 
 
 #import "mTraderLinesToBlocks.h"
+
 #import "NSMutableArray+QueueAdditions.h"
+#import "NSData+StringAdditions.h"
 
 @interface mTraderLinesToBlocks ()
 - (void)processLineBuffer:(NSData *)data;
@@ -44,12 +46,10 @@
 	const char *bytes = [currentLine bytes];
 	if (strcmp(bytes, CRCR) == 0) {
 #if DEBUG_BLOCK
+		NSLog(@"mTraderLinesToBlocks received %d lines", [_blockBuffer count]);
 		for (NSData *data in _blockBuffer) {
-			NSString *string = [[NSString alloc] initWithData:aLine encoding:NSISOLatin1StringEncoding]; 
-			NSLog(@"mTraderLinesToBlocks received %d lines", [_blockBuffer count]);
 			NSLog(@"Raw: %@", data);
-			NSLog(@"Text: %@", string);
-			[string release];	
+			NSLog(@"Text: %@", [data string]);
 		}
 #endif
 		if (self.dataDelegate && [self.dataDelegate respondsToSelector:@selector(receivedDataBlock:)]) {			
