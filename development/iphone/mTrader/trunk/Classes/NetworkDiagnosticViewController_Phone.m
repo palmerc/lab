@@ -8,7 +8,7 @@
 
 #import "NetworkDiagnosticViewController_Phone.h"
 
-#import "mTraderServerMonitor.h"
+#import "Monitor.h"
 #import "Reachability.h"
 #import "CPHost.h"
 
@@ -192,9 +192,9 @@
 	}
 	_interfaces = [(NSArray *)interfaces retain];
 	
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
-	NSString *bytesReceivedText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesReceived", @"Bytes Received"), [monitor bytesReceived]];
-	NSString *bytesSentText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesSent", @"Bytes Sent"), [monitor bytesSent]];
+	Monitor *monitor = [Monitor sharedManager];
+	NSString *bytesReceivedText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesReceived", @"Bytes Received"), monitor.bytesReceived];
+	NSString *bytesSentText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesSent", @"Bytes Sent"), monitor.bytesSent];
 	_bytesDetails = [[NSArray arrayWithObjects:bytesReceivedText, bytesSentText, nil] retain];
 	
 	[self.tableView reloadData];

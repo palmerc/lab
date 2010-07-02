@@ -16,10 +16,12 @@
 #import "NSData+StringAdditions.h"
 #import "NSString+CleanStringAdditions.h"
 #import "NSArray+CleanStringAdditions.h"
+#import "NSArray+ArrayToDataStringAdditions.h"
+#import "NSArray+StripFirstElementAdditions.h"
 
 #import "DataController.h"
 #import "QFields.h"
-#import "mTraderServerMonitor.h"
+#import "Monitor.h"
 #import "UserDefaults.h"
 
 
@@ -52,8 +54,6 @@
 
 // Helper methods
 - (NSString *)dataFromRHS:(NSString *)string;
-- (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings;
-- (NSArray *)stripOffFirstElement:(NSArray *)array;
 @end
 
 
@@ -63,6 +63,7 @@
 static mTraderCommunicator *sharedCommunicator = nil;
 @synthesize symbolsDelegate = _symbolsDelegate;
 @synthesize statusDelegate = _statusDelegate;
+@synthesize communicator = _communicator;
 @synthesize qFields = _qFields;
 
 #pragma mark -
@@ -108,12 +109,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (id)init {
 	self = [super init];
 	if (self != nil) {
+		_communicator = nil;
 		_blockBuffer = nil;
 		_qFields = nil;
 		_contentLength = 0;
 		_state = LOGIN;
 		
 		_symbolsDelegate = [DataController sharedManager];
+		_defaults = [UserDefaults sharedManager];
 	}
 	return self;
 }
@@ -123,7 +126,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 #pragma mark Communicator Delegate Methods
 
 - (void)receivedDataBlock:(NSArray *)block {
-	_blockBuffer = [NSMutableArray arrayWithArray:block];
+	_blockBuffer = [[NSMutableArray arrayWithArray:block] retain];
 	[self stateMachine];
 }
 
@@ -363,12 +366,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		}
 		_state = QUOTE;
 	} else if ([string rangeOfString:@"Securities:"].location == 0) {
-		NSString *symbolsSansCRLF = [string sansWhitespace];
-		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
-		if (([rows count] == 1) && ([[rows objectAtIndex:0] isEqualToString:@""])) {
-			symbolsDefined = NO;
-		} else {
-			symbolsDefined = YES;
+		NSArray *rows = [[[string sansWhitespace] componentsSeparatedByString:@":"] stripFirstElement];
+		if (! (([rows count] == 1) && ([[rows objectAtIndex:0] isEqualToString:@""])) ) {
 			NSString *symbols = [rows componentsJoinedByString:@":"];
 			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(processSymbols:)]) {
 				[self.symbolsDelegate processSymbols:symbols];
@@ -454,7 +453,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		} else {
 			NSArray *partsOfString = [string componentsSeparatedByString:@":"];
 			if ([partsOfString count] > 1) {
-				NSString *dataPortion = [[self stripOffFirstElement:partsOfString] objectAtIndex:0];
+				NSString *dataPortion = [[partsOfString stripFirstElement] objectAtIndex:0];
 				NSString *cleanedDataPortion = [dataPortion sansWhitespace];;
 				if ([string rangeOfString:@"SecOid:"].location == 0) {
 					[chart  setObject:cleanedDataPortion forKey:@"feedTicker"];
@@ -552,7 +551,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"SecInfo:"].location == 0) {	
 		NSString *symbolsSansCRLF = [string sansWhitespace];
-		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
+		NSArray *rows = [[symbolsSansCRLF componentsSeparatedByString:@":"] stripFirstElement];
 		string = [rows objectAtIndex:0];
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addSymbols:)]) {
 			[self.symbolsDelegate addSymbols:string];
@@ -662,7 +661,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([string rangeOfString:@"Trades:"].location == 0) {
 		NSArray *tradesArray = [string componentsSeparatedByString:@":"];
-		tradesArray = [self stripOffFirstElement:tradesArray];
+		tradesArray = [tradesArray stripFirstElement];
 		
 		NSString *tradesString = [tradesArray componentsJoinedByString:@":"];
 		tradesString = [tradesString sansWhitespace];
@@ -684,7 +683,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if ([string rangeOfString:@"News:"].location == 0) {
 		NSString *newsArticles = [data string];
 		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
-		colonSeparatedComponents = [self stripOffFirstElement:colonSeparatedComponents];
+		colonSeparatedComponents = [colonSeparatedComponents stripFirstElement];
 		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
 		NSArray *newsArticlesArray = [newsArticles componentsSeparatedByString:@"|"];
 		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
@@ -702,7 +701,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if ([string rangeOfString:@"News:"].location == 0) {
 		NSString *newsArticles = [data string];
 		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
-		colonSeparatedComponents = [self stripOffFirstElement:colonSeparatedComponents];
+		colonSeparatedComponents = [colonSeparatedComponents stripFirstElement];
 		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
 		NSArray *newsArticlesArray = [[newsArticles componentsSeparatedByString:@"|"] sansWhitespace];
 		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
@@ -742,7 +741,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		return nil;
 	}
 	
-	NSArray *quotesAndTheRest = [self stripOffFirstElement:[quotesString componentsSeparatedByString:@":"]];
+	NSArray *quotesAndTheRest = [[quotesString componentsSeparatedByString:@":"] stripFirstElement];
 	quotesAndTheRest = [quotesAndTheRest sansWhitespace];
 	NSString *theRest = [quotesAndTheRest componentsJoinedByString:@":"];
 	
@@ -759,7 +758,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (NSArray *)exchangesParsing:(NSString *)exchanges {
-	NSArray *arrayOfComponents = [self stripOffFirstElement:[exchanges componentsSeparatedByString:@":"]];
+	NSArray *arrayOfComponents = [[exchanges componentsSeparatedByString:@":"] stripFirstElement];
 	exchanges = [arrayOfComponents componentsJoinedByString:@":"];
 	NSArray *exchangesArray = [exchanges componentsSeparatedByString:@","];
 	exchangesArray = [exchangesArray sansWhitespace];
@@ -774,18 +773,19 @@ static mTraderCommunicator *sharedCommunicator = nil;
  */
 
 - (void)login {
-	NSString *username = self.defaults.username;
-	NSString *password = self.defaults.password;
+	NSString *username = _defaults.username;
+	NSString *password = _defaults.password;
 	
 	username = [username sansWhitespace];
 	password = [password sansWhitespace];
 	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
+		NSString *client = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
 		NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 		
 		NSString *ActionLogin = @"Action: login";
 		NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@/%@", username, password];
 		NSString *Platform = [NSString stringWithFormat:@"Platform: %@ %@", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
-		NSString *Client = @"Client: SEB mTrader";
+		NSString *Client = [NSString stringWithFormat:@"Client: %@", client];
 		NSString *Protocol = @"Protocol: 2.0";
 		NSString *Version = [NSString stringWithFormat:@"VerType: %@", version];
 		NSString *ConnectionType = @"ConnType: Socket";
@@ -804,31 +804,29 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSString *QFieldsServerString = [NSString stringWithFormat:@"QFields: %@", [qFields getCurrentQFieldsServerString]];
 		
 		NSArray *loginArray = [NSArray arrayWithObjects:ActionLogin, Authorization, Platform, Client, Version, Protocol, ConnectionType, Streaming, QFieldsServerString, nil];
-		NSString *loginString = [self arrayToFormattedString:loginArray];
 		
-		[self.communicator writeString:loginString];
+		[_communicator sendData:[loginArray data]];
 	}
 }
 
 - (void)logout {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
 	NSString *ActionLogout = @"Action: Logout";
 	NSArray *logoutArray = [NSArray arrayWithObjects:ActionLogout, nil];
-	NSString *logoutString = [self arrayToFormattedString:logoutArray];
-	[self.communicator writeString:logoutString];
+	[_communicator sendData:[logoutArray data]];
 }
 
 - (void)addSecurity:(NSString *)tickerSymbol withMCode:(NSString *)mCode {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	
 	NSString *ActionAddSec = @"Action: addSec";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
@@ -836,36 +834,34 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *MCode = [NSString stringWithFormat:@"mCode: [%@]", mCode];
 	
 	NSArray *addSecurityArray = [NSArray arrayWithObjects:ActionAddSec, Authorization, Search, MCode, nil];
-	NSString *addSecurityString = [self arrayToFormattedString:addSecurityArray];
 	
-	[self.communicator writeString:addSecurityString];
+	[_communicator sendData:[addSecurityArray data]];
 }
 
 - (void)removeSecurity:(NSString *)feedTicker {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	
 	NSString *ActionRemSec = @"Action: remSec";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
 	
 	NSArray *removeSecurityArray = [NSArray arrayWithObjects:ActionRemSec, Authorization, SecOid, nil];
-	NSString *removeSecurityString = [self arrayToFormattedString:removeSecurityArray];
 	
-	[self.communicator writeString:removeSecurityString];
+	[_communicator sendData:[removeSecurityArray data]];
 }
 
 - (void)staticDataForFeedTicker:(NSString *)feedTicker {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	NSString *language = @"EN";
 	NSString *ActionStatData = @"Action: StatData";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
@@ -873,9 +869,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *Language = [NSString stringWithFormat:@"Language: %@", language];
 	
 	NSArray *getStatDataArray = [NSArray arrayWithObjects:ActionStatData, Authorization, SecOid, Language, nil];
-	NSString *statDataRequestString = [self arrayToFormattedString:getStatDataArray];
 	
-	[self.communicator writeString:statDataRequestString];
+	[_communicator sendData:[getStatDataArray data]];
 }
 
 /**
@@ -884,7 +879,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
  *
  */
 - (void)setStreamingForFeedTicker:(NSString *)feedTicker {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO || self.qFields == nil) {
 		return;
@@ -897,7 +892,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[serverRequestArray addObject:action];
 	
 	// Authorization: user
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	NSString *authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	[serverRequestArray addObject:authorization];
 	
@@ -913,14 +908,13 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *QFieldsString = [NSString stringWithFormat:@"QFields: %@", [self.qFields getCurrentQFieldsServerString]];
 	[serverRequestArray addObject:QFieldsString];
 	
-	NSString *serverFormattedRequest = [self arrayToFormattedString:serverRequestArray];
-	[self.communicator writeString:serverFormattedRequest];
+	[_communicator sendData:[serverRequestArray data]];
 	
 	[serverRequestArray release];
 }
 
 - (void)tradesRequest:(NSString *)feedTicker {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
@@ -928,7 +922,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSInteger index = -1;
 	NSInteger count = 30;
 	
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	NSString *ActionStatData = @"Action: HistTrades";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
@@ -937,20 +931,19 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *Columns = [NSString stringWithFormat:@"Columns: %@", @"TPVAY"];
 	
 	NSArray *getTradesArray = [NSArray arrayWithObjects:ActionStatData, Authorization, SecOid, Index, Count, Columns, nil];
-	NSString *tradesRequestString = [self arrayToFormattedString:getTradesArray];
 	
-	[self.communicator writeString:tradesRequestString];
+	[_communicator sendData:[getTradesArray data]];
 }
 
 - (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
 	NSString *imgType = @"PNG"; // We only support one type of image currently although GIF is also specified in client.
 	
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	NSString *ActionChart = @"Action: Chart";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
@@ -961,36 +954,34 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *Orient = [NSString stringWithFormat:@"Orient: %@", orientation]; // (A)uto, (H)orizontal, and (V)ertical
 	
 	NSArray *getChartArray = [NSArray arrayWithObjects:ActionChart, Authorization, SecOid, Period, ImgType, Width, Height, Orient, nil];
-	NSString *getChartString = [self arrayToFormattedString:getChartArray];
 	
-	[self.communicator writeString:getChartString];
+	[_communicator sendData:[getChartArray data]];
 }
 
 // News Requests
 - (void)newsItemRequest:(NSString *)newsId {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	NSString *ActionNewsBody = @"Action: NewsBody";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *NewsID = [NSString stringWithFormat:@"NewsID: %@", newsId];
 	
 	NSArray *newsItemArray = [NSArray arrayWithObjects:ActionNewsBody, Authorization, NewsID, nil];
-	NSString *newsItemRequestString = [self arrayToFormattedString:newsItemArray];
 	
-	[self.communicator writeString:newsItemRequestString];
+	[_communicator sendData:[newsItemArray data]];
 }
 
 - (void)newsListFeed:(NSString *)mCode {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	NSString *ActionNewsListFeeds = @"Action: NewsListFeeds";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *newsFeeds = [NSString stringWithFormat:@"NewsFeeds: [%@]", mCode];
@@ -998,20 +989,17 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *maxCount = @"MaxCount: 50";
 	
 	NSArray *getNewsListFeedsArray = [NSArray arrayWithObjects:ActionNewsListFeeds, Authorization, newsFeeds, days, maxCount, nil];
-	NSString *newsListFeedsString = [self arrayToFormattedString:getNewsListFeedsArray];
 	
-	if (isLoggedIn == YES) {
-		[self.communicator writeString:newsListFeedsString];
-	}
+	[_communicator sendData:[getNewsListFeedsArray data]];
 }
 
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
 	}
-	NSString *username = self.defaults.username;
+	NSString *username = _defaults.username;
 	NSString *ActionNewsList = @"Action: NewsList";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
 	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
@@ -1019,13 +1007,12 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *maxCount = @"MaxCount: 50";
 	
 	NSArray *getSymbolNewsListFeedsArray = [NSArray arrayWithObjects:ActionNewsList, Authorization, SecOid, days, maxCount, nil];
-	NSString *symbolNewsListFeedsString = [self arrayToFormattedString:getSymbolNewsListFeedsArray];
 	
-	[self.communicator writeString:symbolNewsListFeedsString];	
+	[_communicator sendData:[getSymbolNewsListFeedsArray data]];	
 }
 
 - (void)symbolSearch:(NSString *)symbol {
-	mTraderServerMonitor *monitor = [mTraderServerMonitor sharedManager];
+	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
 		return;
@@ -1036,9 +1023,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *maxCount = @"MaxHits: 50";
 	
 	NSArray *symbolSearchRequest = [NSArray arrayWithObjects:ActionIncSearch, Search, maxCount, nil];
-	NSString *symbolSearchString = [self arrayToFormattedString:symbolSearchRequest];
 	
-	[self.communicator writeString:symbolSearchString];		
+	[_communicator sendData:[symbolSearchRequest data]];		
 }
 
 #pragma mark -
@@ -1053,7 +1039,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *value;
 	
 	if ([array count] > 1) {
-		array = [self stripOffFirstElement:array];
+		array = [array stripFirstElement];
 		value = [array componentsJoinedByString:@":"];
 	} else {
 		value = nil;
@@ -1061,33 +1047,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	return value;
 }
 
-- (NSString *)arrayToFormattedString:(NSArray *)arrayOfStrings {
-	NSString *EOL = @"\r\n";
-	
-	NSMutableString *appendableText = [[NSMutableString alloc] init];
-	for (NSString *string in arrayOfStrings) {
-		NSString *current = [[NSString alloc] initWithFormat:@"%@%@", string, EOL];
-		[appendableText appendString:current];
-		[current release];
-	}
-	[appendableText appendString:EOL]; // A blank line indicates the end of the sending block
-	NSString *immutableString = [NSString stringWithUTF8String:[appendableText UTF8String]];
-	[appendableText release];
-	
-	return immutableString;
-}
-
-- (NSArray *)stripOffFirstElement:(NSArray *)array {
-	NSRange rowsWithoutFirstString;
-	rowsWithoutFirstString.location = 1;
-	rowsWithoutFirstString.length = [array count] - 1;
-	return [array subarrayWithRange:rowsWithoutFirstString];
-}
-
 #pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
+	[_communicator release];
 	[_qFields release];
 	[_blockBuffer release];
 	

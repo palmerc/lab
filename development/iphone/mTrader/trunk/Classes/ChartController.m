@@ -34,7 +34,9 @@
     return self;
 }
 
-- (void)viewDidLoad {	
+- (void)viewDidLoad {
+	[super viewDidLoad];
+
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	
 	[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
@@ -73,11 +75,11 @@
 	NSLog(@"%f %f %f %f", chartFrame.origin.x, chartFrame.origin.y, chartFrame.size.width, chartFrame.size.height);
 	_chart = [[UIImageView alloc] initWithFrame:chartFrame];
 	[self.view addSubview:self.chart];
-	
-	[super viewDidLoad];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];

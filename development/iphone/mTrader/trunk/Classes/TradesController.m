@@ -34,6 +34,8 @@
 }
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+	
 	NSString *labelString = @"No Trades Data Available";
 	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
 	CGRect frame = self.view.bounds;

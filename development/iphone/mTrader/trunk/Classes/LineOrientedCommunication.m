@@ -105,7 +105,7 @@
 	[_dataBuffer release];
 	_dataBuffer = nil;
 	
-	_dataBuffer = [NSMutableData dataWithBytes:[leftovers bytes] length:[leftovers length]];
+	_dataBuffer = [[NSMutableData dataWithBytes:[leftovers bytes] length:[leftovers length]] retain];
 }
 
 - (void)dealloc {

@@ -33,6 +33,8 @@
 #pragma mark -
 #pragma mark UIViewController Methods
 - (void)viewDidLoad {
+	[super viewDidLoad];
+	
 	self.title = NSLocalizedString(@"addASymbol", @"Add a Symbol");
 			
 	UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
@@ -62,6 +64,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
 	[self changeQFieldsStreaming];
 }
 

@@ -90,7 +90,7 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
-	feedsTableViewController = [[FeedsTableViewController alloc] init];
+	feedsTableViewController = [[FeedsTableViewController_Phone alloc] init];
 	feedsTableViewController.delegate = self;
 	feedsTableViewController.managedObjectContext = self.managedObjectContext;
 	[feedsTableViewController release];
@@ -203,7 +203,7 @@
 }
 
 - (void)feedBarButtonItemAction:(id)sender {
-	FeedsTableViewController *feedsModalTableViewController = [[FeedsTableViewController alloc] init];
+	FeedsTableViewController_Phone *feedsModalTableViewController = [[FeedsTableViewController_Phone alloc] init];
 	feedsModalTableViewController.delegate = self;
 	feedsModalTableViewController.managedObjectContext = self.managedObjectContext;
 	feedsModalTableViewController.title = @"Select News Feed";

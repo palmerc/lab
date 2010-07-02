@@ -177,7 +177,10 @@ static DataController *sharedDataController = nil;
 	
 	for (NewsFeed *feed in clientNewsFeedsSet) {
 		[self.managedObjectContext deleteObject:feed];
-	}	
+	}
+	
+	[serverNewsFeedsSet release];
+	[clientNewsFeedsSet release];
 	
 	NSError *error;
 	if (![self.managedObjectContext save:&error]) {

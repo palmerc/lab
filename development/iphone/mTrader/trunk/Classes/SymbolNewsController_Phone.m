@@ -43,6 +43,8 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+	[super viewDidLoad];
+
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
@@ -73,8 +75,6 @@
 	self.newsAvailableLabel.text = labelString;
 	self.newsAvailableLabel.hidden = YES;
 	[self.tableView addSubview:self.newsAvailableLabel];
-	
-    [super viewDidLoad];
 }
 
 /*

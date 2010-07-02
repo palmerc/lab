@@ -12,8 +12,6 @@
 
 @interface OtherInfoView : RoundedRectangle {
 @private
-	BOOL isIPad;
-	
 	Symbol *_symbol;
 	
 	UIViewController *_viewController;

@@ -42,7 +42,7 @@
 	
 	aView.backgroundColor = [UIColor whiteColor];
 	
-	UIImage *mTraderImage = [UIImage imageNamed:@"Mtrader_16.png"];
+	UIImage *mTraderImage = [UIImage imageNamed:@"mTrader.png"];
 	CGRect mTraderImageFrame = CGRectMake(TEXT_LEFT_MARGIN, 10.0f, mTraderImage.size.width, mTraderImage.size.height);
 	UIImageView *mTraderBranding = [[UIImageView alloc] initWithFrame:mTraderImageFrame];
 	mTraderBranding.image = mTraderImage;
@@ -93,10 +93,14 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+	[super viewDidLoad];
+	
 	self.tableViewController.managedObjectContext = self.managedObjectContext;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
 	[self changeQFieldsStreaming];
 }
 

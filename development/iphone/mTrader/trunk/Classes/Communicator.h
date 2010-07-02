@@ -15,7 +15,7 @@
 	id <CommunicatorStatusDelegate> _statusDelegate;
 	id <CommunicatorDataDelegate> _dataDelegate;
 	
-	NSString *_host;
+	NSURL *_url;
 	NSUInteger _port;
 	
 	NSInputStream *_inputStream;
@@ -31,12 +31,12 @@
 @property (nonatomic, assign) id <CommunicatorStatusDelegate> statusDelegate;
 @property (nonatomic, assign) id <CommunicatorDataDelegate> dataDelegate;
 
-@property (readonly) NSString *host;
+@property (readonly) NSURL *url;
 @property (readonly) NSUInteger port;
 @property (readonly) NSUInteger bytesReceived;
 @property (readonly) NSUInteger bytesSent;
 
-- (void)startConnectionWithSocket:(NSString *)host onPort:(NSUInteger)port;
+- (void)startConnectionWithSocket:(NSURL *)url onPort:(NSUInteger)port;
 - (void)stopConnection;
 
 - (void)sendData:(NSData *)data;

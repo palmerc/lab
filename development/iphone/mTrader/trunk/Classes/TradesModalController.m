@@ -35,6 +35,8 @@
 }
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+
 	self.view.backgroundColor = [UIColor whiteColor];
 	
 	UIFont *headerFont = [UIFont boldSystemFontOfSize:18.0];
@@ -74,8 +76,6 @@
 	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
-	
-	[super viewDidLoad];
 }
 
 - (void)setSymbol:(Symbol *)symbol {	

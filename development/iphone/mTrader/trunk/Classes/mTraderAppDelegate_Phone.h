@@ -29,8 +29,5 @@ typedef enum {
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabController;
 
-- (NSString *)applicationDocumentsDirectory;
-- (void)cleanupOldFile;
-
 @end
 

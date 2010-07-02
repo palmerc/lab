@@ -12,7 +12,7 @@
 #import "AboutViewController_Phone.h"
 
 #import "mTraderCommunicator.h"
-#import "mTraderServerMonitor.h"
+#import "Monitor.h"
 #import "UserDefaults.h"
 #import "QFields.h"
 
@@ -39,6 +39,7 @@
 #pragma mark UIViewController Methods
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
 	self.title = NSLocalizedString(@"SettingsTab", @"The settings tab label");
 
 	_sectionsArray = [[NSArray alloc] initWithObjects:NSLocalizedString(@"LoginSettings", @"Login settings for infront account"), NSLocalizedString(@"Company", @"Company name"), nil];
@@ -182,7 +183,7 @@
 	
 	// As long as username and password are not empty or nil attempt to connect
 	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
-		[[mTraderServerMonitor sharedManager] attemptConnection];
+		[[Monitor sharedManager] usernameAndPasswordChanged];
 	}
 }
 

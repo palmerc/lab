@@ -22,10 +22,6 @@
 
 @interface DataController : NSObject <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
 @private
-	id <OrderBookDelegate> _orderBookDelegate;
-	id <TradesDelegate> _tradesDelegate;
-	id <SearchResultsDelegate> _searchDelegate;
-	
 	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
 	

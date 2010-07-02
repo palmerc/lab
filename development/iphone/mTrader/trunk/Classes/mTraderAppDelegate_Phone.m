@@ -6,7 +6,7 @@
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
-#define DEBUG 1
+#define DEBUG 0
 
 #import "mTraderAppDelegate_Phone.h"
 
@@ -15,11 +15,16 @@
 #import "NewsTableViewController_Phone.h"
 #import "SettingsTableViewController_Phone.h"
 
-#import "mTraderServerMonitor.h"
+#import "Monitor.h"
 #import "DataController.h"
 #import "Reachability.h"
-#import "Starter.h"
 #import "UserDefaults.h"
+
+
+@interface mTraderAppDelegate_Phone ()
+- (NSString *)applicationDocumentsDirectory;
+@end
+
 
 @implementation mTraderAppDelegate_Phone
 @synthesize window = _window;
@@ -86,27 +91,50 @@
 	DataController *dataController = [DataController sharedManager];
 	dataController.managedObjectContext = self.managedObjectContext;
 	
-	[[mTraderServerMonitor sharedManager] attemptConnection];
+	[[Monitor sharedManager] applicationDidFinishLaunching];
 	
 	return YES;
 }
 
-
-/**
- applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
- */
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void)applicationWillResignActive:(UIApplication *)application {
+	[[Monitor sharedManager] applicationWillResignActive];
+	
 	[[UserDefaults sharedManager] saveSettings];
 	
 	NSError *error;
     if (_managedObjectContext != nil) {
         if ([_managedObjectContext hasChanges] && ![_managedObjectContext save:&error]) {
+			// Update to handle the error appropriately.
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 #if DEBUG
 			abort();
 #endif
         } 
     }
+}
+
+/**
+ applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
+ */
+- (void)applicationWillTerminate:(UIApplication *)application {
+	[[Monitor sharedManager] applicationWillTerminate];
+	
+	[[UserDefaults sharedManager] saveSettings];
+	
+	NSError *error;
+    if (_managedObjectContext != nil) {
+        if ([_managedObjectContext hasChanges] && ![_managedObjectContext save:&error]) {
+			// Update to handle the error appropriately.
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+			abort();
+#endif
+        } 
+    }
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	[[Monitor sharedManager] applicationDidBecomeActive];
 }
 
 
@@ -135,14 +163,19 @@
  Returns the managed object model for the application.
  If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
  */
-- (NSManagedObjectModel *)managedObjectModel {	
+- (NSManagedObjectModel *)managedObjectModel {
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
 	
-    _managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+	NSString *modelPath = [[NSBundle mainBundle] pathForResource:@"DataModel" ofType:@"momd"];
+	NSAssert(modelPath != nil, @"Managed Object Model is not found.");
+	NSURL *modelURL = [NSURL fileURLWithPath:modelPath];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
+    
 	return _managedObjectModel;
 }
+
 
 
 /**
@@ -153,17 +186,15 @@
     if (_persistentStoreCoordinator != nil) {
         return _persistentStoreCoordinator;
     }
-	[self cleanupOldFile];
 		
 	NSURL *storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"mTrader01.sqlite"]];
 	
-//	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-//							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-//							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];	
+	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption, nil];	
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
 	
 	NSError *error;
-	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
+	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
 		// Update to handle the error appropriately.
 		NSLog(@"Could not start persistent store: %@, %@", error, [error userInfo]);
 #if DEBUG
@@ -188,22 +219,16 @@
     return basePath;
 }
 
-- (void)cleanupOldFile {
-	NSBundle *bundle = [NSBundle mainBundle];
-	NSString *path = [bundle pathForResource:@"mTrader" ofType:@"sqlite"];
-	
-	NSLog(@"%@", path);
-}
-
 #pragma mark -
 #pragma mark Debugging methods
-/*
+
+#if DEBUG
 // Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
-    NSLog(@"Queried about %@", NSStringFromSelector(sel));
+    NSLog(@"mTraderAppDelegate_Phone Queried about %@", NSStringFromSelector(sel));
     return [super respondsToSelector:sel];
 }
-*/
+#endif
 
 #pragma mark -
 #pragma mark Memory managment

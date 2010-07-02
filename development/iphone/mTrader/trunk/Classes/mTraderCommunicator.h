@@ -44,9 +44,10 @@ enum {
 	id <SymbolsDataDelegate> _symbolsDelegate;
 	id <mTraderStatusDelegate> _statusDelegate;
 
+	Communicator *_communicator;
+	
 	UserDefaults *_defaults;
 		
-	NSData *_currentLine;
 	NSMutableArray *_blockBuffer;
 	QFields *_qFields;
 	
@@ -56,6 +57,7 @@ enum {
 
 @property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
 @property (nonatomic, assign) id <mTraderStatusDelegate> statusDelegate;
+@property (nonatomic, retain) Communicator *communicator;
 @property (nonatomic, retain) QFields *qFields;
 
 // The singleton class method
@@ -90,10 +92,10 @@ enum {
 @protocol SymbolsDataDelegate <NSObject>
 @optional
 - (void)processSymbolFeeds:(NSArray *)symbolFeeds;
-- (void)processSymbols:(NSArray *)symbols;
+- (void)processSymbols:(NSString *)symbols;
 - (void)processNewsFeeds:(NSArray *)newsFeeds;
-- (void)replaceAllSymbols:(NSString *)symbols;
 - (void)searchResults:(NSArray *)results;
+- (void)addSymbols:(NSString *)symbols;
 - (void)updateSymbols:(NSArray *)symbols;
 - (void)staticUpdates:(NSDictionary *)updateDictionary;
 - (void)tradesUpdate:(NSDictionary *)updateDictionary;

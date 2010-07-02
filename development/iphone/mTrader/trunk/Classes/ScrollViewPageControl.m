@@ -36,8 +36,10 @@
 }
 
 - (void)viewDidLoad {
-	CGRect scrollViewFrame, pageControlFrame;
-	scrollViewFrame = pageControlFrame = self.view.bounds;
+	[super viewDidLoad];
+	
+	CGRect scrollViewFrame;
+	scrollViewFrame = self.view.bounds;
 	scrollViewFrame.size.height = self.view.bounds.size.height;
 
 	

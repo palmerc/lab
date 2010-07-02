@@ -45,6 +45,8 @@
 */
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+
 	UIFont *headerFont = [UIFont boldSystemFontOfSize:18.0];
 	
 	CGFloat maxWidth = self.view.frame.size.width;
@@ -85,11 +87,11 @@
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
 	self.navigationItem.leftBarButtonItem = doneButton;
 	[doneButton release];
-	
-	[super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];

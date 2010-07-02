@@ -13,7 +13,7 @@
 
 @class NewsTableViewCell_Phone;
 @class NewsFeed;
-@class FeedsTableViewController;
+@class FeedsTableViewController_Phone;
 
 @interface NewsTableViewContoller_Phone : UITableViewController <NSFetchedResultsControllerDelegate, NewsFeedChoiceDelegate> {
 @private
@@ -25,7 +25,7 @@
 	NSFetchedResultsController *_feedsFetchedResultsController;
 	
 	UIBarButtonItem *feedBarButtonItem;
-	FeedsTableViewController *feedsTableViewController;
+	FeedsTableViewController_Phone *feedsTableViewController;
 	
 	NewsFeed *_newsFeed;	
 }

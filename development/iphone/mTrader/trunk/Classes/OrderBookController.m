@@ -37,6 +37,8 @@
 }
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+	
 	NSString *labelString = NSLocalizedString(@"noOrderbookAvailable", @"No Orderbook Available");
 	UIFont *labelFont = [UIFont boldSystemFontOfSize:17.0f];
 	CGRect frame = self.view.bounds;

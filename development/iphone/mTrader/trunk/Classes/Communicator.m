@@ -26,7 +26,7 @@
 @implementation Communicator
 @synthesize statusDelegate = _statusDelegate;
 @synthesize dataDelegate = _dataDelegate;
-@synthesize host = _host;
+@synthesize url = _url;
 @synthesize port = _port;
 @synthesize bytesReceived = _bytesReceived;
 @synthesize bytesSent = _bytesSent;
@@ -38,7 +38,7 @@
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		_host = nil;
+		_url = nil;
 		_port = 0;
 		_inputStream = nil;
 		_outputStream = nil;
@@ -52,7 +52,7 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"Socket connection to %@ on port %d", self.host, self.port];
+	return [NSString stringWithFormat:@"Socket connection to %@ on port %d", self.url, self.port];
 }
 
 #pragma mark -
@@ -195,15 +195,14 @@
 
 #pragma mark -
 #pragma mark Connection start and stop
-- (void)startConnectionWithSocket:(NSString *)host onPort:(NSUInteger)port {
-	NSAssert(host != nil && port > 0, @"Starting connection failed");
-	_host = [host retain];
+- (void)startConnectionWithSocket:(NSURL *)url onPort:(NSUInteger)port {
+	NSAssert(url != nil && port > 0, @"Starting connection failed");
+	_url = [url retain];
 	_port = port;
 	
 	CFWriteStreamRef writeStream;
 	CFReadStreamRef readStream;
 	
-	NSURL *url = [NSURL URLWithString:self.host];
 	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)[url host], self.port, &readStream, &writeStream);
 	
 	_inputStream = (NSInputStream *)readStream;
@@ -236,7 +235,7 @@
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[_host release];
+	[_url release];
 	[_inputStream release];
 	[_outputStream release];
 	[_inboundBuffer release];

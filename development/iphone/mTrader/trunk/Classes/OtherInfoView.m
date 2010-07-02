@@ -262,7 +262,6 @@
 	
 	CGSize statusSize = [self.status.text sizeWithFont:labelFont];
 	self.status.frame = CGRectMake(leftPadding + statusLabelSize.width, globalY, maxWidth - statusLabelSize.width, statusSize.height);
-	globalY += statusSize.height;
 }
 
 #pragma mark -

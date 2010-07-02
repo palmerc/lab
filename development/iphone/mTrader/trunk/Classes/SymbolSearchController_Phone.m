@@ -35,6 +35,8 @@
 #pragma mark UIViewController Delegate Methods
 
 - (void)viewDidLoad {
+	[super viewDidLoad];
+	
 	NSString *noResultsString = NSLocalizedString(@"noResults", @"No Results");
 	UIFont *noResultsFont = [UIFont boldSystemFontOfSize:24.0f];
 	CGSize noResultsSize = [noResultsString sizeWithFont:noResultsFont];
