@@ -2,7 +2,7 @@
 //  Symbol.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 22.03.10.
+//  Created by Cameron Lowell Palmer on 02.07.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -12,6 +12,7 @@
 #import "Chart.h"
 #import "Feed.h"
 #import "SymbolDynamicData.h"
+#import "SymbolNewsRelationship.h"
 #import "Trade.h"
 
 @implementation Symbol 
@@ -24,6 +25,7 @@
 @dynamic country;
 @dynamic currency;
 @dynamic orderBook;
+@dynamic news;
 @dynamic chart;
 @dynamic feed;
 @dynamic bidsAsks;

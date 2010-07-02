@@ -2,7 +2,7 @@
 //  Chart.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 18.02.10.
+//  Created by Cameron Lowell Palmer on 02.07.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -12,10 +12,10 @@
 
 @implementation Chart 
 
-@dynamic height;
-@dynamic data;
-@dynamic width;
 @dynamic size;
+@dynamic data;
+@dynamic height;
+@dynamic width;
 @dynamic type;
 @dynamic symbol;
 

@@ -2,7 +2,7 @@
 //  Chart.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 18.02.10.
+//  Created by Cameron Lowell Palmer on 02.07.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -14,10 +14,10 @@
 {
 }
 
-@property (nonatomic, retain) NSNumber * height;
-@property (nonatomic, retain) NSData * data;
-@property (nonatomic, retain) NSNumber * width;
 @property (nonatomic, retain) NSNumber * size;
+@property (nonatomic, retain) NSData * data;
+@property (nonatomic, retain) NSNumber * height;
+@property (nonatomic, retain) NSNumber * width;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) Symbol * symbol;
 

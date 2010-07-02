@@ -2,8 +2,8 @@
 //  Feed.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 02.02.10.
-//  Copyright 2010 Infront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 02.07.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "Feed.h"
@@ -12,11 +12,11 @@
 
 @implementation Feed 
 
+@dynamic decimals;
 @dynamic feedNumber;
 @dynamic feedName;
 @dynamic mCode;
-@dynamic symbols;
 @dynamic typeCode;
-@dynamic decimals;
+@dynamic symbols;
 
 @end

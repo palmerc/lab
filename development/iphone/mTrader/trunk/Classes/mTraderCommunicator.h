@@ -41,30 +41,22 @@ enum {
 
 @interface mTraderCommunicator : NSObject <mTraderBlockDataDelegate> {
 @private
-	id <SymbolsDataDelegate> symbolsDelegate;
+	id <SymbolsDataDelegate> _symbolsDelegate;
 	id <mTraderStatusDelegate> _statusDelegate;
 
 	UserDefaults *_defaults;
-	
-	BOOL symbolsDefined;
-	
+		
 	NSData *_currentLine;
 	NSMutableArray *_blockBuffer;
 	QFields *_qFields;
 	
-	NSUInteger contentLength;
-	NSUInteger state;
+	NSUInteger _contentLength;
+	NSUInteger _state;
 }
 
 @property (nonatomic, assign) id <SymbolsDataDelegate> symbolsDelegate;
 @property (nonatomic, assign) id <mTraderStatusDelegate> statusDelegate;
-@property (nonatomic, retain) Communicator *communicator;
-@property (nonatomic, assign) UserDefaults *defaults;
-@property (nonatomic, retain) NSData *currentLine;
-@property (nonatomic, retain) NSMutableArray *blockBuffer;
 @property (nonatomic, retain) QFields *qFields;
-@property (nonatomic, assign) NSUInteger state;
-@property (nonatomic, assign) NSUInteger contentLength;
 
 // The singleton class method
 + (mTraderCommunicator *)sharedManager;
@@ -72,7 +64,6 @@ enum {
 // mTrader server request methods
 - (void)login;
 - (void)logout;
-- (BOOL)loginStatusHasChanged;
 
 - (void)newsListFeed:(NSString *)mCode;
 - (void)newsItemRequest:(NSString *)newsId;
@@ -88,6 +79,7 @@ enum {
 @end
 
 @protocol mTraderStatusDelegate <NSObject>
+@optional
 - (void)connected;
 - (void)disconnected;
 - (void)kickedOut;
@@ -96,6 +88,7 @@ enum {
 @end
 
 @protocol SymbolsDataDelegate <NSObject>
+@optional
 - (void)replaceAllSymbols:(NSString *)symbols;
 - (void)searchResults:(NSArray *)results;
 - (void)addSymbols:(NSString *)symbols;
@@ -109,6 +102,5 @@ enum {
 - (void)chartUpdate:(NSDictionary *)chart;
 - (void)newsListFeedsUpdates:(NSArray *)newsList;
 - (void)newsItemUpdate:(NSArray *)newsItemContents;
-@optional
 - (void)removedSecurity:(NSString *)feedTicker;
 @end

@@ -10,9 +10,10 @@
 
 #import "DataController.h"
 
+#import "NSArray+CleanStringAdditions.h"
+
 #import "mTraderCommunicator.h"
 #import "QFields.h"
-#import "StringHelpers.h"
 
 #import "Feed.h"
 #import "Symbol.h"
@@ -98,15 +99,24 @@ static DataController *sharedDataController = nil;
  * Delegation
  */
 
-- (void)addNewsFeeds:(NSArray *)feeds {
+- (void)processNewsFeeds:(NSArray *)newsFeeds {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
-
-	feeds = [StringHelpers cleanComponents:feeds];
+	
+	// 1) Get database feeds
+	// 2) Get server feeds
+	// 3) Remove feeds that the server has removed
+	// 4) Add feeds and update feeds
+	
+	newsFeeds = [newsFeeds sansWhitespace];
 	
 	NSString *allNewsLocalizedString = NSLocalizedString(@"AllNews", "All News Feeds Localization");
 	NSString *feedString = [NSString stringWithFormat:@"0:AllNews:%@ [AllNews](S)", allNewsLocalizedString];
 	NSArray *modifiedFeeds = [NSArray arrayWithObject:feedString];
-	modifiedFeeds = [modifiedFeeds arrayByAddingObjectsFromArray:feeds];
+	modifiedFeeds = [modifiedFeeds arrayByAddingObjectsFromArray:newsFeeds];
+	
+	NSArray *clientNewsFeedsArray = [self fetchAllNewsFeeds];
+	NSMutableSet *clientNewsFeedsSet = [[NSMutableSet alloc] initWithArray:clientNewsFeedsArray];
+	NSMutableSet *serverNewsFeedsSet = [[NSMutableSet alloc] init];
 	
 	for (NSString *feed in modifiedFeeds) {
 		NSArray *exchangeComponents = [feed componentsSeparatedByString:@":"];
@@ -146,7 +156,17 @@ static DataController *sharedDataController = nil;
 		newsFeed.mCode = mCode;
 		newsFeed.name = feedName;
 		newsFeed.type = typeCode;
+		
+		[serverNewsFeedsSet addObject:newsFeed];
 	}
+	
+	for (NewsFeed *feed in serverNewsFeedsSet) {
+		[clientNewsFeedsSet removeObject:feed];
+	}
+	
+	for (NewsFeed *feed in clientNewsFeedsSet) {
+		[self.managedObjectContext deleteObject:feed];
+	}	
 	
 	NSError *error;
 	if (![self.managedObjectContext save:&error]) {
@@ -158,17 +178,24 @@ static DataController *sharedDataController = nil;
 	}
 }
 
-- (void)addExchanges:(NSArray *)exchanges {
+- (void)processSymbolFeeds:(NSArray *)symbolFeeds {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
-
-	exchanges = [StringHelpers cleanComponents:exchanges];
-	for (NSString *exchangeCode in exchanges) {
+	
+	// 1) Get database feeds
+	// 2) Get server feeds
+	// 3) Remove feeds that the server has removed
+	// 4) Add feeds and update feeds
+	
+	NSArray *clientSymbolFeedsArray = [self fetchAllSymbolFeeds];
+	NSMutableSet *clientSymbolFeedSet = [[NSMutableSet alloc] initWithArray:clientSymbolFeedsArray];
+	NSMutableSet *serverSymbolFeedSet = [[NSMutableSet alloc] init];
+	
+	symbolFeeds = [StringHelpers cleanComponents:symbolFeeds];
+	for (NSString *exchangeCode in symbolFeeds) {
 		NSArray *exchangeComponents = [exchangeCode componentsSeparatedByString:@":"];
 		
 		if ([exchangeComponents count] != 4) {
-#if DEBUG
 			NSLog(@"Exchange %@ rejected. Improper number of fields");
-#endif
 			continue;
 		}
 		
@@ -188,7 +215,7 @@ static DataController *sharedDataController = nil;
 		typeRange.location = leftParenthesisRange.location + 1;
 		typeRange.length = rightParenthesisRange.location - typeRange.location;
 		NSString *typeCode = [description substringWithRange:typeRange]; // (S) 
-				
+		
 		NSRange descriptionRange;
 		descriptionRange.location = 0;
 		descriptionRange.length = leftBracketRange.location - 1;
@@ -204,7 +231,20 @@ static DataController *sharedDataController = nil;
 		feed.feedName = feedName;
 		feed.typeCode = typeCode;
 		feed.decimals = [NSNumber numberWithInteger:[decimals integerValue]];
+		
+		[serverSymbolFeedSet addObject:feed];
 	}
+	
+	for (Feed *feed in serverSymbolFeedSet) {
+		[clientSymbolFeedSet removeObject:feed];
+	}
+	
+	for (Feed *feed in clientSymbolFeedSet) {
+		[self.managedObjectContext deleteObject:feed];
+	}
+	
+	[serverSymbolFeedSet release];
+	[clientSymbolFeedSet release];
 	
 	NSError *error;
 	if (![self.managedObjectContext save:&error]) {
@@ -212,6 +252,129 @@ static DataController *sharedDataController = nil;
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 #if DEBUG
 		abort();
+#endif
+	}
+}
+
+- (void)processSymbols:(NSString *)symbols {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+	
+	// 1) Get database symbols
+	// 2) Get server symbols
+	// 3) Remove symbols that the server has removed
+	// 4) Add symbols and update symbols
+	
+	NSArray *clientSymbolsArray = [self fetchAllSymbols];
+	NSMutableSet *clientSymbolsSet = [[NSMutableSet alloc] initWithArray:clientSymbolsArray];
+	NSMutableSet *serverSymbolsSet = [[NSMutableSet alloc] init];	
+	//const NSInteger FEED_TICKER = 0;
+	const NSInteger TICKER_SYMBOL = 1;
+	const NSInteger COMPANY_NAME = 2;
+	const NSInteger EXCHANGE_CODE = 3;
+	const NSInteger TYPE = 4;
+	const NSInteger ORDER_BOOK = 5;
+	const NSInteger ISIN = 6;
+	//const NSInteger EXCHANGE_NUMBER = 7;
+	const NSInteger FIELD_COUNT = 8;
+	
+	// insert the objects
+	NSArray *rows = [symbols componentsSeparatedByString:@":"];
+	rows = [StringHelpers cleanComponents:rows];
+	for (NSString *row in rows) {
+		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
+		if ([stockComponents count] != FIELD_COUNT) {
+			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
+			continue;
+		}
+		stockComponents = [StringHelpers cleanComponents:stockComponents];
+		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
+		NSString *tickerSymbol = [stockComponents objectAtIndex:TICKER_SYMBOL];
+		NSString *companyName = [stockComponents objectAtIndex:COMPANY_NAME];
+		NSString *exchangeCode = [stockComponents objectAtIndex:EXCHANGE_CODE];
+		NSString *orderBook = [stockComponents objectAtIndex:ORDER_BOOK];
+		NSString *type = [stockComponents objectAtIndex:TYPE];
+		NSString *isin = [stockComponents objectAtIndex:ISIN];
+		
+		// Separate the Description from the mCode
+		NSRange leftBracketRange = [exchangeCode rangeOfString:@"["];
+		NSRange rightBracketRange = [exchangeCode rangeOfString:@"]"];
+		
+		NSRange mCodeRange;
+		mCodeRange.location = leftBracketRange.location + 1;
+		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
+		NSString *mCode = [exchangeCode substringWithRange:mCodeRange]; // OSS
+		
+		// Prevent double insertions
+		Feed *feed = [self fetchFeed:mCode];		
+		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeed:mCode];
+		
+		if (symbol == nil) {
+			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
+			symbol.tickerSymbol = tickerSymbol;
+			
+			symbol.companyName = companyName;
+			symbol.country = nil;
+			symbol.currency = nil;
+			symbol.orderBook = orderBook;
+			if ([type isEqualToString:@"1"]) {
+				symbol.type = @"Stock";
+			} else if ([type isEqualToString:@"2"]) {
+				symbol.type = @"Index";
+			} else if ([type isEqualToString:@"3"]) {
+				symbol.type = @"Exchange Rate";
+			} else {
+				symbol.type = type;
+			}
+			symbol.isin = isin;
+			symbol.symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
+			
+			[feed addSymbolsObject:symbol];
+		}
+		
+		symbol.tickerSymbol = tickerSymbol;
+		
+		symbol.companyName = companyName;
+		symbol.country = nil;
+		symbol.currency = nil;
+		symbol.orderBook = orderBook;
+		if ([type isEqualToString:@"1"]) {
+			symbol.type = @"Stock";
+		} else if ([type isEqualToString:@"2"]) {
+			symbol.type = @"Index";
+		} else if ([type isEqualToString:@"3"]) {
+			symbol.type = @"Exchange Rate";
+		} else {
+			symbol.type = type;
+		}
+		symbol.isin = isin;
+		
+		symbol.index = [NSNumber numberWithInteger:symbolIndex];
+		
+		[serverSymbolsSet addObject:symbol];
+		
+		symbolIndex++;
+	}
+	
+	// Remove server provided symbols from the client set
+	for (Symbol *symbol in serverSymbolsSet) {
+		[clientSymbolsSet removeObject:symbol];
+	}
+	
+	// Delete the remaining client symbols
+	for (Symbol *symbol in clientSymbolsSet) {
+		[self.managedObjectContext deleteObject:symbol];
+	}
+	
+	[clientSymbolsSet release];
+	[serverSymbolsSet release];
+	
+	// save the objects
+	NSError *error;
+	if (![self.managedObjectContext save:&error]) {
+		// Handle the error
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();  // Fail
 #endif
 	}
 }
@@ -809,7 +972,7 @@ static DataController *sharedDataController = nil;
 	chart.symbol = symbol;
 }
 
--(void) newsListFeedsUpdates:(NSArray *)newsList {
+- (void)newsListFeedsUpdates:(NSArray *)newsList {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	static NSTimeZone *timeZone = nil;
@@ -999,6 +1162,10 @@ static DataController *sharedDataController = nil;
 	[alertView release];
 }
 
+
+#pragma mark -
+#pragma mark Core Data Helper Methods
+
 - (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
@@ -1124,6 +1291,107 @@ static DataController *sharedDataController = nil;
 	} else {
 		return nil;
 	}
+}
+
+
+- (SymbolNewsRelationship *)fetchRelationshipForArticle:(NewsArticle *)article andSymbol:(Symbol *)symbol {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(newsArticle=%@) AND (symbol=%@)", article, symbol];
+	[request setPredicate:predicate];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}
+	
+	if ([array count] > 0) {
+		return [array objectAtIndex:0];
+	} else {
+		return nil;
+	}
+}
+
+- (NSArray *)fetchAllNewsFeeds {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"NewsFeed" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}
+	
+	return array;	
+}
+
+- (NSArray *)fetchAllSymbolFeeds {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}
+	
+	return array;	
+}
+
+- (NSArray *)fetchAllSymbols {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}
+	
+	return array;	
+}
+
+- (NSArray *)fetchAllRelationships {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
+	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+	[request setEntity:entityDescription];
+	[request setIncludesPropertyValues:NO];
+	[request setIncludesSubentities:NO];
+	
+	NSError *error = nil;
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+	if (array == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}
+	
+	return array;
 }
 
 - (void)maxNewsArticles:(NSInteger)max {

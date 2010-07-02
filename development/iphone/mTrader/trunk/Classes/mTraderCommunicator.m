@@ -14,12 +14,13 @@
 
 #import "NSMutableArray+QueueAdditions.h"
 #import "NSData+StringAdditions.h"
+#import "NSString+CleanStringAdditions.h"
+#import "NSArray+CleanStringAdditions.h"
 
 #import "DataController.h"
 #import "QFields.h"
 #import "mTraderServerMonitor.h"
 #import "UserDefaults.h"
-#import "StringHelpers.h"
 
 
 @interface mTraderCommunicator ()
@@ -60,14 +61,9 @@
 @implementation mTraderCommunicator
 
 static mTraderCommunicator *sharedCommunicator = nil;
-@synthesize symbolsDelegate;
+@synthesize symbolsDelegate = _symbolsDelegate;
 @synthesize statusDelegate = _statusDelegate;
-
-@synthesize defaults = _defaults;
-@synthesize blockBuffer = _blockBuffer;
 @synthesize qFields = _qFields;
-@synthesize currentLine = _currentLine;
-@synthesize state, contentLength;
 
 #pragma mark -
 #pragma mark Singleton Methods
@@ -114,11 +110,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if (self != nil) {
 		_blockBuffer = nil;
 		_qFields = nil;
-		contentLength = 0;
-		state = LOGIN;
+		_contentLength = 0;
+		_state = LOGIN;
 		
-		DataController *dataController = [DataController sharedManager];
-		symbolsDelegate = dataController;
+		_symbolsDelegate = [DataController sharedManager];
 	}
 	return self;
 }
@@ -128,7 +123,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 #pragma mark Communicator Delegate Methods
 
 - (void)receivedDataBlock:(NSArray *)block {
-	self.blockBuffer = [NSMutableArray arrayWithArray:block];
+	_blockBuffer = [NSMutableArray arrayWithArray:block];
 	[self stateMachine];
 }
 
@@ -136,8 +131,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 #pragma mark State Machine
 
 -(void) stateMachine {
-	while ([self.blockBuffer count] > 0) {
-		switch (state) {
+	while ([_blockBuffer count] > 0) {
+		switch (_state) {
 			case HEADER:
 #if DEBUG_STATE
 				NSLog(@"State: HEADER");
@@ -244,114 +239,112 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)headerParsing {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	if ([string rangeOfString:@"Content-Length:"].location == 0) {
-		NSString *rhs = [StringHelpers cleanString:[self dataFromRHS:string]];
-		contentLength = [rhs integerValue];
-		state = FIXEDLENGTH;
+		NSString *rhs = [[self dataFromRHS:string] sansWhitespace];
+		_contentLength = [rhs integerValue];
+		_state = FIXEDLENGTH;
 	} else if ([string isEqual:@"\r\n"]) {
-		state = STATICRESPONSE;
+		_state = STATICRESPONSE;
 	}
 }
 
 -(void) fixedLength {
-	[self.blockBuffer deQueue]; // blank line
+	[_blockBuffer deQueue]; // blank line
 	
 	int bytes = 0;
-	for (NSData *data in self.blockBuffer) {
+	for (NSData *data in _blockBuffer) {
 		bytes += [data length];
 	}
 	bytes += 2; // For the CR CR we skipped at the end of the block.
 	
-	if (bytes == contentLength) {
-		contentLength = 0;
+	if (bytes == _contentLength) {
+		_contentLength = 0;
 	} else {
 #if DEBUG
-		NSLog(@"Fixed-length response didn't match advertised size: %d vs. %d", contentLength, bytes);
+		NSLog(@"Fixed-length response didn't match advertised size: %d vs. %d", _contentLength, bytes);
 #endif
 	}
 	
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
 		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginFailed:)]) {
 			[self.statusDelegate loginFailed:@"UsrPwd"];
 		}
-		state = LOGIN;
+		_state = LOGIN;
 	} else if ([string rangeOfString:@"Request: login/failed.DeniedAccess"].location == 0) {
 		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginFailed:)]) {
 			[self.statusDelegate loginFailed:@"DeniedAccess"];
 		}
-		state = LOGIN;
+		_state = LOGIN;
 	} 
 }
 
 -(void) staticResponse {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
 		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginSuccess)]) {
 			[self.statusDelegate loginSuccessful];
 		}		
-		state = PREPROCESSING;
+		_state = PREPROCESSING;
 	} else if ([string rangeOfString:@"Request: addSec/OK"].location == 0) {
-		state = ADDSEC;
+		_state = ADDSEC;
 	} else if ([string rangeOfString:@"Request: remSec/OK"].location == 0) {
-		state = REMSEC;
+		_state = REMSEC;
 	} else if ([string rangeOfString:@"Request: incSearch/OK"].location == 0) {
-		state = SEARCHRESULTS;
+		_state = SEARCHRESULTS;
 	} else if ([string rangeOfString:@"Request: incSearch/failed.NoHit"].location == 0) {
 		[self searchNoHit];
 	} else if ([string rangeOfString:@"Request: Chart/OK"].location == 0) {
-		state = CHART;
+		_state = CHART;
 	} else if ([string rangeOfString:@"Request: StaticData/OK"].location == 0) {
-		state = STATDATA;
+		_state = STATDATA;
 	} else if ([string rangeOfString:@"Request: HistTrades/OK"].location == 0) {
-		state = HISTDATA;
+		_state = HISTDATA;
 	} else if ([string rangeOfString:@"Request: addSec/failed.NoSuchSec"].location == 0) {
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(failedToAddNoSuchSecurity)]) {
 			[self.symbolsDelegate failedToAddNoSuchSecurity];
 		}
-		state = PROCESSING;
+		_state = PROCESSING;
 	} else if 	 ([string rangeOfString:@"Request: addSec/failed.AlreadyExists"].location == 0) {
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(failedToAddAlreadyExists)]) {
 			[self.symbolsDelegate failedToAddAlreadyExists];
 		}
-		state = PROCESSING;
+		_state = PROCESSING;
 	} else if ([string rangeOfString:@"Request: q"].location == 0) {
-		if ([self.blockBuffer count] == 0) {
-			state = PROCESSING;
+		if ([_blockBuffer count] == 0) {
+			_state = PROCESSING;
 		} else {
-			state = QUOTE;
+			_state = QUOTE;
 		}
 	} else if ([string rangeOfString:@"Request: NewsBody/OK"].location == 0) {
-		state = NEWSITEM;
+		_state = NEWSITEM;
 	} else if ([string rangeOfString:@"Request: NewsListFeeds/OK"].location == 0) {
-		state = NEWSFEEDS;
+		_state = NEWSFEEDS;
 	} else if ([string rangeOfString:@"Request: NewsList/OK"].location == 0) {
-		state = NEWSLIST;
+		_state = NEWSLIST;
 	}
 }
 
 - (void)loginHandling {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
 		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginSuccessful)]) {
 			[self.statusDelegate loginSuccessful];
 		}
-		loginStatusHasChanged = YES;
 		
-		state = PREPROCESSING;
+		_state = PREPROCESSING;
 	} else if ([string rangeOfString:@"Request: login/failed.UsrPwd"].location == 0) {
 		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginFailed:)]) {
 			[self.statusDelegate loginFailed:@"UsrPwd"];
 		}
-		loginStatusHasChanged = YES;
 	}
 }
 
@@ -360,53 +353,53 @@ static mTraderCommunicator *sharedCommunicator = nil;
  * change state.
  */
 - (void)preprocessing {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 
 	if ([string rangeOfString:@"NewsFeeds:"].location == 0) {
-		NSArray *feeds = [self exchangesParsing:string];
-		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addNewsFeeds:)]) {
-			[self.symbolsDelegate addNewsFeeds:feeds];
+		NSArray *newsFeeds = [self exchangesParsing:string];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(processNewsFeeds:)]) {
+			[self.symbolsDelegate processNewsFeeds:newsFeeds];
 		}
-		state = QUOTE;
+		_state = QUOTE;
 	} else if ([string rangeOfString:@"Securities:"].location == 0) {
-		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
+		NSString *symbolsSansCRLF = [string sansWhitespace];
 		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
 		if (([rows count] == 1) && ([[rows objectAtIndex:0] isEqualToString:@""])) {
 			symbolsDefined = NO;
 		} else {
 			symbolsDefined = YES;
 			NSString *symbols = [rows componentsJoinedByString:@":"];
-			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(replaceAllSymbols:)]) {
-				[self.symbolsDelegate replaceAllSymbols:symbols];
+			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(processSymbols:)]) {
+				[self.symbolsDelegate processSymbols:symbols];
 			}
 		}
 	} else if ([string rangeOfString:@"Exchanges:"].location == 0) {
-		NSArray *exchanges = [self exchangesParsing:string];
-		if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addExchanges:)]) {
-			[self.symbolsDelegate addExchanges:exchanges];
+		NSArray *symbolFeeds = [self exchangesParsing:string];
+		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(processSymbolFeeds:)]) {
+			[self.symbolsDelegate processSymbolFeeds:symbolFeeds];
 		}
 	}
 }
 
 - (void)processingLoop {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"HTTP/1.1 200 OK"].location == 0) { // Static data
-		state = HEADER;
+		_state = HEADER;
 	} else if ([string rangeOfString:@"Request: q"].location == 0) { // Streaming
-		if ([self.blockBuffer count] > 0) {
-			state = QUOTE;
+		if ([_blockBuffer count] > 0) {
+			_state = QUOTE;
 		} else {
 			// Keep-Alive
-			state = PROCESSING;
+			_state = PROCESSING;
 		}
 	}
 }
 
 - (void)quoteHandling {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Quotes:"].location == 0) {
@@ -414,14 +407,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(updateSymbols:)]) {
 			[self.symbolsDelegate updateSymbols:quotes];
 		}
-		state = PROCESSING;
+		_state = PROCESSING;
 	} else if ([string rangeOfString:@"Kickout: 1"].location == 0) {
-		state = KICKOUT;
+		_state = KICKOUT;
 		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(kickedOut)]) {
 			[self.statusDelegate kickedOut];
 		}
 	} else {
-		state = PROCESSING;
+		_state = PROCESSING;
 	}
 }
 
@@ -431,8 +424,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	BOOL imageProcessing = NO;
 	
-	while ([self.blockBuffer count] > 0) {	
-		NSData *data = [self.blockBuffer deQueue];
+	while ([_blockBuffer count] > 0) {	
+		NSData *data = [_blockBuffer deQueue];
 		NSString *string = [data string];
 		
 		if ([string rangeOfString:@"<ImageBegin>"].location == 0) {
@@ -462,7 +455,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 			NSArray *partsOfString = [string componentsSeparatedByString:@":"];
 			if ([partsOfString count] > 1) {
 				NSString *dataPortion = [[self stripOffFirstElement:partsOfString] objectAtIndex:0];
-				NSString *cleanedDataPortion = [StringHelpers cleanString:dataPortion];
+				NSString *cleanedDataPortion = [dataPortion sansWhitespace];;
 				if ([string rangeOfString:@"SecOid:"].location == 0) {
 					[chart  setObject:cleanedDataPortion forKey:@"feedTicker"];
 				} else if ([string rangeOfString:@"Width:"].location == 0) {
@@ -485,23 +478,23 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		[self.symbolsDelegate chartUpdate:chart];
 	}
 	[chart release];
-	state = PROCESSING;		
+	_state = PROCESSING;		
 }
 
 - (void)searchNoHit {
-	if (symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
+	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(searchResults:)]) {
 		[self.symbolsDelegate searchResults:nil];
 	}
-	state = PROCESSING;
+	_state = PROCESSING;
 }
 
 - (void)searchResultsHandling {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	NSMutableArray *results = [NSMutableArray array];
-	while ([self.blockBuffer count] > 0) {	
-		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
+	while ([_blockBuffer count] > 0) {	
+		NSString *symbolsSansCRLF = [string sansWhitespace];
 		NSArray *columns = [symbolsSansCRLF componentsSeparatedByString:@";"];
 		NSString *feedTicker = [columns objectAtIndex:0];
 		NSString *exchange = [columns objectAtIndex:1];
@@ -522,11 +515,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSAssert([columns count] == 3, @"Search results contained more than three columns.");
 		[results addObject:columns];
 		
-		data = [self.blockBuffer deQueue];
+		data = [_blockBuffer deQueue];
 		string = [data string];
 	}
 	
-	NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
+	NSString *symbolsSansCRLF = [string sansWhitespace];
 	NSArray *columns = [symbolsSansCRLF componentsSeparatedByString:@";"];
 	NSString *feedTicker = [columns objectAtIndex:0];
 	NSString *exchange = [columns objectAtIndex:1];
@@ -550,40 +543,40 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		[self.symbolsDelegate searchResults:results];
 	}
 	
-	state = PROCESSING;
+	_state = PROCESSING;
 }
 
 - (void)addSecurityOK {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"SecInfo:"].location == 0) {	
-		NSString *symbolsSansCRLF = [StringHelpers cleanString:string];
+		NSString *symbolsSansCRLF = [string sansWhitespace];
 		NSArray *rows = [self stripOffFirstElement:[symbolsSansCRLF componentsSeparatedByString:@":"]];
 		string = [rows objectAtIndex:0];
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(addSymbols:)]) {
 			[self.symbolsDelegate addSymbols:string];
 		}
-		state = PROCESSING;
+		_state = PROCESSING;
 	}
 }
 
 - (void)removeSecurityOK {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"SecOid:"].location == 0) {
-		NSString *feedTicker = [StringHelpers cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
+		NSString *feedTicker = [[[string componentsSeparatedByString:@":"] objectAtIndex:1] sansWhitespace];
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(removedSecurity:)]) {
 			[self.symbolsDelegate removedSecurity:feedTicker];
 		}
 	}
 	
-	state = PROCESSING;
+	_state = PROCESSING;
 }
 
 - (void)staticDataOK {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"SecOid:"].location == 0) {
@@ -592,7 +585,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 }
 
 - (void)historyDataOK {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"SecOid:"].location == 0) {
@@ -600,7 +593,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
-#pragma mark Parsing
+#pragma mark Extended Parsing
 /**
  * These are methods that parse blocks of data
  *
@@ -609,11 +602,11 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc] init];
 	
 	if ([secOid rangeOfString:@"SecOid:"].location == 0) {
-		NSString *feedTicker = [StringHelpers cleanString:[[secOid componentsSeparatedByString:@":"] objectAtIndex:1]];
+		NSString *feedTicker = [[[secOid componentsSeparatedByString:@":"] objectAtIndex:1] sansWhitespace];
 		[dataDictionary setObject:feedTicker forKey:@"feedTicker"];
 	}
 	
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Staticdata:"].location == 0) {
@@ -623,7 +616,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		restOfTheDataRange.length = [string length] - staticDataRange.length;
 		NSString *staticDataString = [string substringWithRange:restOfTheDataRange];
 		
-		NSArray *staticDataRows = [StringHelpers cleanComponents:[staticDataString componentsSeparatedByString:@";"]];
+		NSArray *staticDataRows = [[staticDataString componentsSeparatedByString:@";"] sansWhitespace];
 		for (NSString *row in staticDataRows) {
 			NSRange separatorRange = [row rangeOfString:@":"];
 			if (separatorRange.location != NSNotFound) {
@@ -636,7 +629,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(staticUpdates:)]) {
 		[self.symbolsDelegate staticUpdates:dataDictionary];
 	}
-	state = PROCESSING;
+	_state = PROCESSING;
 	[dataDictionary release];
 }
 
@@ -644,27 +637,27 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc] init];
 	
 	if ([secOid rangeOfString:@"SecOid:"].location == 0) {
-		NSString *feedTicker = [StringHelpers cleanString:[[secOid componentsSeparatedByString:@":"] objectAtIndex:1]];
+		NSString *feedTicker = [[[secOid componentsSeparatedByString:@":"] objectAtIndex:1] sansWhitespace];
 		[dataDictionary setObject:feedTicker forKey:@"feedTicker"];
 	}
 	
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"FirstTrade:"].location == 0) {
-		NSString *firstTrade = [StringHelpers cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
+		NSString *firstTrade = [[[string componentsSeparatedByString:@":"] objectAtIndex:1] sansWhitespace];
 		[dataDictionary setObject:firstTrade forKey:@"firstTrade"];
 	}
 	
-	data = [self.blockBuffer deQueue];
+	data = [_blockBuffer deQueue];
 	string = [data string];
 	
 	if ([string rangeOfString:@"CountTrades:"].location == 0) {
-		NSString *firstTrade = [StringHelpers cleanString:[[string componentsSeparatedByString:@":"] objectAtIndex:1]];
+		NSString *firstTrade = [[[string componentsSeparatedByString:@":"] objectAtIndex:1] sansWhitespace];
 		[dataDictionary setObject:firstTrade forKey:@"countTrades"];
 	}
 	
-	data = [self.blockBuffer deQueue];
+	data = [_blockBuffer deQueue];
 	string = [data string];
 	
 	if ([string rangeOfString:@"Trades:"].location == 0) {
@@ -672,7 +665,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		tradesArray = [self stripOffFirstElement:tradesArray];
 		
 		NSString *tradesString = [tradesArray componentsJoinedByString:@":"];
-		tradesString = [StringHelpers cleanString:tradesString];
+		tradesString = [tradesString sansWhitespace];
 		
 		[dataDictionary setObject:tradesString forKey:@"trades"];
 	}
@@ -680,12 +673,12 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(tradesUpdate:)]) {
 		[self.symbolsDelegate tradesUpdate:dataDictionary];
 	}
-	state = PROCESSING;
+	_state = PROCESSING;
 	[dataDictionary release];
 }
 
 - (void)newsListFeedsOK {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"News:"].location == 0) {
@@ -698,12 +691,12 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
 			[self.symbolsDelegate newsListFeedsUpdates:newsArticlesArray];
 		}
-		state = PROCESSING;
+		_state = PROCESSING;
 	}
 }
 
 - (void)newsListOK {
-	NSData *data = [self.blockBuffer deQueue];
+	NSData *data = [_blockBuffer deQueue];
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"News:"].location == 0) {
@@ -711,31 +704,31 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
 		colonSeparatedComponents = [self stripOffFirstElement:colonSeparatedComponents];
 		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
-		NSArray *newsArticlesArray = [StringHelpers cleanComponents:[newsArticles componentsSeparatedByString:@"|"]];
+		NSArray *newsArticlesArray = [[newsArticles componentsSeparatedByString:@"|"] sansWhitespace];
 		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
 			[self.symbolsDelegate newsListFeedsUpdates:newsArticlesArray];
 		}
-		state = PROCESSING;
+		_state = PROCESSING;
 	}
 }
 
 
 - (void)newsBodyOK {
 	NSMutableArray *newsItem = [[NSMutableArray alloc] init];
-	while ([self.blockBuffer count] > 0) {
-		NSData *data = [self.blockBuffer deQueue];
+	while ([_blockBuffer count] > 0) {
+		NSData *data = [_blockBuffer deQueue];
 		NSString *string = [data string];
 		string = [self dataFromRHS:string];
 		[newsItem addObject:string];
 	}	
 	
-	if ([self.blockBuffer count] == 0) {
+	if ([_blockBuffer count] == 0) {
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsItemUpdate:)]) {
 			[self.symbolsDelegate newsItemUpdate:newsItem];
 		}
 		
-		state = PROCESSING;
+		_state = PROCESSING;
 	}
 	[newsItem release];
 }
@@ -750,11 +743,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 	
 	NSArray *quotesAndTheRest = [self stripOffFirstElement:[quotesString componentsSeparatedByString:@":"]];
-	quotesAndTheRest = [StringHelpers cleanComponents:quotesAndTheRest];
+	quotesAndTheRest = [quotesAndTheRest sansWhitespace];
 	NSString *theRest = [quotesAndTheRest componentsJoinedByString:@":"];
 	
-	NSArray *quotesStrings = [theRest componentsSeparatedByString:@"|"];
-	quotesStrings = [StringHelpers cleanComponents:quotesStrings];
+	NSArray *quotesStrings = [[theRest componentsSeparatedByString:@"|"] sansWhitespace];
 	
 	NSMutableArray *quotes = [[[NSMutableArray alloc] init] autorelease];
 	for (NSString *quoteString in quotesStrings) {
@@ -770,18 +762,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSArray *arrayOfComponents = [self stripOffFirstElement:[exchanges componentsSeparatedByString:@":"]];
 	exchanges = [arrayOfComponents componentsJoinedByString:@":"];
 	NSArray *exchangesArray = [exchanges componentsSeparatedByString:@","];
-	exchangesArray = [StringHelpers cleanComponents:exchangesArray];
+	exchangesArray = [exchangesArray sansWhitespace];
 	return exchangesArray;
-}
-
-- (BOOL)loginStatusHasChanged {
-	BOOL result = NO;
-	if (loginStatusHasChanged) {
-		result = YES;
-		
-		loginStatusHasChanged = NO;
-	}
-	return result;
 }
 
 #pragma mark -
@@ -795,8 +777,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *username = self.defaults.username;
 	NSString *password = self.defaults.password;
 	
-	username = [StringHelpers cleanString:username];
-	password = [StringHelpers cleanString:password];
+	username = [username sansWhitespace];
+	password = [password sansWhitespace];
 	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
 		NSString *version = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 		
@@ -1108,7 +1090,6 @@ static mTraderCommunicator *sharedCommunicator = nil;
 - (void)dealloc {
 	[_qFields release];
 	[_blockBuffer release];
-	[_communicator release];
 	
 	[super dealloc];
 }

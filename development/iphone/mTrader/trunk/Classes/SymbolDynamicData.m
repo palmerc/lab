@@ -2,7 +2,7 @@
 //  SymbolDynamicData.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 16.06.10.
+//  Created by Cameron Lowell Palmer on 02.07.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -43,7 +43,6 @@
 @dynamic changeArrow;
 @dynamic open;
 @dynamic askSize;
-@dynamic changeFlash;
 @dynamic askPrice;
 @dynamic dividendDate;
 @dynamic symbol;

@@ -2,8 +2,8 @@
 //  Trade.m
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 22.03.10.
-//  Copyright 2010 Infront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 02.07.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "Trade.h"
@@ -17,8 +17,5 @@
 @dynamic time;
 @dynamic index;
 @dynamic symbol;
-@dynamic buyer;
-@dynamic seller;
-@dynamic type;
 
 @end

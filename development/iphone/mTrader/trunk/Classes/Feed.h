@@ -2,10 +2,11 @@
 //  Feed.h
 //  mTrader
 //
-//  Created by Cameron Lowell Palmer on 02.02.10.
-//  Copyright 2010 Infront AS. All rights reserved.
+//  Created by Cameron Lowell Palmer on 02.07.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import <CoreData/CoreData.h>
 
 @class Symbol;
 
@@ -13,12 +14,13 @@
 {
 }
 
+@property (nonatomic, retain) NSNumber * decimals;
 @property (nonatomic, retain) NSNumber * feedNumber;
 @property (nonatomic, retain) NSString * feedName;
 @property (nonatomic, retain) NSString * mCode;
-@property (nonatomic, retain) NSSet* symbols;
 @property (nonatomic, retain) NSString * typeCode;
-@property (nonatomic, retain) NSNumber * decimals;
+@property (nonatomic, retain) NSSet* symbols;
+
 @end
 
 
