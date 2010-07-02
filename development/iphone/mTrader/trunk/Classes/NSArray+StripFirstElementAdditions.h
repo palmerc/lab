@@ -8,5 +8,5 @@
 
 
 @interface NSArray (StripFirstElementAdditions)
-
+- (NSArray *)stripFirstElement;
 @end
