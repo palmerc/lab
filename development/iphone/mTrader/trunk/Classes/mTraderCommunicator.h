@@ -89,14 +89,14 @@ enum {
 
 @protocol SymbolsDataDelegate <NSObject>
 @optional
+- (void)processSymbolFeeds:(NSArray *)symbolFeeds;
+- (void)processSymbols:(NSArray *)symbols;
+- (void)processNewsFeeds:(NSArray *)newsFeeds;
 - (void)replaceAllSymbols:(NSString *)symbols;
 - (void)searchResults:(NSArray *)results;
-- (void)addSymbols:(NSString *)symbols;
 - (void)updateSymbols:(NSArray *)symbols;
 - (void)staticUpdates:(NSDictionary *)updateDictionary;
 - (void)tradesUpdate:(NSDictionary *)updateDictionary;
-- (void)addExchanges:(NSArray *)exchanges;
-- (void)addNewsFeeds:(NSArray *)feeds;
 - (void)failedToAddNoSuchSecurity;
 - (void)failedToAddAlreadyExists;
 - (void)chartUpdate:(NSDictionary *)chart;

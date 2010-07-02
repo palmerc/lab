@@ -8,11 +8,12 @@
 
 #import "NewsArticleController_Phone.h"
 
+#import "NSString+CleanStringAdditions.h"
+
 #import "NewsArticleView_Phone.h"
 
 #import "NewsFeed.h"
 #import "NewsArticle.h"
-#import "StringHelpers.h"
 
 @implementation NewsArticleController_Phone
 @synthesize newsArticle = _newsArticle;
@@ -47,8 +48,7 @@
 	self.newsArticleView.flags = self.newsArticle.flag;
 	self.newsArticleView.headlineLabel.text = self.newsArticle.headline;
 	
-	NSString *body = [self.newsArticle.body stringByReplacingOccurrencesOfString:@"||" withString:@"\n"];
-	body = [StringHelpers cleanString:body];
+	NSString *body = [[self.newsArticle.body stringByReplacingOccurrencesOfString:@"||" withString:@"\n"] sansWhitespace];
 	self.newsArticleView.bodyLabel.text = body;
 	
 	[self.newsArticleView layoutSubviews];

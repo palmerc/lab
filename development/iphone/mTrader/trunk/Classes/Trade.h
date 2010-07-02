@@ -15,8 +15,11 @@
 }
 
 @property (nonatomic, retain) NSString * volume;
-@property (nonatomic, retain) NSString * price;
 @property (nonatomic, retain) NSString * time;
+@property (nonatomic, retain) NSString * seller;
+@property (nonatomic, retain) NSString * price;
+@property (nonatomic, retain) NSString * buyer;
+@property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSNumber * index;
 @property (nonatomic, retain) Symbol * symbol;
 

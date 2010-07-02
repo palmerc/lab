@@ -17,12 +17,14 @@
 	NSManagedObjectContext *_managedObjectContext;
 	NSFetchedResultsController *_fetchedResultsController;
 	
-	NSIndexPath *previousChoice;
+	NewsFeed *_selectedNewsFeed;
 }
 
 @property (nonatomic, assign) id <NewsFeedChoiceDelegate> delegate;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain) NewsFeed *selectedNewsFeed;
+
 @end
 
 @protocol NewsFeedChoiceDelegate <NSObject>

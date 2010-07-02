@@ -22,17 +22,20 @@
 
 @interface DataController : NSObject <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
 @private
-	id <OrderBookDelegate> orderBookDelegate;
-	id <TradesDelegate> tradesDelegate;
-	id <SearchResultsDelegate> searchDelegate;
+	id <OrderBookDelegate> _orderBookDelegate;
+	id <TradesDelegate> _tradesDelegate;
+	id <SearchResultsDelegate> _searchDelegate;
 	
 	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
+	
+	NSUInteger symbolIndex;
 }
 
 @property (nonatomic, assign) id <OrderBookDelegate> orderBookDelegate;
 @property (nonatomic, assign) id <TradesDelegate> tradesDelegate;
 @property (nonatomic, assign) id <SearchResultsDelegate> searchDelegate;
+
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 

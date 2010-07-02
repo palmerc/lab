@@ -13,8 +13,11 @@
 @implementation Trade 
 
 @dynamic volume;
-@dynamic price;
 @dynamic time;
+@dynamic seller;
+@dynamic price;
+@dynamic buyer;
+@dynamic type;
 @dynamic index;
 @dynamic symbol;
 

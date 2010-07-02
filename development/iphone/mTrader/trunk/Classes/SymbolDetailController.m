@@ -13,7 +13,6 @@
 
 #import "mTraderCommunicator.h"
 #import "DataController.h"
-#import "StringHelpers.h"
 
 #import "LastChangeView.h"
 #import "TradesLiveInfoView.h"

@@ -10,7 +10,7 @@
 
 #import "mTraderAppDelegate_Phone.h"
 #import "UserDefaults.h"
-#import "FeedsTableViewController.h"
+#import "FeedsTableViewController_Phone.h"
 
 #import "NewsFeed.h"
 #import "NewsArticle.h"

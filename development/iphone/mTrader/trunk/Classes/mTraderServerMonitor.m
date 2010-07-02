@@ -72,7 +72,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		_reachability = nil;
 						
-		[mTraderCommunicator sharedManager].mTraderServerMonitorDelegate = self;
+		[mTraderCommunicator sharedManager].statusDelegate = self;
 		
 		[self startReachability];
 	}
@@ -180,7 +180,7 @@ static mTraderServerMonitor *sharedMonitor = nil;
 	_loggedIn = YES;
 }
 
--(void) kickedOut {
+- (void)kickedOut {
 	[self.reachability stopNotifer];
 #if DEBUG
 	NSLog(@"Kicked out");

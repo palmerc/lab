@@ -11,7 +11,6 @@
 
 #import "OrderBookTableCellP.h"
 #import "mTraderCommunicator.h"
-#import "StringHelpers.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"

@@ -10,6 +10,7 @@
 
 #import "DataController.h"
 
+#import "NSString+CleanStringAdditions.h"
 #import "NSArray+CleanStringAdditions.h"
 
 #import "mTraderCommunicator.h"
@@ -18,11 +19,21 @@
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
+#import "SymbolNewsRelationship.h"
 #import "Trade.h"
 #import "Chart.h"
 #import "NewsFeed.h"
 #import "NewsArticle.h"
 #import "BidAsk.h"
+#import "Trade.h"
+
+@interface DataController ()
+- (NSArray *)fetchAllNewsFeeds;
+- (NSArray *)fetchAllSymbols;
+- (NSArray *)fetchAllSymbolFeeds;
+@end
+
+
 
 static DataController *sharedDataController = nil;
 
@@ -190,7 +201,7 @@ static DataController *sharedDataController = nil;
 	NSMutableSet *clientSymbolFeedSet = [[NSMutableSet alloc] initWithArray:clientSymbolFeedsArray];
 	NSMutableSet *serverSymbolFeedSet = [[NSMutableSet alloc] init];
 	
-	symbolFeeds = [StringHelpers cleanComponents:symbolFeeds];
+	symbolFeeds = [symbolFeeds sansWhitespace];
 	for (NSString *exchangeCode in symbolFeeds) {
 		NSArray *exchangeComponents = [exchangeCode componentsSeparatedByString:@":"];
 		
@@ -278,15 +289,13 @@ static DataController *sharedDataController = nil;
 	const NSInteger FIELD_COUNT = 8;
 	
 	// insert the objects
-	NSArray *rows = [symbols componentsSeparatedByString:@":"];
-	rows = [StringHelpers cleanComponents:rows];
+	NSArray *rows = [[symbols componentsSeparatedByString:@":"] sansWhitespace];
 	for (NSString *row in rows) {
-		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
+		NSArray *stockComponents = [[row componentsSeparatedByString:@";"] sansWhitespace];
 		if ([stockComponents count] != FIELD_COUNT) {
 			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
 			continue;
 		}
-		stockComponents = [StringHelpers cleanComponents:stockComponents];
 		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
 		NSString *tickerSymbol = [stockComponents objectAtIndex:TICKER_SYMBOL];
 		NSString *companyName = [stockComponents objectAtIndex:COMPANY_NAME];
@@ -445,14 +454,13 @@ static DataController *sharedDataController = nil;
 	NSInteger index = 0;
 	NSArray *rows = [symbols componentsSeparatedByString:@":"];	
 	for (NSString *row in rows) {
-		NSArray *stockComponents = [row componentsSeparatedByString:@";"];
+		NSArray *stockComponents = [[row componentsSeparatedByString:@";"] sansWhitespace];
 		if ([stockComponents count] != FIELD_COUNT) {
 #if DEBUG
 			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
 #endif
 			continue;
 		}
-		stockComponents = [StringHelpers cleanComponents:stockComponents];
 		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
 		NSString *tickerSymbol = [stockComponents objectAtIndex:TICKER_SYMBOL];
 		NSString *companyName = [stockComponents objectAtIndex:COMPANY_NAME];
@@ -631,9 +639,7 @@ static DataController *sharedDataController = nil;
 			if ([changeArrow isEqualToString:@"--"] == YES || [changeArrow isEqualToString:@"-"] == YES) {
 				symbol.symbolDynamicData.changeArrow = nil;
 			} else if ([changeArrow isEqualToString:@""] == NO) {
-				NSNumber *changeFlash = [NSNumber numberWithBool:YES];
 				NSNumber *changeNumber = [NSNumber numberWithInteger:[changeArrow integerValue]];
-				symbol.symbolDynamicData.changeFlash = changeFlash;
 				symbol.symbolDynamicData.changeArrow = changeNumber;
 #if DEBUG
 				if ([changeArrow isEqualToString:@"2"] || [changeArrow isEqualToString:@"3"]) {
@@ -736,8 +742,7 @@ static DataController *sharedDataController = nil;
 		if ([update objectForKey:orderBookKey]) {
 			// Bid then Ask -
 			NSString *orderBookString = [update valueForKey:orderBookKey];
-			NSArray *orderBook = [orderBookString componentsSeparatedByString:@"/"];
-			orderBook = [StringHelpers cleanComponents:orderBook];
+			NSArray *orderBook = [[orderBookString componentsSeparatedByString:@"/"] sansWhitespace];
 			
 			if ([orderBook count] != 2) {
 				NSLog(@"Orderbook has the wrong number of fields. %@", orderBookString);
@@ -997,8 +1002,7 @@ static DataController *sharedDataController = nil;
 	NSString *year = [yearFormatter stringFromDate:today];
 	
 	for (NSString *news in newsList) {
-		NSArray *components = [news componentsSeparatedByString:@";"];
-		components = [StringHelpers cleanComponents:components];
+		NSArray *components = [[news componentsSeparatedByString:@";"] sansWhitespace];
 		if ([components count] >= 4) {
 			NSString *feedArticle = [components objectAtIndex:0];
 			NSString *flag = [components objectAtIndex:1];
@@ -1049,7 +1053,7 @@ static DataController *sharedDataController = nil;
 - (void)newsItemUpdate:(NSArray *)newsItemContents {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
-	newsItemContents = [StringHelpers cleanComponents:newsItemContents];
+	newsItemContents = [newsItemContents sansWhitespace];
 	NSString *feedArticle = [newsItemContents objectAtIndex:0];
 	NSString *body = [newsItemContents objectAtIndex:4];
 	
@@ -1057,8 +1061,7 @@ static DataController *sharedDataController = nil;
 	NSString *feedNumber = [feedArticleComponents objectAtIndex:0];
 	NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
 	
-	body = [body stringByReplacingOccurrencesOfString:@"||" withString:@"\n"];
-	body = [StringHelpers cleanString:body];
+	body = [[body stringByReplacingOccurrencesOfString:@"||" withString:@"\n"] sansWhitespace];
 
 	NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:feedNumber];
 	if (article == nil) {
@@ -1702,34 +1705,6 @@ static DataController *sharedDataController = nil;
 	
 	if ([array count] == 1) {
 		return [array objectAtIndex:0];
-	} else {
-		return nil;
-	}
-}
-
-- (NSArray *)fetchAllSymbols {
-	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
-
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
-	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	[request setEntity:entityDescription];
-	
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tickerSymbol" ascending:YES];
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-	[sortDescriptor release];
-	
-	NSError *error = nil;
-	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-	if (array == nil)
-	{
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-#if DEBUG
-		abort();
-#endif
-	}
-	
-	if ([array count] >= 1) {
-		return array;
 	} else {
 		return nil;
 	}

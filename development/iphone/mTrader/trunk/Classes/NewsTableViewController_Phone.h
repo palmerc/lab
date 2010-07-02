@@ -9,7 +9,7 @@
 
 #import "mTraderCommunicator.h"
 
-#import "FeedsTableViewController.h"
+#import "FeedsTableViewController_Phone.h"
 
 @class NewsTableViewCell_Phone;
 @class NewsFeed;

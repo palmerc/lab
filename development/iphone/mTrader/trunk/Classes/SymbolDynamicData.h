@@ -31,7 +31,7 @@
 @property (nonatomic, retain) NSString * trades;
 @property (nonatomic, retain) NSNumber * lastTrade;
 @property (nonatomic, retain) NSNumber * bidPrice;
-@property (nonatomic, retain) NSString * lastTradeTime;
+@property (nonatomic, retain) NSDate * lastTradeTime;
 @property (nonatomic, retain) NSString * askVolume;
 @property (nonatomic, retain) NSNumber * openChange;
 @property (nonatomic, retain) NSNumber * change;

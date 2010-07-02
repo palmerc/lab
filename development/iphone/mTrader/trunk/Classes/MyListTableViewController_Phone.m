@@ -20,7 +20,6 @@
 #import "Feed.h";
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
-#import "StringHelpers.h"
 
 #import "SymbolDetailController.h"
 #import "OrderBookController.h"
@@ -93,8 +92,7 @@
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
 	
-	if (([symbolDynamicData.changeFlash boolValue] == YES) && ([symbolDynamicData.changeArrow intValue] == 2 || [symbolDynamicData.changeArrow intValue] == 3)) {
-		symbolDynamicData.changeFlash = NO;
+	if ( ([symbolDynamicData.changeArrow intValue] == 2) || ([symbolDynamicData.changeArrow intValue] == 3) ) {
 		UIColor *flashColor = [UIColor yellowColor];
 		UIColor *backgroundColor = [UIColor whiteColor];
 		[cell.contentView setBackgroundColor:flashColor];
@@ -103,6 +101,7 @@
 		[UIView setAnimationDuration:1.0];
 		[cell.contentView setBackgroundColor:backgroundColor];
 		[UIView commitAnimations];
+		symbolDynamicData.changeArrow = [NSNumber numberWithInt:0];
 	}
 }
 

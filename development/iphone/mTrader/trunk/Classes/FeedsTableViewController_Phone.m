@@ -15,12 +15,13 @@
 @synthesize delegate;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize selectedNewsFeed = _selectedNewsFeed;
 
 #pragma mark -
 #pragma mark Initialization
 
 #pragma mark -
-#pragma mark View lifecycle
+#pragma mark UIViewController overridden methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,8 +35,13 @@
 	
 }
 
+- (void)viewDidUnload {
+    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
+	self.fetchedResultsController = nil;
+}
+
 #pragma mark -
-#pragma mark Table view data source
+#pragma mark UITableViewController data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return [[self.fetchedResultsController sections] count];
@@ -60,10 +66,12 @@
 	NSString *feedName = feed.name;
     
 	[cell.textLabel setText:feedName];
+	
 	NSString *currentNumber = [UserDefaults sharedManager].newsFeedNumber;
+	
 	if ([feed.feedNumber isEqualToString:currentNumber]) {
-		previousChoice = indexPath;
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+		self.selectedNewsFeed = feed;
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
@@ -72,23 +80,34 @@
 }
 
 #pragma mark -
-#pragma mark Table view delegate
+#pragma mark UITableViewController delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	// Send selection to news controller
-	if (self.delegate && [self.delegate respondsToSelector:@selector(newsFeedWasSelected:)]) {
-		NewsFeed *newsFeed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-		[self.delegate newsFeedWasSelected:(NewsFeed *)newsFeed];
-		
-		[UserDefaults sharedManager].newsFeedNumber = newsFeed.feedNumber;
-		[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:previousChoice, indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
-		
-		[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	NSIndexPath *oldIndexPath = [self.fetchedResultsController indexPathForObject:self.selectedNewsFeed];
+	
+	if ([indexPath isEqual:oldIndexPath]) {
+		return;
+	}
+	
+	NewsFeed *newsFeed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	self.selectedNewsFeed = newsFeed;
+	
+	[UserDefaults sharedManager].newsFeedNumber = newsFeed.feedNumber;
+	
+	UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+	if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+		newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+	}
+	
+	UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+	if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+		oldCell.accessoryType = UITableViewCellAccessoryNone;
 	}
 }
 
 #pragma mark -
-#pragma mark Fetched Results Controller
+#pragma mark Core Data Fetched Results Controller
 
 - (NSFetchedResultsController *)fetchedResultsController {
 	
@@ -122,18 +141,6 @@
 
 #pragma mark -
 #pragma mark Memory management
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-	self.fetchedResultsController = nil;
-}
 
 - (void)dealloc {
 	[_managedObjectContext release];
