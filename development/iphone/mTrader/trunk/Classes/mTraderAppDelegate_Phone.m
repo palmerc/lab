@@ -187,7 +187,7 @@
         return _persistentStoreCoordinator;
     }
 		
-	NSURL *storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"mTrader01.sqlite"]];
+	NSURL *storeUrl = [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"mTrader02.sqlite"]];
 	
 	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption, nil];	

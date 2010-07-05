@@ -230,7 +230,7 @@
 - (void)refresh:(id)sender {
 	[[DataController sharedManager] deleteAllNews];
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	[communicator symbolNewsForFeedTicker:feedTicker];
 }
 #pragma mark -

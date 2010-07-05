@@ -69,7 +69,7 @@
 	// Find all the lines ending with CRLF
 	for (int i = 0; i < [_dataBuffer length]; i++) {
 		current = characters[i];
-		if (previous == '\r' && current == '\n') {
+		if ((previous == '\r' && current == '\n') || (previous =='\r' && current == '\r')) {
 			lineRange.length = (i + 1) - lineRange.location;
 			NSData *aDataLine = [_dataBuffer subdataWithRange:lineRange];
 			
@@ -78,7 +78,7 @@
 			}
 			
 #if DEBUG_INCOMING
-			NSLog(@"LineOrientedCommunication");
+			NSLog(@"LineOrientedCommunication: A line");
 			NSLog(@"Raw: %@", aDataLine);
 			NSLog(@"Text: %@", [aDataLine string]);
 #endif	
@@ -97,7 +97,7 @@
 	NSData *leftovers = [_dataBuffer subdataWithRange:dataBufferRange];
 	
 #if DEBUG_LEFTOVERS
-	NSLog(@"LineOrientedCommunication");
+	NSLog(@"LineOrientedCommunication: Leftovers");
 	NSLog(@"Raw: %@", leftovers);
 	NSLog(@"Text: %@", [leftovers string]);
 #endif

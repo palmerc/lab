@@ -23,6 +23,9 @@
 @property (nonatomic, retain) NSNumber * bidSize;
 @property (nonatomic, retain) Symbol * symbol;
 
+- (NSComparisonResult)compareBidSize:(BidAsk *)bidAsk;
+- (NSComparisonResult)compareAskSize:(BidAsk *)bidAsk;
+
 @end
 
 

@@ -117,7 +117,7 @@
 	}
 	_symbol = [symbol retain];
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	[[mTraderCommunicator sharedManager] tradesRequest:feedTicker];
 }
 
@@ -129,7 +129,7 @@
 }
 
 - (void)refresh:(id)sender {
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	[[mTraderCommunicator sharedManager] tradesRequest:feedTicker];
 }
 

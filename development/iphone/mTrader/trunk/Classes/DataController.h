@@ -26,6 +26,9 @@
 	NSManagedObjectContext *_managedObjectContext;
 	
 	NSUInteger symbolIndex;
+	
+	NSDateFormatter *_dateFormatter;
+	NSDateFormatter *_yearFormatter;
 }
 
 @property (nonatomic, assign) id <OrderBookDelegate> orderBookDelegate;
@@ -36,8 +39,8 @@
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 + (DataController *)sharedManager;
-+ (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-+ (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
++ (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
++ (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index;
 - (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index;
@@ -55,10 +58,11 @@
 - (void)deleteAllBidsAsks;
 - (void)deleteTradesForFeedTicker:(NSString *)feedTicker;
 - (NSArray *)fetchAllSymbols;
-- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
+- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;
-- (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber;
+- (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber;
 - (void)removeSymbol:(Symbol *)symbol;
+- (NSArray *)splitFeedTicker:(NSString *)feedTicker;
 
 @end
 

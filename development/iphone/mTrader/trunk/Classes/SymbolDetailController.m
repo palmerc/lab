@@ -6,6 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
 
 #import "SymbolDetailController.h"
 
@@ -93,7 +94,7 @@
 	[[DataController sharedManager] deleteAllNews];
 	[[DataController sharedManager] deleteAllBidsAsks];
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	
 	QFields *qFields = [[QFields alloc] init];
 	qFields.timeStamp = YES;
@@ -191,11 +192,13 @@
 
 #pragma mark -
 #pragma mark Debugging methods
-//// Very helpful debug when things seem not to be working.
-//- (BOOL)respondsToSelector:(SEL)sel {
-//	NSLog(@"Queried about %@ in SymbolDetailController", NSStringFromSelector(sel));
-//	return [super respondsToSelector:sel];
-//}
+#if DEBUG
+// Very helpful debug when things seem not to be working.
+- (BOOL)respondsToSelector:(SEL)sel {
+	NSLog(@"SymbolDetailController: respondsToSelector %@", NSStringFromSelector(sel));
+	return [super respondsToSelector:sel];
+}
+#endif
 
 #pragma mark -
 #pragma mark Memory management

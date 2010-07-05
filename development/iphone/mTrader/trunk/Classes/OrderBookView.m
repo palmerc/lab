@@ -6,6 +6,8 @@
 //  Copyright 2010  AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "OrderBookView.h"
 #import "OrderBookController.h"
 #import "OrderBookTableCellP.h"
@@ -62,7 +64,9 @@
 	CGRect askValueLabelFrame = CGRectMake(leftPadding + labelWidth * 2.0f, leftPadding, labelWidth, headerFontSize.height);
 	CGRect askSizeLabelFrame = CGRectMake(leftPadding + labelWidth * 3.0f, leftPadding, labelWidth, headerFontSize.height);
 
+#if DEBUG
 	NSLog(@"%f, %f", labelWidth * 4.0f, maxWidth);
+#endif
 	CGRect tableFrame = CGRectMake(leftPadding, leftPadding + headerFontSize.height, maxWidth, maxHeight - headerFontSize.height);
 	
 	_orderBookButton = [[UIButton alloc] initWithFrame:rect];

@@ -279,6 +279,12 @@
 }
 
 - (void)updateSymbol {
+	static NSDateFormatter *dateFormatter = nil;
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+	}
+	
 	static NSNumberFormatter *doubleFormatter = nil;
 	if (doubleFormatter == nil) {
 		doubleFormatter = [[NSNumberFormatter alloc] init];
@@ -293,7 +299,7 @@
 	self.exchange.text = self.symbol.feed.feedName;
 	self.status.text = self.symbol.symbolDynamicData.tradingStatus;
 	self.dividend.text = [self.symbol.symbolDynamicData.dividend stringValue];
-	self.dividendDate.text = self.symbol.symbolDynamicData.dividendDate;
+	self.dividendDate.text = [dateFormatter stringFromDate:self.symbol.symbolDynamicData.dividendDate];
 	self.shares.text = self.symbol.symbolDynamicData.outstandingShares;
 	self.marketCap.text = self.symbol.symbolDynamicData.marketCapitalization;
 	self.previousClose.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.previousClose];

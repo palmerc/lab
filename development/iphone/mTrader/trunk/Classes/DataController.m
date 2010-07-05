@@ -7,6 +7,8 @@
 //
 
 #define DEBUG 0
+#define DEBUG_UPDATES 0
+#define DEBUG_NEWS_UPDATE 1
 
 #import "DataController.h"
 
@@ -49,6 +51,14 @@ static DataController *sharedDataController = nil;
 	if (self != nil) {
 		_managedObjectContext = nil;
 		_fetchedResultsController = nil;
+		
+		NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"CET"];
+		_dateFormatter = [[NSDateFormatter alloc] init];
+		[_dateFormatter setTimeZone:timeZone];
+		[_dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+		
+		_yearFormatter = [[NSDateFormatter alloc] init];
+		[_yearFormatter setDateFormat:@"yyyy"];
 	}
 	return self;
 }
@@ -133,7 +143,10 @@ static DataController *sharedDataController = nil;
 		NSArray *exchangeComponents = [feed componentsSeparatedByString:@":"];
 		
 		if ([exchangeComponents count] != 3) {
-			NSLog(@"Exchange %@ rejected. Improper number of fields");
+#if DEBUG
+			NSLog(@"DataController: processNewsFeeds");
+			NSLog(@"Exchange %@ rejected. Improper number of fields", feed);
+#endif
 			continue;
 		}
 		
@@ -209,7 +222,10 @@ static DataController *sharedDataController = nil;
 		NSArray *exchangeComponents = [exchangeCode componentsSeparatedByString:@":"];
 		
 		if ([exchangeComponents count] != 4) {
-			NSLog(@"Exchange %@ rejected. Improper number of fields");
+#if DEBUG
+			NSLog(@"DataController: processSymbolFeed");
+			NSLog(@"Exchange %@ rejected. Improper number of fields", exchangeCode);
+#endif
 			continue;
 		}
 		
@@ -240,7 +256,7 @@ static DataController *sharedDataController = nil;
 			feed = (Feed *)[NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext:self.managedObjectContext];
 		}
 		
-		feed.feedNumber = [NSNumber numberWithInteger:[feedNumber integerValue]];
+		feed.feedNumber = feedNumber;
 		feed.mCode = mCode;
 		feed.feedName = feedName;
 		feed.typeCode = typeCode;
@@ -296,7 +312,10 @@ static DataController *sharedDataController = nil;
 	for (NSString *row in rows) {
 		NSArray *stockComponents = [[row componentsSeparatedByString:@";"] sansWhitespace];
 		if ([stockComponents count] != FIELD_COUNT) {
+#if DEBUG
+			NSLog(@"DataController: processSymbols");
 			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
+#endif
 			continue;
 		}
 		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
@@ -324,20 +343,6 @@ static DataController *sharedDataController = nil;
 			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
 			symbol.tickerSymbol = tickerSymbol;
 			
-			symbol.companyName = companyName;
-			symbol.country = nil;
-			symbol.currency = nil;
-			symbol.orderBook = orderBook;
-			if ([type isEqualToString:@"1"]) {
-				symbol.type = @"Stock";
-			} else if ([type isEqualToString:@"2"]) {
-				symbol.type = @"Index";
-			} else if ([type isEqualToString:@"3"]) {
-				symbol.type = @"Exchange Rate";
-			} else {
-				symbol.type = type;
-			}
-			symbol.isin = isin;
 			symbol.symbolDynamicData = (SymbolDynamicData *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolDynamicData" inManagedObjectContext:self.managedObjectContext];
 			
 			[feed addSymbolsObject:symbol];
@@ -399,26 +404,14 @@ static DataController *sharedDataController = nil;
 			filteredResults = [NSMutableArray array];
 		}		
 		
-		NSString *feedTickerString = [result objectAtIndex:0];
-		NSArray *feedTickerComponents = [feedTickerString componentsSeparatedByString:@"/"];
+		NSString *feedTicker = [result objectAtIndex:0];
+		NSArray *feedTickerComponents = [self splitFeedTicker:feedTicker];
 		
-		NSString *feedNumberString = [feedTickerComponents objectAtIndex:0];
-		NSString *tickerSymbol = nil;
-
-		if ([feedTickerComponents count] > 2) {
-			NSRange extraComponentsRange;
-			extraComponentsRange.location = 1;
-			extraComponentsRange.length = [feedTickerComponents count] - 1;
-			feedTickerComponents = [feedTickerComponents subarrayWithRange:extraComponentsRange];
-			
-			tickerSymbol = [feedTickerComponents componentsJoinedByString:@"/"];
-		} else {
-			tickerSymbol = [feedTickerComponents objectAtIndex:1];
-		}
+		NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
+		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 		
-		NSAssert(([feedTickerComponents count] == 2), feedTickerString);
-		NSNumber *feedNumber = [NSNumber numberWithInteger:[feedNumberString integerValue]];
-		
+		NSAssert(([feedTickerComponents count] == 2), feedTicker);
+				
 		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];		
 		
 		if (symbol == nil) {
@@ -460,6 +453,7 @@ static DataController *sharedDataController = nil;
 		NSArray *stockComponents = [[row componentsSeparatedByString:@";"] sansWhitespace];
 		if ([stockComponents count] != FIELD_COUNT) {
 #if DEBUG
+			NSLog(@"DataController: addSymbols");
 			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
 #endif
 			continue;
@@ -527,65 +521,26 @@ static DataController *sharedDataController = nil;
  * update any rows necessary.
  */
 - (void)updateSymbols:(NSArray *)updates {
+#if DEBUG_UPDATES
+	NSLog(@"DataController: updateSymbols");
+#endif
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
-	static NSTimeZone *timeZone = nil;
-	if (timeZone == nil) {
-		timeZone = [NSTimeZone timeZoneWithName:@"CET"];
-	}
-	
-	static NSDateFormatter *dateFormatter = nil;
-	if (dateFormatter == nil) {
-		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setTimeZone:timeZone];
-		[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-	}
-	
-	static NSDateFormatter *yearFormatter = nil;
-	if (yearFormatter == nil) {
-		yearFormatter = [[NSDateFormatter alloc] init];
-		[yearFormatter setDateFormat:@"yyyy-MM-dd"];
-	}
-	
 	NSDate *today = [NSDate date];
-	NSString *todayString = [yearFormatter stringFromDate:today];
+	NSString *todayString = [_yearFormatter stringFromDate:today];
 	
 	for (NSDictionary *update in updates) {
 		NSString *feedTicker = [update objectForKey:@"feedTicker"];
-		NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-		NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+		NSArray *feedTickerComponents = [self splitFeedTicker:feedTicker];
+		NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
 		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 		
-		NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-		NSEntityDescription *entity = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
-		[request setEntity:entity];
+		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
+		NSAssert(symbol != nil, @"Symbol is nil");
 		
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(feed.feedNumber=%@) AND (tickerSymbol=%@)", feedNumber, tickerSymbol];
-		[request setPredicate:predicate];
-		
-		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tickerSymbol" ascending:YES];
-		[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-		[sortDescriptor release];
-		
-		NSError *error = nil;
-		NSArray *resultSetArray = [self.managedObjectContext executeFetchRequest:request error:&error];
-		if (resultSetArray == nil)
-		{
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-#if DEBUG
-			abort();
+#if DEBUG_UPDATES
+		NSLog(@"Ticker: %@", feedTicker);
 #endif
-			continue;
-		}
-		
-		if ([resultSetArray count] == 0) {
-			NSLog(@"Symbol Update failed for %@. Unable to locate symbol.", feedTicker);
-			continue;
-		}
-		
-		Symbol *symbol = [resultSetArray objectAtIndex:0];
-		resultSetArray = nil;
-		
 		// timestamp
 		NSString *timeStampKey = [NSString stringWithFormat:@"%d", TIMESTAMP];
 		if ([update objectForKey:timeStampKey]) {
@@ -594,8 +549,11 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.lastTradeTime = nil;
 			} else if ([timeStamp isEqualToString:@""] == NO) {
 				NSString *dateFormattedString = [NSString stringWithFormat:@"%@ %@", todayString, timeStamp];
-				NSDate *lastTradeTime = [dateFormatter dateFromString:dateFormattedString];
+				NSDate *lastTradeTime = [_dateFormatter dateFromString:dateFormattedString];
 				symbol.symbolDynamicData.lastTradeTime = lastTradeTime;
+#if DEBUG_UPDATES
+				NSLog(@"\tLast Trade Time: %@", lastTradeTime);
+#endif
 			}
 		}
 		
@@ -607,8 +565,8 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.lastTrade = nil;
 			} else if ([lastTrade isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.lastTrade = [NSNumber numberWithDouble:[lastTrade doubleValue]];
-#if DEBUG
-				NSLog(@"%@> Last:%@", feedTicker, lastTrade);
+#if DEBUG_UPDATES
+				NSLog(@"\tLast: %@", lastTrade);
 #endif
 			}
 		}
@@ -621,6 +579,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.change = nil;
 			} else if ([change isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.change = [NSNumber numberWithDouble:[change doubleValue]];
+#if DEBUG_UPDATES
+				NSLog(@"\tChange: %@", change);
+#endif
 			}
 		}
 		
@@ -632,6 +593,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.changePercent = nil;
 			} else if ([changePercent isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.changePercent = [NSNumber numberWithDouble:([changePercent doubleValue]/100.0)];
+#if DEBUG_UPDATES
+				NSLog(@"\tChange percent: %@", changePercent);
+#endif
 			}
 		}
 		
@@ -644,9 +608,10 @@ static DataController *sharedDataController = nil;
 			} else if ([changeArrow isEqualToString:@""] == NO) {
 				NSNumber *changeNumber = [NSNumber numberWithInteger:[changeArrow integerValue]];
 				symbol.symbolDynamicData.changeArrow = changeNumber;
-#if DEBUG
+#if DEBUG_UPDATES
+				NSLog(@"\tChange arrow: %@", changeArrow);
 				if ([changeArrow isEqualToString:@"2"] || [changeArrow isEqualToString:@"3"]) {
-					NSLog(@">>>Flash ticker symbol %@<<<", feedTicker);
+					NSLog(@"\t>>>FLASH<<<");
 				}
 #endif
 			}
@@ -660,6 +625,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.bidPrice = nil;
 			} else if ([bidPrice isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.bidPrice = [NSNumber numberWithDouble:[bidPrice doubleValue]];
+#if DEBUG_UPDATES
+				NSLog(@"\tBid price: %@", bidPrice);
+#endif
 			}
 		}
 		
@@ -671,6 +639,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.askPrice = nil;
 			} else if ([askPrice isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.askPrice = [NSNumber numberWithDouble:[askPrice doubleValue]];
+#if DEBUG_UPDATES
+				NSLog(@"\tAsk price: %@", askPrice);
+#endif
 			}
 		}
 		
@@ -682,6 +653,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.askVolume = nil;
 			} else if ([askVolume isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.askVolume = askVolume;
+#if DEBUG_UPDATES
+				NSLog(@"\tAsk volume: %@", askVolume);
+#endif
 			}
 		}
 		
@@ -693,6 +667,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.bidVolume = nil;
 			} else if ([bidVolume isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.bidVolume = bidVolume;
+#if DEBUG_UPDATES
+				NSLog(@"\tBid volume: %@", bidVolume);
+#endif
 			}
 		}
 		
@@ -704,6 +681,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.high = nil;
 			} else if ([high isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.high = [NSNumber numberWithDouble:[high doubleValue]];
+#if DEBUG_UPDATES
+				NSLog(@"\tHigh: %@", high);
+#endif
 			}
 		}
 		
@@ -715,6 +695,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.low = nil;
 			} else if ([low isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.low = [NSNumber numberWithDouble:[low doubleValue]];
+#if DEBUG_UPDATES
+				NSLog(@"\tLow: %@", low);
+#endif
 			}
 		}
 		
@@ -726,6 +709,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.open = nil;
 			} else if ([open isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.open = [NSNumber numberWithDouble:[open doubleValue]];
+#if DEBUG_UPDATES
+				NSLog(@"\tOpen: %@", open);
+#endif
 			}
 		}
 		
@@ -737,6 +723,9 @@ static DataController *sharedDataController = nil;
 				symbol.symbolDynamicData.volume = nil;
 			} else if ([volume isEqualToString:@""] == NO) {
 				symbol.symbolDynamicData.volume = volume;
+#if DEBUG_UPDATES
+				NSLog(@"\tVolume: %@", volume);
+#endif
 			}
 		}
 		
@@ -745,6 +734,9 @@ static DataController *sharedDataController = nil;
 		if ([update objectForKey:orderBookKey]) {
 			// Bid then Ask -
 			NSString *orderBookString = [update valueForKey:orderBookKey];
+#if DEBUG_UPDATES
+			NSLog(@"\tOrderbook: %@", orderBookString);
+#endif
 			NSArray *orderBook = [[orderBookString componentsSeparatedByString:@"/"] sansWhitespace];
 			
 			if ([orderBook count] != 2) {
@@ -834,18 +826,18 @@ static DataController *sharedDataController = nil;
 		}
 	}
 		
-//	NSError *saveError;
-//	if (![self.managedObjectContext save:&saveError]) {
-//		NSLog(@"Unresolved error %@, %@", saveError, [saveError userInfo]);
-//#if DEBUG
-//		abort();
-//#endif
-//	}
+	NSError *saveError;
+	if (![self.managedObjectContext save:&saveError]) {
+		NSLog(@"Unresolved error %@, %@", saveError, [saveError userInfo]);
+#if DEBUG_UPDATES
+		abort();
+#endif
+	}
 }
 
 - (void)staticUpdates:(NSDictionary *)updateDictionary {
-	NSArray *feedTickerComponents = [[updateDictionary objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSArray *feedTickerComponents = [self splitFeedTicker:[updateDictionary objectForKey:@"feedTicker"]];
+	NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 	
 	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
@@ -951,8 +943,14 @@ static DataController *sharedDataController = nil;
 	if ([updateDictionary objectForKey:@"Dividend"]) { 
 		symbol.symbolDynamicData.dividend = [NSNumber numberWithDouble:[[updateDictionary objectForKey:@"Dividend"] doubleValue]];
 	}
-	if ([updateDictionary objectForKey:@"DivDate"]) { 
-		symbol.symbolDynamicData.dividendDate = [updateDictionary objectForKey:@"DivDate"];
+	if ([updateDictionary objectForKey:@"DivDate"]) {
+		NSString *dividendDateString = [updateDictionary objectForKey:@"DivDate"];
+		
+		NSDateFormatter *yearFormatter = [[NSDateFormatter alloc] init];
+		[yearFormatter setDateFormat:@"M/d/yyyy"];
+		NSDate *dividendDate = [yearFormatter dateFromString:dividendDateString];
+		
+		symbol.symbolDynamicData.dividendDate = dividendDate;
 	}
 	
 }
@@ -960,8 +958,8 @@ static DataController *sharedDataController = nil;
 - (void)chartUpdate:(NSDictionary *)chartData {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
-	NSArray *feedTickerComponents = [[chartData objectForKey:@"feedTicker"] componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSArray *feedTickerComponents = [self splitFeedTicker:[chartData objectForKey:@"feedTicker"]];
+	NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 	
 	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
@@ -981,28 +979,14 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)newsListFeedsUpdates:(NSArray *)newsList {
+#if DEBUG_NEWS_UPDATE
+	NSLog(@"DataController: newListFeedsUpdates");
+#endif
+	
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
-
-	static NSTimeZone *timeZone = nil;
-	if (timeZone == nil) {
-		timeZone = [NSTimeZone timeZoneWithName:@"CET"];
-	}
 	
-	static NSDateFormatter *dateFormatter = nil;
-	if (dateFormatter == nil) {
-		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setTimeZone:timeZone];
-		[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-	}
-	
-	static NSDateFormatter *yearFormatter = nil;
-	if (yearFormatter == nil) {
-		yearFormatter = [[NSDateFormatter alloc] init];
-		[yearFormatter setDateFormat:@"yyyy"];
-	}
-		
 	NSDate *today = [NSDate date];
-	NSString *year = [yearFormatter stringFromDate:today];
+	NSString *year = [_yearFormatter stringFromDate:today];
 	
 	for (NSString *news in newsList) {
 		NSArray *components = [[news componentsSeparatedByString:@";"] sansWhitespace];
@@ -1026,8 +1010,16 @@ static DataController *sharedDataController = nil;
 			NSString *feedNumber = [feedArticleComponents objectAtIndex:0];
 			NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
 			
+#if DEBUG_NEWS_UPDATE
+			NSLog(@"Feed Article: %@", feedArticle);
+			NSLog(@"\tFlag: %@", flag);
+			NSLog(@"\tDate: %@", date);
+			NSLog(@"\tTime: %@", time);
+			NSLog(@"\tHeadline: %@", headline);
+#endif
+			
 			NSString *formattedDateString = [NSString stringWithFormat:@"%@-%@-%@ %@:00", year, month, day, time];
-			NSDate *properDate = [dateFormatter dateFromString:formattedDateString];
+			NSDate *properDate = [_dateFormatter dateFromString:formattedDateString];
 						
 			NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:feedNumber];
 			if (article == nil) {
@@ -1089,8 +1081,8 @@ static DataController *sharedDataController = nil;
 	// Delete all trades
 	[self deleteTradesForFeedTicker:feedTicker];
 
-	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSArray *feedTickerComponents = [self splitFeedTicker:feedTicker];
+	NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 	
 	Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
@@ -1175,7 +1167,7 @@ static DataController *sharedDataController = nil;
 - (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
-	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	NSArray *feedTickerComponents = [self splitFeedTicker:feedTicker];
 	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 	
@@ -1210,8 +1202,8 @@ static DataController *sharedDataController = nil;
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
-	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSArray *feedTickerComponents = [self splitFeedTicker:feedTicker];
+	NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 	
 	NSFetchRequest *bidAskRequest = [[[NSFetchRequest alloc] init] autorelease];
@@ -1431,8 +1423,8 @@ static DataController *sharedDataController = nil;
 - (void)deleteTradesForFeedTicker:(NSString *)feedTicker {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
-	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
-	NSNumber *feedNumber = [NSNumber numberWithInteger:[[feedTickerComponents objectAtIndex:0] integerValue]];
+	NSArray *feedTickerComponents = [self splitFeedTicker:feedTicker];
+	NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
 	NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 	
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:self.managedObjectContext];
@@ -1655,7 +1647,7 @@ static DataController *sharedDataController = nil;
 	}
 }
 
-- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber {
+- (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
@@ -1686,7 +1678,7 @@ static DataController *sharedDataController = nil;
 	}
 }
 
-- (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber {
+- (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Chart" inManagedObjectContext:self.managedObjectContext];
@@ -1753,7 +1745,7 @@ static DataController *sharedDataController = nil;
 	[self.managedObjectContext deleteObject:symbol];
 }
 
-+ (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
++ (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	NSAssert(managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BidAsk" inManagedObjectContext:managedObjectContext];
@@ -1784,7 +1776,7 @@ static DataController *sharedDataController = nil;
 	}
 }
 
-+ (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSNumber *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
++ (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	NSAssert(managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:managedObjectContext];
@@ -1850,6 +1842,29 @@ static DataController *sharedDataController = nil;
 }
 
 #pragma mark -
+#pragma mark Helper methods
+
+- (NSArray *)splitFeedTicker:(NSString *)feedTicker {
+	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	
+	NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
+	NSString *tickerSymbol = nil;
+	
+	if ([feedTickerComponents count] > 2) {
+		NSRange extraComponentsRange;
+		extraComponentsRange.location = 1;
+		extraComponentsRange.length = [feedTickerComponents count] - 1;
+		feedTickerComponents = [feedTickerComponents subarrayWithRange:extraComponentsRange];
+		
+		tickerSymbol = [feedTickerComponents componentsJoinedByString:@"/"];
+	} else {
+		tickerSymbol = [feedTickerComponents objectAtIndex:1];
+	}
+	
+	return [[[NSArray alloc] initWithObjects:feedNumber, tickerSymbol, nil] autorelease];
+}
+
+#pragma mark -
 #pragma mark Debugging methods
 /*
  // Very helpful debug when things seem not to be working.
@@ -1860,6 +1875,9 @@ static DataController *sharedDataController = nil;
  */
 
 - (void)dealloc {
+	[_dateFormatter release];
+	[_yearFormatter release];
+	
 	[_managedObjectContext release];
 	[_fetchedResultsController release];
 	

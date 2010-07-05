@@ -46,7 +46,7 @@
 @property (nonatomic, retain) NSNumber * open;
 @property (nonatomic, retain) NSString * askSize;
 @property (nonatomic, retain) NSNumber * askPrice;
-@property (nonatomic, retain) NSString * dividendDate;
+@property (nonatomic, retain) NSDate * dividendDate;
 @property (nonatomic, retain) Symbol * symbol;
 
 @end

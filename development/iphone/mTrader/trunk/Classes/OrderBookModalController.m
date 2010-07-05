@@ -96,7 +96,7 @@
 
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	
 	[[DataController sharedManager] deleteAllBidsAsks];
 	

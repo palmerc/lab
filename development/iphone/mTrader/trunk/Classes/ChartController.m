@@ -6,6 +6,8 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "ChartController.h"
 
 #import <QuartzCore/QuartzCore.h>
@@ -72,7 +74,9 @@
 	[barButtonItem release];
 	
 	CGRect chartFrame = CGRectMake(0.0f, viewFrame.origin.y, viewFrame.size.width, viewFrame.size.height - 44.0f * 2);
+#if DEBUG
 	NSLog(@"%f %f %f %f", chartFrame.origin.x, chartFrame.origin.y, chartFrame.size.width, chartFrame.size.height);
+#endif
 	_chart = [[UIImageView alloc] initWithFrame:chartFrame];
 	[self.view addSubview:self.chart];
 }
@@ -82,7 +86,7 @@
 	
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];	
 }
 
@@ -113,7 +117,7 @@
 			break;
 	}
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];
 }
 
@@ -134,7 +138,7 @@
 - (void)refresh:(id)sender {
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	
 	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];
 }

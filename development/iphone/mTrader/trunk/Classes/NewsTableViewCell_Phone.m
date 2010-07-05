@@ -6,6 +6,8 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "NewsTableViewCell_Phone.h"
 #import "NewsFeed.h"
 #import "NewsArticle.h"
@@ -128,15 +130,19 @@
 	headlineLabel.text = newsArticle.headline;
 	dateTimeLabel.text = [dateFormatter stringFromDate:newsArticle.date];
 }
-/*
+
+
 #pragma mark -
 #pragma mark Debugging methods
+
+#if DEBUG
 // Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
 	NSLog(@"Queried about %@ in NewsCell", NSStringFromSelector(sel));
 	return [super respondsToSelector:sel];
 }
-*/
+#endif
+ 
 #pragma mark -
 #pragma mark Memory management
 

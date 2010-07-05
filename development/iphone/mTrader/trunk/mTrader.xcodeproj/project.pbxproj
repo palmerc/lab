@@ -23,6 +23,7 @@
 		7E38610711490BE300CA1086 /* TradesLiveInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38610611490BE300CA1086 /* TradesLiveInfoView.m */; };
 		7E38626C1149239A00CA1086 /* OrderBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38626B1149239A00CA1086 /* OrderBookView.m */; };
 		7E38640911494AB300CA1086 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E38640811494AB300CA1086 /* DataController.m */; };
+		7E3B56A811E1E58900EA3101 /* DataModel01-02.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B56A711E1E58900EA3101 /* DataModel01-02.xcmappingmodel */; };
 		7E3C9B8211AFB38D00B5EE52 /* OtherInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3C9B8111AFB38D00B5EE52 /* OtherInfoView.m */; };
 		7E3C9D0F11AFEC5D00B5EE52 /* TradesModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3C9D0E11AFEC5D00B5EE52 /* TradesModalController.m */; };
 		7E3C9D8011AFF87D00B5EE52 /* TradesInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E3C9D7F11AFF87D00B5EE52 /* TradesInfoView.m */; };
@@ -126,6 +127,7 @@
 		7E38626B1149239A00CA1086 /* OrderBookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookView.m; sourceTree = "<group>"; };
 		7E38640711494AB300CA1086 /* DataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
 		7E38640811494AB300CA1086 /* DataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
+		7E3B56A711E1E58900EA3101 /* DataModel01-02.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "DataModel01-02.xcmappingmodel"; sourceTree = "<group>"; };
 		7E3C9B8011AFB38D00B5EE52 /* OtherInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherInfoView.h; sourceTree = "<group>"; };
 		7E3C9B8111AFB38D00B5EE52 /* OtherInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherInfoView.m; sourceTree = "<group>"; };
 		7E3C9D0D11AFEC5D00B5EE52 /* TradesModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradesModalController.h; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 			isa = PBXGroup;
 			children = (
 				7E96FF3E11DDBE8D00B64992 /* DataModel00-01.xcmappingmodel */,
+				7E3B56A711E1E58900EA3101 /* DataModel01-02.xcmappingmodel */,
 				7E96FF4511DDC02200B64992 /* DataModel.xcdatamodeld */,
 				7E51A3E2112167A000C3922E /* Symbols */,
 			);
@@ -825,6 +828,7 @@
 				7E96FF6811DDC13E00B64992 /* Trade.m in Sources */,
 				7E9600B311DDDD7500B64992 /* NSArray+ArrayToDataStringAdditions.m in Sources */,
 				7E9600E311DDE24200B64992 /* NSArray+StripFirstElementAdditions.m in Sources */,
+				7E3B56A811E1E58900EA3101 /* DataModel01-02.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1026,7 +1030,7 @@
 				7E96FF4711DDC02200B64992 /* model01.xcdatamodel */,
 				7E96FF9611DDC5BD00B64992 /* model02.xcdatamodel */,
 			);
-			currentVersion = 7E96FF4711DDC02200B64992 /* model01.xcdatamodel */;
+			currentVersion = 7E96FF9611DDC5BD00B64992 /* model02.xcdatamodel */;
 			path = DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

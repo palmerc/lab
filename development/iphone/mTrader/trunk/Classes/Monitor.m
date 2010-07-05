@@ -7,7 +7,7 @@
 //
 
 #define DEBUG_COMMUNICATOR_STATUS 1
-#define DEBUG_REACHABILITY 0
+#define DEBUG_REACHABILITY 1
 
 #import "Monitor.h"
 
@@ -154,8 +154,6 @@ static Monitor *sharedMonitor = nil;
 	_mTCom.communicator = _communicator;
 	_communicator.statusDelegate = self;
 	_communicator.dataDelegate = lineOrientedCommunication;
-	
-	[self login];
 }
 
 // Application quitting
@@ -178,7 +176,7 @@ static Monitor *sharedMonitor = nil;
 }
 
 - (void)usernameAndPasswordChanged {
-	
+	//
 }
 
 #pragma mark -
@@ -205,7 +203,7 @@ static Monitor *sharedMonitor = nil;
 
 - (void)connect {
 #if DEBUG_COMMUNICATOR_STATUS
-	NSLog(@"Communicator: connect");
+	NSLog(@"Monitor: connect");
 #endif
 	if (_connected == NO) {
 		_connected = YES;
@@ -217,7 +215,7 @@ static Monitor *sharedMonitor = nil;
 
 - (void)disconnect {
 #if DEBUG_COMMUNICATOR_STATUS
-	NSLog(@"Communicator: disconnect");
+	NSLog(@"Monitor: disconnect");
 #endif
 	//[[mTraderCommunicator sharedManager].communicator stopConnection];
 	_connected = NO;
@@ -242,8 +240,8 @@ static Monitor *sharedMonitor = nil;
 - (void)kickedOut {
 	[_reachability stopNotifer];
 	
-#if DEBUG
-	NSLog(@"Kicked out");
+#if DEBUG_COMMUNICATOR_STATUS
+	NSLog(@"Monitor: Kicked out");
 #endif
 	[[mTraderCommunicator sharedManager].communicator stopConnection];
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];

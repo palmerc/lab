@@ -6,9 +6,9 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#define DEBUG_INCOMING 1
-#define DEBUG_OUTGOING 1
-#define DEBUG_HANDLEEVENT 1
+#define DEBUG_INCOMING 0
+#define DEBUG_OUTGOING 0
+#define DEBUG_HANDLEEVENT 0
 
 #define BUFFER_SIZE 2048
 
@@ -59,15 +59,22 @@
 #pragma mark NSStreamDelegate
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)streamEvent {
+#if DEBUG_HANDLEEVENT
+	NSError *error = nil;
+	NSInteger code;
+	NSString *description = nil;	
+#endif
+	
 	switch (streamEvent) {
 		case NSStreamEventNone:
 #if DEBUG_HANDLEEVENT
-			NSLog(@"NSStreamEventNone");
+			NSLog(@"Communicator: NSStreamEventNone");
+			NSLog(@"%@", [aStream streamError]);
 #endif			
 			break;
 		case NSStreamEventOpenCompleted:
 #if DEBUG_HANDLEEVENT
-			NSLog(@"NSStreamEventOpenCompleted");
+			NSLog(@"Communicator: NSStreamEventOpenCompleted");
 #endif
 			if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(connect)]) {
 				[self.statusDelegate connect];
@@ -75,19 +82,23 @@
 			break;
 		case NSStreamEventHasBytesAvailable:
 #if DEBUG_HANDLEEVENT
-			NSLog(@"NSStreamEventHasBytesAvailable");
+			NSLog(@"Communicator: NSStreamEventHasBytesAvailable");
 #endif
 			[self dataReceived:(NSInputStream *)aStream];
 			break;
 		case NSStreamEventHasSpaceAvailable:
 #if DEBUG_HANDLEEVENT
-			NSLog(@"NSStreamEventHasSpaceAvailable");
+			NSLog(@"Communicator: NSStreamEventHasSpaceAvailable");
 #endif
 			[self sendAvailableBytes:(NSOutputStream *)aStream];
 			break;
 		case NSStreamEventErrorOccurred:
 #if DEBUG_HANDLEEVENT
-			NSLog(@"NSStreamEventErrorOccurred");
+			NSLog(@"Communicator: NSStreamEventErrorOccurred");
+			error = [aStream streamError];
+			code = [error code];
+			description = [error localizedDescription];
+			NSLog(@"Error code: %i, description: %@", code, description);
 #endif
 			if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(disconnect)]) {
 				[self.statusDelegate disconnect];
@@ -95,15 +106,23 @@
 			break;
 		case NSStreamEventEndEncountered:
 #if DEBUG_HANDLEEVENT
-			NSLog(@"NSStreamEventEndEncountered");
+			NSLog(@"Communicator: NSStreamEventEndEncountered");
+			error = [aStream streamError];
+			code = [error code];
+			description = [error localizedDescription];
+			NSLog(@"Stream: %@", aStream);
+			NSLog(@"Error code: %i, description: %@", code, description);
 #endif
 			if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(disconnect)]) {
 				[self.statusDelegate disconnect];
 			}
+			
+			[self stopConnection];
+			
 			break;
 		default:
 #if DEBUG_HANDLEEVENT
-			NSLog(@"default");
+			NSLog(@"Communicator: Handle Event Default");
 #endif		
 			break;
 	}

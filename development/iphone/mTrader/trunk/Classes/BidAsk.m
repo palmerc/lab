@@ -21,4 +21,24 @@
 @dynamic bidSize;
 @dynamic symbol;
 
+- (NSComparisonResult)compareBidSize:(BidAsk *)bidAsk {
+	if ( [bidAsk.bidSize integerValue] < [self.bidSize integerValue] ) {
+		return NSOrderedDescending;
+	} else if ( [bidAsk.bidSize integerValue] > [self.bidSize integerValue] ) { 
+		return NSOrderedAscending;
+	} else {
+		return NSOrderedSame;
+	}
+}
+
+- (NSComparisonResult)compareAskSize:(BidAsk *)bidAsk {
+	if ( [bidAsk.askSize integerValue] < [self.askSize integerValue] ) {
+		return NSOrderedDescending;
+	} else if ( [bidAsk.askSize integerValue] > [self.askSize integerValue] ) { 
+		return NSOrderedAscending;
+	} else {
+		return NSOrderedSame;
+	}
+}
+
 @end

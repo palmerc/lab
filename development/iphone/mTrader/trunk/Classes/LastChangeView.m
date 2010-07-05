@@ -94,7 +94,7 @@
 	chartWidth = floorf(maxChartWidth) - 1.0f;
 	chartHeight = floorf(globalY) - 1.0f;
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", [self.symbol.feed.feedNumber stringValue], self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:365 width:chartWidth height:chartHeight orientation:@"A"];
 }
 

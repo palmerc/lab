@@ -35,7 +35,7 @@
 }
 
 - (void)processLineBuffer:(NSData *)data {
-	if (_blockBuffer = nil) {
+	if (_blockBuffer == nil) {
 		_blockBuffer = [[NSMutableArray alloc] init];
 	}
 	
@@ -46,7 +46,7 @@
 	const char *bytes = [currentLine bytes];
 	if (strcmp(bytes, CRCR) == 0) {
 #if DEBUG_BLOCK
-		NSLog(@"mTraderLinesToBlocks received %d lines", [_blockBuffer count]);
+		NSLog(@"mTraderLinesToBlocks: Block contains %d lines", [_blockBuffer count]);
 		for (NSData *data in _blockBuffer) {
 			NSLog(@"Raw: %@", data);
 			NSLog(@"Text: %@", [data string]);
