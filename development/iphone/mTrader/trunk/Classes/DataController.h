@@ -44,24 +44,31 @@
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index;
 - (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index;
+
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
 - (NewsFeed *)fetchNewsFeedWithNumber:(NSString *)feedNumber;
+
 - (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSString *)feedNumber;
 
 - (Feed *)fetchFeed:(NSString *)mCode;
 - (Feed *)fetchFeedByName:(NSString *)feedName;
 - (Feed *)fetchFeedByNumber:(NSString *)feedNumber;
-- (void)addSymbols:(NSString *)symbols;
-- (void)maxNewsArticles:(NSInteger)max;
-- (void)deleteAllNews;
-- (void)deleteAllSymbols;
-- (void)deleteAllBidsAsks;
-- (void)deleteTradesForFeedTicker:(NSString *)feedTicker;
-- (NSArray *)fetchAllSymbols;
+
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber;
 - (Symbol *)fetchSymbol:(NSString *)tickerSymbol withFeed:(NSString *)mCode;
+- (NSArray *)fetchAllSymbols;
+
 - (Chart *)fetchChart:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber;
+
+- (void)addSymbols:(NSString *)symbols;
 - (void)removeSymbol:(Symbol *)symbol;
+
+- (void)deleteAllNews;
+- (void)deleteAllBidsAsks;
+- (void)deleteTradesForFeedTicker:(NSString *)feedTicker;
+
+- (void)maxNewsArticles:(NSInteger)max;
+
 - (NSArray *)splitFeedTicker:(NSString *)feedTicker;
 
 @end

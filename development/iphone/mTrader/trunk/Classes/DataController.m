@@ -8,7 +8,8 @@
 
 #define DEBUG 0
 #define DEBUG_UPDATES 0
-#define DEBUG_NEWS_UPDATE 1
+#define DEBUG_NEWS_UPDATE 0
+#define DEBUG_PROCESS_SYMBOLS 0
 
 #import "DataController.h"
 
@@ -287,6 +288,9 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)processSymbols:(NSString *)symbols {
+#if DEBUG_PROCESS_SYMBOLS
+	NSLog(@"DataController: processSymbols");
+#endif
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 	
 	// 1) Get database symbols
@@ -297,10 +301,10 @@ static DataController *sharedDataController = nil;
 	NSArray *clientSymbolsArray = [self fetchAllSymbols];
 	NSMutableSet *clientSymbolsSet = [[NSMutableSet alloc] initWithArray:clientSymbolsArray];
 	NSMutableSet *serverSymbolsSet = [[NSMutableSet alloc] init];	
-	//const NSInteger FEED_TICKER = 0;
-	const NSInteger TICKER_SYMBOL = 1;
+	const NSInteger FEED_TICKER = 0;
+	//const NSInteger TICKER_SYMBOL = 1;
 	const NSInteger COMPANY_NAME = 2;
-	const NSInteger EXCHANGE_CODE = 3;
+	//const NSInteger EXCHANGE_CODE = 3;
 	const NSInteger TYPE = 4;
 	const NSInteger ORDER_BOOK = 5;
 	const NSInteger ISIN = 6;
@@ -309,35 +313,29 @@ static DataController *sharedDataController = nil;
 	
 	// insert the objects
 	NSArray *rows = [[symbols componentsSeparatedByString:@":"] sansWhitespace];
+	
+	
 	for (NSString *row in rows) {
 		NSArray *stockComponents = [[row componentsSeparatedByString:@";"] sansWhitespace];
 		if ([stockComponents count] != FIELD_COUNT) {
-#if DEBUG
-			NSLog(@"DataController: processSymbols");
+#if DEBUG_PROCESS_SYMBOLS
 			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
 #endif
 			continue;
 		}
-		//NSString *ticker = [feedTickerComponents objectAtIndex:1];
-		NSString *tickerSymbol = [stockComponents objectAtIndex:TICKER_SYMBOL];
+		
+		NSArray *feedTickerComponents = [self splitFeedTicker:[stockComponents objectAtIndex:FEED_TICKER]];
+		NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
+		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
+		
 		NSString *companyName = [stockComponents objectAtIndex:COMPANY_NAME];
-		NSString *exchangeCode = [stockComponents objectAtIndex:EXCHANGE_CODE];
 		NSString *orderBook = [stockComponents objectAtIndex:ORDER_BOOK];
 		NSString *type = [stockComponents objectAtIndex:TYPE];
 		NSString *isin = [stockComponents objectAtIndex:ISIN];
 		
-		// Separate the Description from the mCode
-		NSRange leftBracketRange = [exchangeCode rangeOfString:@"["];
-		NSRange rightBracketRange = [exchangeCode rangeOfString:@"]"];
-		
-		NSRange mCodeRange;
-		mCodeRange.location = leftBracketRange.location + 1;
-		mCodeRange.length = rightBracketRange.location - mCodeRange.location;
-		NSString *mCode = [exchangeCode substringWithRange:mCodeRange]; // OSS
-		
 		// Prevent double insertions
-		Feed *feed = [self fetchFeed:mCode];		
-		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeed:mCode];
+		Feed *feed = [self fetchFeedByNumber:feedNumber];		
+		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
 		
 		if (symbol == nil) {
 			symbol = (Symbol *)[NSEntityDescription insertNewObjectForEntityForName:@"Symbol" inManagedObjectContext:self.managedObjectContext];
@@ -368,6 +366,15 @@ static DataController *sharedDataController = nil;
 		symbol.index = [NSNumber numberWithInteger:symbolIndex];
 		
 		[serverSymbolsSet addObject:symbol];
+		
+#if DEBUG_PROCESS_SYMBOLS
+		NSLog(@"Ticker: %@/%@", feedNumber, tickerSymbol);
+		NSLog(@"\tIndex: %i", symbolIndex);
+		NSLog(@"\tName: %@", companyName);
+		NSLog(@"\tOrderbook: %@", orderBook);
+		NSLog(@"\tType: %@", type);
+		NSLog(@"\tISIN: %@", isin);
+#endif
 		
 		symbolIndex++;
 	}
@@ -428,12 +435,11 @@ static DataController *sharedDataController = nil;
 	}
 }
 
-- (void)replaceAllSymbols:(NSString *)symbols {
-	[self deleteAllSymbols];
-	[self addSymbols:symbols];
-}
-
 - (void)addSymbols:(NSString *)symbols {
+#if DEBUG_ADD_SYMBOL
+	NSLog(@"DataController: addSymbols");
+#endif
+	
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	//static NSInteger FEED_TICKER = 0;
@@ -452,8 +458,7 @@ static DataController *sharedDataController = nil;
 	for (NSString *row in rows) {
 		NSArray *stockComponents = [[row componentsSeparatedByString:@";"] sansWhitespace];
 		if ([stockComponents count] != FIELD_COUNT) {
-#if DEBUG
-			NSLog(@"DataController: addSymbols");
+#if DEBUG_ADD_SYMBOL
 			NSLog(@"Adding symbol string %@ failed. Wrong number of fields.", row);
 #endif
 			continue;
@@ -536,7 +541,10 @@ static DataController *sharedDataController = nil;
 		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 		
 		Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
-		NSAssert(symbol != nil, @"Symbol is nil");
+		if (symbol == nil) {
+			continue;
+		}
+		//NSAssert(symbol != nil, @"Symbol is nil");
 		
 #if DEBUG_UPDATES
 		NSLog(@"Ticker: %@", feedTicker);
