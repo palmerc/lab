@@ -6,8 +6,9 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import "HalfRoundedRectangle.h"
 
-@interface StatusView : UIView {
+@interface StatusView : HalfRoundedRectangle {
 @private
 	UIActivityIndicatorView *_activityIndicator;
 	

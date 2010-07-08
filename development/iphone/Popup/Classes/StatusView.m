@@ -17,6 +17,9 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
+		super.padding = 6.0f;
+		super.cornerRadius = 10.0f;
+		super.strokeWidth = 2.0f;
 		_message = nil;
 		
 		CGRect bounds = self.bounds;
@@ -24,10 +27,6 @@
 		CGFloat height = 20.0f;
 		CGFloat center = bounds.size.height / 2.0f;
 		CGRect activityFrame = CGRectMake(PADDING, center - 10.0f, 20.0f, height);
-		
-		CGFloat x = activityFrame.origin.x + activityFrame.size.width + PADDING; 
-		CGFloat width = bounds.size.width - activityFrame.size.width - 3 * PADDING;
-		CGRect statusFrame = CGRectMake(x, center - 10.0f, width, height);
 				
 		_activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 		_activityIndicator.frame = activityFrame;
@@ -42,20 +41,12 @@
 #define STRING_INDENT 20
 
 - (void)drawRect:(CGRect)rect {
-	
-	// Draw the placard at 0, 0
+	[super drawRect:rect];
 	//[placardImage drawAtPoint:(CGPointMake(0.0, 0.0))];
 	
-	/*
-	 Draw the current display string.
-	 Typically you would use a UILabel, but this example serves to illustrate the UIKit extensions to NSString.
-	 The text is drawn center of the view twice - first slightly offset in black, then in white -- to give an embossed appearance.
-	 The size of the font and text are calculated in setupNextDisplayString.
-	 */
-	
 	// Find point at which to draw the string so it will be in the center of the view
-	CGFloat x = self.bounds.size.width/2 - textSize.width/2;
-	CGFloat y = self.bounds.size.height/2 - textSize.height/2;
+	CGFloat x = self.bounds.size.width / 2.0f - textSize.width / 2.0f;
+	CGFloat y = self.bounds.size.height / 2.0f - textSize.height / 2.0f;
 	CGPoint point;
 	
 	// Get the font of the appropriate size

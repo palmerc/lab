@@ -12,6 +12,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7E2600C611E5E16300D262D9 /* HalfRoundedRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2600C511E5E16300D262D9 /* HalfRoundedRectangle.m */; };
 		7E5C5B3A11E47F1600CE6619 /* StatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C5B3911E47F1600CE6619 /* StatusController.m */; };
 		7E5C5B3F11E47F2500CE6619 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C5B3E11E47F2500CE6619 /* StatusView.m */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,8 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Popup_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Popup_Prefix.pch; sourceTree = "<group>"; };
+		7E2600C411E5E16300D262D9 /* HalfRoundedRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalfRoundedRectangle.h; sourceTree = "<group>"; };
+		7E2600C511E5E16300D262D9 /* HalfRoundedRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HalfRoundedRectangle.m; sourceTree = "<group>"; };
 		7E5C5B3811E47F1600CE6619 /* StatusController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusController.h; sourceTree = "<group>"; };
 		7E5C5B3911E47F1600CE6619 /* StatusController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusController.m; sourceTree = "<group>"; };
 		7E5C5B3D11E47F2500CE6619 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
@@ -55,6 +58,8 @@
 				7E5C5B3911E47F1600CE6619 /* StatusController.m */,
 				7E5C5B3D11E47F2500CE6619 /* StatusView.h */,
 				7E5C5B3E11E47F2500CE6619 /* StatusView.m */,
+				7E2600C411E5E16300D262D9 /* HalfRoundedRectangle.h */,
+				7E2600C511E5E16300D262D9 /* HalfRoundedRectangle.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -162,6 +167,7 @@
 				1D3623260D0F684500981E51 /* PopupAppDelegate.m in Sources */,
 				7E5C5B3A11E47F1600CE6619 /* StatusController.m in Sources */,
 				7E5C5B3F11E47F2500CE6619 /* StatusView.m in Sources */,
+				7E2600C611E5E16300D262D9 /* HalfRoundedRectangle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

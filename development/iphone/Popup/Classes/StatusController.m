@@ -13,24 +13,17 @@
 
 @implementation StatusController
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
 	UIView *aView = [[UIView alloc] initWithFrame:applicationFrame];
-	
-	CGRect statusFrame = CGRectMake(0.0f, aView.bounds.size.height, 320.0f, 40.0f);
+	aView.backgroundColor = [UIColor whiteColor];
+	CGRect statusFrame = CGRectMake(0.0f, aView.bounds.size.height, 320.0f, 50.0f);
 	_statusView = [[StatusView alloc] initWithFrame:statusFrame];
-	_statusView.backgroundColor = [UIColor lightGrayColor];
+	_statusView.rectColor = [UIColor lightGrayColor];
+	_statusView.strokeColor = [UIColor whiteColor];
+	
 	[aView addSubview:_statusView];
 	[_statusView release];
 	
@@ -62,7 +55,7 @@
 
 - (void)displayStatus {
 	CGRect destinationFrame = _statusView.frame;
-	destinationFrame.origin.y -= 40.0f;
+	destinationFrame.origin.y -= 47.0f;
 	
 	[UIView beginAnimations:@"RiseDarthVader" context:NULL];
 	[UIView setAnimationDuration:1.0f];
@@ -75,7 +68,7 @@
 
 - (void)hideStatus {
 	CGRect destinationFrame = _statusView.frame;
-	destinationFrame.origin.y += 40.0f;
+	destinationFrame.origin.y += 47.0f;
 	
 	[UIView beginAnimations:@"LowerDarthVader" context:NULL];
 	[UIView setAnimationDuration:1.0f];
@@ -91,7 +84,6 @@
 }
 
 - (void)test:(id)sender {
-	NSLog(@"%@", sender);
 	static BOOL state = NO;
 	
 	if (state == NO) {
