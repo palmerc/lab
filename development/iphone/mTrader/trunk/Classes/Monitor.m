@@ -168,6 +168,10 @@ static Monitor *sharedMonitor = nil;
 
 // Phone woke up
 - (void)applicationDidBecomeActive {
+	if (_statusAlertView == nil) {
+		_statusAlertView = [[UIAlertView alloc] initWithTitle:nil message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];	
+	}
+	
 	_statusAlertView.title = NSLocalizedString(@"connecting", @"Connecting");
 	[_statusAlertView show];
 	[_communicator startConnectionWithSocket:_url onPort:_port];
