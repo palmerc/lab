@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	
 	BOOL iPad = NO;
 #ifdef UI_USER_INTERFACE_IDIOM
-	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+//	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
 #endif
 	
 	NSString *delegateClassName = nil;

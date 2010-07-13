@@ -24,6 +24,8 @@
 	
 	BOOL _connected;
 	BOOL _loggedIn;
+	
+	UIAlertView *_statusAlertView;
 }
 
 @property (readonly) BOOL connected;

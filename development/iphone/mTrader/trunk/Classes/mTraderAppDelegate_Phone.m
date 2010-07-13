@@ -54,7 +54,7 @@
 	_managedObjectModel = nil;
 	_persistentStoreCoordinator = nil;
 	_tabController = [[UITabBarController alloc] init];
-	applicationFrame.size.height -= _tabController.tabBar.frame.size.height;
+	applicationFrame.size.height -= _tabController.tabBar.frame.size.height;	
 	
 	// My List
 	MyListHeaderViewController_Phone *rootViewController = [[MyListHeaderViewController_Phone alloc] initWithFrame:applicationFrame];

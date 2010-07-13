@@ -78,6 +78,7 @@ static Monitor *sharedMonitor = nil;
 
 		_loggedIn = NO;
 		_connected = NO;
+		_statusAlertView = nil;
 		
 		NSString *host = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
 		NSString *urlString = [NSString stringWithFormat:@"socket://%@", host];
@@ -107,9 +108,11 @@ static Monitor *sharedMonitor = nil;
 #if DEBUG_REACHABILITY
 			status = @"Reachable via WiFi";
 #endif
+			[self applicationDidBecomeActive];
 			break;
 		case ReachableViaWWAN:
 #if DEBUG_REACHABILITY
+			[self applicationDidBecomeActive];
 			status = @"Reachable via WWAN";
 #endif
 			break;
@@ -165,6 +168,8 @@ static Monitor *sharedMonitor = nil;
 
 // Phone woke up
 - (void)applicationDidBecomeActive {
+	_statusAlertView.title = NSLocalizedString(@"connecting", @"Connecting");
+	[_statusAlertView show];
 	[_communicator startConnectionWithSocket:_url onPort:_port];
 }
 
@@ -206,6 +211,8 @@ static Monitor *sharedMonitor = nil;
 	NSLog(@"Monitor: connect");
 #endif
 	if (_connected == NO) {
+		_statusAlertView.title = NSLocalizedString(@"connected", @"Connected");
+		
 		_connected = YES;
 		if (!self.loggedIn) {
 			[[mTraderCommunicator sharedManager] login];
@@ -213,11 +220,13 @@ static Monitor *sharedMonitor = nil;
 	}
 }
 
-- (void)disconnect {
+- (void)disconnect {	
 #if DEBUG_COMMUNICATOR_STATUS
 	NSLog(@"Monitor: disconnect");
 #endif
-	//[[mTraderCommunicator sharedManager].communicator stopConnection];
+	_statusAlertView.title = NSLocalizedString(@"disconnected", @"Disconnected");
+	[_statusAlertView show];
+	
 	_connected = NO;
 	_loggedIn = NO;
 }
@@ -226,13 +235,16 @@ static Monitor *sharedMonitor = nil;
 #pragma mark mTraderStatusDelegate methods
 
 - (void)loginSuccessful {
+	_statusAlertView.title = NSLocalizedString(@"loggedIn", @"Logged In");
+	[_statusAlertView dismissWithClickedButtonIndex:0 animated:YES];
 	_loggedIn = YES;
 }
 
 - (void)loginFailed:(NSString *)message {
 	_loggedIn = NO;
+		
 	
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	_statusAlertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
 }
@@ -244,6 +256,8 @@ static Monitor *sharedMonitor = nil;
 	NSLog(@"Monitor: Kicked out");
 #endif
 	[[mTraderCommunicator sharedManager].communicator stopConnection];
+	
+	
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
@@ -285,6 +299,7 @@ static Monitor *sharedMonitor = nil;
 -(void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	[_statusAlertView release];
 	[_url release];
 	[_reachability stopNotifer];
 	[_reachability release];

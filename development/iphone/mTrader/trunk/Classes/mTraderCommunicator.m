@@ -291,7 +291,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *string = [data string];
 	
 	if ([string rangeOfString:@"Request: login/OK"].location == 0) {
-		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginSuccess)]) {
+		if (self.statusDelegate && [self.statusDelegate respondsToSelector:@selector(loginSuccessful)]) {
 			[self.statusDelegate loginSuccessful];
 		}		
 		_state = PREPROCESSING;

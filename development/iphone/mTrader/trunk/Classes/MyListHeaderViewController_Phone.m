@@ -100,7 +100,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-
+	
 	[self changeQFieldsStreaming];
 }
 
@@ -161,6 +161,7 @@
 	[_managedObjectContext release];
 	[_tableViewController release];
 	[_navigationController release];
+	
     [super dealloc];
 }
 
