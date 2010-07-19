@@ -6,7 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#define DEBUG_INCOMING 1
+#define DEBUG_INCOMING 0
 #define DEBUG_OUTGOING 0
 #define DEBUG_HANDLEEVENT 0
 
