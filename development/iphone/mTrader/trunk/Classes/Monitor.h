@@ -8,9 +8,10 @@
 
 #import "mTraderCommunicator.h"
 #import "Communicator.h"
+#import "Reachability.h"
 
-@class Reachability;
 @class Communicator;
+@class StatusController;
 
 @interface Monitor : NSObject <mTraderStatusDelegate, UIAlertViewDelegate, CommunicatorStatusDelegate> {
 @private
@@ -20,23 +21,33 @@
 	Reachability *_reachability;
 	
 	NSURL *_url;
+	NSString *_host;
 	NSUInteger _port;
 	
+	BOOL _connecting;
 	BOOL _connected;
 	BOOL _loggedIn;
 	
-	UIAlertView *_statusAlertView;
+	StatusController *_statusController;
 }
 
+@property (readonly) NSString *host;
+@property (readonly) NSUInteger port;
 @property (readonly) BOOL connected;
 @property (readonly) BOOL loggedIn;
 @property (readonly) NSUInteger bytesReceived;
 @property (readonly) NSUInteger bytesSent;
+@property (nonatomic, retain) StatusController *statusController;
 
 + (Monitor *)sharedManager;
+- (NetworkStatus)currentReachabilityStatus;
 - (void)applicationDidFinishLaunching;
 - (void)applicationWillTerminate;
 - (void)applicationWillResignActive;
 - (void)applicationDidBecomeActive;
 - (void)usernameAndPasswordChanged;
+
+- (NSArray *)interfaces;
+- (NSArray *)serverAddresses;
+
 @end

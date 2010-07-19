@@ -10,15 +10,8 @@
 
 #import "Monitor.h"
 #import "Reachability.h"
-#import "CPHost.h"
-
-#include <netdb.h>
-#include <arpa/inet.h>
 
 @implementation NetworkDiagnosticViewController_Phone
-@synthesize reachability = _reachability;
-@synthesize server = _server;
-@synthesize port = _port;
 
 #pragma mark -
 #pragma mark Initialization
@@ -27,9 +20,6 @@
 	self = [super initWithStyle:UITableViewStyleGrouped];
 	if (self != nil) {
 		self.title = NSLocalizedString(@"netDiagnostics", @"Network Diagnostics Page");
-		self.server = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
-		self.port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
-		_reachability = nil;
 		
 		NSString *yourIPAddressesSection = NSLocalizedString(@"yourIPAddresses", @"Your IP Addresses");
 		NSString *serverDetailsSection = NSLocalizedString(@"serverDetails", @"Server Details");
@@ -39,7 +29,7 @@
 		
 		_headers = [[NSArray arrayWithObjects:yourIPAddressesSection, serverDetailsSection, serverAddressesSection, reachabilitySection, bytesSection, nil] retain];
 		_interfaces = nil;
-		_serverDetails = [[NSArray arrayWithObjects:self.server, self.port, nil] retain];
+		_serverDetails = nil;
 		_serverAddresses = nil;
 		_reachabilityDetails = nil;
 		_bytesDetails = nil;
@@ -48,30 +38,11 @@
 }
 
 #pragma mark -
-#pragma mark UIViewController Methods
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+#pragma mark UIViewController Delegate Methods
 - (void)viewDidLoad {
-    [super viewDidLoad];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-
-	self.reachability = [Reachability reachabilityWithHostName:self.server];
-	[self.reachability startNotifer];
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+	[super viewDidLoad];
 	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[self.reachability stopNotifer];
-	self.reachability = nil;
+	[self updateTable];
 }
 
 #pragma mark -
@@ -132,35 +103,14 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-#pragma mark -
-#pragma mark Reachability Methods
-- (void)reachabilityChanged:(NSNotification *)note {
-	Reachability *currentReachability = [note object];
-	NSParameterAssert([currentReachability isKindOfClass:[Reachability class]]);
+- (void)updateTable {
+	Monitor *monitor = [Monitor sharedManager];
 
-	[self updateReachability:(Reachability *)currentReachability];
-}
-
-- (void)updateReachability:(Reachability *)reach {
-	const char *hostname = [self.server cStringUsingEncoding:NSASCIIStringEncoding];
-	struct hostent *remoteHostEnt = gethostbyname(hostname);
-	char **list;
-	if (remoteHostEnt != NULL) {
-		list = remoteHostEnt->h_addr_list;	
+	_interfaces = [[monitor interfaces] retain];
+	
+	_serverAddresses = [[monitor serverAddresses] retain];
 		
-		if (_serverAddresses != nil) {
-			[_serverAddresses release];
-		}
-		NSMutableArray *addresses = [NSMutableArray array];
-		for (int i = 0; i < sizeof(list) / sizeof(struct in_addr *); i++) {
-			struct in_addr *ip = (struct in_addr *)list[i];
-			inet_ntoa(*ip);
-			NSString *ipAddress = [NSString stringWithCString:inet_ntoa(*ip) encoding:NSASCIIStringEncoding];
-			[addresses addObject:ipAddress];
-		}
-		_serverAddresses = [(NSArray *)addresses retain];
-	}
-	NetworkStatus status = [reach currentReachabilityStatus];
+	NetworkStatus status = [monitor currentReachabilityStatus];
 
 	if (_reachabilityDetails != nil) {
 		[_reachabilityDetails release];
@@ -182,17 +132,10 @@
 	}
 	_reachabilityDetails = [[NSArray arrayWithObjects:remoteReachabilityText, nil] retain];
 	
-	if (_interfaces != nil) {
-		[_interfaces release];
-	}
-	NSMutableArray *interfaces = [NSMutableArray array];
-	NSDictionary *interfacesToAddresses = [CPHost interfacesToAddresses];
-	for (NSString *key in [interfacesToAddresses allKeys]) {
-		[interfaces addObject:[NSString stringWithFormat:@"%@: %@", key, [interfacesToAddresses objectForKey:key]]];
-	}
-	_interfaces = [(NSArray *)interfaces retain];
+	NSString *host = monitor.host;
+	NSString *port = [[NSNumber numberWithInteger:monitor.port] stringValue];
+	_serverDetails = [[NSArray arrayWithObjects:host, port, nil] retain];
 	
-	Monitor *monitor = [Monitor sharedManager];
 	NSString *bytesReceivedText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesReceived", @"Bytes Received"), monitor.bytesReceived];
 	NSString *bytesSentText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesSent", @"Bytes Sent"), monitor.bytesSent];
 	_bytesDetails = [[NSArray arrayWithObjects:bytesReceivedText, bytesSentText, nil] retain];
@@ -204,15 +147,12 @@
 #pragma mark Memory Management
 
 - (void)dealloc {
-	[_reachability release];
 	[_headers release];
 	[_interfaces release];
 	[_serverDetails release];
 	[_serverAddresses release];
 	[_reachabilityDetails release];
 	[_bytesDetails release];
-	[_server release];
-	[_port release];
 	
 	[super dealloc];
 }

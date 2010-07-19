@@ -13,15 +13,15 @@
 
 #import "mTraderCommunicator.h"
 #import "UserDefaults.h"
+#import "CPHost.h"
 
-#import "Reachability.h"
+#import "StatusController.h"
 
+#include <netdb.h>
 #import <arpa/inet.h>
 
 
 @interface Monitor ()
-- (void)login;
-- (void)logout;
 - (BOOL)hasUsernameAndPasswordDefined;
 @end
 
@@ -29,6 +29,9 @@
 @implementation Monitor
 
 static Monitor *sharedMonitor = nil;
+@synthesize host = _host;
+@synthesize port = _port;
+@synthesize statusController = _statusController;
 @synthesize connected = _connected;
 @synthesize loggedIn = _loggedIn;
 
@@ -78,10 +81,11 @@ static Monitor *sharedMonitor = nil;
 
 		_loggedIn = NO;
 		_connected = NO;
-		_statusAlertView = nil;
+		_connecting = NO;
+		_statusController = nil;
 		
-		NSString *host = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]];
-		NSString *urlString = [NSString stringWithFormat:@"socket://%@", host];
+		_host = [[NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]] retain];
+		NSString *urlString = [NSString stringWithFormat:@"socket://%@", _host];
 		_url = [[NSURL URLWithString:urlString] retain];
 		NSString *port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
 		_port = [port integerValue]; 
@@ -91,6 +95,10 @@ static Monitor *sharedMonitor = nil;
 
 #pragma mark -
 #pragma mark Reachability
+
+- (NetworkStatus)currentReachabilityStatus {
+	return [_reachability currentReachabilityStatus];
+}
 
 - (void)updateReachability:(Reachability *)curReach {
 	NetworkStatus netStatus = [curReach currentReachabilityStatus];
@@ -168,13 +176,15 @@ static Monitor *sharedMonitor = nil;
 
 // Phone woke up
 - (void)applicationDidBecomeActive {
-	if (_statusAlertView == nil) {
-		_statusAlertView = [[UIAlertView alloc] initWithTitle:nil message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];	
-	}
+	if (_connecting == NO && [self hasUsernameAndPasswordDefined]) {
+		_connecting = YES;
+		
+		NSString *message = NSLocalizedString(@"connecting", @"Connecting");
+		self.statusController.statusMessage = message;
+		[self.statusController displayStatus];
 	
-	_statusAlertView.title = NSLocalizedString(@"connecting", @"Connecting");
-	[_statusAlertView show];
-	[_communicator startConnectionWithSocket:_url onPort:_port];
+		[_communicator startConnectionWithSocket:_url onPort:_port];
+	}
 }
 
 // Phone went to sleep
@@ -189,25 +199,6 @@ static Monitor *sharedMonitor = nil;
 }
 
 #pragma mark -
-#pragma mark Login and Logout Methods
-
-- (void)login {
-	if (![self hasUsernameAndPasswordDefined]) {
-		return;
-	}
-	
-	if (self.connected == NO) {
-		[[mTraderCommunicator sharedManager].communicator startConnectionWithSocket:_url onPort:_port];
-	}
-}
-
-- (void)logout {
-	_connected = NO;
-	_loggedIn = NO;
-	[[mTraderCommunicator sharedManager] logout];
-}
-
-#pragma mark -
 #pragma mark CommunicatorStatusDelegate methods
 
 - (void)connect {
@@ -215,9 +206,12 @@ static Monitor *sharedMonitor = nil;
 	NSLog(@"Monitor: connect");
 #endif
 	if (_connected == NO) {
-		_statusAlertView.title = NSLocalizedString(@"connected", @"Connected");
-		
+		_connecting = NO;
 		_connected = YES;
+		NSString *message = NSLocalizedString(@"connected", @"Connected");
+		self.statusController.statusMessage = message;
+		[self.statusController displayStatus];
+		
 		if (!self.loggedIn) {
 			[[mTraderCommunicator sharedManager] login];
 		}
@@ -228,8 +222,10 @@ static Monitor *sharedMonitor = nil;
 #if DEBUG_COMMUNICATOR_STATUS
 	NSLog(@"Monitor: disconnect");
 #endif
-	_statusAlertView.title = NSLocalizedString(@"disconnected", @"Disconnected");
-	[_statusAlertView show];
+	
+	NSString *message = NSLocalizedString(@"disconnected", @"Disconnected");
+	self.statusController.statusMessage = message;
+	[self.statusController displayStatus];
 	
 	_connected = NO;
 	_loggedIn = NO;
@@ -239,18 +235,18 @@ static Monitor *sharedMonitor = nil;
 #pragma mark mTraderStatusDelegate methods
 
 - (void)loginSuccessful {
-	_statusAlertView.title = NSLocalizedString(@"loggedIn", @"Logged In");
-	[_statusAlertView dismissWithClickedButtonIndex:0 animated:YES];
+	NSString *message = NSLocalizedString(@"loggedIn", @"Logged In");
+	self.statusController.statusMessage = message;
+	[self.statusController hideStatus];
+	
 	_loggedIn = YES;
 }
 
 - (void)loginFailed:(NSString *)message {
 	_loggedIn = NO;
 		
-	
-	_statusAlertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-	[alertView show];
-	[alertView release];
+	//_statusAlertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	//[_statusAlertView show];
 }
 
 - (void)kickedOut {
@@ -262,9 +258,8 @@ static Monitor *sharedMonitor = nil;
 	[[mTraderCommunicator sharedManager].communicator stopConnection];
 	
 	
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
-	[alertView show];
-	[alertView release];
+	//_statusAlertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
+	//[_statusAlertView show];
 }
 
 #pragma mark -
@@ -292,6 +287,13 @@ static Monitor *sharedMonitor = nil;
 	NSString *password = userDefaults.password;
 	
 	if (username == nil || password == nil || [username isEqualToString:@""] || [password isEqualToString:@""]) {
+			NSString *title = @"Username and/or password missing";
+			NSString *message = @"Please add your username and password for the mTrader service in the setting's tab.";
+			NSString *cancelButtonTitle = @"Dismiss";
+			
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
+			[alert show];
+			[alert release];
 		return NO;
 	}
 	
@@ -299,11 +301,45 @@ static Monitor *sharedMonitor = nil;
 }
 
 #pragma mark -
+#pragma mark Network Diagnostic methods
+
+- (NSArray *)serverAddresses {
+	const char *hostname = [_host cStringUsingEncoding:NSASCIIStringEncoding];
+	struct hostent *remoteHostEnt = gethostbyname(hostname);
+	char **list;
+	
+	NSMutableArray *addresses = [NSMutableArray array];
+	if (remoteHostEnt != NULL) {
+		list = remoteHostEnt->h_addr_list;	
+		
+		for (int i = 0; i < sizeof(list) / sizeof(struct in_addr *); i++) {
+			struct in_addr *ip = (struct in_addr *)list[i];
+			inet_ntoa(*ip);
+			NSString *ipAddress = [NSString stringWithCString:inet_ntoa(*ip) encoding:NSASCIIStringEncoding];
+			[addresses addObject:ipAddress];
+		}
+	}
+	
+	return addresses;
+}
+
+- (NSArray *)interfaces {
+	NSMutableArray *interfaces = [NSMutableArray array];
+	NSDictionary *interfacesToAddresses = [CPHost interfacesToAddresses];
+	for (NSString *key in [interfacesToAddresses allKeys]) {
+		[interfaces addObject:[NSString stringWithFormat:@"%@: %@", key, [interfacesToAddresses objectForKey:key]]];
+	}
+	
+	return (NSArray *)interfaces;
+}
+
+#pragma mark -
 #pragma mark Memory management
 -(void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[_statusAlertView release];
+	[_statusController release];
+	[_host release];
 	[_url release];
 	[_reachability stopNotifer];
 	[_reachability release];

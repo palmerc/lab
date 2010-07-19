@@ -6,14 +6,9 @@
 //  Copyright Infront AS 2010. All rights reserved.
 //
 
-@class Reachability;
 
 @interface NetworkDiagnosticViewController_Phone : UITableViewController {
-	Reachability *_reachability;	
-	
-	NSString *_server;
-	NSString *_port;
-		
+@private
 	NSArray *_headers;
 	NSArray *_interfaces;
 	NSArray *_serverDetails;
@@ -22,10 +17,6 @@
 	NSArray *_bytesDetails;
 }
 
-@property (nonatomic, retain) Reachability *reachability;
-@property (nonatomic, retain) NSString *server;
-@property (nonatomic, retain) NSString *port;
-
-- (void)updateReachability:(Reachability *)reach;
+- (void)updateTable;
 
 @end
