@@ -6,6 +6,7 @@
 //  Copyright InFront AS 2009. All rights reserved.
 //
 
+
 typedef enum {
 	CHAINS = 1,
 	NEWS = 2,

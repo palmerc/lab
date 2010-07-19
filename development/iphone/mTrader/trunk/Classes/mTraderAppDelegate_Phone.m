@@ -14,6 +14,7 @@
 #import "MyListNavigationController_Phone.h"
 #import "NewsTableViewController_Phone.h"
 #import "SettingsTableViewController_Phone.h"
+#import "StatusController.h"
 
 #import "Monitor.h"
 #import "DataController.h"
@@ -47,13 +48,12 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-	CGRect windowFrame = [[UIScreen mainScreen] bounds];
 	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
 
 	_managedObjectContext = nil;
 	_managedObjectModel = nil;
 	_persistentStoreCoordinator = nil;
-	_tabController = [[UITabBarController alloc] init];
+
 	applicationFrame.size.height -= _tabController.tabBar.frame.size.height;	
 	
 	// My List
@@ -61,6 +61,7 @@
 	rootViewController.managedObjectContext = self.managedObjectContext;
 	MyListNavigationController_Phone *myListNavigationController = [[MyListNavigationController_Phone alloc] initWithContentViewController:(UIViewController *)rootViewController];
 	rootViewController.navigationController = myListNavigationController;
+	
 	[rootViewController release];
 	
 	// News
@@ -80,18 +81,26 @@
 	[newsNavigationController release];
 	[settingsNavigationController release];
 	
-	self.tabController.viewControllers = viewControllersArray;
-	
-	_window = [[UIWindow alloc] initWithFrame:windowFrame];
-	[_window addSubview:_tabController.view];
-	
-	_window.backgroundColor = [UIColor lightGrayColor];
-	[_window makeKeyAndVisible];
 	
 	DataController *dataController = [DataController sharedManager];
 	dataController.managedObjectContext = self.managedObjectContext;
 	
-	[[Monitor sharedManager] applicationDidFinishLaunching];
+	_tabController = [[UITabBarController alloc] init];
+		
+	CGRect statusFrame = _tabController.tabBar.frame;
+	StatusController *statusController = [[StatusController alloc] initWithFrame:statusFrame];
+	[_tabController.view insertSubview:statusController.view belowSubview:_tabController.tabBar];
+	
+	self.tabController.viewControllers = viewControllersArray;
+	
+	Monitor *monitor = [Monitor sharedManager];
+	monitor.statusController = statusController;	
+	[monitor applicationDidFinishLaunching];
+	
+	CGRect windowFrame = [[UIScreen mainScreen] bounds];
+	_window = [[UIWindow alloc] initWithFrame:windowFrame];
+	[_window addSubview:_tabController.view];
+	[_window makeKeyAndVisible];
 	
 	return YES;
 }
