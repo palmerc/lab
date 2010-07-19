@@ -26,16 +26,6 @@ static UserDefaults *sharedDefaults = nil;
 		self.password = [defaults stringForKey:@"password"];
 		self.newsFeedNumber = [defaults stringForKey:@"newsFeedNumber"];
 				
-		if ([self.username isEqualToString:@""] || [self.password isEqualToString:@""]) {
-			NSString *title = @"Username and/or password missing";
-			NSString *message = @"Please add your username and password for the mTrader service in the setting's tab.";
-			NSString *cancelButtonTitle = @"Dismiss";
-			
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
-			[alert show];
-			[alert release];
-		}
-				
 		[defaults release];
 	}
 	
