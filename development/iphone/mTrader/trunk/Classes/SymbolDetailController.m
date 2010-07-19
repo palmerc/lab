@@ -52,6 +52,8 @@
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	CGRect windowFrame = self.view.bounds;
 	
+	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+	
 	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 220.0f);
 	_lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
 	_lastBox.symbol = self.symbol;
