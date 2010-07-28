@@ -8,6 +8,7 @@
 
 #import "ResizeElementAppDelegate.h"
 #import "CPView.h"
+#import "CPViewController.h"
 
 @implementation ResizeElementAppDelegate
 
@@ -18,24 +19,12 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	CGRect screenFrame = [[UIScreen mainScreen] applicationFrame];
-	
-	cpView = [[CPView alloc] initWithFrame:screenFrame];
-	cpView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin
-	;
-	
-	UIViewController *viewController = [[UIViewController alloc] init];
-	[viewController.view addSubview:cpView];
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
-	UIBarButtonItem *navBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
-	navController.navigationItem.rightBarButtonItem = navBarItem;
-	[navBarItem release];
-	
+	CPViewController *viewController = [[CPViewController alloc] init];
+		
+	navController = [[UINavigationController alloc] initWithRootViewController:viewController];
 	[viewController release];
 	
 	[window addSubview:navController.view];
-	 // Override point for customization after application launch.
 	
     [window makeKeyAndVisible];
 	
@@ -91,7 +80,7 @@
 
 
 - (void)dealloc {
-	[cpView release];
+	[navController release];
 	
     [window release];
     [super dealloc];

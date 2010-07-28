@@ -7,11 +7,9 @@
 //
 
 
-@class CPView;
-
 @interface ResizeElementAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
-	CPView *cpView;
+	UINavigationController *navController;
 
 }
 

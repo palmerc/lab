@@ -9,8 +9,20 @@
 
 
 @interface CPView : UIView {
-	UIView *topBar;
-	UIView *bottomBar;
+@private
+	UIView *_topBar;
+	UIView *_bottomBar;
+	UILabel *_helloLabel;
+	CGFloat _location;
+	BOOL _shrunk;
 }
+
+@property (nonatomic, retain) UIView *topBar;
+@property (nonatomic, retain) UIView *bottomBar;
+@property (nonatomic, retain) UILabel *helloLabel;
+@property (nonatomic, readonly, getter=isShrunk) BOOL shrunk;
+
+- (void)shrink;
+- (void)stretch;
 
 @end
