@@ -145,6 +145,16 @@ static Monitor *sharedMonitor = nil;
 #pragma mark Application State Changes
 // Application started
 - (void)applicationDidFinishLaunching {
+	if (![self hasUsernameAndPasswordDefined]) {		
+		NSString *title = @"Username and/or password missing";
+		NSString *message = @"Please add your username and password for the mTrader service in the setting's tab.";
+		NSString *cancelButtonTitle = @"Dismiss";
+		
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+	}
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 	
 	_reachability = [[Reachability reachabilityWithHostName:[_url host]] retain];
@@ -176,15 +186,17 @@ static Monitor *sharedMonitor = nil;
 
 // Phone woke up
 - (void)applicationDidBecomeActive {
-	if (_connecting == NO && [self hasUsernameAndPasswordDefined]) {
-		_connecting = YES;
-		
-		NSString *message = NSLocalizedString(@"connecting", @"Connecting");
-		self.statusController.statusMessage = message;
-		[self.statusController displayStatus];
-	
-		[_communicator startConnectionWithSocket:_url onPort:_port];
+	if (_connecting == YES) {
+		return;
 	}
+	
+	_connecting = YES;
+	
+	NSString *message = NSLocalizedString(@"connecting", @"Connecting");
+	self.statusController.statusMessage = message;
+	[self.statusController displayStatus];
+	
+	[_communicator startConnectionWithSocket:_url onPort:_port];
 }
 
 // Phone went to sleep
@@ -195,7 +207,9 @@ static Monitor *sharedMonitor = nil;
 }
 
 - (void)usernameAndPasswordChanged {
-	//
+	if ([self hasUsernameAndPasswordDefined]) {
+		[self applicationDidBecomeActive];
+	}
 }
 
 #pragma mark -
@@ -287,13 +301,6 @@ static Monitor *sharedMonitor = nil;
 	NSString *password = userDefaults.password;
 	
 	if (username == nil || password == nil || [username isEqualToString:@""] || [password isEqualToString:@""]) {
-			NSString *title = @"Username and/or password missing";
-			NSString *message = @"Please add your username and password for the mTrader service in the setting's tab.";
-			NSString *cancelButtonTitle = @"Dismiss";
-			
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
-			[alert show];
-			[alert release];
 		return NO;
 	}
 	

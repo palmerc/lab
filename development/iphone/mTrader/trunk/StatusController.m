@@ -50,7 +50,7 @@
 	
 	_statusDisplayed = YES;
 	CGRect destinationFrame = _statusView.frame;
-	destinationFrame.origin.y -= _statusView.bounds.size.height;
+	destinationFrame.origin.y -= _statusView.bounds.size.height - 2.0f;
 	
 	[UIView beginAnimations:@"RiseDarthVader" context:NULL];
 	[UIView setAnimationDuration:0.20f];
@@ -68,7 +68,7 @@
 	
 	_statusDisplayed = NO;
 	CGRect destinationFrame = _statusView.frame;
-	destinationFrame.origin.y += _statusView.bounds.size.height;
+	destinationFrame.origin.y += _statusView.bounds.size.height - 2.0f;
 	
 	[UIView beginAnimations:@"LowerDarthVader" context:NULL];
 	[UIView setAnimationDuration:2.0f];

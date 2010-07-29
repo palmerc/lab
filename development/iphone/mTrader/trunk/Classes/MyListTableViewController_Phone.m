@@ -82,7 +82,8 @@
 		cell = [[[MyListTableCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
-	[self configureCell:cell atIndexPath:indexPath animated:NO];
+	[self configureCell:cell atIndexPath:indexPath animated:NO];	
+	
 	return cell;
 }
 
@@ -91,8 +92,8 @@
 	cell.rightOption = rightOption;
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.symbolDynamicData = symbolDynamicData;
-	
-	if ( ([symbolDynamicData.changeArrow intValue] == 2) || ([symbolDynamicData.changeArrow intValue] == 3) ) {
+
+	if ( !cell.editing && (([symbolDynamicData.changeArrow intValue] == 2) || ([symbolDynamicData.changeArrow intValue] == 3)) ) {
 		UIColor *flashColor = [UIColor yellowColor];
 		UIColor *backgroundColor = [UIColor whiteColor];
 		[cell.contentView setBackgroundColor:flashColor];
@@ -118,6 +119,11 @@
 #pragma mark -
 #pragma mark TableViewDelegate methods
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+	//return UITableViewCellEditingStyleNone;
+	return 3;
+}
+
 // This method is required to catch the swipe to delete gesture.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -130,6 +136,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (tableView.editing) {
+		return;
+	}
 	// Request the latest static data and chart
 	SymbolDynamicData *symbolDynamicData = (SymbolDynamicData *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	

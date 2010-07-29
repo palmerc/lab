@@ -7,6 +7,7 @@
 //
 
 #define DEBUG 0
+#define DEBUG_PUSH_NOTIFICATIONS 1
 
 #import "mTraderAppDelegate_Phone.h"
 
@@ -47,7 +48,7 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
 
 	_managedObjectContext = nil;
@@ -102,6 +103,13 @@
 	[_window addSubview:_tabController.view];
 	[_window makeKeyAndVisible];
 	
+#if DEBUG_PUSH_NOTIFICATIONS
+	NSLog(@"Registering for push notifications...");
+#endif
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert |
+																		   UIRemoteNotificationTypeBadge |
+																		   UIRemoteNotificationTypeSound)];	
+	
 	return YES;
 }
 
@@ -146,6 +154,33 @@
 	[[Monitor sharedManager] applicationDidBecomeActive];
 }
 
+#pragma mark -
+#pragma mark Remote Notification Methods
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+	_deviceToken = [deviceToken retain];
+	[[Monitor sharedManager] registerDevice:deviceToken];
+	
+#if DEBUG_PUSH_NOTIFICATIONS
+	NSString *message = [NSString stringWithFormat:@"Device token=%@", deviceToken];
+	NSLog(@"%@", message);
+#endif
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+#if DEBUG_PUSH_NOTIFICATIONS
+	NSString *message = [NSString stringWithFormat:@"Error: %@", error];
+	NSLog(@"%@", message);
+#endif
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+#if DEBUG_PUSH_NOTIFICATIONS
+	for (id key in userInfo) {
+		NSLog(@"key: %@, value: %@", key, [userInfo objectForKey:key]);
+	}
+#endif
+}
 
 #pragma mark -
 #pragma mark Core Data stack
@@ -242,7 +277,8 @@
 #pragma mark -
 #pragma mark Memory managment
 
--(void) dealloc {	
+-(void) dealloc {
+	[_deviceToken release];
 	[_managedObjectContext release];
     [_managedObjectModel release];
     [_persistentStoreCoordinator release];

@@ -324,7 +324,8 @@ static DataController *sharedDataController = nil;
 			continue;
 		}
 		
-		NSArray *feedTickerComponents = [self splitFeedTicker:[stockComponents objectAtIndex:FEED_TICKER]];
+		NSString *feedTicker = [stockComponents objectAtIndex:FEED_TICKER];
+		NSArray *feedTickerComponents = [self splitFeedTicker:feedTicker];
 		NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
 		NSString *tickerSymbol = [feedTickerComponents objectAtIndex:1];
 		
@@ -364,6 +365,8 @@ static DataController *sharedDataController = nil;
 		symbol.isin = isin;
 		
 		symbol.index = [NSNumber numberWithInteger:symbolIndex];
+		
+		[[mTraderCommunicator sharedManager] staticDataForFeedTicker:feedTicker];
 		
 		[serverSymbolsSet addObject:symbol];
 		
@@ -957,6 +960,7 @@ static DataController *sharedDataController = nil;
 		NSDateFormatter *yearFormatter = [[NSDateFormatter alloc] init];
 		[yearFormatter setDateFormat:@"M/d/yyyy"];
 		NSDate *dividendDate = [yearFormatter dateFromString:dividendDateString];
+		[yearFormatter release];
 		
 		symbol.symbolDynamicData.dividendDate = dividendDate;
 	}

@@ -182,9 +182,7 @@
 	}
 	
 	// As long as username and password are not empty or nil attempt to connect
-	if (username != nil && password != nil && ![username isEqualToString:@""] && ![password isEqualToString:@""]) {
-		[[Monitor sharedManager] usernameAndPasswordChanged];
-	}
+	[[Monitor sharedManager] usernameAndPasswordChanged];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {

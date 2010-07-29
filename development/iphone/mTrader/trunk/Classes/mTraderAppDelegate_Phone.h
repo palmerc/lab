@@ -21,6 +21,8 @@ typedef enum {
 	
 	UIWindow *_window;
 	UITabBarController *_tabController;
+	
+	NSData *_deviceToken;
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
