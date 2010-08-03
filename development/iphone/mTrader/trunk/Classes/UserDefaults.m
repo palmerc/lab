@@ -10,34 +10,12 @@
 
 
 @implementation UserDefaults
-@synthesize username;
-@synthesize password;
-@synthesize newsFeedNumber;
+@synthesize username = _username;
+@synthesize password = _password;
+@synthesize newsFeedNumber = _newsFeedNumber;
+@synthesize deviceToken = _deviceToken;
 
 static UserDefaults *sharedDefaults = nil;
-
-#pragma mark Initialization and Cleanup
-- (id)init {
-	self = [super init];
-	if (self != nil) {
-		NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
-		
-		self.username = [defaults stringForKey:@"username"];
-		self.password = [defaults stringForKey:@"password"];
-		self.newsFeedNumber = [defaults stringForKey:@"newsFeedNumber"];
-				
-		[defaults release];
-	}
-	
-	return self; 
-}
-
-- (void)dealloc {
-	[sharedDefaults release];
-	[self.username release];
-	[self.password release];
-	[super dealloc];
-}
 
 #pragma mark Singleton Methods
 + (UserDefaults *)sharedManager {
@@ -71,13 +49,41 @@ static UserDefaults *sharedDefaults = nil;
 	return self;
 }
 
+#pragma mark Initialization
+- (id)init {
+	self = [super init];
+	if (self != nil) {
+		NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
+		
+		_username = [[defaults stringForKey:@"username"] retain];
+		_password = [[defaults stringForKey:@"password"] retain];
+		_newsFeedNumber = [[defaults stringForKey:@"newsFeedNumber"] retain];
+		_deviceToken = [[defaults dataForKey:@"deviceToken"] retain];
+		
+		[defaults release];
+	}
+	
+	return self; 
+}
+
 #pragma mark Save User Defaults
 - (void)saveSettings {
 	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
-	[defaults setObject:self.username forKey:@"username"];
-	[defaults setObject:self.password forKey:@"password"];
-	[defaults setObject:self.newsFeedNumber forKey:@"newsFeedNumber"];
+	[defaults setObject:_username forKey:@"username"];
+	[defaults setObject:_password forKey:@"password"];
+	[defaults setObject:_newsFeedNumber forKey:@"newsFeedNumber"];
+	[defaults setObject:_deviceToken forKey:@"deviceToken"];
 	[defaults release];
+}
+
+- (void)dealloc {
+	[sharedDefaults release];
+	[_username release];
+	[_password release];
+	[_newsFeedNumber release];
+	[_deviceToken release];
+	
+	[super dealloc];
 }
 
 @end

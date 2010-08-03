@@ -100,7 +100,6 @@
 #pragma mark -
 #pragma mark Actions
 - (void)chartPeriodSelected:(id)sender {
-	NSLog(@"%@", sender);
 	UISegmentedControl *control = sender;
 	NSInteger index = control.selectedSegmentIndex;
 	switch (index) {

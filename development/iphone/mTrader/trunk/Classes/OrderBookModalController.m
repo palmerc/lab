@@ -24,7 +24,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_managedObjectContext = [managedObjectContext retain];
 		
 		
 		orderBook = [[OrderBookController alloc] initWithManagedObjectContext:self.managedObjectContext];
@@ -62,22 +62,22 @@
 	askSizeLabel = [[UILabel alloc] initWithFrame:askSizeLabelFrame];
 	askSizeLabel.textAlignment = UITextAlignmentCenter;
 	askSizeLabel.font = headerFont;
-	askSizeLabel.text = @"A Size";
+	askSizeLabel.text = NSLocalizedString(@"askSize", @"A Size");
 	
 	askValueLabel = [[UILabel alloc] initWithFrame:askValueLabelFrame];
 	askValueLabel.textAlignment = UITextAlignmentCenter;
 	askValueLabel.font = headerFont;
-	askValueLabel.text = @"A Price";
+	askValueLabel.text = NSLocalizedString(@"askPrice", @"A Price");
 	
 	bidSizeLabel = [[UILabel alloc] initWithFrame:bidSizeLabelFrame];
 	bidSizeLabel.textAlignment = UITextAlignmentCenter;
 	bidSizeLabel.font = headerFont;
-	bidSizeLabel.text = @"B Size";
+	bidSizeLabel.text = NSLocalizedString(@"bidSize", @"B Size");
 	
 	bidValueLabel = [[UILabel alloc] initWithFrame:bidValueLabelFrame];
 	bidValueLabel.textAlignment = UITextAlignmentCenter;
 	bidValueLabel.font = headerFont;
-	bidValueLabel.text = @"B Price";
+	bidValueLabel.text = NSLocalizedString(@"bidPrice", @"B Price");
 	
 	[self.view addSubview:askSizeLabel];
 	[self.view addSubview:askValueLabel];

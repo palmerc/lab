@@ -6,6 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
 
 #import "OrderBookController.h"
 
@@ -27,7 +28,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
 	if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_managedObjectContext = [managedObjectContext retain];
 		_tableFont = [[UIFont systemFontOfSize:17.0] retain];
 		
 		_symbol = nil;
@@ -51,7 +52,7 @@
 	self.orderbookAvailableLabel.backgroundColor = [UIColor clearColor];
 	self.orderbookAvailableLabel.text = labelString;
 	self.orderbookAvailableLabel.hidden = YES;
-	[self.tableView addSubview:self.orderbookAvailableLabel];
+	[self.tableView addSubview:_orderbookAvailableLabel];
 	
 	[DataController sharedManager].orderBookDelegate = self;
 }
@@ -117,11 +118,14 @@
 
 #pragma mark -
 #pragma mark Debugging methods
+
 // Very helpful debug when things seem not to be working.
-//- (BOOL)respondsToSelector:(SEL)sel {
-//	NSLog(@"Queried about %@ in OrderBookController", NSStringFromSelector(sel));
-//	return [super respondsToSelector:sel];
-//}
+#if DEBUG
+- (BOOL)respondsToSelector:(SEL)sel {
+	NSLog(@"Queried about %@ in OrderBookController", NSStringFromSelector(sel));
+	return [super respondsToSelector:sel];
+}
+#endif
 
 #pragma mark -
 #pragma mark Memory management

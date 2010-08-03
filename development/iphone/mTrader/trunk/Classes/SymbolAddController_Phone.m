@@ -6,6 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
 
 #import "SymbolAddController_Phone.h"
 
@@ -92,11 +93,13 @@
 #pragma mark -
 #pragma mark Debugging methods
 
+#if DEBUG
 // Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
 	 NSLog(@"Queried about %@", NSStringFromSelector(sel));
 	 return [super respondsToSelector:sel];
 }
+#endif
 
 #pragma mark -
 #pragma mark Memory Management

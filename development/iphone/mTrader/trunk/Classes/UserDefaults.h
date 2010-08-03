@@ -6,10 +6,12 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 @interface UserDefaults : NSObject {
-	NSString *username;
-	NSString *password;
+@private
+	NSString *_username;
+	NSString *_password;
 	
-	NSString *newsFeedNumber;
+	NSString *_newsFeedNumber;
+	NSData *_deviceToken;
 }
 
 + (UserDefaults *)sharedManager;
@@ -18,5 +20,6 @@
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, retain) NSString *password;
 @property (nonatomic, retain) NSString *newsFeedNumber;
+@property (nonatomic, retain) NSData *deviceToken;
 
 @end

@@ -93,7 +93,6 @@
 - (void)changeQFieldsStreaming {
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	
-	[[DataController sharedManager] deleteAllNews];
 	[[DataController sharedManager] deleteAllBidsAsks];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];

@@ -88,6 +88,11 @@
 }
 
 - (void)setSymbol:(Symbol *)symbol {
+	if (symbol == _symbol) {
+		return;
+	}
+	
+	[_symbol release];
 	_symbol = [symbol retain];
 	_orderBookController.symbol = _symbol;
 	

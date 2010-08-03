@@ -71,10 +71,8 @@
 		7E96008411DDD78400B64992 /* NewsTab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96007511DDD78400B64992 /* NewsTab@2x.png */; };
 		7E96008511DDD78400B64992 /* SettingsTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96007611DDD78400B64992 /* SettingsTab.png */; };
 		7E96008611DDD78400B64992 /* SettingsTab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E96007711DDD78400B64992 /* SettingsTab@2x.png */; };
-		7E9600B311DDDD7500B64992 /* NSArray+ArrayToDataStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9600B211DDDD7500B64992 /* NSArray+ArrayToDataStringAdditions.m */; };
-		7E9600E311DDE24200B64992 /* NSArray+StripFirstElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9600E211DDE24200B64992 /* NSArray+StripFirstElementAdditions.m */; };
 		7E96FF0A11DDB4E800B64992 /* NSString+CleanStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E96FF0911DDB4E800B64992 /* NSString+CleanStringAdditions.m */; };
-		7E96FF1B11DDBAC700B64992 /* NSArray+CleanStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E96FF1A11DDBAC700B64992 /* NSArray+CleanStringAdditions.m */; };
+		7E96FF1B11DDBAC700B64992 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E96FF1A11DDBAC700B64992 /* NSArray+Additions.m */; };
 		7E96FF4011DDBE8D00B64992 /* DataModel00-01.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7E96FF3E11DDBE8D00B64992 /* DataModel00-01.xcmappingmodel */; };
 		7E96FF4911DDC02200B64992 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7E96FF4511DDC02200B64992 /* DataModel.xcdatamodeld */; };
 		7E96FF6011DDC13E00B64992 /* BidAsk.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E96FF4F11DDC13E00B64992 /* BidAsk.m */; };
@@ -212,14 +210,10 @@
 		7E96007511DDD78400B64992 /* NewsTab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NewsTab@2x.png"; sourceTree = "<group>"; };
 		7E96007611DDD78400B64992 /* SettingsTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SettingsTab.png; sourceTree = "<group>"; };
 		7E96007711DDD78400B64992 /* SettingsTab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SettingsTab@2x.png"; sourceTree = "<group>"; };
-		7E9600B111DDDD7500B64992 /* NSArray+ArrayToDataStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+ArrayToDataStringAdditions.h"; sourceTree = "<group>"; };
-		7E9600B211DDDD7500B64992 /* NSArray+ArrayToDataStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ArrayToDataStringAdditions.m"; sourceTree = "<group>"; };
-		7E9600E111DDE24200B64992 /* NSArray+StripFirstElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+StripFirstElementAdditions.h"; sourceTree = "<group>"; };
-		7E9600E211DDE24200B64992 /* NSArray+StripFirstElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+StripFirstElementAdditions.m"; sourceTree = "<group>"; };
 		7E96FF0811DDB4E800B64992 /* NSString+CleanStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CleanStringAdditions.h"; sourceTree = "<group>"; };
 		7E96FF0911DDB4E800B64992 /* NSString+CleanStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CleanStringAdditions.m"; sourceTree = "<group>"; };
-		7E96FF1911DDBAC700B64992 /* NSArray+CleanStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+CleanStringAdditions.h"; sourceTree = "<group>"; };
-		7E96FF1A11DDBAC700B64992 /* NSArray+CleanStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CleanStringAdditions.m"; sourceTree = "<group>"; };
+		7E96FF1911DDBAC700B64992 /* NSArray+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Additions.h"; sourceTree = "<group>"; };
+		7E96FF1A11DDBAC700B64992 /* NSArray+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Additions.m"; sourceTree = "<group>"; };
 		7E96FF3E11DDBE8D00B64992 /* DataModel00-01.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "DataModel00-01.xcmappingmodel"; sourceTree = "<group>"; };
 		7E96FF4611DDC02200B64992 /* model00.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = model00.xcdatamodel; sourceTree = "<group>"; };
 		7E96FF4711DDC02200B64992 /* model01.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = model01.xcdatamodel; sourceTree = "<group>"; };
@@ -542,12 +536,8 @@
 				7E483AF611DCCA1E00D59F88 /* NSData+StringAdditions.m */,
 				7E96FF0811DDB4E800B64992 /* NSString+CleanStringAdditions.h */,
 				7E96FF0911DDB4E800B64992 /* NSString+CleanStringAdditions.m */,
-				7E96FF1911DDBAC700B64992 /* NSArray+CleanStringAdditions.h */,
-				7E96FF1A11DDBAC700B64992 /* NSArray+CleanStringAdditions.m */,
-				7E9600B111DDDD7500B64992 /* NSArray+ArrayToDataStringAdditions.h */,
-				7E9600B211DDDD7500B64992 /* NSArray+ArrayToDataStringAdditions.m */,
-				7E9600E111DDE24200B64992 /* NSArray+StripFirstElementAdditions.h */,
-				7E9600E211DDE24200B64992 /* NSArray+StripFirstElementAdditions.m */,
+				7E96FF1911DDBAC700B64992 /* NSArray+Additions.h */,
+				7E96FF1A11DDBAC700B64992 /* NSArray+Additions.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -838,7 +828,7 @@
 				7E483A5311DCACD200D59F88 /* mTraderLinesToBlocks.m in Sources */,
 				7E483AF711DCCA1E00D59F88 /* NSData+StringAdditions.m in Sources */,
 				7E96FF0A11DDB4E800B64992 /* NSString+CleanStringAdditions.m in Sources */,
-				7E96FF1B11DDBAC700B64992 /* NSArray+CleanStringAdditions.m in Sources */,
+				7E96FF1B11DDBAC700B64992 /* NSArray+Additions.m in Sources */,
 				7E96FF4011DDBE8D00B64992 /* DataModel00-01.xcmappingmodel in Sources */,
 				7E96FF4911DDC02200B64992 /* DataModel.xcdatamodeld in Sources */,
 				7E96FF6011DDC13E00B64992 /* BidAsk.m in Sources */,
@@ -850,8 +840,6 @@
 				7E96FF6611DDC13E00B64992 /* NewsArticle.m in Sources */,
 				7E96FF6711DDC13E00B64992 /* SymbolDynamicData.m in Sources */,
 				7E96FF6811DDC13E00B64992 /* Trade.m in Sources */,
-				7E9600B311DDDD7500B64992 /* NSArray+ArrayToDataStringAdditions.m in Sources */,
-				7E9600E311DDE24200B64992 /* NSArray+StripFirstElementAdditions.m in Sources */,
 				7E3B56A811E1E58900EA3101 /* DataModel01-02.xcmappingmodel in Sources */,
 				7E73CB5111EDDA430075613A /* HalfRoundedRectangle.m in Sources */,
 				7E73CB5211EDDA430075613A /* StatusController.m in Sources */,

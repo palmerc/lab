@@ -15,9 +15,7 @@
 #import "NSMutableArray+QueueAdditions.h"
 #import "NSData+StringAdditions.h"
 #import "NSString+CleanStringAdditions.h"
-#import "NSArray+CleanStringAdditions.h"
-#import "NSArray+ArrayToDataStringAdditions.h"
-#import "NSArray+StripFirstElementAdditions.h"
+#import "NSArray+Additions.h"
 
 #import "DataController.h"
 #import "QFields.h"
@@ -694,30 +692,41 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	}
 }
 
-- (void)newsListOK {
-	NSData *data = [_blockBuffer deQueue];
-	NSString *string = [data string];
-	
-	if ([string rangeOfString:@"News:"].location == 0) {
-		NSString *newsArticles = [data string];
-		NSArray *colonSeparatedComponents = [newsArticles componentsSeparatedByString:@":"];
-		colonSeparatedComponents = [colonSeparatedComponents stripFirstElement];
-		newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
-		NSArray *newsArticlesArray = [[newsArticles componentsSeparatedByString:@"|"] sansWhitespace];
-		// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
-		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsListFeedsUpdates:)]) {
-			[self.symbolsDelegate newsListFeedsUpdates:newsArticlesArray];
+- (void)newsListOK {	
+	NSString *feedTicker = nil;
+	while ([_blockBuffer count] > 0) {
+		NSData *data = [_blockBuffer deQueue];
+		NSString *string = [data string];
+		
+		if ([string rangeOfString:@"SecOid:"].location == 0) {
+			NSArray *colonSeparatedComponents = [string componentsSeparatedByString:@":"];
+			NSArray *feedTickerComponents = [colonSeparatedComponents stripFirstElement];
+			feedTickerComponents = [feedTickerComponents sansWhitespace];
+			feedTicker = [feedTickerComponents componentsJoinedByString:@":"];
+		} else if ([string rangeOfString:@"News:"].location == 0) {
+			NSArray *colonSeparatedComponents = [[string componentsSeparatedByString:@":"] stripFirstElement];		
+			NSString *newsArticles = [colonSeparatedComponents componentsJoinedByString:@":"];
+			
+			NSArray *newsArticlesArray = [[newsArticles componentsSeparatedByString:@"|"] sansWhitespace];
+			NSMutableArray *feedTickerNewsArticlesMutableArray = [[NSMutableArray alloc] initWithArray:newsArticlesArray];
+			[feedTickerNewsArticlesMutableArray insertObject:feedTicker atIndex:0];
+			NSArray *feedTickerNewsArticlesArray = [NSArray arrayWithArray:feedTickerNewsArticlesMutableArray];
+			[feedTickerNewsArticlesMutableArray release];
+			
+			// 1073/01226580;;22.01;14:36;DJ Vattenfall To Sell Nuon Deutschland To Municipal Utility Group
+			if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(symbolNewsUpdates:)]) {
+				[self.symbolsDelegate symbolNewsUpdates:feedTickerNewsArticlesArray];
+			}
+			_state = PROCESSING;
 		}
-		_state = PROCESSING;
 	}
 }
-
 
 - (void)newsBodyOK {
 	NSMutableArray *newsItem = [[NSMutableArray alloc] init];
 	while ([_blockBuffer count] > 0) {
 		NSData *data = [_blockBuffer deQueue];
-		NSString *string = [data string];
+		NSString *string = [[data string] sansWhitespace];
 		string = [self dataFromRHS:string];
 		[newsItem addObject:string];
 	}	
@@ -807,6 +816,8 @@ static mTraderCommunicator *sharedCommunicator = nil;
 		
 		[_communicator sendData:[loginArray data]];
 	}
+	
+	[self registerDeviceToken];
 }
 
 - (void)logout {
@@ -968,9 +979,10 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *username = _defaults.username;
 	NSString *ActionNewsBody = @"Action: NewsBody";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
+	NSString *Formatting = [NSString stringWithString:@"Reformat: 1"];
 	NSString *NewsID = [NSString stringWithFormat:@"NewsID: %@", newsId];
 	
-	NSArray *newsItemArray = [NSArray arrayWithObjects:ActionNewsBody, Authorization, NewsID, nil];
+	NSArray *newsItemArray = [NSArray arrayWithObjects:ActionNewsBody, Authorization, Formatting, NewsID, nil];
 	
 	[_communicator sendData:[newsItemArray data]];
 }
@@ -1025,6 +1037,20 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSArray *symbolSearchRequest = [NSArray arrayWithObjects:ActionIncSearch, Search, maxCount, nil];
 	
 	[_communicator sendData:[symbolSearchRequest data]];		
+}
+
+- (void)registerDeviceToken {
+	UserDefaults *defaults = [UserDefaults sharedManager];
+
+	NSData *deviceToken = defaults.deviceToken;
+	
+	if (deviceToken == nil) {
+		return;
+	}
+	
+#if DEBUG
+	NSLog(@"mTraderCommunicator: Device Token=%@", deviceToken);
+#endif
 }
 
 #pragma mark -

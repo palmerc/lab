@@ -104,7 +104,7 @@
 	[_window makeKeyAndVisible];
 	
 #if DEBUG_PUSH_NOTIFICATIONS
-	NSLog(@"Registering for push notifications...");
+	NSLog(@"AppDelegate: Registering for push notifications...");
 #endif
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert |
 																		   UIRemoteNotificationTypeBadge |
@@ -159,25 +159,28 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 	_deviceToken = [deviceToken retain];
-	[[Monitor sharedManager] registerDevice:deviceToken];
+	[[UserDefaults sharedManager] setDeviceToken:deviceToken];
 	
 #if DEBUG_PUSH_NOTIFICATIONS
-	NSString *message = [NSString stringWithFormat:@"Device token=%@", deviceToken];
-	NSLog(@"%@", message);
+	NSString *previous = [NSString stringWithFormat:@"Stored device token=%@", [UserDefaults sharedManager].deviceToken];
+	NSLog(@"AppDelegate: %@", previous);
+	
+	NSString *message = [NSString stringWithFormat:@"Received device token=%@", deviceToken];
+	NSLog(@"AppDelegate: %@", message);
 #endif
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 #if DEBUG_PUSH_NOTIFICATIONS
 	NSString *message = [NSString stringWithFormat:@"Error: %@", error];
-	NSLog(@"%@", message);
+	NSLog(@"AppDelegate: %@", message);
 #endif
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
 #if DEBUG_PUSH_NOTIFICATIONS
 	for (id key in userInfo) {
-		NSLog(@"key: %@, value: %@", key, [userInfo objectForKey:key]);
+		NSLog(@"AppDelegate: key: %@, value: %@", key, [userInfo objectForKey:key]);
 	}
 #endif
 }

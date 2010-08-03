@@ -14,7 +14,7 @@
 @interface SymbolNewsView : RoundedRectangle {
 	Symbol *_symbol;
 	
-	SymbolNewsController_Phone *symbolNewsController;
+	SymbolNewsController_Phone *_symbolNewsController;
 	UIViewController *_viewController;
 }
 

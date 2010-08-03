@@ -14,7 +14,7 @@
 #import "DataController.h"
 
 #import "NSString+CleanStringAdditions.h"
-#import "NSArray+CleanStringAdditions.h"
+#import "NSArray+Additions.h"
 
 #import "mTraderCommunicator.h"
 #import "QFields.h"
@@ -1082,6 +1082,89 @@ static DataController *sharedDataController = nil;
 	article.body = body;
 }
 
+- (void)symbolNewsUpdates:(NSArray *)newsList {
+	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
+		
+	NSDate *today = [NSDate date];
+	NSString *year = [_yearFormatter stringFromDate:today];
+	
+	NSString *feedTicker = [newsList objectAtIndex:0];
+	NSArray *feedTickerComponents = [feedTicker componentsSeparatedByString:@"/"];
+	NSString *feedNumber = [feedTickerComponents objectAtIndex:0];
+	
+	NSString *tickerSymbol = [[feedTickerComponents stripFirstElement] componentsJoinedByString:@"/"];
+	
+	newsList = [newsList stripFirstElement];
+	for (NSString *news in newsList) {
+		NSArray *articleComponents = [news componentsSeparatedByString:@";"];
+		if ([articleComponents count] >= 4) {
+			NSString *feedArticle = [articleComponents objectAtIndex:0];
+			NSString *flag = [articleComponents objectAtIndex:1];
+			
+			NSString *month = nil;
+			NSString *day = nil;
+			NSString *date = [articleComponents objectAtIndex:2];
+			if (![date isEqualToString:@""]) {
+				NSArray *dateComponents = [date componentsSeparatedByString:@"."];
+				month = [dateComponents objectAtIndex:1];
+				day = [dateComponents objectAtIndex:0];
+			}
+			
+			NSString *time = [articleComponents objectAtIndex:3];
+			NSString *headline = [articleComponents objectAtIndex:4];
+			
+			NSArray *feedArticleComponents = [feedArticle componentsSeparatedByString:@"/"];			
+			NSString *newsFeedNumber = [feedArticleComponents objectAtIndex:0];
+			NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
+			
+			NSString *formattedDateString = [NSString stringWithFormat:@"%@-%@-%@ %@:00", year, month, day, time];
+			NSDate *properDate = [_dateFormatter dateFromString:formattedDateString];
+			
+			NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:newsFeedNumber];
+			Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
+			if (symbol == nil) {
+				continue;
+			}
+			
+			if (article == nil) {
+				NewsFeed *feed = [self fetchNewsFeedWithNumber:newsFeedNumber];
+				if (feed == nil) {
+					continue;
+				}
+				
+				article = (NewsArticle *)[NSEntityDescription insertNewObjectForEntityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+				article.newsFeed = feed;
+				[feed addNewsArticlesObject:article];
+				
+				article.articleNumber = articleNumber;
+				article.flag = flag;
+				
+				article.date = properDate;
+				article.headline = headline;
+			}
+			
+			SymbolNewsRelationship *relationship = [self fetchRelationshipForArticle:article andSymbol:symbol];
+			if (relationship == nil) {
+				SymbolNewsRelationship *relationship = (SymbolNewsRelationship *)[NSEntityDescription insertNewObjectForEntityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
+				relationship.symbol = symbol;
+				relationship.newsArticle = article;
+				
+				[symbol addNewsObject:relationship];
+				[article addSymbolsObject:relationship];	
+			}
+		}
+	}
+
+	NSError *error;
+	if (![self.managedObjectContext save:&error]) {
+		// Handle the error
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();
+#endif
+	}	
+}
+
 - (void)tradesUpdate:(NSDictionary *)updateDictionary {
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
@@ -1302,7 +1385,6 @@ static DataController *sharedDataController = nil;
 		return nil;
 	}
 }
-
 
 - (SymbolNewsRelationship *)fetchRelationshipForArticle:(NewsArticle *)article andSymbol:(Symbol *)symbol {
 	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];

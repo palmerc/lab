@@ -6,6 +6,8 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "SymbolNewsModalController_Phone.h"
 
 #import "mTraderCommunicator.h"
@@ -17,6 +19,7 @@
 #import "Feed.h"
 #import "Symbol.h"
 #import "NewsArticle.h"
+#import "SymbolNewsRelationship.h"
 
 @implementation SymbolNewsModalController
 @synthesize delegate;
@@ -29,7 +32,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
     if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_managedObjectContext = [managedObjectContext retain];
 		_fetchedResultsController = nil;
 		delegate = nil;
 		_symbol = nil;
@@ -41,13 +44,6 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
-	NSError *error;
-	if (![self.fetchedResultsController performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();  // Fail
-	}
-	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
 	self.navigationItem.leftBarButtonItem = doneButton;
 	[doneButton release];
@@ -61,26 +57,6 @@
 	[super viewWillAppear:animated];
 
 	[self refresh:self];
-}
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 }
 
 #pragma mark -
@@ -121,8 +97,8 @@
 }
 
 - (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	cell.newsArticle = newsArticle;
+	SymbolNewsRelationship *newsRelationship = (SymbolNewsRelationship *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	cell.newsArticle = newsRelationship.newsArticle;
 }
 
 #pragma mark -
@@ -131,14 +107,33 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NewsArticleController_Phone *newsArticleController = [[NewsArticleController_Phone alloc] init];
 	
-	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	newsArticleController.newsArticle = newsArticle;
+	SymbolNewsRelationship *newsRelationship = (SymbolNewsRelationship *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	newsArticleController.newsArticle = newsRelationship.newsArticle;
 	
 	[self.navigationController pushViewController:newsArticleController animated:YES];
 	
 	[newsArticleController release];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+- (void)setSymbol:(Symbol *)symbol {
+	if (symbol == _symbol) {
+		return;
+	}
+	
+	[_symbol release];
+	_symbol = [symbol retain];
+	
+	NSError *error;
+	if (![self.fetchedResultsController performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();  // Fail
+#endif
+	}
+}
+
 
 #pragma mark -
 #pragma mark Fetched results controller
@@ -154,12 +149,15 @@
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol=%@", self.symbol];
+	[fetchRequest setPredicate:predicate];
+	
 	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
+	NSSortDescriptor *dateDescriptor = [[NSSortDescriptor alloc] initWithKey:@"newsArticle.date" ascending:NO];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:dateDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
@@ -170,7 +168,7 @@
 	// Memory management.
 	[aFetchedResultsController release];
 	[fetchRequest release];
-	[mCodeDescriptor release];
+	[dateDescriptor release];
 	[sortDescriptors release];
 	
 	return _fetchedResultsController;
@@ -228,7 +226,6 @@
 }
 
 - (void)refresh:(id)sender {
-	[[DataController sharedManager] deleteAllNews];
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	[communicator symbolNewsForFeedTicker:feedTicker];

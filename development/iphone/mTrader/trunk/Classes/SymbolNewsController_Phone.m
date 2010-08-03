@@ -19,6 +19,7 @@
 #import "Feed.h"
 #import "Symbol.h"
 #import "NewsArticle.h"
+#import "SymbolNewsRelationship.h"
 
 @implementation SymbolNewsController_Phone
 @synthesize managedObjectContext = _managedObjectContext;
@@ -31,7 +32,7 @@
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
 	self = [super init];
     if (self != nil) {
-		self.managedObjectContext = managedObjectContext;
+		_managedObjectContext = [managedObjectContext retain];
 		_fetchedResultsController = nil;
 		_newsAvailable = NO;
 		_symbol = nil;
@@ -44,15 +45,6 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
-	NSError *error;
-	if (![self.fetchedResultsController performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-#if DEBUG
-		abort();  // Fail
-#endif
-	}
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
 	self.navigationItem.leftBarButtonItem = doneButton;
@@ -62,40 +54,19 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
-	NSString *labelString = @"No News Available";
+	NSString *labelString = NSLocalizedString(@"noNewsAvailable", @"No News Available");
 	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
 	CGRect frame = self.view.bounds;
 	frame.size.height = [labelString sizeWithFont:labelFont].height;
 	
 	_newsAvailableLabel = [[UILabel alloc] initWithFrame:frame];
-	self.newsAvailableLabel.textAlignment = UITextAlignmentCenter;
-	self.newsAvailableLabel.font = labelFont;
-	self.newsAvailableLabel.textColor = [UIColor blackColor];
-	self.newsAvailableLabel.backgroundColor = [UIColor clearColor];
-	self.newsAvailableLabel.text = labelString;
-	self.newsAvailableLabel.hidden = YES;
+	_newsAvailableLabel.textAlignment = UITextAlignmentCenter;
+	_newsAvailableLabel.font = labelFont;
+	_newsAvailableLabel.textColor = [UIColor blackColor];
+	_newsAvailableLabel.backgroundColor = [UIColor clearColor];
+	_newsAvailableLabel.text = labelString;
+	_newsAvailableLabel.hidden = YES;
 	[self.tableView addSubview:self.newsAvailableLabel];
-}
-
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-	self.fetchedResultsController = nil;
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 }
 
 #pragma mark -
@@ -144,8 +115,8 @@
 }
 
 - (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	cell.newsArticle = newsArticle;
+	SymbolNewsRelationship *newsRelationship = (SymbolNewsRelationship *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	cell.newsArticle = newsRelationship.newsArticle;
 }
 
 #pragma mark -
@@ -154,13 +125,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NewsArticleController_Phone *newsArticleController = [[NewsArticleController_Phone alloc] init];
 	
-	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	newsArticleController.newsArticle = newsArticle;
+	SymbolNewsRelationship *newsRelationship = (SymbolNewsRelationship *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	newsArticleController.newsArticle = newsRelationship.newsArticle;
 	
 	[self.navigationController pushViewController:newsArticleController animated:YES];
 	
 	[newsArticleController release];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)setSymbol:(Symbol *)symbol {
+	if (symbol == _symbol) {
+		return;
+	}
+	
+	[_symbol release];
+	_symbol = [symbol retain];
+	
+	NSError *error;
+	if (![self.fetchedResultsController performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();  // Fail
+#endif
+	}
 }
 
 #pragma mark -
@@ -177,12 +166,15 @@
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol=%@", _symbol];
+	[fetchRequest setPredicate:predicate];
+		
 	// Create the sort descriptors array.
-	NSSortDescriptor *mCodeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:mCodeDescriptor, nil];
+	NSSortDescriptor *dateDescriptor = [[NSSortDescriptor alloc] initWithKey:@"newsArticle.date" ascending:NO];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:dateDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
@@ -193,7 +185,7 @@
 	// Memory management.
 	[aFetchedResultsController release];
 	[fetchRequest release];
-	[mCodeDescriptor release];
+	[dateDescriptor release];
 	[sortDescriptors release];
 	
 	return _fetchedResultsController;

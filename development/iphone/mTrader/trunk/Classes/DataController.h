@@ -14,6 +14,7 @@
 @class Trade;
 @class NewsFeed;
 @class NewsArticle;
+@class SymbolNewsRelationship;
 @class BidAsk;
 
 @protocol OrderBookDelegate;
@@ -47,6 +48,7 @@
 
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
 - (NewsFeed *)fetchNewsFeedWithNumber:(NSString *)feedNumber;
+- (SymbolNewsRelationship *)fetchRelationshipForArticle:(NewsArticle *)article andSymbol:(Symbol *)symbol;
 
 - (NewsArticle *)fetchNewsArticle:(NSString *)articleNumber withFeed:(NSString *)feedNumber;
 

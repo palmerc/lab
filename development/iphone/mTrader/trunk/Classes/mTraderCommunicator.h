@@ -67,6 +67,8 @@ enum {
 - (void)login;
 - (void)logout;
 
+- (void)registerDeviceToken;
+
 - (void)newsListFeed:(NSString *)mCode;
 - (void)newsItemRequest:(NSString *)newsId;
 
@@ -103,6 +105,8 @@ enum {
 - (void)failedToAddAlreadyExists;
 - (void)chartUpdate:(NSDictionary *)chart;
 - (void)newsListFeedsUpdates:(NSArray *)newsList;
+- (void)symbolNewsUpdates:(NSArray *)newsList;
 - (void)newsItemUpdate:(NSArray *)newsItemContents;
 - (void)removedSecurity:(NSString *)feedTicker;
+- (void)registerDeviceToken;
 @end
