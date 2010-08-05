@@ -30,6 +30,7 @@
 @synthesize port = _port;
 @synthesize bytesReceived = _bytesReceived;
 @synthesize bytesSent = _bytesSent;
+@synthesize tlsEnabled = _tlsEnabled;
 
 
 #pragma mark -
@@ -47,6 +48,8 @@
 		
 		_bytesReceived = 0;
 		_bytesSent = 0;
+		
+		_tlsEnabled = NO;
 	}
 	return self;
 }
@@ -226,6 +229,11 @@
 	
 	_inputStream = (NSInputStream *)readStream;
 	_outputStream = (NSOutputStream *)writeStream;
+	
+	if (_tlsEnabled) {
+		[_inputStream setProperty:NSStreamSocketSecurityLevelTLSv1 forKey:NSStreamSocketSecurityLevelKey];
+		[_outputStream setProperty:NSStreamSocketSecurityLevelTLSv1 forKey:NSStreamSocketSecurityLevelKey];
+	}
 	
 	[_inputStream open];
 	[_outputStream open];

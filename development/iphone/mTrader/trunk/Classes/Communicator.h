@@ -26,6 +26,8 @@
 		
 	NSUInteger _bytesReceived;
 	NSUInteger _bytesSent;
+	
+	BOOL _tlsEnabled;
 }
 
 @property (nonatomic, assign) id <CommunicatorStatusDelegate> statusDelegate;
@@ -35,6 +37,7 @@
 @property (readonly) NSUInteger port;
 @property (readonly) NSUInteger bytesReceived;
 @property (readonly) NSUInteger bytesSent;
+@property (readonly) BOOL tlsEnabled;
 
 - (void)startConnectionWithSocket:(NSURL *)url onPort:(NSUInteger)port;
 - (void)stopConnection;
