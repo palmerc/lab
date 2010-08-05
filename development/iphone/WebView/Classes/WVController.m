@@ -46,7 +46,7 @@
 	
 	self.title = @"Browser";
 	
-	unichar backArrowCode = 0x25C0;
+	unichar backArrowCode = 0x25C0; //BLACK LEFT-POINTING TRIANGLE
 	NSString *backArrowString = [NSString stringWithCharacters:&backArrowCode length:1];
 	UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:backArrowString style:UIBarButtonItemStylePlain target:self action:@selector(backBarButtonItem:)];
 	self.navigationItem.leftBarButtonItem = backBarButtonItem;
@@ -55,13 +55,11 @@
 	[_webView loadHTMLString:@"<html><head><title>Test</title></head><body><p><a href=\"http://news.google.com\">Hello, world</a></p><p>http://www.google.com. +47 95 77 00 89 or (214) 495-2097 alternatively (800) GOOG-411</p></body></html>" baseURL:baseURL];	
 }
 
-/*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
-*/
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
