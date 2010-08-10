@@ -39,6 +39,8 @@
 		_fetchedResultsController = nil;
 		_feedsFetchedResultsController = nil;
 		_newsFeed = nil;
+		_headlineFont = [UIFont systemFontOfSize:14.0f];
+		_bottomlineFont = [UIFont systemFontOfSize:12.0f];
 		
 		UIImage* anImage = [UIImage imageNamed:@"NewsTab.png"];	
 		UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"NewsTab", "News tab label")  image:anImage tag:NEWS];
@@ -50,7 +52,7 @@
 
 - (void)viewDidLoad {		
 	[super viewDidLoad];
-
+	
 	// Set the feed to All News by default
 	NSString *returnedNewsFeedNumber = [UserDefaults sharedManager].newsFeedNumber;
 	NSString *feedNumber = nil;
@@ -94,13 +96,13 @@
 	feedsTableViewController.delegate = self;
 	feedsTableViewController.managedObjectContext = self.managedObjectContext;
 	[feedsTableViewController release];
+	
+	[communicator newsListFeed:self.newsFeed.mCode];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	
-	self.tableView.frame = self.view.bounds;
-	
+		
 	communicator = [mTraderCommunicator sharedManager];
 	
 	QFields *qFields = [[QFields alloc] init];
@@ -108,8 +110,6 @@
 	[qFields release];
 	
 	[communicator setStreamingForFeedTicker:nil];
-	
-	[communicator newsListFeed:self.newsFeed.mCode];
 }
 
 #pragma mark -
@@ -135,6 +135,7 @@
 	return nil;	
 }
 
+#define CONTENT_MARGIN 10.0f
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -143,6 +144,9 @@
     NewsTableViewCell_Phone *cell = (NewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[NewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell.headlineFont = _headlineFont;
+		cell.bottomlineFont = _bottomlineFont;
+		cell.contentMargin = CONTENT_MARGIN;
     }
     
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
@@ -151,7 +155,22 @@
 
 - (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+
 	cell.newsArticle = newsArticle;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	NewsArticle *newsArticle = (NewsArticle *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	NSString *headlineString = newsArticle.headline;
+	NSString *bottomLineString = @"Infront News";
+	
+	CGFloat windowWidth = self.view.frame.size.width;
+	CGSize constraint = CGSizeMake(windowWidth - (CONTENT_MARGIN * 2.0f), 2000.0f);
+	CGSize headlineSize = [headlineString sizeWithFont:_headlineFont constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+	CGSize bottomlineSize = [bottomLineString sizeWithFont:_bottomlineFont];
+	
+	CGFloat height = headlineSize.height + bottomlineSize.height + CONTENT_MARGIN;
+	return height;
 }
 
 #pragma mark -
@@ -169,32 +188,6 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-
-#pragma mark -
-#pragma mark UIPickerViewDataSource Required Methods
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-	return [[self.feedsFetchedResultsController sections] count];
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.feedsFetchedResultsController sections] objectAtIndex:component];
-    return [sectionInfo numberOfObjects];
-}
-
-#pragma mark -
-#pragma mark UIPickerViewDelegate Methods
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	self.newsFeed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:component];
-	NewsFeed *feed = (NewsFeed *)[self.feedsFetchedResultsController objectAtIndexPath:indexPath];
-	NSString *feedName = feed.name;
-	return feedName;
-}
-
 #pragma mark -
 #pragma mark Actions
 
@@ -206,28 +199,20 @@
 	FeedsTableViewController_Phone *feedsModalTableViewController = [[FeedsTableViewController_Phone alloc] init];
 	feedsModalTableViewController.delegate = self;
 	feedsModalTableViewController.managedObjectContext = self.managedObjectContext;
-	feedsModalTableViewController.title = @"Select News Feed";
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:feedsModalTableViewController];
 	
-	UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:self action:@selector(doneBarButtonItemAction:)];
-	feedsModalTableViewController.navigationItem.leftBarButtonItem = doneBarButtonItem;
-	[doneBarButtonItem release];
 	[feedsModalTableViewController release];
 	
 	[self presentModalViewController:navController animated:YES];
 	[navController release];
 }
 
-- (void)doneBarButtonItemAction:(id)sender {
-	[self dismissModalViewControllerAnimated:YES];
-}
-
 #pragma mark -
 #pragma mark NewsFeedChoiceDelegate methods
 - (void)newsFeedWasSelected:(NewsFeed *)aNewsFeed {
-	// Dismiss the popover by calling the toggle
-	[self feedBarButtonItemAction:nil];
+	[self dismissModalViewControllerAnimated:YES];
+	
 	[[DataController sharedManager] deleteAllNews];
 	
 	// Fire off request for news related to the choice made if different from current choice
@@ -367,13 +352,6 @@
 */
 #pragma mark -
 #pragma mark Memory management
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
 
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.

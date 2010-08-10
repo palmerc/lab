@@ -15,16 +15,18 @@
 @synthesize delegate;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
-@synthesize selectedNewsFeed = _selectedNewsFeed;
-
-#pragma mark -
-#pragma mark Initialization
 
 #pragma mark -
 #pragma mark UIViewController overridden methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	self.title = NSLocalizedString(@"selectNewsFeed", @"Select a News Feed");
+
+	UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:self action:@selector(doneBarButtonItemAction:)];
+	self.navigationItem.leftBarButtonItem = doneBarButtonItem;
+	[doneBarButtonItem release];
 	
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
@@ -71,27 +73,33 @@
 	
 	if ([feed.feedNumber isEqualToString:currentNumber]) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
-		self.selectedNewsFeed = feed;
+		_selectedNewsFeed = feed;
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
 
 	return cell;
 }
-
+								   
+- (void)doneBarButtonItemAction:(id)sender {
+	if (self.delegate && [self.delegate respondsToSelector:@selector(newsFeedWasSelected:)]) {
+		[self.delegate newsFeedWasSelected:_selectedNewsFeed];
+	}
+}
+								   
 #pragma mark -
 #pragma mark UITableViewController delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-	NSIndexPath *oldIndexPath = [self.fetchedResultsController indexPathForObject:self.selectedNewsFeed];
+	NSIndexPath *oldIndexPath = [self.fetchedResultsController indexPathForObject:_selectedNewsFeed];
 	
 	if ([indexPath isEqual:oldIndexPath]) {
 		return;
 	}
 	
 	NewsFeed *newsFeed = (NewsFeed *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-	self.selectedNewsFeed = newsFeed;
+	_selectedNewsFeed = newsFeed;
 	
 	[UserDefaults sharedManager].newsFeedNumber = newsFeed.feedNumber;
 	

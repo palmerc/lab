@@ -23,6 +23,9 @@
 
 @implementation NewsTableViewCell_Phone
 @synthesize newsArticle = _newsArticle;
+@synthesize headlineFont = _headlineFont;
+@synthesize bottomlineFont = _bottomlineFont;
+@synthesize contentMargin = _contentMargin;
 
 #pragma mark -
 #pragma mark Initialization
@@ -30,76 +33,31 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
 		_newsArticle = nil;
+		_contentMargin = 0.0f;
 		
-		headlineLabelFont = [[UIFont systemFontOfSize:14.0] retain];
 		headlineLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[headlineLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
-		[headlineLabel setFont:headlineLabelFont];
+		[headlineLabel setLineBreakMode:UILineBreakModeWordWrap];
+		[headlineLabel setNumberOfLines:0];
+		[headlineLabel setFont:_headlineFont];
 		[headlineLabel setTextAlignment:UITextAlignmentLeft];
 		[headlineLabel setTextColor:[UIColor blackColor]];
 		[headlineLabel setHighlightedTextColor:[UIColor blackColor]];
 		[self.contentView addSubview:headlineLabel];		
 		
-		bottomLineLabelFont = [[UIFont systemFontOfSize:12.0] retain];
 		dateTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[dateTimeLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
-		[dateTimeLabel setFont:bottomLineLabelFont];
+		[dateTimeLabel setFont:_bottomlineFont];
 		[dateTimeLabel setTextAlignment:UITextAlignmentRight];
 		[dateTimeLabel setTextColor:[UIColor darkGrayColor]];
 		[dateTimeLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:dateTimeLabel];
-		
+
 		feedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[feedLabel setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.0]];
 		feedLabel.textAlignment = UITextAlignmentLeft;
-		[feedLabel setFont:bottomLineLabelFont];
 		[feedLabel setTextColor:[UIColor darkGrayColor]];
 		[feedLabel setHighlightedTextColor:[UIColor darkGrayColor]];
 		[self.contentView addSubview:feedLabel];
     }
     return self;
-}
-
-#pragma mark -
-#pragma mark Laying out subviews
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-	
-    [headlineLabel setFrame:[self _headlineLabelFrame]];
-	[dateTimeLabel setFrame:[self _dateTimeLabelFrame]];
-	[feedLabel setFrame:[self _feedLabelFrame]];
-}
-
-#define TEXT_LEFT_MARGIN    8.0
-#define TEXT_RIGHT_MARGIN   8.0
-
-- (CGRect)_headlineLabelFrame {
-	CGRect bounds = [[UIScreen mainScreen] bounds];
-	CGSize fontSize = [@"X" sizeWithFont:headlineLabelFont];
-
-	CGFloat width = bounds.size.width - TEXT_LEFT_MARGIN - TEXT_RIGHT_MARGIN;
-	CGFloat height = fontSize.height;
-	
-	return CGRectMake(TEXT_LEFT_MARGIN, 2.0, width, height);
-}
-
-- (CGRect)_feedLabelFrame {
-	CGSize fontSize = [feedLabel.text sizeWithFont:bottomLineLabelFont];
-
-	CGFloat width = fontSize.width;
-	CGFloat height = fontSize.height;
-	
-	return CGRectMake(TEXT_LEFT_MARGIN, 24.0, width, height);
-}
-
-- (CGRect)_dateTimeLabelFrame {
-	CGSize fontSize = [dateTimeLabel.text sizeWithFont:bottomLineLabelFont];
-
-	CGFloat width = fontSize.width;
-	CGFloat height = fontSize.height;
-	
-	return CGRectMake(self.frame.size.width - width - TEXT_RIGHT_MARGIN, 24.0, width, height);
 }
 
 #pragma mark -
@@ -114,9 +72,7 @@
 	}
 	
 	_newsArticle = [newsArticle retain];
-	
-	feedLabel.text = newsArticle.newsFeed.name;
-	
+		
 	NSString *flag = newsArticle.flag;
 	if ([flag isEqualToString:@"F"]) {
 		[headlineLabel setTextColor:[UIColor redColor]];
@@ -126,9 +82,31 @@
 		[headlineLabel setTextColor:[UIColor blackColor]];
 	}
 
+	CGFloat windowWidth = self.frame.size.width;
+	CGSize constraint = CGSizeMake(windowWidth - (_contentMargin * 2.0f), 2000.0f);
+	CGFloat x = floorf(_contentMargin / 2.0f);
+	CGFloat y = x;
 	
-	headlineLabel.text = newsArticle.headline;
-	dateTimeLabel.text = [dateFormatter stringFromDate:newsArticle.date];
+	NSString *headlineString = newsArticle.headline;
+	CGSize headlineSize = [headlineString sizeWithFont:_headlineFont constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+	CGRect headlineFrame = CGRectMake(x, y, headlineSize.width, headlineSize.height);
+	headlineLabel.frame = headlineFrame;
+	headlineLabel.text = headlineString;
+	headlineLabel.font = _headlineFont;
+	
+	NSString *newsFeedString = newsArticle.newsFeed.name;
+	CGSize newsFeedSize = [newsFeedString sizeWithFont:_bottomlineFont];
+	CGRect feedLabelFrame = CGRectMake(x, headlineSize.height + y, newsFeedSize.width, newsFeedSize.height);
+	feedLabel.frame = feedLabelFrame;
+	feedLabel.text = newsFeedString;
+	feedLabel.font = _bottomlineFont;
+	
+	NSString *dateTimeString = [dateFormatter stringFromDate:newsArticle.date];
+	CGSize dateTimeSize = [dateTimeString sizeWithFont:_bottomlineFont];
+	CGRect dateTimeFrame = CGRectMake(windowWidth - dateTimeSize.width - x, headlineSize.height + y, dateTimeSize.width, newsFeedSize.height);
+	dateTimeLabel.frame = dateTimeFrame;
+	dateTimeLabel.text = dateTimeString;
+	dateTimeLabel.font = _bottomlineFont;
 }
 
 
@@ -147,14 +125,13 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	[headlineLabelFont release];
-	[bottomLineLabelFont release];
+	[_headlineFont release];
+	[_bottomlineFont release];
 	[feedLabel release];
 	[headlineLabel release];
 	[dateTimeLabel release];
 	[_newsArticle release];
     [super dealloc];
 }
-
 
 @end

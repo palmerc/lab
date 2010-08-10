@@ -23,7 +23,6 @@
 @property (nonatomic, assign) id <NewsFeedChoiceDelegate> delegate;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, retain) NewsFeed *selectedNewsFeed;
 
 @end
 

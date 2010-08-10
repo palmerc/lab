@@ -16,10 +16,15 @@
 	UILabel *headlineLabel;
 	UILabel *dateTimeLabel;
 	
-	UIFont *headlineLabelFont;
-	UIFont *bottomLineLabelFont;
+	UIFont *_headlineFont;
+	UIFont *_bottomlineFont;
+
+	CGFloat _contentMargin;
 }
 
 @property (nonatomic, retain) NewsArticle *newsArticle;
+@property (nonatomic, retain) UIFont *headlineFont;
+@property (nonatomic, retain) UIFont *bottomlineFont;
+@property (nonatomic) CGFloat contentMargin;
 
 @end

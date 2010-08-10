@@ -9,18 +9,15 @@
 
 #import "mTraderCommunicator.h"
 
-@class NewsArticleView_Phone;
-
 @class NewsArticle;
 
-@interface NewsArticleController_Phone : UIViewController {
+@interface NewsArticleController_Phone : UIViewController <UIWebViewDelegate> {
 @private
-	NewsArticle *_newsArticle;
+	UIWebView *_webView;
 	
-	NewsArticleView_Phone *_newsArticleView;
+	NewsArticle *_newsArticle;	
 }
 
 @property (nonatomic, retain) NewsArticle *newsArticle;
-@property (nonatomic, retain) NewsArticleView_Phone *newsArticleView;
 
 @end
