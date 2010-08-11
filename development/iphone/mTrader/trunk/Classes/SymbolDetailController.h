@@ -36,6 +36,7 @@
 	SymbolNewsView *_newsBox;
 	ScrollViewPageControl *_detailBox;
 	OtherInfoView *_otherBox;
+	UIPageControl *_pageControl;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;

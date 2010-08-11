@@ -30,6 +30,7 @@
 #import "SymbolNewsModalController_Phone.h"
 #import "Feed.h"
 #import "Symbol.h"
+#import "SymbolDynamicData.h"
 #import "QFields.h"
 
 @implementation SymbolDetailController
@@ -51,6 +52,12 @@
 	
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
 	CGRect windowFrame = self.view.bounds;
+	
+	if (self.symbol.symbolDynamicData.providerURL != nil) {		
+		UIBarButtonItem *analysis = [[UIBarButtonItem alloc] initWithTitle:@"Analysis" style:UIBarButtonItemStylePlain target:self action:@selector(analysis:)];
+		self.navigationItem.rightBarButtonItem = analysis;
+		[analysis release];
+	}
 	
 	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	
@@ -75,7 +82,7 @@
 	_otherBox = [[OtherInfoView alloc] initWithFrame:roundedFrame];
 	_otherBox.symbol = self.symbol;
 	
-	CGRect detailFrame = CGRectMake(0.0, 220.f, windowFrame.size.width, windowFrame.size.height - 120.0f);
+	CGRect detailFrame = CGRectMake(0.0, 210.f, windowFrame.size.width, windowFrame.size.height - 120.0f);
 	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
 	_detailBox.views = [NSArray arrayWithObjects:_orderBox, _tradesBox, _newsBox, _otherBox, nil];
 	
@@ -169,6 +176,25 @@
 	[navController release];
 }
 
+- (void)analysis:(id)sender {
+	NSURL *url = [NSURL URLWithString:self.symbol.symbolDynamicData.providerURL];
+	NSURLRequest *request = [NSURLRequest requestWithURL:url];
+	UIWebView *analysisView = [[UIWebView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+	UIViewController *viewController = [[UIViewController alloc] init];
+	
+	UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(analysisModalViewControllerDidFinish:)];
+	viewController.navigationItem.leftBarButtonItem = done;
+	[viewController.view addSubview:analysisView];
+	[analysisView loadRequest:request];
+	[analysisView release];
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+	[viewController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
 #pragma mark -
 #pragma mark Modal view finished methods
 
@@ -187,6 +213,10 @@
 }
 
 - (void)symbolNewsModalControllerDidFinish:(SymbolNewsModalController *)controller {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)analysisModalViewControllerDidFinish:(UIViewController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -211,6 +241,7 @@
 	[_orderBox release];
 	[_newsBox release];
 	[_detailBox release];
+	[_pageControl release];
 	
 	[_symbol release];
 	[_managedObjectContext release];

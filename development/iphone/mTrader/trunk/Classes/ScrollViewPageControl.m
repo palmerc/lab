@@ -6,14 +6,13 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "ScrollViewPageControl.h"
 
 
 @implementation ScrollViewPageControl
 @synthesize frame = _frame;
-@synthesize numberOfPages = _numberOfPages;
-@synthesize scrollView = _scrollView;
-@synthesize pageControl = _pageControl;
 @synthesize views = _views;
 
 - (id)initWithFrame:(CGRect)frame {
@@ -31,80 +30,90 @@
 - (void)loadView {
 	UIView *aView = [[UIView alloc] initWithFrame:_frame];
 	aView.autoresizesSubviews = YES;
+	
+	CGRect scrollViewFrame = CGRectMake(0.0f, 0.0f, aView.bounds.size.width, aView.bounds.size.height - 10.0f);
+	_scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
+	_scrollView.clipsToBounds = YES;
+	_scrollView.scrollEnabled = YES;
+	_scrollView.pagingEnabled = YES;
+	_scrollView.showsHorizontalScrollIndicator = NO;
+	_scrollView.delegate = self;
+	[aView addSubview:_scrollView];
+	
+	CGRect pageControlFrame = CGRectMake(0.0f, 147.0f, aView.bounds.size.width, 10.0f);
+	_pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
+	_pageControl.backgroundColor = [UIColor darkGrayColor];
+	_pageControl.numberOfPages = 0;
+	_pageControl.currentPage = 0;
+	_pageControl.opaque = YES;
+	[_pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
+	[aView addSubview:_pageControl];
+	
 	self.view = aView;
 	[aView release];
-}
-
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	
-	CGRect scrollViewFrame;
-	scrollViewFrame = self.view.bounds;
-	scrollViewFrame.size.height = self.view.bounds.size.height;
-
-	
-	_scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
-	self.scrollView.backgroundColor = [UIColor clearColor];
-	self.scrollView.clipsToBounds = YES;
-	self.scrollView.scrollEnabled = YES;
-	self.scrollView.pagingEnabled = YES;
-	self.scrollView.showsHorizontalScrollIndicator = NO;
-	self.scrollView.delegate = self;
-	[self.view addSubview:self.scrollView];
 	
 	[self adjustScrollView];
 }
 
-- (void)viewDidUnload {
-	self.scrollView = nil;
-	self.pageControl = nil;
-}	
-
-- (void)setFrame:(CGRect)frame {
-	_frame = frame;
-	self.view.frame = frame;
-}
-
 - (void)adjustScrollView {
-	CGSize contentSize = self.scrollView.contentSize;
+	_numberOfPages = 0;
+	
+	CGSize contentSize = _scrollView.contentSize;
 	contentSize.height = self.frame.size.height - 20.0f;
 	
-	for (UIView *view in self.views) {
+	for (UIView *view in _views) {
 		CGRect viewFrame = view.frame;
 		
 		viewFrame.origin.x = contentSize.width;
 		contentSize.width += viewFrame.size.width;
 		view.frame = viewFrame;
 		
-		[self.scrollView addSubview:view];
+		[_scrollView addSubview:view];
+		
+		_numberOfPages++;
 	}
 	
-	self.scrollView.contentSize = contentSize;
+	_pageControl.numberOfPages = _numberOfPages;
+	_scrollView.contentSize = contentSize;
+}
+
+- (void)setViews:(NSArray *)views {
+	if (_views == views) {
+		return;
+	}
+	
+	[_views release];
+	_views = [views retain];
+	
+	[self adjustScrollView];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
-	CGFloat pageWidth = self.scrollView.frame.size.width;
-    int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    self.pageControl.currentPage = page;	
+	CGFloat pageWidth = _scrollView.frame.size.width;
+    int page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    _pageControl.currentPage = page;	
 }
 
 - (void)changePage:(id)sender {
-    int page = self.pageControl.currentPage;
+    int page = _pageControl.currentPage;
 	
 	// update the scroll view to the appropriate page
-    CGRect frame = self.scrollView.frame;
+    CGRect frame = _scrollView.frame;
     frame.origin.x = frame.size.width * page;
     frame.origin.y = 0;
-    [self.scrollView scrollRectToVisible:frame animated:YES];
+    [_scrollView scrollRectToVisible:frame animated:YES];
 }
 
 #pragma mark -
 #pragma mark Debugging methods
-// Very helpful debug when things seem not to be working.
-//- (BOOL)respondsToSelector:(SEL)sel {
-//	NSLog(@"Queried about %@ in SymbolScrollView", NSStringFromSelector(sel));
-//	return [super respondsToSelector:sel];
-//}
+
+#if DEBUG
+ Very helpful debug when things seem not to be working.
+- (BOOL)respondsToSelector:(SEL)sel {
+	NSLog(@"Queried about %@ in SymbolScrollView", NSStringFromSelector(sel));
+	return [super respondsToSelector:sel];
+}
+#endif
 
 - (void)dealloc {
 	[_scrollView release];

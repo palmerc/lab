@@ -20,9 +20,6 @@
 }
 
 @property (assign) CGRect frame;
-@property (assign) NSUInteger numberOfPages;
-@property (nonatomic, retain) UIScrollView *scrollView;
-@property (nonatomic, retain) UIPageControl *pageControl;
 @property (nonatomic, retain) NSArray *views;
 
 - (void)adjustScrollView;
