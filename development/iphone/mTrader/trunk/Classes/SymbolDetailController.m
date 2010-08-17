@@ -17,15 +17,15 @@
 
 #import "LastChangeView.h"
 #import "TradesLiveInfoView.h"
-#import "TradesInfoView.h"
 #import "OrderBookView.h"
 #import "SymbolNewsView.h"
 #import "OtherInfoView.h"
 #import "ScrollViewPageControl.h"
 
 #import "RoundedRectangle.h"
+#import "RoundedRectangleFrame.h"
 #import "OrderBookController.h"
-#import "TradesController.h"
+#import "PastTradesController.h"
 #import "ChartController.h";
 #import "SymbolNewsModalController_Phone.h"
 #import "Feed.h"
@@ -70,11 +70,39 @@
 	_tradesLiveBox.symbol = self.symbol;
 	
 	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height - tradesFrame.size.height - 90.0f);
-	_orderBox = [[OrderBookView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
-	_orderBox.symbol = self.symbol;
+	CGRect innerFrame = CGRectMake(10.0f, 10.0f, roundedFrame.size.width - 20.0f, roundedFrame.size.height - 20.0f);
+
 	
-	_tradesBox = [[TradesInfoView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
-	_tradesBox.symbol = self.symbol;
+	/*** Orderbook ***/
+	RoundedRectangleFrame *orderBookBox = [[RoundedRectangleFrame alloc] initWithFrame:roundedFrame];
+	orderBookBox.strokeWidth = 0.75f;
+	orderBookBox.cornerRadius = 10.0f;
+	orderBookBox.padding = 6.0f;
+	orderBookBox.backgroundColor = [UIColor clearColor];
+	
+	_orderbookController = [[OrderBookView alloc] initWithSymbol:self.symbol];
+	_orderbookController.managedObjectContext = _managedObjectContext;
+	UIView *orderbookView = _orderbookController.view;
+	orderbookView.frame = innerFrame;
+	orderbookView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	orderbookView.autoresizesSubviews = YES;
+	[orderBookBox addSubview:orderbookView];
+	
+	
+	/*** Historic Trades ***/
+	RoundedRectangleFrame *pastTradesBox = [[RoundedRectangleFrame alloc] initWithFrame:roundedFrame];
+	pastTradesBox.strokeWidth = 0.75f;
+	pastTradesBox.cornerRadius = 10.0f;
+	pastTradesBox.padding = 6.0f;
+	pastTradesBox.backgroundColor = [UIColor clearColor];
+	
+	_pastTradesController = [[PastTradesController alloc] initWithSymbol:self.symbol];
+	_pastTradesController.managedObjectContext = _managedObjectContext;
+	UIView *pastTradesView = _pastTradesController.view;
+	pastTradesView.frame = innerFrame;
+	pastTradesView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	pastTradesView.autoresizesSubviews = YES;
+	[pastTradesBox addSubview:pastTradesView];
 	
 	_newsBox = [[SymbolNewsView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
 	_newsBox.symbol = self.symbol;
@@ -84,7 +112,9 @@
 	
 	CGRect detailFrame = CGRectMake(0.0, 210.f, windowFrame.size.width, windowFrame.size.height - 120.0f);
 	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
-	_detailBox.views = [NSArray arrayWithObjects:_orderBox, _tradesBox, _newsBox, _otherBox, nil];
+	_detailBox.views = [NSArray arrayWithObjects:orderBookBox, pastTradesBox, _newsBox, _otherBox, nil];
+	[orderBookBox release];
+	[pastTradesBox release];
 	
 	[self.view addSubview:_lastBox];
 	[self.view addSubview:_tradesLiveBox];
@@ -237,11 +267,8 @@
 - (void)dealloc {
 	[_lastBox release];
 	[_tradesLiveBox release];
-	[_tradesBox release];
-	[_orderBox release];
 	[_newsBox release];
 	[_detailBox release];
-	[_pageControl release];
 	
 	[_symbol release];
 	[_managedObjectContext release];

@@ -29,8 +29,10 @@
 @implementation Monitor
 
 static Monitor *sharedMonitor = nil;
-@synthesize host = _host;
-@synthesize port = _port;
+@synthesize mTraderHost = _mTraderHost;
+@synthesize mTraderPort = _mTraderPort;
+@synthesize mTradingHost = _mTradingHost;
+@synthesize mTradingPort = _mTradingPort;
 @synthesize statusController = _statusController;
 @synthesize connected = _connected;
 @synthesize loggedIn = _loggedIn;
@@ -84,11 +86,17 @@ static Monitor *sharedMonitor = nil;
 		_connecting = NO;
 		_statusController = nil;
 		
-		_host = [[NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]] retain];
-		NSString *urlString = [NSString stringWithFormat:@"socket://%@", _host];
-		_url = [[NSURL URLWithString:urlString] retain];
-		NSString *port = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
-		_port = [port integerValue]; 
+		_mTraderHost = [[NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerAddress"]] retain];
+		NSString *mTraderURLString = [NSString stringWithFormat:@"socket://%@", _mTraderHost];
+		_mTraderURL = [[NSURL URLWithString:mTraderURLString] retain];
+		NSString *mTraderPortString = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTraderServerPort"]];
+		_mTraderPort = [mTraderPortString integerValue];
+		
+		_mTradingHost = [[NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTradingServerAddress"]] retain];
+		NSString *mTradingURLString = [NSString stringWithFormat:@"socket://%@", _mTradingHost];
+		_mTradingURL = [[NSURL URLWithString:mTradingURLString] retain];
+		NSString *mTradingPortString = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mTradingServerPort"]];
+		_mTradingPort = [mTradingPortString integerValue];
 	}
 	return self;
 }
@@ -157,7 +165,7 @@ static Monitor *sharedMonitor = nil;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 	
-	_reachability = [[Reachability reachabilityWithHostName:[_url host]] retain];
+	_reachability = [[Reachability reachabilityWithHostName:[_mTraderURL host]] retain];
 	
 	[_reachability startNotifer];
 	
@@ -171,17 +179,20 @@ static Monitor *sharedMonitor = nil;
 	LineOrientedCommunication *lineOrientedCommunication = [[LineOrientedCommunication alloc] init];
 	lineOrientedCommunication.dataDelegate = linesToBlocks;	
 	
-	_communicator = [[Communicator alloc] init];
-	_mTCom.communicator = _communicator;
-	_communicator.statusDelegate = self;
-	_communicator.dataDelegate = lineOrientedCommunication;
+	_mTraderCommunicator = [[Communicator alloc] init];
+	_mTCom.communicator = _mTraderCommunicator;
+	_mTraderCommunicator.statusDelegate = self;
+	_mTraderCommunicator.dataDelegate = lineOrientedCommunication;
+	
+	//_mTradingCommunicator = [[Communicator alloc] init];
+	//_mTradingCommunicator.tlsEnabled = NO;
 }
 
 // Application quitting
 - (void)applicationWillTerminate {
 	[_mTCom logout];
 	
-	[_communicator stopConnection];
+	[_mTraderCommunicator stopConnection];
 }
 
 // Phone woke up
@@ -196,14 +207,15 @@ static Monitor *sharedMonitor = nil;
 	self.statusController.statusMessage = message;
 	[self.statusController displayStatus];
 	
-	[_communicator startConnectionWithSocket:_url onPort:_port];
+	[_mTraderCommunicator startConnectionWithSocket:_mTraderURL onPort:_mTraderPort];
+	//[_mTradingCommunicator startConnectionWithSocket:_mTradingURL onPort:_mTradingPort];
 }
 
 // Phone went to sleep
 - (void)applicationWillResignActive {
 	[_mTCom logout];
 
-	[_communicator stopConnection];
+	[_mTraderCommunicator stopConnection];
 }
 
 - (void)usernameAndPasswordChanged {
@@ -286,11 +298,11 @@ static Monitor *sharedMonitor = nil;
 #pragma mark -
 #pragma mark Bytes Sent and Received
 - (NSUInteger)bytesSent {
-	return _communicator.bytesSent;
+	return _mTraderCommunicator.bytesSent;
 }
 
 - (NSUInteger)bytesReceived {
-	return _communicator.bytesReceived;
+	return _mTraderCommunicator.bytesReceived;
 }
 
 #pragma mark -
@@ -311,7 +323,7 @@ static Monitor *sharedMonitor = nil;
 #pragma mark Network Diagnostic methods
 
 - (NSArray *)serverAddresses {
-	const char *hostname = [_host cStringUsingEncoding:NSASCIIStringEncoding];
+	const char *hostname = [_mTraderHost cStringUsingEncoding:NSASCIIStringEncoding];
 	struct hostent *remoteHostEnt = gethostbyname(hostname);
 	char **list;
 	
@@ -346,8 +358,10 @@ static Monitor *sharedMonitor = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[_statusController release];
-	[_host release];
-	[_url release];
+	[_mTraderHost release];
+	[_mTraderURL release];
+	[_mTradingHost release];
+	[_mTradingURL release];
 	[_reachability stopNotifer];
 	[_reachability release];
 	[super dealloc];

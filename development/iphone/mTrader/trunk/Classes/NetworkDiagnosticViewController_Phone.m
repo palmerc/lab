@@ -132,8 +132,8 @@
 	}
 	_reachabilityDetails = [[NSArray arrayWithObjects:remoteReachabilityText, nil] retain];
 	
-	NSString *host = monitor.host;
-	NSString *port = [[NSNumber numberWithInteger:monitor.port] stringValue];
+	NSString *host = monitor.mTraderHost;
+	NSString *port = [[NSNumber numberWithInteger:monitor.mTraderPort] stringValue];
 	_serverDetails = [[NSArray arrayWithObjects:host, port, nil] retain];
 	
 	NSString *bytesReceivedText = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"bytesReceived", @"Bytes Received"), monitor.bytesReceived];

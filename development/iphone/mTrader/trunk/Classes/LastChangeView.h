@@ -6,13 +6,13 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "RoundedRectangle.h"
+#import "RoundedRectangleFrame.h"
 
 #import "ChartController.h"
 
 @class Symbol;
 
-@interface LastChangeView : RoundedRectangle {
+@interface LastChangeView : RoundedRectangleFrame {
 @private
 	UIViewController *_viewController;
 	

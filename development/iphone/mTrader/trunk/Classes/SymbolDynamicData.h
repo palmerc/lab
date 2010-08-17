@@ -48,6 +48,7 @@
 @property (nonatomic, retain) NSNumber * askPrice;
 @property (nonatomic, retain) NSDate * dividendDate;
 @property (nonatomic, retain) Symbol * symbol;
+@property (nonatomic, retain) NSString * providerURL;
 
 @end
 

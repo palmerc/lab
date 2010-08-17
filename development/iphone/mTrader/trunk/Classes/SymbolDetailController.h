@@ -17,8 +17,8 @@
 @class Symbol;
 @class LastChangeView;
 @class TradesLiveInfoView;
-@class TradesInfoView;
-@class OrderBookView;
+@class PastTradesController;
+@class OrderbookController;
 @class SymbolNewsView;
 @class OtherInfoView;
 @class ScrollViewPageControl;
@@ -31,12 +31,13 @@
 	
 	LastChangeView *_lastBox;
 	TradesLiveInfoView *_tradesLiveBox;
-	TradesInfoView *_tradesBox;
-	OrderBookView *_orderBox;
+	
+	PastTradesController *_pastTradesController;
+	OrderbookController *_orderbookController;
+	
 	SymbolNewsView *_newsBox;
 	ScrollViewPageControl *_detailBox;
 	OtherInfoView *_otherBox;
-	UIPageControl *_pageControl;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
@@ -46,4 +47,3 @@
 - (void)changeQFieldsStreaming;
 
 @end
-

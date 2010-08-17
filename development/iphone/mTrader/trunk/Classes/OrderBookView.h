@@ -6,14 +6,14 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "RoundedRectangle.h"
+#import "RoundedRectangleFrame.h"
 
 @class OrderBookController;
 @class OrderBookTableCellP;
 
 @class Symbol;
 
-@interface OrderBookView : RoundedRectangle {
+@interface OrderBookView : RoundedRectangleFrame {
 @private	
 	Symbol *_symbol;
 	OrderBookController *_orderBookController;

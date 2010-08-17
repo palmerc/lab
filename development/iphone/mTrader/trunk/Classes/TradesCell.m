@@ -10,107 +10,75 @@
 
 #import "Trade.h"
 
-#pragma mark -
-#pragma mark SubviewFrames category
-
-@interface TradesCell (SubviewFrames)
-- (CGRect)_timeLabelFrame;
-- (CGRect)_priceLabelFrame;
-- (CGRect)_volumeLabelFrame;
-- (CGRect)_buyerSellerLabelFrame;
-@end
-
 @implementation TradesCell
-@synthesize trade;
+@synthesize trade = _trade;
+@synthesize mainFont = _mainFont;
+@synthesize timeLabel = _timeLabel;
+@synthesize priceLabel = _priceLabel;
+@synthesize volumeLabel = _volumeLabel;
+@synthesize buyerLabel = _buyerLabel;
+@synthesize sellerLabel = _sellerLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-		trade = nil;
+		_trade = nil;
 		
-		mainFont = [[UIFont systemFontOfSize:14.0] retain];
-		time = [[self createLabel] retain];
-		time.textColor = [UIColor darkGrayColor];
-		time.font = [UIFont systemFontOfSize:12.0];
+		_timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_timeLabel.textAlignment = UITextAlignmentLeft;
+		_timeLabel.textColor = [UIColor darkGrayColor];
+		[self.contentView addSubview:_timeLabel];
 		
-		price = [[self createLabel] retain];
-		price.font = mainFont;
+		_priceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_priceLabel.adjustsFontSizeToFitWidth = YES;
+		_priceLabel.textAlignment = UITextAlignmentRight;
+		[self.contentView addSubview:_priceLabel];
 		
-		volume = [[self createLabel] retain];
-		volume.font = mainFont;
+		_volumeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_volumeLabel.adjustsFontSizeToFitWidth = YES;
+		_volumeLabel.textAlignment = UITextAlignmentRight;
+		[self.contentView addSubview:_volumeLabel];
 		
-		buyerSeller = [[self createLabel] retain];
-		buyerSeller.font = mainFont;
-		buyerSeller.adjustsFontSizeToFitWidth = YES;
-		buyerSeller.textAlignment = UITextAlignmentLeft;
+		_buyerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_buyerLabel.textAlignment = UITextAlignmentCenter;
+		[self.contentView addSubview:_buyerLabel];
+		
+		_sellerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_sellerLabel.textAlignment = UITextAlignmentCenter;
+		[self.contentView addSubview:_sellerLabel];
     }
     return self;
 }
 
-- (UILabel *)createLabel {
-	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-	label.textAlignment = UITextAlignmentRight;
-	[self.contentView addSubview:label];
-	
-	return label;
-}
-
-#pragma mark -
-#pragma mark Laying out subviews
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-	
-    [time setFrame:[self _timeLabelFrame]];
-	[price setFrame:[self _priceLabelFrame]];
-	[volume setFrame:[self _volumeLabelFrame]];
-	[buyerSeller setFrame:[self _buyerSellerLabelFrame]];
+- (void)setMainFont:(UIFont *)aFont {
+	_timeLabel.font = aFont;
+	_priceLabel.font = aFont;
+	_volumeLabel.font = aFont;
+	_buyerLabel.font = aFont;
+	_sellerLabel.font = aFont;
 }
 
 - (void)setTrade:(Trade *)aTrade {
-	static NSNumberFormatter *doubleFormatter = nil;
-	if (doubleFormatter == nil) {
-		doubleFormatter = [[NSNumberFormatter alloc] init];
-		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[doubleFormatter setUsesSignificantDigits:YES];
+	if (_trade == aTrade) {
+		return;
 	}
-		
-	time.text = aTrade.time;
-	price.text = aTrade.price;
-	volume.text = aTrade.volume;
-	buyerSeller.text = [NSString stringWithFormat:@"%@/%@", aTrade.buyer, aTrade.seller];;
-}
-
-- (CGRect)_timeLabelFrame {
-	CGSize size = [@"XX:XX:XX" sizeWithFont:mainFont];
-	return CGRectMake(self.bounds.size.width - size.width, 16.0f, size.width, size.height);
-}
-
-- (CGRect)_buyerSellerLabelFrame {
-	CGSize size = [@"XXX/XXX" sizeWithFont:mainFont];
-	return CGRectMake(0.0f, 0.0f, size.width, size.height);
-}
-
-- (CGRect)_volumeLabelFrame {
-	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = floorf(self.bounds.size.width / 3.0f);
-	return CGRectMake(0.0f + width, 0.0, width, size.height);
-}
-
-- (CGRect)_priceLabelFrame {
-	CGSize size = [@"X" sizeWithFont:mainFont];
-	CGFloat width = floorf(self.bounds.size.width / 3.0f);
+	[_trade release];
+	_trade = [aTrade retain];	
 	
-	return CGRectMake(0.0f + width * 2.0f, 0.0, width, size.height);
+	_timeLabel.text = aTrade.time;
+	_priceLabel.text = aTrade.price;
+	_volumeLabel.text = aTrade.volume;
+	_buyerLabel.text = aTrade.buyer;
+	_sellerLabel.text = aTrade.seller;
 }
 
 - (void)dealloc {
-	[mainFont release];
-	[time release];
-	[price release];
-	[volume release];
-	[buyerSeller release];
+	[_timeLabel release];
+	[_priceLabel release];
+	[_volumeLabel release];
+	[_buyerLabel release];
+	[_sellerLabel release];
 	
-	[trade release];
+	[_trade release];
     
 	[super dealloc];
 }

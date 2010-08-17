@@ -6,6 +6,8 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 0
+
 #import "NewsTableViewController_Phone.h"
 
 #import "mTraderAppDelegate_Phone.h"
@@ -341,15 +343,18 @@
 	[self.tableView endUpdates];
 }
 
-/*
+
 #pragma mark -
 #pragma mark Debugging methods
+
+#if DEBUG
 // Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
 	NSLog(@"Queried about %@ in NewsController", NSStringFromSelector(sel));
 	return [super respondsToSelector:sel];
 }
-*/
+#endif
+
 #pragma mark -
 #pragma mark Memory management
 

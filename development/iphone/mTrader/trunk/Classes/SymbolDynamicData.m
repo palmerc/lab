@@ -46,5 +46,6 @@
 @dynamic askPrice;
 @dynamic dividendDate;
 @dynamic symbol;
+@dynamic providerURL;
 
 @end

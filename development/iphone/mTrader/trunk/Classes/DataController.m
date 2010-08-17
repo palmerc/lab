@@ -102,6 +102,11 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	if (_managedObjectContext == managedObjectContext) {
+		return;
+	}
+	
+	[_managedObjectContext release];
 	_managedObjectContext = [managedObjectContext retain];
 	
 	NSError *error;
@@ -964,6 +969,9 @@ static DataController *sharedDataController = nil;
 		
 		symbol.symbolDynamicData.dividendDate = dividendDate;
 	}
+	if ([updateDictionary objectForKey:@"ProviderURL"]) {
+		symbol.symbolDynamicData.providerURL = [updateDictionary objectForKey:@"ProviderURL"];
+	}
 	
 }
 
@@ -1058,6 +1066,7 @@ static DataController *sharedDataController = nil;
 }
 
 - (void)newsItemUpdate:(NSArray *)newsItemContents {
+	[[newsItemContents retain] autorelease];
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	newsItemContents = [newsItemContents sansWhitespace];

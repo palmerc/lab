@@ -6,11 +6,11 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "RoundedRectangle.h"
+#import "RoundedRectangleFrame.h"
 
 @class Symbol;
 
-@interface OtherInfoView : RoundedRectangle {
+@interface OtherInfoView : RoundedRectangleFrame {
 @private
 	Symbol *_symbol;
 	

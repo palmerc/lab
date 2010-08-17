@@ -206,62 +206,62 @@
 #pragma mark -
 #pragma mark UIView drawing
 - (void)drawRect:(CGRect)rect {
-	super.padding = 6.0f;
-	super.cornerRadius = 10.0f;
-	super.strokeWidth = 0.75f;
-	[super drawRect:rect];
-	
-	CGFloat leftPadding = ceilf(self.padding + super.strokeWidth + kBlur);
-	CGFloat maxWidth = rect.size.width - leftPadding * 2.0f;
-	
-	UIFont *labelFont = [UIFont boldSystemFontOfSize:14.0];
-	
-	CGFloat globalY = leftPadding;
-	
-	CGSize descriptionSize = [self.description.text sizeWithFont:labelFont];
-	self.description.frame = CGRectMake(leftPadding, globalY, maxWidth, descriptionSize.height);
-	globalY += descriptionSize.height; 
-	
-	CGSize isinLabelSize = [self.isinLabel.text sizeWithFont:labelFont];
-	self.isinLabel.frame = CGRectMake(leftPadding, globalY, isinLabelSize.width, isinLabelSize.height);
-	
-	CGSize isinSize = [self.isin.text sizeWithFont:labelFont];
-	self.isin.frame = CGRectMake(leftPadding + isinLabelSize.width, globalY, maxWidth - isinLabelSize.width, isinSize.height);
-	globalY += isinSize.height;
-	
-	CGSize segmentLabelSize = [self.segmentLabel.text sizeWithFont:labelFont];
-	self.segmentLabel.frame = CGRectMake(leftPadding, globalY, segmentLabelSize.width, segmentLabelSize.height);
-	
-	CGSize segmentSize = [self.segment.text sizeWithFont:labelFont];
-	self.segment.frame = CGRectMake(leftPadding + segmentLabelSize.width, globalY, maxWidth - segmentLabelSize.width, segmentSize.height);
-	globalY += segmentSize.height;
-	
-	CGSize currencyLabelSize = [self.currencyLabel.text sizeWithFont:labelFont];
-	self.currencyLabel.frame = CGRectMake(leftPadding, globalY, currencyLabelSize.width, currencyLabelSize.height);
-	
-	CGSize currencySize = [self.currency.text sizeWithFont:labelFont];
-	self.currency.frame = CGRectMake(leftPadding + currencyLabelSize.width, globalY, maxWidth - currencyLabelSize.width, currencySize.height);
-	globalY += currencySize.height;
-	
-	CGSize countryLabelSize = [self.countryLabel.text sizeWithFont:labelFont];
-	self.countryLabel.frame = CGRectMake(leftPadding, globalY, countryLabelSize.width, countryLabelSize.height);
-	
-	CGSize countrySize = [self.country.text sizeWithFont:labelFont];
-	self.country.frame = CGRectMake(leftPadding + countryLabelSize.width, globalY, maxWidth - countryLabelSize.width, countrySize.height);
-	globalY += countrySize.height;
-	
-	CGSize exchangeLabelSize = [self.exchangeLabel.text sizeWithFont:labelFont];
-	self.exchangeLabel.frame = CGRectMake(leftPadding, globalY, exchangeLabelSize.width, exchangeLabelSize.height);
-	
-	CGSize exchangeSize = [self.exchange.text sizeWithFont:labelFont];
-	self.exchange.frame = CGRectMake(leftPadding + exchangeLabelSize.width, globalY, maxWidth - exchangeLabelSize.width, exchangeSize.height);
-	globalY += exchangeSize.height;
-	
-	CGSize statusLabelSize = [self.statusLabel.text sizeWithFont:labelFont];
-	self.statusLabel.frame = CGRectMake(leftPadding, globalY, statusLabelSize.width, statusLabelSize.height);
-	
-	CGSize statusSize = [self.status.text sizeWithFont:labelFont];
-	self.status.frame = CGRectMake(leftPadding + statusLabelSize.width, globalY, maxWidth - statusLabelSize.width, statusSize.height);
+//	super.padding = 6.0f;
+//	super.cornerRadius = 10.0f;
+//	super.strokeWidth = 0.75f;
+//	[super drawRect:rect];
+//	
+//	CGFloat leftPadding = ceilf(self.padding + super.strokeWidth + kBlur);
+//	CGFloat maxWidth = rect.size.width - leftPadding * 2.0f;
+//	
+//	UIFont *labelFont = [UIFont boldSystemFontOfSize:14.0];
+//	
+//	CGFloat globalY = leftPadding;
+//	
+//	CGSize descriptionSize = [self.description.text sizeWithFont:labelFont];
+//	self.description.frame = CGRectMake(leftPadding, globalY, maxWidth, descriptionSize.height);
+//	globalY += descriptionSize.height; 
+//	
+//	CGSize isinLabelSize = [self.isinLabel.text sizeWithFont:labelFont];
+//	self.isinLabel.frame = CGRectMake(leftPadding, globalY, isinLabelSize.width, isinLabelSize.height);
+//	
+//	CGSize isinSize = [self.isin.text sizeWithFont:labelFont];
+//	self.isin.frame = CGRectMake(leftPadding + isinLabelSize.width, globalY, maxWidth - isinLabelSize.width, isinSize.height);
+//	globalY += isinSize.height;
+//	
+//	CGSize segmentLabelSize = [self.segmentLabel.text sizeWithFont:labelFont];
+//	self.segmentLabel.frame = CGRectMake(leftPadding, globalY, segmentLabelSize.width, segmentLabelSize.height);
+//	
+//	CGSize segmentSize = [self.segment.text sizeWithFont:labelFont];
+//	self.segment.frame = CGRectMake(leftPadding + segmentLabelSize.width, globalY, maxWidth - segmentLabelSize.width, segmentSize.height);
+//	globalY += segmentSize.height;
+//	
+//	CGSize currencyLabelSize = [self.currencyLabel.text sizeWithFont:labelFont];
+//	self.currencyLabel.frame = CGRectMake(leftPadding, globalY, currencyLabelSize.width, currencyLabelSize.height);
+//	
+//	CGSize currencySize = [self.currency.text sizeWithFont:labelFont];
+//	self.currency.frame = CGRectMake(leftPadding + currencyLabelSize.width, globalY, maxWidth - currencyLabelSize.width, currencySize.height);
+//	globalY += currencySize.height;
+//	
+//	CGSize countryLabelSize = [self.countryLabel.text sizeWithFont:labelFont];
+//	self.countryLabel.frame = CGRectMake(leftPadding, globalY, countryLabelSize.width, countryLabelSize.height);
+//	
+//	CGSize countrySize = [self.country.text sizeWithFont:labelFont];
+//	self.country.frame = CGRectMake(leftPadding + countryLabelSize.width, globalY, maxWidth - countryLabelSize.width, countrySize.height);
+//	globalY += countrySize.height;
+//	
+//	CGSize exchangeLabelSize = [self.exchangeLabel.text sizeWithFont:labelFont];
+//	self.exchangeLabel.frame = CGRectMake(leftPadding, globalY, exchangeLabelSize.width, exchangeLabelSize.height);
+//	
+//	CGSize exchangeSize = [self.exchange.text sizeWithFont:labelFont];
+//	self.exchange.frame = CGRectMake(leftPadding + exchangeLabelSize.width, globalY, maxWidth - exchangeLabelSize.width, exchangeSize.height);
+//	globalY += exchangeSize.height;
+//	
+//	CGSize statusLabelSize = [self.statusLabel.text sizeWithFont:labelFont];
+//	self.statusLabel.frame = CGRectMake(leftPadding, globalY, statusLabelSize.width, statusLabelSize.height);
+//	
+//	CGSize statusSize = [self.status.text sizeWithFont:labelFont];
+//	self.status.frame = CGRectMake(leftPadding + statusLabelSize.width, globalY, maxWidth - statusLabelSize.width, statusSize.height);
 }
 
 #pragma mark -

@@ -6,12 +6,12 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "RoundedRectangle.h"
+#import "RoundedRectangleFrame.h"
 
 @class Symbol;
 @class SymbolNewsController_Phone;
 
-@interface SymbolNewsView : RoundedRectangle {
+@interface SymbolNewsView : RoundedRectangleFrame {
 	Symbol *_symbol;
 	
 	SymbolNewsController_Phone *_symbolNewsController;

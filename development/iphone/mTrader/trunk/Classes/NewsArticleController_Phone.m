@@ -12,8 +12,6 @@
 
 #import "NSString+CleanStringAdditions.h"
 
-#import "NewsArticleView_Phone.h"
-
 #import "NewsFeed.h"
 #import "NewsArticle.h"
 

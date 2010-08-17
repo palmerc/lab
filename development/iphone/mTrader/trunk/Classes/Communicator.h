@@ -37,7 +37,7 @@
 @property (readonly) NSUInteger port;
 @property (readonly) NSUInteger bytesReceived;
 @property (readonly) NSUInteger bytesSent;
-@property (readonly) BOOL tlsEnabled;
+@property (nonatomic) BOOL tlsEnabled;
 
 - (void)startConnectionWithSocket:(NSURL *)url onPort:(NSUInteger)port;
 - (void)stopConnection;

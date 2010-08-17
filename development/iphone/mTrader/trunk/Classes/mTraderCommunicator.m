@@ -733,7 +733,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	
 	if ([_blockBuffer count] == 0) {
 		if (self.symbolsDelegate && [self.symbolsDelegate respondsToSelector:@selector(newsItemUpdate:)]) {
-			[self.symbolsDelegate newsItemUpdate:newsItem];
+			[self.symbolsDelegate newsItemUpdate:(NSArray *)newsItem];
 		}
 		
 		_state = PROCESSING;
@@ -979,7 +979,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *username = _defaults.username;
 	NSString *ActionNewsBody = @"Action: NewsBody";
 	NSString *Authorization = [NSString stringWithFormat:@"Authorization: %@", username];
-	NSString *Formatting = [NSString stringWithString:@"Reformat: 1"];
+	NSString *Formatting = [NSString stringWithString:@"Reformat: 0"];
 	NSString *NewsID = [NSString stringWithFormat:@"NewsID: %@", newsId];
 	
 	NSArray *newsItemArray = [NSArray arrayWithObjects:ActionNewsBody, Authorization, Formatting, NewsID, nil];

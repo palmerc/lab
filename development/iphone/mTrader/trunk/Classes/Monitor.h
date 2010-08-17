@@ -15,14 +15,19 @@
 
 @interface Monitor : NSObject <mTraderStatusDelegate, UIAlertViewDelegate, CommunicatorStatusDelegate> {
 @private
-	Communicator *_communicator;
+	Communicator *_mTraderCommunicator;
+	Communicator *_mTradingCommunicator;
 	mTraderCommunicator *_mTCom;
 	
 	Reachability *_reachability;
 	
-	NSURL *_url;
-	NSString *_host;
-	NSUInteger _port;
+	NSURL *_mTraderURL;
+	NSString *_mTraderHost;
+	NSUInteger _mTraderPort;
+	
+	NSURL *_mTradingURL;
+	NSString *_mTradingHost;
+	NSUInteger _mTradingPort;
 	
 	BOOL _connecting;
 	BOOL _connected;
@@ -31,8 +36,11 @@
 	StatusController *_statusController;
 }
 
-@property (readonly) NSString *host;
-@property (readonly) NSUInteger port;
+@property (readonly) NSString *mTraderHost;
+@property (readonly) NSUInteger mTraderPort;
+@property (readonly) NSString *mTradingHost;
+@property (readonly) NSUInteger mTradingPort;
+
 @property (readonly) BOOL connected;
 @property (readonly) BOOL loggedIn;
 @property (readonly) NSUInteger bytesReceived;

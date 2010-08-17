@@ -14,20 +14,20 @@
 
 @class Symbol;
 @class TradesCell;
-@class TradesController;
+@class PastTradesController;
 
 @interface TradesModalController : UIViewController {
 @private
 	id <TradesControllerDelegate> delegate;
 	
-	TradesController *_tradesController;
+	PastTradesController *_tradesController;
 	NSManagedObjectContext *_managedObjectContext;
 	
 	Symbol *_symbol;
 }
 
 @property (assign) id <TradesControllerDelegate> delegate;
-@property (nonatomic, retain) TradesController *tradesController;
+@property (nonatomic, retain) PastTradesController *tradesController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Symbol *symbol;
 @end

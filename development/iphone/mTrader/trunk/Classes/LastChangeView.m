@@ -63,40 +63,40 @@
 }
 
 #pragma mark UIView drawing
-- (void)drawRect:(CGRect)rect {
-	super.padding = 6.0f;
-	super.cornerRadius = 10.0f;
-	super.strokeWidth = 0.75f;
-	[super drawRect:rect];
-	
-	CGFloat leftPadding = ceilf(self.padding + super.strokeWidth + kBlur);
-	CGFloat maxWidth = rect.size.width - leftPadding * 2.0f;
-	
-	CGSize lastFontSize = [@"X" sizeWithFont:self.last.font];
-	CGSize lastChangeFontSize = [@"X" sizeWithFont:self.lastChange.font];
-	CGSize lastPercentChangeFontSize = [@"X" sizeWithFont:self.lastPercentChange.font];
-	CGSize timeFontSize = [@"X" sizeWithFont:self.time.font];
-	
-	CGFloat globalY = leftPadding;
-	self.last.frame = CGRectMake(leftPadding, globalY, maxWidth, lastFontSize.height);
-	globalY += lastFontSize.height;
-	
-	self.lastChange.frame = CGRectMake(leftPadding, globalY, maxWidth / 2.0f, lastChangeFontSize.height);	
-	self.lastPercentChange.frame = CGRectMake(leftPadding + maxWidth / 2.0f, globalY, maxWidth / 2.0f, lastPercentChangeFontSize.height);
-	globalY += lastPercentChangeFontSize.height;
-	
-	self.time.frame = CGRectMake(leftPadding, globalY, maxWidth, timeFontSize.height);
-	globalY += timeFontSize.height;
-	
-	CGFloat toEdgePadding = ceilf(self.padding + super.strokeWidth * 2.0f);
-	CGFloat maxChartWidth = rect.size.width - toEdgePadding * 2.0f;
-	self.chart.frame = CGRectMake(toEdgePadding, globalY, maxChartWidth, globalY);
-	chartWidth = floorf(maxChartWidth) - 1.0f;
-	chartHeight = floorf(globalY) - 1.0f;
-	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
-	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:365 width:chartWidth height:chartHeight orientation:@"A"];
-}
+//- (void)drawRect:(CGRect)rect {
+//	super.padding = 6.0f;
+//	super.cornerRadius = 10.0f;
+//	super.strokeWidth = 0.75f;
+//	[super drawRect:rect];
+//	
+//	CGFloat leftPadding = ceilf(self.padding + super.strokeWidth + kBlur);
+//	CGFloat maxWidth = rect.size.width - leftPadding * 2.0f;
+//	
+//	CGSize lastFontSize = [@"X" sizeWithFont:self.last.font];
+//	CGSize lastChangeFontSize = [@"X" sizeWithFont:self.lastChange.font];
+//	CGSize lastPercentChangeFontSize = [@"X" sizeWithFont:self.lastPercentChange.font];
+//	CGSize timeFontSize = [@"X" sizeWithFont:self.time.font];
+//	
+//	CGFloat globalY = leftPadding;
+//	self.last.frame = CGRectMake(leftPadding, globalY, maxWidth, lastFontSize.height);
+//	globalY += lastFontSize.height;
+//	
+//	self.lastChange.frame = CGRectMake(leftPadding, globalY, maxWidth / 2.0f, lastChangeFontSize.height);	
+//	self.lastPercentChange.frame = CGRectMake(leftPadding + maxWidth / 2.0f, globalY, maxWidth / 2.0f, lastPercentChangeFontSize.height);
+//	globalY += lastPercentChangeFontSize.height;
+//	
+//	self.time.frame = CGRectMake(leftPadding, globalY, maxWidth, timeFontSize.height);
+//	globalY += timeFontSize.height;
+//	
+//	CGFloat toEdgePadding = ceilf(self.padding + super.strokeWidth * 2.0f);
+//	CGFloat maxChartWidth = rect.size.width - toEdgePadding * 2.0f;
+//	self.chart.frame = CGRectMake(toEdgePadding, globalY, maxChartWidth, globalY);
+//	chartWidth = floorf(maxChartWidth) - 1.0f;
+//	chartHeight = floorf(globalY) - 1.0f;
+//	
+//	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
+//	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:365 width:chartWidth height:chartHeight orientation:@"A"];
+//}
 
 #pragma mark -
 #pragma mark Symbol methods
