@@ -6,35 +6,24 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "RoundedRectangleFrame.h"
-
-@class OrderBookController;
-@class OrderBookTableCellP;
-
-@class Symbol;
-
-@interface OrderBookView : RoundedRectangleFrame {
+@interface OrderBookView : UIView {
 @private	
-	Symbol *_symbol;
-	OrderBookController *_orderBookController;
-	UIViewController *_viewController;
-
 	UIButton *_orderBookButton;
 	
+	UIFont *_headerFont;
 	UILabel *_askSizeLabel;
 	UILabel *_askValueLabel;
 	UILabel *_bidSizeLabel;
 	UILabel *_bidValueLabel;
+	UITableView *_tableView;
 }
 
-@property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) UIViewController *viewController;
 @property (nonatomic, retain) UIButton *orderBookButton;
+@property (nonatomic, retain) UIFont *headerFont;
 @property (nonatomic, retain) UILabel *askSizeLabel;
 @property (nonatomic, retain) UILabel *askValueLabel;
 @property (nonatomic, retain) UILabel *bidSizeLabel;
 @property (nonatomic, retain) UILabel *bidValueLabel;
-
-- (id)initWithFrame:(CGRect)frame andManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+@property (nonatomic, retain) UITableView *tableView;
 
 @end

@@ -13,25 +13,20 @@
 
 @class Symbol;
 
-@interface OrderBookController : UITableViewController <OrderBookDelegate> {
+@interface OrderBookController : UIViewController <OrderBookDelegate, UITableViewDelegate, UITableViewDataSource> {
 @private
 	NSManagedObjectContext *_managedObjectContext;
-	
-	UIFont *_tableFont;
 	
 	Symbol *_symbol;
 	NSArray *_bidAsks;
 	
+	UIFont *_tableFont;
 	UILabel *_orderbookAvailableLabel;
+	UITableView *_tableView;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) NSArray *bidAsks;
-@property (nonatomic, retain) UILabel *orderbookAvailableLabel;
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (id)initWithSymbol:(Symbol *)symbol;
 
 @end
-

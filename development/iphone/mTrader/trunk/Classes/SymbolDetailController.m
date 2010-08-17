@@ -80,13 +80,13 @@
 	orderBookBox.padding = 6.0f;
 	orderBookBox.backgroundColor = [UIColor clearColor];
 	
-	_orderbookController = [[OrderBookView alloc] initWithSymbol:self.symbol];
-	_orderbookController.managedObjectContext = _managedObjectContext;
-	UIView *orderbookView = _orderbookController.view;
-	orderbookView.frame = innerFrame;
-	orderbookView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-	orderbookView.autoresizesSubviews = YES;
-	[orderBookBox addSubview:orderbookView];
+	_orderBookController = [[OrderBookController alloc] initWithSymbol:self.symbol];
+	_orderBookController.managedObjectContext = _managedObjectContext;
+	UIView *orderBookView = _orderBookController.view;
+	orderBookView.frame = innerFrame;
+	orderBookView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	orderBookView.autoresizesSubviews = YES;
+	[orderBookBox addSubview:orderBookView];
 	
 	
 	/*** Historic Trades ***/

@@ -106,15 +106,6 @@
 	[communicator setStreamingForFeedTicker:feedTicker];	
 }
 
-- (void)setSymbol:(Symbol *)symbol {
-	if (_symbol != nil) {
-		[_symbol release];
-	}
-	_symbol = [symbol retain];
-	
-	orderBook.symbol = self.symbol;
-}
-
 - (void)done:(id)sender {
 	[self.delegate orderBookModalControllerDidFinish:self];
 }

@@ -18,7 +18,7 @@
 @class LastChangeView;
 @class TradesLiveInfoView;
 @class PastTradesController;
-@class OrderbookController;
+@class OrderBookController;
 @class SymbolNewsView;
 @class OtherInfoView;
 @class ScrollViewPageControl;
@@ -33,7 +33,7 @@
 	TradesLiveInfoView *_tradesLiveBox;
 	
 	PastTradesController *_pastTradesController;
-	OrderbookController *_orderbookController;
+	OrderBookController *_orderBookController;
 	
 	SymbolNewsView *_newsBox;
 	ScrollViewPageControl *_detailBox;

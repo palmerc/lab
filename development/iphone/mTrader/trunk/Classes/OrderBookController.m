@@ -10,6 +10,7 @@
 
 #import "OrderBookController.h"
 
+#import "OrderBookView.h"
 #import "OrderBookTableCellP.h"
 #import "mTraderCommunicator.h"
 #import "Feed.h"
@@ -19,40 +20,36 @@
 
 #import "DataController.h"
 
+@interface OrderBookController ()
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+@end
+
 @implementation OrderBookController
 @synthesize managedObjectContext = _managedObjectContext;
-@synthesize symbol = _symbol;
-@synthesize bidAsks = _bidAsks;
-@synthesize orderbookAvailableLabel = _orderbookAvailableLabel;
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+- (id)initWithSymbol:(Symbol *)symbol {
 	self = [super init];
 	if (self != nil) {
-		_managedObjectContext = [managedObjectContext retain];
-		_tableFont = [[UIFont systemFontOfSize:17.0] retain];
+		_symbol = [symbol retain];
 		
-		_symbol = nil;
+		_tableView = nil;
+		_managedObjectContext = nil;		
 		_bidAsks = nil;
 	}
 	return self;
 }
 
+- (void)loadView {
+	OrderBookView *orderBookView = [[OrderBookView alloc] initWithFrame:CGRectZero];
+	orderBookView.tableView.delegate = self;
+	orderBookView.tableView.dataSource = self;
+	_tableView = [orderBookView.tableView retain];
+	self.view = orderBookView;
+	[orderBookView release];
+}
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	
-	NSString *labelString = NSLocalizedString(@"noOrderbookAvailable", @"No Orderbook Available");
-	UIFont *labelFont = [UIFont boldSystemFontOfSize:17.0f];
-	CGRect frame = self.view.bounds;
-	frame.size.height = [labelString sizeWithFont:labelFont].height;
-	
-	_orderbookAvailableLabel = [[UILabel alloc] initWithFrame:frame];
-	self.orderbookAvailableLabel.textAlignment = UITextAlignmentCenter;
-	self.orderbookAvailableLabel.font = labelFont;
-	self.orderbookAvailableLabel.textColor = [UIColor blackColor];
-	self.orderbookAvailableLabel.backgroundColor = [UIColor clearColor];
-	self.orderbookAvailableLabel.text = labelString;
-	self.orderbookAvailableLabel.hidden = YES;
-	[self.tableView addSubview:_orderbookAvailableLabel];
 	
 	[DataController sharedManager].orderBookDelegate = self;
 }
@@ -61,19 +58,18 @@
 #pragma mark TableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	
 	return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSUInteger rowCount = [self.bidAsks count];
+	NSUInteger rowCount = [_bidAsks count];
 	
 	if (rowCount == 0) {
-		self.orderbookAvailableLabel.hidden = NO;
+		_orderbookAvailableLabel.hidden = NO;
 	} else {
-		self.orderbookAvailableLabel.hidden = YES;
+		_orderbookAvailableLabel.hidden = YES;
 	}	
-	return [self.bidAsks count];
+	return [_bidAsks count];
 }
 
 // Customize the appearance of table view cells.
@@ -86,7 +82,6 @@
 		cell.mainFont = _tableFont;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
-	cell.maxWidth = self.view.frame.size.width;
 
     // Configure the cell.
 	[self configureCell:cell atIndexPath:indexPath animated:NO];
@@ -94,7 +89,7 @@
 }
 
 - (void)configureCell:(OrderBookTableCellP *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	BidAsk *bidAsk = [self.bidAsks objectAtIndex:indexPath.row];
+	BidAsk *bidAsk = [_bidAsks objectAtIndex:indexPath.row];
 	
 	cell.bidAsk = bidAsk;
 }
@@ -110,10 +105,11 @@
 		_bidAsks = nil;
 	}
 	
-	NSArray *bidsAsks = [DataController fetchBidAsksForSymbol:self.symbol.tickerSymbol withFeedNumber:self.symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
-	self.bidAsks = bidsAsks;
+	NSArray *bidsAsks = [DataController fetchBidAsksForSymbol:_symbol.tickerSymbol withFeedNumber:_symbol.feed.feedNumber inManagedObjectContext:_managedObjectContext];
+	[_bidAsks release];
+	_bidAsks = [bidsAsks retain];
 	
-	[self.tableView reloadData];
+	[_tableView reloadData];
 }
 
 #pragma mark -
@@ -136,6 +132,7 @@
 	[_symbol release];
 	[_bidAsks release];
 	[_orderbookAvailableLabel release];
+	[_tableView release];	
 	
 	[_managedObjectContext release];
     [super dealloc];
