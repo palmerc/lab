@@ -33,6 +33,7 @@
 		_symbol = [symbol retain];
 	
 		_tableView = nil;
+		_tradesAvailableLabel = nil;
 		
 		_managedObjectContext = nil;
 		_fetchedResultsController = nil;
@@ -46,7 +47,7 @@
 	_tableView = [pastTradesView.tableView retain];
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
-	[pastTradesView release];	
+	[pastTradesView release];
 }
 
 - (void)viewDidLoad {
@@ -163,7 +164,7 @@
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trade" inManagedObjectContext:_managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol=%@", _symbol];
@@ -175,7 +176,7 @@
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
-	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
 	_fetchedResultsController = [aFetchedResultsController retain];
 	_fetchedResultsController.delegate = self;
 	

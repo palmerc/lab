@@ -18,11 +18,11 @@
 #import "LastChangeView.h"
 #import "TradesLiveInfoView.h"
 #import "OrderBookView.h"
-#import "SymbolNewsView.h"
+#import "SymbolNewsController.h"
 #import "OtherInfoView.h"
 #import "ScrollViewPageControl.h"
 
-#import "RoundedRectangle.h"
+#import "RoundedRectangleFrame.h"
 #import "RoundedRectangleFrame.h"
 #import "OrderBookController.h"
 #import "PastTradesController.h"
@@ -47,34 +47,52 @@
     return self;
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
+- (void)loadView {
+	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
+	UIView *aView = [[UIView alloc] initWithFrame:applicationFrame];
 	
-	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
-	CGRect windowFrame = self.view.bounds;
+	aView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	
-	if (self.symbol.symbolDynamicData.providerURL != nil) {		
-		UIBarButtonItem *analysis = [[UIBarButtonItem alloc] initWithTitle:@"Analysis" style:UIBarButtonItemStylePlain target:self action:@selector(analysis:)];
-		self.navigationItem.rightBarButtonItem = analysis;
-		[analysis release];
-	}
+	CGFloat halfWidth = applicationFrame.size.width / 2.0f;
+	/*** Last ***/
+	CGRect lastRoundedFrame = CGRectMake(0.0, 0.0, halfWidth, 220.0f);
+	CGRect lastInnerFrame = CGRectMake(10.0f, 10.0f, halfWidth - 20.f, 200.0f);
+	RoundedRectangleFrame *lastBox = [[RoundedRectangleFrame alloc] initWithFrame:lastRoundedFrame];
+	lastBox.strokeWidth = 0.75f;
+	lastBox.cornerRadius = 10.0f;
+	lastBox.padding = 6.0f;
+	lastBox.backgroundColor = [UIColor clearColor];
+	[aView addSubview:lastBox];
 	
-	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-	
-	CGRect lastFrame = CGRectMake(0.0, 0.0, windowFrame.size.width / 2.0f, 220.0f);
-	_lastBox = [[LastChangeView alloc] initWithFrame:lastFrame];
+	_lastBox = [[LastChangeView alloc] initWithFrame:lastInnerFrame];
 	_lastBox.symbol = self.symbol;
-
-	CGRect tradesFrame = CGRectMake(windowFrame.size.width / 2.0f, 0.0, windowFrame.size.width / 2.0f, 220.0f);
-	_tradesLiveBox = [[TradesLiveInfoView alloc] initWithFrame:tradesFrame];
+	_lastBox.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	_lastBox.autoresizesSubviews = YES;
+	[lastBox addSubview:_lastBox];
+	[lastBox release];
+	
+	/*** Trades Information ****/
+	CGRect tradesRoundedFrame = CGRectMake(applicationFrame.size.width / 2.0f, 0.0, halfWidth, 220.0f);
+	CGRect tradesInnerFrame = CGRectMake(10.0f, 10.0f, halfWidth - 20.f, 200.0f);
+	RoundedRectangleFrame *tradesBox = [[RoundedRectangleFrame alloc] initWithFrame:tradesRoundedFrame];
+	tradesBox.strokeWidth = 0.75f;
+	tradesBox.cornerRadius = 10.0f;
+	tradesBox.padding = 6.0f;
+	tradesBox.backgroundColor = [UIColor clearColor];
+	[aView addSubview:tradesBox];
+	
+	_tradesLiveBox = [[TradesLiveInfoView alloc] initWithFrame:tradesInnerFrame];
 	_tradesLiveBox.symbol = self.symbol;
+	_tradesLiveBox.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	_tradesLiveBox.autoresizesSubviews = YES;
+	[tradesBox addSubview:_tradesLiveBox];
+	[tradesBox release];	
 	
-	CGRect roundedFrame = CGRectMake(0.0, 0.0, windowFrame.size.width, windowFrame.size.height - tradesFrame.size.height - 90.0f);
-	CGRect innerFrame = CGRectMake(10.0f, 10.0f, roundedFrame.size.width - 20.0f, roundedFrame.size.height - 20.0f);
-
-	
+	CGRect detailRoundedFrame = CGRectMake(0.0, 0.0, applicationFrame.size.width, applicationFrame.size.height - tradesRoundedFrame.size.height - 90.0f);
+	CGRect detailInnerFrame = CGRectMake(10.0f, 10.0f, detailRoundedFrame.size.width - 20.0f, detailRoundedFrame.size.height - 20.0f);
+		
 	/*** Orderbook ***/
-	RoundedRectangleFrame *orderBookBox = [[RoundedRectangleFrame alloc] initWithFrame:roundedFrame];
+	RoundedRectangleFrame *orderBookBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
 	orderBookBox.strokeWidth = 0.75f;
 	orderBookBox.cornerRadius = 10.0f;
 	orderBookBox.padding = 6.0f;
@@ -83,14 +101,13 @@
 	_orderBookController = [[OrderBookController alloc] initWithSymbol:self.symbol];
 	_orderBookController.managedObjectContext = _managedObjectContext;
 	UIView *orderBookView = _orderBookController.view;
-	orderBookView.frame = innerFrame;
+	orderBookView.frame = detailInnerFrame;
 	orderBookView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	orderBookView.autoresizesSubviews = YES;
 	[orderBookBox addSubview:orderBookView];
 	
-	
 	/*** Historic Trades ***/
-	RoundedRectangleFrame *pastTradesBox = [[RoundedRectangleFrame alloc] initWithFrame:roundedFrame];
+	RoundedRectangleFrame *pastTradesBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
 	pastTradesBox.strokeWidth = 0.75f;
 	pastTradesBox.cornerRadius = 10.0f;
 	pastTradesBox.padding = 6.0f;
@@ -99,26 +116,63 @@
 	_pastTradesController = [[PastTradesController alloc] initWithSymbol:self.symbol];
 	_pastTradesController.managedObjectContext = _managedObjectContext;
 	UIView *pastTradesView = _pastTradesController.view;
-	pastTradesView.frame = innerFrame;
+	pastTradesView.frame = detailInnerFrame;
 	pastTradesView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	pastTradesView.autoresizesSubviews = YES;
 	[pastTradesBox addSubview:pastTradesView];
 	
-	_newsBox = [[SymbolNewsView alloc] initWithFrame:roundedFrame andManagedObjectContext:self.managedObjectContext];
-	_newsBox.symbol = self.symbol;
+	/*** Symbol News Box ***/
+	RoundedRectangleFrame *newsBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
+	newsBox.strokeWidth = 0.75f;
+	newsBox.cornerRadius = 10.0f;
+	newsBox.padding = 6.0f;
+	newsBox.backgroundColor = [UIColor clearColor];
 	
-	_otherBox = [[OtherInfoView alloc] initWithFrame:roundedFrame];
-	_otherBox.symbol = self.symbol;
+	_symbolNewsController = [[SymbolNewsController alloc] initWithSymbol:self.symbol];
+	_symbolNewsController.managedObjectContext = _managedObjectContext;
+	UIView *symbolNewsView = _symbolNewsController.view;
+	symbolNewsView.frame = detailInnerFrame;
+	symbolNewsView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	symbolNewsView.autoresizesSubviews = YES;
+	[newsBox addSubview:symbolNewsView];
 	
-	CGRect detailFrame = CGRectMake(0.0, 210.f, windowFrame.size.width, windowFrame.size.height - 120.0f);
+	/*** Other Box ***/
+	RoundedRectangleFrame *otherInfoBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
+	otherInfoBox.strokeWidth = 0.75f;
+	otherInfoBox.cornerRadius = 10.0f;
+	otherInfoBox.padding = 6.0f;
+	otherInfoBox.backgroundColor = [UIColor clearColor];
+	
+	OtherInfoView *otherInfoView = [[OtherInfoView alloc] initWithFrame:detailInnerFrame];
+	otherInfoView.symbol = self.symbol;
+	[otherInfoBox addSubview:otherInfoView];
+	[otherInfoView release];
+		
+	CGRect detailFrame = CGRectMake(0.0, 210.f, applicationFrame.size.width, applicationFrame.size.height - 120.0f);
 	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
-	_detailBox.views = [NSArray arrayWithObjects:orderBookBox, pastTradesBox, _newsBox, _otherBox, nil];
+	_detailBox.views = [NSArray arrayWithObjects:orderBookBox, pastTradesBox, newsBox, otherInfoBox, nil];
 	[orderBookBox release];
 	[pastTradesBox release];
+	[newsBox release];
+	[otherInfoBox release];
 	
-	[self.view addSubview:_lastBox];
-	[self.view addSubview:_tradesLiveBox];
-	[self.view addSubview:_detailBox.view];
+	[aView addSubview:_detailBox.view];
+
+	self.view = aView;
+	[aView release];
+}
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	
+	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
+	
+	if (self.symbol.symbolDynamicData.providerURL != nil) {
+		NSString *analysisString = NSLocalizedString(@"analysis", @"Analysis");
+		UIBarButtonItem *analysis = [[UIBarButtonItem alloc] initWithTitle:analysisString style:UIBarButtonItemStylePlain target:self action:@selector(analysis:)];
+		self.navigationItem.rightBarButtonItem = analysis;
+		[analysis release];
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -267,7 +321,6 @@
 - (void)dealloc {
 	[_lastBox release];
 	[_tradesLiveBox release];
-	[_newsBox release];
 	[_detailBox release];
 	
 	[_symbol release];

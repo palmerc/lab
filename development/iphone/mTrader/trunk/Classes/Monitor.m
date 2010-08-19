@@ -79,6 +79,10 @@ static Monitor *sharedMonitor = nil;
 - (id)init {
 	self = [super init];
 	if (self != nil) {
+		_mTraderCommunicator = nil;
+		_mTradingCommunicator = nil;
+		_mTCom = nil;
+		
 		_reachability = nil;
 
 		_loggedIn = NO;
@@ -364,6 +368,10 @@ static Monitor *sharedMonitor = nil;
 	[_mTradingURL release];
 	[_reachability stopNotifer];
 	[_reachability release];
+	[_mTraderCommunicator release];
+	[_mTradingCommunicator release];
+	[_mTCom release];
+	
 	[super dealloc];
 }
 

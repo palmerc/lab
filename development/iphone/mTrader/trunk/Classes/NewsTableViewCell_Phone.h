@@ -12,9 +12,9 @@
 @private
 	NewsArticle *_newsArticle;
 	
-	UILabel *feedLabel;
-	UILabel *headlineLabel;
-	UILabel *dateTimeLabel;
+	UILabel *_feedLabel;
+	UILabel *_headlineLabel;
+	UILabel *_dateTimeLabel;
 	
 	UIFont *_headlineFont;
 	UIFont *_bottomlineFont;

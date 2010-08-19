@@ -6,11 +6,9 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "RoundedRectangleFrame.h"
-
 @class Symbol;
 
-@interface TradesLiveInfoView : RoundedRectangleFrame {
+@interface TradesLiveInfoView : UIView {
 @private
 	Symbol *_symbol;
 	

@@ -14,6 +14,7 @@
 	
 	CGFloat _maxWidth;
 	CGFloat _lineHeight;
+	
 	UIFont *_mainFont;
 	UILabel *_bidSizeLabel;
 	UILabel *_bidValueLabel;
@@ -22,13 +23,6 @@
 }
 
 @property (nonatomic, retain) BidAsk *bidAsk;
-@property (nonatomic, assign) CGFloat maxWidth;
 @property (nonatomic, retain) UIFont *mainFont;
-@property (nonatomic, retain) UILabel *bidSizeLabel;
-@property (nonatomic, retain) UILabel *bidValueLabel;
-@property (nonatomic, retain) UILabel *askSizeLabel;
-@property (nonatomic, retain) UILabel *askValueLabel;
-
-- (UILabel *)createLabel;
 
 @end

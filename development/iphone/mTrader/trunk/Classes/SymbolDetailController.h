@@ -19,7 +19,7 @@
 @class TradesLiveInfoView;
 @class PastTradesController;
 @class OrderBookController;
-@class SymbolNewsView;
+@class SymbolNewsController;
 @class OtherInfoView;
 @class ScrollViewPageControl;
 
@@ -35,9 +35,8 @@
 	PastTradesController *_pastTradesController;
 	OrderBookController *_orderBookController;
 	
-	SymbolNewsView *_newsBox;
+	SymbolNewsController *_symbolNewsController;
 	ScrollViewPageControl *_detailBox;
-	OtherInfoView *_otherBox;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;

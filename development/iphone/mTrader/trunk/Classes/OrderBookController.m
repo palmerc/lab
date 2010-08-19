@@ -33,6 +33,7 @@
 		_symbol = [symbol retain];
 		
 		_tableView = nil;
+		_orderbookAvailableLabel = nil;
 		_managedObjectContext = nil;		
 		_bidAsks = nil;
 	}
@@ -40,10 +41,13 @@
 }
 
 - (void)loadView {
+	_tableFont = [UIFont systemFontOfSize:14.0f];
 	OrderBookView *orderBookView = [[OrderBookView alloc] initWithFrame:CGRectZero];
 	orderBookView.tableView.delegate = self;
 	orderBookView.tableView.dataSource = self;
 	_tableView = [orderBookView.tableView retain];
+	_orderbookAvailableLabel = [orderBookView.orderbookAvailableLabel retain];
+	
 	self.view = orderBookView;
 	[orderBookView release];
 }

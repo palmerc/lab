@@ -1,5 +1,5 @@
 //
-//  SymbolNewsModalController_Phone.m
+//  SymbolNewsController.m
 //  mTrader
 //
 //  Created by Cameron Lowell Palmer on 24.03.10.
@@ -8,8 +8,9 @@
 
 #define DEBUG 0
 
-#import "SymbolNewsController_Phone.h"
+#import "SymbolNewsController.h"
 
+#import "SymbolNewsView_Phone.h"
 #import "mTraderCommunicator.h"
 #import "DataController.h"
 #import "NewsArticleController_Phone.h"
@@ -19,54 +20,56 @@
 #import "Feed.h"
 #import "Symbol.h"
 #import "NewsArticle.h"
+#import "NewsFeed.h"
 #import "SymbolNewsRelationship.h"
 
-@implementation SymbolNewsController_Phone
+@interface SymbolNewsController ()
+- (void)configureCell:(NewsTableViewCell_Phone *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
+- (void)refresh:(id)sender;
+
+@end
+
+@implementation SymbolNewsController
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
-@synthesize symbol = _symbol;
-@synthesize newsAvailableLabel = _newsAvailableLabel;
 
 #pragma mark -
 #pragma mark Initialization
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+- (id)initWithSymbol:(Symbol *)symbol {
 	self = [super init];
-    if (self != nil) {
-		_managedObjectContext = [managedObjectContext retain];
-		_fetchedResultsController = nil;
-		_newsAvailable = NO;
-		_symbol = nil;
+    if (self != nil) {		
+		_symbol = [symbol retain];
 		
+		_managedObjectContext = nil;
+		_fetchedResultsController = nil;
+		
+		_headlineFont = nil;
+		_bottomlineFont = nil;
+		_tableView = nil;
 		_newsAvailableLabel = nil;
 	}
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)loadView {
+	_headlineFont = [UIFont boldSystemFontOfSize:14.0f];
+	_bottomlineFont = [UIFont systemFontOfSize:12.0f];
+	
+	SymbolNewsView_Phone *newsView = [[SymbolNewsView_Phone alloc] initWithFrame:CGRectZero];
+	self.view = newsView;
+	_tableView = [newsView.tableView retain];
+	_tableView.delegate = self;
+	_tableView.dataSource = self;
+	
+	_newsAvailableLabel = [newsView.newsAvailableLabel retain];
+	[newsView release];
+}
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-	self.navigationItem.leftBarButtonItem = doneButton;
-	[doneButton release];
 	
-	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
-	self.navigationItem.rightBarButtonItem = refreshButton;
-	[refreshButton release];
-	
-	NSString *labelString = NSLocalizedString(@"noNewsAvailable", @"No News Available");
-	UIFont *labelFont = [UIFont boldSystemFontOfSize:24.0f];
-	CGRect frame = self.view.bounds;
-	frame.size.height = [labelString sizeWithFont:labelFont].height;
-	
-	_newsAvailableLabel = [[UILabel alloc] initWithFrame:frame];
-	_newsAvailableLabel.textAlignment = UITextAlignmentCenter;
-	_newsAvailableLabel.font = labelFont;
-	_newsAvailableLabel.textColor = [UIColor blackColor];
-	_newsAvailableLabel.backgroundColor = [UIColor clearColor];
-	_newsAvailableLabel.text = labelString;
-	_newsAvailableLabel.hidden = YES;
-	[self.tableView addSubview:self.newsAvailableLabel];
+	[self refresh:nil];
 }
 
 #pragma mark -
@@ -82,9 +85,9 @@
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
 	NSUInteger noOfObjects = [sectionInfo numberOfObjects];
 	if (noOfObjects == 0) {
-		self.newsAvailableLabel.hidden = NO;
+		_newsAvailableLabel.hidden = NO;
 	} else {
-		self.newsAvailableLabel.hidden = YES;
+		_newsAvailableLabel.hidden = YES;
 	}
 	
 	return [sectionInfo numberOfObjects];
@@ -107,7 +110,9 @@
     NewsTableViewCell_Phone *cell = (NewsTableViewCell_Phone *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[NewsTableViewCell_Phone alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
+		cell.headlineFont = _headlineFont;
+		cell.bottomlineFont = _bottomlineFont;
+	}
     
 	[self configureCell:cell atIndexPath:indexPath animated:NO];	
 		
@@ -134,13 +139,31 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)setSymbol:(Symbol *)symbol {
-	if (symbol == _symbol) {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	CGFloat windowWidth = self.view.bounds.size.width;
+	CGSize constraint = CGSizeMake(windowWidth, 2000.0f);
+	
+	SymbolNewsRelationship *newsRelationship = (SymbolNewsRelationship *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	NSString *headline = newsRelationship.newsArticle.headline;
+	NSString *feed = newsRelationship.newsArticle.newsFeed.name;
+	
+	CGSize headlineSize = [headline sizeWithFont:_headlineFont constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+	CGSize bottomlineSize = [feed sizeWithFont:_bottomlineFont];
+	
+	CGFloat height = headlineSize.height + bottomlineSize.height;
+	
+	return height;
+}
+
+#pragma mark -
+#pragma mark Managed Object Context
+
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	if (_managedObjectContext == managedObjectContext) {
 		return;
 	}
-	
-	[_symbol release];
-	_symbol = [symbol retain];
+	[_managedObjectContext release];
+	_managedObjectContext = [managedObjectContext retain];
 	
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
@@ -149,7 +172,7 @@
 #if DEBUG
 		abort();  // Fail
 #endif
-	}
+	}	
 }
 
 #pragma mark -
@@ -166,7 +189,7 @@
     
 	// Create and configure a fetch request with the Book entity.
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:self.managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SymbolNewsRelationship" inManagedObjectContext:_managedObjectContext];
 	[fetchRequest setEntity:entity];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol=%@", _symbol];
@@ -178,8 +201,8 @@
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	// Create and initialize the fetch results controller.
-	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-	self.fetchedResultsController = aFetchedResultsController;
+	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+	_fetchedResultsController = [aFetchedResultsController retain];
 	_fetchedResultsController.delegate = self;
 	
 	// Memory management.
@@ -196,38 +219,32 @@
  */
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-	
 	// The fetch controller is about to start sending change notifications, so prepare the table view for updates.
-	[self.tableView beginUpdates];
+	[_tableView beginUpdates];
 }
 
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-	UITableView *tableView = self.tableView;
-	
 	switch(type) {
 			
 		case NSFetchedResultsChangeInsert:
-			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+			[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+			[_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
 			break;
     }
 }
 
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-	
 	switch(type) {
 			
 		case NSFetchedResultsChangeInsert:
-			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
+			[_tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
+			[_tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
 			break;
 	}
 }
@@ -235,8 +252,17 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
 	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-	[self.tableView endUpdates];
+	[_tableView endUpdates];
 }
+
+#pragma mark -
+#pragma mark Refresh
+
+- (void)refresh:(id)sender {
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", _symbol.feed.feedNumber, _symbol.tickerSymbol];
+	[[mTraderCommunicator sharedManager] symbolNewsForFeedTicker:feedTicker];
+}
+
 
 #pragma mark -
 #pragma mark Memory management
@@ -245,6 +271,11 @@
 	[_symbol release];
 	[_managedObjectContext release];
 	[_fetchedResultsController release];
+	
+	[_headlineFont release];
+	[_bottomlineFont release];
+	[_newsAvailableLabel release];
+	[_tableView release];
 	
     [super dealloc];
 }

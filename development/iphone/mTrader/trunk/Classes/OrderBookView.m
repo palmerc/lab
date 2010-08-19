@@ -11,19 +11,14 @@
 #import "OrderBookView.h"
 
 @implementation OrderBookView
-@synthesize orderBookButton = _orderBookButton;
-@synthesize headerFont = _headerFont;
-@synthesize askSizeLabel = _askSizeLabel;
-@synthesize askValueLabel = _askValueLabel;
-@synthesize bidSizeLabel = _bidSizeLabel;
-@synthesize bidValueLabel =  _bidValueLabel;
+@synthesize orderbookAvailableLabel = _orderbookAvailableLabel;
 @synthesize tableView = _tableView;
 
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {	
-		_headerFont = [UIFont boldSystemFontOfSize:18.0];
+		_headerFont = [UIFont boldSystemFontOfSize:14.0];
 		
 		_orderBookButton = [[UIButton alloc] initWithFrame:frame];
 		
@@ -50,6 +45,17 @@
 		_bidValueLabel.font = _headerFont;
 		_bidValueLabel.text = NSLocalizedString(@"bidPrice", @"B Price");
 		[_orderBookButton addSubview:_bidValueLabel];
+		
+		NSString *labelString = NSLocalizedString(@"noOrderbookAvailable", @"No Orderbook Available");
+		
+		_orderbookAvailableLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_orderbookAvailableLabel.textAlignment = UITextAlignmentCenter;
+		_orderbookAvailableLabel.font = _headerFont;
+		_orderbookAvailableLabel.textColor = [UIColor blackColor];
+		_orderbookAvailableLabel.backgroundColor = [UIColor whiteColor];
+		_orderbookAvailableLabel.text = labelString;
+		_orderbookAvailableLabel.hidden = YES;
+		[_orderBookButton addSubview:_orderbookAvailableLabel];
 
 		_tableView = [[UITableView alloc] initWithFrame:CGRectZero];
 		[_orderBookButton addSubview:_tableView];
@@ -77,6 +83,7 @@
 	_askValueLabel.frame = askValueLabelFrame;
 	_askSizeLabel.frame = askSizeLabelFrame;
 	_tableView.frame = tableViewFrame;
+	_orderbookAvailableLabel.frame = CGRectMake(0.0f, 0.0f, bounds.size.width, headerFontSize.height);
 	
 }
 
@@ -88,8 +95,9 @@
 	[_askValueLabel release];
 	[_bidValueLabel release];
 	[_bidSizeLabel release];
+	[_orderbookAvailableLabel release];
 	[_orderBookButton release];
-	
+		
     [super dealloc];
 }
 

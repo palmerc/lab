@@ -15,24 +15,15 @@
 #pragma mark -
 #pragma mark SubviewFrames category
 
-@interface OrderBookTableCellP (SubviewFrames)
-- (CGRect)_bidSizeLabelFrame;
-- (CGRect)_bidValueLabelFrame;
-- (CGRect)_askSizeLabelFrame;
-- (CGRect)_askValueLabelFrame;
+@interface OrderBookTableCellP ()
+- (UILabel *)createLabel;
 @end
-
 
 #pragma mark -
 #pragma mark ChainsTableCell implementation
 @implementation OrderBookTableCellP
 @synthesize bidAsk = _bidAsk;
-@synthesize maxWidth = _maxWidth;
 @synthesize mainFont = _mainFont;
-@synthesize bidSizeLabel = _bidSizeLabel;
-@synthesize bidValueLabel = _bidValueLabel;
-@synthesize askSizeLabel = _askSizeLabel;
-@synthesize askValueLabel = _askValueLabel;
 
 #pragma mark -
 #pragma mark Initialization
@@ -41,10 +32,10 @@
 		_maxWidth = 0.0f;
 		_mainFont = nil;
 		
-		self.bidSizeLabel = [self createLabel];		
-		self.bidValueLabel = [self createLabel];
-		self.askSizeLabel = [self createLabel];
-		self.askValueLabel = [self createLabel];
+		_bidSizeLabel = [[self createLabel] retain];		
+		_bidValueLabel = [[self createLabel] retain];
+		_askSizeLabel = [[self createLabel] retain];
+		_askValueLabel = [[self createLabel] retain];
 					
 		_bidAsk = nil;
 		
@@ -84,40 +75,17 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 	
-    [self.bidSizeLabel setFrame:[self _bidSizeLabelFrame]];
-	[self.bidValueLabel setFrame:[self _bidValueLabelFrame]];
-	[self.askSizeLabel setFrame:[self _askSizeLabelFrame]];
-	[self.askValueLabel setFrame:[self _askValueLabelFrame]];
-
-}
-
-/*
- Return the frame of the various subviews -- these are dependent on the editing state of the cell.
- */
-- (CGRect)_bidSizeLabelFrame {
-	CGFloat width = floorf(self.maxWidth / 4.0f);
-	return CGRectMake(0.0, 0.0, width, _lineHeight);
-}
-
-- (CGRect)_bidValueLabelFrame {
-	CGFloat width = floorf(self.maxWidth / 4.0f);
-	return CGRectMake(width, 0.0, width, _lineHeight);
-}
-
-- (CGRect)_askValueLabelFrame {
-	CGFloat width = floorf(self.maxWidth / 4.0f);
-	return CGRectMake(width * 2, 0.0, width, _lineHeight);
-}
-
-- (CGRect)_askSizeLabelFrame {
-	CGFloat width = floorf(self.maxWidth / 4.0f);
-	return CGRectMake(width * 3, 0.0, width, _lineHeight);
+	CGFloat width = floorf(self.bounds.size.width / 4.0f);
+	_bidSizeLabel.frame = CGRectMake(0.0, 0.0, width, _lineHeight);
+	_bidValueLabel.frame = CGRectMake(width, 0.0, width, _lineHeight);	
+	_askValueLabel.frame = CGRectMake(width * 2, 0.0, width, _lineHeight);
+	_askSizeLabel.frame = CGRectMake(width * 3, 0.0, width, _lineHeight);
 }
 
 - (void)drawRect:(CGRect)rect {
-	CGFloat widthOfLabel = floorf(self.maxWidth / 4.0f);
-	CGFloat askWidth = [self.bidAsk.askPercent floatValue] * widthOfLabel;
-	CGFloat bidWidth = [self.bidAsk.bidPercent floatValue] * widthOfLabel;
+	CGFloat widthOfLabel = floorf(self.bounds.size.width / 4.0f);
+	CGFloat askWidth = [_bidAsk.askPercent floatValue] * widthOfLabel;
+	CGFloat bidWidth = [_bidAsk.bidPercent floatValue] * widthOfLabel;
 
 	// bid bar
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -129,12 +97,6 @@
 	CGContextFillRect(ctx, CGRectMake(widthOfLabel * 3, 0.0, askWidth, _lineHeight));
 	
 	[super drawRect:rect];
-}
-
-- (void)setMaxWidth:(CGFloat)width {
-	_maxWidth = width;
-	[self setNeedsLayout];
-	[self setNeedsDisplay];
 }
 
 - (void)setBidAsk:(BidAsk *)newBidAsk {
@@ -149,18 +111,18 @@
 		_bidAsk = [newBidAsk retain];
 	}
 	
-	NSUInteger decimals = [self.bidAsk.symbol.feed.decimals integerValue];
+	NSUInteger decimals = [_bidAsk.symbol.feed.decimals integerValue];
 	[doubleFormatter setMinimumFractionDigits:decimals];
 	[doubleFormatter setMaximumFractionDigits:decimals];
 	
-	self.bidSizeLabel.font = self.mainFont;
-	self.bidValueLabel.font = self.mainFont;
-	self.askSizeLabel.font = self.mainFont;
-	self.askValueLabel.font = self.mainFont;
-	self.bidSizeLabel.text = [self.bidAsk.bidSize stringValue];
-	self.bidValueLabel.text = [doubleFormatter stringFromNumber:self.bidAsk.bidPrice];
-	self.askSizeLabel.text = [self.bidAsk.askSize stringValue];
-	self.askValueLabel.text = [doubleFormatter stringFromNumber:self.bidAsk.askPrice];
+	_bidSizeLabel.font = _mainFont;
+	_bidValueLabel.font = _mainFont;
+	_askSizeLabel.font = _mainFont;
+	_askValueLabel.font = _mainFont;
+	_bidSizeLabel.text = [_bidAsk.bidSize stringValue];
+	_bidValueLabel.text = [doubleFormatter stringFromNumber:_bidAsk.bidPrice];
+	_askSizeLabel.text = [_bidAsk.askSize stringValue];
+	_askValueLabel.text = [doubleFormatter stringFromNumber:_bidAsk.askPrice];
 	
 	[self setNeedsDisplay];
 }

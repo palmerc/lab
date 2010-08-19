@@ -20,7 +20,6 @@
 	CGRect _frame;
 	UIFont *_headlineFont;
 	UIFont *_bottomlineFont;
-	CGFloat _contentMargin;
 	
 	mTraderCommunicator *communicator;
 	NSManagedObjectContext *_managedObjectContext;

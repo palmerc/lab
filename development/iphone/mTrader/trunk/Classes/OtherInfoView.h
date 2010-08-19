@@ -14,7 +14,6 @@
 @private
 	Symbol *_symbol;
 	
-	UIViewController *_viewController;
 	UILabel *_description; 
 	UILabel *_isinLabel;
 	UILabel *_isin;
@@ -45,35 +44,5 @@
 }
 
 @property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) UIViewController *viewController;
-@property (nonatomic, retain) UILabel *description; 
-@property (nonatomic, retain) UILabel *isinLabel;
-@property (nonatomic, retain) UILabel *isin;
-@property (nonatomic, retain) UILabel *segmentLabel;
-@property (nonatomic, retain) UILabel *segment;
-@property (nonatomic, retain) UILabel *currencyLabel;
-@property (nonatomic, retain) UILabel *currency;
-@property (nonatomic, retain) UILabel *countryLabel;
-@property (nonatomic, retain) UILabel *country;
-@property (nonatomic, retain) UILabel *exchangeLabel;
-@property (nonatomic, retain) UILabel *exchange;
-@property (nonatomic, retain) UILabel *statusLabel;
-@property (nonatomic, retain) UILabel *status;
-@property (nonatomic, retain) UILabel *dividendLabel;
-@property (nonatomic, retain) UILabel *dividend;
-@property (nonatomic, retain) UILabel *dividendDateLabel;
-@property (nonatomic, retain) UILabel *dividendDate;
-@property (nonatomic, retain) UILabel *sharesLabel;
-@property (nonatomic, retain) UILabel *shares;
-@property (nonatomic, retain) UILabel *marketCapLabel;
-@property (nonatomic, retain) UILabel *marketCap;
-@property (nonatomic, retain) UILabel *previousCloseLabel;
-@property (nonatomic, retain) UILabel *previousClose;
-@property (nonatomic, retain) UILabel *onVolumeLabel;
-@property (nonatomic, retain) UILabel *onVolume;
-@property (nonatomic, retain) UILabel *onValueLabel;
-@property (nonatomic, retain) UILabel *onValue;
-
-- (void)updateSymbol;
 
 @end

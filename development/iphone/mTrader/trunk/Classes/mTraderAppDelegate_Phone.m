@@ -7,7 +7,7 @@
 //
 
 #define DEBUG 0
-#define DEBUG_PUSH_NOTIFICATIONS 1
+#define DEBUG_PUSH_NOTIFICATIONS 0
 
 #import "mTraderAppDelegate_Phone.h"
 

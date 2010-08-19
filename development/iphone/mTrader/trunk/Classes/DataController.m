@@ -8,7 +8,7 @@
 
 #define DEBUG 0
 #define DEBUG_UPDATES 0
-#define DEBUG_NEWS_UPDATE 0
+#define DEBUG_NEWS_UPDATE 1
 #define DEBUG_PROCESS_SYMBOLS 0
 
 #import "DataController.h"

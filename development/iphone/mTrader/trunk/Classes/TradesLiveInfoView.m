@@ -45,204 +45,205 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self != nil) {
-//		super.padding = 6.0f;
-//		super.cornerRadius = 10.0f;
-//		super.strokeWidth = 0.75f;
-//		
-//		_openLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.openLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.openLabel.textAlignment = UITextAlignmentLeft;
-//		self.openLabel.text = NSLocalizedString(@"open", @"LocalizedString");
-//		[self addSubview:self.openLabel];
-//		
-//		_open = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.open.font = [UIFont systemFontOfSize:14.0];
-//		self.open.adjustsFontSizeToFitWidth = YES;
-//		self.open.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.open];
-//		
-//		_highLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.highLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.highLabel.textAlignment = UITextAlignmentLeft;
-//		self.highLabel.text = NSLocalizedString(@"high", @"LocalizedString");
-//		[self addSubview:self.highLabel];
-//		
-//		_high = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.high.font = [UIFont systemFontOfSize:14.0];
-//		self.high.adjustsFontSizeToFitWidth = YES;
-//		self.high.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.high];
-//		
-//		_lowLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.lowLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.lowLabel.textAlignment = UITextAlignmentLeft;
-//		self.lowLabel.text = NSLocalizedString(@"low", @"LocalizedString");
-//		[self addSubview:self.lowLabel];
-//		
-//		_low = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.low.font = [UIFont systemFontOfSize:14.0];
-//		self.low.adjustsFontSizeToFitWidth = YES;
-//		self.low.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.low];
-//		
-//		_vwapLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.vwapLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.vwapLabel.textAlignment = UITextAlignmentLeft;
-//		self.vwapLabel.text = NSLocalizedString(@"vwap", @"LocalizedString");
-//		[self addSubview:self.vwapLabel];
-//		
-//		_vwap = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.vwap.font = [UIFont systemFontOfSize:14.0];
-//		self.vwap.adjustsFontSizeToFitWidth = YES;
-//		self.vwap.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.vwap];
-//		
-//		_volumeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.volumeLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.volumeLabel.textAlignment = UITextAlignmentLeft;
-//		self.volumeLabel.text = NSLocalizedString(@"volume", @"LocalizedString");
-//		[self addSubview:self.volumeLabel];
-//		
-//		_volume = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.volume.font = [UIFont systemFontOfSize:14.0];
-//		self.volume.adjustsFontSizeToFitWidth = YES;
-//		self.volume.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.volume];
-//		
-//		_tradesLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.tradesLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.tradesLabel.textAlignment = UITextAlignmentLeft;
-//		self.tradesLabel.text = NSLocalizedString(@"trades", @"LocalizedString");
-//		[self addSubview:self.tradesLabel];
-//		
-//		_trades = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.trades.font = [UIFont systemFontOfSize:14.0];
-//		self.trades.adjustsFontSizeToFitWidth = YES;
-//		self.trades.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.trades];
-//		
-//		_turnoverLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.turnoverLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.turnoverLabel.textAlignment = UITextAlignmentLeft;
-//		self.turnoverLabel.text = NSLocalizedString(@"turnover", @"LocalizedString");
-//		[self addSubview:self.turnoverLabel];
-//		
-//		_turnover = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.turnover.font = [UIFont systemFontOfSize:14.0];
-//		self.turnover.adjustsFontSizeToFitWidth = YES;
-//		self.turnover.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.turnover];
-//		
-//		_bLotLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.bLotLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.bLotLabel.textAlignment = UITextAlignmentLeft;
-//		self.bLotLabel.text = NSLocalizedString(@"bLot", @"LocalizedString");
-//		[self addSubview:self.bLotLabel];
-//		
-//		_bLot = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.bLot.font = [UIFont systemFontOfSize:14.0];
-//		self.bLot.adjustsFontSizeToFitWidth = YES;
-//		self.bLot.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.bLot];
-//		
-//		_bLotValLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.bLotValLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.bLotValLabel.textAlignment = UITextAlignmentLeft;
-//		self.bLotValLabel.text = NSLocalizedString(@"bLotVal", @"LocalizedString");
-//		[self addSubview:self.bLotValLabel];
-//		
-//		_bLotVal = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.bLotVal.font = [UIFont systemFontOfSize:14.0];
-//		self.bLotVal.adjustsFontSizeToFitWidth = YES;
-//		self.bLotVal.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.bLotVal];
-//		
-//		_avgVolLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.avgVolLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.avgVolLabel.textAlignment = UITextAlignmentLeft;
-//		self.avgVolLabel.text = NSLocalizedString(@"avgVol", @"LocalizedString");
-//		[self addSubview:self.avgVolLabel];
-//		
-//		_avgVol = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.avgVol.font = [UIFont systemFontOfSize:14.0];
-//		self.avgVol.adjustsFontSizeToFitWidth = YES;
-//		self.avgVol.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.avgVol];
-//		
-//		_avgValLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.avgValLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//		self.avgValLabel.textAlignment = UITextAlignmentLeft;
-//		self.avgValLabel.text = NSLocalizedString(@"avgVal", @"LocalizedString");
-//		[self addSubview:self.avgValLabel];
-//		
-//		_avgVal = [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.avgVal.font = [UIFont systemFontOfSize:14.0];
-//		self.avgVal.adjustsFontSizeToFitWidth = YES;
-//		self.avgVal.textAlignment = UITextAlignmentRight;
-//		[self addSubview:self.avgVal];
-//		
-//		CGFloat leftPadding = ceilf(self.padding + super.strokeWidth + kBlur);
-//		CGFloat maxWidth = frame.size.width - leftPadding * 2.0f;
-//		
-//		UIFont *labelFont = [UIFont boldSystemFontOfSize:14.0];
-//		
-//		CGFloat globalY = leftPadding;
-//		CGSize openLabelSize = [self.openLabel.text sizeWithFont:labelFont];
-//		self.openLabel.frame = CGRectMake(leftPadding, globalY, openLabelSize.width, openLabelSize.height);
-//		self.open.frame = CGRectMake(leftPadding + openLabelSize.width, globalY, maxWidth - openLabelSize.width, openLabelSize.height);
-//		globalY += openLabelSize.height;
-//		
-//		CGSize highLabelSize = [self.highLabel.text sizeWithFont:labelFont];
-//		self.highLabel.frame = CGRectMake(leftPadding, globalY, highLabelSize.width, highLabelSize.height);
-//		self.high.frame = CGRectMake(leftPadding + highLabelSize.width, globalY, maxWidth - highLabelSize.width, highLabelSize.height);
-//		globalY += highLabelSize.height;
-//		
-//		CGSize lowLabelSize = [self.lowLabel.text sizeWithFont:labelFont];
-//		self.lowLabel.frame = CGRectMake(leftPadding, globalY, lowLabelSize.width, lowLabelSize.height);
-//		self.low.frame = CGRectMake(leftPadding + lowLabelSize.width, globalY, maxWidth - lowLabelSize.width, lowLabelSize.height);
-//		globalY += lowLabelSize.height;
-//		
-//		CGSize vwapLabelSize = [self.vwapLabel.text sizeWithFont:labelFont];
-//		self.vwapLabel.frame = CGRectMake(leftPadding, globalY, vwapLabelSize.width, vwapLabelSize.height);
-//		self.vwap.frame = CGRectMake(leftPadding + vwapLabelSize.width, globalY, maxWidth - vwapLabelSize.width, vwapLabelSize.height);
-//		globalY += vwapLabelSize.height;
-//		
-//		CGSize volumeLabelSize = [self.volumeLabel.text sizeWithFont:labelFont];
-//		self.volumeLabel.frame = CGRectMake(leftPadding, globalY, volumeLabelSize.width, volumeLabelSize.height);
-//		self.volume.frame = CGRectMake(leftPadding + volumeLabelSize.width, globalY, maxWidth - volumeLabelSize.width, volumeLabelSize.height);
-//		globalY += volumeLabelSize.height;
-//		
-//		CGSize tradesLabelSize = [self.tradesLabel.text sizeWithFont:labelFont];
-//		self.tradesLabel.frame = CGRectMake(leftPadding, globalY, tradesLabelSize.width, tradesLabelSize.height);
-//		self.trades.frame = CGRectMake(leftPadding + tradesLabelSize.width, globalY, maxWidth - tradesLabelSize.width, tradesLabelSize.height);
-//		globalY += tradesLabelSize.height;
-//		
-//		CGSize turnoverLabelSize = [self.turnoverLabel.text sizeWithFont:labelFont];
-//		self.turnoverLabel.frame = CGRectMake(leftPadding, globalY, turnoverLabelSize.width, turnoverLabelSize.height);
-//		self.turnover.frame = CGRectMake(leftPadding + turnoverLabelSize.width, globalY, maxWidth - turnoverLabelSize.width, turnoverLabelSize.height);
-//		globalY += turnoverLabelSize.height;
-//		
-//		CGSize bLotLabelSize = [self.bLotLabel.text sizeWithFont:labelFont];
-//		self.bLotLabel.frame = CGRectMake(leftPadding, globalY, bLotLabelSize.width, bLotLabelSize.height);
-//		self.bLot.frame = CGRectMake(leftPadding + bLotLabelSize.width, globalY, maxWidth - bLotLabelSize.width, bLotLabelSize.height);
-//		globalY += bLotLabelSize.height;
-//		
-//		CGSize bLotValLabelSize = [self.bLotValLabel.text sizeWithFont:labelFont];
-//		self.bLotValLabel.frame = CGRectMake(leftPadding, globalY, bLotValLabelSize.width, bLotValLabelSize.height);
-//		self.bLotVal.frame = CGRectMake(leftPadding + bLotValLabelSize.width, globalY, maxWidth - bLotValLabelSize.width, bLotValLabelSize.height);
-//		globalY += bLotValLabelSize.height;
-//		
-//		CGSize avgVolLabelSize = [self.avgVolLabel.text sizeWithFont:labelFont];
-//		self.avgVolLabel.frame = CGRectMake(leftPadding, globalY, avgVolLabelSize.width, avgVolLabelSize.height);
-//		self.avgVol.frame = CGRectMake(leftPadding + avgVolLabelSize.width, globalY, maxWidth - avgVolLabelSize.width, avgVolLabelSize.height);
-//		globalY += avgVolLabelSize.height;
-//		
-//		CGSize avgValLabelSize = [self.avgValLabel.text sizeWithFont:labelFont];
-//		self.avgValLabel.frame = CGRectMake(leftPadding, globalY, avgValLabelSize.width, avgValLabelSize.height);
-//		self.avgVal.frame = CGRectMake(leftPadding + avgValLabelSize.width, globalY, maxWidth - avgValLabelSize.width, avgValLabelSize.height);	
+		UIFont *labelFont = [UIFont boldSystemFontOfSize:14.0];
+		UIFont *dataFont = [UIFont systemFontOfSize:14.0];
 		
+		_openLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_openLabel.font = labelFont;
+		_openLabel.textAlignment = UITextAlignmentLeft;
+		_openLabel.text = NSLocalizedString(@"open", @"LocalizedString");
+		[self addSubview:_openLabel];
+		
+		_open = [[UILabel alloc] initWithFrame:CGRectZero];
+		_open.font = dataFont;
+		_open.adjustsFontSizeToFitWidth = YES;
+		_open.textAlignment = UITextAlignmentRight;
+		[self addSubview:_open];
+		
+		_highLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_highLabel.font = labelFont;
+		_highLabel.textAlignment = UITextAlignmentLeft;
+		_highLabel.text = NSLocalizedString(@"high", @"LocalizedString");
+		[self addSubview:_highLabel];
+		
+		_high = [[UILabel alloc] initWithFrame:CGRectZero];
+		_high.font = dataFont;
+		_high.adjustsFontSizeToFitWidth = YES;
+		_high.textAlignment = UITextAlignmentRight;
+		[self addSubview:_high];
+		
+		_lowLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_lowLabel.font = labelFont;
+		_lowLabel.textAlignment = UITextAlignmentLeft;
+		_lowLabel.text = NSLocalizedString(@"low", @"LocalizedString");
+		[self addSubview:_lowLabel];
+		
+		_low = [[UILabel alloc] initWithFrame:CGRectZero];
+		_low.font = dataFont;
+		_low.adjustsFontSizeToFitWidth = YES;
+		_low.textAlignment = UITextAlignmentRight;
+		[self addSubview:_low];
+		
+		_vwapLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_vwapLabel.font = labelFont;
+		_vwapLabel.textAlignment = UITextAlignmentLeft;
+		_vwapLabel.text = NSLocalizedString(@"vwap", @"LocalizedString");
+		[self addSubview:_vwapLabel];
+		
+		_vwap = [[UILabel alloc] initWithFrame:CGRectZero];
+		_vwap.font = dataFont;
+		_vwap.adjustsFontSizeToFitWidth = YES;
+		_vwap.textAlignment = UITextAlignmentRight;
+		[self addSubview:_vwap];
+		
+		_volumeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_volumeLabel.font = labelFont;
+		_volumeLabel.textAlignment = UITextAlignmentLeft;
+		_volumeLabel.text = NSLocalizedString(@"volume", @"LocalizedString");
+		[self addSubview:_volumeLabel];
+		
+		_volume = [[UILabel alloc] initWithFrame:CGRectZero];
+		_volume.font = dataFont;
+		_volume.adjustsFontSizeToFitWidth = YES;
+		_volume.textAlignment = UITextAlignmentRight;
+		[self addSubview:_volume];
+		
+		_tradesLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_tradesLabel.font = labelFont;
+		_tradesLabel.textAlignment = UITextAlignmentLeft;
+		_tradesLabel.text = NSLocalizedString(@"trades", @"LocalizedString");
+		[self addSubview:_tradesLabel];
+		
+		_trades = [[UILabel alloc] initWithFrame:CGRectZero];
+		_trades.font = dataFont;
+		_trades.adjustsFontSizeToFitWidth = YES;
+		_trades.textAlignment = UITextAlignmentRight;
+		[self addSubview:_trades];
+		
+		_turnoverLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_turnoverLabel.font = labelFont;
+		_turnoverLabel.textAlignment = UITextAlignmentLeft;
+		_turnoverLabel.text = NSLocalizedString(@"turnover", @"LocalizedString");
+		[self addSubview:_turnoverLabel];
+		
+		_turnover = [[UILabel alloc] initWithFrame:CGRectZero];
+		_turnover.font = dataFont;
+		_turnover.adjustsFontSizeToFitWidth = YES;
+		_turnover.textAlignment = UITextAlignmentRight;
+		[self addSubview:_turnover];
+		
+		_bLotLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_bLotLabel.font = labelFont;
+		_bLotLabel.textAlignment = UITextAlignmentLeft;
+		_bLotLabel.text = NSLocalizedString(@"bLot", @"LocalizedString");
+		[self addSubview:_bLotLabel];
+		
+		_bLot = [[UILabel alloc] initWithFrame:CGRectZero];
+		_bLot.font = dataFont;
+		_bLot.adjustsFontSizeToFitWidth = YES;
+		_bLot.textAlignment = UITextAlignmentRight;
+		[self addSubview:_bLot];
+		
+		_bLotValLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_bLotValLabel.font = labelFont;
+		_bLotValLabel.textAlignment = UITextAlignmentLeft;
+		_bLotValLabel.text = NSLocalizedString(@"bLotVal", @"LocalizedString");
+		[self addSubview:_bLotValLabel];
+		
+		_bLotVal = [[UILabel alloc] initWithFrame:CGRectZero];
+		_bLotVal.font = dataFont;
+		_bLotVal.adjustsFontSizeToFitWidth = YES;
+		_bLotVal.textAlignment = UITextAlignmentRight;
+		[self addSubview:_bLotVal];
+		
+		_avgVolLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_avgVolLabel.font = labelFont;
+		_avgVolLabel.textAlignment = UITextAlignmentLeft;
+		_avgVolLabel.text = NSLocalizedString(@"avgVol", @"LocalizedString");
+		[self addSubview:_avgVolLabel];
+		
+		_avgVol = [[UILabel alloc] initWithFrame:CGRectZero];
+		_avgVol.font = dataFont;
+		_avgVol.adjustsFontSizeToFitWidth = YES;
+		_avgVol.textAlignment = UITextAlignmentRight;
+		[self addSubview:_avgVol];
+		
+		_avgValLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_avgValLabel.font = labelFont;
+		_avgValLabel.textAlignment = UITextAlignmentLeft;
+		_avgValLabel.text = NSLocalizedString(@"avgVal", @"LocalizedString");
+		[self addSubview:_avgValLabel];
+		
+		_avgVal = [[UILabel alloc] initWithFrame:CGRectZero];
+		_avgVal.font = dataFont;
+		_avgVal.adjustsFontSizeToFitWidth = YES;
+		_avgVal.textAlignment = UITextAlignmentRight;
+		[self addSubview:_avgVal];
 	}
 	return self;
+}
+
+- (void)layoutSubviews {
+		CGFloat leftPadding = 0.0f;
+		CGFloat width = self.bounds.size.width;
+		
+		UIFont *labelFont = [UIFont boldSystemFontOfSize:14.0];
+		
+		CGFloat globalY = leftPadding;
+		CGSize openLabelSize = [_openLabel.text sizeWithFont:labelFont];
+		_openLabel.frame = CGRectMake(leftPadding, globalY, openLabelSize.width, openLabelSize.height);
+		_open.frame = CGRectMake(leftPadding + openLabelSize.width, globalY, width - openLabelSize.width, openLabelSize.height);
+		globalY += openLabelSize.height;
+		
+		CGSize highLabelSize = [_highLabel.text sizeWithFont:labelFont];
+		_highLabel.frame = CGRectMake(leftPadding, globalY, highLabelSize.width, highLabelSize.height);
+		_high.frame = CGRectMake(leftPadding + highLabelSize.width, globalY, width - highLabelSize.width, highLabelSize.height);
+		globalY += highLabelSize.height;
+		
+		CGSize lowLabelSize = [_lowLabel.text sizeWithFont:labelFont];
+		_lowLabel.frame = CGRectMake(leftPadding, globalY, lowLabelSize.width, lowLabelSize.height);
+		_low.frame = CGRectMake(leftPadding + lowLabelSize.width, globalY, width - lowLabelSize.width, lowLabelSize.height);
+		globalY += lowLabelSize.height;
+		
+		CGSize vwapLabelSize = [_vwapLabel.text sizeWithFont:labelFont];
+		_vwapLabel.frame = CGRectMake(leftPadding, globalY, vwapLabelSize.width, vwapLabelSize.height);
+		_vwap.frame = CGRectMake(leftPadding + vwapLabelSize.width, globalY, width - vwapLabelSize.width, vwapLabelSize.height);
+		globalY += vwapLabelSize.height;
+		
+		CGSize volumeLabelSize = [_volumeLabel.text sizeWithFont:labelFont];
+		_volumeLabel.frame = CGRectMake(leftPadding, globalY, volumeLabelSize.width, volumeLabelSize.height);
+		_volume.frame = CGRectMake(leftPadding + volumeLabelSize.width, globalY, width - volumeLabelSize.width, volumeLabelSize.height);
+		globalY += volumeLabelSize.height;
+		
+		CGSize tradesLabelSize = [_tradesLabel.text sizeWithFont:labelFont];
+		_tradesLabel.frame = CGRectMake(leftPadding, globalY, tradesLabelSize.width, tradesLabelSize.height);
+		_trades.frame = CGRectMake(leftPadding + tradesLabelSize.width, globalY, width - tradesLabelSize.width, tradesLabelSize.height);
+		globalY += tradesLabelSize.height;
+		
+		CGSize turnoverLabelSize = [_turnoverLabel.text sizeWithFont:labelFont];
+		_turnoverLabel.frame = CGRectMake(leftPadding, globalY, turnoverLabelSize.width, turnoverLabelSize.height);
+		_turnover.frame = CGRectMake(leftPadding + turnoverLabelSize.width, globalY, width - turnoverLabelSize.width, turnoverLabelSize.height);
+		globalY += turnoverLabelSize.height;
+		
+		CGSize bLotLabelSize = [_bLotLabel.text sizeWithFont:labelFont];
+		_bLotLabel.frame = CGRectMake(leftPadding, globalY, bLotLabelSize.width, bLotLabelSize.height);
+		_bLot.frame = CGRectMake(leftPadding + bLotLabelSize.width, globalY, width - bLotLabelSize.width, bLotLabelSize.height);
+		globalY += bLotLabelSize.height;
+		
+		CGSize bLotValLabelSize = [_bLotValLabel.text sizeWithFont:labelFont];
+		_bLotValLabel.frame = CGRectMake(leftPadding, globalY, bLotValLabelSize.width, bLotValLabelSize.height);
+		_bLotVal.frame = CGRectMake(leftPadding + bLotValLabelSize.width, globalY, width - bLotValLabelSize.width, bLotValLabelSize.height);
+		globalY += bLotValLabelSize.height;
+		
+		CGSize avgVolLabelSize = [_avgVolLabel.text sizeWithFont:labelFont];
+		_avgVolLabel.frame = CGRectMake(leftPadding, globalY, avgVolLabelSize.width, avgVolLabelSize.height);
+		_avgVol.frame = CGRectMake(leftPadding + avgVolLabelSize.width, globalY, width - avgVolLabelSize.width, avgVolLabelSize.height);
+		globalY += avgVolLabelSize.height;
+		
+		CGSize avgValLabelSize = [_avgValLabel.text sizeWithFont:labelFont];
+		_avgValLabel.frame = CGRectMake(leftPadding, globalY, avgValLabelSize.width, avgValLabelSize.height);
+		_avgVal.frame = CGRectMake(leftPadding + avgValLabelSize.width, globalY, width - avgValLabelSize.width, avgValLabelSize.height);	
+
 }
 
 #pragma mark -
@@ -250,10 +251,10 @@
 - (void)setSymbol:(Symbol *)symbol {
 	_symbol = [symbol retain];
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", _symbol.feed.feedNumber, _symbol.tickerSymbol];
 	[[mTraderCommunicator sharedManager] staticDataForFeedTicker:feedTicker];
 
-	[self.symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
+	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
 	
 	[self updateSymbol];
 	[self setNeedsDisplay];
@@ -266,17 +267,17 @@
 		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	}
 	
-	self.open.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.open];
-	self.high.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.high];
-	self.low.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.low];
-	self.vwap.text = [doubleFormatter stringFromNumber:self.symbol.symbolDynamicData.VWAP];
-	self.volume.text = self.symbol.symbolDynamicData.volume;
-	self.trades.text = self.symbol.symbolDynamicData.trades;
-	self.turnover.text = self.symbol.symbolDynamicData.turnover;
-	self.bLot.text = self.symbol.symbolDynamicData.buyLot;
-	self.bLotVal.text = self.symbol.symbolDynamicData.buyLotValue;
-	self.avgVal.text = self.symbol.symbolDynamicData.averageValue;
-	self.avgVol.text = self.symbol.symbolDynamicData.averageVolume;
+	_open.text = [doubleFormatter stringFromNumber:_symbol.symbolDynamicData.open];
+	_high.text = [doubleFormatter stringFromNumber:_symbol.symbolDynamicData.high];
+	_low.text = [doubleFormatter stringFromNumber:_symbol.symbolDynamicData.low];
+	_vwap.text = [doubleFormatter stringFromNumber:_symbol.symbolDynamicData.VWAP];
+	_volume.text = _symbol.symbolDynamicData.volume;
+	_trades.text = _symbol.symbolDynamicData.trades;
+	_turnover.text = _symbol.symbolDynamicData.turnover;
+	_bLot.text = _symbol.symbolDynamicData.buyLot;
+	_bLotVal.text = _symbol.symbolDynamicData.buyLotValue;
+	_avgVal.text = _symbol.symbolDynamicData.averageValue;
+	_avgVol.text = _symbol.symbolDynamicData.averageVolume;
 }
 
 #pragma mark -
@@ -290,7 +291,7 @@
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[self.symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
+	[_symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
 	
 	[_symbol release];
 	[_openLabel release]; 

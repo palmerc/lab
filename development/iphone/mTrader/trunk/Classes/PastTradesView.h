@@ -20,7 +20,6 @@
 	UILabel *_tradesAvailableLabel;
 }
 
-@property (nonatomic, retain) UIFont *headerFont;	
 @property (nonatomic, retain) UILabel *timeLabel;
 @property (nonatomic, retain) UILabel *priceLabel;
 @property (nonatomic, retain) UILabel *volumeLabel;

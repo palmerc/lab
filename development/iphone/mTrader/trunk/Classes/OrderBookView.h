@@ -15,15 +15,11 @@
 	UILabel *_askValueLabel;
 	UILabel *_bidSizeLabel;
 	UILabel *_bidValueLabel;
+	UILabel *_orderbookAvailableLabel;
 	UITableView *_tableView;
 }
 
-@property (nonatomic, retain) UIButton *orderBookButton;
-@property (nonatomic, retain) UIFont *headerFont;
-@property (nonatomic, retain) UILabel *askSizeLabel;
-@property (nonatomic, retain) UILabel *askValueLabel;
-@property (nonatomic, retain) UILabel *bidSizeLabel;
-@property (nonatomic, retain) UILabel *bidValueLabel;
-@property (nonatomic, retain) UITableView *tableView;
+@property (readonly) UILabel *orderbookAvailableLabel;
+@property (readonly) UITableView *tableView;
 
 @end

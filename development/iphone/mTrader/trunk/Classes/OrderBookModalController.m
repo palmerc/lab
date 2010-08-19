@@ -44,9 +44,9 @@
 	
 	CGFloat labelWidth = floorf(maxWidth / 4.0f);
 	CGRect bidSizeLabelFrame = CGRectMake(0.0f, 0.0f, labelWidth, headerFontSize.height);
-	CGRect bidValueLabelFrame = CGRectMake(0.0f + labelWidth, 0.0f, labelWidth, headerFontSize.height);
-	CGRect askValueLabelFrame = CGRectMake(0.0f + labelWidth * 2.0f, 0.0f, labelWidth, headerFontSize.height);
-	CGRect askSizeLabelFrame = CGRectMake(0.0f + labelWidth * 3.0f, 0.0f, labelWidth, headerFontSize.height);
+	CGRect bidValueLabelFrame = CGRectMake(labelWidth, 0.0f, labelWidth, headerFontSize.height);
+	CGRect askValueLabelFrame = CGRectMake(labelWidth * 2.0f, 0.0f, labelWidth, headerFontSize.height);
+	CGRect askSizeLabelFrame = CGRectMake(labelWidth * 3.0f, 0.0f, labelWidth, headerFontSize.height);
 	
 	askSizeLabel = [[UILabel alloc] initWithFrame:askSizeLabelFrame];
 	askSizeLabel.textAlignment = UITextAlignmentCenter;

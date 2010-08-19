@@ -6,13 +6,11 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "RoundedRectangleFrame.h"
-
 #import "ChartController.h"
 
 @class Symbol;
 
-@interface LastChangeView : RoundedRectangleFrame {
+@interface LastChangeView : UIView {
 @private
 	UIViewController *_viewController;
 	
@@ -24,9 +22,6 @@
 	UILabel *_lastPercentChange;
 	
 	UIButton *_chart;
-	
-	NSUInteger chartWidth;
-	NSUInteger chartHeight;
 }
 
 @property (nonatomic, retain) UIViewController *viewController;
