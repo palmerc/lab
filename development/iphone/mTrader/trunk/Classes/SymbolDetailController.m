@@ -64,11 +64,12 @@
 	lastBox.backgroundColor = [UIColor clearColor];
 	[aView addSubview:lastBox];
 	
-	_lastBox = [[LastChangeView alloc] initWithFrame:lastInnerFrame];
-	_lastBox.symbol = self.symbol;
-	_lastBox.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-	_lastBox.autoresizesSubviews = YES;
-	[lastBox addSubview:_lastBox];
+	_lastChangeView = [[LastChangeView alloc] initWithFrame:lastInnerFrame];
+	_lastChangeView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	_lastChangeView.autoresizesSubviews = YES;
+	_lastChangeView.symbol = self.symbol;
+
+	[lastBox addSubview:_lastChangeView];
 	[lastBox release];
 	
 	/*** Trades Information ****/
@@ -238,12 +239,9 @@
 	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
 	chartController.delegate = self;
 	chartController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
+		
+	[self presentModalViewController:chartController animated:YES];
 	[chartController release];
-	
-	[self presentModalViewController:navController animated:YES];
-	[navController release];
 }
 
 
@@ -293,7 +291,7 @@
 - (void)chartControllerDidFinish:(ChartController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 
-	[_lastBox setNeedsDisplay];
+	[_lastChangeView setNeedsDisplay];
 }
 
 - (void)symbolNewsModalControllerDidFinish:(SymbolNewsModalController *)controller {
@@ -319,7 +317,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	[_lastBox release];
+	[_lastChangeView release];
 	[_tradesLiveBox release];
 	[_detailBox release];
 	

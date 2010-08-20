@@ -93,6 +93,7 @@
 		7EB15D0410F1D24D003049C7 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB15D0310F1D24D003049C7 /* UserDefaults.m */; };
 		7EC00A2A112ABD320092873A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC00A29112ABD320092873A /* QuartzCore.framework */; };
 		7EC2F70F121A9EDD00E6BA63 /* PastTradesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2F70E121A9EDD00E6BA63 /* PastTradesView.m */; };
+		7EC7233D121E81A700127285 /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC7233C121E81A700127285 /* ChartView.m */; };
 		7ED5D7B2115677D3007EB033 /* MyListHeaderViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED5D7B1115677D3007EB033 /* MyListHeaderViewController_Phone.m */; };
 		7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE2A71F11172B0100B682BD /* CoreData.framework */; };
 		7EF2A556115A114C0049A8C1 /* SymbolNewsModalController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A555115A114C0049A8C1 /* SymbolNewsModalController_Phone.m */; };
@@ -252,6 +253,8 @@
 		7EC00A29112ABD320092873A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7EC2F70D121A9EDD00E6BA63 /* PastTradesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PastTradesView.h; sourceTree = "<group>"; };
 		7EC2F70E121A9EDD00E6BA63 /* PastTradesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PastTradesView.m; sourceTree = "<group>"; };
+		7EC7233B121E81A700127285 /* ChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartView.h; sourceTree = "<group>"; };
+		7EC7233C121E81A700127285 /* ChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartView.m; sourceTree = "<group>"; };
 		7ED5D7B0115677D3007EB033 /* MyListHeaderViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListHeaderViewController_Phone.h; sourceTree = "<group>"; };
 		7ED5D7B1115677D3007EB033 /* MyListHeaderViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListHeaderViewController_Phone.m; sourceTree = "<group>"; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -514,6 +517,8 @@
 			children = (
 				7E59A8CA113C14A0001FD328 /* ChartController.h */,
 				7E59A8CB113C14A0001FD328 /* ChartController.m */,
+				7EC7233B121E81A700127285 /* ChartView.h */,
+				7EC7233C121E81A700127285 /* ChartView.m */,
 			);
 			name = Chart;
 			sourceTree = "<group>";
@@ -862,6 +867,7 @@
 				7EA8D8611219819D006A90E2 /* RoundedRectangleFrame.m in Sources */,
 				7EC2F70F121A9EDD00E6BA63 /* PastTradesView.m in Sources */,
 				7E176782121BF6650045BF4B /* SymbolNewsView_Phone.m in Sources */,
+				7EC7233D121E81A700127285 /* ChartView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

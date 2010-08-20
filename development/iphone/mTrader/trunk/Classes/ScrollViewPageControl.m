@@ -29,7 +29,6 @@
 
 - (void)loadView {
 	UIView *aView = [[UIView alloc] initWithFrame:_frame];
-	aView.autoresizesSubviews = YES;
 	
 	CGRect scrollViewFrame = CGRectMake(0.0f, 0.0f, aView.bounds.size.width, aView.bounds.size.height - 10.0f);
 	_scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];

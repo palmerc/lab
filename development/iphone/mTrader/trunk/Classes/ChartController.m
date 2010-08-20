@@ -10,6 +10,7 @@
 
 #import "ChartController.h"
 
+#import "ChartView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Feed.h"
 #import "Symbol.h"
@@ -18,106 +19,50 @@
 @implementation ChartController
 @synthesize delegate;
 @synthesize symbol = _symbol;
-@synthesize chart = _chart;
-@synthesize toolBar = _toolBar;
+@synthesize period = _period;
+@synthesize orientation = _orientation;
 
 #pragma mark -
 #pragma mark Initialization
 
 - (id)initWithSymbol:(Symbol *)symbol {
     if (self = [super init]) {
-		self.symbol = symbol;
+		_symbol = [symbol retain];
 		
-		_chart = nil;
+		_chartView = nil;
 		
-		period = 0;
-		globalY = 0.0;
+		_period = 0;
+		_orientation = @"P";
 	}
     return self;
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-
-	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
-	
-	[self.symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
-	
-	self.view.backgroundColor = [UIColor whiteColor];
-	self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-	self.navigationItem.leftBarButtonItem = doneButton;
-	[doneButton release];
-	
-	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
-	self.navigationItem.rightBarButtonItem = refreshButton;
-	[refreshButton release];
-	
-	NSArray *items = [NSArray arrayWithObjects:@"1 day", @"1 month", @"1 year", nil];
-	UISegmentedControl *chartPeriodSelector = [[UISegmentedControl alloc] initWithItems:items];
-	chartPeriodSelector.segmentedControlStyle = UISegmentedControlStyleBar;
-	chartPeriodSelector.selectedSegmentIndex = 0;
-	[chartPeriodSelector addTarget:self action:@selector(chartPeriodSelected:) forControlEvents:UIControlEventValueChanged];
-	
-	UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:chartPeriodSelector];
-	[barButtonItem setStyle:UIBarButtonItemStyleBordered];
-	[chartPeriodSelector release];
-	
-	CGRect mainFrame = [[UIScreen mainScreen] bounds];
-	CGRect viewFrame = self.view.bounds;
-	CGRect toolFrame = CGRectMake(0.0f, mainFrame.size.height - 44.0f, viewFrame.size.width, 44.0f);
-	_toolBar = [[UIToolbar alloc] initWithFrame:toolFrame];
-	
-	self.toolBar.items = [NSArray arrayWithObject:barButtonItem];
-	[self.navigationController.view addSubview:self.toolBar];
-	[barButtonItem release];
-	
-	CGRect chartFrame = CGRectMake(0.0f, viewFrame.origin.y, viewFrame.size.width, viewFrame.size.height - 44.0f * 2);
-#if DEBUG
-	NSLog(@"%f %f %f %f", chartFrame.origin.x, chartFrame.origin.y, chartFrame.size.width, chartFrame.size.height);
-#endif
-	_chart = [[UIImageView alloc] initWithFrame:chartFrame];
-	[self.view addSubview:self.chart];
+- (void)loadView {	
+	_chartView = [[ChartView alloc] initWithFrame:CGRectZero];
+		
+	self.view = (UIView *)_chartView;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
+- (void)viewDidLoad {
+	[super viewDidLoad];
 	
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
-	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];	
+	[_symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
+	[self requestChartForPeriod:365];
 }
 
 - (void)updateChart {
-	Chart *chartChart = self.symbol.chart;
-	NSData *data = chartChart.data;
+	NSData *data = _symbol.chart.data;
 	UIImage *image = [UIImage imageWithData:data];
-	self.chart.image = image;		
+	_chartView.chartView.image = image;		
 }
 
 #pragma mark -
 #pragma mark Actions
-- (void)chartPeriodSelected:(id)sender {
-	UISegmentedControl *control = sender;
-	NSInteger index = control.selectedSegmentIndex;
-	switch (index) {
-		case 0:
-			period = 0;
-			break;
-		case 1:
-			period = 30;
-			break;
-		case 2:
-			period = 365;
-			break;
-		default:
-			break;
-	}
+- (void)requestChartForPeriod:(NSUInteger)period {
+	CGRect bounds = self.view.bounds;
 	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
-	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];
+	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", _symbol.feed.feedNumber, _symbol.tickerSymbol];
+	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:period width:bounds.size.width height:bounds.size.height orientation:_orientation];
 }
 
 #pragma mark -
@@ -129,25 +74,10 @@
 }
 
 #pragma mark -
-#pragma mark Actions
-- (void)done:(id)sender {
-	[self.delegate chartControllerDidFinish:self];
-}
-
-- (void)refresh:(id)sender {
-	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
-	
-	[communicator graphForFeedTicker:feedTicker period:period width:self.chart.bounds.size.width height:self.chart.bounds.size.height orientation:@"P"];
-}
-
-#pragma mark -
 #pragma mark Memory management
-- (void)dealloc {
-	[self.symbol removeObserver:self forKeyPath:@"chart.data"];
+- (void)dealloc {	
 	[_symbol release];	
-	[_chart release];
+	[_chartView release];
 	
     [super dealloc];
 }

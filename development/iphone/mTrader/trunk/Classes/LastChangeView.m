@@ -14,50 +14,52 @@
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
-#import "Chart.h"
+#import "ChartController.h"
 
+@interface LastChangeView ()
+- (void)updateSymbol;
+@end
 
 @implementation LastChangeView
-@synthesize viewController = _viewController;
 @synthesize symbol = _symbol;
-@synthesize time = _time;
-@synthesize last = _last;
-@synthesize lastChange = _lastChange;
-@synthesize lastPercentChange = _lastPercentChange;
-@synthesize chart = _chart;
 
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self != nil) {
-		_last = [[UILabel alloc] initWithFrame:CGRectZero];
-		_last.font = [UIFont boldSystemFontOfSize:44.0];
-		_last.adjustsFontSizeToFitWidth = YES;
-		_last.textAlignment = UITextAlignmentCenter;
-		[self addSubview:_last];
+		_symbol = nil;
 		
-		_lastChange = [[UILabel alloc] initWithFrame:CGRectZero];
-		_lastChange.font = [UIFont boldSystemFontOfSize:14.0];
-		_lastChange.adjustsFontSizeToFitWidth = YES;
-		_lastChange.textAlignment = UITextAlignmentLeft;
-		[self addSubview:_lastChange];
+		_lastLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_lastLabel.font = [UIFont boldSystemFontOfSize:44.0];
+		_lastLabel.adjustsFontSizeToFitWidth = YES;
+		_lastLabel.textAlignment = UITextAlignmentCenter;
+		[self addSubview:_lastLabel];
 		
-		_lastPercentChange = [[UILabel alloc] initWithFrame:CGRectZero];
-		_lastPercentChange.font = [UIFont boldSystemFontOfSize:14.0];
-		_lastPercentChange.adjustsFontSizeToFitWidth = YES;
-		_lastPercentChange.textAlignment = UITextAlignmentRight;
-		[self addSubview:_lastPercentChange];
+		_lastChangeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_lastChangeLabel.font = [UIFont boldSystemFontOfSize:14.0];
+		_lastChangeLabel.adjustsFontSizeToFitWidth = YES;
+		_lastChangeLabel.textAlignment = UITextAlignmentLeft;
+		[self addSubview:_lastChangeLabel];
 		
-		_time = [[UILabel alloc] initWithFrame:CGRectZero];
-		_time.font = [UIFont systemFontOfSize:12.0];
-		_time.textAlignment = UITextAlignmentLeft;
-		[self addSubview:_time];
+		_lastPercentChangeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_lastPercentChangeLabel.font = [UIFont boldSystemFontOfSize:14.0];
+		_lastPercentChangeLabel.adjustsFontSizeToFitWidth = YES;
+		_lastPercentChangeLabel.textAlignment = UITextAlignmentRight;
+		[self addSubview:_lastPercentChangeLabel];
 		
-		_chart = [[UIButton alloc] initWithFrame:CGRectZero];
-		[_chart addTarget:_viewController action:@selector(chart:) forControlEvents:UIControlEventTouchUpInside];
-		_chart.backgroundColor = [UIColor clearColor];
-		[self addSubview:_chart];
+		_timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		_timeLabel.font = [UIFont systemFontOfSize:12.0];
+		_timeLabel.textAlignment = UITextAlignmentLeft;
+		[self addSubview:_timeLabel];
+		
+		_chartButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		_chartButton.backgroundColor = [UIColor yellowColor];
+
+		_chartController = [[ChartController alloc] initWithSymbol:_symbol];
+		UIView *chartView = _chartController.view;
+		[_chartButton addSubview:chartView];
+		[self addSubview:_chartButton];
 	}
 	return self;
 }
@@ -65,50 +67,39 @@
 - (void)layoutSubviews {
 	CGRect bounds = self.bounds;
 	
-	CGSize lastFontSize = [@"X" sizeWithFont:_last.font];
-	CGSize lastChangeFontSize = [@"X" sizeWithFont:_lastChange.font];
-	CGSize lastPercentChangeFontSize = [@"X" sizeWithFont:_lastPercentChange.font];
-	CGSize timeFontSize = [@"X" sizeWithFont:_time.font];
+	CGSize lastFontSize = [@"X" sizeWithFont:_lastLabel.font];
+	CGSize lastChangeFontSize = [@"X" sizeWithFont:_lastChangeLabel.font];
+	CGSize lastPercentChangeFontSize = [@"X" sizeWithFont:_lastPercentChangeLabel.font];
+	CGSize timeFontSize = [@"X" sizeWithFont:_timeLabel.font];
 	
 	CGFloat globalY = 0.0f;
-	_last.frame = CGRectMake(0.0f, globalY, bounds.size.width, lastFontSize.height);
+	_lastLabel.frame = CGRectMake(0.0f, globalY, bounds.size.width, lastFontSize.height);
 	globalY += lastFontSize.height;
 	
-	_lastChange.frame = CGRectMake(0.0f, globalY, bounds.size.width / 2.0f, lastChangeFontSize.height);	
-	_lastPercentChange.frame = CGRectMake(0.0f + bounds.size.width / 2.0f, globalY, bounds.size.width / 2.0f, lastPercentChangeFontSize.height);
+	_lastChangeLabel.frame = CGRectMake(0.0f, globalY, bounds.size.width / 2.0f, lastChangeFontSize.height);	
+	_lastPercentChangeLabel.frame = CGRectMake(0.0f + bounds.size.width / 2.0f, globalY, bounds.size.width / 2.0f, lastPercentChangeFontSize.height);
 	globalY += lastPercentChangeFontSize.height;
 	
-	_time.frame = CGRectMake(0.0f, globalY, bounds.size.width, timeFontSize.height);
+	_timeLabel.frame = CGRectMake(0.0f, globalY, bounds.size.width, timeFontSize.height);
 	globalY += timeFontSize.height;
 	
-	_chart.frame = CGRectMake(0.0f, globalY, bounds.size.width, globalY);
-	
-	CGFloat chartWidth = floorf(bounds.size.width) - 1.0f;
-	CGFloat chartHeight = floorf(globalY) - 1.0f;
-	
-	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", _symbol.feed.feedNumber, _symbol.tickerSymbol];
-	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:365 width:chartWidth height:chartHeight orientation:@"A"];
+	_chartButton.frame = CGRectMake(0.0f, globalY, bounds.size.width, globalY);
 }
 
 
 #pragma mark -
 #pragma mark Symbol methods
 - (void)setSymbol:(Symbol *)symbol {
+	if (_symbol != nil) {
+		return;
+	}
 	_symbol = [symbol retain];
 	
 	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
 	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.change" options:NSKeyValueObservingOptionNew context:nil];
 	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.changePercent" options:NSKeyValueObservingOptionNew context:nil];
-	[_symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
 	
 	[self updateSymbol];
-	[self setNeedsDisplay];
-}
-
-- (void)updateChart {
-	NSData *data = _symbol.chart.data;
-	UIImage *image = [UIImage imageWithData:data];
-	[_chart setImage:image forState:UIControlStateNormal];
 }
 
 - (void)updateSymbol {
@@ -150,20 +141,17 @@
 			break;
 	}
 	
-	[_lastChange setTextColor:textColor];
-	[_lastPercentChange setTextColor:textColor];
+	[_lastChangeLabel setTextColor:textColor];
+	[_lastPercentChangeLabel setTextColor:textColor];
 	
 	NSUInteger decimals = [_symbol.feed.decimals integerValue];
 	[doubleFormatter setMinimumFractionDigits:decimals];
 	[doubleFormatter setMaximumFractionDigits:decimals];
 	
-	_last.text = [doubleFormatter stringFromNumber:_symbol.symbolDynamicData.lastTrade];
-	_lastChange.text = [doubleFormatter stringFromNumber:_symbol.symbolDynamicData.change];
-	_lastPercentChange.text = [percentFormatter stringFromNumber:_symbol.symbolDynamicData.changePercent];
-	_time.text = [dateFormatter stringFromDate:_symbol.symbolDynamicData.lastTradeTime];
-	
-	UIImage *image = [UIImage imageWithData:_symbol.chart.data];
-	[_chart setImage:image forState:UIControlStateNormal];
+	_lastLabel.text = [doubleFormatter stringFromNumber:_symbol.symbolDynamicData.lastTrade];
+	_lastChangeLabel.text = [doubleFormatter stringFromNumber:_symbol.symbolDynamicData.change];
+	_lastPercentChangeLabel.text = [percentFormatter stringFromNumber:_symbol.symbolDynamicData.changePercent];
+	_timeLabel.text = [dateFormatter stringFromDate:_symbol.symbolDynamicData.lastTradeTime];
 }
 
 #pragma mark -
@@ -173,8 +161,6 @@
 		[keyPath isEqualToString:@"symbolDynamicData.change"] || 
 		[keyPath isEqualToString:@"symbolDynamicData.changePercent"]) {
 		[self updateSymbol];
-	} else if ([keyPath isEqualToString:@"chart.data"]) {
-		[self updateChart];
 	}
 }
 
@@ -184,14 +170,14 @@
 	[_symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
 	[_symbol removeObserver:self forKeyPath:@"symbolDynamicData.change"];
 	[_symbol removeObserver:self forKeyPath:@"symbolDynamicData.changePercent"];
-	[_symbol removeObserver:self forKeyPath:@"chart.data"];
 	
 	[_symbol release];
-	[_time release];
-	[_last release];
-	[_lastChange release];
-	[_lastPercentChange release];
-	[_chart release];
+	[_timeLabel release];
+	[_lastLabel release];
+	[_lastChangeLabel release];
+	[_lastPercentChangeLabel release];
+	[_chartButton release];
+	[_chartController release];
 
 	[super dealloc];
 }

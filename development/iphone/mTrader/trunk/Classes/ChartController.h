@@ -9,28 +9,28 @@
 
 #import "mTraderCommunicator.h"
 @class Symbol;
+@class ChartView;
 @protocol ChartControllerDelegate;
 
 @interface ChartController : UIViewController {
 @private
 	id <ChartControllerDelegate> delegate;
-		
+	
 	Symbol *_symbol;
-	UIImageView *_chart;
-	UIToolbar *_toolBar;
-		
-	NSUInteger period;
-	CGFloat globalY;
-
+	ChartView *_chartView;
+	UIToolbar *_periodSelectionToolbar;
+	
+	NSUInteger _period;
+	NSString *_orientation;
 }
 
 @property (assign) id <ChartControllerDelegate> delegate;
 @property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) UIImageView *chart;
-@property (nonatomic, retain) UIToolbar *toolBar;
+@property (nonatomic, retain) NSString *orientation;
+@property NSUInteger period;
 
 - (id)initWithSymbol:(Symbol *)symbol;
-- (void)updateChart;
+- (void)requestChartForPeriod:(NSUInteger)period;
 
 @end
 

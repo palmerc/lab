@@ -29,7 +29,7 @@
 	
 	Symbol *_symbol;
 	
-	LastChangeView *_lastBox;
+	LastChangeView *_lastChangeView;
 	TradesLiveInfoView *_tradesLiveBox;
 	
 	PastTradesController *_pastTradesController;
