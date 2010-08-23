@@ -22,6 +22,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
 		_trade = nil;
+		_mainFont = nil;
 		
 		_timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_timeLabel.textAlignment = UITextAlignmentLeft;
@@ -77,6 +78,7 @@
 	[_volumeLabel release];
 	[_buyerLabel release];
 	[_sellerLabel release];
+	[_mainFont release];
 	
 	[_trade release];
     

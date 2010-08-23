@@ -8,11 +8,14 @@
 
 
 #import "mTraderCommunicator.h"
+
+#import "ChartView.h"
+
 @class Symbol;
 @class ChartView;
 @protocol ChartControllerDelegate;
 
-@interface ChartController : UIViewController {
+@interface ChartController : UIViewController <ChartRequestDelegate> {
 @private
 	id <ChartControllerDelegate> delegate;
 	
@@ -26,11 +29,8 @@
 
 @property (assign) id <ChartControllerDelegate> delegate;
 @property (nonatomic, retain) Symbol *symbol;
-@property (nonatomic, retain) NSString *orientation;
 @property NSUInteger period;
-
-- (id)initWithSymbol:(Symbol *)symbol;
-- (void)requestChartForPeriod:(NSUInteger)period;
+@property (nonatomic, retain) NSString *orientation;
 
 @end
 

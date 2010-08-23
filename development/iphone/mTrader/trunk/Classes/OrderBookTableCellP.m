@@ -32,10 +32,37 @@
 		_maxWidth = 0.0f;
 		_mainFont = nil;
 		
-		_bidSizeLabel = [[self createLabel] retain];		
-		_bidValueLabel = [[self createLabel] retain];
-		_askSizeLabel = [[self createLabel] retain];
-		_askValueLabel = [[self createLabel] retain];
+		_bidSizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_bidSizeLabel setBackgroundColor:[UIColor clearColor]];
+		[_bidSizeLabel setTextColor:[UIColor blackColor]];
+		[_bidSizeLabel setAdjustsFontSizeToFitWidth:YES];
+		[_bidSizeLabel setTextAlignment:UITextAlignmentRight];
+		[_bidSizeLabel setHighlightedTextColor:[UIColor blackColor]];
+		[self.contentView addSubview:_bidSizeLabel];
+					
+		_bidValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_bidValueLabel setBackgroundColor:[UIColor clearColor]];
+		[_bidValueLabel setTextColor:[UIColor blackColor]];
+		[_bidValueLabel setAdjustsFontSizeToFitWidth:YES];
+		[_bidValueLabel setTextAlignment:UITextAlignmentRight];
+		[_bidValueLabel setHighlightedTextColor:[UIColor blackColor]];
+		[self.contentView addSubview:_bidValueLabel];
+		
+		_askSizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_askSizeLabel setBackgroundColor:[UIColor clearColor]];
+		[_askSizeLabel setTextColor:[UIColor blackColor]];
+		[_askSizeLabel setAdjustsFontSizeToFitWidth:YES];
+		[_askSizeLabel setTextAlignment:UITextAlignmentRight];
+		[_askSizeLabel setHighlightedTextColor:[UIColor blackColor]];
+		[self.contentView addSubview:_askSizeLabel];
+		
+		_askValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		[_askValueLabel setBackgroundColor:[UIColor clearColor]];
+		[_askValueLabel setTextColor:[UIColor blackColor]];
+		[_askValueLabel setAdjustsFontSizeToFitWidth:YES];
+		[_askValueLabel setTextAlignment:UITextAlignmentRight];
+		[_askValueLabel setHighlightedTextColor:[UIColor blackColor]];
+		[self.contentView addSubview:_askValueLabel];
 					
 		_bidAsk = nil;
 		
@@ -43,27 +70,16 @@
     return self;
 }
 
-- (void)setMainFont:(UIFont *)font {
-	if (_mainFont != nil) {
-		[_mainFont release];
+- (void)setMainFont:(UIFont *)aFont {
+	if (_mainFont == aFont) {
+		return;
 	}
-	_mainFont = [font retain];
-	CGSize fontSize = [@"X" sizeWithFont:font];
+	[_mainFont release];
+	_mainFont = [aFont retain];
+	CGSize fontSize = [@"X" sizeWithFont:aFont];
 	_lineHeight = fontSize.height;
 	
 	[self setNeedsLayout];
-}
-
-- (UILabel *)createLabel {	
-	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-	[label setBackgroundColor:[UIColor clearColor]];
-	[label setTextColor:[UIColor blackColor]];
-	[label setAdjustsFontSizeToFitWidth:YES];
-	[label setTextAlignment:UITextAlignmentRight];
-	[label setHighlightedTextColor:[UIColor blackColor]];
-	[self.contentView addSubview:label];
-	
-	return label;
 }
 
 #pragma mark -

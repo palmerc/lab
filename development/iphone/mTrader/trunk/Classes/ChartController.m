@@ -25,44 +25,55 @@
 #pragma mark -
 #pragma mark Initialization
 
-- (id)initWithSymbol:(Symbol *)symbol {
+- (id)init {
     if (self = [super init]) {
-		_symbol = [symbol retain];
-		
+		_symbol = nil;
+
 		_chartView = nil;
 		
 		_period = 0;
-		_orientation = @"P";
+		_orientation = @"A";
 	}
     return self;
 }
 
 - (void)loadView {	
 	_chartView = [[ChartView alloc] initWithFrame:CGRectZero];
-		
+	_chartView.delegate = self;
+	_chartView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	_chartView.autoresizesSubviews = YES;
 	self.view = (UIView *)_chartView;
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
+- (void)setSymbol:(Symbol *)symbol {
+	if (symbol == _symbol) {
+		return;
+	}
+
+	[_symbol release];
+	_symbol = [symbol retain];
 	
 	[_symbol addObserver:self forKeyPath:@"chart.data" options:NSKeyValueObservingOptionNew context:nil];
-	[self requestChartForPeriod:365];
 }
 
 - (void)updateChart {
 	NSData *data = _symbol.chart.data;
 	UIImage *image = [UIImage imageWithData:data];
+	_chartView.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
 	_chartView.chartView.image = image;		
 }
 
 #pragma mark -
 #pragma mark Actions
-- (void)requestChartForPeriod:(NSUInteger)period {
+- (void)chartRequest {
 	CGRect bounds = self.view.bounds;
 	
+	if (bounds.size.height == 0 || bounds.size.width == 0) {
+		return;
+	}
+	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", _symbol.feed.feedNumber, _symbol.tickerSymbol];
-	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:period width:bounds.size.width height:bounds.size.height orientation:_orientation];
+	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:_period width:bounds.size.width height:bounds.size.height orientation:_orientation];
 }
 
 #pragma mark -
@@ -75,7 +86,9 @@
 
 #pragma mark -
 #pragma mark Memory management
-- (void)dealloc {	
+- (void)dealloc {
+	[_symbol removeObserver:self forKeyPath:@"chart.data"];
+	
 	[_symbol release];	
 	[_chartView release];
 	

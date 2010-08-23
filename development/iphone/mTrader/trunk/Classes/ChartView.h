@@ -6,17 +6,23 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
+@protocol ChartRequestDelegate;
 
 @interface ChartView : UIView {
 @private
+	id <ChartRequestDelegate> delegate;
+	
 	UIImageView *_chartView;
 	UISegmentedControl *_periodSelectionControl;
 	UIToolbar *_toolbar;
 }
 
+@property (nonatomic, assign) id <ChartRequestDelegate> delegate;
 @property (nonatomic, readonly) UIImageView *chartView;
 @property (readonly) UISegmentedControl *periodSelectionControl;
 
 @end
+
+@protocol ChartRequestDelegate <NSObject>
+- (void)chartRequest;
+@end;

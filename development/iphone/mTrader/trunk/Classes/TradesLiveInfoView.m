@@ -249,6 +249,10 @@
 #pragma mark -
 #pragma mark Symbol methods
 - (void)setSymbol:(Symbol *)symbol {
+	if (symbol == _symbol) {
+		return;
+	}
+	[_symbol release];
 	_symbol = [symbol retain];
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", _symbol.feed.feedNumber, _symbol.tickerSymbol];

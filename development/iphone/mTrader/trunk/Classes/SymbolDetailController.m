@@ -57,36 +57,39 @@
 	/*** Last ***/
 	CGRect lastRoundedFrame = CGRectMake(0.0, 0.0, halfWidth, 220.0f);
 	CGRect lastInnerFrame = CGRectMake(10.0f, 10.0f, halfWidth - 20.f, 200.0f);
+	
+	_lastChangeView = [[LastChangeView alloc] initWithFrame:lastInnerFrame];
+	_lastChangeView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	_lastChangeView.autoresizesSubviews = YES;
+	_lastChangeView.symbol = self.symbol;	
+	
 	RoundedRectangleFrame *lastBox = [[RoundedRectangleFrame alloc] initWithFrame:lastRoundedFrame];
 	lastBox.strokeWidth = 0.75f;
 	lastBox.cornerRadius = 10.0f;
 	lastBox.padding = 6.0f;
 	lastBox.backgroundColor = [UIColor clearColor];
-	[aView addSubview:lastBox];
-	
-	_lastChangeView = [[LastChangeView alloc] initWithFrame:lastInnerFrame];
-	_lastChangeView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-	_lastChangeView.autoresizesSubviews = YES;
-	_lastChangeView.symbol = self.symbol;
-
 	[lastBox addSubview:_lastChangeView];
+
+	[aView addSubview:lastBox];
 	[lastBox release];
-	
+		
 	/*** Trades Information ****/
 	CGRect tradesRoundedFrame = CGRectMake(applicationFrame.size.width / 2.0f, 0.0, halfWidth, 220.0f);
 	CGRect tradesInnerFrame = CGRectMake(10.0f, 10.0f, halfWidth - 20.f, 200.0f);
-	RoundedRectangleFrame *tradesBox = [[RoundedRectangleFrame alloc] initWithFrame:tradesRoundedFrame];
-	tradesBox.strokeWidth = 0.75f;
-	tradesBox.cornerRadius = 10.0f;
-	tradesBox.padding = 6.0f;
-	tradesBox.backgroundColor = [UIColor clearColor];
-	[aView addSubview:tradesBox];
 	
 	_tradesLiveBox = [[TradesLiveInfoView alloc] initWithFrame:tradesInnerFrame];
 	_tradesLiveBox.symbol = self.symbol;
 	_tradesLiveBox.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	_tradesLiveBox.autoresizesSubviews = YES;
+	
+	RoundedRectangleFrame *tradesBox = [[RoundedRectangleFrame alloc] initWithFrame:tradesRoundedFrame];
+	tradesBox.strokeWidth = 0.75f;
+	tradesBox.cornerRadius = 10.0f;
+	tradesBox.padding = 6.0f;
+	tradesBox.backgroundColor = [UIColor clearColor];
 	[tradesBox addSubview:_tradesLiveBox];
+
+	[aView addSubview:tradesBox];
 	[tradesBox release];	
 	
 	CGRect detailRoundedFrame = CGRectMake(0.0, 0.0, applicationFrame.size.width, applicationFrame.size.height - tradesRoundedFrame.size.height - 90.0f);

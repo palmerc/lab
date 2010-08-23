@@ -54,12 +54,12 @@
 		[self addSubview:_timeLabel];
 		
 		_chartButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		_chartButton.backgroundColor = [UIColor yellowColor];
-
-		_chartController = [[ChartController alloc] initWithSymbol:_symbol];
-		UIView *chartView = _chartController.view;
-		[_chartButton addSubview:chartView];
 		[self addSubview:_chartButton];
+		
+		_chartController = [[ChartController alloc] init];
+		UIView *chartView = _chartController.view;
+	
+		[_chartButton addSubview:chartView];
 	}
 	return self;
 }
@@ -90,10 +90,13 @@
 #pragma mark -
 #pragma mark Symbol methods
 - (void)setSymbol:(Symbol *)symbol {
-	if (_symbol != nil) {
+	if (_symbol == symbol) {
 		return;
 	}
+	[_symbol release];
 	_symbol = [symbol retain];
+	
+	_chartController.symbol = symbol;
 	
 	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
 	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.change" options:NSKeyValueObservingOptionNew context:nil];
