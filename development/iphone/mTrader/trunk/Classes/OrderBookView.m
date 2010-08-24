@@ -17,34 +17,32 @@
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {	
+    if (self = [super initWithFrame:frame]) {		
 		_headerFont = [UIFont boldSystemFontOfSize:14.0];
-		
-		_orderBookButton = [[UIButton alloc] initWithFrame:frame];
 		
 		_askSizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_askSizeLabel.textAlignment = UITextAlignmentCenter;
 		_askSizeLabel.font = _headerFont;
 		_askSizeLabel.text = NSLocalizedString(@"askSize", @"A Size");
-		[_orderBookButton addSubview:_askSizeLabel];
+		[self addSubview:_askSizeLabel];
 
 		_askValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_askValueLabel.textAlignment = UITextAlignmentCenter;
 		_askValueLabel.font = _headerFont;
 		_askValueLabel.text = NSLocalizedString(@"askPrice", @"A Price");
-		[_orderBookButton addSubview:_askValueLabel];
+		[self addSubview:_askValueLabel];
 		
 		_bidSizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_bidSizeLabel.textAlignment = UITextAlignmentCenter;
 		_bidSizeLabel.font = _headerFont;
 		_bidSizeLabel.text = NSLocalizedString(@"bidSize", @"B Size");
-		[_orderBookButton addSubview:_bidSizeLabel];
+		[self addSubview:_bidSizeLabel];
 
 		_bidValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_bidValueLabel.textAlignment = UITextAlignmentCenter;
 		_bidValueLabel.font = _headerFont;
 		_bidValueLabel.text = NSLocalizedString(@"bidPrice", @"B Price");
-		[_orderBookButton addSubview:_bidValueLabel];
+		[self addSubview:_bidValueLabel];
 		
 		NSString *labelString = NSLocalizedString(@"noOrderbookAvailable", @"No Orderbook Available");
 		
@@ -55,12 +53,10 @@
 		_orderbookAvailableLabel.backgroundColor = [UIColor whiteColor];
 		_orderbookAvailableLabel.text = labelString;
 		_orderbookAvailableLabel.hidden = YES;
-		[_orderBookButton addSubview:_orderbookAvailableLabel];
+		[self addSubview:_orderbookAvailableLabel];
 
 		_tableView = [[UITableView alloc] initWithFrame:CGRectZero];
-		[_orderBookButton addSubview:_tableView];
-		
-		[self addSubview:_orderBookButton];
+		[self addSubview:_tableView];
 	}
 	
     return self;
@@ -68,7 +64,7 @@
 
 - (void)layoutSubviews {
 	CGRect bounds = self.bounds;
-	
+		
 	CGSize headerFontSize = [@"X" sizeWithFont:_headerFont];
 	CGFloat quarterWidth = floorf(bounds.size.width / 4.0f);
 	CGRect bidSizeLabelFrame = CGRectMake(0.0f, 0.0f, quarterWidth, headerFontSize.height);
@@ -87,6 +83,10 @@
 	
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {		
+	return nil;
+}
+
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
@@ -96,7 +96,6 @@
 	[_bidValueLabel release];
 	[_bidSizeLabel release];
 	[_orderbookAvailableLabel release];
-	[_orderBookButton release];
 		
     [super dealloc];
 }

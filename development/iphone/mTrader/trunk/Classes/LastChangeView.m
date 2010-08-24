@@ -15,6 +15,7 @@
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
 #import "ChartController.h"
+#import "ChartView.h"
 
 @interface LastChangeView ()
 - (void)updateSymbol;
@@ -52,14 +53,11 @@
 		_timeLabel.font = [UIFont systemFontOfSize:12.0];
 		_timeLabel.textAlignment = UITextAlignmentLeft;
 		[self addSubview:_timeLabel];
-		
-		_chartButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[self addSubview:_chartButton];
-		
+			
 		_chartController = [[ChartController alloc] init];
 		UIView *chartView = _chartController.view;
 	
-		[_chartButton addSubview:chartView];
+		[self addSubview:chartView];
 	}
 	return self;
 }
@@ -83,7 +81,8 @@
 	_timeLabel.frame = CGRectMake(0.0f, globalY, bounds.size.width, timeFontSize.height);
 	globalY += timeFontSize.height;
 	
-	_chartButton.frame = CGRectMake(0.0f, globalY, bounds.size.width, globalY);
+	//_chartButton.frame = CGRectMake(0.0f, globalY, bounds.size.width, globalY);
+	_chartController.view.frame = CGRectMake(0.0f, globalY, bounds.size.width, globalY);
 }
 
 
@@ -179,7 +178,6 @@
 	[_lastLabel release];
 	[_lastChangeLabel release];
 	[_lastPercentChangeLabel release];
-	[_chartButton release];
 	[_chartController release];
 
 	[super dealloc];

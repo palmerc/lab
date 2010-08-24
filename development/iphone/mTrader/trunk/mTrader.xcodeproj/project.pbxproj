@@ -55,7 +55,6 @@
 		7E73CB5111EDDA430075613A /* HalfRoundedRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E73CB4C11EDDA430075613A /* HalfRoundedRectangle.m */; };
 		7E73CB5211EDDA430075613A /* StatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E73CB4E11EDDA430075613A /* StatusController.m */; };
 		7E73CB5311EDDA430075613A /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E73CB5011EDDA430075613A /* StatusView.m */; };
-		7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E795A8E11591292006E35F4 /* OrderBookModalController.m */; };
 		7E7C97DC11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m */; };
 		7E7C97DF11A6C75400DFA31E /* CPHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C97DE11A6C75400DFA31E /* CPHost.m */; };
 		7E8A6FD110F604B4003D7E29 /* SymbolDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8A6FD010F604B4003D7E29 /* SymbolDetailController.m */; };
@@ -95,6 +94,7 @@
 		7EC2F70F121A9EDD00E6BA63 /* PastTradesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2F70E121A9EDD00E6BA63 /* PastTradesView.m */; };
 		7EC7233D121E81A700127285 /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC7233C121E81A700127285 /* ChartView.m */; };
 		7ED5D7B2115677D3007EB033 /* MyListHeaderViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED5D7B1115677D3007EB033 /* MyListHeaderViewController_Phone.m */; };
+		7EDE8F381223AEFC008CF7DD /* IntradayPlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EDE8F371223AEFC008CF7DD /* IntradayPlaceholder.png */; };
 		7EE2A72011172B0100B682BD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE2A71F11172B0100B682BD /* CoreData.framework */; };
 		7EF2A556115A114C0049A8C1 /* SymbolNewsModalController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2A555115A114C0049A8C1 /* SymbolNewsModalController_Phone.m */; };
 		7EF6FE881190246E0001D3A9 /* FeedsTableViewController_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6FE871190246E0001D3A9 /* FeedsTableViewController_Phone.m */; };
@@ -193,8 +193,6 @@
 		7E73CB4E11EDDA430075613A /* StatusController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusController.m; sourceTree = "<group>"; };
 		7E73CB4F11EDDA430075613A /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
 		7E73CB5011EDDA430075613A /* StatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusView.m; sourceTree = "<group>"; };
-		7E795A8D11591292006E35F4 /* OrderBookModalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderBookModalController.h; sourceTree = "<group>"; };
-		7E795A8E11591292006E35F4 /* OrderBookModalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderBookModalController.m; sourceTree = "<group>"; };
 		7E7C97DA11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkDiagnosticViewController_Phone.h; sourceTree = "<group>"; };
 		7E7C97DB11A6C6FF00DFA31E /* NetworkDiagnosticViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkDiagnosticViewController_Phone.m; sourceTree = "<group>"; };
 		7E7C97DD11A6C75400DFA31E /* CPHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHost.h; sourceTree = "<group>"; };
@@ -257,6 +255,7 @@
 		7EC7233C121E81A700127285 /* ChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartView.m; sourceTree = "<group>"; };
 		7ED5D7B0115677D3007EB033 /* MyListHeaderViewController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListHeaderViewController_Phone.h; sourceTree = "<group>"; };
 		7ED5D7B1115677D3007EB033 /* MyListHeaderViewController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListHeaderViewController_Phone.m; sourceTree = "<group>"; };
+		7EDE8F371223AEFC008CF7DD /* IntradayPlaceholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IntradayPlaceholder.png; sourceTree = "<group>"; };
 		7EE2A71F11172B0100B682BD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7EF2A554115A114C0049A8C1 /* SymbolNewsModalController_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolNewsModalController_Phone.h; sourceTree = "<group>"; };
 		7EF2A555115A114C0049A8C1 /* SymbolNewsModalController_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolNewsModalController_Phone.m; sourceTree = "<group>"; };
@@ -407,6 +406,7 @@
 				7E0C128A121D624600A7EE08 /* TradesTab@2x.png */,
 				7E0C128B121D624600A7EE08 /* OrdersTab.png */,
 				7E0C1289121D624600A7EE08 /* OrdersTab@2x.png */,
+				7EDE8F371223AEFC008CF7DD /* IntradayPlaceholder.png */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -539,8 +539,6 @@
 		7E723BAC11294B350073A07B /* OrderBook */ = {
 			isa = PBXGroup;
 			children = (
-				7E795A8D11591292006E35F4 /* OrderBookModalController.h */,
-				7E795A8E11591292006E35F4 /* OrderBookModalController.m */,
 				7E723B601129413E0073A07B /* OrderBookController.h */,
 				7E723B611129413E0073A07B /* OrderBookController.m */,
 				7E38626A1149239A00CA1086 /* OrderBookView.h */,
@@ -794,6 +792,7 @@
 				7E0C1290121D624600A7EE08 /* TradesTab@2x.png in Resources */,
 				7E0C1291121D624600A7EE08 /* OrdersTab.png in Resources */,
 				7E0C1292121D624600A7EE08 /* TradesTab.png in Resources */,
+				7EDE8F381223AEFC008CF7DD /* IntradayPlaceholder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,7 +832,6 @@
 				7E38640911494AB300CA1086 /* DataController.m in Sources */,
 				7E57C012114A834600A1AF93 /* QFields.m in Sources */,
 				7ED5D7B2115677D3007EB033 /* MyListHeaderViewController_Phone.m in Sources */,
-				7E795A8F11591292006E35F4 /* OrderBookModalController.m in Sources */,
 				7EF2A556115A114C0049A8C1 /* SymbolNewsModalController_Phone.m in Sources */,
 				7EF6FE881190246E0001D3A9 /* FeedsTableViewController_Phone.m in Sources */,
 				7EA4D4ED119D6F6F00036EF6 /* ScrollViewPageControl.m in Sources */,

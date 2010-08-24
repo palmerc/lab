@@ -37,12 +37,15 @@
     return self;
 }
 
-- (void)loadView {	
+- (void)loadView {
 	_chartView = [[ChartView alloc] initWithFrame:CGRectZero];
 	_chartView.delegate = self;
 	_chartView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	_chartView.autoresizesSubviews = YES;
-	self.view = (UIView *)_chartView;
+	
+	//[(UIImageView *)[_chartView.chart alloc] initWithImage:intradayPlaceholder];
+	
+	self.view = _chartView;
 }
 
 - (void)setSymbol:(Symbol *)symbol {
@@ -57,10 +60,17 @@
 }
 
 - (void)updateChart {
+	static NSUInteger value = 0;
+	
 	NSData *data = _symbol.chart.data;
+	NSString *urlString = [NSString stringWithFormat:@"file:/Users/cameron/graph%d.png", value];
+	NSURL *url = [NSURL URLWithString:urlString];
+	[data writeToURL:url atomically:YES];
 	UIImage *image = [UIImage imageWithData:data];
-	_chartView.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
-	_chartView.chartView.image = image;		
+	//_chartView.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
+	_chartView.chart.image = image;
+	
+	value++;
 }
 
 #pragma mark -

@@ -7,18 +7,16 @@
 //
 
 
-#import "mTraderCommunicator.h"
 #import "DataController.h"
-
 
 @class Symbol;
 
-@interface OrderBookController : UIViewController <OrderBookDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface OrderBookController : UIViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
 @private
 	NSManagedObjectContext *_managedObjectContext;
+	NSFetchedResultsController *_fetchedResultsController;
 	
 	Symbol *_symbol;
-	NSArray *_bidAsks;
 	
 	UIFont *_tableFont;
 	UILabel *_orderbookAvailableLabel;
@@ -26,6 +24,7 @@
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 

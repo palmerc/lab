@@ -25,6 +25,7 @@
 #import "RoundedRectangleFrame.h"
 #import "RoundedRectangleFrame.h"
 #import "OrderBookController.h"
+#import "OrderBookView.h"
 #import "PastTradesController.h"
 #import "ChartController.h";
 #import "SymbolNewsModalController_Phone.h"
@@ -94,7 +95,10 @@
 	
 	CGRect detailRoundedFrame = CGRectMake(0.0, 0.0, applicationFrame.size.width, applicationFrame.size.height - tradesRoundedFrame.size.height - 90.0f);
 	CGRect detailInnerFrame = CGRectMake(10.0f, 10.0f, detailRoundedFrame.size.width - 20.0f, detailRoundedFrame.size.height - 20.0f);
-		
+	CGRect detailInnerBounds = detailInnerFrame;
+	detailInnerBounds.origin.x = 0;
+	detailInnerBounds.origin.y = 0;
+	
 	/*** Orderbook ***/
 	RoundedRectangleFrame *orderBookBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
 	orderBookBox.strokeWidth = 0.75f;
@@ -102,13 +106,19 @@
 	orderBookBox.padding = 6.0f;
 	orderBookBox.backgroundColor = [UIColor clearColor];
 	
-	_orderBookController = [[OrderBookController alloc] initWithSymbol:self.symbol];
+	_orderBookController = [[OrderBookController alloc] initWithSymbol:_symbol];
 	_orderBookController.managedObjectContext = _managedObjectContext;
+	
 	UIView *orderBookView = _orderBookController.view;
-	orderBookView.frame = detailInnerFrame;
+	orderBookView.frame = detailInnerBounds;
 	orderBookView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	orderBookView.autoresizesSubviews = YES;
-	[orderBookBox addSubview:orderBookView];
+	
+	UIButton *orderBookButton = [[UIButton alloc] initWithFrame:detailInnerFrame];
+	[orderBookButton addTarget:self action:@selector(orderBookTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
+	[orderBookButton addSubview:orderBookView];
+	[orderBookBox addSubview:orderBookButton];
+	[orderBookButton release];
 	
 	/*** Historic Trades ***/
 	RoundedRectangleFrame *pastTradesBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
@@ -177,6 +187,7 @@
 		self.navigationItem.rightBarButtonItem = analysis;
 		[analysis release];
 	}
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -206,24 +217,11 @@
 	[qFields release];
 	
 	[communicator setStreamingForFeedTicker:feedTicker];
-	[communicator symbolNewsForFeedTicker:feedTicker];	
+	[communicator symbolNewsForFeedTicker:feedTicker];
 }
 
 #pragma mark -
 #pragma mark Action methods
-
-- (void)orderBook:(id)sender {
-	OrderBookModalController *orderBookController = [[OrderBookModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
-	orderBookController.symbol = self.symbol;
-	orderBookController.delegate = self;
-	orderBookController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:orderBookController];
-	[orderBookController release];
-	
-	[self presentModalViewController:navController animated:YES];
-	[navController release];
-}
 
 - (void)trades:(id)sender {
 	TradesModalController *tradesController = [[TradesModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
@@ -281,11 +279,34 @@
 }
 
 #pragma mark -
-#pragma mark Modal view finished methods
+#pragma mark OrderBook Modal View delegate methods
 
-- (void)orderBookModalControllerDidFinish:(OrderBookModalController *)controller {
+- (void)orderBookTouchedUpInside:(id)sender {
+	OrderBookController *orderBookController = [[OrderBookController alloc] initWithSymbol:_symbol];
+	orderBookController.managedObjectContext = _managedObjectContext;
+	
+	orderBookController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	orderBookController.title = [NSString stringWithFormat:@"%@ (%@)", _symbol.tickerSymbol, _symbol.feed.mCode];
+	
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(orderBookModalDone:)];
+	orderBookController.navigationItem.leftBarButtonItem = doneButton;
+	
+	[doneButton release];
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:orderBookController];	
+	[orderBookController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
+
+- (void)orderBookModalDone:(id)sender {	
 	[self dismissModalViewControllerAnimated:YES];
 }
+
+#pragma mark -
+#pragma mark Modal view finished methods
 
 - (void)tradesControllerDidFinish:(TradesModalController *)controller {
 	[self dismissModalViewControllerAnimated:YES];

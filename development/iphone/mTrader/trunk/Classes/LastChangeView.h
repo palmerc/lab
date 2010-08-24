@@ -19,8 +19,6 @@
 	UILabel *_lastLabel;
 	UILabel *_lastChangeLabel;
 	UILabel *_lastPercentChangeLabel;
-	
-	UIButton *_chartButton;
 }
 
 @property (nonatomic, retain) Symbol *symbol;

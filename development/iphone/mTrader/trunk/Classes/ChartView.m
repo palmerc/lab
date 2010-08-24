@@ -11,17 +11,14 @@
 
 @implementation ChartView
 @synthesize delegate;
-@synthesize chartView = _chartView;
+@synthesize chart = _chart;
 @synthesize periodSelectionControl = _periodSelectionControl;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
-		
-		_chartView = [[UIImageView alloc] initWithFrame:CGRectZero];
-		_chartView.backgroundColor = [UIColor yellowColor];
-		
-		[self addSubview:_chartView];
-		
+		_chart = [[UIImageView alloc] initWithFrame:CGRectZero];
+		[self addSubview:_chart];
+
 		NSString *oneDay = NSLocalizedString(@"oneDay", @"1 day");
 		NSString *oneMonth = NSLocalizedString(@"oneMonth", @"1 month");
 		NSString *oneYear = NSLocalizedString(@"oneYear", @"1 year");
@@ -52,7 +49,7 @@
 	CGRect toolBarFrame = CGRectMake(0.0f, bounds.size.height - 44.0f, bounds.size.width, 44.0f);
 	
 	_toolbar.frame = toolBarFrame;
-	
+	_chart.frame = bounds;
 	if (self.delegate && [self.delegate respondsToSelector:@selector(chartRequest)]) {
 		[self.delegate chartRequest];
 	}
@@ -61,7 +58,7 @@
 - (void)dealloc {
 	[_toolbar release];
 	[_periodSelectionControl release];
-	[_chartView release];
+	[_chart release];
 		
     [super dealloc];
 }

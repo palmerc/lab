@@ -23,6 +23,8 @@
 
 @interface DataController : NSObject <NSFetchedResultsControllerDelegate, SymbolsDataDelegate> {
 @private
+	id <OrderBookDelegate> orderBookDelegate;
+	
 	NSFetchedResultsController *_fetchedResultsController;
 	NSManagedObjectContext *_managedObjectContext;
 	
@@ -32,18 +34,17 @@
 	NSDateFormatter *_yearFormatter;
 }
 
-@property (nonatomic, assign) id <OrderBookDelegate> orderBookDelegate;
-@property (nonatomic, assign) id <TradesDelegate> tradesDelegate;
-@property (nonatomic, assign) id <SearchResultsDelegate> searchDelegate;
+@property (assign) id <OrderBookDelegate> orderBookDelegate;
+@property (assign) id <TradesDelegate> tradesDelegate;
+@property (assign) id <SearchResultsDelegate> searchDelegate;
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 + (DataController *)sharedManager;
-+ (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-+ (NSArray *)fetchTradesForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 - (BidAsk *)fetchBidAskForFeedTicker:(NSString *)feedTicker atIndex:(NSUInteger)index;
+- (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber;
 - (Trade *)fetchTradeForSymbol:(NSString *)feedTicker atIndex:(NSUInteger)index;
 
 - (NewsFeed *)fetchNewsFeed:(NSString *)mCode;
@@ -73,10 +74,6 @@
 
 - (NSArray *)splitFeedTicker:(NSString *)feedTicker;
 
-@end
-
-@protocol OrderBookDelegate <NSObject>
-- (void)updateOrderBook;
 @end
 
 @protocol TradesDelegate <NSObject>

@@ -6,10 +6,10 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+@protocol OrderBookViewDelegate;
+
 @interface OrderBookView : UIView {
-@private	
-	UIButton *_orderBookButton;
-	
+@private
 	UIFont *_headerFont;
 	UILabel *_askSizeLabel;
 	UILabel *_askValueLabel;
@@ -23,3 +23,4 @@
 @property (readonly) UITableView *tableView;
 
 @end
+

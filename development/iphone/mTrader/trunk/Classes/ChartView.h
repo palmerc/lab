@@ -12,13 +12,13 @@
 @private
 	id <ChartRequestDelegate> delegate;
 	
-	UIImageView *_chartView;
+	UIImageView *_chart;
 	UISegmentedControl *_periodSelectionControl;
 	UIToolbar *_toolbar;
 }
 
 @property (nonatomic, assign) id <ChartRequestDelegate> delegate;
-@property (nonatomic, readonly) UIImageView *chartView;
+@property (nonatomic, readonly) UIImageView *chart;
 @property (readonly) UISegmentedControl *periodSelectionControl;
 
 @end

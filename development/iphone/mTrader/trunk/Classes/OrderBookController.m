@@ -10,6 +10,7 @@
 
 #import "OrderBookController.h"
 
+#import "DataController.h"
 #import "OrderBookView.h"
 #import "OrderBookTableCellP.h"
 #import "mTraderCommunicator.h"
@@ -26,16 +27,17 @@
 
 @implementation OrderBookController
 @synthesize managedObjectContext = _managedObjectContext;
+@synthesize fetchedResultsController = _fetchedResultsController;
 
 - (id)initWithSymbol:(Symbol *)symbol {
 	self = [super init];
 	if (self != nil) {
+
 		_symbol = [symbol retain];
 		
 		_tableView = nil;
 		_orderbookAvailableLabel = nil;
 		_managedObjectContext = nil;		
-		_bidAsks = nil;
 	}
 	return self;
 }
@@ -52,28 +54,24 @@
 	[orderBookView release];
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	
-	[DataController sharedManager].orderBookDelegate = self;
-}
-
 #pragma mark -
 #pragma mark TableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 1;
+	return [[_fetchedResultsController sections] count];
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSUInteger rowCount = [_bidAsks count];
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
+    NSUInteger rowCount = [sectionInfo numberOfObjects];
 	
 	if (rowCount == 0) {
 		_orderbookAvailableLabel.hidden = NO;
 	} else {
 		_orderbookAvailableLabel.hidden = YES;
 	}	
-	return [_bidAsks count];
+	return rowCount;
 }
 
 // Customize the appearance of table view cells.
@@ -93,7 +91,7 @@
 }
 
 - (void)configureCell:(OrderBookTableCellP *)cell atIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
-	BidAsk *bidAsk = [_bidAsks objectAtIndex:indexPath.row];
+	BidAsk *bidAsk = (BidAsk *)[_fetchedResultsController objectAtIndexPath:indexPath];
 	
 	cell.bidAsk = bidAsk;
 }
@@ -103,17 +101,102 @@
 	return size.height;
 }
 
-- (void)updateOrderBook {
-	if (_bidAsks != nil) {
-		[_bidAsks release];
-		_bidAsks = nil;
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	if (_managedObjectContext == managedObjectContext) {
+		return;
 	}
+	[_managedObjectContext release];
+	_managedObjectContext = [managedObjectContext retain];
 	
-	NSArray *bidsAsks = [DataController fetchBidAsksForSymbol:_symbol.tickerSymbol withFeedNumber:_symbol.feed.feedNumber inManagedObjectContext:_managedObjectContext];
-	[_bidAsks release];
-	_bidAsks = [bidsAsks retain];
+	NSError *error;
+	if (![self.fetchedResultsController performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+		abort();  // Fail
+#endif
+	}	
+}
+
+#pragma mark -
+#pragma mark Fetched results controller
+
+/**
+ Returns the fetched results controller. Creates and configures the controller if necessary.
+ */
+- (NSFetchedResultsController *)fetchedResultsController {	
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    	
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BidAsk" inManagedObjectContext:_managedObjectContext];
+	NSFetchRequest *fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
+	[fetchRequest setEntity:entityDescription];
 	
-	[_tableView reloadData];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"symbol=%@", _symbol];
+	[fetchRequest setPredicate:predicate];
+
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"index" ascending:YES];
+	[fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	// Create and initialize the fetch results controller.
+	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+	_fetchedResultsController = [aFetchedResultsController retain];
+	_fetchedResultsController.delegate = self;
+	
+	// Memory management.
+	[aFetchedResultsController release];
+	
+	return _fetchedResultsController;
+}
+
+/**
+ Delegate methods of NSFetchedResultsController to respond to additions, removals and so on.
+ */
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+	
+	// The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+	[_tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+	UITableView *tableView = _tableView;
+	
+	switch(type) {
+			
+		case NSFetchedResultsChangeInsert:
+			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+			break;
+			
+		case NSFetchedResultsChangeUpdate:
+			[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+			break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+	
+	switch(type) {
+			
+		case NSFetchedResultsChangeInsert:
+			[_tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[_tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
+			break;
+	}
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+	[_tableView endUpdates];
 }
 
 #pragma mark -
@@ -130,14 +213,12 @@
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc {
-	[DataController sharedManager].orderBookDelegate = nil;	
-	
 	[_tableFont release];
 	[_symbol release];
-	[_bidAsks release];
 	[_orderbookAvailableLabel release];
 	[_tableView release];	
 	
+	[_fetchedResultsController release];
 	[_managedObjectContext release];
     [super dealloc];
 }

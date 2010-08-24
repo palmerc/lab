@@ -786,7 +786,7 @@ static DataController *sharedDataController = nil;
 				}
 			}
 			
-			NSArray *bidsToCalculate = [DataController fetchBidAsksForSymbol:symbol.tickerSymbol withFeedNumber:symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
+			NSArray *bidsToCalculate = [self fetchBidAsksForSymbol:symbol.tickerSymbol withFeedNumber:symbol.feed.feedNumber];
 
 			bidsToCalculate = [bidsToCalculate sortedArrayUsingSelector:@selector(compareBidSize:)];
 			bidsToCalculate = [[bidsToCalculate reverseObjectEnumerator] allObjects];
@@ -822,7 +822,7 @@ static DataController *sharedDataController = nil;
 				}
 			}
 			
-			NSArray *asksToCalculate = [DataController fetchBidAsksForSymbol:symbol.tickerSymbol withFeedNumber:symbol.feed.feedNumber inManagedObjectContext:self.managedObjectContext];
+			NSArray *asksToCalculate = [self fetchBidAsksForSymbol:symbol.tickerSymbol withFeedNumber:symbol.feed.feedNumber];
 
 			asksToCalculate = [asksToCalculate sortedArrayUsingSelector:@selector(compareAskSize:)];
 			asksToCalculate = [[asksToCalculate reverseObjectEnumerator] allObjects];
@@ -835,9 +835,6 @@ static DataController *sharedDataController = nil;
 				} else {
 					bidAsk.askPercent = [NSNumber numberWithFloat:([bidAsk.askSize doubleValue] / askLargest)];
 				}
-			}
-			if ((self.orderBookDelegate != nil) && [self.orderBookDelegate respondsToSelector:@selector(updateOrderBook)]) {
-				[self.orderBookDelegate updateOrderBook];
 			}
 		}
 	}
@@ -1848,10 +1845,8 @@ static DataController *sharedDataController = nil;
 	[self.managedObjectContext deleteObject:symbol];
 }
 
-+ (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
-	NSAssert(managedObjectContext != nil, @"NSManagedObjectContext is nil");
-
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BidAsk" inManagedObjectContext:managedObjectContext];
+- (NSArray *)fetchBidAsksForSymbol:(NSString *)tickerSymbol withFeedNumber:(NSString *)feedNumber {
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"BidAsk" inManagedObjectContext:self.managedObjectContext];
 	NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
 	[request setEntity:entityDescription];
 	
@@ -1863,7 +1858,7 @@ static DataController *sharedDataController = nil;
 	[sortDescriptor release];
 	
 	NSError *error = nil;
-	NSArray *array = [managedObjectContext executeFetchRequest:request error:&error];
+	NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
 	if (array == nil)
 	{
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
