@@ -32,12 +32,15 @@
 @implementation SymbolNewsController
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize modal = _modal;
 
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithSymbol:(Symbol *)symbol {
 	self = [super init];
-    if (self != nil) {		
+    if (self != nil) {
+		_modal = NO;
+		
 		_symbol = [symbol retain];
 		
 		_managedObjectContext = nil;
@@ -52,22 +55,26 @@
 }
 
 - (void)loadView {
-	_headlineFont = [UIFont boldSystemFontOfSize:14.0f];
-	_bottomlineFont = [UIFont systemFontOfSize:12.0f];
+	_headlineFont = [[UIFont boldSystemFontOfSize:14.0f] retain];
+	_bottomlineFont = [[UIFont systemFontOfSize:12.0f] retain];
 	
 	SymbolNewsView_Phone *newsView = [[SymbolNewsView_Phone alloc] initWithFrame:CGRectZero];
-	self.view = newsView;
+	newsView.modal = _modal;
 	_tableView = [newsView.tableView retain];
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	
 	_newsAvailableLabel = [newsView.newsAvailableLabel retain];
+	self.view = newsView;
 	[newsView release];
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
+	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+	self.navigationItem.rightBarButtonItem = refreshButton;
+	[refreshButton release];
 	
 	[self refresh:nil];
 }
@@ -90,7 +97,7 @@
 		_newsAvailableLabel.hidden = YES;
 	}
 	
-	return [sectionInfo numberOfObjects];
+	return noOfObjects;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

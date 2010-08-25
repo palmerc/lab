@@ -18,6 +18,7 @@
 	UILabel *_sellerLabel;
 	UITableView *_tableView;
 	UILabel *_tradesAvailableLabel;
+	BOOL _modal;
 }
 
 @property (nonatomic, retain) UILabel *timeLabel;
@@ -27,5 +28,6 @@
 @property (nonatomic, retain) UILabel *sellerLabel;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UILabel *tradesAvailableLabel;
+@property BOOL modal;
 
 @end

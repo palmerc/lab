@@ -12,11 +12,14 @@
 	
 	UITableView *_tableView;
 	UILabel *_newsAvailableLabel;
+	
+	BOOL _modal;
 }
 
 @property (readonly) UIFont *headlineFont;
 
 @property (readonly) UITableView *tableView;
 @property (readonly) UILabel *newsAvailableLabel;
+@property BOOL modal;
 
 @end

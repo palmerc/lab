@@ -13,13 +13,6 @@
 #import "Symbol.h"
 
 #pragma mark -
-#pragma mark SubviewFrames category
-
-@interface OrderBookTableCellP ()
-- (UILabel *)createLabel;
-@end
-
-#pragma mark -
 #pragma mark ChainsTableCell implementation
 @implementation OrderBookTableCellP
 @synthesize bidAsk = _bidAsk;
@@ -99,7 +92,11 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-	CGFloat widthOfLabel = floorf(self.bounds.size.width / 4.0f);
+	[super drawRect:rect];
+	
+	CGRect bounds = self.bounds;
+	
+	CGFloat widthOfLabel = floorf(bounds.size.width / 4.0f);
 	CGFloat askWidth = [_bidAsk.askPercent floatValue] * widthOfLabel;
 	CGFloat bidWidth = [_bidAsk.bidPercent floatValue] * widthOfLabel;
 
@@ -111,8 +108,6 @@
 	// ask bar
 	CGContextSetRGBFillColor(ctx, 1.0, 0.0, 0.0, 0.25);
 	CGContextFillRect(ctx, CGRectMake(widthOfLabel * 3, 0.0, askWidth, _lineHeight));
-	
-	[super drawRect:rect];
 }
 
 - (void)setBidAsk:(BidAsk *)newBidAsk {
@@ -122,10 +117,11 @@
 		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	}
 	
-	if (newBidAsk != self.bidAsk) {
-		[_bidAsk release];
-		_bidAsk = [newBidAsk retain];
+	if (newBidAsk == _bidAsk) {
+		return;
 	}
+	[_bidAsk release];
+	_bidAsk = [newBidAsk retain];
 	
 	NSUInteger decimals = [_bidAsk.symbol.feed.decimals integerValue];
 	[doubleFormatter setMinimumFractionDigits:decimals];

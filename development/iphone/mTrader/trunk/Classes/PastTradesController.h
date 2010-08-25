@@ -18,10 +18,13 @@
 	
 	UITableView *_tableView;
 	UILabel *_tradesAvailableLabel;
+	
+	BOOL _modal;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property BOOL modal;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 

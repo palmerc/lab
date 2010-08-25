@@ -8,7 +8,6 @@
 
 
 #import "OrderBookView.h"
-#import "TradesModalController.h"
 #import "SymbolNewsModalController_Phone.h"
 
 #import "ChartController.h"
@@ -23,7 +22,7 @@
 @class OtherInfoView;
 @class ScrollViewPageControl;
 
-@interface SymbolDetailController : UIViewController <TradesControllerDelegate, SymbolNewsModalControllerDelegate, ChartControllerDelegate> {
+@interface SymbolDetailController : UIViewController <ChartControllerDelegate> {
 @private
 	NSManagedObjectContext *_managedObjectContext;
 	

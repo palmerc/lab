@@ -127,13 +127,19 @@
 	pastTradesBox.padding = 6.0f;
 	pastTradesBox.backgroundColor = [UIColor clearColor];
 	
-	_pastTradesController = [[PastTradesController alloc] initWithSymbol:self.symbol];
+	_pastTradesController = [[PastTradesController alloc] initWithSymbol:_symbol];
 	_pastTradesController.managedObjectContext = _managedObjectContext;
+	
 	UIView *pastTradesView = _pastTradesController.view;
-	pastTradesView.frame = detailInnerFrame;
+	pastTradesView.frame = detailInnerBounds;
 	pastTradesView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	pastTradesView.autoresizesSubviews = YES;
-	[pastTradesBox addSubview:pastTradesView];
+	
+	UIButton *pastTradesButton = [[UIButton alloc] initWithFrame:detailInnerFrame];
+	[pastTradesButton addTarget:self action:@selector(pastTradesTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
+	[pastTradesButton addSubview:pastTradesView];
+	[pastTradesBox addSubview:pastTradesButton];
+	[pastTradesButton release];
 	
 	/*** Symbol News Box ***/
 	RoundedRectangleFrame *newsBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
@@ -144,11 +150,16 @@
 	
 	_symbolNewsController = [[SymbolNewsController alloc] initWithSymbol:self.symbol];
 	_symbolNewsController.managedObjectContext = _managedObjectContext;
+	
 	UIView *symbolNewsView = _symbolNewsController.view;
-	symbolNewsView.frame = detailInnerFrame;
+	symbolNewsView.frame = detailInnerBounds;
 	symbolNewsView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	symbolNewsView.autoresizesSubviews = YES;
-	[newsBox addSubview:symbolNewsView];
+	
+	UIButton *symbolNewsButton = [[UIButton alloc] initWithFrame:detailInnerFrame];
+	[symbolNewsButton addTarget:self action:@selector(symbolNewsTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
+	[symbolNewsButton addSubview:symbolNewsView];
+	[newsBox addSubview:symbolNewsButton];
 	
 	/*** Other Box ***/
 	RoundedRectangleFrame *otherInfoBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
@@ -223,19 +234,6 @@
 #pragma mark -
 #pragma mark Action methods
 
-- (void)trades:(id)sender {
-	TradesModalController *tradesController = [[TradesModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
-	tradesController.symbol = self.symbol;
-	tradesController.delegate = self;
-	tradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:tradesController];
-	[tradesController release];
-	
-	[self presentModalViewController:navController animated:YES];
-	[navController release];
-}
-
 - (void)chart:(id)sender {
 	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
 	chartController.delegate = self;
@@ -245,18 +243,31 @@
 	[chartController release];
 }
 
+#pragma mark -
+#pragma mark SymbolNews Modal View delegate methods
 
-- (void)news:(id)sender {
-	SymbolNewsModalController *symbolNewsController = [[SymbolNewsModalController alloc] initWithManagedObjectContext:self.managedObjectContext];
-	symbolNewsController.symbol = self.symbol;
-	symbolNewsController.delegate = self;
+- (void)symbolNewsTouchedUpInside:(id)sender {
+	SymbolNewsController *symbolNewsController = [[SymbolNewsController alloc] initWithSymbol:_symbol];
+	symbolNewsController.managedObjectContext = _managedObjectContext;
+	
+	symbolNewsController.modal = YES;
 	symbolNewsController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	symbolNewsController.title = [NSString stringWithFormat:@"%@ (%@)", _symbol.tickerSymbol, _symbol.feed.mCode];
+	
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(symbolNewsModalDidFinish:)];
+	symbolNewsController.navigationItem.leftBarButtonItem = doneButton;
+	
+	[doneButton release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:symbolNewsController];
 	[symbolNewsController release];
 	
 	[self presentModalViewController:navController animated:YES];
 	[navController release];
+}
+
+- (void)symbolNewsModalDidFinish:(id)sender {
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)analysis:(id)sender {
@@ -279,6 +290,34 @@
 }
 
 #pragma mark -
+#pragma mark PastTrades Modal View delegate methods
+
+- (void)pastTradesTouchedUpInside:(id)sender {
+	PastTradesController *pastTradesController = [[PastTradesController alloc] initWithSymbol:_symbol];
+	pastTradesController.managedObjectContext = _managedObjectContext;
+
+	pastTradesController.modal = YES;
+	pastTradesController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	pastTradesController.title = [NSString stringWithFormat:@"%@ (%@)", _symbol.tickerSymbol, _symbol.feed.mCode];
+	
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(pastTradesModalDidFinish:)];
+	pastTradesController.navigationItem.leftBarButtonItem = doneButton;
+	
+	[doneButton release];
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pastTradesController];
+	[pastTradesController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
+- (void)pastTradesModalDidFinish:(id)sender {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
 #pragma mark OrderBook Modal View delegate methods
 
 - (void)orderBookTouchedUpInside:(id)sender {
@@ -288,7 +327,7 @@
 	orderBookController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	orderBookController.title = [NSString stringWithFormat:@"%@ (%@)", _symbol.tickerSymbol, _symbol.feed.mCode];
 	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(orderBookModalDone:)];
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(orderBookModalDidFinish:)];
 	orderBookController.navigationItem.leftBarButtonItem = doneButton;
 	
 	[doneButton release];
@@ -301,25 +340,17 @@
 }
 
 
-- (void)orderBookModalDone:(id)sender {	
+- (void)orderBookModalDidFinish:(id)sender {	
 	[self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark -
 #pragma mark Modal view finished methods
 
-- (void)tradesControllerDidFinish:(TradesModalController *)controller {
-	[self dismissModalViewControllerAnimated:YES];
-}
-
 - (void)chartControllerDidFinish:(ChartController *)controller {
 	[self dismissModalViewControllerAnimated:YES];
 
 	[_lastChangeView setNeedsDisplay];
-}
-
-- (void)symbolNewsModalControllerDidFinish:(SymbolNewsModalController *)controller {
-	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)analysisModalViewControllerDidFinish:(UIViewController *)controller {

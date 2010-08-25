@@ -26,6 +26,7 @@
 @implementation PastTradesController
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize modal = _modal;
 
 - (id)initWithSymbol:(Symbol *)symbol {
 	self = [super init];
@@ -43,15 +44,22 @@
 
 - (void)loadView {
 	PastTradesView *pastTradesView = [[PastTradesView alloc] initWithFrame:CGRectZero];
-	self.view = pastTradesView;
+	pastTradesView.modal = _modal;
 	_tableView = [pastTradesView.tableView retain];
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
+	
+	self.view = pastTradesView;
+
 	[pastTradesView release];
 }
 
 - (void)viewDidLoad {
-	[super viewDidLoad];
+	[super viewDidLoad];	
+	
+	UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+	self.navigationItem.rightBarButtonItem = refreshButton;
+	[refreshButton release];
 	
 	[self refresh:nil];
 }

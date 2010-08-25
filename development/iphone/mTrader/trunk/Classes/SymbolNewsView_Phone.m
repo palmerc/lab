@@ -13,9 +13,12 @@
 @synthesize headlineFont = _headlineFont;
 @synthesize tableView = _tableView;
 @synthesize newsAvailableLabel = _newsAvailableLabel;
+@synthesize modal = _modal;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
+		_modal = NO;
+		
 		_headlineFont = [[UIFont boldSystemFontOfSize:14.0f] retain];
 		
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero];
@@ -44,6 +47,14 @@
 
 	_newsAvailableLabel.font = _headlineFont;
 	_newsAvailableLabel.frame = labelFrame;
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+	if (_modal) {
+		return [super hitTest:point withEvent:event];
+	} else {
+		return nil;
+	}
 }
 
 - (void)dealloc {

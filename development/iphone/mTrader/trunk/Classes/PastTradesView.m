@@ -17,50 +17,47 @@
 @synthesize sellerLabel = _sellerLabel;
 @synthesize tableView = _tableView;
 @synthesize tradesAvailableLabel = _tradesAvailableLabel;
+@synthesize modal = _modal;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         // Initialization code
-		_headerFont = [UIFont boldSystemFontOfSize:14.0];
+		_modal = NO;
+		
+		_headerFont = [[UIFont boldSystemFontOfSize:14.0] retain];
 		
 		_timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_timeLabel.textAlignment = UITextAlignmentCenter;
 		_timeLabel.font = _headerFont;
 		_timeLabel.text = NSLocalizedString(@"time", @"Time");
 		[self addSubview:_timeLabel];	
-		[_timeLabel release];
 		
 		_priceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_priceLabel.textAlignment = UITextAlignmentCenter;
 		_priceLabel.font = _headerFont;
 		_priceLabel.text = NSLocalizedString(@"price", @"Price");
 		[self addSubview:_priceLabel];
-		[_priceLabel release];
 		
 		_volumeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_volumeLabel.textAlignment = UITextAlignmentCenter;
 		_volumeLabel.font = _headerFont;
 		_volumeLabel.text = NSLocalizedString(@"volume", @"Volume");
 		[self addSubview:_volumeLabel];
-		[_volumeLabel release];
 		
 		_buyerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_buyerLabel.textAlignment = UITextAlignmentCenter;
 		_buyerLabel.font = _headerFont;
 		_buyerLabel.text = NSLocalizedString(@"buyer", @"Buyer");
 		[self addSubview:_buyerLabel];
-		[_buyerLabel release];
 		
 		_sellerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_sellerLabel.textAlignment = UITextAlignmentCenter;
 		_sellerLabel.font = _headerFont;
 		_sellerLabel.text = NSLocalizedString(@"seller", @"Seller");
 		[self addSubview:_sellerLabel];
-		[_sellerLabel release];	
 		
 		_tableView = [[UITableView alloc] initWithFrame:CGRectZero];
 		[self addSubview:_tableView];
-		[_tableView release];
 		
 		_tradesAvailableLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_tradesAvailableLabel.textAlignment = UITextAlignmentCenter;
@@ -69,7 +66,6 @@
 		_tradesAvailableLabel.backgroundColor = [UIColor clearColor];
 		_tradesAvailableLabel.text = NSLocalizedString(@"noTradesDataAvailable", @"No Trades Data Available");
 		_tradesAvailableLabel.hidden = YES;
-		[self addSubview:_tradesAvailableLabel];	
 		
     }
     return self;
@@ -96,6 +92,14 @@
 	_sellerLabel.frame = sellerLabelFrame;
 	_tableView.frame = tableViewFrame;
 	_tradesAvailableLabel.frame = tradesAvailableFrame;
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+	if (_modal) {
+		return [super hitTest:point withEvent:event];
+	} else {
+		return nil;
+	}
 }
 
 - (void)dealloc {

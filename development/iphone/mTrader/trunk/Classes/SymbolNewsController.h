@@ -20,10 +20,13 @@
 	UIFont *_bottomlineFont;
 	UILabel *_newsAvailableLabel;
 	UITableView *_tableView;
+	
+	BOOL _modal;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property BOOL modal;
 
 - (id)initWithSymbol:(Symbol *)symbol;
 
