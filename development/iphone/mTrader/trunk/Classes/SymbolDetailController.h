@@ -8,7 +8,6 @@
 
 
 #import "OrderBookView.h"
-#import "SymbolNewsModalController_Phone.h"
 
 #import "ChartController.h"
 #import "mTraderCommunicator.h"

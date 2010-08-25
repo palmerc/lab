@@ -28,7 +28,6 @@
 #import "OrderBookView.h"
 #import "PastTradesController.h"
 #import "ChartController.h";
-#import "SymbolNewsModalController_Phone.h"
 #import "Feed.h"
 #import "Symbol.h"
 #import "SymbolDynamicData.h"
@@ -160,6 +159,7 @@
 	[symbolNewsButton addTarget:self action:@selector(symbolNewsTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
 	[symbolNewsButton addSubview:symbolNewsView];
 	[newsBox addSubview:symbolNewsButton];
+	[symbolNewsButton release];
 	
 	/*** Other Box ***/
 	RoundedRectangleFrame *otherInfoBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
