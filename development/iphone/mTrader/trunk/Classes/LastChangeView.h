@@ -15,6 +15,7 @@
 	
 	ChartController *_chartController;
 	
+	UIButton *_chartButton;
 	UILabel *_timeLabel;
 	UILabel *_lastLabel;
 	UILabel *_lastChangeLabel;
@@ -22,5 +23,6 @@
 }
 
 @property (nonatomic, retain) Symbol *symbol;
+@property (nonatomic, retain) UIButton *chartButton;
 
 @end

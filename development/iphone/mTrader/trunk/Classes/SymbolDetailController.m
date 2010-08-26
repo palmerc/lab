@@ -61,7 +61,9 @@
 	_lastChangeView = [[LastChangeView alloc] initWithFrame:lastInnerFrame];
 	_lastChangeView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	_lastChangeView.autoresizesSubviews = YES;
-	_lastChangeView.symbol = self.symbol;	
+	_lastChangeView.symbol = self.symbol;
+	
+	[_lastChangeView.chartButton addTarget:self action:@selector(chartTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
 	
 	RoundedRectangleFrame *lastBox = [[RoundedRectangleFrame alloc] initWithFrame:lastRoundedFrame];
 	lastBox.strokeWidth = 0.75f;
@@ -232,18 +234,6 @@
 }
 
 #pragma mark -
-#pragma mark Action methods
-
-- (void)chart:(id)sender {
-	ChartController *chartController = [[ChartController alloc] initWithSymbol:self.symbol];
-	chartController.delegate = self;
-	chartController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-		
-	[self presentModalViewController:chartController animated:YES];
-	[chartController release];
-}
-
-#pragma mark -
 #pragma mark SymbolNews Modal View delegate methods
 
 - (void)symbolNewsTouchedUpInside:(id)sender {
@@ -287,6 +277,30 @@
 	
 	[self presentModalViewController:navController animated:YES];
 	[navController release];
+}
+
+- (void)chartTouchedUpInside:(id)sender {
+	ChartController *chartController = [[ChartController alloc] init];
+	chartController.symbol = _symbol;
+	
+	chartController.modal = YES;
+	chartController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	chartController.title = [NSString stringWithFormat:@"%@ (%@)", _symbol.tickerSymbol, _symbol.feed.mCode];
+	
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(chartModalDidFinish:)];
+	chartController.navigationItem.leftBarButtonItem = doneButton;
+	
+	[doneButton release];
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
+	[chartController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	[navController release];
+}
+
+- (void)chartModalDidFinish:(id)sender {
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark -

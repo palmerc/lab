@@ -91,9 +91,7 @@
 	_askSizeLabel.frame = CGRectMake(width * 3, 0.0, width, _lineHeight);
 }
 
-- (void)drawRect:(CGRect)rect {
-	[super drawRect:rect];
-	
+- (void)drawRect:(CGRect)rect {	
 	CGRect bounds = self.bounds;
 	
 	CGFloat widthOfLabel = floorf(bounds.size.width / 4.0f);
@@ -117,9 +115,6 @@
 		[doubleFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	}
 	
-	if (newBidAsk == _bidAsk) {
-		return;
-	}
 	[_bidAsk release];
 	_bidAsk = [newBidAsk retain];
 	

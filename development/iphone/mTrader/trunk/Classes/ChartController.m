@@ -21,6 +21,7 @@
 @synthesize symbol = _symbol;
 @synthesize period = _period;
 @synthesize orientation = _orientation;
+@synthesize modal = _modal;
 
 #pragma mark -
 #pragma mark Initialization
@@ -32,7 +33,8 @@
 		_chartView = nil;
 		
 		_period = 0;
-		_orientation = @"A";
+		_orientation = @"H";
+		_modal = NO;
 	}
     return self;
 }
@@ -42,8 +44,8 @@
 	_chartView.delegate = self;
 	_chartView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	_chartView.autoresizesSubviews = YES;
-	
-	//[(UIImageView *)[_chartView.chart alloc] initWithImage:intradayPlaceholder];
+	_chartView.modal = _modal;
+	[_chartView.periodSelectionControl addTarget:self action:@selector(periodSelectionChanged:) forControlEvents:UIControlEventValueChanged];
 	
 	self.view = _chartView;
 }
@@ -67,10 +69,29 @@
 	NSURL *url = [NSURL URLWithString:urlString];
 	[data writeToURL:url atomically:YES];
 	UIImage *image = [UIImage imageWithData:data];
-	//_chartView.frame = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
 	_chartView.chart.image = image;
 	
 	value++;
+}
+
+- (void)periodSelectionChanged:(id)sender {
+	NSUInteger index = _chartView.periodSelectionControl.selectedSegmentIndex;
+	
+	switch (index) {
+		case 0:
+			_period = 0;
+			break;
+		case 1:
+			_period = 30;
+			break;
+		case 2:
+			_period = 365;
+			break;
+		default:
+			break;
+	}
+	
+	[self chartRequest];
 }
 
 #pragma mark -

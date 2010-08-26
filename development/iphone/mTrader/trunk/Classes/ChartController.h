@@ -25,12 +25,15 @@
 	
 	NSUInteger _period;
 	NSString *_orientation;
+	
+	BOOL _modal;
 }
 
 @property (assign) id <ChartControllerDelegate> delegate;
 @property (nonatomic, retain) Symbol *symbol;
 @property NSUInteger period;
 @property (nonatomic, retain) NSString *orientation;
+@property BOOL modal;
 
 @end
 

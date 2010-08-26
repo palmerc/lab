@@ -13,6 +13,7 @@
 @synthesize delegate;
 @synthesize chart = _chart;
 @synthesize periodSelectionControl = _periodSelectionControl;
+@synthesize modal = _modal;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
@@ -46,12 +47,29 @@
 - (void)layoutSubviews {
 	CGRect bounds = self.bounds;
 	
-	CGRect toolBarFrame = CGRectMake(0.0f, bounds.size.height - 44.0f, bounds.size.width, 44.0f);
+	if (_modal) {
+		_toolbar.hidden = NO;
+		CGRect toolBarFrame = CGRectMake(0.0f, bounds.size.height - 44.0f, bounds.size.width, 44.0f);
+		_toolbar.frame = toolBarFrame;
+		
+		CGRect chartFrame = CGRectMake(0.0f, 0.0f, bounds.size.width, bounds.size.height - 44.0f);
+		_chart.frame = chartFrame;
+		
+	} else {
+		_chart.frame = bounds;
+	}
 	
-	_toolbar.frame = toolBarFrame;
-	_chart.frame = bounds;
+	
 	if (self.delegate && [self.delegate respondsToSelector:@selector(chartRequest)]) {
 		[self.delegate chartRequest];
+	}
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+	if (_modal) {
+		return [super hitTest:point withEvent:event];
+	} else {
+		return nil;
 	}
 }
 

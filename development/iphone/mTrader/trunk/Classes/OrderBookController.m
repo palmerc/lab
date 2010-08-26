@@ -7,6 +7,7 @@
 //
 
 #define DEBUG 0
+#define DEBUG_UPDATES 0
 
 #import "OrderBookController.h"
 
@@ -162,6 +163,11 @@
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+#if DEBUG_UPDATES
+	BidAsk *bidAsk = (BidAsk *)anObject;
+	NSLog(@"%i, %i - %@ %@ %@ %@ - %i", type, indexPath.row, bidAsk.bidSize, bidAsk.bidPrice, bidAsk.askPrice, bidAsk.askSize, newIndexPath.row);
+#endif
+	
 	UITableView *tableView = _tableView;
 	
 	switch(type) {
@@ -171,7 +177,7 @@
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
-			[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath animated:YES];
+			[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationNone];
 			break;
 			
 		case NSFetchedResultsChangeDelete:

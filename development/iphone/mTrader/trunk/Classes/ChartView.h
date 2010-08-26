@@ -15,11 +15,14 @@
 	UIImageView *_chart;
 	UISegmentedControl *_periodSelectionControl;
 	UIToolbar *_toolbar;
+	
+	BOOL _modal;
 }
 
 @property (nonatomic, assign) id <ChartRequestDelegate> delegate;
 @property (nonatomic, readonly) UIImageView *chart;
 @property (readonly) UISegmentedControl *periodSelectionControl;
+@property BOOL modal;
 
 @end
 

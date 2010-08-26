@@ -23,6 +23,7 @@
 
 @implementation LastChangeView
 @synthesize symbol = _symbol;
+@synthesize chartButton = _chartButton;
 
 #pragma mark -
 #pragma mark Initialization
@@ -53,11 +54,14 @@
 		_timeLabel.font = [UIFont systemFontOfSize:12.0];
 		_timeLabel.textAlignment = UITextAlignmentLeft;
 		[self addSubview:_timeLabel];
-			
+		
+		_chartButton = [[UIButton alloc] initWithFrame:CGRectZero];
+		[self addSubview:_chartButton];
+		
 		_chartController = [[ChartController alloc] init];
 		UIView *chartView = _chartController.view;
 	
-		[self addSubview:chartView];
+		[_chartButton addSubview:chartView];
 	}
 	return self;
 }
@@ -81,8 +85,8 @@
 	_timeLabel.frame = CGRectMake(0.0f, globalY, bounds.size.width, timeFontSize.height);
 	globalY += timeFontSize.height;
 	
-	//_chartButton.frame = CGRectMake(0.0f, globalY, bounds.size.width, globalY);
-	_chartController.view.frame = CGRectMake(0.0f, globalY, bounds.size.width, globalY);
+	_chartButton.frame = CGRectMake(0.0f, globalY, bounds.size.width, globalY);
+	_chartController.view.frame = _chartButton.bounds;
 }
 
 
@@ -179,6 +183,7 @@
 	[_lastChangeLabel release];
 	[_lastPercentChangeLabel release];
 	[_chartController release];
+	[_chartButton release];
 
 	[super dealloc];
 }

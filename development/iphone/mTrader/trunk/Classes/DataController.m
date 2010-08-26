@@ -8,7 +8,8 @@
 
 #define DEBUG 0
 #define DEBUG_UPDATES 0
-#define DEBUG_NEWS_UPDATE 1
+#define DEBUG_ORDERBOOK_UPDATES 0
+#define DEBUG_NEWS_UPDATE 0
 #define DEBUG_PROCESS_SYMBOLS 0
 
 #import "DataController.h"
@@ -750,7 +751,7 @@ static DataController *sharedDataController = nil;
 		if ([update objectForKey:orderBookKey]) {
 			// Bid then Ask -
 			NSString *orderBookString = [update valueForKey:orderBookKey];
-#if DEBUG_UPDATES
+#if DEBUG_ORDERBOOK_UPDATES
 			NSLog(@"\tOrderbook: %@", orderBookString);
 #endif
 			NSArray *orderBook = [[orderBookString componentsSeparatedByString:@"/"] sansWhitespace];
@@ -770,6 +771,9 @@ static DataController *sharedDataController = nil;
 				if (![bid isEqualToString:@""]) {
 					BidAsk *bidAsk = [self fetchBidAskForFeedTicker:feedTicker atIndex:i];
 					if (bidAsk == nil) {
+#if DEBUG_ORDERBOOK_UPDATES
+						NSLog(@"Bid: Generating a new BidAsk");
+#endif
 						bidAsk = [NSEntityDescription insertNewObjectForEntityForName:@"BidAsk" inManagedObjectContext:self.managedObjectContext];
 						[symbol addBidsAsksObject:bidAsk];
 						bidAsk.symbol = symbol;
@@ -780,6 +784,10 @@ static DataController *sharedDataController = nil;
 					
 					NSString *value = [pieces objectAtIndex:0];
 					NSString *size = [pieces objectAtIndex:1];
+					
+#if DEBUG_ORDERBOOK_UPDATES
+					NSLog(@"\tBid index:%i, size:%@, value:%@", i, size, value);
+#endif
 					
 					bidAsk.bidPrice = [NSNumber numberWithDouble:[value doubleValue]];
 					bidAsk.bidSize = [NSNumber numberWithDouble:[size doubleValue]];
@@ -806,6 +814,9 @@ static DataController *sharedDataController = nil;
 				if (![ask isEqualToString:@""] && ![ask isEqualToString:@"/"]) {
 					BidAsk *bidAsk = [self fetchBidAskForFeedTicker:feedTicker atIndex:i];
 					if (bidAsk == nil) {
+#if DEBUG_ORDERBOOK_UPDATES
+						NSLog(@"Ask: Generating a new BidAsk");
+#endif
 						bidAsk = [NSEntityDescription insertNewObjectForEntityForName:@"BidAsk" inManagedObjectContext:self.managedObjectContext];
 						[symbol addBidsAsksObject:bidAsk];
 						bidAsk.symbol = symbol;
@@ -816,7 +827,11 @@ static DataController *sharedDataController = nil;
 					
 					NSString *value = [pieces objectAtIndex:0];
 					NSString *size = [pieces objectAtIndex:1];
-								
+
+#if DEBUG_ORDERBOOK_UPDATES
+					NSLog(@"\tAsk index:%i, value:%@, size:%@", i, value, size);
+#endif
+					
 					bidAsk.askPrice = [NSNumber numberWithDouble:[value doubleValue]];
 					bidAsk.askSize = [NSNumber numberWithDouble:[size doubleValue]];
 				}

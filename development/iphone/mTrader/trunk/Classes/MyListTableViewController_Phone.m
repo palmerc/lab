@@ -120,8 +120,7 @@
 #pragma mark TableViewDelegate methods
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//return UITableViewCellEditingStyleNone;
-	return 3;
+	return UITableViewCellEditingStyleDelete;
 }
 
 // This method is required to catch the swipe to delete gesture.

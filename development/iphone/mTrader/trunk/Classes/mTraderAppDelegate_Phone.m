@@ -85,6 +85,7 @@
 	
 	DataController *dataController = [DataController sharedManager];
 	dataController.managedObjectContext = self.managedObjectContext;
+	[dataController deleteAllBidsAsks];	
 	
 	_tabController = [[UITabBarController alloc] init];
 		

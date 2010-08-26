@@ -220,6 +220,10 @@ static Monitor *sharedMonitor = nil;
 	[_mTCom logout];
 
 	[_mTraderCommunicator stopConnection];
+	
+	_loggedIn = NO;
+	_connected = NO;
+	_connecting = NO;
 }
 
 - (void)usernameAndPasswordChanged {
