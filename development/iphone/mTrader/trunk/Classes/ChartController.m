@@ -65,13 +65,19 @@
 	static NSUInteger value = 0;
 	
 	NSData *data = _symbol.chart.data;
-	NSString *urlString = [NSString stringWithFormat:@"file:/Users/cameron/graph%d.png", value];
-	NSURL *url = [NSURL URLWithString:urlString];
-	[data writeToURL:url atomically:YES];
+	//NSString *urlString = [NSString stringWithFormat:@"file:/Users/cameron/graph%d.png", value];
+	//NSURL *url = [NSURL URLWithString:urlString];
+	//[data writeToURL:url atomically:YES];
 	UIImage *image = [UIImage imageWithData:data];
 	_chartView.chart.image = image;
 	
 	value++;
+}
+
+- (void)setPeriod:(NSUInteger)period {
+	_period = period;
+	
+	[self chartRequest];
 }
 
 - (void)periodSelectionChanged:(id)sender {

@@ -130,8 +130,6 @@
 	_bidValueLabel.text = [doubleFormatter stringFromNumber:_bidAsk.bidPrice];
 	_askSizeLabel.text = [_bidAsk.askSize stringValue];
 	_askValueLabel.text = [doubleFormatter stringFromNumber:_bidAsk.askPrice];
-	
-	[self setNeedsDisplay];
 }
 
 #pragma mark -

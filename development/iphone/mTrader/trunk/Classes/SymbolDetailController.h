@@ -21,7 +21,7 @@
 @class OtherInfoView;
 @class ScrollViewPageControl;
 
-@interface SymbolDetailController : UIViewController <ChartControllerDelegate> {
+@interface SymbolDetailController : UIViewController {
 @private
 	NSManagedObjectContext *_managedObjectContext;
 	

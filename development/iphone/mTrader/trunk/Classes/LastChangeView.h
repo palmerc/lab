@@ -24,5 +24,6 @@
 
 @property (nonatomic, retain) Symbol *symbol;
 @property (nonatomic, retain) UIButton *chartButton;
+@property (nonatomic, retain) ChartController *chartController;
 
 @end

@@ -211,9 +211,7 @@
 
 - (void)changeQFieldsStreaming {
 	mTraderCommunicator *communicator = [mTraderCommunicator sharedManager];
-	
-	[[DataController sharedManager] deleteAllBidsAsks];
-	
+		
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", self.symbol.feed.feedNumber, self.symbol.tickerSymbol];
 	
 	QFields *qFields = [[QFields alloc] init];
@@ -300,6 +298,7 @@
 }
 
 - (void)chartModalDidFinish:(id)sender {
+	_lastChangeView.chartController.period = 0;
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -360,12 +359,6 @@
 
 #pragma mark -
 #pragma mark Modal view finished methods
-
-- (void)chartControllerDidFinish:(ChartController *)controller {
-	[self dismissModalViewControllerAnimated:YES];
-
-	[_lastChangeView setNeedsDisplay];
-}
 
 - (void)analysisModalViewControllerDidFinish:(UIViewController *)controller {
 	[self dismissModalViewControllerAnimated:YES];

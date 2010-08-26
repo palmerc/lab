@@ -24,6 +24,7 @@
 @implementation LastChangeView
 @synthesize symbol = _symbol;
 @synthesize chartButton = _chartButton;
+@synthesize chartController = _chartController;
 
 #pragma mark -
 #pragma mark Initialization
