@@ -28,12 +28,11 @@
 	self = [super initWithFrame:frame];
 	if (self != nil) {
 		
-		UIFont *nameFont = [UIFont boldSystemFontOfSize:17.0f];
 		UIFont *boldDescription = [UIFont boldSystemFontOfSize:14.0f];
 		UIFont *regularDescription = [UIFont systemFontOfSize:14.0f];
 		
 		_description = [[UILabel alloc] initWithFrame:CGRectZero];
-		_description.font = nameFont;
+		_description.font = boldDescription;
 		_description.textAlignment = UITextAlignmentCenter;
 		[self addSubview:_description];
 		

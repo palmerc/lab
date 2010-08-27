@@ -247,6 +247,9 @@ static Monitor *sharedMonitor = nil;
 		[self.statusController displayStatus];
 		
 		if (!self.loggedIn) {
+			NSString *message = NSLocalizedString(@"loggingIn", @"Logging In");
+			self.statusController.statusMessage = message;
+			[self.statusController displayStatus];
 			[[mTraderCommunicator sharedManager] login];
 		}
 	}
@@ -279,8 +282,9 @@ static Monitor *sharedMonitor = nil;
 - (void)loginFailed:(NSString *)message {
 	_loggedIn = NO;
 		
-	//_statusAlertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-	//[_statusAlertView show];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	[alert show];
+	[alert release];
 }
 
 - (void)kickedOut {
@@ -292,8 +296,9 @@ static Monitor *sharedMonitor = nil;
 	[[mTraderCommunicator sharedManager].communicator stopConnection];
 	
 	
-	//_statusAlertView = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
-	//[_statusAlertView show];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
+	[alert show];
+	[alert release];
 }
 
 #pragma mark -

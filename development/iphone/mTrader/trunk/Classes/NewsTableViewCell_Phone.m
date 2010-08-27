@@ -77,7 +77,7 @@
 	if ([flag isEqualToString:@"F"]) {
 		[_headlineLabel setTextColor:[UIColor redColor]];
 	} else if ([flag isEqualToString:@"U"]) {
-		[_headlineLabel setTextColor:[UIColor blueColor]];
+		[_headlineLabel setTextColor:[UIColor blackColor]];
 	} else {
 		[_headlineLabel setTextColor:[UIColor blackColor]];
 	}

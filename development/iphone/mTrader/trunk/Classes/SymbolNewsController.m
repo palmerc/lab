@@ -55,7 +55,7 @@
 }
 
 - (void)loadView {
-	_headlineFont = [[UIFont boldSystemFontOfSize:14.0f] retain];
+	_headlineFont = [[UIFont systemFontOfSize:14.0f] retain];
 	_bottomlineFont = [[UIFont systemFontOfSize:12.0f] retain];
 	
 	SymbolNewsView_Phone *newsView = [[SymbolNewsView_Phone alloc] initWithFrame:CGRectZero];

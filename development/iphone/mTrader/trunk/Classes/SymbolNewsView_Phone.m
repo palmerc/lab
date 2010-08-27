@@ -19,7 +19,7 @@
     if ((self = [super initWithFrame:frame])) {
 		_modal = NO;
 		
-		_headlineFont = [[UIFont boldSystemFontOfSize:14.0f] retain];
+		_headlineFont = [[UIFont systemFontOfSize:14.0f] retain];
 		
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero];
 		[self addSubview:_tableView];
