@@ -541,7 +541,7 @@ static DataController *sharedDataController = nil;
 	NSAssert(self.managedObjectContext != nil, @"NSManagedObjectContext is nil");
 
 	NSDate *today = [NSDate date];
-	NSString *todayString = [_yearFormatter stringFromDate:today];
+	NSString *todayString = [_dateFormatter stringFromDate:today];
 	
 	for (NSDictionary *update in updates) {
 		NSString *feedTicker = [update objectForKey:@"feedTicker"];
