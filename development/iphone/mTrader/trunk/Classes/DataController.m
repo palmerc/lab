@@ -11,6 +11,7 @@
 #define DEBUG_ORDERBOOK_UPDATES 0
 #define DEBUG_NEWS_UPDATE 0
 #define DEBUG_PROCESS_SYMBOLS 0
+#define DEBUG_PROVIDER_URL 1
 
 #import "DataController.h"
 
@@ -982,7 +983,12 @@ static DataController *sharedDataController = nil;
 		symbol.symbolDynamicData.dividendDate = dividendDate;
 	}
 	if ([updateDictionary objectForKey:@"ProviderURL"]) {
-		symbol.symbolDynamicData.providerURL = [updateDictionary objectForKey:@"ProviderURL"];
+		NSString *providerURL = [updateDictionary objectForKey:@"ProviderURL"];
+		NSString *pdfProviderURL = [providerURL stringByReplacingOccurrencesOfString:@".mhtml" withString:@".pdf"];
+		symbol.symbolDynamicData.providerURL = pdfProviderURL;
+#if DEBUG_PROVIDER_URL
+		NSLog(@"ProviderURL for %@ is %@", symbol.tickerSymbol, pdfProviderURL);
+#endif
 	}
 	
 }
