@@ -23,7 +23,7 @@
     [super viewDidLoad];
 	
 	self.title = NSLocalizedString(@"selectNewsFeed", @"Select a News Feed");
-
+	
 	UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone	target:self action:@selector(doneBarButtonItemAction:)];
 	self.navigationItem.leftBarButtonItem = doneBarButtonItem;
 	[doneBarButtonItem release];

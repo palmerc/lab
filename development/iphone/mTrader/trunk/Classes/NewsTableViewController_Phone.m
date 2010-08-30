@@ -71,6 +71,8 @@
 	self.title = self.newsFeed.name;
 	self.tabBarItem.title = NSLocalizedString(@"NewsTab", "News tab label");
 	
+	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style: UIBarButtonItemStyleBordered target:nil action:nil];
+	
 	NSError *error;
 	if (![self.fetchedResultsController performFetch:&error]) {
 		// Update to handle the error appropriately.
@@ -94,11 +96,6 @@
 	self.navigationItem.rightBarButtonItem = refreshButton;
 	[refreshButton release];
 	
-	feedsTableViewController = [[FeedsTableViewController_Phone alloc] init];
-	feedsTableViewController.delegate = self;
-	feedsTableViewController.managedObjectContext = self.managedObjectContext;
-	[feedsTableViewController release];
-	
 	[communicator newsListFeed:self.newsFeed.mCode];
 }
 
@@ -112,6 +109,8 @@
 	[qFields release];
 	
 	[communicator setStreamingForFeedTicker:nil];
+	
+	[communicator newsListFeed:self.newsFeed.mCode];
 }
 
 #pragma mark -
@@ -215,17 +214,27 @@
 - (void)newsFeedWasSelected:(NewsFeed *)aNewsFeed {
 	[self dismissModalViewControllerAnimated:YES];
 	
-	[[DataController sharedManager] deleteAllNews];
-	
 	// Fire off request for news related to the choice made if different from current choice
 	if ([aNewsFeed.feedNumber isEqualToString:self.newsFeed.feedNumber]) {
 		return;
 	} else {
+		self.fetchedResultsController = nil;		
 		self.newsFeed = aNewsFeed;
 		self.title = aNewsFeed.name;
 		self.tabBarItem.title = NSLocalizedString(@"NewsTab", "News tab label");
 		[[mTraderCommunicator sharedManager] newsListFeed:aNewsFeed.mCode];	
 		[UserDefaults sharedManager].newsFeedNumber = aNewsFeed.feedNumber;
+		
+		NSError *error;
+		if (![self.fetchedResultsController performFetch:&error]) {
+			// Update to handle the error appropriately.
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+#if DEBUG
+			abort();  // Fail
+#endif
+		}
+		
+		[self.tableView reloadData];
 	}
 }
 
@@ -245,6 +254,12 @@
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NewsArticle" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
+	
+	// Special Case the All News
+	if (![self.newsFeed.feedNumber isEqualToString:@"0"]) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(newsFeed.feedNumber=%@)", self.newsFeed.feedNumber];
+		[fetchRequest setPredicate:predicate];	
+	}
 	
 	// Create the sort descriptors array.
 	NSSortDescriptor *dateDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
