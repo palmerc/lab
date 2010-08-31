@@ -58,7 +58,11 @@ static DataController *sharedDataController = nil;
 		NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"CET"];
 		_dateFormatter = [[NSDateFormatter alloc] init];
 		[_dateFormatter setTimeZone:timeZone];
-		[_dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+		[_dateFormatter setDateFormat:@"yyyy-MM-dd"];
+		
+		_dateTimeFormatter = [[NSDateFormatter alloc] init];
+		[_dateTimeFormatter setTimeZone:timeZone];
+		[_dateTimeFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 		
 		_yearFormatter = [[NSDateFormatter alloc] init];
 		[_yearFormatter setDateFormat:@"yyyy"];
@@ -563,16 +567,17 @@ static DataController *sharedDataController = nil;
 		NSString *timeStampKey = [NSString stringWithFormat:@"%d", TIMESTAMP];
 		if ([update objectForKey:timeStampKey]) {
 			NSString *timeStamp = [update valueForKey:timeStampKey];
-			if ([timeStamp isEqualToString:@"--"] == YES || [timeStamp isEqualToString:@"-"] == YES) {
-				symbol.symbolDynamicData.lastTradeTime = nil;
-			} else if ([timeStamp isEqualToString:@""] == NO) {
-				NSString *dateFormattedString = [NSString stringWithFormat:@"%@ %@", todayString, timeStamp];
-				NSDate *lastTradeTime = [_dateFormatter dateFromString:dateFormattedString];
+			if ([timeStamp isEqualToString:@""] == NO) {
+				NSString *dateTimeFormattedString = [NSString stringWithFormat:@"%@ %@", todayString, timeStamp];
+				NSDate *lastTradeTime = [_dateTimeFormatter dateFromString:dateTimeFormattedString];
 				symbol.symbolDynamicData.lastTradeTime = lastTradeTime;
 #if DEBUG_UPDATES
 				NSLog(@"\tLast Trade Time: %@", lastTradeTime);
 #endif
+			} else {
+				symbol.symbolDynamicData.lastTradeTime = nil;
 			}
+
 		}
 		
 		// last trade
@@ -989,6 +994,8 @@ static DataController *sharedDataController = nil;
 #if DEBUG_PROVIDER_URL
 		NSLog(@"ProviderURL for %@ is %@", symbol.tickerSymbol, pdfProviderURL);
 #endif
+	} else {
+		symbol.symbolDynamicData.providerURL = nil;
 	}
 	
 }
@@ -1145,7 +1152,7 @@ static DataController *sharedDataController = nil;
 			NSString *articleNumber = [feedArticleComponents objectAtIndex:1];
 			
 			NSString *formattedDateString = [NSString stringWithFormat:@"%@-%@-%@ %@:00", year, month, day, time];
-			NSDate *properDate = [_dateFormatter dateFromString:formattedDateString];
+			NSDate *properDate = [_dateTimeFormatter dateFromString:formattedDateString];
 			
 			NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:newsFeedNumber];
 			Symbol *symbol = [self fetchSymbol:tickerSymbol withFeedNumber:feedNumber];
@@ -1995,6 +2002,7 @@ static DataController *sharedDataController = nil;
 
 - (void)dealloc {
 	[_dateFormatter release];
+	[_dateTimeFormatter release];
 	[_yearFormatter release];
 	
 	[_managedObjectContext release];

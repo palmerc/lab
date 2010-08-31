@@ -53,7 +53,7 @@
 		
 		_timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		_timeLabel.font = [UIFont systemFontOfSize:12.0];
-		_timeLabel.textAlignment = UITextAlignmentLeft;
+		_timeLabel.textAlignment = UITextAlignmentRight;
 		[self addSubview:_timeLabel];
 		
 		_chartButton = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -103,9 +103,7 @@
 	_chartController.symbol = symbol;
 	
 	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.lastTrade" options:NSKeyValueObservingOptionNew context:nil];
-	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.change" options:NSKeyValueObservingOptionNew context:nil];
-	[_symbol addObserver:self forKeyPath:@"symbolDynamicData.changePercent" options:NSKeyValueObservingOptionNew context:nil];
-	
+
 	[self updateSymbol];
 }
 
@@ -164,9 +162,8 @@
 #pragma mark -
 #pragma mark KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"] || 
-		[keyPath isEqualToString:@"symbolDynamicData.change"] || 
-		[keyPath isEqualToString:@"symbolDynamicData.changePercent"]) {
+	if ([keyPath isEqualToString:@"symbolDynamicData.lastTrade"]) {
+
 		[self updateSymbol];
 	}
 }
@@ -175,8 +172,6 @@
 #pragma mark Memory management
 - (void)dealloc {
 	[_symbol removeObserver:self forKeyPath:@"symbolDynamicData.lastTrade"];
-	[_symbol removeObserver:self forKeyPath:@"symbolDynamicData.change"];
-	[_symbol removeObserver:self forKeyPath:@"symbolDynamicData.changePercent"];
 	
 	[_symbol release];
 	[_timeLabel release];

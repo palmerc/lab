@@ -31,6 +31,7 @@
 	NSUInteger symbolIndex;
 	
 	NSDateFormatter *_dateFormatter;
+	NSDateFormatter *_dateTimeFormatter;
 	NSDateFormatter *_yearFormatter;
 }
 

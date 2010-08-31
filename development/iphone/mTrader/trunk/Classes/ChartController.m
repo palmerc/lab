@@ -62,16 +62,9 @@
 }
 
 - (void)updateChart {
-	static NSUInteger value = 0;
-	
 	NSData *data = _symbol.chart.data;
-	//NSString *urlString = [NSString stringWithFormat:@"file:/Users/cameron/graph%d.png", value];
-	//NSURL *url = [NSURL URLWithString:urlString];
-	//[data writeToURL:url atomically:YES];
 	UIImage *image = [UIImage imageWithData:data];
 	_chartView.chart.image = image;
-	
-	value++;
 }
 
 - (void)setPeriod:(NSUInteger)period {
@@ -110,7 +103,17 @@
 	}
 	
 	NSString *feedTicker = [NSString stringWithFormat:@"%@/%@", _symbol.feed.feedNumber, _symbol.tickerSymbol];
-	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:_period width:bounds.size.width height:bounds.size.height orientation:_orientation];
+	NSUInteger screenResolutionMultiplier = 1.0f;
+	
+	UIScreen *currentScreen = [UIScreen mainScreen];
+	UIScreenMode *currentMode = [currentScreen currentMode];
+	CGSize screenPixelSize = [currentMode size];
+	
+	if (screenPixelSize.height == 960.0f && screenPixelSize.width == 640.0f) {
+		screenResolutionMultiplier = 2.0f;
+	}
+	
+	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:_period width:bounds.size.width * screenResolutionMultiplier height:bounds.size.height * screenResolutionMultiplier orientation:_orientation];
 }
 
 #pragma mark -

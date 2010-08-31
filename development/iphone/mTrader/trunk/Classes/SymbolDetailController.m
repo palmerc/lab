@@ -163,6 +163,17 @@
 	[newsBox addSubview:symbolNewsButton];
 	[symbolNewsButton release];
 	
+	/*** SEB Analysis ***/
+	RoundedRectangleFrame *analysisBox = nil;
+	NSString *providerURL = _symbol.symbolDynamicData.providerURL;
+	if (providerURL != nil) {		
+		analysisBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
+		analysisBox.strokeWidth = 0.75f;
+		analysisBox.cornerRadius = 10.0f;
+		analysisBox.padding = 6.0f;
+		analysisBox.backgroundColor = [UIColor clearColor];
+	}
+	
 	/*** Other Box ***/
 	RoundedRectangleFrame *otherInfoBox = [[RoundedRectangleFrame alloc] initWithFrame:detailRoundedFrame];
 	otherInfoBox.strokeWidth = 0.75f;
@@ -177,10 +188,17 @@
 		
 	CGRect detailFrame = CGRectMake(0.0, 210.f, applicationFrame.size.width, applicationFrame.size.height - 120.0f);
 	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
-	_detailBox.views = [NSArray arrayWithObjects:orderBookBox, pastTradesBox, newsBox, otherInfoBox, nil];
+	
+	if (providerURL != nil) {
+		_detailBox.views = [NSArray arrayWithObjects:orderBookBox, pastTradesBox, newsBox, analysisBox, otherInfoBox, nil];
+	} else {
+		_detailBox.views = [NSArray arrayWithObjects:orderBookBox, pastTradesBox, newsBox, otherInfoBox, nil];
+	}
+	
 	[orderBookBox release];
 	[pastTradesBox release];
 	[newsBox release];
+	[analysisBox release];
 	[otherInfoBox release];
 	
 	[aView addSubview:_detailBox.view];
@@ -193,13 +211,6 @@
 	[super viewDidLoad];
 	
 	self.title = [NSString stringWithFormat:@"%@ (%@)", self.symbol.tickerSymbol, self.symbol.feed.mCode];
-	
-	if (self.symbol.symbolDynamicData.providerURL != nil) {
-		NSString *analysisString = NSLocalizedString(@"analysis", @"Analysis");
-		UIBarButtonItem *analysis = [[UIBarButtonItem alloc] initWithTitle:analysisString style:UIBarButtonItemStylePlain target:self action:@selector(analysis:)];
-		self.navigationItem.rightBarButtonItem = analysis;
-		[analysis release];
-	}
 	
 }
 
