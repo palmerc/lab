@@ -11,7 +11,7 @@
 #define DEBUG_ORDERBOOK_UPDATES 0
 #define DEBUG_NEWS_UPDATE 0
 #define DEBUG_PROCESS_SYMBOLS 0
-#define DEBUG_PROVIDER_URL 1
+#define DEBUG_PROVIDER_URL 0
 
 #import "DataController.h"
 

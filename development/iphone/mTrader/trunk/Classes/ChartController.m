@@ -7,6 +7,7 @@
 //
 
 #define DEBUG 0
+#define CHART_PNG_DUMP 0
 
 #import "ChartController.h"
 
@@ -63,6 +64,17 @@
 
 - (void)updateChart {
 	NSData *data = _symbol.chart.data;
+	
+#if CHART_PNG_DUMP
+	static NSUInteger value = 0;
+	
+	NSString *urlString = [NSString stringWithFormat:@"file:/Users/cameron/graph%d.png", value];
+	NSURL *url = [NSURL URLWithString:urlString];
+	[data writeToURL:url atomically:YES];
+	
+	value++;
+#endif
+		
 	UIImage *image = [UIImage imageWithData:data];
 	_chartView.chart.image = image;
 }

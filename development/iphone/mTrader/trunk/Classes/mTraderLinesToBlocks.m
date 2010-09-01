@@ -6,7 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#define DEBUG_BLOCK 0
+#define DEBUG_BLOCK 1
 
 
 #import "mTraderLinesToBlocks.h"

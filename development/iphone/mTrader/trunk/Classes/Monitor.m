@@ -6,8 +6,8 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#define DEBUG_COMMUNICATOR_STATUS 1
-#define DEBUG_REACHABILITY 1
+#define DEBUG_COMMUNICATOR_STATUS 0
+#define DEBUG_REACHABILITY 0
 
 #import "Monitor.h"
 
