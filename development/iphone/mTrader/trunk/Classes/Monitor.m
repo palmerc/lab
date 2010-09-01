@@ -6,8 +6,9 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#define DEBUG_COMMUNICATOR_STATUS 0
-#define DEBUG_REACHABILITY 0
+#define DEBUG_COMMUNICATOR_STATUS 1
+#define DEBUG_REACHABILITY 1
+#define DEBUG_LIFECYCLE 1
 
 #import "Monitor.h"
 
@@ -105,6 +106,76 @@ static Monitor *sharedMonitor = nil;
 	return self;
 }
 
+- (void)setup {
+	_loggedIn = NO;
+	_connected = NO;
+	_connecting = NO;
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+	_reachability = [[Reachability reachabilityWithHostName:[_mTraderURL host]] retain];
+	[_reachability startNotifer];
+	
+	
+	// Connect the pieces of the communication stack
+	_mTCom = [mTraderCommunicator sharedManager];
+	_mTCom.statusDelegate = self;
+	
+	mTraderLinesToBlocks *linesToBlocks = [[mTraderLinesToBlocks alloc] init];
+	linesToBlocks.dataDelegate = _mTCom;
+	
+	LineOrientedCommunication *lineOrientedCommunication = [[LineOrientedCommunication alloc] init];
+	lineOrientedCommunication.dataDelegate = linesToBlocks;	
+	
+	_mTraderCommunicator = [[Communicator alloc] init];
+	_mTCom.communicator = _mTraderCommunicator;
+	_mTraderCommunicator.statusDelegate = self;
+	_mTraderCommunicator.dataDelegate = lineOrientedCommunication;
+	
+	//_mTradingCommunicator = [[Communicator alloc] init];
+	//_mTradingCommunicator.tlsEnabled = NO;
+	
+}
+
+- (void)start {
+	if (![self hasUsernameAndPasswordDefined]) {
+		_loggedIn = NO;
+		_connected = NO;
+		_connecting = NO;
+		
+		NSString *title = @"Username and/or password missing";
+		NSString *message = @"Please add your username and password for the mTrader service in the setting's tab.";
+		NSString *cancelButtonTitle = @"Dismiss";
+		
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+		
+		// permanent disconnect
+	} else {
+		_loggedIn = NO;
+		_connected = NO;
+		_connecting = YES;
+		
+		NSString *message = NSLocalizedString(@"connecting", @"Connecting");
+		self.statusController.statusMessage = message;
+		[self.statusController displayStatus];
+		
+		[_mTraderCommunicator startConnectionWithSocket:_mTraderURL onPort:_mTraderPort];
+		//[_mTradingCommunicator startConnectionWithSocket:_mTradingURL onPort:_mTradingPort];
+		
+		// This method expects that after a certain short interval to receive a call to connect:
+	}
+}
+
+- (void)login {
+	NSString *message = NSLocalizedString(@"loggingIn", @"Logging In");
+	self.statusController.statusMessage = message;
+	[self.statusController displayStatus];
+	[[mTraderCommunicator sharedManager] login];
+
+	//This method expects a call to loginSuccessful: or loginFailed:
+}
+
 #pragma mark -
 #pragma mark Reachability
 
@@ -157,43 +228,17 @@ static Monitor *sharedMonitor = nil;
 #pragma mark Application State Changes
 // Application started
 - (void)applicationDidFinishLaunching {
-	if (![self hasUsernameAndPasswordDefined]) {		
-		NSString *title = @"Username and/or password missing";
-		NSString *message = @"Please add your username and password for the mTrader service in the setting's tab.";
-		NSString *cancelButtonTitle = @"Dismiss";
-		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
-		[alert show];
-		[alert release];
-	}
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-	
-	_reachability = [[Reachability reachabilityWithHostName:[_mTraderURL host]] retain];
-	
-	[_reachability startNotifer];
-	
-	// Connect the pieces of the communication stack
-	_mTCom = [mTraderCommunicator sharedManager];
-	_mTCom.statusDelegate = self;
-	
-	mTraderLinesToBlocks *linesToBlocks = [[mTraderLinesToBlocks alloc] init];
-	linesToBlocks.dataDelegate = _mTCom;
-	
-	LineOrientedCommunication *lineOrientedCommunication = [[LineOrientedCommunication alloc] init];
-	lineOrientedCommunication.dataDelegate = linesToBlocks;	
-	
-	_mTraderCommunicator = [[Communicator alloc] init];
-	_mTCom.communicator = _mTraderCommunicator;
-	_mTraderCommunicator.statusDelegate = self;
-	_mTraderCommunicator.dataDelegate = lineOrientedCommunication;
-	
-	//_mTradingCommunicator = [[Communicator alloc] init];
-	//_mTradingCommunicator.tlsEnabled = NO;
+#if DEBUG_LIFECYCLE
+	NSLog(@"Monitor: applicationDidFinishLaunching");
+#endif
+	[self setup];
 }
 
 // Application quitting
 - (void)applicationWillTerminate {
+#if DEBUG_LIFECYCLE
+	NSLog(@"Monitor: applicationWillTerminate");
+#endif
 	[_mTCom logout];
 	
 	[_mTraderCommunicator stopConnection];
@@ -201,22 +246,17 @@ static Monitor *sharedMonitor = nil;
 
 // Phone woke up
 - (void)applicationDidBecomeActive {
-	if (_connecting == YES) {
-		return;
-	}
-	
-	_connecting = YES;
-	
-	NSString *message = NSLocalizedString(@"connecting", @"Connecting");
-	self.statusController.statusMessage = message;
-	[self.statusController displayStatus];
-	
-	[_mTraderCommunicator startConnectionWithSocket:_mTraderURL onPort:_mTraderPort];
-	//[_mTradingCommunicator startConnectionWithSocket:_mTradingURL onPort:_mTradingPort];
+#if DEBUG_LIFECYCLE
+	NSLog(@"Monitor: applicationDidBecomeActive");
+#endif
+	[self start];
 }
 
 // Phone went to sleep
 - (void)applicationWillResignActive {
+#if DEBUG_LIFECYCLE
+	NSLog(@"Monitor: applicationWillResignActive");
+#endif
 	[_mTCom logout];
 
 	[_mTraderCommunicator stopConnection];
@@ -228,7 +268,7 @@ static Monitor *sharedMonitor = nil;
 
 - (void)usernameAndPasswordChanged {
 	if ([self hasUsernameAndPasswordDefined]) {
-		[self applicationDidBecomeActive];
+		[self start];
 	}
 }
 
@@ -239,20 +279,14 @@ static Monitor *sharedMonitor = nil;
 #if DEBUG_COMMUNICATOR_STATUS
 	NSLog(@"Monitor: connect");
 #endif
-	if (_connected == NO) {
-		_connecting = NO;
-		_connected = YES;
-		NSString *message = NSLocalizedString(@"connected", @"Connected");
-		self.statusController.statusMessage = message;
-		[self.statusController displayStatus];
+
+	_connecting = NO;
+	_connected = YES;
+	NSString *message = NSLocalizedString(@"connected", @"Connected");
+	self.statusController.statusMessage = message;
+	[self.statusController displayStatus];
 		
-		if (!self.loggedIn) {
-			NSString *message = NSLocalizedString(@"loggingIn", @"Logging In");
-			self.statusController.statusMessage = message;
-			[self.statusController displayStatus];
-			[[mTraderCommunicator sharedManager] login];
-		}
-	}
+	[self login];
 }
 
 - (void)disconnect {	
@@ -260,10 +294,12 @@ static Monitor *sharedMonitor = nil;
 	NSLog(@"Monitor: disconnect");
 #endif
 	
+	[_mTraderCommunicator stopConnection];
 	NSString *message = NSLocalizedString(@"disconnected", @"Disconnected");
 	self.statusController.statusMessage = message;
 	[self.statusController displayStatus];
 	
+	_connecting = NO;
 	_connected = NO;
 	_loggedIn = NO;
 }
@@ -272,31 +308,47 @@ static Monitor *sharedMonitor = nil;
 #pragma mark mTraderStatusDelegate methods
 
 - (void)loginSuccessful {
+	_connecting = NO;
+	_connected = NO;
+	_loggedIn = YES;
+
 	NSString *message = NSLocalizedString(@"loggedIn", @"Logged In");
 	self.statusController.statusMessage = message;
 	[self.statusController hideStatus];
-	
-	_loggedIn = YES;
 }
 
 - (void)loginFailed:(NSString *)message {
+	[_reachability stopNotifer];
+	[[mTraderCommunicator sharedManager].communicator stopConnection];
+	
+	_connecting = NO;
+	_connected = NO;
 	_loggedIn = NO;
-		
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Your username or password are incorrect or you lack sufficient rights to access mTrader." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	
+	NSString *title = @"Login Failed";
+	NSString *messageString = @"Your username or password are incorrect or you lack sufficient rights to access mTrader.";
+	NSString *cancelButton = @"Dismiss";
+	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:messageString delegate:nil cancelButtonTitle:cancelButton otherButtonTitles:nil];
 	[alert show];
 	[alert release];
 }
 
 - (void)kickedOut {
-	[_reachability stopNotifer];
-	
 #if DEBUG_COMMUNICATOR_STATUS
 	NSLog(@"Monitor: Kicked out");
 #endif
+	[_reachability stopNotifer];
 	[[mTraderCommunicator sharedManager].communicator stopConnection];
+	_connecting = NO;
+	_connected = NO;
+	_loggedIn = NO;
 	
+	NSString *title = @"Kickout";
+	NSString *message = @"You have been logged off since you logged in from another client. This application will terminate.";
+	NSString *cancelButton = @"Quit";
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Kickout" message:@"You have been logged off since you logged in from another client. This application will terminate." delegate:self cancelButtonTitle:@"Quit" otherButtonTitles:nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:cancelButton otherButtonTitles:nil];
 	[alert show];
 	[alert release];
 }

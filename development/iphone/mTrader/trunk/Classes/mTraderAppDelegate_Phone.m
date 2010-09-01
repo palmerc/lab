@@ -8,6 +8,7 @@
 
 #define DEBUG 0
 #define DEBUG_PUSH_NOTIFICATIONS 0
+#define DEBUG_LIFECYCLE 0
 
 #import "mTraderAppDelegate_Phone.h"
 
@@ -49,6 +50,9 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+#if DEBUG_LIFECYCLE
+	NSLog(@"didFinishLaunchingWithOptions");
+#endif
 	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 	UIColor *sebColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 	
@@ -124,6 +128,9 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+#if DEBUG_LIFECYCLE
+	NSLog(@"applicationWillResignActive");
+#endif
 	[[Monitor sharedManager] applicationWillResignActive];
 	
 	[[UserDefaults sharedManager] saveSettings];
@@ -144,6 +151,9 @@
  applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
  */
 - (void)applicationWillTerminate:(UIApplication *)application {
+#if DEBUG_LIFECYCLE
+	NSLog(@"applicationWillTerminate");
+#endif
 	[[Monitor sharedManager] applicationWillTerminate];
 	
 	[[UserDefaults sharedManager] saveSettings];
@@ -161,6 +171,9 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+#if DEBUG_LIFECYCLE
+	NSLog(@"applicationDidBecomeActive");
+#endif
 	[[Monitor sharedManager] applicationDidBecomeActive];
 }
 
