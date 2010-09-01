@@ -49,6 +49,9 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	UIColor *sebColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
+	
 	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
 
 	_managedObjectContext = nil;
@@ -69,11 +72,17 @@
 	NewsTableViewContoller_Phone *newsController = [[NewsTableViewContoller_Phone alloc] initWithFrame:applicationFrame];
 	newsController.managedObjectContext = self.managedObjectContext;
 	UINavigationController *newsNavigationController = [[UINavigationController alloc] initWithRootViewController:newsController];
+	if ([applicationName isEqualToString:BRANDING_SEB]) {
+		newsNavigationController.navigationBar.tintColor = sebColor;
+	}
 	[newsController release];
 
 	// Settings
 	SettingsTableViewController_Phone *settingsController = [[SettingsTableViewController_Phone alloc] init];
 	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsController];
+	if ([applicationName isEqualToString:BRANDING_SEB]) {
+		settingsNavigationController.navigationBar.tintColor = sebColor;
+	}
 	[settingsController release];
 	
 	NSArray *viewControllersArray = [NSArray arrayWithObjects:myListNavigationController, newsNavigationController, settingsNavigationController, nil];

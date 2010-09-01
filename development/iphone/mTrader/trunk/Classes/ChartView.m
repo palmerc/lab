@@ -17,6 +17,9 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
+		
+		NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+		UIColor *brandingColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
 		_chart = [[UIImageView alloc] initWithFrame:CGRectZero];
 		[self addSubview:_chart];
 
@@ -33,6 +36,10 @@
 		[barButtonItem setStyle:UIBarButtonItemStyleBordered];
 		
 		_toolbar = [[UIToolbar alloc] initWithFrame:CGRectZero];
+		if ([applicationName isEqualToString:BRANDING_SEB]) {
+			_periodSelectionControl.tintColor = brandingColor;
+			_toolbar.tintColor = brandingColor;
+		}
 		_toolbar.hidden = YES;
 
 		_toolbar.items = [NSArray arrayWithObject:barButtonItem];

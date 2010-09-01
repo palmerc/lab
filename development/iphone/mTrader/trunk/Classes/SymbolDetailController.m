@@ -172,6 +172,28 @@
 		analysisBox.cornerRadius = 10.0f;
 		analysisBox.padding = 6.0f;
 		analysisBox.backgroundColor = [UIColor clearColor];
+		
+		UIView *analysisView = [[UIView alloc] initWithFrame:detailInnerFrame];
+		[analysisBox addSubview:analysisView];
+
+		UIImage *logo = [UIImage imageNamed:@"sebLogo"];
+		CGFloat logoWidth = logo.size.width;
+		CGFloat logoHeight = logo.size.height;
+		CGFloat x = floorf((detailInnerFrame.size.width - logoWidth) / 2.0f);
+		UIImageView *logoView = [[UIImageView alloc] initWithImage:logo];
+		CGRect logoViewFrame = logoView.frame;
+		logoViewFrame.origin.x = x;
+		logoView.frame = logoViewFrame;
+		
+		UIButton *analysisButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+		[analysisButton addTarget:self action:@selector(analysisButtonTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
+		[analysisButton setTitle:@"Pre-trade Report" forState:UIControlStateNormal];
+
+		[analysisView addSubview:analysisButton];
+		
+		analysisButton.frame = CGRectMake(10.0f, logoHeight + 5.0f, detailInnerFrame.size.width - 20.0f, 50.0f);
+		
+		[analysisView addSubview:logoView];
 	}
 	
 	/*** Other Box ***/
@@ -259,6 +281,10 @@
 	[doneButton release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:symbolNewsController];
+	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	if ([applicationName isEqualToString:BRANDING_SEB]) {
+		navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
+	}
 	[symbolNewsController release];
 	
 	[self presentModalViewController:navController animated:YES];
@@ -269,23 +295,9 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)analysis:(id)sender {
+- (void)analysisButtonTouchedUpInside:(id)sender {
 	NSURL *url = [NSURL URLWithString:self.symbol.symbolDynamicData.providerURL];
-	NSURLRequest *request = [NSURLRequest requestWithURL:url];
-	UIWebView *analysisView = [[UIWebView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-	UIViewController *viewController = [[UIViewController alloc] init];
-	
-	UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(analysisModalViewControllerDidFinish:)];
-	viewController.navigationItem.leftBarButtonItem = done;
-	[viewController.view addSubview:analysisView];
-	[analysisView loadRequest:request];
-	[analysisView release];
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
-	[viewController release];
-	
-	[self presentModalViewController:navController animated:YES];
-	[navController release];
+	[[UIApplication sharedApplication] openURL:url];
 }
 
 - (void)chartTouchedUpInside:(id)sender {
@@ -302,6 +314,10 @@
 	[doneButton release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chartController];
+	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	if ([applicationName isEqualToString:BRANDING_SEB]) {
+		navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
+	}
 	[chartController release];
 	
 	[self presentModalViewController:navController animated:YES];
@@ -330,6 +346,10 @@
 	[doneButton release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pastTradesController];
+	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	if ([applicationName isEqualToString:BRANDING_SEB]) {
+		navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
+	}
 	[pastTradesController release];
 	
 	[self presentModalViewController:navController animated:YES];
@@ -357,6 +377,10 @@
 	[doneButton release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:orderBookController];	
+	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	if ([applicationName isEqualToString:BRANDING_SEB]) {
+		navController.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
+	}
 	[orderBookController release];
 	
 	[self presentModalViewController:navController animated:YES];

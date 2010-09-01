@@ -29,6 +29,16 @@
 	return self;
 }
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	
+	NSString *applicationName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+	if ([applicationName isEqualToString:BRANDING_SEB]) {
+		self.navigationBar.tintColor = [UIColor colorWithRed:0.33f green:0.78f blue:0.07f alpha:1.0f];
+	}
+
+}
+
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 
 	if ([viewController isMemberOfClass:MyListHeaderViewController_Phone.class]) {
