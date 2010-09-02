@@ -6,9 +6,10 @@
 //  Copyright 2010 InFront AS. All rights reserved.
 //
 
-#define DEBUG_COMMUNICATOR_STATUS 1
-#define DEBUG_REACHABILITY 1
-#define DEBUG_LIFECYCLE 1
+#define DEBUG_COMMUNICATOR_STATUS 0
+#define DEBUG_REACHABILITY 0
+#define DEBUG_LIFECYCLE 0
+#define DEBUG_STATE 0
 
 #import "Monitor.h"
 
@@ -24,6 +25,10 @@
 
 @interface Monitor ()
 - (BOOL)hasUsernameAndPasswordDefined;
+- (void)setup;
+- (void)start;
+- (void)login;
+- (void)logout;
 @end
 
 
@@ -80,7 +85,7 @@ static Monitor *sharedMonitor = nil;
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		_mTraderCommunicator = nil;
+		_communicator = nil;
 		_mTradingCommunicator = nil;
 		_mTCom = nil;
 		
@@ -107,9 +112,13 @@ static Monitor *sharedMonitor = nil;
 }
 
 - (void)setup {
-	_loggedIn = NO;
-	_connected = NO;
-	_connecting = NO;
+	if (_state > SETUP) {
+		return;
+	}
+#if DEBUG_STATE
+	NSLog(@"Monitor: SETUP");
+#endif
+	_state = SETUP;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 	_reachability = [[Reachability reachabilityWithHostName:[_mTraderURL host]] retain];
@@ -126,10 +135,10 @@ static Monitor *sharedMonitor = nil;
 	LineOrientedCommunication *lineOrientedCommunication = [[LineOrientedCommunication alloc] init];
 	lineOrientedCommunication.dataDelegate = linesToBlocks;	
 	
-	_mTraderCommunicator = [[Communicator alloc] init];
-	_mTCom.communicator = _mTraderCommunicator;
-	_mTraderCommunicator.statusDelegate = self;
-	_mTraderCommunicator.dataDelegate = lineOrientedCommunication;
+	_communicator = [[Communicator alloc] init];
+	_mTCom.communicator = _communicator;
+	_communicator.statusDelegate = self;
+	_communicator.dataDelegate = lineOrientedCommunication;
 	
 	//_mTradingCommunicator = [[Communicator alloc] init];
 	//_mTradingCommunicator.tlsEnabled = NO;
@@ -137,10 +146,22 @@ static Monitor *sharedMonitor = nil;
 }
 
 - (void)start {
+	if (_state >= START) {
+		return;
+	}
+#if DEBUG_STATE
+	NSLog(@"Monitor: START");
+#endif
+	_state = START;
+
 	if (![self hasUsernameAndPasswordDefined]) {
-		_loggedIn = NO;
-		_connected = NO;
-		_connecting = NO;
+		if (_state == NOUSERNAMEORPASSWORD) {
+			return;
+		}
+#if DEBUG_STATE
+		NSLog(@"Monitor: NOUSERNAMEORPASSWORD");
+#endif
+		_state = NOUSERNAMEORPASSWORD;
 		
 		NSString *title = @"Username and/or password missing";
 		NSString *message = @"Please add your username and password for the mTrader service in the setting's tab.";
@@ -152,15 +173,19 @@ static Monitor *sharedMonitor = nil;
 		
 		// permanent disconnect
 	} else {
-		_loggedIn = NO;
-		_connected = NO;
-		_connecting = YES;
-		
+		if (_state == CONNECTING) {
+			return;
+		}
+#if DEBUG_STATE
+		NSLog(@"Monitor: CONNECTING");
+#endif
+
+		_state = CONNECTING;
 		NSString *message = NSLocalizedString(@"connecting", @"Connecting");
 		self.statusController.statusMessage = message;
 		[self.statusController displayStatus];
 		
-		[_mTraderCommunicator startConnectionWithSocket:_mTraderURL onPort:_mTraderPort];
+		[_communicator startConnectionWithSocket:_mTraderURL onPort:_mTraderPort];
 		//[_mTradingCommunicator startConnectionWithSocket:_mTradingURL onPort:_mTradingPort];
 		
 		// This method expects that after a certain short interval to receive a call to connect:
@@ -168,12 +193,31 @@ static Monitor *sharedMonitor = nil;
 }
 
 - (void)login {
+	if (_state == LOGGINGIN) {
+		return;
+	}
+#if DEBUG_STATE
+	NSLog(@"Monitor: LOGGINGIN");
+#endif
+	_state = LOGGINGIN;
 	NSString *message = NSLocalizedString(@"loggingIn", @"Logging In");
 	self.statusController.statusMessage = message;
 	[self.statusController displayStatus];
 	[[mTraderCommunicator sharedManager] login];
 
 	//This method expects a call to loginSuccessful: or loginFailed:
+}
+- (void)logout {
+	if (_state == LOGOUT || _state == DISCONNECTED) {
+		return;
+	}
+#if DEBUG_STATE
+	NSLog(@"Monitor: LOGOUT");
+#endif
+	
+	_state = LOGOUT;
+	
+	[_mTCom logout];
 }
 
 #pragma mark -
@@ -199,13 +243,13 @@ static Monitor *sharedMonitor = nil;
 #if DEBUG_REACHABILITY
 			status = @"Reachable via WiFi";
 #endif
-			[self applicationDidBecomeActive];
+			[self start];
 			break;
 		case ReachableViaWWAN:
 #if DEBUG_REACHABILITY
-			[self applicationDidBecomeActive];
 			status = @"Reachable via WWAN";
 #endif
+			[self start];
 			break;
 		default:
 			break;
@@ -239,9 +283,7 @@ static Monitor *sharedMonitor = nil;
 #if DEBUG_LIFECYCLE
 	NSLog(@"Monitor: applicationWillTerminate");
 #endif
-	[_mTCom logout];
-	
-	[_mTraderCommunicator stopConnection];
+	[self logout];
 }
 
 // Phone woke up
@@ -259,16 +301,19 @@ static Monitor *sharedMonitor = nil;
 #endif
 	[_mTCom logout];
 
-	[_mTraderCommunicator stopConnection];
+	[_communicator stopConnection];
 	
 	_loggedIn = NO;
 	_connected = NO;
 	_connecting = NO;
 }
 
-- (void)usernameAndPasswordChanged {
+- (void)usernameAndPasswordChanged {	
 	if ([self hasUsernameAndPasswordDefined]) {
+		_state = DISCONNECTED;
 		[self start];
+	} else {
+		[self logout];
 	}
 }
 
@@ -279,9 +324,7 @@ static Monitor *sharedMonitor = nil;
 #if DEBUG_COMMUNICATOR_STATUS
 	NSLog(@"Monitor: connect");
 #endif
-
-	_connecting = NO;
-	_connected = YES;
+	_state = CONNECTED;
 	NSString *message = NSLocalizedString(@"connected", @"Connected");
 	self.statusController.statusMessage = message;
 	[self.statusController displayStatus];
@@ -293,15 +336,11 @@ static Monitor *sharedMonitor = nil;
 #if DEBUG_COMMUNICATOR_STATUS
 	NSLog(@"Monitor: disconnect");
 #endif
-	
-	[_mTraderCommunicator stopConnection];
+	_state = DISCONNECTED;
+	[_communicator stopConnection];
 	NSString *message = NSLocalizedString(@"disconnected", @"Disconnected");
 	self.statusController.statusMessage = message;
 	[self.statusController displayStatus];
-	
-	_connecting = NO;
-	_connected = NO;
-	_loggedIn = NO;
 }
 
 #pragma mark -
@@ -363,11 +402,11 @@ static Monitor *sharedMonitor = nil;
 #pragma mark -
 #pragma mark Bytes Sent and Received
 - (NSUInteger)bytesSent {
-	return _mTraderCommunicator.bytesSent;
+	return _communicator.bytesSent;
 }
 
 - (NSUInteger)bytesReceived {
-	return _mTraderCommunicator.bytesReceived;
+	return _communicator.bytesReceived;
 }
 
 #pragma mark -
@@ -429,7 +468,7 @@ static Monitor *sharedMonitor = nil;
 	[_mTradingURL release];
 	[_reachability stopNotifer];
 	[_reachability release];
-	[_mTraderCommunicator release];
+	[_communicator release];
 	[_mTradingCommunicator release];
 	[_mTCom release];
 	
@@ -437,3 +476,4 @@ static Monitor *sharedMonitor = nil;
 }
 
 @end
+

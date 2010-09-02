@@ -10,12 +10,24 @@
 #import "Communicator.h"
 #import "Reachability.h"
 
+enum {
+	SETUP = 0,
+	DISCONNECTED,
+	START,
+	CONNECTING,
+	CONNECTED,
+	LOGGINGIN,
+	LOGGEDIN,
+	LOGOUT,
+	NOUSERNAMEORPASSWORD
+} monitorStates;
+
 @class Communicator;
 @class StatusController;
 
 @interface Monitor : NSObject <mTraderStatusDelegate, UIAlertViewDelegate, CommunicatorStatusDelegate> {
 @private
-	Communicator *_mTraderCommunicator;
+	Communicator *_communicator;
 	Communicator *_mTradingCommunicator;
 	mTraderCommunicator *_mTCom;
 	
@@ -29,6 +41,7 @@
 	NSString *_mTradingHost;
 	NSUInteger _mTradingPort;
 	
+	NSUInteger _state;
 	BOOL _connecting;
 	BOOL _connected;
 	BOOL _loggedIn;

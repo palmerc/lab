@@ -574,10 +574,7 @@ static DataController *sharedDataController = nil;
 #if DEBUG_UPDATES
 				NSLog(@"\tLast Trade Time: %@", lastTradeTime);
 #endif
-			} else {
-				symbol.symbolDynamicData.lastTradeTime = nil;
 			}
-
 		}
 		
 		// last trade
