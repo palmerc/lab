@@ -10,15 +10,14 @@
 
 #import "ScrollViewPageControl.h"
 
+#import "ScrollPageView.h"
 
 @implementation ScrollViewPageControl
-@synthesize frame = _frame;
 @synthesize views = _views;
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)init {
 	self = [super init];
 	if (self != nil) {
-		_frame = frame;
 		_scrollView = nil;
 		_pageControl = nil;
 		_numberOfPages = 0;
@@ -28,63 +27,39 @@
 }
 
 - (void)loadView {
-	UIView *aView = [[UIView alloc] initWithFrame:_frame];
+	ScrollPageView *aView = [[ScrollPageView alloc] initWithFrame:CGRectZero];
+	aView.delegate = self;
 	
-	CGRect scrollViewFrame = CGRectMake(0.0f, 0.0f, aView.bounds.size.width, aView.bounds.size.height - 10.0f);
-	_scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
-	_scrollView.clipsToBounds = YES;
-	_scrollView.scrollEnabled = YES;
-	_scrollView.pagingEnabled = YES;
-	_scrollView.showsHorizontalScrollIndicator = NO;
+	_scrollView = [aView.scrollView retain];
 	_scrollView.delegate = self;
-	[aView addSubview:_scrollView];
 	
-	CGRect pageControlFrame = CGRectMake(0.0f, 147.0f, aView.bounds.size.width, 10.0f);
-	_pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
-	_pageControl.backgroundColor = [UIColor darkGrayColor];
-	_pageControl.numberOfPages = 0;
-	_pageControl.currentPage = 0;
-	_pageControl.opaque = YES;
+	_pageControl = [aView.pageControl retain];
 	[_pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
-	[aView addSubview:_pageControl];
 	
 	self.view = aView;
 	[aView release];
-	
-	[self adjustScrollView];
 }
 
 - (void)adjustScrollView {
 	_numberOfPages = 0;
 	
-	CGSize contentSize = _scrollView.contentSize;
-	contentSize.height = self.frame.size.height - 20.0f;
+	CGSize contentSize = CGSizeZero;
+	CGFloat height = _scrollView.bounds.size.height;
+	contentSize.height = height;
 	
-	for (UIView *view in _views) {
-		CGRect viewFrame = view.frame;
+	for (UIView *aView in _views) {
+		CGRect viewBounds = aView.bounds;
 		
-		viewFrame.origin.x = contentSize.width;
-		contentSize.width += viewFrame.size.width;
-		view.frame = viewFrame;
-		
-		[_scrollView addSubview:view];
+		viewBounds.origin.x = contentSize.width;
+		contentSize.width += viewBounds.size.width;
+		aView.bounds = viewBounds;
+		[_scrollView addSubview:aView];
 		
 		_numberOfPages++;
 	}
 	
 	_pageControl.numberOfPages = _numberOfPages;
 	_scrollView.contentSize = contentSize;
-}
-
-- (void)setViews:(NSArray *)views {
-	if (_views == views) {
-		return;
-	}
-	
-	[_views release];
-	_views = [views retain];
-	
-	[self adjustScrollView];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
