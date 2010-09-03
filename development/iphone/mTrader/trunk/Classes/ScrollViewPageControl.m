@@ -1,4 +1,4 @@
-//
+	//
 //  ScrollViewPageControl.m
 //  mTrader
 //
@@ -6,7 +6,7 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#define DEBUG 0
+#define DEBUG 1
 
 #import "ScrollViewPageControl.h"
 
@@ -27,43 +27,58 @@
 }
 
 - (void)loadView {
-	ScrollPageView *aView = [[ScrollPageView alloc] initWithFrame:CGRectZero];
-	aView.delegate = self;
+	ScrollPageView *scrollPageView = [[ScrollPageView alloc] initWithFrame:CGRectZero];
+	scrollPageView.delegate = self;
 	
-	_scrollView = [aView.scrollView retain];
+	_scrollView = [scrollPageView.scrollView retain];
 	_scrollView.delegate = self;
 	
-	_pageControl = [aView.pageControl retain];
+	_pageControl = [scrollPageView.pageControl retain];
 	[_pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
 	
-	self.view = aView;
-	[aView release];
+	self.view = scrollPageView;
+	[scrollPageView release];
 }
 
-- (void)adjustScrollView {
-	_numberOfPages = 0;
-	
+- (void)adjustScrollView {	
 	CGSize contentSize = CGSizeZero;
 	CGFloat height = _scrollView.bounds.size.height;
 	contentSize.height = height;
 	
 	for (UIView *aView in _views) {
+		NSLog(@"View in adjustScrollView: %f %f %f %f", aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width, aView.frame.size.height);
+
 		CGRect viewBounds = aView.bounds;
 		
 		viewBounds.origin.x = contentSize.width;
 		contentSize.width += viewBounds.size.width;
-		aView.bounds = viewBounds;
+		aView.frame = viewBounds;
+	}	
+	_scrollView.contentSize = contentSize;
+	NSLog(@"Scroll View ContentSize: %f %f", contentSize.width, contentSize.height);
+
+}
+
+- (void)setViews:(NSArray *)views {
+	if (views == _views) {
+		return;
+	}
+	[_views release];
+	_views = [views retain];
+	
+	_numberOfPages = 0;
+
+	for (UIView *aView in views) {
+		NSLog(@"View added to scrollView: %f %f %f %f", aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width, aView.frame.size.height);
 		[_scrollView addSubview:aView];
-		
 		_numberOfPages++;
 	}
 	
 	_pageControl.numberOfPages = _numberOfPages;
-	_scrollView.contentSize = contentSize;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
-	CGFloat pageWidth = _scrollView.frame.size.width;
+	CGFloat pageWidth = _scrollView.bounds.size.width;
     int page = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     _pageControl.currentPage = page;	
 }
@@ -82,9 +97,9 @@
 #pragma mark Debugging methods
 
 #if DEBUG
- Very helpful debug when things seem not to be working.
+// Very helpful debug when things seem not to be working.
 - (BOOL)respondsToSelector:(SEL)sel {
-	NSLog(@"Queried about %@ in SymbolScrollView", NSStringFromSelector(sel));
+	NSLog(@"ScrollViewPageControl: %@", NSStringFromSelector(sel));
 	return [super respondsToSelector:sel];
 }
 #endif

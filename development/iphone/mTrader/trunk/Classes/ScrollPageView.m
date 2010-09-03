@@ -6,6 +6,8 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
+#define DEBUG 1
+
 #import "ScrollPageView.h"
 
 
@@ -17,6 +19,8 @@
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {		
 		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+		//_scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		//_scrollView.autoresizesSubviews = YES;
 		_scrollView.clipsToBounds = YES;
 		_scrollView.scrollEnabled = YES;
 		_scrollView.pagingEnabled = YES;
@@ -35,11 +39,21 @@
 }
 
 - (void)layoutSubviews {
-	[self.delegate adjustScrollView];
-
 	_scrollView.frame = CGRectMake(0.0f, 0.0f, self.bounds.size.width, self.bounds.size.height - 10.0f);
 	_pageControl.frame = CGRectMake(0.0f, self.bounds.size.height - 10.0f, self.bounds.size.width, 10.0f);
+
+	[self.delegate adjustScrollView];
+
 }
+
+#if DEBUG
+//Very helpful debug when things seem not to be working.
+- (BOOL)respondsToSelector:(SEL)sel {
+	NSLog(@"ScrollPageView: %@", NSStringFromSelector(sel));
+	return [super respondsToSelector:sel];
+}
+#endif
+
 
 - (void)dealloc {
 	[_scrollView release];
