@@ -92,7 +92,7 @@
 	[aView addSubview:tradesBox];
 	[tradesBox release];	
 	
-	CGRect detailRoundedFrame = CGRectMake(0.0, 0.0, applicationFrame.size.width, applicationFrame.size.height - tradesRoundedFrame.size.height - 94.0f);
+	CGRect detailRoundedFrame = CGRectMake(0.0, 0.0, applicationFrame.size.width, applicationFrame.size.height - tradesRoundedFrame.size.height);
 	CGRect detailInnerFrame = CGRectMake(10.0f, 10.0f, detailRoundedFrame.size.width - 20.0f, detailRoundedFrame.size.height - 20.0f);
 	CGRect detailInnerBounds = detailInnerFrame;
 	detailInnerBounds.origin.x = 0;
@@ -200,9 +200,9 @@
 	[otherInfoBox addSubview:otherInfoView];
 	[otherInfoView release];
 		
-	CGRect detailFrame = CGRectMake(0.0, 220.0f, applicationFrame.size.width, applicationFrame.size.height - 220.0f);
+	CGRect detailBoxFrame = CGRectMake(0.0, lastRoundedFrame.size.height, applicationFrame.size.width, applicationFrame.size.height - lastRoundedFrame.size.height);
 	_detailBox = [[ScrollViewPageControl alloc] init];
-	_detailBox.view.frame = detailFrame;
+	_detailBox.view.frame = detailBoxFrame;
 
 	if (providerURL != nil) {
 		_detailBox.views = [NSArray arrayWithObjects:orderBookBox, pastTradesBox, newsBox, analysisBox, otherInfoBox, nil];

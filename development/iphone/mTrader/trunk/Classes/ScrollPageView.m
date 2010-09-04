@@ -43,7 +43,6 @@
 	_pageControl.frame = CGRectMake(0.0f, self.bounds.size.height - 10.0f, self.bounds.size.width, 10.0f);
 
 	[self.delegate adjustScrollView];
-
 }
 
 #if DEBUG

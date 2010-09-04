@@ -40,9 +40,10 @@
 	[scrollPageView release];
 }
 
-- (void)adjustScrollView {	
-	CGSize contentSize = CGSizeZero;
+- (void)adjustScrollView {
 	CGFloat height = _scrollView.bounds.size.height;
+	
+	CGSize contentSize = CGSizeZero;
 	contentSize.height = height;
 	
 	for (UIView *aView in _views) {
@@ -53,7 +54,7 @@
 		viewBounds.origin.x = contentSize.width;
 		contentSize.width += viewBounds.size.width;
 		aView.frame = viewBounds;
-	}	
+	}
 	_scrollView.contentSize = contentSize;
 	NSLog(@"Scroll View ContentSize: %f %f", contentSize.width, contentSize.height);
 
