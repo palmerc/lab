@@ -50,8 +50,6 @@
 - (void)loadView {
 	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
 	UIView *aView = [[UIView alloc] initWithFrame:applicationFrame];
-	aView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-	aView.autoresizesSubviews = YES;
 	
 	aView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	
@@ -61,6 +59,8 @@
 	CGRect lastInnerFrame = CGRectMake(10.0f, 10.0f, halfWidth - 20.f, 200.0f);
 	
 	_lastChangeView = [[LastChangeView alloc] initWithFrame:lastInnerFrame];
+//	_lastChangeView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//	_lastChangeView.autoresizesSubviews = YES;
 	_lastChangeView.symbol = self.symbol;
 	
 	[_lastChangeView.chartButton addTarget:self action:@selector(chartTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
@@ -81,6 +81,8 @@
 	
 	_tradesLiveBox = [[TradesLiveInfoView alloc] initWithFrame:tradesInnerFrame];
 	_tradesLiveBox.symbol = self.symbol;
+//	_tradesLiveBox.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//	_tradesLiveBox.autoresizesSubviews = YES;
 	
 	RoundedRectangleFrame *tradesBox = [[RoundedRectangleFrame alloc] initWithFrame:tradesRoundedFrame];
 	tradesBox.strokeWidth = 0.75f;
@@ -92,7 +94,7 @@
 	[aView addSubview:tradesBox];
 	[tradesBox release];	
 	
-	CGRect detailRoundedFrame = CGRectMake(0.0, 0.0, applicationFrame.size.width, applicationFrame.size.height - tradesRoundedFrame.size.height);
+	CGRect detailRoundedFrame = CGRectMake(0.0, 0.0, applicationFrame.size.width, applicationFrame.size.height - tradesRoundedFrame.size.height - 90.0f);
 	CGRect detailInnerFrame = CGRectMake(10.0f, 10.0f, detailRoundedFrame.size.width - 20.0f, detailRoundedFrame.size.height - 20.0f);
 	CGRect detailInnerBounds = detailInnerFrame;
 	detailInnerBounds.origin.x = 0;
@@ -110,6 +112,8 @@
 	
 	UIView *orderBookView = _orderBookController.view;
 	orderBookView.frame = detailInnerBounds;
+//	orderBookView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//	orderBookView.autoresizesSubviews = YES;
 	
 	UIButton *orderBookButton = [[UIButton alloc] initWithFrame:detailInnerFrame];
 	[orderBookButton addTarget:self action:@selector(orderBookTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
@@ -129,6 +133,8 @@
 	
 	UIView *pastTradesView = _pastTradesController.view;
 	pastTradesView.frame = detailInnerBounds;
+//	pastTradesView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//	pastTradesView.autoresizesSubviews = YES;
 	
 	UIButton *pastTradesButton = [[UIButton alloc] initWithFrame:detailInnerFrame];
 	[pastTradesButton addTarget:self action:@selector(pastTradesTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
@@ -148,6 +154,8 @@
 	
 	UIView *symbolNewsView = _symbolNewsController.view;
 	symbolNewsView.frame = detailInnerBounds;
+//	symbolNewsView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//	symbolNewsView.autoresizesSubviews = YES;
 	
 	UIButton *symbolNewsButton = [[UIButton alloc] initWithFrame:detailInnerFrame];
 	[symbolNewsButton addTarget:self action:@selector(symbolNewsTouchedUpInside:) forControlEvents:UIControlEventTouchUpInside];
@@ -167,6 +175,7 @@
 		
 		UIView *analysisView = [[UIView alloc] initWithFrame:detailInnerFrame];
 		[analysisBox addSubview:analysisView];
+		[analysisView release];
 
 		UIImage *logo = [UIImage imageNamed:@"sebLogo"];
 		CGFloat logoWidth = logo.size.width;
@@ -186,6 +195,7 @@
 		analysisButton.frame = CGRectMake(10.0f, logoHeight + 5.0f, detailInnerFrame.size.width - 20.0f, 50.0f);
 		
 		[analysisView addSubview:logoView];
+		[logoView release];
 	}
 	
 	/*** Other Box ***/
@@ -200,10 +210,9 @@
 	[otherInfoBox addSubview:otherInfoView];
 	[otherInfoView release];
 		
-	CGRect detailBoxFrame = CGRectMake(0.0, lastRoundedFrame.size.height, applicationFrame.size.width, applicationFrame.size.height - lastRoundedFrame.size.height);
-	_detailBox = [[ScrollViewPageControl alloc] init];
-	_detailBox.view.frame = detailBoxFrame;
-
+	CGRect detailFrame = CGRectMake(0.0, 210.f, applicationFrame.size.width, applicationFrame.size.height - 120.0f);
+	_detailBox = [[ScrollViewPageControl alloc] initWithFrame:detailFrame];
+	
 	if (providerURL != nil) {
 		_detailBox.views = [NSArray arrayWithObjects:orderBookBox, pastTradesBox, newsBox, analysisBox, otherInfoBox, nil];
 	} else {

@@ -21,7 +21,6 @@
 	
 	Symbol *_symbol;
 	ChartView *_chartView;
-	UIToolbar *_periodSelectionToolbar;
 	
 	NSUInteger _period;
 	NSString *_orientation;

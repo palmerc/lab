@@ -27,7 +27,6 @@
 	NSFetchedResultsController *_feedsFetchedResultsController;
 	
 	UIBarButtonItem *feedBarButtonItem;
-	FeedsTableViewController_Phone *feedsTableViewController;
 	
 	NewsFeed *_newsFeed;	
 }

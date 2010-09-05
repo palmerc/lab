@@ -6,10 +6,11 @@
 //  Copyright 2010 Infront AS. All rights reserved.
 //
 
-#import "ScrollPageView.h"
+#import <UIKit/UIKit.h>
 
-@interface ScrollViewPageControl : UIViewController <UIScrollViewDelegate, ScrollPageLayout> {
+@interface ScrollViewPageControl : UIViewController <UIScrollViewDelegate> {
 @private
+	CGRect _frame;
 	UIScrollView *_scrollView;
 	UIPageControl *_pageControl;
 	
@@ -18,6 +19,9 @@
 	NSUInteger _numberOfPages;
 }
 
+@property (assign) CGRect frame;
 @property (nonatomic, retain) NSArray *views;
+
+- (void)adjustScrollView;
 
 @end
