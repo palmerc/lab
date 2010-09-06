@@ -11,6 +11,7 @@
 int main(int argc, char *argv[]) {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
+	// For now we aren't using this
 	BOOL iPad = NO;
 #ifdef UI_USER_INTERFACE_IDIOM
 //	iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
