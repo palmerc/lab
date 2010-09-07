@@ -1,26 +1,26 @@
 // !$*UTF8*$!
 {
-	1D6058900D05DD3D006BFB54 /* mTrader */ = {
+	1D6058900D05DD3D006BFB54 /* SEB mTrader */ = {
 		activeExec = 0;
 		executables = (
-			7E419A9110E203DC0007808B /* mTrader */,
+			7E419A9110E203DC0007808B /* SEB mTrader */,
 		);
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeArchitecturePreference = armv7;
 		activeBuildConfigurationName = Distribution;
-		activeExecutable = 7E419A9110E203DC0007808B /* mTrader */;
-		activeSDKPreference = iphonesimulator3.2;
-		activeTarget = 1D6058900D05DD3D006BFB54 /* mTrader */;
+		activeExecutable = 7E419A9110E203DC0007808B /* SEB mTrader */;
+		activeSDKPreference = iphoneos3.2;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* SEB mTrader */;
 		addToTargets = (
-			1D6058900D05DD3D006BFB54 /* mTrader */,
+			1D6058900D05DD3D006BFB54 /* SEB mTrader */,
 		);
 		breakpoints = (
 			7E8A1F7A11B550AA00DC40FE /* MyListNavigationController_Phone.m:70 */,
 		);
 		codeSenseManager = 7E419AA210E203E40007808B /* Code sense */;
 		executables = (
-			7E419A9110E203DC0007808B /* mTrader */,
+			7E419A9110E203DC0007808B /* SEB mTrader */,
 		);
 		expressions = (
 			self,
@@ -229,6 +229,12 @@
 			7E864DE41236850D00A6F07F = 7E864DE41236850D00A6F07F /* PBXBookmark */;
 			7E864DED1236852700A6F07F /* PBXBookmark */ = 7E864DED1236852700A6F07F /* PBXBookmark */;
 			7E864DEE1236852700A6F07F /* PBXBookmark */ = 7E864DEE1236852700A6F07F /* PBXBookmark */;
+			7E864E6612368D2200A6F07F /* PBXBookmark */ = 7E864E6612368D2200A6F07F /* PBXBookmark */;
+			7E864E6712368D2200A6F07F /* PlistBookmark */ = 7E864E6712368D2200A6F07F /* PlistBookmark */;
+			7E864E6812368D2200A6F07F /* PlistBookmark */ = 7E864E6812368D2200A6F07F /* PlistBookmark */;
+			7E864E6912368D2200A6F07F /* PlistBookmark */ = 7E864E6912368D2200A6F07F /* PlistBookmark */;
+			7E864E9E12368E8100A6F07F /* PlistBookmark */ = 7E864E9E12368E8100A6F07F /* PlistBookmark */;
+			7E864E9F12368E8100A6F07F /* PlistBookmark */ = 7E864E9F12368E8100A6F07F /* PlistBookmark */;
 			7E8A19831227DF5700F289DA = 7E8A19831227DF5700F289DA /* XDModelBookmark */;
 			7E8A198D1227E0F100F289DA = 7E8A198D1227E0F100F289DA /* PBXTextBookmark */;
 			7E8A19911227E0F100F289DA = 7E8A19911227E0F100F289DA /* PBXTextBookmark */;
@@ -847,7 +853,7 @@
 			sepNavWindowFrame = "{{15, 92}, {1393, 1481}}";
 		};
 	};
-	7E419A9110E203DC0007808B /* mTrader */ = {
+	7E419A9110E203DC0007808B /* SEB mTrader */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -890,7 +896,7 @@
 		executableSystemSymbolLevel = 0;
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
-		name = mTrader;
+		name = "SEB mTrader";
 		savedGlobals = {
 		};
 		showTypeColumn = 1;
@@ -1690,6 +1696,69 @@
 	7E864DEE1236852700A6F07F /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 7E96007111DDD78400B64992 /* mTrader@2x.png */;
+	};
+	7E864E6612368D2200A6F07F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 7E96007111DDD78400B64992 /* mTrader@2x.png */;
+	};
+	7E864E6712368D2200A6F07F /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 7EF9464C11108D9F006B5CDE /* Entitlements.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			"get-task-allow",
+		);
+		name = "/Users/cameron/Development/SEB_mTrader-1.2.0/Entitlements.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	7E864E6812368D2200A6F07F /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 7E377F9A11171BC60080A84B /* mTrader-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/cameron/Development/SEB_mTrader-1.2.0/mTrader-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	7E864E6912368D2200A6F07F /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 7E377F9A11171BC60080A84B /* mTrader-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIdentifier,
+		);
+		name = "/Users/cameron/Development/SEB_mTrader-1.2.0/mTrader-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	7E864E9E12368E8100A6F07F /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 7E377F9A11171BC60080A84B /* mTrader-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIdentifier,
+		);
+		name = "/Users/cameron/Development/SEB_mTrader-1.2.0/mTrader-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	7E864E9F12368E8100A6F07F /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 7E377F9A11171BC60080A84B /* mTrader-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIdentifier,
+		);
+		name = "/Users/cameron/Development/SEB_mTrader-1.2.0/mTrader-Info.plist";
+		rLen = 44;
+		rLoc = 0;
 	};
 	7E8A19831227DF5700F289DA /* XDModelBookmark */ = {
 		isa = XDModelBookmark;
