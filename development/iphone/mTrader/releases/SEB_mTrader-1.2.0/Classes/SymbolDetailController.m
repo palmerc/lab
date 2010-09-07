@@ -177,7 +177,7 @@
 		[analysisBox addSubview:analysisView];
 		[analysisView release];
 
-		UIImage *logo = [UIImage imageNamed:@"sebLogo"];
+		UIImage *logo = [UIImage imageNamed:@"sebLogo.png"];
 		CGFloat logoWidth = logo.size.width;
 		CGFloat logoHeight = logo.size.height;
 		CGFloat x = floorf((detailInnerFrame.size.width - logoWidth) / 2.0f);
