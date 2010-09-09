@@ -6,7 +6,7 @@
 //  Copyright 2009 InFront AS. All rights reserved.
 //
 
-#define DEBUG 1
+#define DEBUG 0
 
 #import "MyListTableViewController_Phone.h"
 

@@ -97,6 +97,9 @@
 		_newsAvailableLabel.hidden = YES;
 	}
 	
+#if DEBUG
+	NSLog(@"Number symbol news articles is %d", noOfObjects);
+#endif
 	return noOfObjects;
 }
 

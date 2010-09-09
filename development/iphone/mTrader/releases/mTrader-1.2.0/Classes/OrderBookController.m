@@ -165,7 +165,7 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
 #if DEBUG_UPDATES
 	BidAsk *bidAsk = (BidAsk *)anObject;
-	NSLog(@"%i, %i - %@ %@ %@ %@ - %i", type, indexPath.row, bidAsk.bidSize, bidAsk.bidPrice, bidAsk.askPrice, bidAsk.askSize, newIndexPath.row);
+	NSLog(@"%i, %i - %@, %@, %@ / %@, %@, %@ - %i", type, indexPath.row, bidAsk.bidSize, bidAsk.bidPrice, bidAsk.bidPercent, bidAsk.askPrice, bidAsk.askSize, bidAsk.askPercent, newIndexPath.row);
 #endif
 	
 	UITableView *tableView = _tableView;

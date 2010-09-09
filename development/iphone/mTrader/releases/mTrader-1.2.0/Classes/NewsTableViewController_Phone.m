@@ -124,7 +124,13 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+
+	NSInteger noOfObjects = [sectionInfo numberOfObjects];
+#if DEBUG
+	NSLog(@"Number news articles is %d", noOfObjects);
+#endif
+	
+	return noOfObjects;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
