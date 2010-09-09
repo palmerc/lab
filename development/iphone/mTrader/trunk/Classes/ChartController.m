@@ -120,12 +120,14 @@
 	UIScreen *currentScreen = [UIScreen mainScreen];
 	UIScreenMode *currentMode = [currentScreen currentMode];
 	CGSize screenPixelSize = [currentMode size];
+	NSUInteger points = 8;
 	
 	if (screenPixelSize.height == 960.0f && screenPixelSize.width == 640.0f) {
 		screenResolutionMultiplier = 2.0f;
+		points = 12;
 	}
 	
-	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:_period width:bounds.size.width * screenResolutionMultiplier height:bounds.size.height * screenResolutionMultiplier orientation:_orientation];
+	[[mTraderCommunicator sharedManager] graphForFeedTicker:feedTicker period:_period width:bounds.size.width * screenResolutionMultiplier height:bounds.size.height * screenResolutionMultiplier fontSize:points orientation:_orientation];
 }
 
 #pragma mark -

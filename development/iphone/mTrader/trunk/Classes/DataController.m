@@ -12,6 +12,7 @@
 #define DEBUG_NEWS_UPDATE 0
 #define DEBUG_PROCESS_SYMBOLS 0
 #define DEBUG_PROVIDER_URL 0
+#define DEBUG_ADD_SYMBOL 0
 
 #import "DataController.h"
 
@@ -467,7 +468,8 @@ static DataController *sharedDataController = nil;
 	static NSInteger FIELD_COUNT = 8;
 	
 	// insert the objects
-	NSInteger index = 0;
+	NSArray *allSymbols = [self fetchAllSymbols];
+	NSUInteger index = [allSymbols count];
 	NSArray *rows = [symbols componentsSeparatedByString:@":"];	
 	for (NSString *row in rows) {
 		NSArray *stockComponents = [[row componentsSeparatedByString:@";"] sansWhitespace];
@@ -1061,7 +1063,7 @@ static DataController *sharedDataController = nil;
 #endif
 			
 			NSString *formattedDateString = [NSString stringWithFormat:@"%@-%@-%@ %@:00", year, month, day, time];
-			NSDate *properDate = [_dateFormatter dateFromString:formattedDateString];
+			NSDate *properDate = [_dateTimeFormatter dateFromString:formattedDateString];
 						
 			NewsArticle *article = [self fetchNewsArticle:articleNumber withFeed:feedNumber];
 			if (article == nil) {

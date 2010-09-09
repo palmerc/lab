@@ -946,7 +946,7 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	[_communicator sendData:[getTradesArray data]];
 }
 
-- (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation {
+- (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height fontSize:(NSUInteger)points orientation:(NSString *)orientation {
 	Monitor *monitor = [Monitor sharedManager];
 	BOOL isLoggedIn = [monitor loggedIn];
 	if ( isLoggedIn == NO ) {
@@ -960,11 +960,14 @@ static mTraderCommunicator *sharedCommunicator = nil;
 	NSString *SecOid = [NSString stringWithFormat:@"SecOid: %@", feedTicker];
 	NSString *Period = [NSString stringWithFormat:@"Period: %d", period];
 	NSString *ImgType = [NSString stringWithFormat:@"ImgType: %@", imgType];
+	NSString *PixelFormat = [NSString stringWithFormat:@"PixelFormat: 3"]; // 8 bit color
+	NSString *GridLines = [NSString stringWithFormat:@"GridLines: 5"];
+	NSString *FontSize = [NSString stringWithFormat:@"FontSize: %d", points];
 	NSString *Width = [NSString stringWithFormat:@"Width: %d", width];
 	NSString *Height = [NSString stringWithFormat:@"Height: %d", height];
 	NSString *Orient = [NSString stringWithFormat:@"Orient: %@", orientation]; // (A)uto, (H)orizontal, and (V)ertical
 	
-	NSArray *getChartArray = [NSArray arrayWithObjects:ActionChart, Authorization, SecOid, Period, ImgType, Width, Height, Orient, nil];
+	NSArray *getChartArray = [NSArray arrayWithObjects:ActionChart, Authorization, SecOid, Period, ImgType, PixelFormat, GridLines, FontSize, Width, Height, Orient, nil];
 	
 	[_communicator sendData:[getChartArray data]];
 }
