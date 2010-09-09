@@ -303,6 +303,7 @@ static Monitor *sharedMonitor = nil;
 
 	[_communicator stopConnection];
 	
+	_state = DISCONNECTED;
 	_loggedIn = NO;
 	_connected = NO;
 	_connecting = NO;

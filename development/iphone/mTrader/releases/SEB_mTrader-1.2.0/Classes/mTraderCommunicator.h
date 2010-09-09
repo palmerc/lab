@@ -79,7 +79,7 @@ enum {
 - (void)staticDataForFeedTicker:(NSString *)feedTicker;
 - (void)tradesRequest:(NSString *)feedTicker;
 - (void)symbolNewsForFeedTicker:(NSString *)feedTicker;
-- (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height orientation:(NSString *)orientation;
+- (void)graphForFeedTicker:(NSString *)feedTicker period:(NSUInteger)period width:(NSUInteger)width height:(NSUInteger)height fontSize:(NSUInteger)points orientation:(NSString *)orientation;
 @end
 
 @protocol mTraderStatusDelegate <NSObject>
