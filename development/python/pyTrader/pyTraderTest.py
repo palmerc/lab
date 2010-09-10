@@ -8,7 +8,7 @@ from QFields import QFields
 PLATFORM = 'pyTrader'
 VERSION = '1.0'
 PROTOCOL = '2.0'
-SERVER = '10.0.0.35'
+SERVER = 'wireless.theonlinetrader.com'
 PORT = 7780
 USERNAME = 'cameron'
 PASSWORD = 'sierra'
